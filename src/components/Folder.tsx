@@ -1,13 +1,26 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Folder as FolderIcon, FileText, ChevronRight, Sparkles, Layers, ArrowUpRight } from "lucide-react";
+import { 
+  Folder as FolderIcon, 
+  FileText, 
+  ChevronRight, 
+  Sparkles, 
+  Layers, 
+  ArrowUpRight, 
+  Zap, 
+  TrendingUp, 
+  CheckCircle2, 
+  ShieldCheck 
+} from "lucide-react";
 
 export interface FolderItem {
   title: string;
   image?: string;
   desc?: string;
   badge?: string;
+  metric?: string;
+  tags?: string[];
   meta?: string;
   href?: string;
   active?: boolean;
@@ -93,17 +106,16 @@ export default function Folder({
     }
   };
 
-  const isBookMode = mode === "book";
   const accentColor = color || (isLightMode ? "#1d4ed8" : "#476D9A");
 
   // Palette tokens based on theme
   const styles = isLightMode
     ? {
-        shellBg: "linear-gradient(150deg, #ffffff 0%, #f8fafc 55%, #edf2f7 100%)",
+        shellBg: "linear-gradient(150deg, #ffffff 0%, #f8fafc 55%, #f1f5f9 100%)",
         shellBorder: active ? `2px solid ${accentColor}` : "1px solid rgba(15, 23, 42, 0.12)",
         shellShadow: active
           ? `0 20px 45px -10px ${accentColor}30, 0 4px 15px rgba(15, 23, 42, 0.08)`
-          : "0 12px 32px -8px rgba(15, 23, 42, 0.08), 0 2px 6px rgba(15, 23, 42, 0.04)",
+          : "0 10px 30px -8px rgba(15, 23, 42, 0.07), 0 2px 6px rgba(15, 23, 42, 0.04)",
         tabBg: active
           ? "linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%)"
           : "rgba(255, 255, 255, 0.95)",
@@ -111,23 +123,20 @@ export default function Folder({
         tabText: active ? accentColor : "#0f172a",
         tabCountBg: active ? accentColor : "rgba(15, 23, 42, 0.08)",
         tabCountText: active ? "#ffffff" : "#334155",
-        flapBg: "linear-gradient(165deg, rgba(255, 255, 255, 0.94) 0%, rgba(241, 245, 249, 0.96) 100%)",
-        flapBorder: active ? `1.5px solid ${accentColor}90` : "1px solid rgba(15, 23, 42, 0.13)",
-        flapShadow: isExpanded
-          ? "0 -15px 30px -5px rgba(15, 23, 42, 0.14)"
-          : "0 -4px 14px rgba(15, 23, 42, 0.06)",
-        flapClaspBg: "rgba(255, 255, 255, 0.9)",
-        flapClaspBorder: "rgba(15, 23, 42, 0.12)",
-        flapClaspText: "#334155",
         paperBg: "linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)",
         paperBorder: "1px solid rgba(15, 23, 42, 0.1)",
-        paperShadow: "0 4px 14px -2px rgba(15, 23, 42, 0.07)",
+        paperShadow: "0 4px 14px -2px rgba(15, 23, 42, 0.06)",
         paperTitle: "#0f172a",
         paperDesc: "#475569",
-        badgeBg: `${accentColor}18`,
-        badgeBorder: `${accentColor}40`,
-        badgeText: accentColor,
-        spineBg: `${accentColor}25`,
+        tagBg: "rgba(15, 23, 42, 0.05)",
+        tagBorder: "rgba(15, 23, 42, 0.08)",
+        tagText: "#475569",
+        metricBg: `${accentColor}14`,
+        metricBorder: `${accentColor}35`,
+        metricText: accentColor,
+        pocketBg: "linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(241, 245, 249, 0.98) 100%)",
+        pocketBorder: "1px solid rgba(15, 23, 42, 0.1)",
+        pocketText: "#334155",
         rivetColor: "rgba(15, 23, 42, 0.25)",
       }
     : {
@@ -141,49 +150,45 @@ export default function Folder({
         tabText: active ? "#ffffff" : "#f1f5f9",
         tabCountBg: active ? accentColor : "rgba(255, 255, 255, 0.12)",
         tabCountText: "#ffffff",
-        flapBg: "linear-gradient(165deg, rgba(20, 35, 58, 0.9) 0%, rgba(10, 18, 30, 0.96) 100%)",
-        flapBorder: active ? `1.5px solid ${accentColor}90` : "1px solid rgba(255, 255, 255, 0.14)",
-        flapShadow: isExpanded
-          ? "0 -15px 35px -5px rgba(0, 0, 0, 0.6)"
-          : "0 -4px 16px rgba(0, 0, 0, 0.3)",
-        flapClaspBg: "rgba(15, 25, 42, 0.85)",
-        flapClaspBorder: "rgba(255, 255, 255, 0.15)",
-        flapClaspText: "#cbd5e1",
         paperBg: "linear-gradient(135deg, rgba(22, 38, 62, 0.92) 0%, rgba(14, 25, 41, 0.96) 100%)",
         paperBorder: "1px solid rgba(255, 255, 255, 0.12)",
-        paperShadow: "0 8px 24px rgba(0, 0, 0, 0.45)",
+        paperShadow: "0 6px 20px rgba(0, 0, 0, 0.45)",
         paperTitle: "#ffffff",
         paperDesc: "#94a3b8",
-        badgeBg: `${accentColor}30`,
-        badgeBorder: `${accentColor}55`,
-        badgeText: accentColor,
-        spineBg: `${accentColor}35`,
+        tagBg: "rgba(255, 255, 255, 0.06)",
+        tagBorder: "rgba(255, 255, 255, 0.1)",
+        tagText: "#cbd5e1",
+        metricBg: `${accentColor}25`,
+        metricBorder: `${accentColor}45`,
+        metricText: accentColor,
+        pocketBg: "linear-gradient(180deg, rgba(18, 32, 54, 0.95) 0%, rgba(10, 18, 30, 0.98) 100%)",
+        pocketBorder: "1px solid rgba(255, 255, 255, 0.12)",
+        pocketText: "#cbd5e1",
         rivetColor: "rgba(255, 255, 255, 0.35)",
       };
 
   return (
     <div
-      className={`reactbits-folder-container ${isBookMode ? "mode-book" : "mode-folder"} ${active ? "is-active" : ""} ${className}`}
+      className={`reactbits-folder-container ${active ? "is-active" : ""} ${className}`}
       onMouseEnter={() => setInternalHover(true)}
       onMouseLeave={() => setInternalHover(false)}
       onClick={handleFolderClick}
       style={{
         position: "relative",
         width: "100%",
-        maxWidth: "380px",
         cursor: "pointer",
         perspective: "1200px",
         WebkitPerspective: "1200px",
         userSelect: "none",
         transition: "transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
-        transform: isExpanded ? "translateY(-8px)" : "translateY(0)",
+        transform: isExpanded ? "translateY(-6px)" : "translateY(0)",
       }}
       role="button"
       tabIndex={0}
       aria-label={`${label} folder archive`}
     >
       {/* ========================================================================= */}
-      {/* 1. ARCHIVE TAB (Top Index Tab with Active Beacon) */}
+      {/* 1. TOP ARCHIVE TAB (Folder Header Tab with Live Active Beacon) */}
       {/* ========================================================================= */}
       <div
         className="folder-tab-header"
@@ -246,14 +251,14 @@ export default function Folder({
               borderRadius: "50%",
               backgroundColor: "#10b981",
               boxShadow: "0 0 8px #10b981",
-              marginLeft: "0.15rem",
+              marginLeft: "0.25rem",
             }}
           />
         )}
       </div>
 
       {/* ========================================================================= */}
-      {/* 2. MAIN FOLDER BODY SHELL (Holds stacked documents & front pocket) */}
+      {/* 2. MAIN FOLDER BODY SHELL (Holds Interactive Dossiers & Base Bar) */}
       {/* ========================================================================= */}
       <div
         className="folder-body-shell"
@@ -266,13 +271,9 @@ export default function Folder({
           WebkitBackdropFilter: "blur(24px)",
           border: styles.shellBorder,
           boxShadow: styles.shellShadow,
-          padding: "1.2rem",
-          minHeight: "220px",
-          height: isExpanded ? "auto" : "220px",
-          overflow: isExpanded ? "visible" : "hidden",
+          padding: "1rem 1rem 0.75rem 1rem",
           transition: "all 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
-          transformStyle: "preserve-3d",
-          WebkitTransformStyle: "preserve-3d",
+          overflow: "hidden",
         }}
       >
         {/* Soft Ambient Internal Brand Glow */}
@@ -291,30 +292,23 @@ export default function Folder({
         />
 
         {/* ========================================================================= */}
-        {/* 3. PHYSICAL DOCUMENT STACK (Visible peeking sheets + expanded dossiers) */}
+        {/* 3. PHYSICAL DOCUMENT DOSSIERS (Visible Live Data & Animated KPIs) */}
         {/* ========================================================================= */}
         <div
           className="folder-items-stack"
           style={{
             display: "flex",
             flexDirection: "column",
-            gap: "0.65rem",
+            gap: "0.6rem",
             position: "relative",
             zIndex: 2,
-            paddingBottom: isExpanded ? "0.5rem" : "0",
+            marginBottom: "0.75rem",
           }}
         >
           {items.map((item, idx) => {
-            // Dynamic 3D fan out transforms:
-            // When closed: slight stagger so sheet edges peek out naturally
-            // When expanded: documents lift up and spread out
-            const closedOffset = idx * 6;
-            const closedRotate = idx === 0 ? 0 : idx === 1 ? 1.5 : -1.5;
-            const openOffset = (idx + 1) * -12;
-            const openRotate = idx % 2 === 0 ? -1.8 : 1.8;
-
-            const translateY = isExpanded ? openOffset : closedOffset;
-            const rotate = isExpanded ? openRotate : closedRotate;
+            // Subtle 3D stagger when expanded
+            const translateY = isExpanded ? (idx === 0 ? -2 : idx === 1 ? 0 : 2) : 0;
+            const rotate = isExpanded ? (idx === 0 ? -0.8 : idx === 2 ? 0.8 : 0) : 0;
 
             return (
               <div
@@ -322,44 +316,25 @@ export default function Folder({
                 className="folder-file-item"
                 onClick={(e) => handleItemClick(e, item, idx)}
                 style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  padding: "0.75rem 0.95rem",
+                  padding: "0.75rem 0.85rem",
                   borderRadius: "14px",
                   background: styles.paperBg,
                   border: styles.paperBorder,
                   backdropFilter: "blur(16px)",
-                  transition: "all 0.32s cubic-bezier(0.16, 1, 0.3, 1)",
+                  transition: "all 0.28s cubic-bezier(0.16, 1, 0.3, 1)",
                   transform: `translateY(${translateY}px) rotate(${rotate}deg)`,
                   boxShadow: styles.paperShadow,
                   cursor: "pointer",
                 }}
               >
-                <div className="flex items-center gap-2.5" style={{ minWidth: 0, flex: 1 }}>
-                  {item.image ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      style={{
-                        width: 32,
-                        height: 32,
-                        borderRadius: "8px",
-                        objectFit: "cover",
-                        border: "1px solid rgba(255, 255, 255, 0.2)",
-                        flexShrink: 0,
-                      }}
-                      onError={(e) => {
-                        e.currentTarget.style.display = "none";
-                      }}
-                    />
-                  ) : (
+                {/* Header Row: Icon + Title + KPI Metric Pill */}
+                <div className="flex items-center justify-between gap-2" style={{ marginBottom: "0.3rem" }}>
+                  <div className="flex items-center gap-2" style={{ minWidth: 0, flex: 1 }}>
                     <div
                       style={{
-                        width: 32,
-                        height: 32,
-                        borderRadius: "8px",
+                        width: 26,
+                        height: 26,
+                        borderRadius: "7px",
                         backgroundColor: `${accentColor}18`,
                         border: `1px solid ${accentColor}30`,
                         display: "flex",
@@ -369,15 +344,13 @@ export default function Folder({
                         flexShrink: 0,
                       }}
                     >
-                      <FileText size={16} />
+                      {idx === 0 ? <Zap size={14} /> : idx === 1 ? <TrendingUp size={14} /> : <ShieldCheck size={14} />}
                     </div>
-                  )}
 
-                  <div style={{ minWidth: 0, flex: 1 }}>
                     <div
                       style={{
-                        fontSize: "0.86rem",
-                        fontWeight: 750,
+                        fontSize: "0.84rem",
+                        fontWeight: 800,
                         color: styles.paperTitle,
                         whiteSpace: "nowrap",
                         overflow: "hidden",
@@ -387,41 +360,79 @@ export default function Folder({
                     >
                       {item.title}
                     </div>
-                    {item.desc && (
-                      <div
-                        style={{
-                          fontSize: "0.73rem",
-                          color: styles.paperDesc,
-                          whiteSpace: "nowrap",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          marginTop: "0.1rem",
-                        }}
-                      >
-                        {item.desc}
-                      </div>
-                    )}
                   </div>
-                </div>
 
-                <div className="flex items-center gap-2" style={{ flexShrink: 0, marginLeft: "0.5rem" }}>
-                  {item.badge && (
+                  {/* High-Impact Animated KPI Metric */}
+                  {item.metric && (
                     <span
                       style={{
-                        fontSize: "0.68rem",
-                        fontWeight: 800,
+                        fontSize: "0.72rem",
+                        fontWeight: 850,
                         padding: "0.18rem 0.55rem",
                         borderRadius: "999px",
-                        backgroundColor: styles.badgeBg,
-                        color: styles.badgeText,
-                        border: `1px solid ${styles.badgeBorder}`,
+                        backgroundColor: styles.metricBg,
+                        border: `1px solid ${styles.metricBorder}`,
+                        color: styles.metricText,
+                        flexShrink: 0,
+                        letterSpacing: "-0.01em",
                       }}
                     >
-                      {item.badge}
+                      {item.metric}
                     </span>
                   )}
-                  <ChevronRight size={14} style={{ color: styles.paperDesc }} />
                 </div>
+
+                {/* Subtitle / Description */}
+                {item.desc && (
+                  <div
+                    style={{
+                      fontSize: "0.74rem",
+                      color: styles.paperDesc,
+                      lineHeight: 1.35,
+                      marginBottom: item.tags ? "0.35rem" : "0",
+                      paddingLeft: "34px",
+                    }}
+                  >
+                    {item.desc}
+                  </div>
+                )}
+
+                {/* Tech Pills Footer */}
+                {item.tags && item.tags.length > 0 && (
+                  <div className="flex items-center gap-1.5" style={{ paddingLeft: "34px" }}>
+                    {item.tags.map((tag, tIdx) => (
+                      <span
+                        key={tIdx}
+                        style={{
+                          fontSize: "0.64rem",
+                          fontWeight: 700,
+                          padding: "0.1rem 0.4rem",
+                          borderRadius: "4px",
+                          backgroundColor: styles.tagBg,
+                          border: `1px solid ${styles.tagBorder}`,
+                          color: styles.tagText,
+                        }}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                    {item.badge && (
+                      <span
+                        style={{
+                          fontSize: "0.64rem",
+                          fontWeight: 750,
+                          padding: "0.1rem 0.45rem",
+                          borderRadius: "999px",
+                          backgroundColor: `${accentColor}18`,
+                          color: accentColor,
+                          marginLeft: "auto",
+                        }}
+                      >
+                        {item.badge}
+                      </span>
+                    )}
+                  </div>
+                )}
               </div>
             );
           })}
@@ -434,177 +445,82 @@ export default function Folder({
         </div>
 
         {/* ========================================================================= */}
-        {/* 4. 3D FRONT FOLDER FLAP (Clasp Pocket with Cutout Scoop & Rivets) */}
+        {/* 4. SLEEK ARCHIVAL BASE POCKET BAR (Foil Rim, Rivets & Inspect Button) */}
         {/* ========================================================================= */}
         <div
-          className="folder-front-flap"
+          className="folder-base-pocket"
           style={{
-            position: "absolute",
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: isBookMode ? (isExpanded ? "68%" : "62%") : "58%",
-            borderBottomLeftRadius: "20px",
-            borderBottomRightRadius: "20px",
-            borderTopLeftRadius: "16px",
-            borderTopRightRadius: "16px",
-            background: styles.flapBg,
-            backdropFilter: "blur(20px)",
-            WebkitBackdropFilter: "blur(20px)",
-            borderTop: isExpanded ? `1px solid ${accentColor}80` : styles.flapBorder,
-            borderBottom: styles.flapBorder,
-            borderLeft: styles.flapBorder,
-            borderRight: styles.flapBorder,
-            transformOrigin: isBookMode ? "left center" : "bottom center",
-            transform: isExpanded
-              ? isBookMode
-                ? "rotateY(-42deg) translateZ(16px)"
-                : "rotateX(-30deg) translateZ(12px)"
-              : "rotateY(0deg) rotateX(0deg) translateZ(0)",
-            transition: "transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease",
-            pointerEvents: isExpanded ? "none" : "auto",
-            zIndex: 4,
-            boxShadow: styles.flapShadow,
+            position: "relative",
+            borderRadius: "14px",
+            background: styles.pocketBg,
+            border: styles.pocketBorder,
+            padding: "0.55rem 0.85rem",
             display: "flex",
-            flexDirection: "column",
+            alignItems: "center",
             justifyContent: "space-between",
-            padding: "0.95rem 1.15rem",
+            zIndex: 3,
+            overflow: "hidden",
           }}
         >
-          {/* Top Metallic Foil Rim Accent */}
+          {/* Top Foil Rim Highlight */}
           <div
             style={{
               position: "absolute",
               top: 0,
-              left: "15%",
-              right: "15%",
+              left: "10%",
+              right: "10%",
               height: "2px",
               background: `linear-gradient(90deg, transparent, ${accentColor}, transparent)`,
-              opacity: 0.85,
+              opacity: 0.8,
             }}
           />
 
-          {/* Left Binder Spine Eyelets for Physical Realism */}
-          <div
-            style={{
-              position: "absolute",
-              top: "12px",
-              bottom: "12px",
-              left: "10px",
-              width: "12px",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-around",
-              alignItems: "center",
-              pointerEvents: "none",
-            }}
-          >
-            <span
-              style={{
-                width: 6,
-                height: 6,
-                borderRadius: "50%",
-                backgroundColor: styles.rivetColor,
-                boxShadow: "inset 0 1px 2px rgba(0,0,0,0.4)",
-              }}
-            />
-            <span
-              style={{
-                width: 6,
-                height: 6,
-                borderRadius: "50%",
-                backgroundColor: styles.rivetColor,
-                boxShadow: "inset 0 1px 2px rgba(0,0,0,0.4)",
-              }}
-            />
-            <span
-              style={{
-                width: 6,
-                height: 6,
-                borderRadius: "50%",
-                backgroundColor: styles.rivetColor,
-                boxShadow: "inset 0 1px 2px rgba(0,0,0,0.4)",
-              }}
-            />
-          </div>
-
-          {/* Central Archive Seal / Folder Clasp Badge */}
-          <div
-            style={{
-              marginLeft: "18px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              width: "calc(100% - 18px)",
-            }}
-          >
-            <div className="flex items-center gap-1.5">
-              <Sparkles size={13} style={{ color: accentColor }} />
+          {/* Left: Rivets & Seal */}
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1">
               <span
                 style={{
-                  fontSize: "0.78rem",
-                  fontWeight: 800,
-                  color: styles.paperTitle,
-                  letterSpacing: "0.01em",
+                  width: 5,
+                  height: 5,
+                  borderRadius: "50%",
+                  backgroundColor: styles.rivetColor,
+                  display: "inline-block",
                 }}
-              >
-                {label} Archive
-              </span>
+              />
+              <span
+                style={{
+                  width: 5,
+                  height: 5,
+                  borderRadius: "50%",
+                  backgroundColor: styles.rivetColor,
+                  display: "inline-block",
+                }}
+              />
             </div>
 
             <span
               style={{
-                fontSize: "0.68rem",
-                fontWeight: 750,
-                padding: "0.15rem 0.55rem",
-                borderRadius: "999px",
-                backgroundColor: styles.flapClaspBg,
-                border: `1px solid ${styles.flapClaspBorder}`,
-                color: styles.flapClaspText,
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.25rem",
+                fontSize: "0.74rem",
+                fontWeight: 800,
+                color: styles.pocketText,
+                letterSpacing: "0.01em",
               }}
             >
-              <Layers size={11} style={{ color: accentColor }} />
-              <span>{items.length} Files</span>
+              {items.length} Production Deliverables
             </span>
           </div>
 
-          {/* Bottom Interactive Prompt Tag */}
+          {/* Right: Interactive Inspect Action */}
           <div
+            className="flex items-center gap-1"
             style={{
-              marginLeft: "18px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              borderTop: isLightMode
-                ? "1px solid rgba(15, 23, 42, 0.07)"
-                : "1px solid rgba(255, 255, 255, 0.08)",
-              paddingTop: "0.55rem",
+              fontSize: "0.72rem",
+              fontWeight: 800,
+              color: accentColor,
             }}
           >
-            <span
-              style={{
-                fontSize: "0.72rem",
-                fontWeight: 650,
-                color: isLightMode ? "#64748b" : "#94a3b8",
-              }}
-            >
-              {isExpanded ? "Click file to open" : "Hover or click to peek"}
-            </span>
-
-            <span
-              className="flex items-center gap-1"
-              style={{
-                fontSize: "0.72rem",
-                fontWeight: 800,
-                color: accentColor,
-              }}
-            >
-              <span>{isExpanded ? "Close" : "Open"}</span>
-              <ArrowUpRight size={13} />
-            </span>
+            <span>{isExpanded ? "Active" : "Inspect"}</span>
+            <ArrowUpRight size={13} />
           </div>
         </div>
       </div>

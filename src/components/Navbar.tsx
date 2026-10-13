@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { 
   ChevronDown, 
   Menu, 
@@ -18,7 +18,7 @@ import {
   ShieldCheck, 
   UserCheck,
   PhoneCall,
-  Briefcase
+  MessageSquare
 } from "lucide-react";
 import { companyData } from "@/data/company";
 import ThemeToggle from "./ThemeToggle";
@@ -27,379 +27,405 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      setScrolled(window.scrollY > 15);
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const handleResize = () => {
+      if (window.innerWidth > 992) {
+        setMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
+  // Close menus on route change
+  useEffect(() => {
+    setMobileMenuOpen(false);
+    setServicesDropdownOpen(false);
+  }, [pathname]);
+
+  const handleServicesEnter = () => {
+    if (dropdownTimeoutRef.current) {
+      clearTimeout(dropdownTimeoutRef.current);
+    }
+    setServicesDropdownOpen(true);
+  };
+
+  const handleServicesLeave = () => {
+    if (dropdownTimeoutRef.current) {
+      clearTimeout(dropdownTimeoutRef.current);
+    }
+    dropdownTimeoutRef.current = setTimeout(() => {
+      setServicesDropdownOpen(false);
+    }, 220);
+  };
+
   const servicesList = [
-    { title: "Custom Software", href: "/custom-software-development", icon: Code2, desc: "Bespoke enterprise systems" },
-    { title: "Web Development", href: "/web-development", icon: Globe, desc: "Ultra-fast Next.js & React apps" },
-    { title: "Mobile Apps", href: "/mobile-development", icon: Smartphone, desc: "Native & React Native/Flutter" },
-    { title: "AI & ML Solutions", href: "/ai-ml-solutions", icon: BrainCircuit, desc: "Generative AI, RAG & LLMs" },
-    { title: "SaaS Development", href: "/saas-development", icon: Cloud, desc: "Multi-tenant cloud platforms" },
-    { title: "API & Microservices", href: "/api-integration", icon: Cpu, desc: "High-throughput integrations" },
-    { title: "QA & Testing", href: "/qa-testing", icon: ShieldCheck, desc: "Automated test suites & security" },
-    { title: "Hire Developers", href: "/hire-developers", icon: UserCheck, desc: "Vetted top 3% senior engineers" },
+    { 
+      title: "Custom Software", 
+      href: "/custom-software-development", 
+      icon: Code2, 
+      desc: "Bespoke enterprise architectures",
+      color: "#00BBAB",
+    },
+    { 
+      title: "Web Development", 
+      href: "/web-development", 
+      icon: Globe, 
+      desc: "Ultra-fast Next.js & React platforms",
+      color: "#38bdf8",
+    },
+    { 
+      title: "Mobile Apps", 
+      href: "/mobile-development", 
+      icon: Smartphone, 
+      desc: "iOS, Android & Flutter/React Native",
+      color: "#a78bfa",
+    },
+    { 
+      title: "AI & ML Solutions", 
+      href: "/ai-ml-solutions", 
+      icon: BrainCircuit, 
+      desc: "Generative AI, RAG & LLMs",
+      badge: "HOT",
+      color: "#10b981",
+    },
+    { 
+      title: "SaaS Development", 
+      href: "/saas-development", 
+      icon: Cloud, 
+      desc: "Multi-tenant cloud platforms",
+      color: "#60a5fa",
+    },
+    { 
+      title: "API & Microservices", 
+      href: "/api-integration", 
+      icon: Cpu, 
+      desc: "High-throughput integrations",
+      color: "#fbbf24",
+    },
+    { 
+      title: "QA & Testing", 
+      href: "/qa-testing", 
+      icon: ShieldCheck, 
+      desc: "Automated test suites & security",
+      color: "#f43f5e",
+    },
+    { 
+      title: "Hire Developers", 
+      href: "/hire-developers", 
+      icon: UserCheck, 
+      desc: "Vetted top 3% senior engineers",
+      badge: "TOP 3%",
+      color: "#2dd4bf",
+    },
   ];
 
-  return (
-    <>
-      <header
-        className={scrolled ? "site-header scrolled" : "site-header"}
-        style={{
-          position: "sticky",
-          top: 0,
-          zIndex: 100,
-          width: "100%",
-          transition: "all 0.3s ease",
-          backdropFilter: "blur(18px)",
-          WebkitBackdropFilter: "blur(18px)",
-        }}
-      >
-        {/* Top Mini Bar with phone & hours */}
-        <div
-          style={{
-            borderBottom: "1px solid var(--border-subtle)",
-            fontSize: "0.8rem",
-            color: "var(--text-muted)",
-            padding: "0.4rem 0",
-            backgroundColor: "rgba(0, 0, 0, 0.02)",
-          }}
-        >
-          <div className="container-custom flex justify-between items-center">
-            <div className="flex items-center gap-4">
-              <span className="flex items-center gap-2">
-                <span style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: "#10b981", display: "inline-block", boxShadow: "0 0 8px #10b981" }} />
-                <span>Available for new projects worldwide</span>
-              </span>
-              <span style={{ opacity: 0.4 }}>|</span>
-              <span className="flex items-center gap-1">
-                <span>Surat HQ: {companyData.contact.phone}</span>
-              </span>
-            </div>
-            <div className="flex items-center gap-4">
-              <a
-                href={companyData.contact.whatsapp}
-                target="_blank"
-                rel="noreferrer"
-                style={{ color: "#25D366", textDecoration: "none", fontWeight: 500 }}
-              >
-                Direct WhatsApp
-              </a>
-              <span style={{ opacity: 0.4 }}>|</span>
-              <a
-                href={`mailto:${companyData.contact.email}`}
-                style={{ color: "var(--text-secondary)", textDecoration: "none" }}
-              >
-                {companyData.contact.email}
-              </a>
-            </div>
-          </div>
-        </div>
+  const isServicesActive = servicesList.some((s) => pathname === s.href);
 
-        {/* Main Navbar */}
-        <div className="container-custom" style={{ padding: "0.9rem 1.5rem" }}>
-          <div className="flex items-center justify-between">
-            {/* Logo */}
-            <Link href="/" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
-              <div
+  return (
+    <header className={`corporate-navbar ${scrolled ? "scrolled" : ""}`}>
+      <div className="corporate-nav-container">
+        {/* Brand Logo */}
+        <Link href="/" className="corporate-nav-brand" aria-label="Opash Software Home">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/images/Opash.png"
+            alt="Opash Software"
+            style={{ maxHeight: 36, width: "auto", objectFit: "contain" }}
+          />
+        </Link>
+
+        {/* Desktop Clean Navigation (No busy lines or enclosing pill borders) */}
+        <nav className="desktop-nav corporate-nav-links">
+          <Link
+            href="/"
+            className={`corporate-link ${pathname === "/" ? "active" : ""}`}
+          >
+            Home
+          </Link>
+
+          {/* Services Dropdown Trigger */}
+          <div
+            className="corporate-services-trigger"
+            onMouseEnter={handleServicesEnter}
+            onMouseLeave={handleServicesLeave}
+          >
+            <button
+              type="button"
+              className={`corporate-link ${isServicesActive || servicesDropdownOpen ? "active" : ""}`}
+              onClick={() => setServicesDropdownOpen(!servicesDropdownOpen)}
+              aria-expanded={servicesDropdownOpen}
+            >
+              Services
+              <ChevronDown
+                size={14}
                 style={{
-                  position: "relative",
-                  height: 42,
-                  display: "flex",
-                  alignItems: "center",
+                  transform: servicesDropdownOpen ? "rotate(180deg)" : "rotate(0deg)",
+                  transition: "transform 0.2s ease",
                 }}
+              />
+            </button>
+
+            {/* Clean Professional Services Dropdown */}
+            {servicesDropdownOpen && (
+              <div
+                className="corporate-services-dropdown"
+                onMouseEnter={handleServicesEnter}
+                onMouseLeave={handleServicesLeave}
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/images/Opash.png"
-                  alt="Opash Software"
-                  style={{ maxHeight: 38, width: "auto", objectFit: "contain" }}
-                  onError={(e) => {
-                    // Fallback to text brand if image fails
-                    e.currentTarget.style.display = "none";
-                  }}
-                />
+                <div className="corporate-services-grid">
+                  {servicesList.map((s) => {
+                    const Icon = s.icon;
+                    const isCurrent = pathname === s.href;
+                    return (
+                      <Link
+                        key={s.href}
+                        href={s.href}
+                        className={`corporate-service-item ${isCurrent ? "active" : ""}`}
+                        onClick={() => setServicesDropdownOpen(false)}
+                      >
+                        <div
+                          className="corporate-service-icon"
+                          style={{ color: s.color }}
+                        >
+                          <Icon size={18} />
+                        </div>
+                        <div>
+                          <div className="corporate-service-title">
+                            <span>{s.title}</span>
+                            {s.badge && (
+                              <span className="corporate-service-badge">
+                                {s.badge}
+                              </span>
+                            )}
+                          </div>
+                          <div className="corporate-service-desc">{s.desc}</div>
+                        </div>
+                      </Link>
+                    );
+                  })}
+                </div>
+
+                {/* Consultation Card */}
+                <div className="corporate-dropdown-footer">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <div style={{ fontWeight: 600, fontSize: "0.9rem", color: "var(--text-primary)" }}>
+                        Need a custom technical roadmap?
+                      </div>
+                      <div style={{ fontSize: "0.78rem", color: "var(--text-muted)", marginTop: "2px" }}>
+                        Talk directly with our solutions architects.
+                      </div>
+                    </div>
+                    <Link
+                      href="/get-a-quote"
+                      className="corporate-footer-cta"
+                      onClick={() => setServicesDropdownOpen(false)}
+                    >
+                      <span>Free Architecture Call</span>
+                      <ArrowRight size={14} />
+                    </Link>
+                  </div>
+                </div>
               </div>
+            )}
+          </div>
+
+          <Link
+            href="/company"
+            className={`corporate-link ${pathname === "/company" ? "active" : ""}`}
+          >
+            About
+          </Link>
+
+          <Link
+            href="/portfolio"
+            className={`corporate-link ${pathname === "/portfolio" ? "active" : ""}`}
+          >
+            Case Studies
+          </Link>
+
+          <Link
+            href="/blogs"
+            className={`corporate-link ${pathname === "/blogs" ? "active" : ""}`}
+          >
+            Insights
+          </Link>
+
+          <Link
+            href="/career"
+            className={`corporate-link ${pathname === "/career" ? "active" : ""}`}
+          >
+            <span>Careers</span>
+            <span className="corporate-hiring-tag">HIRING</span>
+          </Link>
+
+          <Link
+            href="/contact"
+            className={`corporate-link ${pathname === "/contact" ? "active" : ""}`}
+          >
+            Contact
+          </Link>
+        </nav>
+
+        {/* Right Actions */}
+        <div className="flex items-center gap-3">
+          <ThemeToggle />
+
+          <Link href="/get-a-quote" className="corporate-cta-btn">
+            <Sparkles size={15} />
+            <span>Get a Quote</span>
+          </Link>
+
+          {/* Mobile Hamburger Toggle */}
+          <button
+            type="button"
+            id="mobile-nav-toggle"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="corporate-mobile-toggle"
+            aria-label="Toggle navigation menu"
+          >
+            {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Drawer Sheet */}
+      {mobileMenuOpen && (
+        <div className="corporate-mobile-sheet">
+          <div className="flex flex-col gap-2">
+            <Link
+              href="/"
+              onClick={() => setMobileMenuOpen(false)}
+              className="corporate-mobile-link"
+            >
+              Home
             </Link>
 
-            {/* Desktop Floating Pill Navigation */}
-            <nav className="desktop-nav nav-pill-container">
-              <Link
-                href="/"
-                className="nav-pill-link"
-              >
-                Home
-              </Link>
-
-              {/* Services Dropdown */}
-              <div
-                style={{ position: "relative" }}
-                onMouseEnter={() => setServicesDropdownOpen(true)}
-                onMouseLeave={() => setServicesDropdownOpen(false)}
-              >
-                <button
-                  type="button"
-                  className="nav-pill-link"
-                  style={{
-                    border: "none",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => setServicesDropdownOpen(!servicesDropdownOpen)}
-                >
-                  Services
-                  <ChevronDown
-                    size={14}
-                    style={{
-                      transform: servicesDropdownOpen ? "rotate(180deg)" : "rotate(0deg)",
-                      transition: "transform 0.2s",
-                    }}
-                  />
-                </button>
-
-                {/* Dropdown Menu */}
-                {servicesDropdownOpen && (
-                  <div
-                    className="services-dropdown"
-                    style={{
-                      position: "absolute",
-                      top: "calc(100% + 8px)",
-                      left: "-120px",
-                      width: "600px",
-                      backgroundColor: "var(--bg-card)",
-                      backdropFilter: "blur(20px)",
-                      border: "1px solid var(--border-medium)",
-                      borderRadius: "var(--radius-lg)",
-                      boxShadow: "0 20px 40px -10px rgba(0, 0, 0, 0.4), 0 0 30px rgba(71, 109, 154, 0.15)",
-                      padding: "1.25rem",
-                      display: "grid",
-                      gridTemplateColumns: "1fr 1fr",
-                      gap: "0.75rem",
-                      zIndex: 110,
-                      animation: "fadeIn 0.2s ease-out",
-                    }}
-                  >
-                    {servicesList.map((s) => {
-                      const Icon = s.icon;
-                      return (
-                        <Link
-                          key={s.href}
-                          href={s.href}
-                          style={{
-                            display: "flex",
-                            alignItems: "flex-start",
-                            gap: "0.75rem",
-                            padding: "0.65rem 0.85rem",
-                            borderRadius: "var(--radius-md)",
-                            textDecoration: "none",
-                            transition: "all 0.2s ease",
-                            backgroundColor: "rgba(255, 255, 255, 0.02)",
-                          }}
-                          onMouseEnter={(e) => {
-                            e.currentTarget.style.backgroundColor = "rgba(71, 109, 154, 0.15)";
-                            e.currentTarget.style.borderColor = "var(--border-accent)";
-                          }}
-                          onMouseLeave={(e) => {
-                            e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.02)";
-                          }}
-                          onClick={() => setServicesDropdownOpen(false)}
-                        >
-                          <div
-                            style={{
-                              width: 36,
-                              height: 36,
-                              borderRadius: "8px",
-                              backgroundColor: "rgba(71, 109, 154, 0.2)",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              color: "var(--color-cyan)",
-                              flexShrink: 0,
-                            }}
-                          >
-                            <Icon size={18} />
-                          </div>
-                          <div>
-                            <div style={{ color: "var(--text-primary)", fontWeight: 600, fontSize: "0.9rem" }}>{s.title}</div>
-                            <div style={{ color: "var(--text-muted)", fontSize: "0.75rem", marginTop: 2 }}>
-                              {s.desc}
-                            </div>
-                          </div>
-                        </Link>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-
-              <Link
-                href="/company"
-                className="nav-pill-link"
-              >
-                About
-              </Link>
-
-              <Link
-                href="/portfolio"
-                className="nav-pill-link"
-              >
-                Case Studies
-              </Link>
-
-              <Link
-                href="/blogs"
-                className="nav-pill-link"
-              >
-                Insights
-              </Link>
-
-              <Link
-                href="/career"
-                className="nav-pill-link"
-              >
-                Careers
-                <span
-                  style={{
-                    fontSize: "0.62rem",
-                    padding: "0.1rem 0.35rem",
-                    borderRadius: "999px",
-                    backgroundColor: "rgba(16, 185, 129, 0.2)",
-                    color: "#10b981",
-                    fontWeight: 700,
-                  }}
-                >
-                  HIRING
-                </span>
-              </Link>
-
-              <Link
-                href="/contact"
-                className="nav-pill-link"
-              >
-                Contact
-              </Link>
-            </nav>
-
-            {/* CTA Buttons & Theme Toggle */}
-            <div className="flex items-center gap-3">
-              <ThemeToggle />
-
-              <Link href="/get-a-quote" className="btn-primary" style={{ padding: "0.7rem 1.4rem", fontSize: "0.9rem" }}>
-                <Sparkles size={16} />
-                <span>Get a Quote</span>
-              </Link>
-
-              {/* Mobile Menu Hamburger */}
+            <div style={{ borderTop: "1px solid var(--border-subtle)", paddingTop: "0.5rem" }}>
               <button
                 type="button"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
                 style={{
-                  display: "none",
-                  background: "var(--bg-elevated)",
-                  border: "1px solid var(--border-subtle)",
-                  color: "var(--text-primary)",
-                  padding: "0.55rem",
-                  borderRadius: "8px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  width: "100%",
+                  background: "transparent",
+                  border: "none",
+                  color: isServicesActive ? "#00BBAB" : "var(--text-primary)",
+                  fontSize: "1.05rem",
+                  fontWeight: 600,
+                  padding: "0.5rem 0",
                   cursor: "pointer",
                 }}
-                className="mobile-hamburger-btn"
-                aria-label="Toggle navigation menu"
               >
-                {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+                <span>Services ({servicesList.length})</span>
+                <ChevronDown
+                  size={16}
+                  style={{
+                    transform: mobileServicesOpen ? "rotate(180deg)" : "rotate(0deg)",
+                    transition: "transform 0.2s",
+                  }}
+                />
               </button>
-            </div>
-          </div>
-        </div>
 
-        {/* Mobile Navigation Drawer */}
-        {mobileMenuOpen && (
-          <div
-            className="mobile-nav-drawer"
-            style={{
-              backgroundColor: "var(--bg-secondary)",
-              borderBottom: "1px solid var(--border-medium)",
-              padding: "1.5rem",
-            }}
-          >
-            <div className="flex flex-col gap-4">
-              <Link
-                href="/"
-                onClick={() => setMobileMenuOpen(false)}
-                style={{ color: "var(--text-primary)", textDecoration: "none", fontSize: "1.1rem", fontWeight: 600 }}
-              >
-                Home
-              </Link>
-              <div style={{ color: "var(--color-cyan)", fontWeight: 700, fontSize: "0.85rem", textTransform: "uppercase", marginTop: "0.5rem" }}>
-                Services
-              </div>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.5rem" }}>
-                {servicesList.map((s) => (
-                  <Link
-                    key={s.href}
-                    href={s.href}
-                    onClick={() => setMobileMenuOpen(false)}
-                    style={{ color: "var(--text-secondary)", textDecoration: "none", fontSize: "0.9rem", padding: "0.3rem 0" }}
-                  >
-                    • {s.title}
-                  </Link>
-                ))}
-              </div>
-              <Link
-                href="/company"
-                onClick={() => setMobileMenuOpen(false)}
-                style={{ color: "var(--text-primary)", textDecoration: "none", fontSize: "1.1rem", fontWeight: 600 }}
-              >
-                Company
-              </Link>
-              <Link
-                href="/portfolio"
-                onClick={() => setMobileMenuOpen(false)}
-                style={{ color: "var(--text-primary)", textDecoration: "none", fontSize: "1.1rem", fontWeight: 600 }}
-              >
-                Case Studies
-              </Link>
-              <Link
-                href="/blogs"
-                onClick={() => setMobileMenuOpen(false)}
-                style={{ color: "var(--text-primary)", textDecoration: "none", fontSize: "1.1rem", fontWeight: 600 }}
-              >
-                Tech Insights
-              </Link>
-              <Link
-                href="/career"
-                onClick={() => setMobileMenuOpen(false)}
-                style={{ color: "var(--text-primary)", textDecoration: "none", fontSize: "1.1rem", fontWeight: 600 }}
-              >
-                Career
-              </Link>
-              <Link
-                href="/contact"
-                onClick={() => setMobileMenuOpen(false)}
-                style={{ color: "var(--text-primary)", textDecoration: "none", fontSize: "1.1rem", fontWeight: 600 }}
-              >
-                Contact
-              </Link>
-              <div className="flex items-center justify-between" style={{ borderTop: "1px solid var(--border-subtle)", paddingTop: "1rem", marginTop: "0.5rem" }}>
-                <span style={{ color: "var(--text-secondary)", fontSize: "0.95rem", fontWeight: 500 }}>Color Theme:</span>
-                <ThemeToggle />
-              </div>
+              {mobileServicesOpen && (
+                <div style={{ display: "grid", gap: "0.4rem", padding: "0.5rem 0 0.5rem 0.5rem" }}>
+                  {servicesList.map((s) => {
+                    const Icon = s.icon;
+                    return (
+                      <Link
+                        key={s.href}
+                        href={s.href}
+                        onClick={() => setMobileMenuOpen(false)}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "0.6rem",
+                          padding: "0.45rem",
+                          borderRadius: "8px",
+                          color: pathname === s.href ? "#00BBAB" : "var(--text-secondary)",
+                          textDecoration: "none",
+                          fontSize: "0.9rem",
+                        }}
+                      >
+                        <Icon size={16} style={{ color: s.color }} />
+                        <span>{s.title}</span>
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
+            <Link
+              href="/company"
+              onClick={() => setMobileMenuOpen(false)}
+              className="corporate-mobile-link"
+            >
+              About
+            </Link>
+
+            <Link
+              href="/portfolio"
+              onClick={() => setMobileMenuOpen(false)}
+              className="corporate-mobile-link"
+            >
+              Case Studies
+            </Link>
+
+            <Link
+              href="/blogs"
+              onClick={() => setMobileMenuOpen(false)}
+              className="corporate-mobile-link"
+            >
+              Insights
+            </Link>
+
+            <Link
+              href="/career"
+              onClick={() => setMobileMenuOpen(false)}
+              className="corporate-mobile-link"
+              style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}
+            >
+              <span>Careers</span>
+              <span className="corporate-hiring-tag">HIRING</span>
+            </Link>
+
+            <Link
+              href="/contact"
+              onClick={() => setMobileMenuOpen(false)}
+              className="corporate-mobile-link"
+            >
+              Contact
+            </Link>
+
+            <div style={{ borderTop: "1px solid var(--border-subtle)", paddingTop: "1rem", marginTop: "0.5rem" }}>
               <Link
                 href="/get-a-quote"
                 onClick={() => setMobileMenuOpen(false)}
-                className="btn-primary"
-                style={{ textAlign: "center", marginTop: "0.5rem" }}
+                className="corporate-cta-btn"
+                style={{ width: "100%", justifyContent: "center", padding: "0.85rem" }}
               >
-                Estimate Project Cost
+                <Sparkles size={16} />
+                <span>Estimate Project Cost</span>
               </Link>
             </div>
           </div>
-        )}
-      </header>
-    </>
+        </div>
+      )}
+    </header>
   );
 }

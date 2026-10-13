@@ -28,7 +28,7 @@ import {
   X
 } from "lucide-react";
 import { companyData } from "@/data/company";
-import AtmosphericHero from "@/components/AtmosphericHero";
+import DigitalPillarHero from "@/components/DigitalPillarHero";
 import { servicesData } from "@/data/services";
 import { caseStudiesData } from "@/data/case-studies";
 import { industriesData } from "@/data/industries";
@@ -73,84 +73,9 @@ export default function HomePage() {
       />
 
       {/* ========================================================= */}
-      {/* SECTION 1: ATMOSPHERIC HERO */}
+      {/* SECTION 1: 3D DIGITAL PILLAR HERO (With Integrated Global Network) */}
       {/* ========================================================= */}
-      <AtmosphericHero
-        badge="Opash Global Delivery Hub v2.4 is Live • 50+ In-House Engineers"
-        titleTop="Think Global Scale."
-        titleAccent="Act Like a Pro."
-        subheadline="Smarter custom software starts with dedicated engineering squads, AI-driven architectures, and 96% client retention. Delivered from Surat, India to partners across the US, UK, Europe, UAE, and Australia."
-        primaryCta={{ label: "Start Project Now", href: "/get-a-quote" }}
-        secondaryCta={{ label: "WhatsApp Consultation", href: companyData.contact.whatsapp }}
-        leftCard={{
-          tag: "50+ IN-HOUSE DEVELOPERS",
-          title: "Global Engineering Velocity",
-          description: "From our Surat development center, our 50+ tech experts build enterprise web apps, cross-platform mobile apps, and scalable cloud SaaS for international partners.",
-          metric: "96% Client Retention",
-        }}
-        rightCard={{
-          tag: "RISK-FREE CLIENT GUARANTEE",
-          title: "Predictable & Transparent",
-          description: "Start with our 2-week risk-free trial, retain 100% source code ownership, and communicate directly with technical architects under strict NDA.",
-          metric: "100% IP Ownership",
-        }}
-        bottomChildren={
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-              gap: "1.25rem",
-              maxWidth: "1150px",
-              margin: "0 auto",
-            }}
-          >
-            <div className="glass-panel" style={{ padding: "1.5rem", textAlign: "center" }}>
-              <div style={{ fontSize: "2.75rem", fontWeight: 800, color: "var(--color-cyan)" }}>
-                {companyData.stats.developers}
-              </div>
-              <div style={{ color: "var(--text-secondary)", fontSize: "0.9rem", fontWeight: 500, marginTop: "0.25rem" }}>
-                Experienced Developers
-              </div>
-            </div>
-
-            <div className="glass-panel" style={{ padding: "1.5rem", textAlign: "center" }}>
-              <div style={{ fontSize: "2.75rem", fontWeight: 800, color: "var(--text-primary)" }}>
-                {companyData.stats.projectsDelivered}
-              </div>
-              <div style={{ color: "var(--text-secondary)", fontSize: "0.9rem", fontWeight: 500, marginTop: "0.25rem" }}>
-                Global Projects Delivered
-              </div>
-            </div>
-
-            <div className="glass-panel" style={{ padding: "1.5rem", textAlign: "center" }}>
-              <div style={{ fontSize: "2.75rem", fontWeight: 800, color: "var(--color-cyan)" }}>
-                {companyData.stats.hoursExecuted}
-              </div>
-              <div style={{ color: "var(--text-secondary)", fontSize: "0.9rem", fontWeight: 500, marginTop: "0.25rem" }}>
-                Hours of Project Execution
-              </div>
-            </div>
-
-            <div className="glass-panel" style={{ padding: "1.5rem", textAlign: "center" }}>
-              <div style={{ fontSize: "2.75rem", fontWeight: 800, color: "var(--text-primary)" }}>
-                {companyData.stats.yearsExperience}
-              </div>
-              <div style={{ color: "var(--text-secondary)", fontSize: "0.9rem", fontWeight: 500, marginTop: "0.25rem" }}>
-                Years Industry Excellence
-              </div>
-            </div>
-
-            <div className="glass-panel" style={{ padding: "1.5rem", textAlign: "center" }}>
-              <div style={{ fontSize: "2.75rem", fontWeight: 800, color: "#10b981" }}>
-                {companyData.stats.clientRetentionRate}
-              </div>
-              <div style={{ color: "var(--text-secondary)", fontSize: "0.9rem", fontWeight: 500, marginTop: "0.25rem" }}>
-                Client Retention Rate
-              </div>
-            </div>
-          </div>
-        }
-      />
+      <DigitalPillarHero />
 
       {/* ========================================================= */}
       {/* SECTION 2: VERIFIED RECOGNITIONS TICKER */}
