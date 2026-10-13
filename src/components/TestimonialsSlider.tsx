@@ -120,8 +120,6 @@ export default function TestimonialsSlider() {
         className="glass-panel"
         style={{
           padding: "3.5rem 3rem",
-          background: "linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(14, 80, 215, 0.1) 100%)",
-          border: "1px solid rgba(14, 80, 215, 0.3)",
           position: "relative",
           overflow: "hidden",
         }}
@@ -132,7 +130,7 @@ export default function TestimonialsSlider() {
             position: "absolute",
             top: "-20px",
             right: "20px",
-            color: "rgba(14, 80, 215, 0.08)",
+            color: "rgba(71, 109, 154, 0.08)",
             pointerEvents: "none",
           }}
         />
@@ -167,8 +165,8 @@ export default function TestimonialsSlider() {
             style={{
               padding: "0.4rem 1rem",
               borderRadius: "var(--radius-full)",
-              backgroundColor: "rgba(0, 210, 255, 0.1)",
-              border: "1px solid rgba(0, 210, 255, 0.3)",
+              backgroundColor: "rgba(94, 192, 152, 0.12)",
+              border: "1px solid rgba(94, 192, 152, 0.35)",
               color: "var(--color-cyan)",
               fontSize: "0.85rem",
               fontWeight: 700,
@@ -183,7 +181,7 @@ export default function TestimonialsSlider() {
           style={{
             fontSize: "clamp(1.15rem, 2vw, 1.45rem)",
             lineHeight: 1.6,
-            color: "#ffffff",
+            color: "var(--text-primary)",
             fontWeight: 500,
             fontStyle: "italic",
             marginBottom: "2.5rem",
@@ -201,20 +199,20 @@ export default function TestimonialsSlider() {
                 width: 56,
                 height: 56,
                 borderRadius: "50%",
-                background: "linear-gradient(135deg, #0e50d7, #00d2ff)",
+                background: "linear-gradient(135deg, #476D9A, #5EC098)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 color: "#ffffff",
                 fontWeight: 800,
                 fontSize: "1.2rem",
-                boxShadow: "0 0 15px rgba(14, 80, 215, 0.5)",
+                boxShadow: "0 0 15px rgba(71, 109, 154, 0.5)",
               }}
             >
               {current.avatarText}
             </div>
             <div>
-              <div style={{ color: "#ffffff", fontWeight: 700, fontSize: "1.15rem" }}>
+              <div style={{ color: "var(--text-primary)", fontWeight: 700, fontSize: "1.15rem" }}>
                 {current.author}
               </div>
               <div style={{ color: "var(--text-secondary)", fontSize: "0.9rem" }}>
@@ -247,9 +245,9 @@ export default function TestimonialsSlider() {
                   width: 42,
                   height: 42,
                   borderRadius: "50%",
-                  backgroundColor: "rgba(255, 255, 255, 0.08)",
+                  backgroundColor: "var(--bg-elevated)",
                   border: "1px solid var(--border-subtle)",
-                  color: "#ffffff",
+                  color: "var(--text-primary)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -267,8 +265,8 @@ export default function TestimonialsSlider() {
                   width: 42,
                   height: 42,
                   borderRadius: "50%",
-                  backgroundColor: "rgba(14, 80, 215, 0.4)",
-                  border: "1px solid rgba(0, 210, 255, 0.4)",
+                  backgroundColor: "var(--color-primary)",
+                  border: "1px solid var(--color-primary)",
                   color: "#ffffff",
                   display: "flex",
                   alignItems: "center",
@@ -296,7 +294,7 @@ export default function TestimonialsSlider() {
               width: idx === currentIndex ? 28 : 8,
               height: 8,
               borderRadius: "4px",
-              backgroundColor: idx === currentIndex ? "var(--color-cyan)" : "rgba(255, 255, 255, 0.2)",
+              backgroundColor: idx === currentIndex ? "var(--color-cyan)" : "var(--border-medium)",
               border: "none",
               cursor: "pointer",
               transition: "all 0.3s ease",

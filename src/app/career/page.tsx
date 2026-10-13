@@ -21,6 +21,7 @@ import {
   Award,
   ChevronDown
 } from "lucide-react";
+import AtmosphericHero from "@/components/AtmosphericHero";
 
 export default function CareerPage() {
   const [selectedJob, setSelectedJob] = useState<JobOpening | null>(careersData.openings[0]);
@@ -58,51 +59,33 @@ export default function CareerPage() {
           top: "-50px",
           left: "50%",
           transform: "translateX(-50%)",
-          background: "radial-gradient(circle, #0e50d7 0%, transparent 70%)",
+          background: "radial-gradient(circle, #476D9A 0%, transparent 70%)",
         }}
       />
 
-      {/* Hero */}
-      <section
-        style={{
-          paddingTop: "6rem",
-          paddingBottom: "5rem",
-          position: "relative",
-          zIndex: 1,
-          borderBottom: "1px solid rgba(255, 255, 255, 0.08)",
+      {/* Atmospheric Hero Section */}
+      <AtmosphericHero
+        badge="ELITE ENGINEERING CULTURE"
+        titleTop="Let your software career"
+        titleAccent="take flight"
+        subheadline={careersData.subheadline}
+        primaryCta={{ label: `Explore ${careersData.openings.length} Open Roles`, href: "#openings" }}
+        secondaryCta={{ label: "Submit Application", href: "#apply-section" }}
+        leftCard={{
+          tag: "AUTONOMY & MASTERY",
+          title: "Build at Global Scale",
+          description: "Work directly on production systems serving millions of users with modern stacks: Next.js, Go, Python AI, and Kubernetes.",
+          graphType: "arc",
+          metric: "Zero Micro-Management",
         }}
-      >
-        <div className="container-custom" style={{ textAlign: "center" }}>
-          <div className="flex items-center justify-center gap-2" style={{ color: "var(--text-muted)", fontSize: "0.85rem", marginBottom: "1.5rem" }}>
-            <Link href="/" style={{ color: "var(--text-secondary)", textDecoration: "none" }}>Home</Link>
-            <span>/</span>
-            <span style={{ color: "var(--color-cyan)" }}>Careers</span>
-          </div>
-
-          <span className="badge-glow" style={{ marginBottom: "1rem" }}>
-            Join The Opash Family
-          </span>
-
-          <h1 className="heading-display" style={{ maxWidth: "920px", margin: "0.75rem auto 1.5rem auto", color: "#ffffff" }}>
-            Let Your Career Take Flight With <span className="gradient-text">Opash Software</span>
-          </h1>
-
-          <p className="subhead-lead" style={{ maxWidth: "780px", margin: "0 auto 3rem auto" }}>
-            {careersData.subheadline}
-          </p>
-
-          <div className="flex items-center justify-center gap-4 flex-wrap">
-            <a href="#openings" className="btn-primary" style={{ padding: "0.95rem 2.2rem" }}>
-              <Briefcase size={18} />
-              <span>Explore {careersData.openings.length} Open Roles</span>
-            </a>
-            <a href="#apply-section" className="btn-secondary" style={{ padding: "0.95rem 2rem" }}>
-              <span>Submit General Application</span>
-              <ArrowRight size={16} />
-            </a>
-          </div>
-        </div>
-      </section>
+        rightCard={{
+          tag: "CULTURE & VELOCITY",
+          title: "High Agency Team",
+          description: "Work with passionate technologists in a supportive, friendly culture that values deep craftsmanship and rapid delivery.",
+          graphType: "cycle",
+          metric: "Top 1% Engineering Squad",
+        }}
+      />
 
       {/* Culture & Perks Grid */}
       <section className="section-padding">
@@ -111,7 +94,7 @@ export default function CareerPage() {
             <span className="badge-glow" style={{ marginBottom: "0.75rem" }}>
               Life at Opash
             </span>
-            <h2 className="heading-section" style={{ color: "#ffffff", marginTop: "0.5rem" }}>
+            <h2 className="heading-section" style={{ marginTop: "0.5rem" }}>
               Why Engineers Love Building Here
             </h2>
             <p className="subhead-lead" style={{ marginTop: "0.75rem" }}>
@@ -132,17 +115,13 @@ export default function CareerPage() {
                 <div
                   key={p.title}
                   className="interactive-card"
-                  style={{
-                    backgroundColor: "rgba(15, 23, 42, 0.75)",
-                    border: "1px solid rgba(255, 255, 255, 0.08)",
-                  }}
                 >
                   <div
                     style={{
                       width: 44,
                       height: 44,
                       borderRadius: "10px",
-                      backgroundColor: "rgba(14, 80, 215, 0.2)",
+                      backgroundColor: "rgba(71, 109, 154, 0.2)",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -152,7 +131,7 @@ export default function CareerPage() {
                   >
                     <IconComp size={22} />
                   </div>
-                  <h3 style={{ fontSize: "1.25rem", fontWeight: 700, color: "#ffffff", marginBottom: "0.5rem" }}>
+                  <h3 style={{ fontSize: "1.25rem", fontWeight: 700, marginBottom: "0.5rem" }}>
                     {p.title}
                   </h3>
                   <p style={{ color: "var(--text-secondary)", fontSize: "0.95rem", lineHeight: 1.6 }}>
@@ -168,11 +147,9 @@ export default function CareerPage() {
       {/* Active Job Openings Section */}
       <section
         id="openings"
+        className="section-alt"
         style={{
           padding: "5.5rem 0",
-          backgroundColor: "rgba(11, 17, 32, 0.6)",
-          borderTop: "1px solid rgba(255, 255, 255, 0.06)",
-          borderBottom: "1px solid rgba(255, 255, 255, 0.06)",
         }}
       >
         <div className="container-custom">
@@ -180,7 +157,7 @@ export default function CareerPage() {
             <span className="badge-glow" style={{ marginBottom: "0.75rem" }}>
               Current Openings
             </span>
-            <h2 className="heading-section" style={{ color: "#ffffff", marginTop: "0.5rem" }}>
+            <h2 className="heading-section" style={{ marginTop: "0.5rem" }}>
               Explore Open Engineering Roles
             </h2>
             <p className="subhead-lead" style={{ marginTop: "0.75rem" }}>
@@ -202,8 +179,8 @@ export default function CareerPage() {
                       textAlign: "left",
                       padding: "1.25rem 1.5rem",
                       borderRadius: "var(--radius-lg)",
-                      backgroundColor: isSelected ? "rgba(14, 80, 215, 0.2)" : "rgba(15, 23, 42, 0.7)",
-                      border: isSelected ? "1px solid var(--color-cyan)" : "1px solid rgba(255, 255, 255, 0.08)",
+                      backgroundColor: isSelected ? "rgba(71, 109, 154, 0.2)" : "var(--bg-card)",
+                      border: isSelected ? "1px solid var(--color-cyan)" : "1px solid var(--border-subtle)",
                       cursor: "pointer",
                       transition: "all 0.2s",
                     }}
@@ -216,7 +193,7 @@ export default function CareerPage() {
                         {job.type}
                       </span>
                     </div>
-                    <div style={{ color: "#ffffff", fontWeight: 700, fontSize: "1.1rem", marginBottom: "0.4rem" }}>
+                    <div style={{ color: "var(--text-primary)", fontWeight: 700, fontSize: "1.1rem", marginBottom: "0.4rem" }}>
                       {job.title}
                     </div>
                     <div className="flex items-center gap-4" style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>
@@ -237,8 +214,6 @@ export default function CareerPage() {
                 className="glass-panel"
                 style={{
                   padding: "2.5rem",
-                  backgroundColor: "rgba(15, 23, 42, 0.9)",
-                  border: "1px solid rgba(14, 80, 215, 0.35)",
                 }}
               >
                 <div className="flex justify-between items-start flex-wrap gap-4" style={{ marginBottom: "1.5rem" }}>
@@ -246,7 +221,7 @@ export default function CareerPage() {
                     <span className="badge-glow" style={{ marginBottom: "0.5rem" }}>
                       {selectedJob.department}
                     </span>
-                    <h3 style={{ fontSize: "1.75rem", fontWeight: 800, color: "#ffffff", marginTop: "0.5rem" }}>
+                    <h3 style={{ fontSize: "1.75rem", fontWeight: 800, marginTop: "0.5rem" }}>
                       {selectedJob.title}
                     </h3>
                     <div className="flex items-center gap-4" style={{ color: "var(--text-muted)", fontSize: "0.85rem", marginTop: "0.4rem" }}>
@@ -272,7 +247,7 @@ export default function CareerPage() {
 
                 {/* Responsibilities */}
                 <div style={{ marginBottom: "2rem" }}>
-                  <h4 style={{ color: "#ffffff", fontSize: "1.1rem", fontWeight: 700, marginBottom: "0.75rem" }}>
+                  <h4 style={{ color: "var(--text-primary)", fontSize: "1.1rem", fontWeight: 700, marginBottom: "0.75rem" }}>
                     Key Responsibilities:
                   </h4>
                   <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "0.5rem" }}>
@@ -287,7 +262,7 @@ export default function CareerPage() {
 
                 {/* Requirements */}
                 <div>
-                  <h4 style={{ color: "#ffffff", fontSize: "1.1rem", fontWeight: 700, marginBottom: "0.75rem" }}>
+                  <h4 style={{ color: "var(--text-primary)", fontSize: "1.1rem", fontWeight: 700, marginBottom: "0.75rem" }}>
                     Qualifications & Requirements:
                   </h4>
                   <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "0.5rem" }}>
@@ -314,12 +289,11 @@ export default function CareerPage() {
               style={{
                 padding: "3.5rem 2.5rem",
                 textAlign: "center",
-                backgroundColor: "rgba(11, 17, 32, 0.95)",
-                border: "1px solid rgba(16, 185, 129, 0.4)",
+                border: "1px solid rgba(30, 148, 101, 0.4)",
               }}
             >
               <CheckCircle2 size={50} color="#10b981" style={{ margin: "0 auto 1.5rem auto" }} />
-              <h3 style={{ fontSize: "1.8rem", fontWeight: 700, color: "#ffffff" }}>
+              <h3 style={{ fontSize: "1.8rem", fontWeight: 700, color: "var(--text-primary)" }}>
                 Application Submitted Successfully!
               </h3>
               <p style={{ color: "var(--text-secondary)", marginTop: "0.75rem", fontSize: "1rem", maxWidth: "480px", margin: "0.75rem auto 2rem auto" }}>
@@ -335,15 +309,13 @@ export default function CareerPage() {
               className="glass-panel"
               style={{
                 padding: "3rem 2.5rem",
-                backgroundColor: "rgba(11, 17, 32, 0.92)",
-                border: "1px solid rgba(14, 80, 215, 0.35)",
               }}
             >
               <div style={{ marginBottom: "2rem" }}>
                 <span className="badge-glow" style={{ marginBottom: "0.5rem" }}>
                   Join Our Squad
                 </span>
-                <h3 style={{ fontSize: "1.75rem", fontWeight: 800, color: "#ffffff", marginTop: "0.5rem" }}>
+                <h3 style={{ fontSize: "1.75rem", fontWeight: 800, marginTop: "0.5rem" }}>
                   Send Your Resume Here!
                 </h3>
                 <p style={{ color: "var(--text-secondary)", fontSize: "0.95rem" }}>
@@ -446,15 +418,15 @@ export default function CareerPage() {
                 style={{
                   padding: "1.75rem",
                   borderRadius: "var(--radius-md)",
-                  border: "2px dashed rgba(14, 80, 215, 0.4)",
-                  backgroundColor: "rgba(255, 255, 255, 0.02)",
+                  border: "2px dashed var(--border-accent)",
+                  backgroundColor: "var(--bg-elevated)",
                   textAlign: "center",
                   marginBottom: "2rem",
                   cursor: "pointer",
                 }}
               >
                 <UploadCloud size={32} color="var(--color-cyan)" style={{ margin: "0 auto 0.5rem auto" }} />
-                <div style={{ color: "#ffffff", fontWeight: 600, fontSize: "0.95rem" }}>
+                <div style={{ color: "var(--text-primary)", fontWeight: 600, fontSize: "0.95rem" }}>
                   Upload Your Resume (PDF / DOCX)
                 </div>
                 <div style={{ color: "var(--text-muted)", fontSize: "0.8rem", marginTop: "0.25rem" }}>

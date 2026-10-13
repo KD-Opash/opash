@@ -15,6 +15,7 @@ import {
   HelpCircle 
 } from "lucide-react";
 import ContactForm from "./ContactForm";
+import AtmosphericHero from "./AtmosphericHero";
 
 interface Props {
   service: ServiceDetail;
@@ -25,69 +26,36 @@ export default function ServiceDetailTemplate({ service }: Props) {
 
   return (
     <div className="bg-grid-pattern" style={{ minHeight: "100vh", position: "relative" }}>
-      {/* Hero Section */}
-      <section
-        style={{
-          paddingTop: "6rem",
-          paddingBottom: "5rem",
-          position: "relative",
-          overflow: "hidden",
-          borderBottom: "1px solid rgba(255, 255, 255, 0.08)",
+      {/* Atmospheric Hero Section */}
+      <AtmosphericHero
+        badge={service.badge}
+        titleTop={service.heroHeadline}
+        titleAccent="engineered for scale"
+        subheadline={service.heroSubheadline}
+        primaryCta={{ label: "Get a Fast Project Estimate", href: "/get-a-quote" }}
+        secondaryCta={{ label: "Explore Capabilities", href: "#capabilities" }}
+        leftCard={{
+          tag: "ENGINEERED CAPABILITY",
+          title: service.features[0]?.title || "Architectural Excellence",
+          description: service.features[0]?.desc || "Battle-tested architectural patterns delivering extreme throughput.",
+          graphType: "arc",
+          metric: service.metrics[0] ? `${service.metrics[0].value} ${service.metrics[0].label}` : undefined,
         }}
-      >
-        <div
-          style={{
-            position: "absolute",
-            top: "-150px",
-            right: "10%",
-            width: "500px",
-            height: "500px",
-            background: "radial-gradient(circle, rgba(14, 80, 215, 0.22) 0%, transparent 70%)",
-            filter: "blur(90px)",
-            pointerEvents: "none",
-          }}
-        />
-
-        <div className="container-custom" style={{ position: "relative", zIndex: 1 }}>
-          {/* Breadcrumb */}
-          <div className="flex items-center gap-2" style={{ color: "var(--text-muted)", fontSize: "0.85rem", marginBottom: "1.5rem" }}>
-            <Link href="/" style={{ color: "var(--text-secondary)", textDecoration: "none" }}>Home</Link>
-            <span>/</span>
-            <span style={{ color: "var(--text-secondary)" }}>Services</span>
-            <span>/</span>
-            <span style={{ color: "var(--color-cyan)" }}>{service.title}</span>
-          </div>
-
-          <div style={{ maxWidth: "860px" }}>
-            <span className="badge-glow" style={{ marginBottom: "1rem" }}>
-              {service.badge}
-            </span>
-            <h1 className="heading-display" style={{ color: "#ffffff", marginTop: "0.75rem", marginBottom: "1.25rem" }}>
-              {service.heroHeadline}
-            </h1>
-            <p className="subhead-lead" style={{ marginBottom: "2rem" }}>
-              {service.heroSubheadline}
-            </p>
-
-            <div className="flex items-center gap-4 flex-wrap">
-              <Link href="/get-a-quote" className="btn-primary" style={{ padding: "0.95rem 2rem" }}>
-                <Sparkles size={18} />
-                <span>Get a Fast Project Estimate</span>
-              </Link>
-              <a href="#capabilities" className="btn-secondary" style={{ padding: "0.95rem 1.75rem" }}>
-                <span>Explore Capabilities</span>
-                <ArrowRight size={16} />
-              </a>
-            </div>
-          </div>
-
-          {/* Key Metrics Grid */}
+        rightCard={{
+          tag: "PRODUCTION GUARANTEE",
+          title: service.features[1]?.title || "Cloud-First Velocity",
+          description: service.features[1]?.desc || "Multi-tenant cloud infrastructure designed for high concurrency.",
+          graphType: "cycle",
+          metric: service.metrics[1] ? `${service.metrics[1].value} ${service.metrics[1].label}` : undefined,
+        }}
+        bottomChildren={
           <div
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
               gap: "1.5rem",
-              marginTop: "4rem",
+              maxWidth: "1050px",
+              margin: "0 auto",
             }}
           >
             {service.metrics.map((m, i) => (
@@ -96,8 +64,7 @@ export default function ServiceDetailTemplate({ service }: Props) {
                 className="glass-panel"
                 style={{
                   padding: "1.5rem",
-                  background: "rgba(15, 23, 42, 0.7)",
-                  border: "1px solid rgba(255, 255, 255, 0.08)",
+                  textAlign: "center",
                 }}
               >
                 <div style={{ fontSize: "2.4rem", fontWeight: 800, color: "var(--color-cyan)", letterSpacing: "-0.02em" }}>
@@ -109,8 +76,8 @@ export default function ServiceDetailTemplate({ service }: Props) {
               </div>
             ))}
           </div>
-        </div>
-      </section>
+        }
+      />
 
       {/* Capabilities / Deep Features */}
       <section id="capabilities" className="section-padding">
@@ -119,7 +86,7 @@ export default function ServiceDetailTemplate({ service }: Props) {
             <span className="badge-glow" style={{ marginBottom: "0.75rem" }}>
               Engineered for Excellence
             </span>
-            <h2 className="heading-section" style={{ color: "#ffffff", marginTop: "0.5rem" }}>
+            <h2 className="heading-section" style={{ marginTop: "0.5rem" }}>
               Core {service.title} Capabilities
             </h2>
             <p className="subhead-lead" style={{ marginTop: "0.75rem" }}>
@@ -138,18 +105,14 @@ export default function ServiceDetailTemplate({ service }: Props) {
               <div
                 key={i}
                 className="interactive-card"
-                style={{
-                  backgroundColor: "rgba(15, 23, 42, 0.8)",
-                  border: "1px solid rgba(255, 255, 255, 0.07)",
-                }}
               >
                 <div
                   style={{
                     width: 44,
                     height: 44,
                     borderRadius: "10px",
-                    background: "linear-gradient(135deg, rgba(14, 80, 215, 0.3), rgba(0, 210, 255, 0.2))",
-                    border: "1px solid rgba(0, 210, 255, 0.3)",
+                    background: "linear-gradient(135deg, rgba(71, 109, 154, 0.35), rgba(94, 192, 152, 0.25))",
+                    border: "1px solid rgba(94, 192, 152, 0.35)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -159,7 +122,7 @@ export default function ServiceDetailTemplate({ service }: Props) {
                 >
                   <Zap size={22} />
                 </div>
-                <h3 style={{ fontSize: "1.25rem", fontWeight: 700, color: "#ffffff", marginBottom: "0.75rem" }}>
+                <h3 style={{ fontSize: "1.25rem", fontWeight: 700, marginBottom: "0.75rem" }}>
                   {f.title}
                 </h3>
                 <p style={{ color: "var(--text-secondary)", fontSize: "0.95rem", lineHeight: 1.6 }}>
@@ -173,11 +136,9 @@ export default function ServiceDetailTemplate({ service }: Props) {
 
       {/* Tech Stack & Deliverables Dual Section */}
       <section
+        className="section-alt"
         style={{
           padding: "5rem 0",
-          backgroundColor: "rgba(11, 17, 32, 0.6)",
-          borderTop: "1px solid rgba(255, 255, 255, 0.06)",
-          borderBottom: "1px solid rgba(255, 255, 255, 0.06)",
         }}
       >
         <div className="container-custom">
@@ -187,7 +148,7 @@ export default function ServiceDetailTemplate({ service }: Props) {
               <span className="badge-glow" style={{ marginBottom: "0.75rem" }}>
                 Technology Stack
               </span>
-              <h3 style={{ fontSize: "2rem", fontWeight: 700, color: "#ffffff", marginTop: "0.5rem", marginBottom: "1rem" }}>
+              <h3 style={{ fontSize: "2rem", fontWeight: 700, marginTop: "0.5rem", marginBottom: "1rem" }}>
                 Tools & Frameworks We Employ
               </h3>
               <p style={{ color: "var(--text-secondary)", marginBottom: "2rem" }}>
@@ -201,9 +162,9 @@ export default function ServiceDetailTemplate({ service }: Props) {
                     style={{
                       padding: "0.55rem 1.15rem",
                       borderRadius: "var(--radius-full)",
-                      backgroundColor: "rgba(14, 80, 215, 0.15)",
-                      border: "1px solid rgba(14, 80, 215, 0.35)",
-                      color: "#ffffff",
+                      backgroundColor: "rgba(71, 109, 154, 0.15)",
+                      border: "1px solid rgba(71, 109, 154, 0.35)",
+                      color: "var(--text-primary)",
                       fontSize: "0.9rem",
                       fontWeight: 600,
                     }}
@@ -219,7 +180,7 @@ export default function ServiceDetailTemplate({ service }: Props) {
               <span className="badge-glow" style={{ marginBottom: "0.75rem" }}>
                 Deliverables
               </span>
-              <h3 style={{ fontSize: "2rem", fontWeight: 700, color: "#ffffff", marginTop: "0.5rem", marginBottom: "1rem" }}>
+              <h3 style={{ fontSize: "2rem", fontWeight: 700, marginTop: "0.5rem", marginBottom: "1rem" }}>
                 What You Receive (100% IP)
               </h3>
               <div className="flex flex-col gap-3">
@@ -232,8 +193,8 @@ export default function ServiceDetailTemplate({ service }: Props) {
                       gap: "0.75rem",
                       padding: "0.85rem 1.25rem",
                       borderRadius: "var(--radius-md)",
-                      backgroundColor: "rgba(255, 255, 255, 0.02)",
-                      border: "1px solid rgba(255, 255, 255, 0.05)",
+                      backgroundColor: "var(--bg-card)",
+                      border: "1px solid var(--border-subtle)",
                     }}
                   >
                     <CheckCircle2 size={18} color="#10b981" style={{ flexShrink: 0 }} />
@@ -255,7 +216,7 @@ export default function ServiceDetailTemplate({ service }: Props) {
             <span className="badge-glow" style={{ marginBottom: "0.75rem" }}>
               Our Methodology
             </span>
-            <h2 className="heading-section" style={{ color: "#ffffff", marginTop: "0.5rem" }}>
+            <h2 className="heading-section" style={{ marginTop: "0.5rem" }}>
               How We Deliver Success
             </h2>
             <p className="subhead-lead" style={{ marginTop: "0.75rem" }}>
@@ -276,7 +237,6 @@ export default function ServiceDetailTemplate({ service }: Props) {
                 className="glass-panel"
                 style={{
                   padding: "1.75rem 1.5rem",
-                  background: "rgba(15, 23, 42, 0.8)",
                   position: "relative",
                 }}
               >
@@ -284,13 +244,13 @@ export default function ServiceDetailTemplate({ service }: Props) {
                   style={{
                     fontSize: "2.2rem",
                     fontWeight: 900,
-                    color: "rgba(14, 80, 215, 0.5)",
+                    color: "rgba(71, 109, 154, 0.6)",
                     marginBottom: "0.75rem",
                   }}
                 >
                   {p.step}
                 </div>
-                <h4 style={{ fontSize: "1.15rem", fontWeight: 700, color: "#ffffff", marginBottom: "0.5rem" }}>
+                <h4 style={{ fontSize: "1.15rem", fontWeight: 700, marginBottom: "0.5rem" }}>
                   {p.title}
                 </h4>
                 <p style={{ color: "var(--text-secondary)", fontSize: "0.85rem", lineHeight: 1.6 }}>
@@ -305,10 +265,9 @@ export default function ServiceDetailTemplate({ service }: Props) {
       {/* Frequently Asked Questions */}
       {service.faqs && service.faqs.length > 0 && (
         <section
+          className="section-alt"
           style={{
             padding: "5rem 0",
-            backgroundColor: "rgba(11, 17, 32, 0.7)",
-            borderTop: "1px solid rgba(255, 255, 255, 0.06)",
           }}
         >
           <div className="container-custom" style={{ maxWidth: "880px" }}>
@@ -316,7 +275,7 @@ export default function ServiceDetailTemplate({ service }: Props) {
               <span className="badge-glow" style={{ marginBottom: "0.75rem" }}>
                 Got Questions?
               </span>
-              <h2 className="heading-section" style={{ color: "#ffffff", marginTop: "0.5rem" }}>
+              <h2 className="heading-section" style={{ marginTop: "0.5rem" }}>
                 Frequently Asked Questions
               </h2>
             </div>
@@ -327,10 +286,10 @@ export default function ServiceDetailTemplate({ service }: Props) {
                 return (
                   <div
                     key={i}
+                    className="glass-panel"
                     style={{
                       borderRadius: "var(--radius-md)",
-                      backgroundColor: "rgba(15, 23, 42, 0.8)",
-                      border: isOpen ? "1px solid var(--border-accent)" : "1px solid rgba(255, 255, 255, 0.08)",
+                      border: isOpen ? "1px solid var(--border-accent)" : "1px solid var(--border-subtle)",
                       overflow: "hidden",
                       transition: "all 0.2s",
                     }}
@@ -344,7 +303,7 @@ export default function ServiceDetailTemplate({ service }: Props) {
                         textAlign: "left",
                         background: "none",
                         border: "none",
-                        color: "#ffffff",
+                        color: "var(--text-primary)",
                         fontSize: "1.05rem",
                         fontWeight: 600,
                         cursor: "pointer",

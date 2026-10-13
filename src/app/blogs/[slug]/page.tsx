@@ -60,7 +60,7 @@ export default async function BlogPostPage({ params }: Props) {
           top: "-50px",
           left: "50%",
           transform: "translateX(-50%)",
-          background: "radial-gradient(circle, #0e50d7 0%, transparent 70%)",
+          background: "radial-gradient(circle, #476D9A 0%, transparent 70%)",
         }}
       />
 
@@ -88,7 +88,7 @@ export default async function BlogPostPage({ params }: Props) {
             <span className="badge-glow" style={{ marginBottom: "1rem" }}>
               {post.category}
             </span>
-            <h1 style={{ fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 800, color: "#ffffff", lineHeight: 1.2, marginTop: "0.75rem", marginBottom: "1.25rem" }}>
+            <h1 style={{ fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 800, color: "var(--text-primary)", lineHeight: 1.2, marginTop: "0.75rem", marginBottom: "1.25rem" }}>
               {post.title}
             </h1>
 
@@ -96,8 +96,8 @@ export default async function BlogPostPage({ params }: Props) {
             <div
               className="flex items-center justify-between flex-wrap gap-4"
               style={{
-                borderTop: "1px solid rgba(255, 255, 255, 0.08)",
-                borderBottom: "1px solid rgba(255, 255, 255, 0.08)",
+                borderTop: "1px solid var(--border-subtle)",
+                borderBottom: "1px solid var(--border-subtle)",
                 padding: "1rem 0",
                 fontSize: "0.9rem",
                 color: "var(--text-secondary)",
@@ -109,7 +109,7 @@ export default async function BlogPostPage({ params }: Props) {
                     width: 44,
                     height: 44,
                     borderRadius: "50%",
-                    background: "linear-gradient(135deg, #0e50d7, #00d2ff)",
+                    background: "linear-gradient(135deg, #476D9A, #5EC098)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -120,7 +120,7 @@ export default async function BlogPostPage({ params }: Props) {
                   {post.author.avatar}
                 </div>
                 <div>
-                  <div style={{ color: "#ffffff", fontWeight: 600 }}>{post.author.name}</div>
+                  <div style={{ color: "var(--text-primary)", fontWeight: 600 }}>{post.author.name}</div>
                   <div style={{ color: "var(--text-muted)", fontSize: "0.8rem" }}>{post.author.role}</div>
                 </div>
               </div>
@@ -144,11 +144,11 @@ export default async function BlogPostPage({ params }: Props) {
             style={{
               padding: "1.5rem 2rem",
               borderRadius: "var(--radius-lg)",
-              backgroundColor: "rgba(14, 80, 215, 0.12)",
+              backgroundColor: "var(--bg-elevated)",
               borderLeft: "4px solid var(--color-cyan)",
               marginBottom: "3rem",
               fontSize: "1.1rem",
-              color: "#ffffff",
+              color: "var(--text-primary)",
               lineHeight: 1.6,
               fontStyle: "italic",
             }}
@@ -174,7 +174,7 @@ export default async function BlogPostPage({ params }: Props) {
           </div>
 
           {/* Tags */}
-          <div style={{ borderTop: "1px solid rgba(255, 255, 255, 0.08)", paddingTop: "1.5rem", marginBottom: "4rem" }}>
+          <div style={{ borderTop: "1px solid var(--border-subtle)", paddingTop: "1.5rem", marginBottom: "4rem" }}>
             <div style={{ color: "var(--text-muted)", fontSize: "0.85rem", marginBottom: "0.75rem", textTransform: "uppercase", fontWeight: 700 }}>
               Topics & Technologies
             </div>
@@ -185,8 +185,8 @@ export default async function BlogPostPage({ params }: Props) {
                   style={{
                     padding: "0.35rem 0.85rem",
                     borderRadius: "var(--radius-full)",
-                    backgroundColor: "rgba(255, 255, 255, 0.04)",
-                    border: "1px solid rgba(255, 255, 255, 0.08)",
+                    backgroundColor: "var(--bg-elevated)",
+                    border: "1px solid var(--border-subtle)",
                     color: "var(--color-cyan)",
                     fontSize: "0.85rem",
                     fontWeight: 600,
@@ -204,8 +204,7 @@ export default async function BlogPostPage({ params }: Props) {
             style={{
               padding: "2.5rem",
               marginBottom: "4rem",
-              backgroundColor: "rgba(15, 23, 42, 0.9)",
-              border: "1px solid rgba(14, 80, 215, 0.3)",
+              border: "1px solid var(--border-subtle)",
             }}
           >
             <div className="flex items-center gap-4" style={{ marginBottom: "1rem" }}>
@@ -214,7 +213,7 @@ export default async function BlogPostPage({ params }: Props) {
                   width: 54,
                   height: 54,
                   borderRadius: "50%",
-                  background: "linear-gradient(135deg, #0e50d7, #00d2ff)",
+                  background: "linear-gradient(135deg, #476D9A, #5EC098)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -226,7 +225,7 @@ export default async function BlogPostPage({ params }: Props) {
                 {post.author.avatar}
               </div>
               <div>
-                <div style={{ color: "#ffffff", fontWeight: 700, fontSize: "1.15rem" }}>
+                <div style={{ color: "var(--text-primary)", fontWeight: 700, fontSize: "1.15rem" }}>
                   Written by {post.author.name}
                 </div>
                 <div style={{ color: "var(--color-cyan)", fontSize: "0.85rem" }}>
@@ -242,7 +241,7 @@ export default async function BlogPostPage({ params }: Props) {
           {/* Related Articles */}
           {relatedPosts.length > 0 && (
             <div style={{ marginBottom: "5rem" }}>
-              <h3 style={{ fontSize: "1.6rem", fontWeight: 700, color: "#ffffff", marginBottom: "1.75rem" }}>
+              <h3 style={{ fontSize: "1.6rem", fontWeight: 700, color: "var(--text-primary)", marginBottom: "1.75rem" }}>
                 More Architecture Insights
               </h3>
               <div className="grid-cols-2" style={{ gap: "1.5rem" }}>
@@ -250,12 +249,12 @@ export default async function BlogPostPage({ params }: Props) {
                   <div
                     key={rel.slug}
                     className="glass-panel"
-                    style={{ padding: "1.75rem", backgroundColor: "rgba(15, 23, 42, 0.7)" }}
+                    style={{ padding: "1.75rem" }}
                   >
                     <span style={{ fontSize: "0.75rem", color: "var(--color-cyan)", fontWeight: 700 }}>
                       {rel.category}
                     </span>
-                    <h4 style={{ fontSize: "1.15rem", fontWeight: 700, color: "#ffffff", marginTop: "0.4rem", marginBottom: "0.6rem" }}>
+                    <h4 style={{ fontSize: "1.15rem", fontWeight: 700, color: "var(--text-primary)", marginTop: "0.4rem", marginBottom: "0.6rem" }}>
                       <Link href={`/blogs/${rel.slug}`} style={{ color: "inherit", textDecoration: "none" }}>
                         {rel.title}
                       </Link>

@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { blogsData } from "@/data/blogs";
 import { Sparkles, ArrowRight, Search, Clock, Calendar, User } from "lucide-react";
+import AtmosphericHero from "@/components/AtmosphericHero";
 
 export default function BlogsIndexPage() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -29,80 +30,76 @@ export default function BlogsIndexPage() {
           top: "-50px",
           left: "50%",
           transform: "translateX(-50%)",
-          background: "radial-gradient(circle, #0e50d7 0%, transparent 70%)",
+          background: "radial-gradient(circle, #476D9A 0%, transparent 70%)",
         }}
       />
 
-      {/* Hero */}
-      <section
-        style={{
-          paddingTop: "6rem",
-          paddingBottom: "5rem",
-          position: "relative",
-          zIndex: 1,
-          borderBottom: "1px solid rgba(255, 255, 255, 0.08)",
+      {/* Atmospheric Hero Section */}
+      <AtmosphericHero
+        badge="ENGINEERING KNOWLEDGE HUB"
+        titleTop="Architectural insights"
+        titleAccent="from production systems"
+        subheadline="From modern microservices and AI/RAG agent patterns to high-throughput cloud automation — we share what’s next in enterprise software engineering."
+        primaryCta={{ label: "Read Latest Articles", href: "#articles" }}
+        secondaryCta={{ label: "Subscribe to Updates", href: "/contact" }}
+        leftCard={{
+          tag: "DEEP ARCHITECTURE",
+          title: "Microservices & Cloud",
+          description: "Domain-driven design, multi-tenant databases, Kubernetes auto-scaling, and event-driven streaming patterns.",
+          graphType: "arc",
+          metric: "Battle-Tested Patterns",
         }}
-      >
-        <div className="container-custom" style={{ textAlign: "center" }}>
-          <div className="flex items-center justify-center gap-2" style={{ color: "var(--text-muted)", fontSize: "0.85rem", marginBottom: "1.5rem" }}>
-            <Link href="/" style={{ color: "var(--text-secondary)", textDecoration: "none" }}>Home</Link>
-            <span>/</span>
-            <span style={{ color: "var(--color-cyan)" }}>Tech Insights</span>
+        rightCard={{
+          tag: "APPLIED INTELLIGENCE",
+          title: "AI Agents & RAG Core",
+          description: "Vector embeddings, deterministic tool orchestration, and high-performance LLM integration in production systems.",
+          graphType: "cycle",
+          metric: "Production AI Case Studies",
+        }}
+        bottomChildren={
+          <div id="articles">
+            {/* Search Bar & Category Filters */}
+            <div style={{ maxWidth: "600px", margin: "0 auto 2.5rem auto", position: "relative" }}>
+              <Search
+                size={20}
+                color="var(--text-muted)"
+                style={{ position: "absolute", left: 16, top: "50%", transform: "translateY(-50%)" }}
+              />
+              <input
+                type="text"
+                placeholder="Search architecture articles, AI, microservices..."
+                className="input-field"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                style={{ paddingLeft: "3rem" }}
+              />
+            </div>
+
+            <div className="flex justify-center items-center gap-2 flex-wrap">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  type="button"
+                  onClick={() => setSelectedCategory(cat)}
+                  style={{
+                    padding: "0.55rem 1.25rem",
+                    borderRadius: "var(--radius-full)",
+                    fontSize: "0.85rem",
+                    fontWeight: 600,
+                    cursor: "pointer",
+                    border: selectedCategory === cat ? "1px solid var(--color-cyan)" : "1px solid var(--border-subtle)",
+                    background: selectedCategory === cat ? "var(--gradient-brand)" : "var(--bg-elevated)",
+                    color: selectedCategory === cat ? "#ffffff" : "var(--text-secondary)",
+                    transition: "all 0.2s",
+                  }}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
           </div>
-
-          <span className="badge-glow" style={{ marginBottom: "1rem" }}>
-            Engineering Knowledge Hub
-          </span>
-
-          <h1 className="heading-display" style={{ maxWidth: "880px", margin: "0.75rem auto 1.5rem auto", color: "#ffffff" }}>
-            Architectural Insights & <span className="gradient-text">Engineering Deep Dives</span>
-          </h1>
-
-          <p className="subhead-lead" style={{ maxWidth: "720px", margin: "0 auto 3rem auto" }}>
-            From modern microservices and AI/RAG agent patterns to DevOps automation and enterprise software valuation — we share what’s next in technology.
-          </p>
-
-          {/* Search Bar & Category Filters */}
-          <div style={{ maxWidth: "600px", margin: "0 auto 2.5rem auto", position: "relative" }}>
-            <Search
-              size={20}
-              color="var(--text-muted)"
-              style={{ position: "absolute", left: 16, top: "50%", transform: "translateY(-50%)" }}
-            />
-            <input
-              type="text"
-              placeholder="Search architecture articles, AI, microservices..."
-              className="input-field"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              style={{ paddingLeft: "3rem" }}
-            />
-          </div>
-
-          <div className="flex justify-center items-center gap-2 flex-wrap">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                type="button"
-                onClick={() => setSelectedCategory(cat)}
-                style={{
-                  padding: "0.55rem 1.25rem",
-                  borderRadius: "var(--radius-full)",
-                  fontSize: "0.85rem",
-                  fontWeight: 600,
-                  cursor: "pointer",
-                  border: selectedCategory === cat ? "1px solid var(--color-cyan)" : "1px solid rgba(255, 255, 255, 0.08)",
-                  background: selectedCategory === cat ? "linear-gradient(135deg, rgba(14, 80, 215, 0.4), rgba(0, 210, 255, 0.2))" : "rgba(255, 255, 255, 0.03)",
-                  color: selectedCategory === cat ? "#ffffff" : "var(--text-secondary)",
-                  transition: "all 0.2s",
-                }}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
+        }
+      />
 
       {/* Blog Cards Grid */}
       <section className="section-padding">
@@ -123,10 +120,6 @@ export default function BlogsIndexPage() {
                 <div
                   key={post.slug}
                   className="interactive-card flex flex-col justify-between"
-                  style={{
-                    backgroundColor: "rgba(15, 23, 42, 0.8)",
-                    border: "1px solid rgba(255, 255, 255, 0.08)",
-                  }}
                 >
                   <div>
                     <div className="flex justify-between items-center" style={{ marginBottom: "1rem" }}>
@@ -135,7 +128,7 @@ export default function BlogsIndexPage() {
                           fontSize: "0.75rem",
                           color: "var(--color-cyan)",
                           fontWeight: 700,
-                          backgroundColor: "rgba(0, 210, 255, 0.1)",
+                          backgroundColor: "rgba(94, 192, 152, 0.12)",
                           padding: "0.25rem 0.65rem",
                           borderRadius: "999px",
                         }}
@@ -148,7 +141,7 @@ export default function BlogsIndexPage() {
                       </span>
                     </div>
 
-                    <h2 style={{ fontSize: "1.35rem", fontWeight: 700, color: "#ffffff", marginBottom: "0.75rem", lineHeight: 1.4 }}>
+                    <h2 style={{ fontSize: "1.35rem", fontWeight: 700, marginBottom: "0.75rem", lineHeight: 1.4 }}>
                       <Link
                         href={`/blogs/${post.slug}`}
                         style={{ color: "inherit", textDecoration: "none" }}
@@ -169,9 +162,9 @@ export default function BlogsIndexPage() {
                             fontSize: "0.75rem",
                             padding: "0.2rem 0.55rem",
                             borderRadius: "var(--radius-sm)",
-                            backgroundColor: "rgba(255, 255, 255, 0.04)",
+                            backgroundColor: "var(--bg-elevated)",
                             color: "var(--text-muted)",
-                            border: "1px solid rgba(255, 255, 255, 0.06)",
+                            border: "1px solid var(--border-subtle)",
                           }}
                         >
                           #{tag}
@@ -183,7 +176,7 @@ export default function BlogsIndexPage() {
                   <div
                     className="flex justify-between items-center"
                     style={{
-                      borderTop: "1px solid rgba(255, 255, 255, 0.08)",
+                      borderTop: "1px solid var(--border-subtle)",
                       paddingTop: "1rem",
                     }}
                   >
@@ -193,7 +186,7 @@ export default function BlogsIndexPage() {
                           width: 32,
                           height: 32,
                           borderRadius: "50%",
-                          background: "linear-gradient(135deg, #0e50d7, #00d2ff)",
+                          background: "linear-gradient(135deg, #476D9A, #5EC098)",
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",

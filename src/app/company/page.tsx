@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { companyData } from "@/data/company";
 import ContactForm from "@/components/ContactForm";
+import AtmosphericHero from "@/components/AtmosphericHero";
 
 export default function CompanyPage() {
   const milestoneIcons = {
@@ -50,40 +51,31 @@ export default function CompanyPage() {
           top: "-50px",
           left: "50%",
           transform: "translateX(-50%)",
-          background: "radial-gradient(circle, #0e50d7 0%, transparent 70%)",
+          background: "radial-gradient(circle, #476D9A 0%, transparent 70%)",
         }}
       />
 
-      {/* Hero Section */}
-      <section
-        style={{
-          paddingTop: "6rem",
-          paddingBottom: "5rem",
-          position: "relative",
-          zIndex: 1,
-          borderBottom: "1px solid rgba(255, 255, 255, 0.08)",
+      {/* Atmospheric Hero Section */}
+      <AtmosphericHero
+        badge="ABOUT OPASH SOFTWARE • SURAT HQ"
+        titleTop="Engineering Excellence Built For"
+        titleAccent="Enduring Market Dominance"
+        subheadline={companyData.aboutBrief}
+        primaryCta={{ label: "Discover Our Mission", href: "#vision" }}
+        secondaryCta={{ label: "Meet Leadership", href: "#leadership" }}
+        leftCard={{
+          tag: "50+ IN-HOUSE TECH EXPERTS",
+          title: "Engineering Philosophy",
+          description: "We enforce zero technical debt, modular microservices, and continuous automated code testing to deliver software that outperforms.",
+          metric: "96% Client Retention",
         }}
-      >
-        <div className="container-custom" style={{ textAlign: "center" }}>
-          <div className="flex items-center justify-center gap-2" style={{ color: "var(--text-muted)", fontSize: "0.85rem", marginBottom: "1.5rem" }}>
-            <Link href="/" style={{ color: "var(--text-secondary)", textDecoration: "none" }}>Home</Link>
-            <span>/</span>
-            <span style={{ color: "var(--color-cyan)" }}>Company</span>
-          </div>
-
-          <span className="badge-glow" style={{ marginBottom: "1rem" }}>
-            About Opash Software
-          </span>
-
-          <h1 className="heading-display" style={{ maxWidth: "900px", margin: "0.75rem auto 1.5rem auto", color: "#ffffff" }}>
-            Pioneering Digital Innovation with <span className="gradient-text">Precision & Engineering Rigor</span>
-          </h1>
-
-          <p className="subhead-lead" style={{ maxWidth: "780px", margin: "0 auto 3rem auto" }}>
-            {companyData.aboutBrief}
-          </p>
-
-          {/* Stats Bar */}
+        rightCard={{
+          tag: "GLOBAL CLIENT PRESENCE",
+          title: "Distributed Velocity HQ",
+          description: "From our Surat headquarters, 50+ elite developers synchronize with North American, European, and Middle Eastern business hours daily.",
+          metric: "24/7 Global Timezone Overlap",
+        }}
+        bottomChildren={
           <div
             style={{
               display: "grid",
@@ -102,7 +94,7 @@ export default function CompanyPage() {
               </div>
             </div>
             <div className="glass-panel" style={{ padding: "1.75rem", textAlign: "center" }}>
-              <div style={{ fontSize: "2.75rem", fontWeight: 800, color: "#ffffff" }}>
+              <div style={{ fontSize: "2.75rem", fontWeight: 800, color: "var(--text-primary)" }}>
                 {companyData.stats.projectsDelivered}
               </div>
               <div style={{ color: "var(--text-secondary)", fontSize: "0.9rem", fontWeight: 500, marginTop: "0.25rem" }}>
@@ -118,7 +110,7 @@ export default function CompanyPage() {
               </div>
             </div>
             <div className="glass-panel" style={{ padding: "1.75rem", textAlign: "center" }}>
-              <div style={{ fontSize: "2.75rem", fontWeight: 800, color: "#ffffff" }}>
+              <div style={{ fontSize: "2.75rem", fontWeight: 800, color: "var(--text-primary)" }}>
                 {companyData.stats.yearsExperience}
               </div>
               <div style={{ color: "var(--text-secondary)", fontSize: "0.9rem", fontWeight: 500, marginTop: "0.25rem" }}>
@@ -126,8 +118,8 @@ export default function CompanyPage() {
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        }
+      />
 
       {/* Mission & Vision Dual Cards */}
       <section className="section-padding">
@@ -135,17 +127,15 @@ export default function CompanyPage() {
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2rem" }} className="dual-cards">
             {/* Vision */}
             <div
-              className="glass-panel"
+              className="glass-panel cta-banner-box"
               style={{
                 padding: "3rem",
-                background: "linear-gradient(135deg, rgba(14, 80, 215, 0.2) 0%, rgba(15, 23, 42, 0.9) 100%)",
-                border: "1px solid rgba(14, 80, 215, 0.35)",
               }}
             >
               <span className="badge-glow" style={{ marginBottom: "1rem" }}>
                 Our Vision
               </span>
-              <h2 style={{ fontSize: "2rem", fontWeight: 700, color: "#ffffff", marginTop: "0.5rem", marginBottom: "1rem" }}>
+              <h2 style={{ fontSize: "2rem", fontWeight: 700, marginTop: "0.5rem", marginBottom: "1rem" }}>
                 Empowering Ideas. Transforming Futures.
               </h2>
               <p style={{ color: "var(--text-secondary)", fontSize: "1.05rem", lineHeight: 1.7 }}>
@@ -155,17 +145,15 @@ export default function CompanyPage() {
 
             {/* Mission */}
             <div
-              className="glass-panel"
+              className="glass-panel cta-banner-box"
               style={{
                 padding: "3rem",
-                background: "linear-gradient(135deg, rgba(0, 210, 255, 0.15) 0%, rgba(15, 23, 42, 0.9) 100%)",
-                border: "1px solid rgba(0, 210, 255, 0.3)",
               }}
             >
               <span className="badge-glow" style={{ marginBottom: "1rem" }}>
                 Our Mission
               </span>
-              <h2 style={{ fontSize: "2rem", fontWeight: 700, color: "#ffffff", marginTop: "0.5rem", marginBottom: "1rem" }}>
+              <h2 style={{ fontSize: "2rem", fontWeight: 700, marginTop: "0.5rem", marginBottom: "1rem" }}>
                 Delivering Innovation with Precision & Passion.
               </h2>
               <p style={{ color: "var(--text-secondary)", fontSize: "1.05rem", lineHeight: 1.7 }}>
@@ -178,11 +166,9 @@ export default function CompanyPage() {
 
       {/* Our Journey & Milestones (2021 - 2026) */}
       <section
+        className="section-alt"
         style={{
           padding: "5.5rem 0",
-          backgroundColor: "rgba(11, 17, 32, 0.6)",
-          borderTop: "1px solid rgba(255, 255, 255, 0.06)",
-          borderBottom: "1px solid rgba(255, 255, 255, 0.06)",
         }}
       >
         <div className="container-custom">
@@ -190,7 +176,7 @@ export default function CompanyPage() {
             <span className="badge-glow" style={{ marginBottom: "0.75rem" }}>
               The Opash Evolution
             </span>
-            <h2 className="heading-section" style={{ color: "#ffffff", marginTop: "0.5rem" }}>
+            <h2 className="heading-section" style={{ marginTop: "0.5rem" }}>
               Our Journey Over The Years
             </h2>
             <p className="subhead-lead" style={{ marginTop: "0.75rem" }}>
@@ -211,10 +197,9 @@ export default function CompanyPage() {
                     gridTemplateColumns: "100px 1fr",
                     gap: "2rem",
                     alignItems: "center",
-                    border: "1px solid rgba(255, 255, 255, 0.08)",
                   }}
                 >
-                  <div style={{ textAlign: "center", borderRight: "1px solid rgba(255, 255, 255, 0.08)", paddingRight: "1.5rem" }}>
+                  <div style={{ textAlign: "center", borderRight: "1px solid var(--border-subtle)", paddingRight: "1.5rem" }}>
                     <div style={{ fontSize: "1.75rem", fontWeight: 800, color: "var(--color-cyan)" }}>
                       {m.year}
                     </div>
@@ -224,8 +209,8 @@ export default function CompanyPage() {
                         fontWeight: 700,
                         padding: "0.2rem 0.5rem",
                         borderRadius: "999px",
-                        backgroundColor: "rgba(14, 80, 215, 0.2)",
-                        color: "#ffffff",
+                        backgroundColor: "rgba(71, 109, 154, 0.2)",
+                        color: "var(--color-primary-light)",
                         marginTop: "0.25rem",
                         display: "inline-block",
                       }}
@@ -235,7 +220,7 @@ export default function CompanyPage() {
                   </div>
 
                   <div>
-                    <h3 style={{ fontSize: "1.3rem", fontWeight: 700, color: "#ffffff", marginBottom: "0.4rem" }}>
+                    <h3 style={{ fontSize: "1.3rem", fontWeight: 700, marginBottom: "0.4rem" }}>
                       {m.title}
                     </h3>
                     <p style={{ color: "var(--text-secondary)", fontSize: "0.95rem", lineHeight: 1.6 }}>
@@ -256,7 +241,7 @@ export default function CompanyPage() {
             <span className="badge-glow" style={{ marginBottom: "0.75rem" }}>
               Guiding Principles
             </span>
-            <h2 className="heading-section" style={{ color: "#ffffff", marginTop: "0.5rem" }}>
+            <h2 className="heading-section" style={{ marginTop: "0.5rem" }}>
               Our Core Cultural Values
             </h2>
             <p className="subhead-lead" style={{ marginTop: "0.75rem" }}>
@@ -277,17 +262,13 @@ export default function CompanyPage() {
                 <div
                   key={v.title}
                   className="interactive-card"
-                  style={{
-                    backgroundColor: "rgba(15, 23, 42, 0.75)",
-                    border: "1px solid rgba(255, 255, 255, 0.08)",
-                  }}
                 >
                   <div
                     style={{
                       width: 44,
                       height: 44,
                       borderRadius: "10px",
-                      backgroundColor: "rgba(14, 80, 215, 0.2)",
+                      backgroundColor: "rgba(71, 109, 154, 0.2)",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -297,7 +278,7 @@ export default function CompanyPage() {
                   >
                     <IconComp size={22} />
                   </div>
-                  <h3 style={{ fontSize: "1.25rem", fontWeight: 700, color: "#ffffff", marginBottom: "0.6rem" }}>
+                  <h3 style={{ fontSize: "1.25rem", fontWeight: 700, marginBottom: "0.6rem" }}>
                     {v.title}
                   </h3>
                   <p style={{ color: "var(--text-secondary)", fontSize: "0.95rem", lineHeight: 1.6 }}>
@@ -312,19 +293,16 @@ export default function CompanyPage() {
 
       {/* Leadership Profile */}
       <section
+        className="section-alt"
         style={{
           padding: "5rem 0",
-          backgroundColor: "rgba(11, 17, 32, 0.7)",
-          borderTop: "1px solid rgba(255, 255, 255, 0.06)",
         }}
       >
         <div className="container-custom">
           <div
-            className="glass-panel"
+            className="glass-panel cta-banner-box"
             style={{
               padding: "3.5rem",
-              background: "linear-gradient(135deg, rgba(14, 80, 215, 0.15) 0%, rgba(15, 23, 42, 0.95) 100%)",
-              border: "1px solid rgba(14, 80, 215, 0.35)",
             }}
           >
             <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: "3rem" }} className="founder-grid">
@@ -332,7 +310,7 @@ export default function CompanyPage() {
                 <span className="badge-glow" style={{ marginBottom: "1rem" }}>
                   Visionary Leadership
                 </span>
-                <h2 style={{ fontSize: "2.4rem", fontWeight: 800, color: "#ffffff", marginTop: "0.5rem", marginBottom: "0.5rem" }}>
+                <h2 style={{ fontSize: "2.4rem", fontWeight: 800, marginTop: "0.5rem", marginBottom: "0.5rem" }}>
                   Hiren Danecha
                 </h2>
                 <div style={{ color: "var(--color-cyan)", fontSize: "1.1rem", fontWeight: 600, marginBottom: "1.5rem" }}>
@@ -350,7 +328,7 @@ export default function CompanyPage() {
                       style={{
                         padding: "0.3rem 0.8rem",
                         borderRadius: "var(--radius-full)",
-                        backgroundColor: "rgba(255, 255, 255, 0.05)",
+                        backgroundColor: "var(--bg-elevated)",
                         color: "var(--text-muted)",
                         fontSize: "0.8rem",
                         border: "1px solid var(--border-subtle)",
@@ -384,6 +362,7 @@ export default function CompanyPage() {
 
               {/* Graphic Card */}
               <div
+                className="founder-graphic-card"
                 style={{
                   display: "flex",
                   flexDirection: "column",
@@ -392,8 +371,6 @@ export default function CompanyPage() {
                   textAlign: "center",
                   padding: "2.5rem",
                   borderRadius: "var(--radius-xl)",
-                  backgroundColor: "rgba(11, 17, 32, 0.8)",
-                  border: "1px solid rgba(255, 255, 255, 0.08)",
                 }}
               >
                 <div
@@ -401,7 +378,7 @@ export default function CompanyPage() {
                     width: 130,
                     height: 130,
                     borderRadius: "50%",
-                    background: "linear-gradient(135deg, #0e50d7, #00d2ff)",
+                    background: "linear-gradient(135deg, #476D9A, #5EC098)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -409,12 +386,12 @@ export default function CompanyPage() {
                     fontSize: "2.5rem",
                     fontWeight: 800,
                     marginBottom: "1.5rem",
-                    boxShadow: "0 0 35px rgba(14, 80, 215, 0.5)",
+                    boxShadow: "0 0 35px rgba(71, 109, 154, 0.5)",
                   }}
                 >
                   HD
                 </div>
-                <h3 style={{ fontSize: "1.5rem", fontWeight: 700, color: "#ffffff" }}>
+                <h3 style={{ fontSize: "1.5rem", fontWeight: 700 }}>
                   {companyData.ceo.name}
                 </h3>
                 <div style={{ color: "var(--color-cyan)", fontSize: "0.95rem", fontWeight: 600, marginTop: "0.25rem" }}>

@@ -15,6 +15,7 @@ import {
   MessageSquare,
   Sparkles
 } from "lucide-react";
+import AtmosphericHero from "@/components/AtmosphericHero";
 
 export default function ContactPage() {
   return (
@@ -26,40 +27,33 @@ export default function ContactPage() {
           top: "-50px",
           left: "50%",
           transform: "translateX(-50%)",
-          background: "radial-gradient(circle, #0e50d7 0%, transparent 70%)",
+          background: "radial-gradient(circle, #476D9A 0%, transparent 70%)",
         }}
       />
 
-      {/* Hero */}
-      <section
-        style={{
-          paddingTop: "6rem",
-          paddingBottom: "4.5rem",
-          position: "relative",
-          zIndex: 1,
-          borderBottom: "1px solid rgba(255, 255, 255, 0.08)",
+      {/* Atmospheric Hero Section */}
+      <AtmosphericHero
+        badge="DIRECT ENGINEERING ACCESS"
+        titleTop="Start your software initiative"
+        titleAccent="with tech leads"
+        subheadline="Whether you have an extensive PRD or an early-stage architecture concept, our technical leaders are ready to evaluate feasibility, estimate sprints, and guide your roadmap."
+        primaryCta={{ label: "Send Direct Inquiry", href: "#inquiry-form" }}
+        secondaryCta={{ label: "Chat on WhatsApp", href: companyData.contact.whatsapp }}
+        leftCard={{
+          tag: "RAPID RESPONSE SLA",
+          title: "Direct Lead Access",
+          description: "Connect directly with senior solution architects and engineering directors, not sales gatekeepers.",
+          graphType: "arc",
+          metric: "Guaranteed Same-Day SLA",
         }}
-      >
-        <div className="container-custom" style={{ textAlign: "center" }}>
-          <div className="flex items-center justify-center gap-2" style={{ color: "var(--text-muted)", fontSize: "0.85rem", marginBottom: "1.5rem" }}>
-            <Link href="/" style={{ color: "var(--text-secondary)", textDecoration: "none" }}>Home</Link>
-            <span>/</span>
-            <span style={{ color: "var(--color-cyan)" }}>Contact Us</span>
-          </div>
-
-          <span className="badge-glow" style={{ marginBottom: "1rem" }}>
-            Let’s Connect
-          </span>
-
-          <h1 className="heading-display" style={{ maxWidth: "860px", margin: "0.75rem auto 1.5rem auto", color: "#ffffff" }}>
-            Start Your Next Software Initiative with <span className="gradient-text">Opash Software</span>
-          </h1>
-
-          <p className="subhead-lead" style={{ maxWidth: "720px", margin: "0 auto 2rem auto" }}>
-            Whether you have a fully documented technical specification or an early-stage concept, our engineering team is here to scope, evaluate feasibility, and guide your roadmap.
-          </p>
-        </div>
-      </section>
+        rightCard={{
+          tag: "SEAMLESS COLLABORATION",
+          title: "Global Timezone Sync",
+          description: "Active sprint overlap across North America (PST / EST), Europe (GMT / CET), and Middle East (GST) business hours.",
+          graphType: "cycle",
+          metric: "100% Client NDA Coverage",
+        }}
+      />
 
       {/* Main Content: Info Cards & Form */}
       <section className="section-padding">
@@ -72,8 +66,7 @@ export default function ContactPage() {
                 className="glass-panel"
                 style={{
                   padding: "2.5rem",
-                  backgroundColor: "rgba(15, 23, 42, 0.8)",
-                  border: "1px solid rgba(14, 80, 215, 0.35)",
+                  border: "1px solid var(--border-subtle)",
                 }}
               >
                 <div className="flex items-center gap-3" style={{ marginBottom: "1.5rem" }}>
@@ -82,7 +75,7 @@ export default function ContactPage() {
                       width: 44,
                       height: 44,
                       borderRadius: "10px",
-                      background: "linear-gradient(135deg, #0e50d7, #00d2ff)",
+                      background: "linear-gradient(135deg, #476D9A, #5EC098)",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -92,7 +85,7 @@ export default function ContactPage() {
                     <MapPin size={22} />
                   </div>
                   <div>
-                    <h3 style={{ fontSize: "1.3rem", fontWeight: 700, color: "#ffffff" }}>
+                    <h3 style={{ fontSize: "1.3rem", fontWeight: 700, color: "var(--text-primary)" }}>
                       Global Headquarters
                     </h3>
                     <div style={{ color: "var(--color-cyan)", fontSize: "0.85rem", fontWeight: 600 }}>
@@ -122,11 +115,10 @@ export default function ContactPage() {
                 className="glass-panel"
                 style={{
                   padding: "2.5rem",
-                  backgroundColor: "rgba(15, 23, 42, 0.8)",
-                  border: "1px solid rgba(255, 255, 255, 0.08)",
+                  border: "1px solid var(--border-subtle)",
                 }}
               >
-                <h4 style={{ color: "#ffffff", fontSize: "1.15rem", fontWeight: 700, marginBottom: "1.5rem" }}>
+                <h4 style={{ color: "var(--text-primary)", fontSize: "1.15rem", fontWeight: 700, marginBottom: "1.5rem" }}>
                   Direct Contact Channels
                 </h4>
 
@@ -138,7 +130,8 @@ export default function ContactPage() {
                         width: 38,
                         height: 38,
                         borderRadius: "8px",
-                        backgroundColor: "rgba(255, 255, 255, 0.04)",
+                        backgroundColor: "var(--bg-elevated)",
+                        border: "1px solid var(--border-subtle)",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
@@ -149,7 +142,7 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <div style={{ color: "var(--text-muted)", fontSize: "0.8rem" }}>Direct Phone:</div>
-                      <a href={`tel:${companyData.contact.phoneClean}`} style={{ color: "#ffffff", fontWeight: 600, textDecoration: "none" }}>
+                      <a href={`tel:${companyData.contact.phoneClean}`} style={{ color: "var(--text-primary)", fontWeight: 600, textDecoration: "none" }}>
                         {companyData.contact.phone}
                       </a>
                     </div>
@@ -162,7 +155,8 @@ export default function ContactPage() {
                         width: 38,
                         height: 38,
                         borderRadius: "8px",
-                        backgroundColor: "rgba(255, 255, 255, 0.04)",
+                        backgroundColor: "var(--bg-elevated)",
+                        border: "1px solid var(--border-subtle)",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
@@ -173,7 +167,7 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <div style={{ color: "var(--text-muted)", fontSize: "0.8rem" }}>Executive Email:</div>
-                      <a href={`mailto:${companyData.contact.email}`} style={{ color: "#ffffff", fontWeight: 600, textDecoration: "none" }}>
+                      <a href={`mailto:${companyData.contact.email}`} style={{ color: "var(--text-primary)", fontWeight: 600, textDecoration: "none" }}>
                         {companyData.contact.email}
                       </a>
                     </div>
@@ -210,7 +204,8 @@ export default function ContactPage() {
                         width: 38,
                         height: 38,
                         borderRadius: "8px",
-                        backgroundColor: "rgba(255, 255, 255, 0.04)",
+                        backgroundColor: "var(--bg-elevated)",
+                        border: "1px solid var(--border-subtle)",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
@@ -234,8 +229,7 @@ export default function ContactPage() {
                 className="glass-panel"
                 style={{
                   padding: "1.75rem",
-                  backgroundColor: "rgba(15, 23, 42, 0.7)",
-                  border: "1px solid rgba(255, 255, 255, 0.08)",
+                  border: "1px solid var(--border-subtle)",
                 }}
               >
                 <div className="flex items-center gap-2" style={{ color: "var(--color-cyan)", fontSize: "0.85rem", fontWeight: 700, textTransform: "uppercase", marginBottom: "0.75rem" }}>

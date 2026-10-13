@@ -19,7 +19,7 @@ export default function Footer() {
     <footer
       style={{
         backgroundColor: "var(--bg-secondary)",
-        borderTop: "1px solid rgba(255, 255, 255, 0.08)",
+        borderTop: "1px solid var(--border-subtle)",
         position: "relative",
         overflow: "hidden",
         paddingTop: "5rem",
@@ -35,7 +35,7 @@ export default function Footer() {
           transform: "translateX(-50%)",
           width: 800,
           height: 350,
-          background: "radial-gradient(circle, rgba(14, 80, 215, 0.15) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(71, 109, 154, 0.2) 0%, transparent 70%)",
           filter: "blur(90px)",
           pointerEvents: "none",
         }}
@@ -44,12 +44,10 @@ export default function Footer() {
       <div className="container-custom" style={{ position: "relative", zIndex: 1 }}>
         {/* Top CTA Banner */}
         <div
-          className="glass-panel"
+          className="glass-panel cta-banner-box"
           style={{
             padding: "3rem 2.5rem",
             marginBottom: "4.5rem",
-            background: "linear-gradient(135deg, rgba(14, 80, 215, 0.25) 0%, rgba(11, 17, 32, 0.95) 100%)",
-            borderColor: "rgba(14, 80, 215, 0.4)",
           }}
         >
           <div className="flex justify-between items-center flex-wrap gap-6">
@@ -57,7 +55,7 @@ export default function Footer() {
               <span className="badge-glow" style={{ marginBottom: "1rem" }}>
                 Ready To Build Something Great?
               </span>
-              <h3 style={{ fontSize: "clamp(1.75rem, 3vw, 2.5rem)", fontWeight: 800, color: "#ffffff", marginTop: "0.5rem", lineHeight: 1.2 }}>
+              <h3 style={{ fontSize: "clamp(1.75rem, 3vw, 2.5rem)", fontWeight: 800, color: "var(--text-primary)", marginTop: "0.5rem", lineHeight: 1.2 }}>
                 Transform Your Vision Into High-Impact Software
               </h3>
               <p style={{ color: "var(--text-secondary)", marginTop: "0.75rem", fontSize: "1.05rem" }}>
@@ -96,9 +94,9 @@ export default function Footer() {
             <Link href="/" style={{ display: "inline-block", marginBottom: "1.25rem" }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/images/OpashLogo.png"
+                src="/images/Opash.png"
                 alt="Opash Software Logo"
-                style={{ maxHeight: 42, width: "auto", objectFit: "contain" }}
+                style={{ maxHeight: 44, width: "auto", objectFit: "contain" }}
               />
             </Link>
             <p style={{ color: "var(--text-secondary)", fontSize: "0.95rem", lineHeight: 1.7, marginBottom: "1.5rem" }}>
@@ -127,11 +125,12 @@ export default function Footer() {
                   width: 38,
                   height: 38,
                   borderRadius: "50%",
-                  backgroundColor: "rgba(255, 255, 255, 0.06)",
+                  backgroundColor: "var(--bg-elevated)",
+                  border: "1px solid var(--border-subtle)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  color: "#ffffff",
+                  color: "var(--text-primary)",
                   transition: "all 0.2s",
                 }}
                 aria-label="LinkedIn"
@@ -148,11 +147,12 @@ export default function Footer() {
                   width: 38,
                   height: 38,
                   borderRadius: "50%",
-                  backgroundColor: "rgba(255, 255, 255, 0.06)",
+                  backgroundColor: "var(--bg-elevated)",
+                  border: "1px solid var(--border-subtle)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  color: "#ffffff",
+                  color: "var(--text-primary)",
                   transition: "all 0.2s",
                 }}
                 aria-label="Instagram"
@@ -171,11 +171,12 @@ export default function Footer() {
                   width: 38,
                   height: 38,
                   borderRadius: "50%",
-                  backgroundColor: "rgba(255, 255, 255, 0.06)",
+                  backgroundColor: "var(--bg-elevated)",
+                  border: "1px solid var(--border-subtle)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  color: "#ffffff",
+                  color: "var(--text-primary)",
                   transition: "all 0.2s",
                 }}
                 aria-label="Facebook"
@@ -189,7 +190,7 @@ export default function Footer() {
 
           {/* Column 2: Core Services */}
           <div>
-            <h4 style={{ color: "#ffffff", fontSize: "1.1rem", fontWeight: 700, marginBottom: "1.25rem", letterSpacing: "-0.01em" }}>
+            <h4 style={{ color: "var(--text-primary)", fontSize: "1.1rem", fontWeight: 700, marginBottom: "1.25rem", letterSpacing: "-0.01em" }}>
               Services
             </h4>
             <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "0.75rem" }}>
@@ -238,7 +239,7 @@ export default function Footer() {
 
           {/* Column 3: Company & Insights */}
           <div>
-            <h4 style={{ color: "#ffffff", fontSize: "1.1rem", fontWeight: 700, marginBottom: "1.25rem", letterSpacing: "-0.01em" }}>
+            <h4 style={{ color: "var(--text-primary)", fontSize: "1.1rem", fontWeight: 700, marginBottom: "1.25rem", letterSpacing: "-0.01em" }}>
               Company
             </h4>
             <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "0.75rem" }}>
@@ -282,7 +283,7 @@ export default function Footer() {
 
           {/* Column 4: Contact & Location */}
           <div>
-            <h4 style={{ color: "#ffffff", fontSize: "1.1rem", fontWeight: 700, marginBottom: "1.25rem", letterSpacing: "-0.01em" }}>
+            <h4 style={{ color: "var(--text-primary)", fontSize: "1.1rem", fontWeight: 700, marginBottom: "1.25rem", letterSpacing: "-0.01em" }}>
               Global Headquarters
             </h4>
             <div className="flex flex-col gap-4" style={{ fontSize: "0.95rem", color: "var(--text-secondary)" }}>
@@ -320,7 +321,7 @@ export default function Footer() {
                 style={{
                   marginTop: "0.75rem",
                   padding: "0.85rem 1rem",
-                  backgroundColor: "rgba(255, 255, 255, 0.04)",
+                  backgroundColor: "var(--bg-elevated)",
                   borderRadius: "var(--radius-md)",
                   border: "1px solid var(--border-subtle)",
                 }}
@@ -337,8 +338,8 @@ export default function Footer() {
         {/* Global Hubs Marquee */}
         <div
           style={{
-            borderTop: "1px solid rgba(255, 255, 255, 0.08)",
-            borderBottom: "1px solid rgba(255, 255, 255, 0.08)",
+            borderTop: "1px solid var(--border-subtle)",
+            borderBottom: "1px solid var(--border-subtle)",
             padding: "1.25rem 0",
             marginBottom: "2rem",
           }}
@@ -351,7 +352,7 @@ export default function Footer() {
               {companyData.globalPresence.map((loc) => (
                 <span key={loc.country} className="flex items-center gap-2">
                   <span style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: "var(--color-cyan)" }} />
-                  <strong style={{ color: "#ffffff", fontWeight: 600 }}>{loc.country}</strong>
+                  <strong style={{ color: "var(--text-primary)", fontWeight: 600 }}>{loc.country}</strong>
                   <span style={{ color: "var(--text-muted)", fontSize: "0.8rem" }}>({loc.timezone})</span>
                 </span>
               ))}

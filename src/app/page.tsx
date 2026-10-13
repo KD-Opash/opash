@@ -28,6 +28,7 @@ import {
   X
 } from "lucide-react";
 import { companyData } from "@/data/company";
+import AtmosphericHero from "@/components/AtmosphericHero";
 import { servicesData } from "@/data/services";
 import { caseStudiesData } from "@/data/case-studies";
 import { industriesData } from "@/data/industries";
@@ -58,7 +59,7 @@ export default function HomePage() {
           top: "-100px",
           left: "50%",
           transform: "translateX(-50%)",
-          background: "radial-gradient(circle, #0e50d7 0%, transparent 70%)",
+          background: "radial-gradient(circle, #476D9A 0%, transparent 70%)",
         }}
       />
       <div
@@ -66,93 +67,34 @@ export default function HomePage() {
         style={{
           top: "800px",
           right: "-100px",
-          background: "radial-gradient(circle, #00d2ff 0%, transparent 70%)",
+          background: "radial-gradient(circle, #5EC098 0%, transparent 70%)",
           opacity: 0.15,
         }}
       />
 
       {/* ========================================================= */}
-      {/* SECTION 1: HERO */}
+      {/* SECTION 1: ATMOSPHERIC HERO */}
       {/* ========================================================= */}
-      <section
-        style={{
-          paddingTop: "5rem",
-          paddingBottom: "5.5rem",
-          position: "relative",
-          zIndex: 1,
+      <AtmosphericHero
+        badge="Opash Global Delivery Hub v2.4 is Live • 50+ In-House Engineers"
+        titleTop="Think Global Scale."
+        titleAccent="Act Like a Pro."
+        subheadline="Smarter custom software starts with dedicated engineering squads, AI-driven architectures, and 96% client retention. Delivered from Surat, India to partners across the US, UK, Europe, UAE, and Australia."
+        primaryCta={{ label: "Start Project Now", href: "/get-a-quote" }}
+        secondaryCta={{ label: "WhatsApp Consultation", href: companyData.contact.whatsapp }}
+        leftCard={{
+          tag: "50+ IN-HOUSE DEVELOPERS",
+          title: "Global Engineering Velocity",
+          description: "From our Surat development center, our 50+ tech experts build enterprise web apps, cross-platform mobile apps, and scalable cloud SaaS for international partners.",
+          metric: "96% Client Retention",
         }}
-      >
-        <div className="container-custom" style={{ textAlign: "center" }}>
-          {/* Top Pill */}
-          <div style={{ display: "inline-block", marginBottom: "1.5rem" }}>
-            <span className="badge-glow" style={{ fontSize: "0.85rem", padding: "0.45rem 1.25rem" }}>
-              ⚡ Top Global Partner For Custom Software & AI Solutions
-            </span>
-          </div>
-
-          {/* Kinetic Headline */}
-          <h1
-            className="heading-display"
-            style={{
-              maxWidth: "1050px",
-              margin: "0 auto 1.5rem auto",
-              color: "#ffffff",
-            }}
-          >
-            Engineering Scalable{" "}
-            <span className="gradient-text">Custom Software, Cloud SaaS</span> & Next-Gen AI
-          </h1>
-
-          {/* Subtitle */}
-          <p
-            className="subhead-lead"
-            style={{
-              maxWidth: "800px",
-              margin: "0 auto 2.5rem auto",
-            }}
-          >
-            We transform bold ideas into robust digital products. From high-concurrency web & mobile apps to private LLM agents, Opash Software empowers startups and enterprises with agile speed and zero technical debt.
-          </p>
-
-          {/* Action CTAs */}
-          <div className="flex items-center justify-center gap-4 flex-wrap" style={{ marginBottom: "4rem" }}>
-            <Link
-              href="/get-a-quote"
-              className="btn-primary"
-              style={{ padding: "1.05rem 2.4rem", fontSize: "1.05rem" }}
-            >
-              <Sparkles size={18} />
-              <span>Estimate Your Project</span>
-            </Link>
-            <Link
-              href="/portfolio"
-              className="btn-secondary"
-              style={{ padding: "1.05rem 2.2rem", fontSize: "1.05rem" }}
-            >
-              <span>Explore Verified Work</span>
-              <ArrowRight size={18} />
-            </Link>
-            <a
-              href={companyData.contact.whatsapp}
-              target="_blank"
-              rel="noreferrer"
-              className="glass-pill"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.5rem",
-                padding: "0.95rem 1.6rem",
-                color: "#25D366",
-                textDecoration: "none",
-                fontWeight: 600,
-                fontSize: "0.95rem",
-              }}
-            >
-              <span>Direct WhatsApp Chat</span>
-            </a>
-          </div>
-
-          {/* Live Stats Cards Grid */}
+        rightCard={{
+          tag: "RISK-FREE CLIENT GUARANTEE",
+          title: "Predictable & Transparent",
+          description: "Start with our 2-week risk-free trial, retain 100% source code ownership, and communicate directly with technical architects under strict NDA.",
+          metric: "100% IP Ownership",
+        }}
+        bottomChildren={
           <div
             style={{
               display: "grid",
@@ -172,7 +114,7 @@ export default function HomePage() {
             </div>
 
             <div className="glass-panel" style={{ padding: "1.5rem", textAlign: "center" }}>
-              <div style={{ fontSize: "2.75rem", fontWeight: 800, color: "#ffffff" }}>
+              <div style={{ fontSize: "2.75rem", fontWeight: 800, color: "var(--text-primary)" }}>
                 {companyData.stats.projectsDelivered}
               </div>
               <div style={{ color: "var(--text-secondary)", fontSize: "0.9rem", fontWeight: 500, marginTop: "0.25rem" }}>
@@ -190,7 +132,7 @@ export default function HomePage() {
             </div>
 
             <div className="glass-panel" style={{ padding: "1.5rem", textAlign: "center" }}>
-              <div style={{ fontSize: "2.75rem", fontWeight: 800, color: "#ffffff" }}>
+              <div style={{ fontSize: "2.75rem", fontWeight: 800, color: "var(--text-primary)" }}>
                 {companyData.stats.yearsExperience}
               </div>
               <div style={{ color: "var(--text-secondary)", fontSize: "0.9rem", fontWeight: 500, marginTop: "0.25rem" }}>
@@ -207,17 +149,15 @@ export default function HomePage() {
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        }
+      />
 
       {/* ========================================================= */}
       {/* SECTION 2: VERIFIED RECOGNITIONS TICKER */}
       {/* ========================================================= */}
       <section
+        className="section-alt"
         style={{
-          borderTop: "1px solid rgba(255, 255, 255, 0.08)",
-          borderBottom: "1px solid rgba(255, 255, 255, 0.08)",
-          backgroundColor: "rgba(11, 17, 32, 0.7)",
           padding: "2rem 0",
         }}
       >
@@ -230,7 +170,7 @@ export default function HomePage() {
               {companyData.recognitions.map((rec) => (
                 <div key={rec.name} className="flex items-center gap-2">
                   <Star size={16} fill="#f59e0b" color="#f59e0b" />
-                  <span style={{ color: "#ffffff", fontWeight: 700, fontSize: "0.95rem" }}>{rec.name}</span>
+                  <span style={{ color: "var(--text-primary)", fontWeight: 700, fontSize: "0.95rem" }}>{rec.name}</span>
                   <span style={{ color: "var(--color-cyan)", fontSize: "0.85rem", fontWeight: 600 }}>({rec.rating})</span>
                 </div>
               ))}
@@ -248,7 +188,7 @@ export default function HomePage() {
             <span className="badge-glow" style={{ marginBottom: "0.75rem" }}>
               Full-Spectrum Engineering
             </span>
-            <h2 className="heading-section" style={{ color: "#ffffff", marginTop: "0.5rem" }}>
+            <h2 className="heading-section" style={{ marginTop: "0.5rem" }}>
               Our Core Services & Solutions
             </h2>
             <p className="subhead-lead" style={{ marginTop: "0.75rem" }}>
@@ -269,10 +209,6 @@ export default function HomePage() {
                 <div
                   key={s.id}
                   className="interactive-card flex flex-col justify-between"
-                  style={{
-                    backgroundColor: "rgba(15, 23, 42, 0.75)",
-                    border: "1px solid rgba(255, 255, 255, 0.08)",
-                  }}
                 >
                   <div>
                     <div className="flex items-center justify-between" style={{ marginBottom: "1.25rem" }}>
@@ -281,8 +217,8 @@ export default function HomePage() {
                           width: 48,
                           height: 48,
                           borderRadius: "12px",
-                          backgroundColor: "rgba(14, 80, 215, 0.2)",
-                          border: "1px solid rgba(0, 210, 255, 0.3)",
+                          backgroundColor: "rgba(71, 109, 154, 0.2)",
+                          border: "1px solid rgba(94, 192, 152, 0.35)",
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
@@ -297,7 +233,7 @@ export default function HomePage() {
                           fontWeight: 700,
                           padding: "0.25rem 0.65rem",
                           borderRadius: "999px",
-                          backgroundColor: "rgba(255, 255, 255, 0.05)",
+                          backgroundColor: "var(--bg-elevated)",
                           color: "var(--text-secondary)",
                           border: "1px solid var(--border-subtle)",
                         }}
@@ -306,7 +242,7 @@ export default function HomePage() {
                       </span>
                     </div>
 
-                    <h3 style={{ fontSize: "1.35rem", fontWeight: 700, color: "#ffffff", marginBottom: "0.75rem" }}>
+                    <h3 style={{ fontSize: "1.35rem", fontWeight: 700, marginBottom: "0.75rem" }}>
                       {s.title}
                     </h3>
 
@@ -323,9 +259,9 @@ export default function HomePage() {
                             fontSize: "0.75rem",
                             padding: "0.2rem 0.6rem",
                             borderRadius: "var(--radius-sm)",
-                            backgroundColor: "rgba(255, 255, 255, 0.04)",
+                            backgroundColor: "var(--bg-elevated)",
                             color: "var(--text-muted)",
-                            border: "1px solid rgba(255, 255, 255, 0.06)",
+                            border: "1px solid var(--border-subtle)",
                           }}
                         >
                           {tech}
@@ -342,7 +278,7 @@ export default function HomePage() {
                       fontWeight: 600,
                       fontSize: "0.95rem",
                       textDecoration: "none",
-                      borderTop: "1px solid rgba(255, 255, 255, 0.08)",
+                      borderTop: "1px solid var(--border-subtle)",
                       paddingTop: "1rem",
                       transition: "gap 0.2s ease",
                     }}
@@ -361,11 +297,9 @@ export default function HomePage() {
       {/* SECTION 4: INTERACTIVE PROJECT COST ESTIMATOR */}
       {/* ========================================================= */}
       <section
+        className="section-alt"
         style={{
           padding: "5rem 0",
-          backgroundColor: "rgba(11, 17, 32, 0.5)",
-          borderTop: "1px solid rgba(255, 255, 255, 0.06)",
-          borderBottom: "1px solid rgba(255, 255, 255, 0.06)",
         }}
       >
         <div className="container-custom">
@@ -383,7 +317,7 @@ export default function HomePage() {
               <span className="badge-glow" style={{ marginBottom: "0.75rem" }}>
                 Proven Client Outcomes
               </span>
-              <h2 className="heading-section" style={{ color: "#ffffff", marginTop: "0.5rem" }}>
+              <h2 className="heading-section" style={{ marginTop: "0.5rem" }}>
                 Featured Client Success Stories
               </h2>
             </div>
@@ -404,10 +338,6 @@ export default function HomePage() {
               <div
                 key={cs.id}
                 className="interactive-card flex flex-col justify-between"
-                style={{
-                  backgroundColor: "rgba(15, 23, 42, 0.85)",
-                  border: "1px solid rgba(255, 255, 255, 0.08)",
-                }}
               >
                 <div>
                   <div className="flex justify-between items-center" style={{ marginBottom: "1rem" }}>
@@ -439,7 +369,7 @@ export default function HomePage() {
                     </a>
                   </div>
 
-                  <h3 style={{ fontSize: "1.35rem", fontWeight: 700, color: "#ffffff", marginBottom: "0.75rem" }}>
+                  <h3 style={{ fontSize: "1.35rem", fontWeight: 700, marginBottom: "0.75rem" }}>
                     {cs.headline}
                   </h3>
 
@@ -453,7 +383,7 @@ export default function HomePage() {
                       display: "grid",
                       gridTemplateColumns: "1fr 1fr",
                       gap: "0.75rem",
-                      backgroundColor: "rgba(255, 255, 255, 0.03)",
+                      backgroundColor: "var(--bg-elevated)",
                       padding: "1rem",
                       borderRadius: "var(--radius-md)",
                       marginBottom: "1.5rem",
@@ -479,11 +409,11 @@ export default function HomePage() {
                 </div>
 
                 {/* Testimonial Quote */}
-                <div style={{ borderTop: "1px solid rgba(255, 255, 255, 0.08)", paddingTop: "1rem" }}>
+                <div style={{ borderTop: "1px solid var(--border-subtle)", paddingTop: "1rem" }}>
                   <p style={{ color: "var(--text-secondary)", fontSize: "0.85rem", fontStyle: "italic", marginBottom: "0.75rem" }}>
                     &ldquo;{cs.testimonial.quote.slice(0, 110)}...&rdquo;
                   </p>
-                  <div style={{ color: "#ffffff", fontWeight: 600, fontSize: "0.85rem" }}>
+                  <div style={{ color: "var(--text-primary)", fontWeight: 600, fontSize: "0.85rem" }}>
                     — {cs.testimonial.author}, {cs.testimonial.role}
                   </div>
                 </div>
@@ -502,7 +432,7 @@ export default function HomePage() {
             <span className="badge-glow" style={{ marginBottom: "0.75rem" }}>
               Our Architectural Stack
             </span>
-            <h2 className="heading-section" style={{ color: "#ffffff", marginTop: "0.5rem" }}>
+            <h2 className="heading-section" style={{ marginTop: "0.5rem" }}>
               Technologies & Platforms We Master
             </h2>
             <p className="subhead-lead" style={{ marginTop: "0.75rem" }}>
@@ -518,11 +448,9 @@ export default function HomePage() {
       {/* SECTION 7: WHY CHOOSE OPASH - COMPARISON MATRIX */}
       {/* ========================================================= */}
       <section
+        className="section-alt"
         style={{
           padding: "5.5rem 0",
-          backgroundColor: "rgba(11, 17, 32, 0.6)",
-          borderTop: "1px solid rgba(255, 255, 255, 0.06)",
-          borderBottom: "1px solid rgba(255, 255, 255, 0.06)",
         }}
       >
         <div className="container-custom">
@@ -530,7 +458,7 @@ export default function HomePage() {
             <span className="badge-glow" style={{ marginBottom: "0.75rem" }}>
               The Opash Advantage
             </span>
-            <h2 className="heading-section" style={{ color: "#ffffff", marginTop: "0.5rem" }}>
+            <h2 className="heading-section" style={{ marginTop: "0.5rem" }}>
               Why Global Brands Choose Us
             </h2>
             <p className="subhead-lead" style={{ marginTop: "0.75rem" }}>
@@ -541,7 +469,7 @@ export default function HomePage() {
           <div className="glass-panel" style={{ overflowX: "auto", padding: "1.5rem" }}>
             <table style={{ width: "100%", borderCollapse: "collapse", minWidth: "680px" }}>
               <thead>
-                <tr style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.12)" }}>
+                <tr style={{ borderBottom: "1px solid var(--border-medium)" }}>
                   <th style={{ padding: "1.25rem", textAlign: "left", color: "var(--text-muted)", fontSize: "0.9rem" }}>
                     Key Engineering Metric
                   </th>
@@ -592,11 +520,11 @@ export default function HomePage() {
                   <tr
                     key={idx}
                     style={{
-                      borderBottom: "1px solid rgba(255, 255, 255, 0.06)",
-                      backgroundColor: idx % 2 === 0 ? "rgba(255, 255, 255, 0.01)" : "transparent",
+                      borderBottom: "1px solid var(--border-subtle)",
+                      backgroundColor: idx % 2 === 0 ? "var(--bg-elevated)" : "transparent",
                     }}
                   >
-                    <td style={{ padding: "1.2rem", fontWeight: 600, color: "#ffffff", fontSize: "0.95rem" }}>
+                    <td style={{ padding: "1.2rem", fontWeight: 600, color: "var(--text-primary)", fontSize: "0.95rem" }}>
                       {row.metric}
                     </td>
                     <td style={{ padding: "1.2rem", textAlign: "center", color: "#10b981", fontWeight: 700, fontSize: "0.95rem", backgroundColor: "rgba(16, 185, 129, 0.06)" }}>
@@ -625,7 +553,7 @@ export default function HomePage() {
             <span className="badge-glow" style={{ marginBottom: "0.75rem" }}>
               Domain Specialization
             </span>
-            <h2 className="heading-section" style={{ color: "#ffffff", marginTop: "0.5rem" }}>
+            <h2 className="heading-section" style={{ marginTop: "0.5rem" }}>
               Industries We Specialize In
             </h2>
             <p className="subhead-lead" style={{ marginTop: "0.75rem" }}>
@@ -646,12 +574,10 @@ export default function HomePage() {
                 className="glass-panel"
                 style={{
                   padding: "1.75rem",
-                  background: "rgba(15, 23, 42, 0.7)",
-                  border: "1px solid rgba(255, 255, 255, 0.07)",
                 }}
               >
                 <div className="flex justify-between items-center" style={{ marginBottom: "0.75rem" }}>
-                  <h3 style={{ fontSize: "1.2rem", fontWeight: 700, color: "#ffffff" }}>
+                  <h3 style={{ fontSize: "1.2rem", fontWeight: 700 }}>
                     {ind.name}
                   </h3>
                   <span
@@ -659,7 +585,7 @@ export default function HomePage() {
                       fontSize: "0.7rem",
                       fontWeight: 700,
                       color: "var(--color-cyan)",
-                      backgroundColor: "rgba(0, 210, 255, 0.1)",
+                      backgroundColor: "rgba(94, 192, 152, 0.12)",
                       padding: "0.2rem 0.5rem",
                       borderRadius: "999px",
                     }}
@@ -688,11 +614,9 @@ export default function HomePage() {
       {/* SECTION 9: CLIENT TESTIMONIALS SLIDER */}
       {/* ========================================================= */}
       <section
+        className="section-alt"
         style={{
           padding: "5.5rem 0",
-          backgroundColor: "rgba(11, 17, 32, 0.7)",
-          borderTop: "1px solid rgba(255, 255, 255, 0.06)",
-          borderBottom: "1px solid rgba(255, 255, 255, 0.06)",
         }}
       >
         <div className="container-custom">
@@ -700,7 +624,7 @@ export default function HomePage() {
             <span className="badge-glow" style={{ marginBottom: "0.75rem" }}>
               What Clients Say
             </span>
-            <h2 className="heading-section" style={{ color: "#ffffff", marginTop: "0.5rem" }}>
+            <h2 className="heading-section" style={{ marginTop: "0.5rem" }}>
               Verified Feedback From Founders & CTOs
             </h2>
           </div>
@@ -715,11 +639,9 @@ export default function HomePage() {
       <section className="section-padding">
         <div className="container-custom">
           <div
-            className="glass-panel"
+            className="glass-panel cta-banner-box"
             style={{
               padding: "3.5rem",
-              background: "linear-gradient(135deg, rgba(14, 80, 215, 0.15) 0%, rgba(15, 23, 42, 0.95) 100%)",
-              border: "1px solid rgba(14, 80, 215, 0.35)",
             }}
           >
             <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: "3rem" }} className="founder-grid">
@@ -727,7 +649,7 @@ export default function HomePage() {
                 <span className="badge-glow" style={{ marginBottom: "1rem" }}>
                   Leadership Vision
                 </span>
-                <h2 style={{ fontSize: "2.4rem", fontWeight: 800, color: "#ffffff", marginTop: "0.5rem", marginBottom: "0.5rem" }}>
+                <h2 style={{ fontSize: "2.4rem", fontWeight: 800, marginTop: "0.5rem", marginBottom: "0.5rem" }}>
                   Meet Our Founder & CEO
                 </h2>
                 <div style={{ color: "var(--color-cyan)", fontSize: "1.1rem", fontWeight: 600, marginBottom: "1.5rem" }}>
@@ -738,7 +660,6 @@ export default function HomePage() {
                   style={{
                     borderLeft: "3px solid var(--color-cyan)",
                     paddingLeft: "1.25rem",
-                    color: "#ffffff",
                     fontSize: "1.15rem",
                     fontStyle: "italic",
                     lineHeight: 1.6,
@@ -759,7 +680,7 @@ export default function HomePage() {
                       style={{
                         padding: "0.3rem 0.8rem",
                         borderRadius: "var(--radius-full)",
-                        backgroundColor: "rgba(255, 255, 255, 0.05)",
+                        backgroundColor: "var(--bg-elevated)",
                         color: "var(--text-muted)",
                         fontSize: "0.8rem",
                         border: "1px solid var(--border-subtle)",
@@ -793,6 +714,7 @@ export default function HomePage() {
 
               {/* Founder Graphic Card */}
               <div
+                className="founder-graphic-card"
                 style={{
                   display: "flex",
                   flexDirection: "column",
@@ -801,8 +723,6 @@ export default function HomePage() {
                   textAlign: "center",
                   padding: "2.5rem",
                   borderRadius: "var(--radius-xl)",
-                  backgroundColor: "rgba(11, 17, 32, 0.8)",
-                  border: "1px solid rgba(255, 255, 255, 0.08)",
                 }}
               >
                 <div
@@ -810,7 +730,7 @@ export default function HomePage() {
                     width: 130,
                     height: 130,
                     borderRadius: "50%",
-                    background: "linear-gradient(135deg, #0e50d7, #00d2ff)",
+                    background: "linear-gradient(135deg, #476D9A, #5EC098)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -818,12 +738,12 @@ export default function HomePage() {
                     fontSize: "2.5rem",
                     fontWeight: 800,
                     marginBottom: "1.5rem",
-                    boxShadow: "0 0 35px rgba(14, 80, 215, 0.5)",
+                    boxShadow: "0 0 35px rgba(71, 109, 154, 0.5)",
                   }}
                 >
                   HD
                 </div>
-                <h3 style={{ fontSize: "1.5rem", fontWeight: 700, color: "#ffffff" }}>
+                <h3 style={{ fontSize: "1.5rem", fontWeight: 700 }}>
                   {companyData.ceo.name}
                 </h3>
                 <div style={{ color: "var(--color-cyan)", fontSize: "0.95rem", fontWeight: 600, marginTop: "0.25rem" }}>
@@ -839,14 +759,14 @@ export default function HomePage() {
                     padding: "1rem",
                     width: "100%",
                     borderRadius: "var(--radius-md)",
-                    backgroundColor: "rgba(255, 255, 255, 0.03)",
+                    backgroundColor: "var(--bg-elevated)",
                     border: "1px solid var(--border-subtle)",
                     fontSize: "0.85rem",
                     color: "var(--text-secondary)",
                   }}
                 >
                   Direct Email: <br />
-                  <strong style={{ color: "#ffffff" }}>{companyData.ceo.email}</strong>
+                  <strong style={{ color: "var(--text-primary)" }}>{companyData.ceo.email}</strong>
                 </div>
               </div>
             </div>
@@ -864,7 +784,7 @@ export default function HomePage() {
               <span className="badge-glow" style={{ marginBottom: "0.75rem" }}>
                 Knowledge Sharing
               </span>
-              <h2 className="heading-section" style={{ color: "#ffffff", marginTop: "0.5rem" }}>
+              <h2 className="heading-section" style={{ marginTop: "0.5rem" }}>
                 Tech Insights by Opash
               </h2>
             </div>
@@ -885,10 +805,6 @@ export default function HomePage() {
               <div
                 key={post.slug}
                 className="interactive-card flex flex-col justify-between"
-                style={{
-                  backgroundColor: "rgba(15, 23, 42, 0.8)",
-                  border: "1px solid rgba(255, 255, 255, 0.08)",
-                }}
               >
                 <div>
                   <div className="flex justify-between items-center" style={{ marginBottom: "1rem" }}>
@@ -897,7 +813,7 @@ export default function HomePage() {
                         fontSize: "0.75rem",
                         color: "var(--color-cyan)",
                         fontWeight: 700,
-                        backgroundColor: "rgba(0, 210, 255, 0.1)",
+                        backgroundColor: "rgba(94, 192, 152, 0.12)",
                         padding: "0.2rem 0.6rem",
                         borderRadius: "999px",
                       }}
@@ -909,7 +825,7 @@ export default function HomePage() {
                     </span>
                   </div>
 
-                  <h3 style={{ fontSize: "1.25rem", fontWeight: 700, color: "#ffffff", marginBottom: "0.75rem", lineHeight: 1.4 }}>
+                  <h3 style={{ fontSize: "1.25rem", fontWeight: 700, marginBottom: "0.75rem", lineHeight: 1.4 }}>
                     <Link
                       href={`/blogs/${post.slug}`}
                       style={{ color: "inherit", textDecoration: "none" }}
@@ -923,7 +839,7 @@ export default function HomePage() {
                   </p>
                 </div>
 
-                <div className="flex justify-between items-center" style={{ borderTop: "1px solid rgba(255, 255, 255, 0.08)", paddingTop: "1rem" }}>
+                <div className="flex justify-between items-center" style={{ borderTop: "1px solid var(--border-subtle)", paddingTop: "1rem" }}>
                   <div style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>
                     By {post.author.name} • {post.date}
                   </div>
@@ -946,10 +862,9 @@ export default function HomePage() {
       {/* ========================================================= */}
       <section
         id="contact-section"
+        className="section-alt"
         style={{
           padding: "6rem 0",
-          backgroundColor: "rgba(11, 17, 32, 0.7)",
-          borderTop: "1px solid rgba(255, 255, 255, 0.06)",
         }}
       >
         <div className="container-custom">

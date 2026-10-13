@@ -14,6 +14,7 @@ import {
   ArrowRight
 } from "lucide-react";
 import { companyData } from "@/data/company";
+import AtmosphericHero from "@/components/AtmosphericHero";
 
 export default function GetAQuotePage() {
   return (
@@ -25,40 +26,33 @@ export default function GetAQuotePage() {
           top: "-50px",
           left: "50%",
           transform: "translateX(-50%)",
-          background: "radial-gradient(circle, #0e50d7 0%, transparent 70%)",
+          background: "radial-gradient(circle, #476D9A 0%, transparent 70%)",
         }}
       />
 
-      {/* Hero */}
-      <section
-        style={{
-          paddingTop: "6rem",
-          paddingBottom: "4.5rem",
-          position: "relative",
-          zIndex: 1,
-          borderBottom: "1px solid rgba(255, 255, 255, 0.08)",
+      {/* Atmospheric Hero Section */}
+      <AtmosphericHero
+        badge="TRANSPARENT PROJECT SCOPING"
+        titleTop="Accurate project estimates"
+        titleAccent="with zero surprise fees"
+        subheadline="We analyze your requirements, divide them into actionable milestones, and deliver clear fixed-price or dedicated squad sprint estimates in minutes."
+        primaryCta={{ label: "Launch Estimator Tool", href: "#estimator" }}
+        secondaryCta={{ label: "Explore Methodology", href: "#methodology" }}
+        leftCard={{
+          tag: "BUDGET SCOPING",
+          title: "Fixed Milestone Clarity",
+          description: "Clear bi-weekly deliverables with guaranteed budgets and 100% client intellectual property ownership.",
+          graphType: "arc",
+          metric: "Zero Hidden Line Items",
         }}
-      >
-        <div className="container-custom" style={{ textAlign: "center" }}>
-          <div className="flex items-center justify-center gap-2" style={{ color: "var(--text-muted)", fontSize: "0.85rem", marginBottom: "1.5rem" }}>
-            <Link href="/" style={{ color: "var(--text-secondary)", textDecoration: "none" }}>Home</Link>
-            <span>/</span>
-            <span style={{ color: "var(--color-cyan)" }}>Get a Quote</span>
-          </div>
-
-          <span className="badge-glow" style={{ marginBottom: "1rem" }}>
-            Transparent Project Scoping
-          </span>
-
-          <h1 className="heading-display" style={{ maxWidth: "880px", margin: "0.75rem auto 1.5rem auto", color: "#ffffff" }}>
-            Get an Accurate, <span className="gradient-text">Zero-Obligation Estimate</span> in Minutes
-          </h1>
-
-          <p className="subhead-lead" style={{ maxWidth: "750px", margin: "0 auto 2.5rem auto" }}>
-            We analyze your requirements, divide them into actionable milestones, and deliver clear fixed-price or dedicated team sprint estimates with zero surprise fees.
-          </p>
-        </div>
-      </section>
+        rightCard={{
+          tag: "RISK-FREE TRIAL",
+          title: "2-Week Trial Period",
+          description: "Evaluate sprint velocity, team chemistry, and architectural rigor before full milestone commitment.",
+          graphType: "cycle",
+          metric: "100% Satisfaction Guarantee",
+        }}
+      />
 
       {/* The Interactive Estimator Tool */}
       <section className="section-padding">
@@ -69,10 +63,9 @@ export default function GetAQuotePage() {
 
       {/* How Our Estimation Process Works */}
       <section
+        className="section-alt"
         style={{
           padding: "5rem 0",
-          backgroundColor: "rgba(11, 17, 32, 0.7)",
-          borderTop: "1px solid rgba(255, 255, 255, 0.06)",
         }}
       >
         <div className="container-custom">
@@ -80,7 +73,7 @@ export default function GetAQuotePage() {
             <span className="badge-glow" style={{ marginBottom: "0.75rem" }}>
               Estimation Framework
             </span>
-            <h2 className="heading-section" style={{ color: "#ffffff", marginTop: "0.5rem" }}>
+            <h2 className="heading-section" style={{ color: "var(--text-primary)", marginTop: "0.5rem" }}>
               How We Turn Ideas Into Predictable Roadmaps
             </h2>
           </div>
@@ -117,12 +110,12 @@ export default function GetAQuotePage() {
               <div
                 key={st.step}
                 className="glass-panel"
-                style={{ padding: "2rem", backgroundColor: "rgba(15, 23, 42, 0.8)" }}
+                style={{ padding: "2rem" }}
               >
                 <div style={{ fontSize: "2rem", fontWeight: 800, color: "var(--color-cyan)", marginBottom: "0.75rem" }}>
                   {st.step}
                 </div>
-                <h3 style={{ fontSize: "1.15rem", fontWeight: 700, color: "#ffffff", marginBottom: "0.5rem" }}>
+                <h3 style={{ fontSize: "1.15rem", fontWeight: 700, color: "var(--text-primary)", marginBottom: "0.5rem" }}>
                   {st.title}
                 </h3>
                 <p style={{ color: "var(--text-secondary)", fontSize: "0.9rem", lineHeight: 1.6 }}>

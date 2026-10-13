@@ -33,8 +33,7 @@ export default function ContactForm() {
         style={{
           padding: "3.5rem 2.5rem",
           textAlign: "center",
-          background: "rgba(11, 17, 32, 0.95)",
-          border: "1px solid rgba(16, 185, 129, 0.4)",
+          border: "1px solid rgba(30, 148, 101, 0.4)",
         }}
       >
         <div
@@ -42,17 +41,17 @@ export default function ContactForm() {
             width: 70,
             height: 70,
             borderRadius: "50%",
-            backgroundColor: "rgba(16, 185, 129, 0.15)",
+            backgroundColor: "rgba(30, 148, 101, 0.15)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             margin: "0 auto 1.5rem auto",
-            color: "#10b981",
+            color: "var(--color-cyan)",
           }}
         >
           <CheckCircle2 size={40} />
         </div>
-        <h3 style={{ fontSize: "1.75rem", fontWeight: 700, color: "#ffffff" }}>
+        <h3 style={{ fontSize: "1.75rem", fontWeight: 700, color: "var(--text-primary)" }}>
           Thank You, {formData.name || "Partner"}!
         </h3>
         <p style={{ color: "var(--text-secondary)", marginTop: "0.75rem", fontSize: "1.05rem", maxWidth: "480px", margin: "0.75rem auto 2rem auto" }}>
@@ -65,7 +64,7 @@ export default function ContactForm() {
             gap: "0.5rem",
             padding: "1rem 1.5rem",
             borderRadius: "var(--radius-md)",
-            backgroundColor: "rgba(255, 255, 255, 0.03)",
+            backgroundColor: "var(--bg-elevated)",
             border: "1px solid var(--border-subtle)",
             fontSize: "0.9rem",
             color: "var(--text-muted)",
@@ -91,15 +90,13 @@ export default function ContactForm() {
       className="glass-panel"
       style={{
         padding: "3rem 2.5rem",
-        background: "rgba(11, 17, 32, 0.92)",
-        border: "1px solid rgba(14, 80, 215, 0.3)",
       }}
     >
       <div style={{ marginBottom: "2rem" }}>
         <span className="badge-glow" style={{ marginBottom: "0.5rem" }}>
           Direct Engineering Inquiry
         </span>
-        <h3 style={{ fontSize: "1.6rem", fontWeight: 700, color: "#ffffff", marginTop: "0.4rem" }}>
+        <h3 style={{ fontSize: "1.6rem", fontWeight: 700, marginTop: "0.4rem" }}>
           Get In Touch With Our Tech Leads
         </h3>
         <p style={{ color: "var(--text-secondary)", fontSize: "0.95rem" }}>

@@ -32,7 +32,7 @@ export default function PrivacyPolicyPage() {
           <span className="badge-glow" style={{ marginBottom: "1rem" }}>
             Legal & Compliance
           </span>
-          <h1 style={{ fontSize: "2.75rem", fontWeight: 800, color: "#ffffff", marginTop: "0.5rem", marginBottom: "1.5rem" }}>
+          <h1 style={{ fontSize: "2.75rem", fontWeight: 800, color: "var(--text-primary)", marginTop: "0.5rem", marginBottom: "1.5rem" }}>
             Privacy Policy
           </h1>
 
@@ -40,7 +40,6 @@ export default function PrivacyPolicyPage() {
             className="glass-panel"
             style={{
               padding: "3rem",
-              backgroundColor: "rgba(15, 23, 42, 0.85)",
               color: "var(--text-secondary)",
               lineHeight: 1.8,
               fontSize: "1rem",
@@ -53,7 +52,7 @@ export default function PrivacyPolicyPage() {
               Last Updated: January 2026. At <strong>{companyData.name}</strong>, accessible from https://www.opashsoftware.com, one of our main priorities is the privacy of our visitors and clients. This Privacy Policy document describes the types of information collected and how we use and safeguard it.
             </p>
 
-            <h3 style={{ color: "#ffffff", fontSize: "1.3rem", fontWeight: 700 }}>1. Information We Collect</h3>
+            <h3 style={{ color: "var(--text-primary)", fontSize: "1.3rem", fontWeight: 700 }}>1. Information We Collect</h3>
             <p>
               We collect information that you voluntarily provide to us when expressing an interest in obtaining information about our custom software development, web development, mobile apps, SaaS, or AI services, including:
             </p>
@@ -63,7 +62,7 @@ export default function PrivacyPolicyPage() {
               <li>Job applications, resumes, and portfolios submitted through our careers portal.</li>
             </ul>
 
-            <h3 style={{ color: "#ffffff", fontSize: "1.3rem", fontWeight: 700 }}>2. How We Use Your Information</h3>
+            <h3 style={{ color: "var(--text-primary)", fontSize: "1.3rem", fontWeight: 700 }}>2. How We Use Your Information</h3>
             <p>
               We use the collected information solely to:
             </p>
@@ -74,12 +73,12 @@ export default function PrivacyPolicyPage() {
               <li>Evaluate career applications for open engineering positions.</li>
             </ul>
 
-            <h3 style={{ color: "#ffffff", fontSize: "1.3rem", fontWeight: 700 }}>3. Intellectual Property & Confidentiality</h3>
+            <h3 style={{ color: "var(--text-primary)", fontSize: "1.3rem", fontWeight: 700 }}>3. Intellectual Property & Confidentiality</h3>
             <p>
               We understand the sensitive nature of custom software systems. Opash Software enforces strict Non-Disclosure Agreements (NDAs). We never sell, rent, or disclose proprietary client concepts, database models, or codebase assets to any third party.
             </p>
 
-            <h3 style={{ color: "#ffffff", fontSize: "1.3rem", fontWeight: 700 }}>4. Contact Us</h3>
+            <h3 style={{ color: "var(--text-primary)", fontSize: "1.3rem", fontWeight: 700 }}>4. Contact Us</h3>
             <p>
               If you have additional questions or require more information about our Privacy Policy, contact us at: <br />
               <strong>Email:</strong> {companyData.contact.email} <br />

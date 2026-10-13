@@ -50,24 +50,25 @@ export default function Navbar() {
   return (
     <>
       <header
+        className={scrolled ? "site-header scrolled" : "site-header"}
         style={{
           position: "sticky",
           top: 0,
           zIndex: 100,
           width: "100%",
           transition: "all 0.3s ease",
-          backgroundColor: scrolled ? "rgba(6, 9, 17, 0.88)" : "transparent",
-          backdropFilter: scrolled ? "blur(18px)" : "none",
-          borderBottom: scrolled ? "1px solid rgba(255, 255, 255, 0.08)" : "1px solid transparent",
+          backdropFilter: "blur(18px)",
+          WebkitBackdropFilter: "blur(18px)",
         }}
       >
         {/* Top Mini Bar with phone & hours */}
         <div
           style={{
-            borderBottom: "1px solid rgba(255, 255, 255, 0.05)",
+            borderBottom: "1px solid var(--border-subtle)",
             fontSize: "0.8rem",
             color: "var(--text-muted)",
             padding: "0.4rem 0",
+            backgroundColor: "rgba(0, 0, 0, 0.02)",
           }}
         >
           <div className="container-custom flex justify-between items-center">
@@ -105,11 +106,10 @@ export default function Navbar() {
         <div className="container-custom" style={{ padding: "0.9rem 1.5rem" }}>
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <Link href="/" style={{ display: "flex", alignItems: "center", gap: "0.75rem", textDecoration: "none" }}>
+            <Link href="/" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
               <div
                 style={{
                   position: "relative",
-                  width: 140,
                   height: 42,
                   display: "flex",
                   alignItems: "center",
@@ -117,7 +117,7 @@ export default function Navbar() {
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/images/OpashLogo.png"
+                  src="/images/Opash.png"
                   alt="Opash Software"
                   style={{ maxHeight: 38, width: "auto", objectFit: "contain" }}
                   onError={(e) => {
@@ -128,19 +128,11 @@ export default function Navbar() {
               </div>
             </Link>
 
-            {/* Desktop Navigation Links */}
-            <nav className="desktop-nav flex items-center gap-6">
+            {/* Desktop Floating Pill Navigation */}
+            <nav className="desktop-nav nav-pill-container">
               <Link
                 href="/"
-                style={{
-                  color: "var(--text-primary)",
-                  textDecoration: "none",
-                  fontWeight: 500,
-                  fontSize: "0.95rem",
-                  transition: "color 0.2s",
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "var(--color-cyan)")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-primary)")}
+                className="nav-pill-link"
               >
                 Home
               </Link>
@@ -153,24 +145,16 @@ export default function Navbar() {
               >
                 <button
                   type="button"
+                  className="nav-pill-link"
                   style={{
-                    background: "none",
                     border: "none",
-                    color: "var(--text-primary)",
-                    fontWeight: 500,
-                    fontSize: "0.95rem",
                     cursor: "pointer",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "0.3rem",
-                    padding: "0.5rem 0",
-                    transition: "color 0.2s",
                   }}
                   onClick={() => setServicesDropdownOpen(!servicesDropdownOpen)}
                 >
                   Services
                   <ChevronDown
-                    size={15}
+                    size={14}
                     style={{
                       transform: servicesDropdownOpen ? "rotate(180deg)" : "rotate(0deg)",
                       transition: "transform 0.2s",
@@ -181,16 +165,17 @@ export default function Navbar() {
                 {/* Dropdown Menu */}
                 {servicesDropdownOpen && (
                   <div
+                    className="services-dropdown"
                     style={{
                       position: "absolute",
-                      top: "100%",
+                      top: "calc(100% + 8px)",
                       left: "-120px",
                       width: "600px",
-                      backgroundColor: "rgba(11, 17, 32, 0.98)",
+                      backgroundColor: "var(--bg-card)",
                       backdropFilter: "blur(20px)",
-                      border: "1px solid rgba(255, 255, 255, 0.12)",
+                      border: "1px solid var(--border-medium)",
                       borderRadius: "var(--radius-lg)",
-                      boxShadow: "0 20px 40px -10px rgba(0, 0, 0, 0.7), 0 0 30px rgba(14, 80, 215, 0.25)",
+                      boxShadow: "0 20px 40px -10px rgba(0, 0, 0, 0.4), 0 0 30px rgba(71, 109, 154, 0.15)",
                       padding: "1.25rem",
                       display: "grid",
                       gridTemplateColumns: "1fr 1fr",
@@ -216,7 +201,7 @@ export default function Navbar() {
                             backgroundColor: "rgba(255, 255, 255, 0.02)",
                           }}
                           onMouseEnter={(e) => {
-                            e.currentTarget.style.backgroundColor = "rgba(14, 80, 215, 0.15)";
+                            e.currentTarget.style.backgroundColor = "rgba(71, 109, 154, 0.15)";
                             e.currentTarget.style.borderColor = "var(--border-accent)";
                           }}
                           onMouseLeave={(e) => {
@@ -229,7 +214,7 @@ export default function Navbar() {
                               width: 36,
                               height: 36,
                               borderRadius: "8px",
-                              backgroundColor: "rgba(14, 80, 215, 0.2)",
+                              backgroundColor: "rgba(71, 109, 154, 0.2)",
                               display: "flex",
                               alignItems: "center",
                               justifyContent: "center",
@@ -240,7 +225,7 @@ export default function Navbar() {
                             <Icon size={18} />
                           </div>
                           <div>
-                            <div style={{ color: "#ffffff", fontWeight: 600, fontSize: "0.9rem" }}>{s.title}</div>
+                            <div style={{ color: "var(--text-primary)", fontWeight: 600, fontSize: "0.9rem" }}>{s.title}</div>
                             <div style={{ color: "var(--text-muted)", fontSize: "0.75rem", marginTop: 2 }}>
                               {s.desc}
                             </div>
@@ -254,69 +239,34 @@ export default function Navbar() {
 
               <Link
                 href="/company"
-                style={{
-                  color: "var(--text-primary)",
-                  textDecoration: "none",
-                  fontWeight: 500,
-                  fontSize: "0.95rem",
-                  transition: "color 0.2s",
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "var(--color-cyan)")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-primary)")}
+                className="nav-pill-link"
               >
-                Company
+                About
               </Link>
 
               <Link
                 href="/portfolio"
-                style={{
-                  color: "var(--text-primary)",
-                  textDecoration: "none",
-                  fontWeight: 500,
-                  fontSize: "0.95rem",
-                  transition: "color 0.2s",
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "var(--color-cyan)")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-primary)")}
+                className="nav-pill-link"
               >
                 Case Studies
               </Link>
 
               <Link
                 href="/blogs"
-                style={{
-                  color: "var(--text-primary)",
-                  textDecoration: "none",
-                  fontWeight: 500,
-                  fontSize: "0.95rem",
-                  transition: "color 0.2s",
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "var(--color-cyan)")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-primary)")}
+                className="nav-pill-link"
               >
-                Tech Insights
+                Insights
               </Link>
 
               <Link
                 href="/career"
-                style={{
-                  color: "var(--text-primary)",
-                  textDecoration: "none",
-                  fontWeight: 500,
-                  fontSize: "0.95rem",
-                  transition: "color 0.2s",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.3rem",
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "var(--color-cyan)")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-primary)")}
+                className="nav-pill-link"
               >
-                Career
+                Careers
                 <span
                   style={{
-                    fontSize: "0.65rem",
-                    padding: "0.1rem 0.4rem",
+                    fontSize: "0.62rem",
+                    padding: "0.1rem 0.35rem",
                     borderRadius: "999px",
                     backgroundColor: "rgba(16, 185, 129, 0.2)",
                     color: "#10b981",
@@ -329,15 +279,7 @@ export default function Navbar() {
 
               <Link
                 href="/contact"
-                style={{
-                  color: "var(--text-primary)",
-                  textDecoration: "none",
-                  fontWeight: 500,
-                  fontSize: "0.95rem",
-                  transition: "color 0.2s",
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "var(--color-cyan)")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-primary)")}
+                className="nav-pill-link"
               >
                 Contact
               </Link>
@@ -358,9 +300,9 @@ export default function Navbar() {
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 style={{
                   display: "none",
-                  background: "rgba(255, 255, 255, 0.05)",
+                  background: "var(--bg-elevated)",
                   border: "1px solid var(--border-subtle)",
-                  color: "#ffffff",
+                  color: "var(--text-primary)",
                   padding: "0.55rem",
                   borderRadius: "8px",
                   cursor: "pointer",
@@ -377,6 +319,7 @@ export default function Navbar() {
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
           <div
+            className="mobile-nav-drawer"
             style={{
               backgroundColor: "var(--bg-secondary)",
               borderBottom: "1px solid var(--border-medium)",
@@ -387,7 +330,7 @@ export default function Navbar() {
               <Link
                 href="/"
                 onClick={() => setMobileMenuOpen(false)}
-                style={{ color: "#ffffff", textDecoration: "none", fontSize: "1.1rem", fontWeight: 600 }}
+                style={{ color: "var(--text-primary)", textDecoration: "none", fontSize: "1.1rem", fontWeight: 600 }}
               >
                 Home
               </Link>
@@ -409,35 +352,35 @@ export default function Navbar() {
               <Link
                 href="/company"
                 onClick={() => setMobileMenuOpen(false)}
-                style={{ color: "#ffffff", textDecoration: "none", fontSize: "1.1rem", fontWeight: 600 }}
+                style={{ color: "var(--text-primary)", textDecoration: "none", fontSize: "1.1rem", fontWeight: 600 }}
               >
                 Company
               </Link>
               <Link
                 href="/portfolio"
                 onClick={() => setMobileMenuOpen(false)}
-                style={{ color: "#ffffff", textDecoration: "none", fontSize: "1.1rem", fontWeight: 600 }}
+                style={{ color: "var(--text-primary)", textDecoration: "none", fontSize: "1.1rem", fontWeight: 600 }}
               >
                 Case Studies
               </Link>
               <Link
                 href="/blogs"
                 onClick={() => setMobileMenuOpen(false)}
-                style={{ color: "#ffffff", textDecoration: "none", fontSize: "1.1rem", fontWeight: 600 }}
+                style={{ color: "var(--text-primary)", textDecoration: "none", fontSize: "1.1rem", fontWeight: 600 }}
               >
                 Tech Insights
               </Link>
               <Link
                 href="/career"
                 onClick={() => setMobileMenuOpen(false)}
-                style={{ color: "#ffffff", textDecoration: "none", fontSize: "1.1rem", fontWeight: 600 }}
+                style={{ color: "var(--text-primary)", textDecoration: "none", fontSize: "1.1rem", fontWeight: 600 }}
               >
                 Career
               </Link>
               <Link
                 href="/contact"
                 onClick={() => setMobileMenuOpen(false)}
-                style={{ color: "#ffffff", textDecoration: "none", fontSize: "1.1rem", fontWeight: 600 }}
+                style={{ color: "var(--text-primary)", textDecoration: "none", fontSize: "1.1rem", fontWeight: 600 }}
               >
                 Contact
               </Link>

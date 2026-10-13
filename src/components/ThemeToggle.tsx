@@ -40,20 +40,20 @@ export default function ThemeToggle() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: isLight ? "rgba(14, 80, 215, 0.08)" : "rgba(255, 255, 255, 0.06)",
-        border: isLight ? "1px solid rgba(14, 80, 215, 0.2)" : "1px solid rgba(255, 255, 255, 0.1)",
-        color: isLight ? "#0e50d7" : "#00d2ff",
+        backgroundColor: isLight ? "rgba(71, 109, 154, 0.1)" : "rgba(255, 255, 255, 0.06)",
+        border: isLight ? "1px solid rgba(71, 109, 154, 0.25)" : "1px solid rgba(255, 255, 255, 0.1)",
+        color: isLight ? "#35567D" : "#5EC098",
         cursor: "pointer",
         transition: "all 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
         position: "relative",
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.transform = "scale(1.08)";
-        e.currentTarget.style.borderColor = isLight ? "#0e50d7" : "#00d2ff";
+        e.currentTarget.style.borderColor = isLight ? "#35567D" : "#5EC098";
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.transform = "scale(1)";
-        e.currentTarget.style.borderColor = isLight ? "rgba(14, 80, 215, 0.2)" : "rgba(255, 255, 255, 0.1)";
+        e.currentTarget.style.borderColor = isLight ? "rgba(71, 109, 154, 0.25)" : "rgba(255, 255, 255, 0.1)";
       }}
     >
       {isLight ? <Moon size={18} /> : <Sun size={18} />}

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -13,6 +13,12 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const playfair = Playfair_Display({
+  variable: "--font-serif",
+  subsets: ["latin"],
+  style: ["normal", "italic"],
 });
 
 export const metadata: Metadata = {
@@ -31,6 +37,11 @@ export const metadata: Metadata = {
     "Hiren Danecha",
     "Surat Software Company"
   ],
+  icons: {
+    icon: "/images/Only Logo.png",
+    shortcut: "/images/Only Logo.png",
+    apple: "/images/Only Logo.png",
+  },
   openGraph: {
     title: "Opash Software | Top Global Partner for Custom Software & AI",
     description: "Empowering startups and enterprises with scalable Custom Software, Web, Mobile, and AI solutions.",
@@ -38,9 +49,9 @@ export const metadata: Metadata = {
     siteName: "Opash Software",
     images: [
       {
-        url: "/images/OpashLogo.png",
-        width: 183,
-        height: 54,
+        url: "/images/Opash.png",
+        width: 1200,
+        height: 240,
         alt: "Opash Software Logo",
       },
     ],
@@ -55,8 +66,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`} suppressHydrationWarning>
-      <body style={{ backgroundColor: "var(--bg-primary)", color: "var(--text-primary)" }}>
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable}`} suppressHydrationWarning>
+      <body suppressHydrationWarning style={{ backgroundColor: "var(--bg-primary)", color: "var(--text-primary)" }}>
         <ThemeProvider>
           <Navbar />
           <main>{children}</main>
