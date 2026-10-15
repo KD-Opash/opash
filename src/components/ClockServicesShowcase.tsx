@@ -85,30 +85,35 @@ export const SERVICES_DATA: ServiceItem[] = [
   },
 ];
 
+// Loop cards 3 times for seamless infinite scroll
+const LOOPED_SERVICES = [...SERVICES_DATA, ...SERVICES_DATA, ...SERVICES_DATA];
+
 export function ClockServicesShowcase() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isPaused, setIsPaused] = useState(false);
 
-  // Auto-scroll automatically: shifts by 1 card step every 3.5 seconds
+  // Fast Auto-Scroll: Shifts by 1 card step every 1.8 seconds (Snappy & Smooth)
   useEffect(() => {
     if (isPaused) return;
 
     const interval = setInterval(() => {
-      if (!scrollRef.current) return;
       const el = scrollRef.current;
+      if (!el) return;
+
       const firstChild = el.firstElementChild as HTMLElement;
       if (!firstChild) return;
 
       const cardWidth = firstChild.getBoundingClientRect().width;
-      const step = cardWidth + 20; // card width + gap
-      const maxScrollLeft = el.scrollWidth - el.clientWidth;
+      const step = cardWidth + 20; // card width + gap (1.25rem = 20px)
 
-      if (el.scrollLeft >= maxScrollLeft - 15) {
-        el.scrollTo({ left: 0, behavior: "smooth" });
-      } else {
-        el.scrollBy({ left: step, behavior: "smooth" });
+      // When past one full set of 6 cards, seamlessly wrap around
+      const singleSetWidth = step * SERVICES_DATA.length;
+      if (el.scrollLeft >= singleSetWidth * 1.8) {
+        el.scrollLeft -= singleSetWidth;
       }
-    }, 3500);
+
+      el.scrollBy({ left: step, behavior: "smooth" });
+    }, 1800); // 1.8s for faster, engaging auto-scroll
 
     return () => clearInterval(interval);
   }, [isPaused]);
@@ -128,7 +133,7 @@ export function ClockServicesShowcase() {
         >
           <h2
             className="heading-section"
-            style={{ textAlign: "center", width: "100%", margin: "0 auto" }}
+            style={{ textAlign: "center", width: "100%", margin: "0 auto", color: "#ffffff" }}
           >
             Our Services
           </h2>
@@ -138,6 +143,7 @@ export function ClockServicesShowcase() {
               textAlign: "center",
               maxWidth: "780px",
               margin: "0.85rem auto 0 auto",
+              color: "rgba(255, 255, 255, 0.92)",
             }}
           >
             We create highly responsive applications with the remarkable
@@ -146,16 +152,14 @@ export function ClockServicesShowcase() {
           </p>
         </div>
 
-        {/* 2. 4 CARDS PER ROW - AUTO-SCROLLING TRACK */}
+        {/* 2. FAST AUTO-SCROLLING 4-CARDS TRACK (Infinite & Pauses on Hover) */}
         <div className="relative pt-2">
-          {/* Horizontally Scrollable Track: exactly 4 cards fit in 1 line on desktop */}
           <div ref={scrollRef} className="services-four-card-track">
-            {SERVICES_DATA.map((service) => (
+            {LOOPED_SERVICES.map((service, index) => (
               <div
-                key={service.id}
+                key={`${service.id}-${index}`}
                 className="service-four-card-col shrink-0 snap-start flex"
               >
-                {/* Clean, elegant card layout with 3D AI generated icon */}
                 <Link
                   href={service.url}
                   target="_blank"
@@ -173,7 +177,21 @@ export function ClockServicesShowcase() {
                     color: "#ffffff",
                   }}
                 >
-                  {/* 3D Animated Live Hologram Asset tailored to Card Title */}
+                  {/* Status Badge */}
+                  <div className="mb-2">
+                    <span
+                      className="inline-flex items-center text-[11px] font-semibold px-2.5 py-0.5 rounded-full uppercase tracking-wider"
+                      style={{
+                        backgroundColor: `rgba(${service.accentRgb}, 0.12)`,
+                        color: service.accent,
+                        border: `1px solid rgba(${service.accentRgb}, 0.3)`,
+                      }}
+                    >
+                      {service.badge}
+                    </span>
+                  </div>
+
+                  {/* 3D Glossy Live Device Icon (Computer, Laptop, Phone, Brain, Server, Developer) */}
                   <Service3DLiveIcon
                     id={service.id}
                     image={service.image}
@@ -182,7 +200,7 @@ export function ClockServicesShowcase() {
                     accentRgb={service.accentRgb}
                   />
 
-                  {/* Title */}
+                  {/* Card Title */}
                   <h3
                     className="service-four-card-title text-base sm:text-lg font-bold tracking-tight transition-colors duration-200 text-center min-h-[2.8rem] flex items-center justify-center"
                     style={{
@@ -194,7 +212,7 @@ export function ClockServicesShowcase() {
                     {service.title}
                   </h3>
 
-                  {/* Content / Description */}
+                  {/* Card Content / Description */}
                   <p
                     className="service-four-card-desc text-xs sm:text-[13px] leading-relaxed text-center line-clamp-4"
                     style={{
@@ -204,6 +222,14 @@ export function ClockServicesShowcase() {
                   >
                     {service.desc}
                   </p>
+
+                  {/* Interactive Border Glow on Hover */}
+                  <div
+                    className="absolute inset-0 rounded-[1.75rem] pointer-events-none transition-opacity duration-300 opacity-0 group-hover:opacity-100"
+                    style={{
+                      boxShadow: `inset 0 0 0 1.5px ${service.accent}, 0 0 35px -8px rgba(${service.accentRgb}, 0.4)`,
+                    }}
+                  />
                 </Link>
               </div>
             ))}
