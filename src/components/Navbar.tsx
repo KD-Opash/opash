@@ -132,16 +132,25 @@ export default function Navbar() {
   ];
 
   const isServicesActive = servicesList.some((s) => pathname === s.href);
+  const isHome = pathname === "/";
 
   return (
-    <header className={`corporate-navbar ${scrolled ? "scrolled" : ""}`}>
+    <header className={`corporate-navbar ${isHome ? "navbar-overlay" : ""} ${scrolled ? "scrolled" : ""}`}>
       <div className="corporate-nav-container">
-        {/* Brand Logo */}
+        {/* Brand Logo - Light & Dark Mode */}
         <Link href="/" className="corporate-nav-brand" aria-label="Opash Software Home">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/images/Opash.png"
             alt="Opash Software"
+            className="logo-light-theme"
+            style={{ maxHeight: 36, width: "auto", objectFit: "contain" }}
+          />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/images/Opash Dark Mode Logo.png"
+            alt="Opash Software"
+            className="logo-dark-theme"
             style={{ maxHeight: 36, width: "auto", objectFit: "contain" }}
           />
         </Link>
@@ -267,8 +276,10 @@ export default function Navbar() {
             href="/career"
             className={`corporate-link ${pathname === "/career" ? "active" : ""}`}
           >
-            <span>Careers</span>
-            <span className="corporate-hiring-tag">HIRING</span>
+            <span className="corporate-career-label">
+              Careers
+              <span className="corporate-hiring-tag">HIRING</span>
+            </span>
           </Link>
 
           <Link

@@ -96,6 +96,14 @@ export default function Footer() {
               <img
                 src="/images/Opash.png"
                 alt="Opash Software Logo"
+                className="logo-light-theme"
+                style={{ maxHeight: 44, width: "auto", objectFit: "contain" }}
+              />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/images/Opash Dark Mode Logo.png"
+                alt="Opash Software Logo"
+                className="logo-dark-theme"
                 style={{ maxHeight: 44, width: "auto", objectFit: "contain" }}
               />
             </Link>

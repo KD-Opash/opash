@@ -2,22 +2,69 @@
 
 import React from "react";
 import Link from "next/link";
-import { 
-  ArrowRight, 
-  Sparkles, 
-  CheckCircle2, 
-  ShieldCheck, 
-  Star, 
-  Award, 
-  Code2, 
-  Globe, 
-  Smartphone, 
-  BrainCircuit, 
-  Cloud, 
-  Cpu, 
-  Zap, 
-  Users, 
-  Clock, 
+import { motion, useInView } from "framer-motion";
+
+function StatCounter({
+  value,
+  suffix = "",
+  duration = 1600,
+}: {
+  value: number;
+  suffix?: string;
+  duration?: number;
+}) {
+  const [count, setCount] = React.useState(0);
+  const ref = React.useRef<HTMLSpanElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "100px 0px" });
+
+  React.useEffect(() => {
+    if (!isInView) return;
+    let startTime: number | null = null;
+    let animId: number;
+
+    const animate = (currentTime: number) => {
+      if (!startTime) startTime = currentTime;
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 3);
+      setCount(Math.floor(ease * value));
+
+      if (progress < 1) {
+        animId = requestAnimationFrame(animate);
+      } else {
+        setCount(value);
+      }
+    };
+
+    animId = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animId);
+  }, [isInView, value, duration]);
+
+  return (
+    <span ref={ref}>
+      {count.toLocaleString()}
+      {suffix}
+    </span>
+  );
+}
+
+import {
+  ArrowRight,
+  Sparkles,
+  CheckCircle2,
+  ShieldCheck,
+  Star,
+  Award,
+  Code2,
+  Globe,
+  Smartphone,
+  BrainCircuit,
+  Cloud,
+  Cpu,
+  Zap,
+  Users,
+  Clock,
+  Puzzle,
   ExternalLink,
   ChevronRight,
   TrendingUp,
@@ -25,7 +72,7 @@ import {
   Lock,
   Headphones,
   Check,
-  X
+  X,
 } from "lucide-react";
 import { companyData } from "@/data/company";
 import DigitalPillarHero from "@/components/DigitalPillarHero";
@@ -37,6 +84,8 @@ import TechStackMatrix from "@/components/TechStackMatrix";
 import ProjectEstimator from "@/components/ProjectEstimator";
 import TestimonialsSlider from "@/components/TestimonialsSlider";
 import ContactForm from "@/components/ContactForm";
+import { Boxes } from "@/components/ui/background-boxes";
+import { ClockServicesShowcase } from "@/components/ClockServicesShowcase";
 
 export default function HomePage() {
   const serviceIcons = {
@@ -51,7 +100,10 @@ export default function HomePage() {
   };
 
   return (
-    <div className="bg-grid-pattern" style={{ position: "relative", overflow: "hidden" }}>
+    <div
+      className="bg-grid-pattern"
+      style={{ position: "relative", overflow: "hidden" }}
+    >
       {/* Background Ambient Orbs */}
       <div
         className="ambient-glow-orb"
@@ -73,150 +125,124 @@ export default function HomePage() {
       />
 
       {/* ========================================================= */}
-      {/* SECTION 1: 3D DIGITAL PILLAR HERO (With Integrated Global Network) */}
+      {/* SECTION 1: 3D DIGITAL PILLAR HERO (Title, Buttons, 3D Earth) */}
       {/* ========================================================= */}
       <DigitalPillarHero />
 
       {/* ========================================================= */}
-      {/* SECTION 2: VERIFIED RECOGNITIONS TICKER */}
+      {/* SECTION 2: OUR ACHIEVEMENTS (Circular Metric Pods & Summary) */}
       {/* ========================================================= */}
-      <section
-        className="section-alt"
-        style={{
-          padding: "2rem 0",
-        }}
-      >
-        <div className="container-custom">
-          <div className="flex items-center justify-between flex-wrap gap-6">
-            <span style={{ color: "var(--text-muted)", fontSize: "0.9rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>
-              Recognized & Verified By:
-            </span>
-            <div className="flex items-center gap-8 flex-wrap">
-              {companyData.recognitions.map((rec) => (
-                <div key={rec.name} className="flex items-center gap-2">
-                  <Star size={16} fill="#f59e0b" color="#f59e0b" />
-                  <span style={{ color: "var(--text-primary)", fontWeight: 700, fontSize: "0.95rem" }}>{rec.name}</span>
-                  <span style={{ color: "var(--color-cyan)", fontSize: "0.85rem", fontWeight: 600 }}>({rec.rating})</span>
-                </div>
+      {/* ========================================================= */}
+      {/* SECTION 2: STATS TEMPLATE SECTION (Image 1 Layout + Aceternity Background Boxes) */}
+      {/* ========================================================= */}
+      <section id="achievements" className="section-achievements-template">
+        {/* Aceternity Interactive Background Boxes Layer */}
+        <div className="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-auto">
+          <div
+            className="absolute inset-0 w-full h-full bg-[#060b13] dark:bg-[#060b13] [data-theme=light]:bg-[#f8fafc] z-10 pointer-events-none"
+            style={{
+              maskImage:
+                "linear-gradient(to bottom, black 0%, transparent 5%, transparent 95%, black 100%)",
+              WebkitMaskImage:
+                "linear-gradient(to bottom, black 0%, transparent 5%, transparent 95%, black 100%)",
+            }}
+          />
+          <Boxes />
+        </div>
+
+        <div className="container-custom relative z-20">
+          {/* Top Row: Two-column layout matching Image 1 */}
+          <div className="template-achievements-top">
+            {/* Left Column: Big Headline matching Image 1 */}
+            <motion.div
+              className="template-achievements-headline-col"
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: false, amount: 0.2 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <h2 className="template-headline">
+                Empowering your <br />
+                <span className="template-headline-highlight">
+                  success
+                </span>{" "}
+                <span className="template-headline-muted">
+                  with our solutions
+                </span>
+              </h2>
+            </motion.div>
+
+            {/* Right Column: 2x2 Grid of 4 Stats matching Image 1 */}
+            <motion.div
+              className="template-achievements-stats-grid"
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: false, amount: 0.2 }}
+              transition={{
+                duration: 0.8,
+                delay: 0.1,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+            >
+              {[
+                {
+                  val: 50,
+                  suffix: "+",
+                  label: "Experienced Software Developers",
+                },
+                {
+                  val: 70,
+                  suffix: "+",
+                  label: "Custom Software Projects Delivered",
+                },
+                {
+                  val: 12000,
+                  suffix: "+",
+                  label: "Hours of Project Execution",
+                },
+                {
+                  val: 8,
+                  suffix: "+",
+                  label: "Years of Industry Experience in IT Solutions",
+                },
+              ].map((stat) => (
+                <motion.div
+                  key={stat.label}
+                  className="template-stat-item"
+                  whileHover={{ y: -4, transition: { duration: 0.2 } }}
+                >
+                  <div className="template-stat-val">
+                    <StatCounter value={stat.val} suffix={stat.suffix} />
+                  </div>
+                  <div className="template-stat-label">{stat.label}</div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
+
+          {/* Bottom Row: Full-width descriptive summary matching Image 1 */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="template-achievements-bottom"
+          >
+            <p className="template-summary-text">
+              As a leading custom software development company in India, Opash
+              Software empowers startups, SMEs, and enterprises with scalable
+              Web, Mobile, and AI solutions. Our proven agile methodologies,
+              expert team, and client-first approach ensure quality results and
+              long-term success.
+            </p>
+          </motion.div>
         </div>
       </section>
 
       {/* ========================================================= */}
       {/* SECTION 3: SERVICES SHOWCASE */}
       {/* ========================================================= */}
-      <section className="section-padding">
-        <div className="container-custom">
-          <div style={{ textAlign: "center", maxWidth: "750px", margin: "0 auto 4rem auto" }}>
-            <span className="badge-glow" style={{ marginBottom: "0.75rem" }}>
-              Full-Spectrum Engineering
-            </span>
-            <h2 className="heading-section" style={{ marginTop: "0.5rem" }}>
-              Our Core Services & Solutions
-            </h2>
-            <p className="subhead-lead" style={{ marginTop: "0.75rem" }}>
-              We build responsive, high-performance applications with remarkable aesthetics and enterprise stability to accelerate your market impact.
-            </p>
-          </div>
-
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))",
-              gap: "1.75rem",
-            }}
-          >
-            {servicesData.map((s) => {
-              const IconComponent = (serviceIcons as any)[s.id] || Code2;
-              return (
-                <div
-                  key={s.id}
-                  className="interactive-card flex flex-col justify-between"
-                >
-                  <div>
-                    <div className="flex items-center justify-between" style={{ marginBottom: "1.25rem" }}>
-                      <div
-                        style={{
-                          width: 48,
-                          height: 48,
-                          borderRadius: "12px",
-                          backgroundColor: "rgba(71, 109, 154, 0.2)",
-                          border: "1px solid rgba(94, 192, 152, 0.35)",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          color: "var(--color-cyan)",
-                        }}
-                      >
-                        <IconComponent size={24} />
-                      </div>
-                      <span
-                        style={{
-                          fontSize: "0.75rem",
-                          fontWeight: 700,
-                          padding: "0.25rem 0.65rem",
-                          borderRadius: "999px",
-                          backgroundColor: "var(--bg-elevated)",
-                          color: "var(--text-secondary)",
-                          border: "1px solid var(--border-subtle)",
-                        }}
-                      >
-                        {s.badge}
-                      </span>
-                    </div>
-
-                    <h3 style={{ fontSize: "1.35rem", fontWeight: 700, marginBottom: "0.75rem" }}>
-                      {s.title}
-                    </h3>
-
-                    <p style={{ color: "var(--text-secondary)", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "1.5rem" }}>
-                      {s.shortDesc}
-                    </p>
-
-                    {/* Tech Pills */}
-                    <div className="flex flex-wrap gap-2" style={{ marginBottom: "1.5rem" }}>
-                      {s.technologies.slice(0, 4).map((tech) => (
-                        <span
-                          key={tech}
-                          style={{
-                            fontSize: "0.75rem",
-                            padding: "0.2rem 0.6rem",
-                            borderRadius: "var(--radius-sm)",
-                            backgroundColor: "var(--bg-elevated)",
-                            color: "var(--text-muted)",
-                            border: "1px solid var(--border-subtle)",
-                          }}
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  <Link
-                    href={`/${s.slug}`}
-                    className="flex items-center gap-2"
-                    style={{
-                      color: "var(--color-cyan)",
-                      fontWeight: 600,
-                      fontSize: "0.95rem",
-                      textDecoration: "none",
-                      borderTop: "1px solid var(--border-subtle)",
-                      paddingTop: "1rem",
-                      transition: "gap 0.2s ease",
-                    }}
-                  >
-                    <span>Explore Service Details</span>
-                    <ArrowRight size={16} />
-                  </Link>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+      <ClockServicesShowcase />
 
       {/* ========================================================= */}
       {/* SECTION 4: INTERACTIVE PROJECT COST ESTIMATOR */}
@@ -237,12 +263,12 @@ export default function HomePage() {
       {/* ========================================================= */}
       <section className="section-padding">
         <div className="container-custom">
-          <div className="flex justify-between items-end flex-wrap gap-4" style={{ marginBottom: "3.5rem" }}>
+          <div
+            className="flex justify-between items-end flex-wrap gap-4"
+            style={{ marginBottom: "3.5rem" }}
+          >
             <div>
-              <span className="badge-glow" style={{ marginBottom: "0.75rem" }}>
-                Proven Client Outcomes
-              </span>
-              <h2 className="heading-section" style={{ marginTop: "0.5rem" }}>
+              <h2 className="heading-section">
                 Featured Client Success Stories
               </h2>
             </div>
@@ -265,7 +291,10 @@ export default function HomePage() {
                 className="interactive-card flex flex-col justify-between"
               >
                 <div>
-                  <div className="flex justify-between items-center" style={{ marginBottom: "1rem" }}>
+                  <div
+                    className="flex justify-between items-center"
+                    style={{ marginBottom: "1rem" }}
+                  >
                     <span
                       style={{
                         color: "var(--color-cyan)",
@@ -294,11 +323,24 @@ export default function HomePage() {
                     </a>
                   </div>
 
-                  <h3 style={{ fontSize: "1.35rem", fontWeight: 700, marginBottom: "0.75rem" }}>
+                  <h3
+                    style={{
+                      fontSize: "1.35rem",
+                      fontWeight: 700,
+                      marginBottom: "0.75rem",
+                    }}
+                  >
                     {cs.headline}
                   </h3>
 
-                  <p style={{ color: "var(--text-secondary)", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "1.5rem" }}>
+                  <p
+                    style={{
+                      color: "var(--text-secondary)",
+                      fontSize: "0.95rem",
+                      lineHeight: 1.6,
+                      marginBottom: "1.5rem",
+                    }}
+                  >
                     {cs.summary}
                   </p>
 
@@ -315,18 +357,40 @@ export default function HomePage() {
                     }}
                   >
                     <div>
-                      <div style={{ fontSize: "1.4rem", fontWeight: 800, color: "var(--color-cyan)" }}>
+                      <div
+                        style={{
+                          fontSize: "1.4rem",
+                          fontWeight: 800,
+                          color: "var(--color-cyan)",
+                        }}
+                      >
                         {cs.results[0].metric}
                       </div>
-                      <div style={{ color: "var(--text-muted)", fontSize: "0.75rem" }}>
+                      <div
+                        style={{
+                          color: "var(--text-muted)",
+                          fontSize: "0.75rem",
+                        }}
+                      >
                         {cs.results[0].label}
                       </div>
                     </div>
                     <div>
-                      <div style={{ fontSize: "1.4rem", fontWeight: 800, color: "#10b981" }}>
+                      <div
+                        style={{
+                          fontSize: "1.4rem",
+                          fontWeight: 800,
+                          color: "#10b981",
+                        }}
+                      >
                         {cs.results[1].metric}
                       </div>
-                      <div style={{ color: "var(--text-muted)", fontSize: "0.75rem" }}>
+                      <div
+                        style={{
+                          color: "var(--text-muted)",
+                          fontSize: "0.75rem",
+                        }}
+                      >
                         {cs.results[1].label}
                       </div>
                     </div>
@@ -334,11 +398,29 @@ export default function HomePage() {
                 </div>
 
                 {/* Testimonial Quote */}
-                <div style={{ borderTop: "1px solid var(--border-subtle)", paddingTop: "1rem" }}>
-                  <p style={{ color: "var(--text-secondary)", fontSize: "0.85rem", fontStyle: "italic", marginBottom: "0.75rem" }}>
+                <div
+                  style={{
+                    borderTop: "1px solid var(--border-subtle)",
+                    paddingTop: "1rem",
+                  }}
+                >
+                  <p
+                    style={{
+                      color: "var(--text-secondary)",
+                      fontSize: "0.85rem",
+                      fontStyle: "italic",
+                      marginBottom: "0.75rem",
+                    }}
+                  >
                     &ldquo;{cs.testimonial.quote.slice(0, 110)}...&rdquo;
                   </p>
-                  <div style={{ color: "var(--text-primary)", fontWeight: 600, fontSize: "0.85rem" }}>
+                  <div
+                    style={{
+                      color: "var(--text-primary)",
+                      fontWeight: 600,
+                      fontSize: "0.85rem",
+                    }}
+                  >
                     — {cs.testimonial.author}, {cs.testimonial.role}
                   </div>
                 </div>
@@ -353,15 +435,19 @@ export default function HomePage() {
       {/* ========================================================= */}
       <section className="section-padding">
         <div className="container-custom">
-          <div style={{ textAlign: "center", maxWidth: "750px", margin: "0 auto 3.5rem auto" }}>
-            <span className="badge-glow" style={{ marginBottom: "0.75rem" }}>
-              Our Architectural Stack
-            </span>
-            <h2 className="heading-section" style={{ marginTop: "0.5rem" }}>
+          <div
+            style={{
+              textAlign: "center",
+              maxWidth: "750px",
+              margin: "0 auto 3.5rem auto",
+            }}
+          >
+            <h2 className="heading-section">
               Technologies & Platforms We Master
             </h2>
             <p className="subhead-lead" style={{ marginTop: "0.75rem" }}>
-              Filter by engineering domain to discover our core frameworks, database engines, and cloud infrastructure capabilities.
+              Filter by engineering domain to discover our core frameworks,
+              database engines, and cloud infrastructure capabilities.
             </p>
           </div>
 
@@ -379,32 +465,72 @@ export default function HomePage() {
         }}
       >
         <div className="container-custom">
-          <div style={{ textAlign: "center", maxWidth: "720px", margin: "0 auto 4rem auto" }}>
-            <span className="badge-glow" style={{ marginBottom: "0.75rem" }}>
-              The Opash Advantage
-            </span>
-            <h2 className="heading-section" style={{ marginTop: "0.5rem" }}>
-              Why Global Brands Choose Us
-            </h2>
+          <div
+            style={{
+              textAlign: "center",
+              maxWidth: "720px",
+              margin: "0 auto 4rem auto",
+            }}
+          >
+            <h2 className="heading-section">Why Global Brands Choose Us</h2>
             <p className="subhead-lead" style={{ marginTop: "0.75rem" }}>
-              How an Opash dedicated agile squad compares to traditional outsourcing agencies and fragmented freelance marketplaces.
+              How an Opash dedicated agile squad compares to traditional
+              outsourcing agencies and fragmented freelance marketplaces.
             </p>
           </div>
 
-          <div className="glass-panel" style={{ overflowX: "auto", padding: "1.5rem" }}>
-            <table style={{ width: "100%", borderCollapse: "collapse", minWidth: "680px" }}>
+          <div
+            className="glass-panel"
+            style={{ overflowX: "auto", padding: "1.5rem" }}
+          >
+            <table
+              style={{
+                width: "100%",
+                borderCollapse: "collapse",
+                minWidth: "680px",
+              }}
+            >
               <thead>
                 <tr style={{ borderBottom: "1px solid var(--border-medium)" }}>
-                  <th style={{ padding: "1.25rem", textAlign: "left", color: "var(--text-muted)", fontSize: "0.9rem" }}>
+                  <th
+                    style={{
+                      padding: "1.25rem",
+                      textAlign: "left",
+                      color: "var(--text-muted)",
+                      fontSize: "0.9rem",
+                    }}
+                  >
                     Key Engineering Metric
                   </th>
-                  <th style={{ padding: "1.25rem", textAlign: "center", color: "var(--color-cyan)", fontSize: "1.1rem", fontWeight: 800 }}>
+                  <th
+                    style={{
+                      padding: "1.25rem",
+                      textAlign: "center",
+                      color: "var(--color-cyan)",
+                      fontSize: "1.1rem",
+                      fontWeight: 800,
+                    }}
+                  >
                     ⚡ Opash Software Squad
                   </th>
-                  <th style={{ padding: "1.25rem", textAlign: "center", color: "var(--text-secondary)", fontSize: "0.95rem" }}>
+                  <th
+                    style={{
+                      padding: "1.25rem",
+                      textAlign: "center",
+                      color: "var(--text-secondary)",
+                      fontSize: "0.95rem",
+                    }}
+                  >
                     Generic Outsourcing Agency
                   </th>
-                  <th style={{ padding: "1.25rem", textAlign: "center", color: "var(--text-secondary)", fontSize: "0.95rem" }}>
+                  <th
+                    style={{
+                      padding: "1.25rem",
+                      textAlign: "center",
+                      color: "var(--text-secondary)",
+                      fontSize: "0.95rem",
+                    }}
+                  >
                     Freelance Portals
                   </th>
                 </tr>
@@ -446,19 +572,50 @@ export default function HomePage() {
                     key={idx}
                     style={{
                       borderBottom: "1px solid var(--border-subtle)",
-                      backgroundColor: idx % 2 === 0 ? "var(--bg-elevated)" : "transparent",
+                      backgroundColor:
+                        idx % 2 === 0 ? "var(--bg-elevated)" : "transparent",
                     }}
                   >
-                    <td style={{ padding: "1.2rem", fontWeight: 600, color: "var(--text-primary)", fontSize: "0.95rem" }}>
+                    <td
+                      style={{
+                        padding: "1.2rem",
+                        fontWeight: 600,
+                        color: "var(--text-primary)",
+                        fontSize: "0.95rem",
+                      }}
+                    >
                       {row.metric}
                     </td>
-                    <td style={{ padding: "1.2rem", textAlign: "center", color: "#10b981", fontWeight: 700, fontSize: "0.95rem", backgroundColor: "rgba(16, 185, 129, 0.06)" }}>
+                    <td
+                      style={{
+                        padding: "1.2rem",
+                        textAlign: "center",
+                        color: "#10b981",
+                        fontWeight: 700,
+                        fontSize: "0.95rem",
+                        backgroundColor: "rgba(16, 185, 129, 0.06)",
+                      }}
+                    >
                       ✓ {row.opash}
                     </td>
-                    <td style={{ padding: "1.2rem", textAlign: "center", color: "var(--text-muted)", fontSize: "0.85rem" }}>
+                    <td
+                      style={{
+                        padding: "1.2rem",
+                        textAlign: "center",
+                        color: "var(--text-muted)",
+                        fontSize: "0.85rem",
+                      }}
+                    >
                       {row.agency}
                     </td>
-                    <td style={{ padding: "1.2rem", textAlign: "center", color: "var(--text-muted)", fontSize: "0.85rem" }}>
+                    <td
+                      style={{
+                        padding: "1.2rem",
+                        textAlign: "center",
+                        color: "var(--text-muted)",
+                        fontSize: "0.85rem",
+                      }}
+                    >
                       {row.freelancers}
                     </td>
                   </tr>
@@ -474,15 +631,17 @@ export default function HomePage() {
       {/* ========================================================= */}
       <section className="section-padding">
         <div className="container-custom">
-          <div style={{ textAlign: "center", maxWidth: "750px", margin: "0 auto 4rem auto" }}>
-            <span className="badge-glow" style={{ marginBottom: "0.75rem" }}>
-              Domain Specialization
-            </span>
-            <h2 className="heading-section" style={{ marginTop: "0.5rem" }}>
-              Industries We Specialize In
-            </h2>
+          <div
+            style={{
+              textAlign: "center",
+              maxWidth: "750px",
+              margin: "0 auto 4rem auto",
+            }}
+          >
+            <h2 className="heading-section">Industries We Specialize In</h2>
             <p className="subhead-lead" style={{ marginTop: "0.75rem" }}>
-              Over 8+ years of deep domain experience delivering compliant, high-security software across regulated and high-growth markets.
+              Over 8+ years of deep domain experience delivering compliant,
+              high-security software across regulated and high-growth markets.
             </p>
           </div>
 
@@ -501,7 +660,10 @@ export default function HomePage() {
                   padding: "1.75rem",
                 }}
               >
-                <div className="flex justify-between items-center" style={{ marginBottom: "0.75rem" }}>
+                <div
+                  className="flex justify-between items-center"
+                  style={{ marginBottom: "0.75rem" }}
+                >
                   <h3 style={{ fontSize: "1.2rem", fontWeight: 700 }}>
                     {ind.name}
                   </h3>
@@ -518,12 +680,30 @@ export default function HomePage() {
                     {ind.metrics}
                   </span>
                 </div>
-                <p style={{ color: "var(--text-secondary)", fontSize: "0.88rem", lineHeight: 1.5, marginBottom: "1rem" }}>
+                <p
+                  style={{
+                    color: "var(--text-secondary)",
+                    fontSize: "0.88rem",
+                    lineHeight: 1.5,
+                    marginBottom: "1rem",
+                  }}
+                >
                   {ind.description}
                 </p>
-                <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "0.4rem" }}>
+                <ul
+                  style={{
+                    listStyle: "none",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "0.4rem",
+                  }}
+                >
                   {ind.solutions.slice(0, 3).map((sol, i) => (
-                    <li key={i} className="flex items-center gap-2" style={{ color: "var(--text-muted)", fontSize: "0.8rem" }}>
+                    <li
+                      key={i}
+                      className="flex items-center gap-2"
+                      style={{ color: "var(--text-muted)", fontSize: "0.8rem" }}
+                    >
                       <CheckCircle2 size={13} color="var(--color-cyan)" />
                       <span>{sol}</span>
                     </li>
@@ -545,11 +725,14 @@ export default function HomePage() {
         }}
       >
         <div className="container-custom">
-          <div style={{ textAlign: "center", maxWidth: "700px", margin: "0 auto 3.5rem auto" }}>
-            <span className="badge-glow" style={{ marginBottom: "0.75rem" }}>
-              What Clients Say
-            </span>
-            <h2 className="heading-section" style={{ marginTop: "0.5rem" }}>
+          <div
+            style={{
+              textAlign: "center",
+              maxWidth: "700px",
+              margin: "0 auto 3.5rem auto",
+            }}
+          >
+            <h2 className="heading-section">
               Verified Feedback From Founders & CTOs
             </h2>
           </div>
@@ -569,15 +752,33 @@ export default function HomePage() {
               padding: "3.5rem",
             }}
           >
-            <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: "3rem" }} className="founder-grid">
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1.2fr 1fr",
+                gap: "3rem",
+              }}
+              className="founder-grid"
+            >
               <div>
-                <span className="badge-glow" style={{ marginBottom: "1rem" }}>
-                  Leadership Vision
-                </span>
-                <h2 style={{ fontSize: "2.4rem", fontWeight: 800, marginTop: "0.5rem", marginBottom: "0.5rem" }}>
+                <h2
+                  style={{
+                    fontSize: "2.4rem",
+                    fontWeight: 800,
+                    marginTop: "0",
+                    marginBottom: "0.5rem",
+                  }}
+                >
                   Meet Our Founder & CEO
                 </h2>
-                <div style={{ color: "var(--color-cyan)", fontSize: "1.1rem", fontWeight: 600, marginBottom: "1.5rem" }}>
+                <div
+                  style={{
+                    color: "var(--color-cyan)",
+                    fontSize: "1.1rem",
+                    fontWeight: 600,
+                    marginBottom: "1.5rem",
+                  }}
+                >
                   {companyData.ceo.name} — {companyData.ceo.experience}
                 </div>
 
@@ -594,11 +795,21 @@ export default function HomePage() {
                   &ldquo;{companyData.ceo.quote}&rdquo;
                 </blockquote>
 
-                <p style={{ color: "var(--text-secondary)", lineHeight: 1.7, marginBottom: "1.75rem", fontSize: "0.95rem" }}>
+                <p
+                  style={{
+                    color: "var(--text-secondary)",
+                    lineHeight: 1.7,
+                    marginBottom: "1.75rem",
+                    fontSize: "0.95rem",
+                  }}
+                >
                   {companyData.ceo.bio}
                 </p>
 
-                <div className="flex flex-wrap gap-2" style={{ marginBottom: "2rem" }}>
+                <div
+                  className="flex flex-wrap gap-2"
+                  style={{ marginBottom: "2rem" }}
+                >
                   {companyData.ceo.tags.map((tag) => (
                     <span
                       key={tag}
@@ -671,10 +882,23 @@ export default function HomePage() {
                 <h3 style={{ fontSize: "1.5rem", fontWeight: 700 }}>
                   {companyData.ceo.name}
                 </h3>
-                <div style={{ color: "var(--color-cyan)", fontSize: "0.95rem", fontWeight: 600, marginTop: "0.25rem" }}>
+                <div
+                  style={{
+                    color: "var(--color-cyan)",
+                    fontSize: "0.95rem",
+                    fontWeight: 600,
+                    marginTop: "0.25rem",
+                  }}
+                >
                   Founder & CEO
                 </div>
-                <div style={{ color: "var(--text-muted)", fontSize: "0.85rem", marginTop: "0.25rem" }}>
+                <div
+                  style={{
+                    color: "var(--text-muted)",
+                    fontSize: "0.85rem",
+                    marginTop: "0.25rem",
+                  }}
+                >
                   Opash Software • Surat, India
                 </div>
 
@@ -691,7 +915,9 @@ export default function HomePage() {
                   }}
                 >
                   Direct Email: <br />
-                  <strong style={{ color: "var(--text-primary)" }}>{companyData.ceo.email}</strong>
+                  <strong style={{ color: "var(--text-primary)" }}>
+                    {companyData.ceo.email}
+                  </strong>
                 </div>
               </div>
             </div>
@@ -704,14 +930,12 @@ export default function HomePage() {
       {/* ========================================================= */}
       <section className="section-padding">
         <div className="container-custom">
-          <div className="flex justify-between items-end flex-wrap gap-4" style={{ marginBottom: "3.5rem" }}>
+          <div
+            className="flex justify-between items-end flex-wrap gap-4"
+            style={{ marginBottom: "3.5rem" }}
+          >
             <div>
-              <span className="badge-glow" style={{ marginBottom: "0.75rem" }}>
-                Knowledge Sharing
-              </span>
-              <h2 className="heading-section" style={{ marginTop: "0.5rem" }}>
-                Tech Insights by Opash
-              </h2>
+              <h2 className="heading-section">Tech Insights by Opash</h2>
             </div>
             <Link href="/blogs" className="btn-secondary">
               <span>View All Articles</span>
@@ -732,7 +956,10 @@ export default function HomePage() {
                 className="interactive-card flex flex-col justify-between"
               >
                 <div>
-                  <div className="flex justify-between items-center" style={{ marginBottom: "1rem" }}>
+                  <div
+                    className="flex justify-between items-center"
+                    style={{ marginBottom: "1rem" }}
+                  >
                     <span
                       style={{
                         fontSize: "0.75rem",
@@ -745,12 +972,21 @@ export default function HomePage() {
                     >
                       {post.category}
                     </span>
-                    <span style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>
+                    <span
+                      style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}
+                    >
                       {post.readTime}
                     </span>
                   </div>
 
-                  <h3 style={{ fontSize: "1.25rem", fontWeight: 700, marginBottom: "0.75rem", lineHeight: 1.4 }}>
+                  <h3
+                    style={{
+                      fontSize: "1.25rem",
+                      fontWeight: 700,
+                      marginBottom: "0.75rem",
+                      lineHeight: 1.4,
+                    }}
+                  >
                     <Link
                       href={`/blogs/${post.slug}`}
                       style={{ color: "inherit", textDecoration: "none" }}
@@ -759,18 +995,41 @@ export default function HomePage() {
                     </Link>
                   </h3>
 
-                  <p style={{ color: "var(--text-secondary)", fontSize: "0.9rem", lineHeight: 1.6, marginBottom: "1.5rem" }}>
+                  <p
+                    style={{
+                      color: "var(--text-secondary)",
+                      fontSize: "0.9rem",
+                      lineHeight: 1.6,
+                      marginBottom: "1.5rem",
+                    }}
+                  >
                     {post.excerpt}
                   </p>
                 </div>
 
-                <div className="flex justify-between items-center" style={{ borderTop: "1px solid var(--border-subtle)", paddingTop: "1rem" }}>
-                  <div style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>
+                <div
+                  className="flex justify-between items-center"
+                  style={{
+                    borderTop: "1px solid var(--border-subtle)",
+                    paddingTop: "1rem",
+                  }}
+                >
+                  <div
+                    style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}
+                  >
                     By {post.author.name} • {post.date}
                   </div>
                   <Link
                     href={`/blogs/${post.slug}`}
-                    style={{ color: "var(--color-cyan)", fontSize: "0.85rem", fontWeight: 600, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 3 }}
+                    style={{
+                      color: "var(--color-cyan)",
+                      fontSize: "0.85rem",
+                      fontWeight: 600,
+                      textDecoration: "none",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 3,
+                    }}
                   >
                     <span>Read Full</span>
                     <ArrowRight size={14} />

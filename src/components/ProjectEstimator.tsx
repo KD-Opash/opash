@@ -92,8 +92,7 @@ export default function ProjectEstimator() {
           <Calculator size={20} />
         </div>
         <div>
-          <span className="badge-glow">Interactive Project Estimator</span>
-          <h3 style={{ fontSize: "1.75rem", fontWeight: 700, marginTop: "0.25rem" }}>
+          <h3 style={{ fontSize: "1.75rem", fontWeight: 700 }}>
             Scope Your Project & Get Instant Estimates
           </h3>
         </div>
