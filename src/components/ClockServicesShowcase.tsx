@@ -1,7 +1,21 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  ChevronLeft,
+  ChevronRight,
+  Sparkles,
+  Layers,
+  Code2,
+  Globe2,
+  Smartphone,
+  Cpu,
+  Network,
+  Users2,
+} from "lucide-react";
 import { Service3DLiveIcon } from "@/components/Service3DLiveIcon";
 
 export interface ServiceItem {
@@ -14,225 +28,480 @@ export interface ServiceItem {
   accent: string;
   accentRgb: string;
   image: string;
+  tags: string[];
+  icon: any;
+  shortLabel: string;
 }
 
 export const SERVICES_DATA: ServiceItem[] = [
   {
     id: "custom-software",
     title: "Custom Software Development",
-    desc: "Opash Software builds scalable custom software tailored to your business needs — from enterprise platforms to niche solutions. Our agile approach, combined with DevOps automation, ensures faster delivery and long-term performance.",
+    shortLabel: "Custom Software",
+    desc: "Opash Software builds scalable custom software tailored to your business needs — from enterprise platforms to niche solutions. Our agile approach ensures faster delivery and long-term performance.",
     url: "https://www.opashsoftware.com/custom-software-development/",
     slug: "custom-software-development",
     badge: "Enterprise Grade",
-    accent: "#0ea5e9",
+    accent: "#0ea5e9", // Blue
     accentRgb: "14, 165, 233",
-    image: "/images/services/custom_software_3d.jpg",
+    image: "",
+    tags: ["Enterprise Architecture", "DevOps & CI/CD", "Cloud-Native"],
+    icon: Code2,
   },
   {
     id: "web-development",
     title: "Web Development",
-    desc: "Get modern, responsive, and SEO-friendly websites with Opash Software’s web development services. We build high-performance platforms using cutting-edge technologies for startups and enterprises.",
+    shortLabel: "Web Apps",
+    desc: "Get modern, responsive, and SEO-friendly websites with Opash Software’s web development services. We build high-performance platforms using cutting-edge technologies.",
     url: "https://www.opashsoftware.com/web-development/",
     slug: "web-development",
     badge: "Lightning Fast",
-    accent: "#f43f5e",
-    accentRgb: "244, 63, 94",
-    image: "/images/services/web_dev_3d.jpg",
+    accent: "#10b981", // Green
+    accentRgb: "16, 185, 129",
+    image: "",
+    tags: ["Next.js & React", "High Performance", "SEO Ready"],
+    icon: Globe2,
   },
   {
     id: "mobile-development",
     title: "Mobile App Development",
-    desc: "We design and develop feature-rich mobile apps for iOS and Android that are fast, secure, and scalable. Opash Software helps you deliver exceptional user experiences with cross-platform and native apps.",
+    shortLabel: "Mobile Apps",
+    desc: "We design and develop feature-rich mobile apps for iOS and Android that are fast, secure, and scalable. Deliver exceptional user experiences with cross-platform and native apps.",
     url: "https://www.opashsoftware.com/mobile-development/",
     slug: "mobile-development",
     badge: "Cross-Platform",
-    accent: "#3b82f6",
+    accent: "#3b82f6", // Blue
     accentRgb: "59, 130, 246",
-    image: "/images/services/mobile_dev_3d.jpg",
+    image: "",
+    tags: ["iOS & Android", "React Native", "Native UX"],
+    icon: Smartphone,
   },
   {
     id: "ai-ml-solutions",
     title: "AI & ML Solutions",
-    desc: "Leverage Artificial Intelligence and Machine Learning to automate workflows, enhance decision-making, and personalize user experiences. Opash Software delivers AI-driven solutions tailored to your business goals.",
+    shortLabel: "AI & ML",
+    desc: "Leverage Artificial Intelligence and Machine Learning to automate workflows, enhance decision-making, and personalize experiences tailored to your business goals.",
     url: "https://www.opashsoftware.com/ai-ml-solutions/",
     slug: "ai-ml-solutions",
     badge: "AI Systems",
-    accent: "#a855f7",
-    accentRgb: "168, 85, 247",
-    image: "/images/services/ai_ml_3d.jpg",
+    accent: "#00bbab", // Green
+    accentRgb: "0, 187, 171",
+    image: "",
+    tags: ["LLMs & GenAI", "Neural Models", "AutoML"],
+    icon: Cpu,
   },
   {
     id: "api-integration",
     title: "API Integration & Microservices",
-    desc: "Enhance system efficiency with seamless API integration and microservices architecture. Opash Software enables rapid scalability, modular development, and faster time-to-market for your digital products.",
+    shortLabel: "API & Microservices",
+    desc: "Enhance system efficiency with seamless API integration and microservices architecture. Enable rapid scalability, modular development, and faster time-to-market.",
     url: "https://www.opashsoftware.com/api-integration/",
     slug: "api-integration",
     badge: "Microservices",
-    accent: "#10b981",
-    accentRgb: "16, 185, 129",
-    image: "/images/services/api_integ_3d.jpg",
+    accent: "#0284c7", // Blue
+    accentRgb: "2, 132, 199",
+    image: "",
+    tags: ["Microservices", "REST & GraphQL", "Low Latency"],
+    icon: Network,
   },
   {
     id: "hire-developers",
     title: "Hire Dedicated Developers",
+    shortLabel: "Dedicated Team",
     desc: "Hire vetted and skilled developers from Opash Software for your custom projects. Scale your tech team on-demand with flexible engagement models and domain expertise.",
     url: "https://www.opashsoftware.com/hire-developers/",
     slug: "hire-developers",
     badge: "Dedicated Team",
-    accent: "#f59e0b",
-    accentRgb: "245, 158, 11",
-    image: "/images/services/hire_devs_3d.jpg",
+    accent: "#10b981", // Green
+    accentRgb: "16, 185, 129",
+    image: "",
+    tags: ["Top 1% Talent", "Zero Overhead", "Flexible Scale"],
+    icon: Users2,
   },
 ];
 
-// Loop cards 3 times for seamless infinite scroll
-const LOOPED_SERVICES = [...SERVICES_DATA, ...SERVICES_DATA, ...SERVICES_DATA];
-
 export function ClockServicesShowcase() {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [isPaused, setIsPaused] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const [mouseTilt, setMouseTilt] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
-  // Fast Auto-Scroll: Shifts by 1 card step every 1.8 seconds (Snappy & Smooth)
+  const stageRef = useRef<HTMLDivElement>(null);
+  const total = SERVICES_DATA.length;
+
+  // Listen for reduced motion preference
   useEffect(() => {
-    if (isPaused) return;
+    if (typeof window === "undefined") return;
+    const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setPrefersReducedMotion(mql.matches);
+    const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
+    mql.addEventListener("change", handler);
+    return () => mql.removeEventListener("change", handler);
+  }, []);
 
+  const goTo = useCallback((index: number) => {
+    setActiveIndex((index + total) % total);
+  }, [total]);
+
+  const prevService = useCallback(() => {
+    goTo(activeIndex - 1);
+  }, [activeIndex, goTo]);
+
+  const nextService = useCallback(() => {
+    goTo(activeIndex + 1);
+  }, [activeIndex, goTo]);
+
+  // Cinematic auto-rotation every 3.5 seconds (3-4 seconds as requested)
+  useEffect(() => {
+    if (isHovered || prefersReducedMotion) return;
     const interval = setInterval(() => {
-      const el = scrollRef.current;
-      if (!el) return;
-
-      const firstChild = el.firstElementChild as HTMLElement;
-      if (!firstChild) return;
-
-      const cardWidth = firstChild.getBoundingClientRect().width;
-      const step = cardWidth + 20; // card width + gap (1.25rem = 20px)
-
-      // When past one full set of 6 cards, seamlessly wrap around
-      const singleSetWidth = step * SERVICES_DATA.length;
-      if (el.scrollLeft >= singleSetWidth * 1.8) {
-        el.scrollLeft -= singleSetWidth;
-      }
-
-      el.scrollBy({ left: step, behavior: "smooth" });
-    }, 1800); // 1.8s for faster, engaging auto-scroll
-
+      setActiveIndex((prev) => (prev + 1) % total);
+    }, 3500);
     return () => clearInterval(interval);
-  }, [isPaused]);
+  }, [isHovered, prefersReducedMotion, total, activeIndex]);
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") {
+        prevService();
+      } else if (e.key === "ArrowRight") {
+        nextService();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [prevService, nextService]);
+
+  // Smooth pointer tilt calculation on active center card only
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!stageRef.current) return;
+    const rect = stageRef.current.getBoundingClientRect();
+    const x = (e.clientX - (rect.left + rect.width / 2)) / (rect.width / 2);
+    const y = (e.clientY - (rect.top + rect.height / 2)) / (rect.height / 2);
+    setMouseTilt({
+      x: Math.max(-1, Math.min(1, x)),
+      y: Math.max(-1, Math.min(1, y)),
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setMouseTilt({ x: 0, y: 0 });
+    setIsHovered(false);
+  };
+
+  // Touch Swipe handlers for mobile
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStartX(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX === null) return;
+    const diff = e.changedTouches[0].clientX - touchStartX;
+    if (diff > 40) {
+      prevService();
+    } else if (diff < -40) {
+      nextService();
+    }
+    setTouchStartX(null);
+  };
+
+  // Deterministic 3D slot resolution for 6 cards continuous rotation
+  const getSlot = (index: number) => {
+    let diff = (index - activeIndex) % total;
+    if (diff < 0) diff += total;
+
+    switch (diff) {
+      case 0:
+        return "center";
+      case 1:
+        return "right-1";
+      case 2:
+        return "right-2";
+      case 3:
+        return "back";
+      case 4:
+        return "left-2";
+      case 5:
+        return "left-1";
+      default:
+        return "back";
+    }
+  };
+
+  const activeService = SERVICES_DATA[activeIndex];
 
   return (
     <section
       id="services"
-      className="section-padding relative overflow-hidden w-full select-none"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
+      className="coverflow-services-section relative overflow-x-clip w-full select-none"
+      aria-label="Opash Software Services and Capabilities"
     >
-      <div className="max-w-[1380px] mx-auto px-4 sm:px-6 lg:px-8">
-        {/* 1. CENTERED SECTION TITLE & PARAGRAPH */}
+      {/* Dynamic Ambient Background Aura smoothly reacting to active card accent */}
+      <div className="coverflow-stage-backdrop" aria-hidden="true">
         <div
-          className="text-center max-w-3xl mx-auto px-4 flex flex-col items-center justify-center"
-          style={{ textAlign: "center", marginBottom: "3.5rem" }}
-        >
-          <h2
-            className="heading-section"
-            style={{ textAlign: "center", width: "100%", margin: "0 auto", color: "#ffffff" }}
-          >
-            Our Services
+          className="coverflow-ambient-spotlight"
+          style={{
+            backgroundColor: `rgba(${activeService.accentRgb}, 0.22)`,
+            boxShadow: `0 0 160px 80px rgba(${activeService.accentRgb}, 0.25)`,
+          }}
+        />
+        <div
+          className="coverflow-secondary-glow"
+          style={{
+            backgroundColor: `rgba(6, 182, 212, 0.08)`,
+            boxShadow: `0 0 220px 110px rgba(6, 182, 212, 0.12)`,
+          }}
+        />
+        <div className="coverflow-grid-floor" />
+      </div>
+
+      <div className="container-custom relative z-10">
+        {/* ========================================================================= */}
+        {/* 1. SECTION HEADER                                                         */}
+        {/* ========================================================================= */}
+        <div className="coverflow-header-wrapper">
+          <h2 className="coverflow-headline">
+            Our <span className="coverflow-headline-highlight">Services</span>
           </h2>
-          <p
-            className="subhead-lead mt-3.5"
-            style={{
-              textAlign: "center",
-              maxWidth: "780px",
-              margin: "0.85rem auto 0 auto",
-              color: "rgba(255, 255, 255, 0.92)",
-            }}
-          >
-            We create highly responsive applications with the remarkable
-            aesthetics that deliver a spectrum of result oriented digital
-            experience.
+
+          <p className="coverflow-subhead">
+            We engineer high-performance digital platforms with remarkable aesthetics, delivering a full spectrum of result-oriented enterprise solutions.
           </p>
+
+          {/* Quick-Jump Category / Service Pills */}
+          <div className="coverflow-pill-tabs" role="tablist">
+            {SERVICES_DATA.map((srv, idx) => {
+              const isActive = idx === activeIndex;
+              const Icon = srv.icon;
+              return (
+                <button
+                  key={srv.id}
+                  onClick={() => goTo(idx)}
+                  className={`coverflow-tab-btn ${isActive ? "active" : ""}`}
+                  role="tab"
+                  aria-selected={isActive}
+                  style={
+                    {
+                      "--tab-accent": srv.accent,
+                      "--tab-accent-rgb": srv.accentRgb,
+                    } as React.CSSProperties
+                  }
+                >
+                  <Icon size={13} className="coverflow-tab-icon" />
+                  <span>{srv.shortLabel}</span>
+                  {isActive && <span className="coverflow-tab-active-glow" />}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
-        {/* 2. FAST AUTO-SCROLLING 4-CARDS TRACK (Infinite & Pauses on Hover) */}
-        <div className="relative pt-2">
-          <div ref={scrollRef} className="services-four-card-track">
-            {LOOPED_SERVICES.map((service, index) => (
-              <div
-                key={`${service.id}-${index}`}
-                className="service-four-card-col shrink-0 snap-start flex"
-              >
-                <Link
-                  href={service.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="service-four-card-inner interactive-card flex flex-col justify-start items-center text-center w-full transition-all duration-300 relative group cursor-pointer"
-                  style={{
-                    padding: "2rem 1.4rem 2rem 1.4rem",
-                    borderRadius: "1.75rem",
-                    backgroundColor: "rgba(10, 18, 32, 0.92)",
-                    border: "1px solid rgba(255, 255, 255, 0.12)",
-                    boxShadow: "0 14px 35px -10px rgba(0, 0, 0, 0.45)",
-                    backdropFilter: "blur(20px)",
-                    minHeight: "410px",
-                    textDecoration: "none",
-                    color: "#ffffff",
+        {/* ========================================================================= */}
+        {/* 2. 3D PERSPECTIVE COVERFLOW CAROUSEL STAGE                                */}
+        {/* ========================================================================= */}
+        <div
+          ref={stageRef}
+          className="coverflow-stage-container"
+          onMouseMove={handleMouseMove}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
+          {/* Left Navigation Arrow */}
+          <button
+            onClick={prevService}
+            aria-label="Previous service card"
+            className="coverflow-stage-nav-btn prev-btn"
+          >
+            <ChevronLeft size={22} />
+          </button>
+
+          {/* Right Navigation Arrow */}
+          <button
+            onClick={nextService}
+            aria-label="Next service card"
+            className="coverflow-stage-nav-btn next-btn"
+          >
+            <ChevronRight size={22} />
+          </button>
+
+          {/* 3D Cards Carousel Deck with 6-Slot Continuous Orbit */}
+          <div className="coverflow-deck-wrapper">
+            {SERVICES_DATA.map((service, index) => {
+              const slot = getSlot(index);
+              const isCenter = slot === "center";
+              const isBack = slot === "back";
+
+              return (
+                <div
+                  key={service.id}
+                  data-slot={slot}
+                  onClick={(e) => {
+                    if (!isCenter) {
+                      e.preventDefault();
+                      goTo(index);
+                    }
                   }}
+                  className={`coverflow-card-anchor ${isCenter ? "is-center" : ""} ${
+                    slot === "right-1" || slot === "left-1" ? "is-adjacent" : ""
+                  } ${slot === "right-2" || slot === "left-2" ? "is-far" : ""} ${
+                    isBack ? "is-back" : ""
+                  }`}
+                  style={
+                    {
+                      "--service-accent": service.accent,
+                      "--service-accent-rgb": service.accentRgb,
+                    } as React.CSSProperties
+                  }
+                  role="group"
+                  aria-roledescription="slide"
+                  aria-label={`${service.title} (${index + 1} of ${total})`}
+                  aria-hidden={isBack}
                 >
-                  {/* Status Badge */}
-                  <div className="mb-2">
-                    <span
-                      className="inline-flex items-center text-[11px] font-semibold px-2.5 py-0.5 rounded-full uppercase tracking-wider"
+                  <Link
+                    href={service.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="coverflow-card-box"
+                    tabIndex={isCenter ? 0 : -1}
+                    onMouseEnter={() => isCenter && setIsHovered(true)}
+                    onMouseLeave={() => isCenter && handleMouseLeave()}
+                    style={
+                      isCenter && isHovered && !prefersReducedMotion && (mouseTilt.x !== 0 || mouseTilt.y !== 0)
+                        ? {
+                            transform: `rotateX(${mouseTilt.y * -4}deg) rotateY(${mouseTilt.x * 4}deg)`,
+                            transition: "transform 0.12s ease-out",
+                          }
+                        : undefined
+                    }
+                  >
+                    {/* Active Laser Border Beam (spinning around card perimeter) */}
+                    {isCenter && <div className="coverflow-laser-border" aria-hidden="true" />}
+
+                    {/* Ambient Accent Radial Glow */}
+                    <div
+                      className="coverflow-card-halo"
                       style={{
-                        backgroundColor: `rgba(${service.accentRgb}, 0.12)`,
-                        color: service.accent,
-                        border: `1px solid rgba(${service.accentRgb}, 0.3)`,
+                        background: `radial-gradient(circle at 50% 0%, rgba(${service.accentRgb}, 0.55) 0%, transparent 65%)`,
                       }}
-                    >
-                      {service.badge}
-                    </span>
-                  </div>
+                    />
 
-                  {/* 3D Glossy Live Device Icon (Computer, Laptop, Phone, Brain, Server, Developer) */}
-                  <Service3DLiveIcon
-                    id={service.id}
-                    image={service.image}
-                    title={service.title}
-                    accent={service.accent}
-                    accentRgb={service.accentRgb}
-                  />
+                    {/* Top Specular Sheen */}
+                    <div
+                      className="coverflow-card-top-sheen"
+                      style={{
+                        background: `linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.2) 25%, ${service.accent} 50%, rgba(255,255,255,0.2) 75%, transparent 100%)`,
+                      }}
+                    />
 
-                  {/* Card Title */}
-                  <h3
-                    className="service-four-card-title text-base sm:text-lg font-bold tracking-tight transition-colors duration-200 text-center min-h-[2.8rem] flex items-center justify-center"
-                    style={{
-                      lineHeight: 1.35,
-                      color: "#ffffff",
-                      marginBottom: "1.75rem",
-                    }}
-                  >
-                    {service.title}
-                  </h3>
+                    {/* Card Header: Badge + Arrow */}
+                    <div className="coverflow-card-header">
+                      <span
+                        className="coverflow-badge"
+                        style={{
+                          backgroundColor: `rgba(${service.accentRgb}, 0.12)`,
+                          color: service.accent,
+                          border: `1px solid rgba(${service.accentRgb}, 0.35)`,
+                        }}
+                      >
+                        <span
+                          className="coverflow-badge-dot"
+                          style={{
+                            backgroundColor: service.accent,
+                            boxShadow: `0 0 8px ${service.accent}`,
+                          }}
+                        />
+                        {service.badge}
+                      </span>
 
-                  {/* Card Content / Description */}
-                  <p
-                    className="service-four-card-desc text-xs sm:text-[13px] leading-relaxed text-center line-clamp-4"
-                    style={{
-                      lineHeight: 1.68,
-                      color: "rgba(255, 255, 255, 0.92)",
-                    }}
-                  >
-                    {service.desc}
-                  </p>
+                      <div
+                        className="coverflow-corner-btn"
+                        style={{
+                          borderColor: `rgba(${service.accentRgb}, 0.3)`,
+                          color: service.accent,
+                        }}
+                      >
+                        <ArrowUpRight size={15} />
+                      </div>
+                    </div>
 
-                  {/* Interactive Border Glow on Hover */}
-                  <div
-                    className="absolute inset-0 rounded-[1.75rem] pointer-events-none transition-opacity duration-300 opacity-0 group-hover:opacity-100"
-                    style={{
-                      boxShadow: `inset 0 0 0 1.5px ${service.accent}, 0 0 35px -8px rgba(${service.accentRgb}, 0.4)`,
-                    }}
-                  />
-                </Link>
-              </div>
-            ))}
+                    {/* 3D Tech Icon Stage */}
+                    <div className="coverflow-icon-stage">
+                      <Service3DLiveIcon
+                        id={service.id}
+                        image={service.image}
+                        title={service.title}
+                        accent={service.accent}
+                        accentRgb={service.accentRgb}
+                      />
+                    </div>
+
+                    {/* Card Content */}
+                    <div className="coverflow-card-body">
+                      <h3 className="coverflow-card-title">{service.title}</h3>
+
+                      <p className="coverflow-card-desc">{service.desc}</p>
+
+                      {/* Feature Chips */}
+                      <div className="coverflow-tags-row">
+                        {service.tags.map((tag, tIdx) => (
+                          <span key={tIdx} className="coverflow-tag-chip">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Footer CTA */}
+                    <div className="coverflow-card-footer">
+                      <span className="coverflow-cta-text" style={{ color: service.accent }}>
+                        Explore Service
+                      </span>
+                      <div
+                        className="coverflow-cta-arrow"
+                        style={{
+                          backgroundColor: `rgba(${service.accentRgb}, 0.15)`,
+                          color: service.accent,
+                        }}
+                      >
+                        <ArrowRight size={14} />
+                      </div>
+                    </div>
+
+                    {/* Corner Cyber Accents */}
+                    <div className="coverflow-corner-bracket top-left" />
+                    <div className="coverflow-corner-bracket top-right" />
+                    <div className="coverflow-corner-bracket bottom-left" />
+                    <div className="coverflow-corner-bracket bottom-right" />
+                  </Link>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* ========================================================================= */}
+        {/* 3. SIX-STEP POSITION INDICATOR & PROGRESS DOCK                            */}
+        {/* ========================================================================= */}
+        <div className="coverflow-pagination-dock" role="navigation" aria-label="Carousel navigation">
+          <div className="coverflow-dots-group">
+            {SERVICES_DATA.map((srv, idx) => {
+              const isActive = idx === activeIndex;
+              return (
+                <button
+                  key={srv.id}
+                  onClick={() => goTo(idx)}
+                  className={`coverflow-dot-pill ${isActive ? "active" : ""}`}
+                  aria-label={`Jump to ${srv.title} (${idx + 1} of ${total})`}
+                  aria-current={isActive ? "true" : undefined}
+                  style={{
+                    backgroundColor: isActive ? srv.accent : undefined,
+                    boxShadow: isActive ? `0 0 14px ${srv.accent}` : undefined,
+                  }}
+                />
+              );
+            })}
           </div>
         </div>
       </div>

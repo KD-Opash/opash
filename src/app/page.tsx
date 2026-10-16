@@ -80,12 +80,13 @@ import { servicesData } from "@/data/services";
 import { caseStudiesData } from "@/data/case-studies";
 import { industriesData } from "@/data/industries";
 import { blogsData } from "@/data/blogs";
-import TechStackMatrix from "@/components/TechStackMatrix";
-import ProjectEstimator from "@/components/ProjectEstimator";
 import TestimonialsSlider from "@/components/TestimonialsSlider";
 import ContactForm from "@/components/ContactForm";
 import { Boxes } from "@/components/ui/background-boxes";
+import CinematicImpactSection from "@/components/CinematicImpactSection";
 import { ClockServicesShowcase } from "@/components/ClockServicesShowcase";
+import { InteractiveIndustriesBento } from "@/components/InteractiveIndustriesBento";
+import { TechStackShowcase } from "@/components/TechStackShowcase";
 
 export default function HomePage() {
   const serviceIcons = {
@@ -130,114 +131,9 @@ export default function HomePage() {
       <DigitalPillarHero />
 
       {/* ========================================================= */}
-      {/* SECTION 2: OUR ACHIEVEMENTS (Circular Metric Pods & Summary) */}
+      {/* SECTION 2: CINEMATIC ANIMATED IMPACT & STATISTICS         */}
       {/* ========================================================= */}
-      {/* ========================================================= */}
-      {/* SECTION 2: STATS TEMPLATE SECTION (Image 1 Layout + Aceternity Background Boxes) */}
-      {/* ========================================================= */}
-      <section id="achievements" className="section-achievements-template">
-        {/* Aceternity Interactive Background Boxes Layer */}
-        <div className="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-auto">
-          <div
-            className="absolute inset-0 w-full h-full bg-[#060b13] dark:bg-[#060b13] [data-theme=light]:bg-[#f8fafc] z-10 pointer-events-none"
-            style={{
-              maskImage:
-                "linear-gradient(to bottom, black 0%, transparent 5%, transparent 95%, black 100%)",
-              WebkitMaskImage:
-                "linear-gradient(to bottom, black 0%, transparent 5%, transparent 95%, black 100%)",
-            }}
-          />
-          <Boxes />
-        </div>
-
-        <div className="container-custom relative z-20">
-          {/* Top Row: Two-column layout matching Image 1 */}
-          <div className="template-achievements-top">
-            {/* Left Column: Big Headline matching Image 1 */}
-            <motion.div
-              className="template-achievements-headline-col"
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: false, amount: 0.2 }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <h2 className="template-headline">
-                Empowering your <br />
-                <span className="template-headline-highlight">
-                  success
-                </span>{" "}
-                <span className="template-headline-muted">
-                  with our solutions
-                </span>
-              </h2>
-            </motion.div>
-
-            {/* Right Column: 2x2 Grid of 4 Stats matching Image 1 */}
-            <motion.div
-              className="template-achievements-stats-grid"
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: false, amount: 0.2 }}
-              transition={{
-                duration: 0.8,
-                delay: 0.1,
-                ease: [0.16, 1, 0.3, 1],
-              }}
-            >
-              {[
-                {
-                  val: 50,
-                  suffix: "+",
-                  label: "Experienced Software Developers",
-                },
-                {
-                  val: 70,
-                  suffix: "+",
-                  label: "Custom Software Projects Delivered",
-                },
-                {
-                  val: 12000,
-                  suffix: "+",
-                  label: "Hours of Project Execution",
-                },
-                {
-                  val: 8,
-                  suffix: "+",
-                  label: "Years of Industry Experience in IT Solutions",
-                },
-              ].map((stat) => (
-                <motion.div
-                  key={stat.label}
-                  className="template-stat-item"
-                  whileHover={{ y: -4, transition: { duration: 0.2 } }}
-                >
-                  <div className="template-stat-val">
-                    <StatCounter value={stat.val} suffix={stat.suffix} />
-                  </div>
-                  <div className="template-stat-label">{stat.label}</div>
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
-
-          {/* Bottom Row: Full-width descriptive summary matching Image 1 */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.2 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="template-achievements-bottom"
-          >
-            <p className="template-summary-text">
-              As a leading custom software development company in India, Opash
-              Software empowers startups, SMEs, and enterprises with scalable
-              Web, Mobile, and AI solutions. Our proven agile methodologies,
-              expert team, and client-first approach ensure quality results and
-              long-term success.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+      <CinematicImpactSection />
 
       {/* ========================================================= */}
       {/* SECTION 3: SERVICES SHOWCASE */}
@@ -245,18 +141,15 @@ export default function HomePage() {
       <ClockServicesShowcase />
 
       {/* ========================================================= */}
-      {/* SECTION 4: INTERACTIVE PROJECT COST ESTIMATOR */}
+      {/* SECTION 4: INDUSTRIES WE SPECIALIZE IN (3D BENTO GRID)    */}
       {/* ========================================================= */}
-      <section
-        className="section-alt"
-        style={{
-          padding: "5rem 0",
-        }}
-      >
-        <div className="container-custom">
-          <ProjectEstimator />
-        </div>
-      </section>
+      <InteractiveIndustriesBento />
+
+      {/* ========================================================= */}
+      {/* SECTION 5: TECHNOLOGIES & PLATFORMS WE WORK WITH          */}
+      {/* ========================================================= */}
+      <TechStackShowcase />
+
 
       {/* ========================================================= */}
       {/* SECTION 5: VERIFIED CLIENT WORK & CASE STUDIES */}
@@ -288,8 +181,7 @@ export default function HomePage() {
             {caseStudiesData.slice(0, 3).map((cs) => (
               <div
                 key={cs.id}
-                className="interactive-card flex flex-col justify-between"
-              >
+                className="interactive-card flex flex-col justify-between">
                 <div>
                   <div
                     className="flex justify-between items-center"
@@ -430,30 +322,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ========================================================= */}
-      {/* SECTION 6: TECH STACK MATRIX EXPLORER */}
-      {/* ========================================================= */}
-      <section className="section-padding">
-        <div className="container-custom">
-          <div
-            style={{
-              textAlign: "center",
-              maxWidth: "750px",
-              margin: "0 auto 3.5rem auto",
-            }}
-          >
-            <h2 className="heading-section">
-              Technologies & Platforms We Master
-            </h2>
-            <p className="subhead-lead" style={{ marginTop: "0.75rem" }}>
-              Filter by engineering domain to discover our core frameworks,
-              database engines, and cloud infrastructure capabilities.
-            </p>
-          </div>
-
-          <TechStackMatrix />
-        </div>
-      </section>
 
       {/* ========================================================= */}
       {/* SECTION 7: WHY CHOOSE OPASH - COMPARISON MATRIX */}
@@ -626,94 +494,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ========================================================= */}
-      {/* SECTION 8: INDUSTRIES WE SPECIALIZE IN */}
-      {/* ========================================================= */}
-      <section className="section-padding">
-        <div className="container-custom">
-          <div
-            style={{
-              textAlign: "center",
-              maxWidth: "750px",
-              margin: "0 auto 4rem auto",
-            }}
-          >
-            <h2 className="heading-section">Industries We Specialize In</h2>
-            <p className="subhead-lead" style={{ marginTop: "0.75rem" }}>
-              Over 8+ years of deep domain experience delivering compliant,
-              high-security software across regulated and high-growth markets.
-            </p>
-          </div>
 
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-              gap: "1.5rem",
-            }}
-          >
-            {industriesData.slice(0, 6).map((ind) => (
-              <div
-                key={ind.id}
-                className="glass-panel"
-                style={{
-                  padding: "1.75rem",
-                }}
-              >
-                <div
-                  className="flex justify-between items-center"
-                  style={{ marginBottom: "0.75rem" }}
-                >
-                  <h3 style={{ fontSize: "1.2rem", fontWeight: 700 }}>
-                    {ind.name}
-                  </h3>
-                  <span
-                    style={{
-                      fontSize: "0.7rem",
-                      fontWeight: 700,
-                      color: "var(--color-cyan)",
-                      backgroundColor: "rgba(94, 192, 152, 0.12)",
-                      padding: "0.2rem 0.5rem",
-                      borderRadius: "999px",
-                    }}
-                  >
-                    {ind.metrics}
-                  </span>
-                </div>
-                <p
-                  style={{
-                    color: "var(--text-secondary)",
-                    fontSize: "0.88rem",
-                    lineHeight: 1.5,
-                    marginBottom: "1rem",
-                  }}
-                >
-                  {ind.description}
-                </p>
-                <ul
-                  style={{
-                    listStyle: "none",
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "0.4rem",
-                  }}
-                >
-                  {ind.solutions.slice(0, 3).map((sol, i) => (
-                    <li
-                      key={i}
-                      className="flex items-center gap-2"
-                      style={{ color: "var(--text-muted)", fontSize: "0.8rem" }}
-                    >
-                      <CheckCircle2 size={13} color="var(--color-cyan)" />
-                      <span>{sol}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* ========================================================= */}
       {/* SECTION 9: CLIENT TESTIMONIALS SLIDER */}

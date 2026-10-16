@@ -1,170 +1,219 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { 
-  Sparkles, 
-  ArrowRight, 
-  MessageSquare
-} from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowRight, MessageSquare, CheckCircle2, ShieldCheck } from "lucide-react";
 import { companyData } from "@/data/company";
-import { CloudShader } from "@/components/ui/cloud-shader";
-import { LayoutTextFlip } from "@/components/ui/layout-text-flip";
-
-const GLOBAL_PRESENCE = [
-  { name: "India", flag: "🇮🇳", code: "IND" },
-  { name: "United States", flag: "🇺🇸", code: "USA" },
-  { name: "United Kingdom", flag: "🇬🇧", code: "GBR" },
-  { name: "Canada", flag: "🇨🇦", code: "CAN" },
-  { name: "Germany", flag: "🇩🇪", code: "DEU" },
-  { name: "UAE", flag: "🇦🇪", code: "ARE" },
-  { name: "Australia", flag: "🇦🇺", code: "AUS" },
-  { name: "Brazil", flag: "🇧🇷", code: "BRA" },
-  { name: "Singapore", flag: "🇸🇬", code: "SGP" },
-];
+import LettersInMotionVisual, { ActivePhraseState } from "@/components/LettersInMotionVisual";
+import LettersInMotionHeadline, { OPASH_SERVICES_PHRASES } from "@/components/LettersInMotionHeadline";
+import ConnectedConstellation from "@/components/ConnectedConstellation";
 
 export default function DigitalPillarHero() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [theme, setTheme] = useState<"dark" | "light">("dark");
+  const heroRef = useRef<HTMLDivElement>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-  useEffect(() => {
-    const updateTheme = () => {
-      const isLight = document.documentElement.getAttribute("data-theme") === "light";
-      setTheme(isLight ? "light" : "dark");
-    };
-    updateTheme();
+  const [activePhrase, setActivePhrase] = useState<ActivePhraseState>({
+    index: 0,
+    id: OPASH_SERVICES_PHRASES[0].id,
+    title: OPASH_SERVICES_PHRASES[0].title,
+    slug: OPASH_SERVICES_PHRASES[0].slug,
+    primaryColor: OPASH_SERVICES_PHRASES[0].primaryColor,
+    secondaryColor: OPASH_SERVICES_PHRASES[0].secondaryColor,
+    rect: {
+      left: 100,
+      top: 180,
+      width: 320,
+      height: 60,
+      centerX: 260,
+      centerY: 210,
+      normX: -0.4,
+      normY: 0.15,
+      widthNorm: 0.28,
+      heightNorm: 0.09,
+    },
+    transitionProgress: 1.0,
+    isTransitioning: false,
+  });
 
-    const observer = new MutationObserver(() => {
-      updateTheme();
-    });
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["data-theme"],
-    });
-
-    return () => observer.disconnect();
+  // Centralized selection handler guaranteeing instantaneous lockstep across 3D background & text
+  const handleSelectService = useCallback((idx: number) => {
+    setCurrentIndex(idx);
+    const def = OPASH_SERVICES_PHRASES[idx];
+    setActivePhrase((prev) => ({
+      ...prev,
+      index: idx,
+      id: def.id,
+      title: def.title,
+      slug: def.slug,
+      primaryColor: def.primaryColor,
+      secondaryColor: def.secondaryColor,
+      transitionProgress: 0.0,
+      isTransitioning: true,
+    }));
   }, []);
 
+  const activeDef = OPASH_SERVICES_PHRASES[currentIndex];
+  const IconComponent = activeDef.icon;
+
   return (
-    <section
-      ref={containerRef}
-      className="cinema-earth-hero-section"
-    >
+    <section className="hero-brand-section letters-motion-hero-section" ref={heroRef}>
       {/* ========================================================================= */}
-      {/* 1. OPASH BRANDED AMBIENT BACKGROUND STAGE                                 */}
+      {/* 1. 3D WEBGL STAGE: "OPASH — LETTERS IN MOTION"                            */}
+      {/* Dynamic Luminous Ribbon + Ambient Reactive Glows + Coordinated Color Morph */}
       {/* ========================================================================= */}
-      <div className="hero-opash-brand-bg-stage" aria-hidden="true">
-        {/* Base cosmic space background */}
-        <div className="hero-cosmic-space-bg" />
+      <LettersInMotionVisual
+        currentIndex={currentIndex}
+        activePhrase={activePhrase}
+        onSelectPhrase={handleSelectService}
+      />
 
-        {/* Aceternity UI Cloud Shader with crisp procedural drifting clouds */}
-        <div className="hero-cloud-shader-stage" aria-hidden="true">
-          <CloudShader
-            className="w-full h-full"
-            speed={0.8}
-            count={5}
-            cloudColor="#ffffff"
-            skyTopColor={theme === "light" ? "#3174b8" : "#030814"}
-            skyBottomColor={theme === "light" ? "#88beea" : "#0c2b64"}
+      {/* ========================================================================= */}
+      {/* 2. TWO-COLUMN HERO FOREGROUND CONTAINER                                   */}
+      {/* ========================================================================= */}
+      <div className="hero-brand-container letters-motion-container">
+        {/* LEFT COLUMN: Brand Eyebrow, Kinetic Letter Headline, Presences, CTAs */}
+        <motion.div
+          className="hero-brand-left"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+        >
+          {/* Eyebrow Label with Teal Pulse Indicator */}
+          <div className="hero-brand-eyebrow">
+            <span
+              className="hero-brand-eyebrow-indicator"
+              style={{ backgroundColor: activeDef.primaryColor, boxShadow: `0 0 10px ${activeDef.primaryColor}` }}
+            />
+            <span>OPASH SOFTWARE — ELEVATE YOUR DIGITAL PRESENCE</span>
+          </div>
+
+          {/* Core Kinetic Letters-in-Motion Headline */}
+          <LettersInMotionHeadline
+            heroRef={heroRef}
+            currentIndex={currentIndex}
+            onSelectIndex={handleSelectService}
+            onPhraseChange={setActivePhrase}
           />
-        </div>
 
-        {/* Opash Mint Ambient Glow */}
-        <div className="hero-opash-glow-mint" />
+          {/* Supporting Subtitle Paragraph */}
+          <p className="hero-brand-subtitle letters-hero-subtitle">
+            With the help of Innovation and Technology, We give you the power to
+            change the world with your ideas.
+          </p>
 
-        {/* Opash Royal Blue Ambient Glow */}
-        <div className="hero-opash-glow-blue" />
-      </div>
+          {/* Distinctive Connected Constellation: 9 Markets Connected by One Partner */}
+          <ConnectedConstellation />
 
-      {/* ========================================================================= */}
-      {/* 2. FOREGROUND CENTERED CONTENT LAYER                                      */}
-      {/* ========================================================================= */}
-      <div className="hero-split-foreground-layer hero-centered-foreground">
-        <div className="hero-split-container hero-centered-container" style={{ position: "relative" }}>
-          {/* Centered Column: Grand Typography & Action Row */}
-          <motion.div
-            className="hero-clean-text-content hero-centered-text-content"
-            style={{ position: "relative", zIndex: 10 }}
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-          >
-            {/* Eyebrow Pill - Opash Brand Text without green background */}
-            <div className="hero-cinema-badge">
-              <span>Opash Software – Elevate Your Digital Presence</span>
-            </div>
+          {/* Refined Brand CTA Action Buttons */}
+          <div className="hero-brand-cta-row">
+            <Link href="/get-a-quote" className="hero-brand-primary-btn">
+              <span>Build on Our Foundation</span>
+              <ArrowRight size={15} className="hero-btn-arrow" />
+            </Link>
 
-            {/* Main H1 Title: Opash Official Heading in exactly 2 lines with Aceternity UI LayoutTextFlip */}
-            <h1 className="hero-cinema-h1">
-              <span className="hero-cinema-h1-white hero-cinema-h1-line hero-cinema-h1-line-1">
-                Top Global Partner for Custom Software
-              </span>
-              <span className="hero-cinema-h1-white hero-cinema-h1-line hero-cinema-h1-line-2 hero-cinema-h1-subline">
-                <span>Development in</span>
-                <LayoutTextFlip
-                  words={[
-                    "Travel",
-                    "FinTech",
-                    "Health Care",
-                    "E-Commerce",
-                    "Real Estate",
-                    "Insurance",
-                  ]}
-                  duration={2400}
-                  className="hero-layout-flip-badge"
-                  textClassName="hero-layout-flip-text"
-                />
-              </span>
-            </h1>
-
-            {/* Subtitle Paragraph */}
-            <p className="hero-clean-subtitle">
-              With the help of Innovation and Technology, We give you the power to change the world with your ideas.
-            </p>
-
-            {/* Global Presence Box (Slides in smoothly from the left on initial view) */}
-            <motion.div
-              initial={{ opacity: 0, x: -70 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.9, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              className="hero-global-presence-card"
+            <a
+              href={companyData.contact.whatsapp}
+              target="_blank"
+              rel="noreferrer"
+              className="hero-brand-secondary-btn"
             >
-              <div className="hero-presence-inner">
-                {GLOBAL_PRESENCE.map((item, idx) => (
-                  <div key={item.code} className="hero-presence-chip">
-                    <span className="hero-presence-name">{item.name}</span>
-                    {idx < GLOBAL_PRESENCE.length - 1 && (
-                      <span className="hero-presence-dot">✦</span>
-                    )}
-                  </div>
-                ))}
+              <MessageSquare size={15} className="hero-wa-icon" />
+              <span>WhatsApp Chief Architect</span>
+            </a>
+          </div>
+        </motion.div>
+
+        {/* RIGHT COLUMN: Interactive Capability Nexus Card & Live Architecture */}
+        <motion.div
+          className="hero-brand-right letters-motion-right"
+          initial={{ opacity: 0, scale: 0.96 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.95, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <div className="letters-right-card">
+            {/* Header with Active Capability Badge */}
+            <div className="letters-right-card-header">
+              <div
+                className="letters-right-icon-box"
+                style={{
+                  color: activeDef.primaryColor,
+                  borderColor: `${activeDef.primaryColor}50`,
+                  background: `${activeDef.primaryColor}16`,
+                }}
+              >
+                <IconComponent size={20} />
               </div>
-            </motion.div>
-
-            {/* CTA Buttons Center Aligned */}
-            <div className="hero-earth-cta-row">
-              <Link
-                href="/get-a-quote"
-                className="pillar-primary-btn"
-              >
-                <Sparkles size={16} />
-                <span>Build on Our Foundation</span>
-                <ArrowRight size={16} className="btn-arrow-icon" />
-              </Link>
-
-              <a
-                href={companyData.contact.whatsapp}
-                target="_blank"
-                rel="noreferrer"
-                className="pillar-whatsapp-btn"
-              >
-                <MessageSquare size={17} style={{ color: "#25D366" }} />
-                <span>WhatsApp Chief Architect</span>
-              </a>
+              <div className="letters-right-card-meta">
+                <span className="letters-right-card-label">Active Solution Area</span>
+                <span
+                  className="letters-right-card-badge"
+                  style={{ color: activeDef.primaryColor }}
+                >
+                  {activeDef.badge}
+                </span>
+              </div>
             </div>
-          </motion.div>
-        </div>
+
+            {/* Dynamic Title and Subtitle */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeDef.id}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.28 }}
+              >
+                <h3 className="letters-right-card-title">{activeDef.title}</h3>
+                <p className="letters-right-card-desc">{activeDef.subtitle}</p>
+
+                {/* Metric Features */}
+                <div className="letters-right-metrics-grid">
+                  <div className="letters-right-metric-item">
+                    <CheckCircle2 size={13} style={{ color: activeDef.primaryColor }} />
+                    <span>{activeDef.tagline}</span>
+                  </div>
+                  <div className="letters-right-metric-item">
+                    <ShieldCheck size={13} style={{ color: activeDef.secondaryColor }} />
+                    <span>Enterprise SLA · End-to-End Delivery</span>
+                  </div>
+                </div>
+
+                {/* Action Link to Full Service Page */}
+                <Link
+                  href={activeDef.slug}
+                  className="letters-right-action-btn"
+                  style={{
+                    background: `${activeDef.primaryColor}18`,
+                    borderColor: `${activeDef.primaryColor}45`,
+                  }}
+                >
+                  <span>View Engineering Specifications</span>
+                  <ArrowRight size={13} />
+                </Link>
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Live Synchronized Status Footer */}
+            <div className="letters-right-footer">
+              <div className="letters-right-pulse-indicator">
+                <span
+                  className="letters-right-pulse-dot"
+                  style={{
+                    backgroundColor: activeDef.primaryColor,
+                    boxShadow: `0 0 10px ${activeDef.primaryColor}`,
+                  }}
+                />
+                <span className="letters-right-status-text">
+                  Synchronized with Headline Letters
+                </span>
+              </div>
+              <span className="letters-right-index-text">
+                0{currentIndex + 1} / 0{OPASH_SERVICES_PHRASES.length}
+              </span>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
