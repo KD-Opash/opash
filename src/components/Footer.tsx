@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { 
   Mail, 
@@ -10,136 +10,320 @@ import {
   ShieldCheck, 
   Award, 
   Star,
-  Send
+  Send,
+  Sparkles,
+  ChevronRight,
+  Globe,
+  Clock,
+  MessageCircle,
+  ExternalLink,
+  HeartHandshake
 } from "lucide-react";
 import { companyData } from "@/data/company";
+import { useTheme } from "./ThemeProvider";
 
 export default function Footer() {
+  const { theme } = useTheme();
+  const isLight = theme === "light";
+  const [hoveredLink, setHoveredLink] = useState<string | null>(null);
+
   return (
     <footer
       style={{
-        backgroundColor: "var(--bg-secondary)",
-        borderTop: "1px solid var(--border-subtle)",
         position: "relative",
         overflow: "hidden",
-        paddingTop: "5rem",
+        backgroundColor: isLight ? "#f1f5f9" : "#030814",
+        color: isLight ? "#0f172a" : "#f8fafc",
+        borderTop: `1px solid ${isLight ? "rgba(203, 213, 225, 0.8)" : "rgba(255, 255, 255, 0.08)"}`,
+        paddingTop: "5.5rem",
         paddingBottom: "3rem",
+        transition: "background-color 0.4s ease, color 0.4s ease",
       }}
     >
-      {/* Ambient background glow orb */}
+      {/* Top Holographic Laser Accent Rail */}
       <div
+        aria-hidden="true"
         style={{
           position: "absolute",
-          top: "10%",
+          top: 0,
+          left: 0,
+          right: 0,
+          height: "3px",
+          background: "linear-gradient(90deg, transparent 0%, #00ffd1 25%, #8a5cff 50%, #0ea5e9 75%, transparent 100%)",
+          boxShadow: isLight
+            ? "0 0 15px rgba(14, 165, 233, 0.3)"
+            : "0 0 25px rgba(0, 255, 209, 0.4)",
+        }}
+      />
+
+      {/* Atmospheric Background Ambient Orbs */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          top: "15%",
           left: "50%",
           transform: "translateX(-50%)",
-          width: 800,
-          height: 350,
-          background: "radial-gradient(circle, rgba(71, 109, 154, 0.2) 0%, transparent 70%)",
-          filter: "blur(90px)",
+          width: "900px",
+          height: "450px",
+          borderRadius: "50%",
+          background: isLight
+            ? "radial-gradient(circle, rgba(14, 165, 233, 0.08) 0%, rgba(138, 92, 255, 0.04) 50%, transparent 70%)"
+            : "radial-gradient(circle, rgba(0, 255, 209, 0.08) 0%, rgba(138, 92, 255, 0.06) 50%, transparent 70%)",
+          filter: "blur(100px)",
           pointerEvents: "none",
+          zIndex: 0,
         }}
       />
 
       <div className="container-custom" style={{ position: "relative", zIndex: 1 }}>
-        {/* Top CTA Banner */}
+        
+        {/* ========================================================================= */}
+        {/* 1. TOP CTA LAUNCHPAD CAPSULE                                             */}
+        {/* ========================================================================= */}
         <div
-          className="glass-panel cta-banner-box"
           style={{
-            padding: "3rem 2.5rem",
-            marginBottom: "4.5rem",
+            position: "relative",
+            borderRadius: "28px",
+            background: isLight
+              ? "linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.98) 100%)"
+              : "linear-gradient(135deg, rgba(15, 23, 42, 0.88) 0%, rgba(8, 14, 28, 0.95) 100%)",
+            backdropFilter: "blur(24px)",
+            WebkitBackdropFilter: "blur(24px)",
+            border: `1px solid ${isLight ? "rgba(14, 165, 233, 0.35)" : "rgba(0, 255, 209, 0.3)"}`,
+            padding: "3.5rem 3rem",
+            marginBottom: "5rem",
+            boxShadow: isLight
+              ? "0 25px 60px -15px rgba(14, 165, 233, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.9)"
+              : "0 30px 80px -20px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(0, 255, 209, 0.1)",
+            overflow: "hidden",
           }}
         >
-          <div className="flex justify-between items-center flex-wrap gap-6">
-            <div style={{ maxWidth: "680px" }}>
-              <span className="badge-glow" style={{ marginBottom: "1rem" }}>
-                Ready To Build Something Great?
-              </span>
-              <h3 style={{ fontSize: "clamp(1.75rem, 3vw, 2.5rem)", fontWeight: 800, color: "var(--text-primary)", marginTop: "0.5rem", lineHeight: 1.2 }}>
-                Transform Your Vision Into High-Impact Software
+          {/* Subtle Corner Ambient Mesh */}
+          <div
+            aria-hidden="true"
+            style={{
+              position: "absolute",
+              top: "-50%",
+              right: "-10%",
+              width: "450px",
+              height: "450px",
+              borderRadius: "50%",
+              background: "radial-gradient(circle, rgba(0, 255, 209, 0.15) 0%, transparent 70%)",
+              filter: "blur(60px)",
+              pointerEvents: "none",
+            }}
+          />
+
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              flexWrap: "wrap",
+              gap: "2.5rem",
+              position: "relative",
+              zIndex: 1,
+            }}
+          >
+            <div style={{ maxWidth: "700px" }}>
+              <div
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "0.55rem",
+                  padding: "0.4rem 1.1rem",
+                  borderRadius: "9999px",
+                  background: isLight ? "rgba(14, 165, 233, 0.1)" : "rgba(0, 255, 209, 0.12)",
+                  border: `1px solid ${isLight ? "rgba(14, 165, 233, 0.3)" : "rgba(0, 255, 209, 0.35)"}`,
+                  color: isLight ? "#0284c7" : "#00ffd1",
+                  fontSize: "0.82rem",
+                  fontWeight: 800,
+                  letterSpacing: "0.06em",
+                  textTransform: "uppercase",
+                  marginBottom: "1.2rem",
+                  boxShadow: isLight
+                    ? "0 2px 10px rgba(14, 165, 233, 0.12)"
+                    : "0 2px 14px rgba(0, 255, 209, 0.2)",
+                }}
+              >
+                <span
+                  style={{
+                    width: "7px",
+                    height: "7px",
+                    borderRadius: "50%",
+                    background: "#10b981",
+                    boxShadow: "0 0 8px #10b981",
+                  }}
+                />
+                <span>Ready To Build Something Great?</span>
+                <Sparkles size={13} />
+              </div>
+
+              <h3
+                style={{
+                  fontSize: "clamp(2rem, 3.5vw, 2.75rem)",
+                  fontWeight: 850,
+                  color: isLight ? "#0f172a" : "#ffffff",
+                  lineHeight: 1.15,
+                  letterSpacing: "-0.03em",
+                  margin: "0 0 1rem 0",
+                }}
+              >
+                Transform Your Vision Into{" "}
+                <span
+                  style={{
+                    background: "linear-gradient(135deg, #0ea5e9 0%, #10b981 50%, #00ffd1 100%)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                  }}
+                >
+                  High-Impact Software
+                </span>
               </h3>
-              <p style={{ color: "var(--text-secondary)", marginTop: "0.75rem", fontSize: "1.05rem" }}>
+
+              <p
+                style={{
+                  color: isLight ? "#475569" : "#cbd5e1",
+                  fontSize: "1.05rem",
+                  lineHeight: 1.65,
+                  margin: 0,
+                }}
+              >
                 Schedule a 30-minute free technical architecture consultation with our engineering leads. No sales fluff — just pure technical feasibility and rapid roadmap planning.
               </p>
             </div>
-            <div className="flex items-center gap-4 flex-wrap">
-              <Link href="/get-a-quote" className="btn-primary" style={{ padding: "1rem 2.2rem", fontSize: "1.05rem" }}>
+
+            <div style={{ display: "flex", alignItems: "center", gap: "1rem", flexWrap: "wrap" }}>
+              <Link
+                href="/get-a-quote"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "0.6rem",
+                  padding: "1.05rem 2.25rem",
+                  borderRadius: "14px",
+                  background: "linear-gradient(135deg, #0ea5e9 0%, #10b981 100%)",
+                  color: "#ffffff",
+                  fontSize: "1.02rem",
+                  fontWeight: 800,
+                  textDecoration: "none",
+                  boxShadow: "0 6px 24px rgba(14, 165, 233, 0.4)",
+                  transition: "all 0.25s ease",
+                }}
+              >
                 <span>Start Your Project</span>
-                <ArrowUpRight size={18} />
+                <ArrowUpRight size={19} />
               </Link>
+
               <a
                 href={companyData.contact.whatsapp}
                 target="_blank"
                 rel="noreferrer"
-                className="btn-secondary"
-                style={{ padding: "1rem 2rem", fontSize: "1rem" }}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "0.6rem",
+                  padding: "1.05rem 2rem",
+                  borderRadius: "14px",
+                  background: isLight ? "#ffffff" : "rgba(255, 255, 255, 0.05)",
+                  border: `1px solid ${isLight ? "#cbd5e1" : "rgba(255, 255, 255, 0.14)"}`,
+                  color: isLight ? "#0f172a" : "#f1f5f9",
+                  fontSize: "1rem",
+                  fontWeight: 700,
+                  textDecoration: "none",
+                  transition: "all 0.25s ease",
+                }}
               >
-                Chat on WhatsApp
+                <MessageCircle size={18} color="#25D366" />
+                <span>Chat on WhatsApp</span>
               </a>
             </div>
           </div>
         </div>
 
-        {/* Footer Grid */}
+        {/* ========================================================================= */}
+        {/* 2. 4-COLUMN FOOTER BENCHMARK GRID                                        */}
+        {/* ========================================================================= */}
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-            gap: "3rem",
-            marginBottom: "4rem",
+            gridTemplateColumns: "1.25fr 1fr 1fr 1.2fr",
+            gap: "3.5rem",
+            marginBottom: "4.5rem",
           }}
+          className="footer-main-grid"
         >
-          {/* Column 1: Brand Info */}
+          {/* Column 1: Brand Identity & Verified Awards */}
           <div>
-            <Link href="/" style={{ display: "inline-block", marginBottom: "1.25rem" }}>
+            <Link href="/" style={{ display: "inline-block", marginBottom: "1.5rem" }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/images/Opash.png"
                 alt="Opash Software Logo"
                 className="logo-light-theme"
-                style={{ maxHeight: 44, width: "auto", objectFit: "contain" }}
+                style={{ maxHeight: 46, width: "auto", objectFit: "contain" }}
               />
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/images/Opash Dark Mode Logo.png"
                 alt="Opash Software Logo"
                 className="logo-dark-theme"
-                style={{ maxHeight: 44, width: "auto", objectFit: "contain" }}
+                style={{ maxHeight: 46, width: "auto", objectFit: "contain" }}
               />
             </Link>
-            <p style={{ color: "var(--text-secondary)", fontSize: "0.95rem", lineHeight: 1.7, marginBottom: "1.5rem" }}>
+
+            <p
+              style={{
+                color: isLight ? "#475569" : "#94a3b8",
+                fontSize: "0.94rem",
+                lineHeight: 1.7,
+                marginBottom: "1.75rem",
+              }}
+            >
               {companyData.tagline}. Empowering startups, SMEs, and enterprises globally with scalable web, mobile, SaaS, and AI-driven platforms.
             </p>
 
-            {/* Recognitions mini pills */}
-            <div className="flex flex-col gap-2" style={{ marginTop: "1rem" }}>
-              <div className="flex items-center gap-2" style={{ color: "#f59e0b", fontSize: "0.85rem", fontWeight: 600 }}>
-                <Star size={16} fill="#f59e0b" />
+            {/* Verified Recognitions Pills */}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "0.6rem",
+                padding: "1rem 1.25rem",
+                borderRadius: "16px",
+                background: isLight ? "#ffffff" : "rgba(255, 255, 255, 0.03)",
+                border: `1px solid ${isLight ? "#e2e8f0" : "rgba(255, 255, 255, 0.07)"}`,
+                marginBottom: "1.75rem",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", color: "#f59e0b", fontSize: "0.86rem", fontWeight: 700 }}>
+                <Star size={15} fill="#f59e0b" />
                 <span>Clutch 4.9/5 • Upwork Top Rated Plus</span>
               </div>
-              <div className="flex items-center gap-2" style={{ color: "var(--text-muted)", fontSize: "0.85rem" }}>
-                <Award size={16} color="var(--color-cyan)" />
+              <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", color: isLight ? "#0f766e" : "#00ffd1", fontSize: "0.85rem", fontWeight: 600 }}>
+                <Award size={15} />
                 <span>GoodFirms 5.0 • Trustpilot Verified</span>
               </div>
             </div>
 
-            {/* Social Icons */}
-            <div className="flex items-center gap-3" style={{ marginTop: "1.75rem" }}>
+            {/* Social Icons with Glowing Rings */}
+            <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
               <a
                 href={companyData.socials.linkedin}
                 target="_blank"
                 rel="noreferrer"
                 style={{
-                  width: 38,
-                  height: 38,
-                  borderRadius: "50%",
-                  backgroundColor: "var(--bg-elevated)",
-                  border: "1px solid var(--border-subtle)",
+                  width: "42px",
+                  height: "42px",
+                  borderRadius: "12px",
+                  backgroundColor: isLight ? "#ffffff" : "rgba(255, 255, 255, 0.05)",
+                  border: `1px solid ${isLight ? "#cbd5e1" : "rgba(255, 255, 255, 0.1)"}`,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  color: "var(--text-primary)",
-                  transition: "all 0.2s",
+                  color: isLight ? "#0f172a" : "#f1f5f9",
+                  transition: "all 0.25s ease",
                 }}
                 aria-label="LinkedIn"
               >
@@ -147,21 +331,22 @@ export default function Footer() {
                   <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 8.76a1.69 1.69 0 1 0 0-3.38 1.69 1.69 0 0 0 0 3.38m1.39 9.74v-8.37H5.07v8.37h2.78z"/>
                 </svg>
               </a>
+
               <a
                 href={companyData.socials.instagram}
                 target="_blank"
                 rel="noreferrer"
                 style={{
-                  width: 38,
-                  height: 38,
-                  borderRadius: "50%",
-                  backgroundColor: "var(--bg-elevated)",
-                  border: "1px solid var(--border-subtle)",
+                  width: "42px",
+                  height: "42px",
+                  borderRadius: "12px",
+                  backgroundColor: isLight ? "#ffffff" : "rgba(255, 255, 255, 0.05)",
+                  border: `1px solid ${isLight ? "#cbd5e1" : "rgba(255, 255, 255, 0.1)"}`,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  color: "var(--text-primary)",
-                  transition: "all 0.2s",
+                  color: isLight ? "#0f172a" : "#f1f5f9",
+                  transition: "all 0.25s ease",
                 }}
                 aria-label="Instagram"
               >
@@ -171,21 +356,22 @@ export default function Footer() {
                   <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
                 </svg>
               </a>
+
               <a
                 href={companyData.socials.facebook}
                 target="_blank"
                 rel="noreferrer"
                 style={{
-                  width: 38,
-                  height: 38,
-                  borderRadius: "50%",
-                  backgroundColor: "var(--bg-elevated)",
-                  border: "1px solid var(--border-subtle)",
+                  width: "42px",
+                  height: "42px",
+                  borderRadius: "12px",
+                  backgroundColor: isLight ? "#ffffff" : "rgba(255, 255, 255, 0.05)",
+                  border: `1px solid ${isLight ? "#cbd5e1" : "rgba(255, 255, 255, 0.1)"}`,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  color: "var(--text-primary)",
-                  transition: "all 0.2s",
+                  color: isLight ? "#0f172a" : "#f1f5f9",
+                  transition: "all 0.25s ease",
                 }}
                 aria-label="Facebook"
               >
@@ -196,146 +382,262 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Column 2: Core Services */}
+          {/* Column 2: Core Engineering Services */}
           <div>
-            <h4 style={{ color: "var(--text-primary)", fontSize: "1.1rem", fontWeight: 700, marginBottom: "1.25rem", letterSpacing: "-0.01em" }}>
-              Services
-            </h4>
-            <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-              <li>
-                <Link href="/custom-software-development" style={{ color: "var(--text-secondary)", textDecoration: "none", fontSize: "0.95rem", transition: "color 0.2s" }} onMouseEnter={(e) => (e.currentTarget.style.color = "var(--color-cyan)")} onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-secondary)")}>
-                  Custom Software Development
-                </Link>
-              </li>
-              <li>
-                <Link href="/web-development" style={{ color: "var(--text-secondary)", textDecoration: "none", fontSize: "0.95rem", transition: "color 0.2s" }} onMouseEnter={(e) => (e.currentTarget.style.color = "var(--color-cyan)")} onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-secondary)")}>
-                  Web App Development
-                </Link>
-              </li>
-              <li>
-                <Link href="/mobile-development" style={{ color: "var(--text-secondary)", textDecoration: "none", fontSize: "0.95rem", transition: "color 0.2s" }} onMouseEnter={(e) => (e.currentTarget.style.color = "var(--color-cyan)")} onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-secondary)")}>
-                  Mobile App Development (iOS & Android)
-                </Link>
-              </li>
-              <li>
-                <Link href="/ai-ml-solutions" style={{ color: "var(--text-secondary)", textDecoration: "none", fontSize: "0.95rem", transition: "color 0.2s" }} onMouseEnter={(e) => (e.currentTarget.style.color = "var(--color-cyan)")} onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-secondary)")}>
-                  AI & ML Solutions (LLMs & RAG)
-                </Link>
-              </li>
-              <li>
-                <Link href="/saas-development" style={{ color: "var(--text-secondary)", textDecoration: "none", fontSize: "0.95rem", transition: "color 0.2s" }} onMouseEnter={(e) => (e.currentTarget.style.color = "var(--color-cyan)")} onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-secondary)")}>
-                  SaaS Multi-Tenant Engineering
-                </Link>
-              </li>
-              <li>
-                <Link href="/api-integration" style={{ color: "var(--text-secondary)", textDecoration: "none", fontSize: "0.95rem", transition: "color 0.2s" }} onMouseEnter={(e) => (e.currentTarget.style.color = "var(--color-cyan)")} onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-secondary)")}>
-                  API Integration & Microservices
-                </Link>
-              </li>
-              <li>
-                <Link href="/qa-testing" style={{ color: "var(--text-secondary)", textDecoration: "none", fontSize: "0.95rem", transition: "color 0.2s" }} onMouseEnter={(e) => (e.currentTarget.style.color = "var(--color-cyan)")} onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-secondary)")}>
-                  QA & Automated Testing
-                </Link>
-              </li>
-              <li>
-                <Link href="/hire-developers" style={{ color: "var(--text-secondary)", textDecoration: "none", fontSize: "0.95rem", transition: "color 0.2s" }} onMouseEnter={(e) => (e.currentTarget.style.color = "var(--color-cyan)")} onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-secondary)")}>
-                  Hire Dedicated Developers
-                </Link>
-              </li>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.45rem", marginBottom: "1.5rem" }}>
+              <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#0ea5e9" }} />
+              <h4 style={{ color: isLight ? "#0f172a" : "#ffffff", fontSize: "1.08rem", fontWeight: 800, margin: 0, letterSpacing: "-0.01em" }}>
+                Services
+              </h4>
+            </div>
+
+            <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "0.85rem" }}>
+              {[
+                { href: "/custom-software-development", label: "Custom Software Development" },
+                { href: "/web-development", label: "Web App Development" },
+                { href: "/mobile-development", label: "Mobile App Development (iOS & Android)" },
+                { href: "/ai-ml-solutions", label: "AI & ML Solutions (LLMs & RAG)" },
+                { href: "/saas-development", label: "SaaS Multi-Tenant Engineering" },
+                { href: "/api-integration", label: "API Integration & Microservices" },
+                { href: "/qa-testing", label: "QA & Automated Testing" },
+                { href: "/hire-developers", label: "Hire Dedicated Developers" },
+              ].map((item) => {
+                const isHovered = hoveredLink === item.href;
+                return (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      onMouseEnter={() => setHoveredLink(item.href)}
+                      onMouseLeave={() => setHoveredLink(null)}
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "0.45rem",
+                        color: isHovered
+                          ? isLight
+                            ? "#0284c7"
+                            : "#00ffd1"
+                          : isLight
+                          ? "#475569"
+                          : "#94a3b8",
+                        textDecoration: "none",
+                        fontSize: "0.93rem",
+                        fontWeight: isHovered ? 650 : 500,
+                        transform: isHovered ? "translateX(4px)" : "none",
+                        transition: "all 0.2s ease",
+                      }}
+                    >
+                      <ChevronRight
+                        size={13}
+                        style={{
+                          opacity: isHovered ? 1 : 0.4,
+                          color: isHovered ? (isLight ? "#0284c7" : "#00ffd1") : "inherit",
+                          transition: "opacity 0.2s ease",
+                        }}
+                      />
+                      <span>{item.label}</span>
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </div>
 
           {/* Column 3: Company & Insights */}
           <div>
-            <h4 style={{ color: "var(--text-primary)", fontSize: "1.1rem", fontWeight: 700, marginBottom: "1.25rem", letterSpacing: "-0.01em" }}>
-              Company
-            </h4>
-            <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-              <li>
-                <Link href="/company" style={{ color: "var(--text-secondary)", textDecoration: "none", fontSize: "0.95rem" }}>
-                  About Opash Software
-                </Link>
-              </li>
-              <li>
-                <Link href="/portfolio" style={{ color: "var(--text-secondary)", textDecoration: "none", fontSize: "0.95rem" }}>
-                  Verified Case Studies
-                </Link>
-              </li>
-              <li>
-                <Link href="/blogs" style={{ color: "var(--text-secondary)", textDecoration: "none", fontSize: "0.95rem" }}>
-                  Tech Insights & Architecture Guides
-                </Link>
-              </li>
-              <li>
-                <Link href="/career" style={{ color: "var(--text-secondary)", textDecoration: "none", fontSize: "0.95rem" }}>
-                  Careers & Open Positions
-                </Link>
-              </li>
-              <li>
-                <Link href="/get-a-quote" style={{ color: "var(--text-secondary)", textDecoration: "none", fontSize: "0.95rem" }}>
-                  Interactive Cost Estimator
-                </Link>
-              </li>
-              <li>
-                <Link href="/privacy-policy" style={{ color: "var(--text-secondary)", textDecoration: "none", fontSize: "0.95rem" }}>
-                  Privacy Policy
-                </Link>
-              </li>
-              <li>
-                <Link href="/terms-and-conditions" style={{ color: "var(--text-secondary)", textDecoration: "none", fontSize: "0.95rem" }}>
-                  Terms & Conditions
-                </Link>
-              </li>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.45rem", marginBottom: "1.5rem" }}>
+              <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#10b981" }} />
+              <h4 style={{ color: isLight ? "#0f172a" : "#ffffff", fontSize: "1.08rem", fontWeight: 800, margin: 0, letterSpacing: "-0.01em" }}>
+                Company
+              </h4>
+            </div>
+
+            <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "0.85rem" }}>
+              {[
+                { href: "/company", label: "About Opash Software" },
+                { href: "/portfolio", label: "Verified Case Studies" },
+                { href: "/blogs", label: "Tech Insights & Architecture Guides" },
+                { href: "/career", label: "Careers & Open Positions" },
+                { href: "/get-a-quote", label: "Interactive Cost Estimator" },
+                { href: "/privacy-policy", label: "Privacy Policy" },
+                { href: "/terms-and-conditions", label: "Terms & Conditions" },
+              ].map((item) => {
+                const isHovered = hoveredLink === item.href;
+                return (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      onMouseEnter={() => setHoveredLink(item.href)}
+                      onMouseLeave={() => setHoveredLink(null)}
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "0.45rem",
+                        color: isHovered
+                          ? isLight
+                            ? "#0284c7"
+                            : "#00ffd1"
+                          : isLight
+                          ? "#475569"
+                          : "#94a3b8",
+                        textDecoration: "none",
+                        fontSize: "0.93rem",
+                        fontWeight: isHovered ? 650 : 500,
+                        transform: isHovered ? "translateX(4px)" : "none",
+                        transition: "all 0.2s ease",
+                      }}
+                    >
+                      <ChevronRight
+                        size={13}
+                        style={{
+                          opacity: isHovered ? 1 : 0.4,
+                          color: isHovered ? (isLight ? "#0284c7" : "#00ffd1") : "inherit",
+                          transition: "opacity 0.2s ease",
+                        }}
+                      />
+                      <span>{item.label}</span>
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </div>
 
-          {/* Column 4: Contact & Location */}
+          {/* Column 4: Global Headquarters & Direct Comm */}
           <div>
-            <h4 style={{ color: "var(--text-primary)", fontSize: "1.1rem", fontWeight: 700, marginBottom: "1.25rem", letterSpacing: "-0.01em" }}>
-              Global Headquarters
-            </h4>
-            <div className="flex flex-col gap-4" style={{ fontSize: "0.95rem", color: "var(--text-secondary)" }}>
-              <div className="flex items-start gap-3">
-                <MapPin size={20} color="var(--color-cyan)" style={{ flexShrink: 0, marginTop: 4 }} />
+            <div style={{ display: "flex", alignItems: "center", gap: "0.45rem", marginBottom: "1.5rem" }}>
+              <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#00ffd1" }} />
+              <h4 style={{ color: isLight ? "#0f172a" : "#ffffff", fontSize: "1.08rem", fontWeight: 800, margin: 0, letterSpacing: "-0.01em" }}>
+                Global Headquarters
+              </h4>
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem", fontSize: "0.93rem" }}>
+              {/* Address with Map Link */}
+              <div style={{ display: "flex", alignItems: "flex-start", gap: "0.75rem" }}>
+                <div
+                  style={{
+                    width: "32px",
+                    height: "32px",
+                    borderRadius: "8px",
+                    background: isLight ? "rgba(14, 165, 233, 0.12)" : "rgba(0, 255, 209, 0.12)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: isLight ? "#0284c7" : "#00ffd1",
+                    flexShrink: 0,
+                    marginTop: "2px",
+                  }}
+                >
+                  <MapPin size={16} />
+                </div>
                 <div>
-                  <p style={{ lineHeight: 1.5 }}>{companyData.contact.address}</p>
+                  <p style={{ lineHeight: 1.5, margin: "0 0 0.35rem 0", color: isLight ? "#475569" : "#cbd5e1" }}>
+                    {companyData.contact.address}
+                  </p>
                   <a
                     href={companyData.contact.googleMapsUrl}
                     target="_blank"
                     rel="noreferrer"
-                    style={{ color: "var(--color-cyan)", fontSize: "0.85rem", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 3, marginTop: 4 }}
+                    style={{
+                      color: isLight ? "#0284c7" : "#00ffd1",
+                      fontSize: "0.84rem",
+                      fontWeight: 700,
+                      textDecoration: "none",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "3px",
+                    }}
                   >
                     <span>View on Google Maps</span>
-                    <ArrowUpRight size={14} />
+                    <ArrowUpRight size={13} />
                   </a>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3">
-                <Phone size={18} color="var(--color-cyan)" style={{ flexShrink: 0 }} />
-                <a href={`tel:${companyData.contact.phoneClean}`} style={{ color: "var(--text-primary)", textDecoration: "none", fontWeight: 600 }}>
+              {/* Phone */}
+              <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                <div
+                  style={{
+                    width: "32px",
+                    height: "32px",
+                    borderRadius: "8px",
+                    background: isLight ? "rgba(16, 185, 129, 0.12)" : "rgba(16, 185, 129, 0.15)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "#10b981",
+                    flexShrink: 0,
+                  }}
+                >
+                  <Phone size={15} />
+                </div>
+                <a
+                  href={`tel:${companyData.contact.phoneClean}`}
+                  style={{
+                    color: isLight ? "#0f172a" : "#f1f5f9",
+                    textDecoration: "none",
+                    fontWeight: 700,
+                    fontSize: "0.95rem",
+                  }}
+                >
                   {companyData.contact.phone}
                 </a>
               </div>
 
-              <div className="flex items-center gap-3">
-                <Mail size={18} color="var(--color-cyan)" style={{ flexShrink: 0 }} />
-                <a href={`mailto:${companyData.contact.email}`} style={{ color: "var(--text-primary)", textDecoration: "none" }}>
+              {/* Email */}
+              <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                <div
+                  style={{
+                    width: "32px",
+                    height: "32px",
+                    borderRadius: "8px",
+                    background: isLight ? "rgba(14, 165, 233, 0.12)" : "rgba(14, 165, 233, 0.15)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: isLight ? "#0284c7" : "#38bdf8",
+                    flexShrink: 0,
+                  }}
+                >
+                  <Mail size={15} />
+                </div>
+                <a
+                  href={`mailto:${companyData.contact.email}`}
+                  style={{
+                    color: isLight ? "#0f172a" : "#f1f5f9",
+                    textDecoration: "none",
+                    fontWeight: 600,
+                    fontSize: "0.92rem",
+                  }}
+                >
                   {companyData.contact.email}
                 </a>
               </div>
 
+              {/* HR Priority Comm Channel Card */}
               <div
                 style={{
-                  marginTop: "0.75rem",
-                  padding: "0.85rem 1rem",
-                  backgroundColor: "var(--bg-elevated)",
-                  borderRadius: "var(--radius-md)",
-                  border: "1px solid var(--border-subtle)",
+                  marginTop: "0.5rem",
+                  padding: "1rem 1.15rem",
+                  borderRadius: "14px",
+                  backgroundColor: isLight ? "#ffffff" : "rgba(15, 23, 42, 0.7)",
+                  border: `1px solid ${isLight ? "#cbd5e1" : "rgba(255, 255, 255, 0.08)"}`,
+                  boxShadow: isLight ? "0 4px 12px rgba(0,0,0,0.03)" : "none",
                 }}
               >
-                <div style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>HR & Careers:</div>
-                <a href={`mailto:${companyData.contact.hrEmail}`} style={{ color: "var(--color-cyan)", fontSize: "0.9rem", textDecoration: "none", fontWeight: 500 }}>
+                <div style={{ fontSize: "0.76rem", fontWeight: 700, color: isLight ? "#64748b" : "#94a3b8", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "3px" }}>
+                  HR & Careers:
+                </div>
+                <a
+                  href={`mailto:${companyData.contact.hrEmail}`}
+                  style={{
+                    color: isLight ? "#0284c7" : "#00ffd1",
+                    fontSize: "0.92rem",
+                    textDecoration: "none",
+                    fontWeight: 750,
+                  }}
+                >
                   {companyData.contact.hrEmail}
                 </a>
               </div>
@@ -343,48 +645,136 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Global Hubs Marquee */}
+        {/* ========================================================================= */}
+        {/* 3. SERVING CLIENTS ACROSS GLOBAL HUBS (TELEMETRY RIBBON)                 */}
+        {/* ========================================================================= */}
         <div
           style={{
-            borderTop: "1px solid var(--border-subtle)",
-            borderBottom: "1px solid var(--border-subtle)",
-            padding: "1.25rem 0",
-            marginBottom: "2rem",
+            borderTop: `1px solid ${isLight ? "#e2e8f0" : "rgba(255, 255, 255, 0.08)"}`,
+            borderBottom: `1px solid ${isLight ? "#e2e8f0" : "rgba(255, 255, 255, 0.08)"}`,
+            padding: "1.4rem 0",
+            marginBottom: "2.25rem",
           }}
         >
-          <div className="flex items-center justify-between flex-wrap gap-4">
-            <span style={{ fontSize: "0.85rem", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.05em", fontWeight: 600 }}>
-              Serving Clients Across:
-            </span>
-            <div className="flex items-center gap-6 flex-wrap" style={{ fontSize: "0.9rem", color: "var(--text-secondary)" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              flexWrap: "wrap",
+              gap: "1.25rem",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+              <Globe size={15} color="#0ea5e9" />
+              <span
+                style={{
+                  fontSize: "0.82rem",
+                  color: isLight ? "#64748b" : "#94a3b8",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.06em",
+                  fontWeight: 800,
+                }}
+              >
+                Serving Clients Across:
+              </span>
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "1.5rem",
+                flexWrap: "wrap",
+                fontSize: "0.88rem",
+              }}
+            >
               {companyData.globalPresence.map((loc) => (
-                <span key={loc.country} className="flex items-center gap-2">
-                  <span style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: "var(--color-cyan)" }} />
-                  <strong style={{ color: "var(--text-primary)", fontWeight: 600 }}>{loc.country}</strong>
-                  <span style={{ color: "var(--text-muted)", fontSize: "0.8rem" }}>({loc.timezone})</span>
+                <span
+                  key={loc.country}
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "0.45rem",
+                  }}
+                >
+                  <span
+                    style={{
+                      width: "6px",
+                      height: "6px",
+                      borderRadius: "50%",
+                      backgroundColor: "#10b981",
+                      boxShadow: "0 0 6px #10b981",
+                    }}
+                  />
+                  <strong style={{ color: isLight ? "#0f172a" : "#f1f5f9", fontWeight: 700 }}>
+                    {loc.country}
+                  </strong>
+                  <span style={{ color: isLight ? "#64748b" : "#94a3b8", fontSize: "0.78rem" }}>
+                    ({loc.timezone})
+                  </span>
                 </span>
               ))}
             </div>
           </div>
         </div>
 
-        {/* Bottom Copyright */}
-        <div className="flex justify-between items-center flex-wrap gap-4" style={{ color: "var(--text-muted)", fontSize: "0.85rem" }}>
+        {/* ========================================================================= */}
+        {/* 4. BOTTOM COPYRIGHT & LEGAL HUB                                           */}
+        {/* ========================================================================= */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            flexWrap: "wrap",
+            gap: "1rem",
+            color: isLight ? "#64748b" : "#94a3b8",
+            fontSize: "0.86rem",
+          }}
+        >
           <div>
             © 2026 {companyData.name}. All Rights Reserved. Engineered with precision.
           </div>
-          <div className="flex items-center gap-6">
-            <Link href="/privacy-policy" style={{ color: "var(--text-muted)", textDecoration: "none" }}>
+
+          <div style={{ display: "flex", alignItems: "center", gap: "1.75rem" }}>
+            <Link
+              href="/privacy-policy"
+              style={{
+                color: isLight ? "#64748b" : "#94a3b8",
+                textDecoration: "none",
+                transition: "color 0.2s ease",
+              }}
+            >
               Privacy Policy
             </Link>
-            <Link href="/terms-and-conditions" style={{ color: "var(--text-muted)", textDecoration: "none" }}>
+            <Link
+              href="/terms-and-conditions"
+              style={{
+                color: isLight ? "#64748b" : "#94a3b8",
+                textDecoration: "none",
+                transition: "color 0.2s ease",
+              }}
+            >
               Terms & Conditions
             </Link>
-            <Link href="/get-a-quote" style={{ color: "var(--color-cyan)", textDecoration: "none" }}>
-              Request Proposal
+            <Link
+              href="/get-a-quote"
+              style={{
+                color: isLight ? "#0284c7" : "#00ffd1",
+                fontWeight: 750,
+                textDecoration: "none",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "3px",
+              }}
+            >
+              <span>Request Proposal</span>
+              <ArrowUpRight size={13} />
             </Link>
           </div>
         </div>
+
       </div>
     </footer>
   );

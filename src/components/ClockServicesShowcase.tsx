@@ -17,6 +17,7 @@ import {
   Users2,
 } from "lucide-react";
 import { Service3DLiveIcon } from "@/components/Service3DLiveIcon";
+import { CoverflowCreativeBackdrop } from "@/components/CoverflowCreativeBackdrop";
 
 export interface ServiceItem {
   id: string;
@@ -238,24 +239,11 @@ export function ClockServicesShowcase() {
       className="coverflow-services-section relative overflow-x-clip w-full select-none"
       aria-label="Opash Software Services and Capabilities"
     >
-      {/* Dynamic Ambient Background Aura smoothly reacting to active card accent */}
-      <div className="coverflow-stage-backdrop" aria-hidden="true">
-        <div
-          className="coverflow-ambient-spotlight"
-          style={{
-            backgroundColor: `rgba(${activeService.accentRgb}, 0.22)`,
-            boxShadow: `0 0 160px 80px rgba(${activeService.accentRgb}, 0.25)`,
-          }}
-        />
-        <div
-          className="coverflow-secondary-glow"
-          style={{
-            backgroundColor: `rgba(6, 182, 212, 0.08)`,
-            boxShadow: `0 0 220px 110px rgba(6, 182, 212, 0.12)`,
-          }}
-        />
-        <div className="coverflow-grid-floor" />
-      </div>
+      {/* Dynamic Ambient Creative Hologram & Warp Backdrop */}
+      <CoverflowCreativeBackdrop
+        accent={activeService.accent}
+        accentRgb={activeService.accentRgb}
+      />
 
       <div className="container-custom relative z-10">
         {/* ========================================================================= */}

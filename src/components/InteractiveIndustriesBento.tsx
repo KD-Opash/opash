@@ -1,69 +1,119 @@
 "use client";
 
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useMemo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
-  Shield,
-  Heart,
-  Landmark,
-  ShoppingCart,
-  GraduationCap,
-  Home,
-  Plane,
-  Radio,
-  Cog,
-  Sprout,
   Sparkles,
-  Pause,
-  Play,
+  Search,
+  X,
+  ArrowUpRight,
+  ShieldCheck,
+  TrendingUp,
+  Cpu,
+  Layers,
+  CheckCircle2,
 } from "lucide-react";
+import { useTheme } from "./ThemeProvider";
 
 export interface IndustryItem {
   id: string;
   name: string;
+  category: "finance" | "health" | "commerce" | "enterprise";
+  headline: string;
+  description: string;
+  stat: string;
+  statLabel: string;
+  tags: string[];
   accent: string;
   accentRgb: string;
   customIconType: string;
+  featured?: boolean;
 }
 
 export const INDUSTRIES_LIST: IndustryItem[] = [
   {
+    id: "fintech",
+    name: "FinTech & Banking",
+    category: "finance",
+    headline: "High-Frequency Financial Engines",
+    description:
+      "Enterprise transaction rails, real-time fraud mitigation, micro-ledger architectures, and PCI-DSS Level 1 compliant open-banking integrations.",
+    stat: "99.999% SLA",
+    statLabel: "System Reliability",
+    tags: ["Open Banking", "Micro-Ledgers", "PCI-DSS Level 1", "Real-Time Clearing"],
+    accent: "#8b5cf6",
+    accentRgb: "139, 92, 246",
+    customIconType: "fintech",
+    featured: true,
+  },
+  {
+    id: "healthcare",
+    name: "Health Care & Life Sciences",
+    category: "health",
+    headline: "Connected Medical Systems",
+    description:
+      "Secure patient portal architectures, low-latency WebRTC telehealth video feeds, and interoperable HL7 / FHIR data pipelines.",
+    stat: "HIPAA & HL7",
+    statLabel: "Regulatory Compliance",
+    tags: ["Telehealth WebRTC", "FHIR / HL7 APIs", "EHR Interop", "Clinical AI"],
+    accent: "#0ea5e9",
+    accentRgb: "14, 165, 233",
+    customIconType: "health",
+    featured: true,
+  },
+  {
+    id: "ecommerce",
+    name: "eCommerce & Omnichannel",
+    category: "commerce",
+    headline: "High-Scale Composable Commerce",
+    description:
+      "Modern headless storefronts, sub-second checkout pipelines, dynamic AI merchandising, and multi-warehouse inventory sync.",
+    stat: "100k+ Peak TPS",
+    statLabel: "Throughput Capacity",
+    tags: ["Headless Commerce", "Omnichannel ERP", "AI Merchandising", "Multi-Currency"],
+    accent: "#f59e0b",
+    accentRgb: "245, 158, 11",
+    customIconType: "ecommerce",
+    featured: true,
+  },
+  {
     id: "insurtech",
-    name: "InsureTech",
+    name: "InsureTech & Underwriting",
+    category: "finance",
+    headline: "Automated Policy Lifecycles",
+    description:
+      "Automated risk rating engines, biometric identity verification, and straight-through automated claims settlement systems.",
+    stat: "4.2x Faster",
+    statLabel: "Claims Processing",
+    tags: ["Risk AI Modeling", "Automated Claims", "Underwriting APIs", "Telematics"],
     accent: "#f43f5e",
     accentRgb: "244, 63, 94",
     customIconType: "shield",
   },
   {
-    id: "healthcare",
-    name: "Health Care",
-    accent: "#0ea5e9",
-    accentRgb: "14, 165, 233",
-    customIconType: "health",
-  },
-  {
-    id: "fintech",
-    name: "FinTech",
-    accent: "#8b5cf6",
-    accentRgb: "139, 92, 246",
-    customIconType: "fintech",
-  },
-  {
-    id: "ecommerce",
-    name: "Ecommerce",
-    accent: "#f59e0b",
-    accentRgb: "245, 158, 11",
-    customIconType: "ecommerce",
-  },
-  {
     id: "education",
-    name: "Education",
+    name: "EdTech & Learning Platforms",
+    category: "enterprise",
+    headline: "Adaptive Digital Academies",
+    description:
+      "Interactive virtual classrooms, automated AI-proctoring suites, gamified knowledge pathways, and SCORM/xAPI compliant engines.",
+    stat: "500k+ Active",
+    statLabel: "Concurrent Learners",
+    tags: ["LMS Platforms", "AI Proctoring", "Adaptive Learning", "SCORM / xAPI"],
     accent: "#10b981",
     accentRgb: "16, 185, 129",
     customIconType: "education",
   },
   {
     id: "realestate",
-    name: "Real Estate",
+    name: "Real Estate & PropTech",
+    category: "commerce",
+    headline: "Spatial & Asset Intelligence",
+    description:
+      "Immersive 3D digital twins, tenant lifecycle ERPs, automated escrow smart contracts, and IoT facility monitoring systems.",
+    stat: "3D Virtual Tours",
+    statLabel: "Spatial Visualization",
+    tags: ["Digital Twins", "Smart Lease ERP", "Automated Escrow", "Facility IoT"],
     accent: "#ec4899",
     accentRgb: "236, 72, 153",
     customIconType: "realestate",
@@ -71,455 +121,387 @@ export const INDUSTRIES_LIST: IndustryItem[] = [
   {
     id: "travel",
     name: "Travel & Hospitality",
+    category: "commerce",
+    headline: "Dynamic Global Booking",
+    description:
+      "Unified flight & hotel distribution, AI dynamic pricing matrices, real-time itinerary feeds, and cross-carrier loyalty rewards.",
+    stat: "Global GDS",
+    statLabel: "Live Inventory Sync",
+    tags: ["GDS Integration", "Dynamic Pricing", "PNR Sync", "Loyalty Engines"],
     accent: "#eab308",
     accentRgb: "234, 179, 8",
     customIconType: "travel",
   },
   {
     id: "telecom",
-    name: "Telecommunication",
+    name: "Telecommunication & 5G",
+    category: "enterprise",
+    headline: "Carrier-Grade Mesh Systems",
+    description:
+      "High-concurrency OSS/BSS platforms, 5G network slicing controllers, and distributed self-healing VoIP infrastructure.",
+    stat: "< 5ms Latency",
+    statLabel: "Mesh Telemetry",
+    tags: ["5G Core Routing", "OSS / BSS Systems", "VoIP Mesh", "Carrier Billing"],
     accent: "#a855f7",
     accentRgb: "168, 85, 247",
     customIconType: "telecom",
   },
   {
     id: "industrial",
-    name: "Industrial Tech",
+    name: "Industrial Tech & IoT",
+    category: "enterprise",
+    headline: "Smart Factory Automation",
+    description:
+      "Industrial edge computing, predictive machinery maintenance AI, and real-time SCADA sensor monitoring architectures.",
+    stat: "Industry 4.0",
+    statLabel: "Edge Standard",
+    tags: ["SCADA Telemetry", "Predictive AI", "Edge Computing", "Digital Sensors"],
     accent: "#06b6d4",
     accentRgb: "6, 182, 212",
     customIconType: "industrial",
   },
   {
     id: "ngos",
-    name: "NGOs",
+    name: "NGOs & Public Sector",
+    category: "enterprise",
+    headline: "Transparent Global Aid",
+    description:
+      "Grant disbursement tracking, multi-region donor engagement portals, and WCAG AAA compliant accessibility platforms.",
+    stat: "100% Audit",
+    statLabel: "Aid Traceability",
+    tags: ["Grant Tracking", "Donor Portals", "WCAG AAA", "Impact Analytics"],
     accent: "#2dd4bf",
     accentRgb: "45, 212, 191",
     customIconType: "ngos",
   },
 ];
 
+const CATEGORY_TABS = [
+  { id: "all", label: "All Sectors" },
+  { id: "finance", label: "FinTech & Insurance" },
+  { id: "health", label: "Healthcare & Life" },
+  { id: "commerce", label: "Commerce & Travel" },
+  { id: "enterprise", label: "Enterprise & IoT" },
+];
+
 export function InteractiveIndustriesBento() {
-  const [hasEntered, setHasEntered] = useState(false);
-  const [hasLanded, setHasLanded] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-  const [isDragging, setIsDragging] = useState(false);
-  const [isPaused, setIsPaused] = useState(false);
-  const [displayTime, setDisplayTime] = useState("00:01.25");
-  const [startX, setStartX] = useState(0);
-  const [scrollLeftState, setScrollLeftState] = useState(0);
+  const { theme } = useTheme();
+  const isLightMode = theme === "light";
 
-  const dockRef = useRef<HTMLDivElement>(null);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const animationFrameRef = useRef<number | null>(null);
+  const [activeTab, setActiveTab] = useState("all");
+  const [searchQuery, setSearchQuery] = useState("");
 
-  // 1. Trigger top drop-in animation ONLY when dock container is properly in the viewport center
-  useEffect(() => {
-    if (!dockRef.current) return;
-    let timerStart: ReturnType<typeof setTimeout> | null = null;
-    let timerScroll: ReturnType<typeof setTimeout> | null = null;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          // Reset scroll container position to 0 so InsureTech is first
-          if (scrollContainerRef.current) {
-            scrollContainerRef.current.scrollLeft = 0;
-          }
-          // Micro-delay so user clearly sees the empty box first, then cards drop in
-          if (timerStart) clearTimeout(timerStart);
-          timerStart = setTimeout(() => {
-            setHasEntered(true);
-            // After drop-in bounce finishes (approx 1.3s), start continuous auto-scroll
-            if (timerScroll) clearTimeout(timerScroll);
-            timerScroll = setTimeout(() => {
-              setHasLanded(true);
-            }, 1300);
-          }, 180);
-        } else {
-          // Reset states when user scrolls away so the animation re-triggers next time
-          if (timerStart) clearTimeout(timerStart);
-          if (timerScroll) clearTimeout(timerScroll);
-          setHasEntered(false);
-          setHasLanded(false);
-          if (scrollContainerRef.current) {
-            scrollContainerRef.current.scrollLeft = 0;
-          }
-        }
-      },
-      {
-        threshold: 0.35,
-        rootMargin: "0px 0px -16% 0px",
-      }
-    );
-
-    observer.observe(dockRef.current);
-    return () => {
-      observer.disconnect();
-      if (timerStart) clearTimeout(timerStart);
-      if (timerScroll) clearTimeout(timerScroll);
-    };
-  }, []);
-
-  // 2. Smooth infinite auto-scroll loop with synced timecode
-  useEffect(() => {
-    if (!hasLanded) return;
-    const container = scrollContainerRef.current;
-    if (!container) return;
-
-    const scrollSpeed = 0.85; // smooth luxury speed
-
-    const step = () => {
-      if (!isHovered && !isDragging && !isPaused && container) {
-        container.scrollLeft += scrollSpeed;
-        const halfWidth = container.scrollWidth / 2;
-        if (container.scrollLeft >= halfWidth) {
-          container.scrollLeft -= halfWidth;
-        }
-      }
-      if (container) {
-        const halfWidth = container.scrollWidth / 2 || 1;
-        const progress = (container.scrollLeft % halfWidth) / halfWidth;
-        const totalSec = progress * 12; // 12-second total timeline cycle
-        const sec = Math.floor(totalSec);
-        const ms = Math.floor((totalSec % 1) * 100);
-        setDisplayTime(`00:${String(sec).padStart(2, "0")}.${String(ms).padStart(2, "0")}`);
-      }
-      animationFrameRef.current = requestAnimationFrame(step);
-    };
-
-    animationFrameRef.current = requestAnimationFrame(step);
-
-    return () => {
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
-    };
-  }, [hasLanded, isHovered, isDragging, isPaused]);
-
-  // 3. Manual Mouse Drag Handlers
-  const handleMouseDown = (e: React.MouseEvent) => {
-    const container = scrollContainerRef.current;
-    if (!container) return;
-    setIsDragging(true);
-    setStartX(e.pageX - container.offsetLeft);
-    setScrollLeftState(container.scrollLeft);
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging) return;
-    e.preventDefault();
-    const container = scrollContainerRef.current;
-    if (!container) return;
-    const x = e.pageX - container.offsetLeft;
-    const walk = (x - startX) * 1.6; // multiplier for responsive drag
-    container.scrollLeft = scrollLeftState - walk;
-
-    // Handle seamless wraparound while dragging
-    const halfWidth = container.scrollWidth / 2;
-    if (container.scrollLeft >= halfWidth) {
-      container.scrollLeft -= halfWidth;
-      setScrollLeftState(container.scrollLeft);
-      setStartX(x);
-    } else if (container.scrollLeft <= 0) {
-      container.scrollLeft += halfWidth;
-      setScrollLeftState(container.scrollLeft);
-      setStartX(x);
+  const filteredIndustries = useMemo(() => {
+    let list = INDUSTRIES_LIST;
+    if (activeTab !== "all") {
+      list = list.filter((item) => item.category === activeTab);
     }
-
-    // Update dynamic timecode during drag
-    const progress = (container.scrollLeft % halfWidth) / halfWidth;
-    const totalSec = progress * 12;
-    const sec = Math.floor(totalSec);
-    const ms = Math.floor((totalSec % 1) * 100);
-    setDisplayTime(`00:${String(sec).padStart(2, "0")}.${String(ms).padStart(2, "0")}`);
-  };
-
-  const handleMouseUp = () => {
-    setIsDragging(false);
-  };
-
-  // Duplicate items 2x for seamless continuous infinite rail
-  const displayItems = [...INDUSTRIES_LIST, ...INDUSTRIES_LIST];
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      list = list.filter(
+        (item) =>
+          item.name.toLowerCase().includes(q) ||
+          item.headline.toLowerCase().includes(q) ||
+          item.description.toLowerCase().includes(q) ||
+          item.tags.some((t) => t.toLowerCase().includes(q))
+      );
+    }
+    return list;
+  }, [activeTab, searchQuery]);
 
   return (
     <section
-      id="industries"
-      className="industries-drop-section relative w-full overflow-x-clip select-none"
+      id="industries-section"
+      className="industries-bento-section relative w-full overflow-hidden select-none"
       aria-label="Industries We Specialize In"
     >
-      {/* Dynamic Ambient Backdrop */}
-      <div className="industries-drop-backdrop" aria-hidden="true">
-        <div className="industries-drop-spotlight" />
-        <div className="industries-drop-grid-floor" />
-      </div>
+      {/* Dynamic Ambient Glow */}
+      <div className="industries-bento-ambient" aria-hidden="true" />
 
       <div className="container-custom relative z-10">
         {/* ========================================================================= */}
         {/* 1. SECTION HEADER                                                         */}
         {/* ========================================================================= */}
-        <div className="industries-drop-header text-center">
-          <h2 className="industries-drop-headline">
-            Industries <span className="industries-drop-gradient">We Specialize In</span>
+        <div className="industries-bento-header text-center">
+          <div className="industries-bento-badge">
+            <Sparkles size={13} />
+            <span>INDUSTRY SPECIALIZATIONS</span>
+          </div>
+
+          <h2 className="industries-bento-title">
+            Industries{" "}
+            <span className="industries-bento-gradient">We Specialize In</span>
           </h2>
 
-          <p className="industries-drop-subhead">
-            Opash Software brings over 8 years of expertise in delivering tailored digital solutions for Insurance, Fintech, eCommerce, Education, and Real Estate — helping businesses overcome industry challenges and scale confidently.
+          <p className="industries-bento-desc">
+            Over 8 years of specialized engineering experience architecting enterprise-grade digital platforms for FinTech, Healthcare, eCommerce, and Industry 4.0 ecosystems.
           </p>
         </div>
 
         {/* ========================================================================= */}
-        {/* 2. ROUNDED 4-CARD STAGE DOCK WITH DROP-IN ANIMATION & INFINITE CAROUSEL    */}
+        {/* 2. FILTER & SEARCH CONTROLS                                               */}
         {/* ========================================================================= */}
-        <div
-          ref={dockRef}
-          className={`industries-dock-capsule ${hasEntered ? "is-active" : "is-empty"}`}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => {
-            setIsHovered(false);
-            setIsDragging(false);
-          }}
-        >
-          {/* Top specular gloss sheen on the dock */}
-          <div className="industries-dock-sheen" />
-
-          {/* ========================================================================= */}
-          {/* MEDIA TIMELINE PLAYER BAR MATCHING IMAGE 1                                */}
-          {/* ========================================================================= */}
-          <div className="industries-timeline-header">
-            {/* Top row: Play/Pause button, timecode, duration pill */}
-            <div className="industries-timeline-controls">
-              <button
-                type="button"
-                className="industries-timeline-play-btn"
-                onClick={() => setIsPaused((prev) => !prev)}
-                title={isPaused ? "Play" : "Pause"}
-                aria-label={isPaused ? "Play animation" : "Pause animation"}
-              >
-                {isPaused ? (
-                  <Play size={12} className="fill-current ml-0.5" />
-                ) : (
-                  <Pause size={12} className="fill-current" />
-                )}
-              </button>
-
-              <div className="industries-timeline-timecode">
-                <span className="current-time">{displayTime}</span>
-                <span className="time-divider">/</span>
-                <span className="total-time">00:12</span>
-              </div>
-
-              <div className="industries-timeline-duration">
-                <span className="dur-label">Dur</span>
-                <span className="dur-pill">5s</span>
-                <span className="dur-unit">sec</span>
-              </div>
-            </div>
-
-            {/* Bottom row: Time ruler with ticks & active scrubber clip region [ 1s | 2s ] - FULL WIDTH OF THE BOX */}
-            <div className="industries-timeline-ruler" aria-hidden="true">
-              <div className="timeline-ticks-row">
-                <span className="time-num">0s</span>
-                <span className="time-tick">|</span>
-
-                {/* Active Clip Region [ 1s | 2s ] */}
-                <div className="timeline-active-clip">
-                  <span className="clip-time-num">1s</span>
-                  <span className="clip-time-tick">|</span>
-                  <span className="clip-time-num">2s</span>
-                </div>
-
-                <span className="time-tick">|</span>
-                <span className="time-num time-num-opt">3s</span>
-                <span className="time-tick time-tick-opt">|</span>
-                <span className="time-num">4s</span>
-                <span className="time-tick time-tick-opt">|</span>
-                <span className="time-num time-num-opt">5s</span>
-                <span className="time-tick">|</span>
-                <span className="time-num">6s</span>
-                <span className="time-tick time-tick-opt">|</span>
-                <span className="time-num time-num-opt">7s</span>
-                <span className="time-tick">|</span>
-                <span className="time-num">8s</span>
-                <span className="time-tick time-tick-opt">|</span>
-                <span className="time-num time-num-opt">9s</span>
-                <span className="time-tick">|</span>
-                <span className="time-num">10s</span>
-                <span className="time-tick time-tick-opt">|</span>
-                <span className="time-num time-num-opt">11s</span>
-                <span className="time-tick">|</span>
-                <span className="time-num">12s</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Interactive Scrollable Rail */}
-          <div
-            ref={scrollContainerRef}
-            className={`industries-dock-track ${isDragging ? "is-grabbing" : ""}`}
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-          >
-            {displayItems.map((item, idx) => {
-              // Delay calculation for staggered drop-in
-              const dropDelay = `${(idx % 10) * 0.09}s`;
+        <div className="industries-bento-controls">
+          {/* Category Tabs */}
+          <div className="industries-bento-tabs">
+            {CATEGORY_TABS.map((tab) => {
+              const count =
+                tab.id === "all"
+                  ? INDUSTRIES_LIST.length
+                  : INDUSTRIES_LIST.filter((i) => i.category === tab.id).length;
 
               return (
-                <div
-                  key={`${item.id}-${idx}`}
-                  className={`industry-card-item ${hasEntered ? "do-drop" : ""}`}
-                  style={
-                    {
-                      "--ind-accent": item.accent,
-                      "--ind-accent-rgb": item.accentRgb,
-                      "--drop-delay": dropDelay,
-                    } as React.CSSProperties
-                  }
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`industries-tab-btn ${activeTab === tab.id ? "active" : ""}`}
                 >
-                  <div className="industry-card-body">
-                    {/* Top 3D Vector Hologram Icon */}
-                    <div className="industry-icon-container">
-                      <div className="industry-icon-aura" />
-                      <div className="industry-icon-graphic">
-                        <IndustryHologramIcon
-                          type={item.customIconType}
-                          accent={item.accent}
-                          accentRgb={item.accentRgb}
-                        />
-                      </div>
-                    </div>
-
-                    {/* Bottom Industry Name */}
-                    <h3 className="industry-card-name">{item.name}</h3>
-
-                    {/* Subtle Base Pod */}
-                    <div className="industry-card-floor-pod" />
-                  </div>
-                </div>
+                  <span>{tab.label}</span>
+                  <span className="industries-tab-count">{count}</span>
+                </button>
               );
             })}
           </div>
 
-          {/* Gradient Edge Fade Masks (Left & Right) */}
-          <div className="industries-dock-fade-mask left-mask" />
-          <div className="industries-dock-fade-mask right-mask" />
+          {/* Search Box */}
+          <div className="industries-search-box">
+            <Search size={15} className="industries-search-icon" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search industries, capabilities, tags..."
+              className="industries-search-input"
+            />
+            {searchQuery && (
+              <button
+                type="button"
+                onClick={() => setSearchQuery("")}
+                className="industries-search-clear"
+                aria-label="Clear search"
+              >
+                <X size={14} />
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* ========================================================================= */}
+        {/* 3. MODERN INTERACTIVE BENTO GRID                                          */}
+        {/* ========================================================================= */}
+        <div className="industries-bento-grid">
+          <AnimatePresence mode="popLayout">
+            {filteredIndustries.map((item, idx) => {
+              const isHero = item.featured && activeTab === "all" && !searchQuery;
+
+              return (
+                <motion.article
+                  key={item.id}
+                  layout
+                  initial={{ opacity: 0, scale: 0.96, y: 14 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.92, y: 10 }}
+                  transition={{ duration: 0.24, delay: idx * 0.03 }}
+                  className={`industries-bento-card ${isHero ? "hero-card" : ""}`}
+                  style={
+                    {
+                      "--ind-accent": item.accent,
+                      "--ind-accent-rgb": item.accentRgb,
+                    } as React.CSSProperties
+                  }
+                >
+                  {/* Card Glowing Ambient Background */}
+                  <div className="industries-card-ambient" />
+
+                  {/* Card Header: 3D Hologram Icon + Stat Pill */}
+                  <div className="industries-card-top">
+                    <div className="industries-icon-pod">
+                      {renderCustomIcon(item.customIconType, item.accent, item.accentRgb)}
+                    </div>
+
+                    <div className="industries-stat-pill">
+                      <span className="stat-value">{item.stat}</span>
+                      <span className="stat-label">{item.statLabel}</span>
+                    </div>
+                  </div>
+
+                  {/* Card Content */}
+                  <div className="industries-card-body">
+                    <div className="industries-card-meta">
+                      <h3 className="industries-card-title">{item.name}</h3>
+                      <p className="industries-card-headline">{item.headline}</p>
+                    </div>
+
+                    <p className="industries-card-desc">{item.description}</p>
+                  </div>
+
+                  {/* Card Footer: Capabilities Tags + Action Indicator */}
+                  <div className="industries-card-footer">
+                    <div className="industries-tags-cluster">
+                      {item.tags.map((tag) => (
+                        <span key={tag} className="industries-tag-badge">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className="industries-card-link">
+                      <span>Explore Platform</span>
+                      <ArrowUpRight size={14} className="link-arrow" />
+                    </div>
+                  </div>
+                </motion.article>
+              );
+            })}
+          </AnimatePresence>
+        </div>
+
+        {/* Empty State */}
+        {filteredIndustries.length === 0 && (
+          <div className="industries-empty-state">
+            <p>No industries found matching &ldquo;{searchQuery}&rdquo;</p>
+            <button
+              type="button"
+              onClick={() => {
+                setSearchQuery("");
+                setActiveTab("all");
+              }}
+              className="industries-reset-btn"
+            >
+              Reset Filters
+            </button>
+          </div>
+        )}
+
+        {/* ========================================================================= */}
+        {/* 4. BOTTOM ENTERPRISE TRUST HIGHLIGHTS                                     */}
+        {/* ========================================================================= */}
+        <div className="industries-bento-footer">
+          <div className="industries-trust-pill">
+            <ShieldCheck size={16} className="text-emerald-400" />
+            <span>Enterprise Compliance (HIPAA, PCI-DSS, SOC2)</span>
+          </div>
+          <div className="industries-trust-pill">
+            <Cpu size={16} className="text-cyan-400" />
+            <span>Dedicated Domain Solutions Architects</span>
+          </div>
+          <div className="industries-trust-pill">
+            <Layers size={16} className="text-violet-400" />
+            <span>Microservices & Event-Driven Pipelines</span>
+          </div>
         </div>
       </div>
     </section>
   );
 }
 
-// =========================================================================
-// CUSTOM ANIMATED 3D/VECTOR HOLOGRAM ICONS MATCHING USER'S SCREENSHOTS
-// =========================================================================
-function IndustryHologramIcon({
-  type,
-  accent,
-  accentRgb,
-}: {
-  type: string;
-  accent: string;
-  accentRgb: string;
-}) {
+/**
+ * High-definition 3D neon vector icon renderer
+ */
+function renderCustomIcon(type: string, accent: string, accentRgb: string) {
   switch (type) {
     case "shield": // InsureTech
       return (
-        <svg viewBox="0 0 70 70" width="62" height="62" fill="none">
+        <svg viewBox="0 0 70 70" width="46" height="46" fill="none">
           <path
-            d="M 35 7 L 58 15 L 58 39 C 58 52 35 62 35 62 C 35 62 12 52 12 39 L 12 15 Z"
+            d="M 35 12 L 54 20 V 36 C 54 48 35 58 35 58 C 35 58 16 48 16 36 V 20 Z"
             fill={`rgba(${accentRgb}, 0.22)`}
+            stroke={accent}
+            strokeWidth="3.2"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M 27 34 L 33 40 L 45 28"
+            stroke="#ffffff"
+            strokeWidth="3.4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <circle cx="35" cy="35" r="16" stroke={accent} strokeWidth="1.2" opacity="0.4" />
+        </svg>
+      );
+
+    case "health": // Health Care
+      return (
+        <svg viewBox="0 0 70 70" width="46" height="46" fill="none">
+          <path
+            d="M 35 18 C 35 18 25 10 18 17 C 11 24 12 36 21 44 L 35 57 L 49 44 C 58 36 59 24 52 17 C 45 10 35 18 35 18 Z"
+            fill={`rgba(${accentRgb}, 0.24)`}
             stroke={accent}
             strokeWidth="2.8"
             strokeLinejoin="round"
           />
           <path
-            d="M 35 22 V 46 M 23 34 H 47"
+            d="M 24 35 H 30 L 33 28 L 37 42 L 40 35 H 46"
             stroke="#ffffff"
-            strokeWidth="4.2"
+            strokeWidth="3"
             strokeLinecap="round"
+            strokeLinejoin="round"
           />
-          <circle cx="35" cy="34" r="15" fill={`rgba(${accentRgb}, 0.35)`} filter="blur(6px)" />
         </svg>
       );
 
-    case "health": // Health Care (Tree & Person)
+    case "fintech": // FinTech
       return (
-        <svg viewBox="0 0 70 70" width="62" height="62" fill="none">
-          <circle cx="35" cy="20" r="6" fill="#ffffff" />
+        <svg viewBox="0 0 70 70" width="46" height="46" fill="none">
           <path
-            d="M 22 48 C 22 35 35 30 35 30 C 35 30 48 35 48 48"
+            d="M 14 26 L 35 12 L 56 26 Z"
+            fill={`rgba(${accentRgb}, 0.25)`}
             stroke={accent}
-            strokeWidth="3.8"
-            strokeLinecap="round"
+            strokeWidth="2.8"
+            strokeLinejoin="round"
           />
-          <path
-            d="M 35 30 V 58 M 27 36 L 17 28 M 43 36 L 53 28 M 35 42 L 18 42 M 35 42 L 52 42"
-            stroke="#ffffff"
-            strokeWidth="2.2"
-            strokeLinecap="round"
-          />
-          <circle cx="17" cy="26" r="3.2" fill={accent} />
-          <circle cx="53" cy="26" r="3.2" fill={accent} />
-          <circle cx="18" cy="42" r="2.8" fill={accent} />
-          <circle cx="52" cy="42" r="2.8" fill={accent} />
-          <circle cx="35" cy="12" r="3" fill={accent} />
+          <rect x="18" y="26" width="34" height="4" fill="#ffffff" />
+          <rect x="20" y="30" width="6" height="20" rx="1.5" fill={accent} />
+          <rect x="32" y="30" width="6" height="20" rx="1.5" fill="#ffffff" />
+          <rect x="44" y="30" width="6" height="20" rx="1.5" fill={accent} />
+          <rect x="14" y="50" width="42" height="6" rx="2" fill={`rgba(${accentRgb}, 0.65)`} stroke={accent} strokeWidth="1.8" />
+          <circle cx="35" cy="20" r="3.5" fill="#ffffff" />
         </svg>
       );
 
-    case "fintech": // FinTech (Bank Pillars)
+    case "ecommerce": // Ecommerce
       return (
-        <svg viewBox="0 0 70 70" width="62" height="62" fill="none">
-          <path d="M 12 28 L 35 12 L 58 28 Z" fill={`rgba(${accentRgb}, 0.22)`} stroke={accent} strokeWidth="2.8" strokeLinejoin="round" />
-          <rect x="16" y="28" width="38" height="4" fill="#ffffff" />
-          <rect x="18" y="32" width="6.5" height="21" rx="1.5" fill={accent} />
-          <rect x="31.75" y="32" width="6.5" height="21" rx="1.5" fill="#ffffff" />
-          <rect x="45.5" y="32" width="6.5" height="21" rx="1.5" fill={accent} />
-          <rect x="13" y="53" width="44" height="6" rx="2" fill={`rgba(${accentRgb}, 0.65)`} stroke={accent} strokeWidth="1.8" />
-          <circle cx="35" cy="22" r="4" fill="#ffffff" />
-        </svg>
-      );
-
-    case "ecommerce": // Ecommerce (Shopping Cart)
-      return (
-        <svg viewBox="0 0 70 70" width="62" height="62" fill="none">
+        <svg viewBox="0 0 70 70" width="46" height="46" fill="none">
           <path
-            d="M 13 16 H 21 L 28 45 H 53 L 59 22 H 23"
+            d="M 14 16 H 22 L 28 44 H 52 L 58 22 H 24"
             stroke={accent}
-            strokeWidth="3.4"
+            strokeWidth="3.2"
             strokeLinecap="round"
             strokeLinejoin="round"
             fill={`rgba(${accentRgb}, 0.22)`}
           />
-          <circle cx="31" cy="54" r="5" fill="#ffffff" stroke={accent} strokeWidth="2.2" />
-          <circle cx="50" cy="54" r="5" fill="#ffffff" stroke={accent} strokeWidth="2.2" />
-          <path d="M 32 30 H 49 M 36 36 H 45" stroke="#ffffff" strokeWidth="2.2" strokeLinecap="round" />
+          <circle cx="30" cy="53" r="4.5" fill="#ffffff" stroke={accent} strokeWidth="2.2" />
+          <circle cx="49" cy="53" r="4.5" fill="#ffffff" stroke={accent} strokeWidth="2.2" />
+          <path d="M 32 30 H 48 M 36 36 H 44" stroke="#ffffff" strokeWidth="2.2" strokeLinecap="round" />
         </svg>
       );
 
-    case "education": // Education (Graduation Cap)
+    case "education": // Education
       return (
-        <svg viewBox="0 0 70 70" width="62" height="62" fill="none">
+        <svg viewBox="0 0 70 70" width="46" height="46" fill="none">
           <path
-            d="M 10 26 L 35 13 L 60 26 L 35 39 Z"
+            d="M 12 26 L 35 13 L 58 26 L 35 39 Z"
             fill={`rgba(${accentRgb}, 0.3)`}
             stroke={accent}
             strokeWidth="2.8"
             strokeLinejoin="round"
           />
           <path
-            d="M 19 32 V 46 C 19 51 35 57 35 57 C 35 57 51 51 51 46 V 32"
+            d="M 20 32 V 46 C 20 51 35 56 35 56 C 35 56 50 51 50 46 V 32"
             stroke="#ffffff"
             strokeWidth="3"
             strokeLinecap="round"
           />
-          <path d="M 55 29 V 49" stroke={accent} strokeWidth="2.8" strokeLinecap="round" />
-          <circle cx="55" cy="51" r="3.2" fill="#ffffff" />
+          <path d="M 54 29 V 48" stroke={accent} strokeWidth="2.8" strokeLinecap="round" />
+          <circle cx="54" cy="50" r="3" fill="#ffffff" />
         </svg>
       );
 
-    case "realestate": // Real Estate (Hand Holding House)
+    case "realestate": // Real Estate
       return (
-        <svg viewBox="0 0 70 70" width="62" height="62" fill="none">
+        <svg viewBox="0 0 70 70" width="46" height="46" fill="none">
           <path
             d="M 23 27 L 35 15 L 47 27 V 39 H 23 Z"
             fill={`rgba(${accentRgb}, 0.26)`}
@@ -544,38 +526,37 @@ function IndustryHologramIcon({
         </svg>
       );
 
-    case "travel": // Travel & Hospitality (Calendar & Airplane)
+    case "travel": // Travel
       return (
-        <svg viewBox="0 0 70 70" width="62" height="62" fill="none">
-          <rect x="14" y="18" width="42" height="38" rx="6" fill={`rgba(${accentRgb}, 0.16)`} stroke={accent} strokeWidth="2.4" />
-          <line x1="14" y1="28" x2="56" y2="28" stroke="#ffffff" strokeWidth="2.2" />
+        <svg viewBox="0 0 70 70" width="46" height="46" fill="none">
+          <rect x="15" y="18" width="40" height="36" rx="6" fill={`rgba(${accentRgb}, 0.16)`} stroke={accent} strokeWidth="2.4" />
+          <line x1="15" y1="27" x2="55" y2="27" stroke="#ffffff" strokeWidth="2.2" />
           <circle cx="24" cy="18" r="2.8" fill="#ffffff" />
           <circle cx="46" cy="18" r="2.8" fill="#ffffff" />
           <path
-            d="M 35 32 L 35 48 M 26 38 L 44 38 M 30 46 L 40 46"
+            d="M 35 32 L 35 48 M 26 38 L 44 38"
             stroke={accent}
             strokeWidth="3.4"
             strokeLinecap="round"
           />
-          <circle cx="35" cy="40" r="10" stroke="#ffffff" strokeWidth="1.6" strokeDasharray="3 3" />
+          <circle cx="35" cy="40" r="9" stroke="#ffffff" strokeWidth="1.6" strokeDasharray="3 3" />
         </svg>
       );
 
-    case "telecom": // Telecommunication (Monitor & Globe)
+    case "telecom": // Telecom
       return (
-        <svg viewBox="0 0 70 70" width="62" height="62" fill="none">
-          <rect x="15" y="16" width="40" height="31" rx="5" fill={`rgba(${accentRgb}, 0.22)`} stroke={accent} strokeWidth="2.6" />
-          <line x1="35" y1="47" x2="35" y2="55" stroke="#ffffff" strokeWidth="3.2" />
-          <line x1="24" y1="55" x2="46" y2="55" stroke="#ffffff" strokeWidth="3.2" strokeLinecap="round" />
-          <circle cx="35" cy="31" r="8.5" stroke={accent} strokeWidth="2" />
-          <circle cx="35" cy="31" r="3.5" fill="#ffffff" />
-          <path d="M 21 24 C 19 28 19 34 21 38 M 49 24 C 51 28 51 34 49 38" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" />
+        <svg viewBox="0 0 70 70" width="46" height="46" fill="none">
+          <rect x="16" y="16" width="38" height="30" rx="5" fill={`rgba(${accentRgb}, 0.22)`} stroke={accent} strokeWidth="2.6" />
+          <line x1="35" y1="46" x2="35" y2="54" stroke="#ffffff" strokeWidth="3.2" />
+          <line x1="25" y1="54" x2="45" y2="54" stroke="#ffffff" strokeWidth="3.2" strokeLinecap="round" />
+          <circle cx="35" cy="31" r="8" stroke={accent} strokeWidth="2" />
+          <circle cx="35" cy="31" r="3" fill="#ffffff" />
         </svg>
       );
 
-    case "industrial": // Industrial Tech (Triple Cogs)
+    case "industrial": // Industrial
       return (
-        <svg viewBox="0 0 70 70" width="62" height="62" fill="none">
+        <svg viewBox="0 0 70 70" width="46" height="46" fill="none">
           <g transform="translate(26, 26)">
             <circle r="12" fill={`rgba(${accentRgb}, 0.28)`} stroke={accent} strokeWidth="2.6" />
             <circle r="4.5" fill="#ffffff" />
@@ -583,16 +564,16 @@ function IndustryHologramIcon({
             <line x1="-14" y1="0" x2="14" y2="0" stroke={accent} strokeWidth="3.2" />
           </g>
           <g transform="translate(46, 42)">
-            <circle r="9.5" fill={`rgba(${accentRgb}, 0.22)`} stroke="#ffffff" strokeWidth="2.2" />
-            <circle r="3.2" fill={accent} />
+            <circle r="9" fill={`rgba(${accentRgb}, 0.22)`} stroke="#ffffff" strokeWidth="2.2" />
+            <circle r="3" fill={accent} />
           </g>
         </svg>
       );
 
-    case "ngos": // NGOs (Hand & Sprout/Heart)
+    case "ngos": // NGOs
     default:
       return (
-        <svg viewBox="0 0 70 70" width="62" height="62" fill="none">
+        <svg viewBox="0 0 70 70" width="46" height="46" fill="none">
           <path
             d="M 35 34 C 35 21 47 21 47 27 C 47 35 35 44 35 44 C 35 44 23 35 23 27 C 23 21 35 21 35 34 Z"
             fill={`rgba(${accentRgb}, 0.35)`}
@@ -601,13 +582,14 @@ function IndustryHologramIcon({
             strokeLinejoin="round"
           />
           <path
-            d="M 14 49 C 22 45 30 47 38 49 C 46 51 54 47 56 45"
+            d="M 15 48 C 23 44 31 46 38 48 C 46 50 53 46 55 44"
             stroke="#ffffff"
             strokeWidth="3.2"
             strokeLinecap="round"
           />
-          <path d="M 35 18 L 35 14 M 31 15 L 35 12 L 39 15" stroke={accent} strokeWidth="2.2" strokeLinecap="round" />
         </svg>
       );
   }
 }
+
+export default InteractiveIndustriesBento;

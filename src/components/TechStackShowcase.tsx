@@ -1,8 +1,10 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import Particles from "./Particles";
+import { motion } from "framer-motion";
+import { useTheme } from "./ThemeProvider";
+import ChromaGrid from "./ChromaGrid";
+import TechShowcaseBackdrop from "./TechShowcaseBackdrop";
 import {
   Code2,
   Server,
@@ -13,6 +15,12 @@ import {
   ShieldCheck,
   ChevronRight,
   Sparkles,
+  Search,
+  X,
+  Zap,
+  Lock,
+  Cloud,
+  CheckCircle2,
 } from "lucide-react";
 
 export const CATEGORY_META: Record<
@@ -27,7 +35,7 @@ export const CATEGORY_META: Record<
   frontend: { icon: Code2, color: "#5EC098", rgb: "94, 192, 152", badge: "UI / UX" },
   backend: { icon: Server, color: "#0ea5e9", rgb: "14, 165, 233", badge: "APIs & Core" },
   mobile: { icon: Smartphone, color: "#00bbab", rgb: "0, 187, 171", badge: "iOS & Android" },
-  database: { icon: Database, color: "#38bdf8", rgb: "56, 189, 248", badge: "Engines" },
+  database: { icon: Database, color: "#38bdf8", rgb: "56, 189, 248", badge: "SQL & NoSQL" },
   automation: { icon: Cpu, color: "#5EC098", rgb: "94, 192, 152", badge: "CI/CD & AI" },
   project: { icon: FolderKanban, color: "#0ea5e9", rgb: "14, 165, 233", badge: "Agile" },
   project_mgmt: { icon: FolderKanban, color: "#0ea5e9", rgb: "14, 165, 233", badge: "Agile" },
@@ -479,15 +487,26 @@ export const TECH_CATEGORIES: CategoryGroup[] = [
   },
 ];
 
+const CATEGORY_TABS = [
+  { id: "all", name: "All Stack", icon: Sparkles, count: 43 },
+  { id: "frontend", name: "Front End", icon: Code2, count: 9 },
+  { id: "backend", name: "Back End", icon: Server, count: 5 },
+  { id: "mobile", name: "Mobile", icon: Smartphone, count: 4 },
+  { id: "database", name: "Database", icon: Database, count: 6 },
+  { id: "automation", name: "Automation & AI", icon: Cpu, count: 4 },
+  { id: "project_mgmt", name: "Project Management", icon: FolderKanban, count: 6 },
+  { id: "testing", name: "Testing & QA", icon: ShieldCheck, count: 9 },
+];
+
 export function TechStackShowcase() {
-  const [activeTab, setActiveTab] = useState<string>("frontend");
-  const [isLightMode, setIsLightMode] = useState(false);
-  const [isTableHovered, setIsTableHovered] = useState(false);
-  const [progressKey, setProgressKey] = useState(0);
+  const [activeTab, setActiveTab] = useState<string>("all");
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const { theme } = useTheme();
+  const [domLight, setDomLight] = useState(false);
 
   useEffect(() => {
     const checkTheme = () => {
-      setIsLightMode(document.documentElement.getAttribute("data-theme") === "light");
+      setDomLight(document.documentElement.getAttribute("data-theme") === "light");
     };
     checkTheme();
     const observer = new MutationObserver(checkTheme);
@@ -495,208 +514,216 @@ export function TechStackShowcase() {
     return () => observer.disconnect();
   }, []);
 
-  // Auto-advance through categories every 4.5 seconds (paused when user hovers over the table)
-  useEffect(() => {
-    if (isTableHovered) return;
+  const isLightMode = theme === "light" || domLight;
 
-    const timer = setTimeout(() => {
-      setActiveTab((prevTab) => {
-        const currentIndex = TECH_CATEGORIES.findIndex((c) => c.id === prevTab);
-        const nextIndex = (currentIndex + 1) % TECH_CATEGORIES.length;
-        return TECH_CATEGORIES[nextIndex].id;
+  // Flatten all technologies with category metadata
+  const allTechnologies = React.useMemo(() => {
+    const list: (TechItem & { categoryId: string; categoryName: string; badge: string })[] = [];
+    TECH_CATEGORIES.forEach((cat) => {
+      const meta = CATEGORY_META[cat.id] || { badge: "Engineering" };
+      cat.technologies.forEach((tech) => {
+        list.push({
+          ...tech,
+          categoryId: cat.id,
+          categoryName: cat.name,
+          badge: meta.badge,
+        });
       });
-      setProgressKey((k) => k + 1);
-    }, 4500);
+    });
+    return list;
+  }, []);
 
-    return () => clearTimeout(timer);
-  }, [activeTab, isTableHovered, progressKey]);
+  // Filter based on activeTab and searchQuery
+  const filteredTechs = React.useMemo(() => {
+    let list =
+      activeTab === "all"
+        ? allTechnologies
+        : allTechnologies.filter((t) => t.categoryId === activeTab);
 
-  const handleSelectCategory = (categoryId: string) => {
-    setActiveTab(categoryId);
-    setProgressKey((k) => k + 1);
-  };
-
-  const currentCategory =
-    TECH_CATEGORIES.find((cat) => cat.id === activeTab) || TECH_CATEGORIES[0];
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase().trim();
+      list = list.filter(
+        (t) =>
+          t.name.toLowerCase().includes(q) ||
+          t.categoryName.toLowerCase().includes(q) ||
+          t.badge.toLowerCase().includes(q)
+      );
+    }
+    return list;
+  }, [activeTab, searchQuery, allTechnologies]);
 
   return (
     <section
       id="tech-stack"
-      className="tech-matrix-section relative w-full overflow-hidden select-none"
+      className="tech-showcase-section relative w-full overflow-hidden select-none"
       aria-label="Technologies & Platforms We Work With"
     >
-      {/* ========================================================================= */}
-      {/* REACT BITS PARTICLES CANVAS & AMBIENT BACKDROP                              */}
-      {/* ========================================================================= */}
-      <div className="tech-shining-backdrop" aria-hidden="true">
-        {/* React Bits Interactive Particles with brand color palette */}
-        <div style={{ width: "100%", height: "100%", position: "absolute", inset: 0, pointerEvents: "auto" }}>
-          <Particles
-            particleColors={isLightMode ? ["#00A88F", "#102033", "#476D9A"] : ["#ffffff", "#5EC098", "#0ea5e9"]}
-            particleCount={100}
-            particleSpread={10}
-            speed={0.1}
-            particleBaseSize={100}
-            glow={isLightMode ? 0.2 : 0.5}
-            twinkle={0.3}
-            moveParticlesOnHover
-            hoverEffect="parallax"
-            sizeRandomness={1}
-            shape="circle"
-            depthOfField={0}
-            connections={false}
-            connectionDistance={110}
-            particleHoverFactor={1}
-            hoverRadius={140}
-            drift="none"
-            driftSpeed={1}
-            alphaParticles={false}
-            disableRotation={false}
-            cameraDistance={20}
-            variation={0}
-            opacity={isLightMode ? 0.6 : 1}
-            clickBurst
-            intro={false}
-            lightMode={isLightMode}
-          />
-        </div>
-      </div>
+      {/* Dynamic Cyber Tech Backdrop (Auroras, Dot Matrix, Radar Scan & Glyphs) */}
+      <TechShowcaseBackdrop isLightMode={isLightMode} />
+
 
       <div className="container-custom relative z-10">
         {/* ========================================================================= */}
-        {/* 1. SECTION HEADER (TITLE & DESCRIPTION ONLY - CHIP REMOVED AS REQUESTED)  */}
+        {/* 1. SECTION HEADER (TITLE & DESCRIPTION)                                   */}
         {/* ========================================================================= */}
-        <div className="tech-center-header text-center">
-          <h2 className="tech-center-headline">
+        <div className="tech-showcase-header">
+          <div className="tech-showcase-badge">
+            <Sparkles size={13} />
+            <span>ENTERPRISE TECH STACK</span>
+          </div>
+
+          <h2 className="tech-showcase-title">
             Technologies & Platforms{" "}
-            <span className="tech-center-gradient">We Work With</span>
+            <span className="tech-showcase-gradient-text">That Power Scale</span>
           </h2>
 
-          <p className="tech-center-desc">
-            Powering scalable, high-performance web, mobile, and cloud ecosystems using battle-tested enterprise frameworks.
+          <p className="tech-showcase-desc">
+            From modern responsive frontends and distributed cloud backends to native mobile ecosystems and AI automations, we leverage industry-grade production frameworks.
           </p>
         </div>
 
         {/* ========================================================================= */}
-        {/* 2. SPLIT LAYOUT: LEFT TABLE WITH AUTO PROGRESS LINE & RIGHT ORGANIC CLOUD */}
+        {/* 2. INTERACTIVE CATEGORY TABS & LIVE SEARCH                                 */}
         {/* ========================================================================= */}
-        <div className="tech-split-stage">
-          {/* Left Side: Table of Categories with Bottom Progress Line & Auto Next Language */}
-          <div className="tech-categories-sidebar">
-            <div
-              className="tech-categories-table"
-              role="tablist"
-              onMouseEnter={() => setIsTableHovered(true)}
-              onMouseLeave={() => setIsTableHovered(false)}
-            >
-              {/* Sleek Table Header */}
-              <div className="tech-table-header">
-                <div className="tech-table-header-left">
-                  <Sparkles size={13} className="tech-sparkle-icon" />
-                  <span className="tech-table-header-title">ENGINEERING DOMAINS</span>
-                </div>
-                <div className="tech-table-header-badge">
-                  <span className="tech-pulse-dot" />
-                  <span>ACTIVE</span>
-                </div>
-              </div>
-
-              {/* Table Rows */}
-              {TECH_CATEGORIES.map((category) => {
-                const isActive = activeTab === category.id;
-                const meta = CATEGORY_META[category.id] || {
-                  icon: Code2,
-                  color: "#00bbab",
-                  rgb: "0, 187, 171",
-                  badge: "Tech",
-                };
-                const IconComponent = meta.icon;
-
-                return (
-                  <button
-                    key={category.id}
-                    type="button"
-                    role="tab"
-                    aria-selected={isActive}
-                    onClick={() => handleSelectCategory(category.id)}
-                    className={`tech-cat-table-row ${isActive ? "is-active" : ""}`}
-                    style={
-                      {
-                        "--cat-accent": meta.color,
-                        "--cat-accent-rgb": meta.rgb,
-                      } as React.CSSProperties
-                    }
-                  >
-                    <div className="tech-cat-row-left">
-                      <div className={`tech-cat-icon-pod ${isActive ? "is-active" : ""}`}>
-                        <IconComponent size={16} />
-                      </div>
-                      <div className="tech-cat-info">
-                        <span className="tech-cat-table-name">{category.name}</span>
-                        <span className="tech-cat-sub-badge">{meta.badge}</span>
-                      </div>
-                    </div>
-
-                    <div className="tech-cat-row-right">
-                      <span className={`tech-cat-table-count ${isActive ? "is-active" : ""}`}>
-                        {category.technologies.length}
-                      </span>
-                      <ChevronRight
-                        size={14}
-                        className={`tech-cat-chevron ${isActive ? "is-active" : ""}`}
-                      />
-                    </div>
-
-                    {/* Glowing bottom progress line that starts at 0, finishes at 100%, then automatically switches to next category */}
-                    {isActive && (
-                      <div className="tech-table-progress-track" style={{ pointerEvents: "none" }}>
-                        <motion.div
-                          key={`progress-line-${category.id}-${progressKey}`}
-                          className="tech-table-progress-bar"
-                          initial={{ scaleX: 0 }}
-                          animate={{ scaleX: isTableHovered ? 0 : 1 }}
-                          transition={{ duration: isTableHovered ? 0.2 : 4.5, ease: "linear" }}
-                          style={{
-                            originX: 0,
-                          }}
-                        />
-                      </div>
-                    )}
-                  </button>
-                );
-              })}
-            </div>
+        <div className="tech-showcase-nav-wrapper">
+          {/* Category Tabs Pillbar */}
+          <div className="tech-showcase-tabs-pillbar" role="tablist">
+            {CATEGORY_TABS.map((tab) => {
+              const isActive = activeTab === tab.id;
+              const TabIcon = tab.icon;
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={isActive}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`tech-showcase-tab-btn ${isActive ? "active" : ""}`}
+                >
+                  <TabIcon size={14} />
+                  <span>{tab.name}</span>
+                  <span className="tech-showcase-tab-count">{tab.count}</span>
+                </button>
+              );
+            })}
           </div>
 
-          {/* Right Side: Organic Floating Cloud of all Technologies (All visible at once, logo top + small name bottom) */}
-          <div className="tech-languages-stage">
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.div
-                key={activeTab}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0, transition: { duration: 0.12 } }}
-                transition={{ duration: 0.2 }}
-                className="tech-organic-cluster"
+          {/* Search Box */}
+          <div className="tech-showcase-search-box">
+            <Search size={16} className="tech-showcase-search-icon" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search frameworks, databases, libraries..."
+              className="tech-showcase-search-input"
+              aria-label="Search technologies"
+            />
+            {searchQuery && (
+              <button
+                type="button"
+                onClick={() => setSearchQuery("")}
+                className="tech-showcase-search-clear"
+                title="Clear search"
+                aria-label="Clear search"
               >
-                {currentCategory.technologies.map((tech, idx) => {
-                  const posClass = `pos-${idx % 9}`;
-                  return (
-                    <div
-                      key={tech.name}
-                      className={`tech-organic-item ${posClass}`}
-                    >
-                      <div className="tech-organic-pod">
-                        <div className="tech-organic-logo">
-                          {tech.icon(tech.color)}
-                        </div>
-                        <span className="tech-organic-name">{tech.name}</span>
-                      </div>
+                <X size={15} />
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* ========================================================================= */}
+        {/* 3. TECHNOLOGY CARDS CHROMA GRID                                           */}
+        {/* ========================================================================= */}
+        {filteredTechs.length > 0 && (
+          <div style={{ marginBottom: "3.5rem" }}>
+            <ChromaGrid
+              items={filteredTechs.map((tech) => {
+                const brandColor =
+                  tech.color && tech.color !== "currentColor"
+                    ? tech.color
+                    : isLightMode
+                    ? "#00A88F"
+                    : "#00bbab";
+
+                return {
+                  title: tech.name,
+                  badge: tech.badge,
+                  accent: brandColor,
+                  icon: (
+                    <div className="tech-showcase-card-iconpod" style={{ marginBottom: 0 }}>
+                      {tech.icon(tech.color)}
                     </div>
-                  );
-                })}
-              </motion.div>
-            </AnimatePresence>
+                  ),
+                };
+              })}
+              columns={6}
+              minCardWidth={165}
+              gap={16}
+              radius={280}
+              grayscale={0}
+              glow={0.75}
+              borderGlow={1}
+              theme={isLightMode ? "light" : "dark"}
+              cardRadius={20}
+              showInfo={true}
+            />
+          </div>
+        )}
+
+        {/* Empty State */}
+        {filteredTechs.length === 0 && (
+          <div
+            style={{
+              textAlign: "center",
+              padding: "3.5rem 1rem",
+              color: isLightMode ? "#475569" : "#94A3B8",
+            }}
+          >
+            <p style={{ fontSize: "1.1rem", marginBottom: "1rem" }}>
+              No technologies found matching &ldquo;{searchQuery}&rdquo;
+            </p>
+            <button
+              type="button"
+              onClick={() => {
+                setSearchQuery("");
+                setActiveTab("all");
+              }}
+              style={{
+                padding: "8px 18px",
+                borderRadius: "9999px",
+                background: isLightMode ? "#0F172A" : "#00bbab",
+                color: "#FFFFFF",
+                border: "none",
+                fontWeight: 600,
+                cursor: "pointer",
+              }}
+            >
+              Reset Filters
+            </button>
+          </div>
+        )}
+
+        {/* ========================================================================= */}
+        {/* 4. ENTERPRISE CAPABILITIES HIGHLIGHTS STRIP                               */}
+        {/* ========================================================================= */}
+        <div className="tech-showcase-capabilities">
+          <div className="tech-showcase-cap-item">
+            <Zap size={16} className="tech-showcase-cap-icon" />
+            <span>Low-Latency High Throughput</span>
+          </div>
+          <div className="tech-showcase-cap-item">
+            <Lock size={16} className="tech-showcase-cap-icon" />
+            <span>Bank-Grade Architecture Security</span>
+          </div>
+          <div className="tech-showcase-cap-item">
+            <Cloud size={16} className="tech-showcase-cap-icon" />
+            <span>Multi-Cloud Auto-Scaling Ecosystems</span>
+          </div>
+          <div className="tech-showcase-cap-item">
+            <CheckCircle2 size={16} className="tech-showcase-cap-icon" />
+            <span>Continuous Automated Quality Gates</span>
           </div>
         </div>
       </div>
