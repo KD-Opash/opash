@@ -508,7 +508,7 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
           overflow: "hidden",
         }}
       >
-        {/* Hardware-accelerated CSS Ambient Radial Backdrop (0% GPU) */}
+        {/* Hero Background Image with Atmospheric Gradient Mask */}
         <div
           aria-hidden="true"
           style={{
@@ -519,6 +519,38 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
             zIndex: 0,
           }}
         >
+          <img
+            src="/images/services/custom_software_3d.jpg"
+            alt=""
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              objectPosition: "center 25%",
+              opacity: isLight ? 0.12 : 0.28,
+              filter: isLight ? "saturate(1.15) contrast(1.05)" : "saturate(1.3) brightness(0.9)",
+              transform: "scale(1.04)",
+            }}
+          />
+          {/* Radial Spotlight & Vignette Fade Mask */}
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background: isLight
+                ? `
+                  radial-gradient(ellipse 80% 65% at 50% 30%, rgba(248, 250, 252, 0.45) 0%, rgba(248, 250, 252, 0.88) 60%, #f8fafc 100%),
+                  linear-gradient(to bottom, rgba(248, 250, 252, 0.2) 0%, rgba(248, 250, 252, 0.95) 85%, #f8fafc 100%)
+                `
+                : `
+                  radial-gradient(ellipse 80% 65% at 50% 30%, rgba(4, 10, 23, 0.35) 0%, rgba(4, 10, 23, 0.88) 60%, #020712 100%),
+                  linear-gradient(to bottom, rgba(2, 7, 18, 0.2) 0%, rgba(2, 7, 18, 0.95) 85%, #020712 100%)
+                `,
+            }}
+          />
           <div
             style={{
               position: "absolute",
@@ -586,11 +618,7 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
               Custom Software Engineered for{" "}
               <span
                 style={{
-                  background: isLight
-                    ? "linear-gradient(135deg, #008a75 0%, #0284c7 100%)"
-                    : "linear-gradient(135deg, #2dd4bf 0%, #38bdf8 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
+                  color: isLight ? "#008a75" : "#2dd4bf",
                 }}
               >
                 Sub-Second Latency
@@ -1618,11 +1646,7 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
               Structured, Transparent{" "}
               <span
                 style={{
-                  background: isLight
-                    ? "linear-gradient(135deg, #008a75 0%, #0284c7 100%)"
-                    : "linear-gradient(135deg, #2dd4bf 0%, #38bdf8 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
+                  color: isLight ? "#008a75" : "#2dd4bf",
                 }}
               >
                 5-Stage Engineering Lifecycle
