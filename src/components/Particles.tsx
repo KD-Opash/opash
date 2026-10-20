@@ -529,7 +529,7 @@ const Particles = ({
     };
     let raf = 0;
     let last = 0;
-    let visible = true;
+    let visible = false;
 
     const rebuild = (s: Settings) => {
       const key = `${s.count}|${s.variation}|${s.colors.join(',')}|${s.lightMode ? 1 : 0}`;

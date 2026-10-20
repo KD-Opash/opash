@@ -552,7 +552,7 @@ const ElectricBorder = ({
     let time = Math.random() * 100;
     let raf = 0;
     let last = 0;
-    let visible = true;
+    let visible = false;
     let pageVisible = document.visibilityState !== 'hidden';
     let lost = false;
 

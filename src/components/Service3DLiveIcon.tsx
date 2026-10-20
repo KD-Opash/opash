@@ -425,35 +425,18 @@ function AiNeuralBrainModel({
         <path d="M 14 6 C 9 5 6 9 8 11" fill="none" stroke="#ffffff" strokeWidth="1.4" strokeLinecap="round" />
 
         {/* Orbiting Quantum Data Photon */}
-        <circle r="3" fill="#ffffff" filter={`drop-shadow(0 0 8px ${accent})`}>
-          <animateMotion
-            dur="2.4s"
-            repeatCount="indefinite"
-            path="M -22 0 A 22 10 0 1 0 22 0 A 22 10 0 1 0 -22 0"
-          />
-        </circle>
+        <circle cx="-16" cy="0" r="3" fill="#ffffff" filter={`drop-shadow(0 0 6px ${accent})`} />
 
-        {/* Pulsing Synaptic Core */}
-        <circle r="7.5" fill="#ffffff" filter={`drop-shadow(0 0 10px ${accent})`}>
-          <animate attributeName="r" values="6.5;8.5;6.5" dur="1.8s" repeatCount="indefinite" />
-          <animate attributeName="opacity" values="0.85;1;0.85" dur="1.8s" repeatCount="indefinite" />
-        </circle>
+        {/* Synaptic Core */}
+        <circle r="7" fill="#ffffff" filter={`drop-shadow(0 0 8px ${accent})`} />
         <circle r="4" fill="#090d16" />
         <circle r="2.2" fill={accent} />
 
         {/* Synaptic Nodes */}
-        <circle cx="-16" cy="-2" r="2" fill="#ffffff">
-          <animate attributeName="opacity" values="0.5;1;0.5" dur="1.4s" repeatCount="indefinite" />
-        </circle>
-        <circle cx="16" cy="-2" r="2" fill="#ffffff">
-          <animate attributeName="opacity" values="1;0.5;1" dur="1.4s" repeatCount="indefinite" />
-        </circle>
-        <circle cx="-8" cy="-12" r="2.2" fill={accent}>
-          <animate attributeName="r" values="1.8;2.6;1.8" dur="1.6s" repeatCount="indefinite" />
-        </circle>
-        <circle cx="8" cy="-12" r="2.2" fill={accent}>
-          <animate attributeName="r" values="2.6;1.8;2.6" dur="1.6s" repeatCount="indefinite" />
-        </circle>
+        <circle cx="-16" cy="-2" r="2" fill="#ffffff" />
+        <circle cx="16" cy="-2" r="2" fill="#ffffff" />
+        <circle cx="-8" cy="-12" r="2.2" fill={accent} />
+        <circle cx="8" cy="-12" r="2.2" fill={accent} />
       </g>
     </g>
   );
