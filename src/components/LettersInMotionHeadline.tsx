@@ -116,10 +116,35 @@ export default function LettersInMotionHeadline({
   heroRef,
 }: LettersInMotionHeadlineProps) {
   const [isPaused, setIsPaused] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   const phraseWrapRef = useRef<HTMLDivElement>(null);
 
   const activeDef = OPASH_SERVICES_PHRASES[currentIndex];
   const IconComponent = activeDef.icon;
+
+  // Track hero visibility so we never cycle or re-render when offscreen
+  useEffect(() => {
+    const heroEl = heroRef.current;
+    if (!heroEl) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(heroEl);
+
+    const handleVisibility = () => {
+      setIsVisible(!document.hidden && (heroRef.current ? true : false));
+    };
+    document.addEventListener("visibilitychange", handleVisibility);
+
+    return () => {
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", handleVisibility);
+    };
+  }, [heroRef]);
 
   // Measure word coordinates and push to visual engine
   const measureAndUpdate = useCallback(
@@ -165,16 +190,16 @@ export default function LettersInMotionHeadline({
     [currentIndex, activeDef, heroRef, onPhraseChange]
   );
 
-  // Interval timer for rotating through services
+  // Interval timer for rotating through services (strictly pauses when paused, offscreen, or tab hidden)
   useEffect(() => {
-    if (isPaused) return;
+    if (isPaused || !isVisible) return;
 
     const timer = setInterval(() => {
       onSelectIndex((currentIndex + 1) % OPASH_SERVICES_PHRASES.length);
-    }, 3800);
+    }, 4500);
 
     return () => clearInterval(timer);
-  }, [currentIndex, isPaused, onSelectIndex]);
+  }, [currentIndex, isPaused, isVisible, onSelectIndex]);
 
   // Measure whenever the active index changes or window resizes
   useEffect(() => {

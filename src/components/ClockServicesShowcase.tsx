@@ -153,14 +153,29 @@ export function ClockServicesShowcase() {
     goTo(activeIndex + 1);
   }, [activeIndex, goTo]);
 
-  // Cinematic auto-rotation every 3.5 seconds (3-4 seconds as requested)
+  const [isVisible, setIsVisible] = useState(false);
+
   useEffect(() => {
-    if (isHovered || prefersReducedMotion) return;
+    const el = stageRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  // Cinematic auto-rotation every 3.5 seconds (only when in view)
+  useEffect(() => {
+    if (!isVisible || isHovered || prefersReducedMotion) return;
     const interval = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % total);
     }, 3500);
     return () => clearInterval(interval);
-  }, [isHovered, prefersReducedMotion, total, activeIndex]);
+  }, [isVisible, isHovered, prefersReducedMotion, total, activeIndex]);
 
   // Keyboard navigation
   useEffect(() => {

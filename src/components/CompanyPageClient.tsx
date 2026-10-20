@@ -39,18 +39,9 @@ import ContactForm from "@/components/ContactForm";
 import { useTheme } from "./ThemeProvider";
 import AboutCreativeBackdrop from "./AboutCreativeBackdrop";
 
-export default function CompanyPageClient() {
-  const { theme } = useTheme();
-  const isLight = theme === "light";
-
-  // State
-  const [selectedMilestoneIndex, setSelectedMilestoneIndex] = useState(4); // Default to latest 2025-2026
-  const [selectedHubIndex, setSelectedHubIndex] = useState(0); // Default to Surat HQ
-  const [copiedEmail, setCopiedEmail] = useState(false);
-  const [activePillar, setActivePillar] = useState<number>(0);
+function LiveSuratClock({ isLight }: { isLight: boolean }) {
   const [currentTime, setCurrentTime] = useState("");
 
-  // Live Surat (HQ) Clock
   useEffect(() => {
     const updateTime = () => {
       try {
@@ -64,13 +55,30 @@ export default function CompanyPageClient() {
         });
         setCurrentTime(timeStr);
       } catch {
-        setCurrentTime("IST (UTC+5:30)");
+        setCurrentTime("09:30:00 AM");
       }
     };
     updateTime();
     const interval = setInterval(updateTime, 1000);
     return () => clearInterval(interval);
   }, []);
+
+  return (
+    <div style={{ fontSize: "1.4rem", fontWeight: 800, fontFamily: "monospace", color: isLight ? "#0f172a" : "#f8fafc", marginTop: "0.15rem" }}>
+      {currentTime || "09:30:00 AM"} IST
+    </div>
+  );
+}
+
+export default function CompanyPageClient() {
+  const { theme } = useTheme();
+  const isLight = theme === "light";
+
+  // State
+  const [selectedMilestoneIndex, setSelectedMilestoneIndex] = useState(4); // Default to latest 2025-2026
+  const [selectedHubIndex, setSelectedHubIndex] = useState(0); // Default to Surat HQ
+  const [copiedEmail, setCopiedEmail] = useState(false);
+  const [activePillar, setActivePillar] = useState<number>(0);
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(companyData.ceo.email);
@@ -509,9 +517,7 @@ export default function CompanyPageClient() {
                     }}
                   />
                 </div>
-                <div style={{ fontSize: "1.4rem", fontWeight: 800, fontFamily: "monospace", color: isLight ? "#0f172a" : "#f8fafc", marginTop: "0.15rem" }}>
-                  {currentTime || "09:30:00 AM"} IST
-                </div>
+                <LiveSuratClock isLight={isLight} />
               </div>
             </div>
 

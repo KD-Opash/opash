@@ -12,14 +12,12 @@ import {
   Star,
   Activity,
   Award,
+  FileCheck2,
   Lock,
   Search,
-  FileCheck2,
-  Zap,
 } from "lucide-react";
 import { caseStudiesData } from "@/data/case-studies";
 import { useTheme } from "./ThemeProvider";
-import ElectricBorder from "./ElectricBorder";
 
 interface ClientBrandMeta {
   accent: string;
@@ -417,15 +415,19 @@ export function FeaturedSuccessStories() {
                   exit={{ opacity: 0, scale: 0.96 }}
                   transition={{ duration: 0.35, ease: "easeOut" }}
                 >
-                  <ElectricBorder
-                    color={meta.accent}
-                    speed={1}
-                    chaos={0.5}
-                    spread={0.6}
-                    strands={3}
-                    thickness={1.5}
-                    borderRadius={24}
+                  <div
                     className="electric-story-card"
+                    style={{
+                      position: "relative",
+                      borderRadius: "24px",
+                      padding: "1.5px",
+                      background: isLight
+                        ? `linear-gradient(135deg, ${meta.accent}55 0%, rgba(14, 165, 233, 0.2) 50%, ${meta.accent}25 100%)`
+                        : `linear-gradient(135deg, ${meta.accent}aa 0%, rgba(56, 189, 248, 0.35) 50%, ${meta.accent}44 100%)`,
+                      boxShadow: isLight
+                        ? `0 10px 30px -10px ${meta.accent}20`
+                        : `0 12px 40px -12px ${meta.accent}40`,
+                    }}
                   >
                     <div
                       style={{
@@ -686,7 +688,7 @@ export function FeaturedSuccessStories() {
                         </div>
                       </div>
                     </div>
-                  </ElectricBorder>
+                  </div>
                 </motion.div>
               );
             })}

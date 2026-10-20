@@ -29,11 +29,7 @@ import {
   MessageCircle,
 } from 'lucide-react';
 
-export default function ContactPageClient() {
-  const { theme } = useTheme();
-  const isLight = theme === 'light';
-
-  // Live IST Time
+function LiveIstClock({ isLight }: { isLight: boolean }) {
   const [istTime, setIstTime] = useState<string>('');
 
   useEffect(() => {
@@ -56,6 +52,17 @@ export default function ContactPageClient() {
     const interval = setInterval(updateTime, 1000);
     return () => clearInterval(interval);
   }, []);
+
+  return (
+    <div style={{ fontSize: '0.82rem', fontFamily: 'monospace', color: isLight ? '#008a75' : '#00ffd1', fontWeight: 700 }}>
+      {istTime || '9:30 AM IST'}
+    </div>
+  );
+}
+
+export default function ContactPageClient() {
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
 
   // FAQ Accordion State
   const [openFaq, setOpenFaq] = useState<number | null>(0);
@@ -313,9 +320,7 @@ export default function ContactPageClient() {
                       LAB STATUS: ACTIVE
                     </span>
                   </div>
-                  <div style={{ fontSize: '0.82rem', fontFamily: 'monospace', color: isLight ? '#008a75' : '#00ffd1', fontWeight: 700 }}>
-                    {istTime || '9:30 AM IST'}
-                  </div>
+                  <LiveIstClock isLight={isLight} />
                 </div>
 
                 {/* Google Maps External Action */}

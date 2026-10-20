@@ -33,358 +33,153 @@ interface TelemetryCanvasProps {
 }
 
 function TelemetryCanvas({ mode, isLight, accentColor }: TelemetryCanvasProps) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const mouseRef = useRef<{ x: number; y: number; active: boolean }>({
-    x: 0,
-    y: 0,
-    active: false,
-  });
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    let animId: number;
-    let width = (canvas.width = canvas.parentElement?.clientWidth || 500);
-    let height = (canvas.height = canvas.parentElement?.clientHeight || 340);
-
-    const handleResize = () => {
-      if (!canvas || !canvas.parentElement) return;
-      width = canvas.width = canvas.parentElement.clientWidth;
-      height = canvas.height = canvas.parentElement.clientHeight;
-    };
-    window.addEventListener("resize", handleResize);
-
-    // Initialize 40 interactive nodes for Mode 0 (Squad Network)
-    const nodes = Array.from({ length: 36 }, () => ({
-      x: Math.random() * width,
-      y: Math.random() * height,
-      vx: (Math.random() - 0.5) * 0.9,
-      vy: (Math.random() - 0.5) * 0.9,
-      radius: Math.random() * 2.5 + 2,
-    }));
-
-    // Radar beacons for Mode 1 (Global Reach)
-    const beacons = [
-      { name: "US-East", x: 0.28, y: 0.42, ping: 18, color: "#38bdf8" },
-      { name: "EU-Central", x: 0.52, y: 0.36, ping: 24, color: "#34d399" },
-      { name: "MENA-Gulf", x: 0.64, y: 0.54, ping: 31, color: "#c084fc" },
-      { name: "APAC-East", x: 0.82, y: 0.58, ping: 42, color: "#fbbf24" },
-    ];
-
-    let t = 0;
-    let isVisible = false;
-    let isTabVisible = !document.hidden;
-    let lastTime = performance.now();
-    const TARGET_FPS = 30;
-    const FRAME_INTERVAL = 1000 / TARGET_FPS;
-
-    const startLoop = () => {
-      if (!animId && isVisible && isTabVisible) {
-        lastTime = performance.now();
-        animId = requestAnimationFrame(render);
-      }
-    };
-
-    const stopLoop = () => {
-      if (animId) {
-        cancelAnimationFrame(animId);
-        animId = 0;
-      }
-    };
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        isVisible = entry.isIntersecting;
-        if (isVisible && isTabVisible) {
-          startLoop();
-        } else {
-          stopLoop();
-        }
-      },
-      { threshold: 0.05 }
-    );
-    observer.observe(canvas);
-
-    const onVisibilityChange = () => {
-      isTabVisible = !document.hidden;
-      if (isVisible && isTabVisible) {
-        startLoop();
-      } else {
-        stopLoop();
-      }
-    };
-    document.addEventListener("visibilitychange", onVisibilityChange);
-
-    const render = (now: number) => {
-      if (!isVisible || !isTabVisible) {
-        animId = 0;
-        return;
-      }
-      animId = requestAnimationFrame(render);
-
-      const delta = now - lastTime;
-      if (delta < FRAME_INTERVAL) return;
-      lastTime = now - (delta % FRAME_INTERVAL);
-
-      t += 0.035;
-      ctx.clearRect(0, 0, width, height);
-
-      // MODE 0: NEURAL SQUAD NETWORK (50+ Developers)
-      if (mode === 0) {
-        ctx.fillStyle = isLight ? "rgba(14, 165, 233, 0.08)" : "rgba(56, 189, 248, 0.06)";
-        ctx.fillRect(0, 0, width, height);
-
-        // Update and draw nodes
-        nodes.forEach((node, i) => {
-          node.x += node.vx;
-          node.y += node.vy;
-
-          if (node.x < 0 || node.x > width) node.vx *= -1;
-          if (node.y < 0 || node.y > height) node.vy *= -1;
-
-          // Mouse attraction
-          if (mouseRef.current.active) {
-            const dx = mouseRef.current.x - node.x;
-            const dy = mouseRef.current.y - node.y;
-            const dist = Math.hypot(dx, dy);
-            if (dist < 120) {
-              node.x += (dx / dist) * 1.2;
-              node.y += (dy / dist) * 1.2;
-            }
-          }
-
-          // Draw node
-          ctx.beginPath();
-          ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
-          ctx.fillStyle = isLight ? "#0284c7" : "#38bdf8";
-          ctx.shadowColor = "#38bdf8";
-          ctx.shadowBlur = isLight ? 0 : 8;
-          ctx.fill();
-          ctx.shadowBlur = 0;
-
-          // Connect nearby nodes
-          for (let j = i + 1; j < nodes.length; j++) {
-            const other = nodes[j];
-            const dist = Math.hypot(node.x - other.x, node.y - other.y);
-            if (dist < 85) {
-              ctx.beginPath();
-              ctx.moveTo(node.x, node.y);
-              ctx.lineTo(other.x, other.y);
-              ctx.strokeStyle = isLight
-                ? `rgba(2, 132, 199, ${0.45 * (1 - dist / 85)})`
-                : `rgba(56, 189, 248, ${0.45 * (1 - dist / 85)})`;
-              ctx.lineWidth = 1;
-              ctx.stroke();
-            }
-          }
-        });
-
-        // Center telemetry badge
-        ctx.fillStyle = isLight ? "#0f172a" : "#ffffff";
-        ctx.font = "600 12px ui-monospace, monospace";
-        ctx.fillText("● 50 SENIOR ARCHITECT NODES SYNCED", 20, height - 20);
-      }
-
-      // MODE 1: GLOBAL DEPLOYMENT RADAR (70+ Projects)
-      else if (mode === 1) {
-        const cx = width * 0.5;
-        const cy = height * 0.5;
-
-        // Concentric radar rings
-        for (let r = 40; r < Math.min(width, height) * 0.45; r += 35) {
-          ctx.beginPath();
-          ctx.arc(cx, cy, r, 0, Math.PI * 2);
-          ctx.strokeStyle = isLight ? "rgba(16, 185, 129, 0.18)" : "rgba(52, 211, 153, 0.14)";
-          ctx.lineWidth = 1;
-          ctx.setLineDash([4, 6]);
-          ctx.stroke();
-          ctx.setLineDash([]);
-        }
-
-        // Sweeping radar beam
-        const sweepAngle = t * 1.5;
-        ctx.save();
-        ctx.translate(cx, cy);
-        ctx.rotate(sweepAngle);
-        const grad = ctx.createRadialGradient(0, 0, 10, 0, 0, Math.min(width, height) * 0.45);
-        grad.addColorStop(0, "rgba(52, 211, 153, 0.35)");
-        grad.addColorStop(1, "transparent");
-        ctx.fillStyle = grad;
-        ctx.beginPath();
-        ctx.moveTo(0, 0);
-        ctx.arc(0, 0, Math.min(width, height) * 0.45, -0.35, 0);
-        ctx.closePath();
-        ctx.fill();
-        ctx.restore();
-
-        // Draw global beacons
-        beacons.forEach((b) => {
-          const bx = b.x * width;
-          const by = b.y * height;
-          const pulse = (Math.sin(t * 3 + b.ping) + 1) * 0.5;
-
-          // Pulse wave
-          ctx.beginPath();
-          ctx.arc(bx, by, 8 + pulse * 14, 0, Math.PI * 2);
-          ctx.strokeStyle = `rgba(52, 211, 153, ${0.6 - pulse * 0.5})`;
-          ctx.stroke();
-
-          // Core point
-          ctx.beginPath();
-          ctx.arc(bx, by, 4, 0, Math.PI * 2);
-          ctx.fillStyle = b.color;
-          ctx.fill();
-
-          // Label
-          ctx.fillStyle = isLight ? "#1e293b" : "#e2e8f0";
-          ctx.font = "700 11px ui-monospace, monospace";
-          ctx.fillText(`${b.name} • ${b.ping}ms`, bx + 10, by + 4);
-        });
-
-        ctx.fillStyle = isLight ? "#0f172a" : "#ffffff";
-        ctx.font = "600 12px ui-monospace, monospace";
-        ctx.fillText("● 70+ ENTERPRISE CLOUD REGIONS LIVE", 20, height - 20);
-      }
-
-      // MODE 2: HIGH-FREQUENCY SPRINT OSCILLOSCOPE (12,000+ Hours)
-      else if (mode === 2) {
-        ctx.fillStyle = isLight ? "rgba(192, 132, 252, 0.05)" : "rgba(192, 132, 252, 0.04)";
-        ctx.fillRect(0, 0, width, height);
-
-        // Multiple overlapping sine waves
-        const waves = [
-          { freq: 0.015, amp: 45, speed: 2.2, color: "#c084fc", width: 2.5 },
-          { freq: 0.022, amp: 30, speed: 1.6, color: "#38bdf8", width: 1.8 },
-          { freq: 0.008, amp: 55, speed: 1.0, color: "#34d399", width: 1.2 },
-        ];
-
-        waves.forEach((w) => {
-          ctx.beginPath();
-          ctx.strokeStyle = w.color;
-          ctx.lineWidth = w.width;
-          ctx.shadowColor = w.color;
-          ctx.shadowBlur = isLight ? 0 : 8;
-
-          for (let x = 0; x < width; x += 4) {
-            const y =
-              height * 0.5 +
-              Math.sin(x * w.freq + t * w.speed) * w.amp * Math.sin((x / width) * Math.PI);
-            if (x === 0) ctx.moveTo(x, y);
-            else ctx.lineTo(x, y);
-          }
-          ctx.stroke();
-          ctx.shadowBlur = 0;
-        });
-
-        // Live grid tick lines
-        ctx.strokeStyle = isLight ? "rgba(0,0,0,0.06)" : "rgba(255,255,255,0.06)";
-        ctx.lineWidth = 1;
-        for (let x = 0; x < width; x += 60) {
-          ctx.beginPath();
-          ctx.moveTo(x, 0);
-          ctx.lineTo(x, height);
-          ctx.stroke();
-        }
-
-        ctx.fillStyle = isLight ? "#0f172a" : "#ffffff";
-        ctx.font = "600 12px ui-monospace, monospace";
-        ctx.fillText("● VELOCITY: 48.6 SPRINTS / MONTH CADENCE", 20, height - 20);
-      }
-
-      // MODE 3: 10-YEAR EXPANSION CHRONOMETER (8+ Years)
-      else {
-        const cx = width * 0.5;
-        const cy = height * 0.5;
-        const radius = Math.min(width, height) * 0.38;
-
-        // Outer progress track
-        ctx.beginPath();
-        ctx.arc(cx, cy, radius, 0, Math.PI * 2);
-        ctx.strokeStyle = isLight ? "rgba(251, 191, 36, 0.2)" : "rgba(251, 191, 36, 0.15)";
-        ctx.lineWidth = 6;
-        ctx.stroke();
-
-        // Active glowing arc (2016 -> 2026)
-        const progress = 0.85; // 8.5 years
-        ctx.beginPath();
-        ctx.arc(cx, cy, radius, -Math.PI * 0.5, -Math.PI * 0.5 + Math.PI * 2 * progress);
-        ctx.strokeStyle = "#fbbf24";
-        ctx.lineWidth = 6;
-        ctx.shadowColor = "#fbbf24";
-        ctx.shadowBlur = isLight ? 0 : 12;
-        ctx.stroke();
-        ctx.shadowBlur = 0;
-
-        // Orbiting satellite dot
-        const satAngle = -Math.PI * 0.5 + Math.PI * 2 * progress;
-        const sx = cx + Math.cos(satAngle) * radius;
-        const sy = cy + Math.sin(satAngle) * radius;
-        ctx.beginPath();
-        ctx.arc(sx, sy, 8, 0, Math.PI * 2);
-        ctx.fillStyle = "#ffffff";
-        ctx.shadowColor = "#fbbf24";
-        ctx.shadowBlur = 12;
-        ctx.fill();
-        ctx.shadowBlur = 0;
-
-        // Center typography
-        ctx.textAlign = "center";
-        ctx.fillStyle = isLight ? "#0f172a" : "#f8fafc";
-        ctx.font = "800 28px var(--font-display), monospace";
-        ctx.fillText("2016 → 2026", cx, cy + 6);
-
-        ctx.fillStyle = isLight ? "#64748b" : "#94a3b8";
-        ctx.font = "600 12px ui-monospace, monospace";
-        ctx.fillText("DECADE OF ARCHITECTURAL EXCELLENCE", cx, cy + 28);
-        ctx.textAlign = "start";
-
-        ctx.fillStyle = isLight ? "#0f172a" : "#ffffff";
-        ctx.font = "600 12px ui-monospace, monospace";
-        ctx.fillText("● 9 GLOBAL MARKETS SUSTAINED", 20, height - 20);
-      }
-
-    };
-
-    startLoop();
-
-    const handlePointerMove = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      mouseRef.current = {
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top,
-        active: true,
-      };
-    };
-    const handlePointerLeave = () => {
-      mouseRef.current.active = false;
-    };
-
-    canvas.addEventListener("mousemove", handlePointerMove);
-    canvas.addEventListener("mouseleave", handlePointerLeave);
-
-    return () => {
-      stopLoop();
-      observer.disconnect();
-      document.removeEventListener("visibilitychange", onVisibilityChange);
-      window.removeEventListener("resize", handleResize);
-      canvas.removeEventListener("mousemove", handlePointerMove);
-      canvas.removeEventListener("mouseleave", handlePointerLeave);
-    };
-  }, [mode, isLight, accentColor]);
-
   return (
-    <canvas
-      ref={canvasRef}
+    <div
       style={{
         width: "100%",
         height: "100%",
-        display: "block",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
         borderRadius: "18px",
+        overflow: "hidden",
+        position: "relative",
+        background: isLight ? "rgba(241, 245, 249, 0.6)" : "rgba(10, 18, 34, 0.7)",
       }}
-    />
+    >
+      <svg
+        viewBox="0 0 500 340"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        style={{ width: "100%", height: "100%", display: "block" }}
+      >
+        {/* MODE 0: NEURAL SQUAD NETWORK (50+ Developers) */}
+        {mode === 0 && (
+          <g>
+            <rect width="500" height="340" fill={isLight ? "rgba(14, 165, 233, 0.05)" : "rgba(56, 189, 248, 0.03)"} />
+            {/* Squad Connecting Lines */}
+            <path d="M 60 80 L 140 120 L 220 90 L 310 140 L 400 100 L 440 160" stroke={isLight ? "rgba(2, 132, 199, 0.3)" : "rgba(56, 189, 248, 0.35)"} strokeWidth="1" strokeDasharray="4 4" />
+            <path d="M 90 200 L 180 180 L 250 240 L 350 200 L 420 250" stroke={isLight ? "rgba(0, 168, 143, 0.3)" : "rgba(45, 212, 191, 0.35)"} strokeWidth="1" strokeDasharray="3 5" />
+            <path d="M 140 120 L 180 180 M 220 90 L 250 240 M 310 140 L 350 200" stroke={isLight ? "rgba(99, 102, 241, 0.25)" : "rgba(129, 140, 248, 0.25)"} strokeWidth="1" />
+            
+            {/* Squad Nodes */}
+            {[
+              { cx: 60, cy: 80, r: 4, c: "#0284c7" },
+              { cx: 140, cy: 120, r: 5, c: "#00a88f" },
+              { cx: 220, cy: 90, r: 6, c: "#38bdf8" },
+              { cx: 310, cy: 140, r: 5, c: "#00a88f" },
+              { cx: 400, cy: 100, r: 4, c: "#0284c7" },
+              { cx: 440, cy: 160, r: 5, c: "#38bdf8" },
+              { cx: 90, cy: 200, r: 5, c: "#00a88f" },
+              { cx: 180, cy: 180, r: 7, c: "#00ffd1" },
+              { cx: 250, cy: 240, r: 6, c: "#0284c7" },
+              { cx: 350, cy: 200, r: 5, c: "#38bdf8" },
+              { cx: 420, cy: 250, r: 4, c: "#00a88f" },
+            ].map((node, i) => (
+              <g key={i}>
+                <circle cx={node.cx} cy={node.cy} r={node.r + 3} stroke={node.c} strokeWidth="1" opacity="0.3" />
+                <circle cx={node.cx} cy={node.cy} r={node.r} fill={node.c} />
+              </g>
+            ))}
+
+            <text x="24" y="320" fill={isLight ? "#0f172a" : "#ffffff"} fontSize="12" fontFamily="ui-monospace, monospace" fontWeight="600">
+              ● 50 SENIOR ARCHITECT NODES SYNCED
+            </text>
+          </g>
+        )}
+
+        {/* MODE 1: GLOBAL DEPLOYMENT RADAR (70+ Projects) */}
+        {mode === 1 && (
+          <g>
+            <rect width="500" height="340" fill={isLight ? "rgba(16, 185, 129, 0.05)" : "rgba(16, 185, 129, 0.03)"} />
+            {/* Concentric Radar Rings */}
+            <circle cx="250" cy="170" r="40" stroke={isLight ? "rgba(16, 185, 129, 0.25)" : "rgba(52, 211, 153, 0.2)"} strokeWidth="1" strokeDasharray="4 6" />
+            <circle cx="250" cy="170" r="75" stroke={isLight ? "rgba(16, 185, 129, 0.22)" : "rgba(52, 211, 153, 0.16)"} strokeWidth="1" strokeDasharray="4 6" />
+            <circle cx="250" cy="170" r="115" stroke={isLight ? "rgba(16, 185, 129, 0.18)" : "rgba(52, 211, 153, 0.12)"} strokeWidth="1" strokeDasharray="4 6" />
+            <circle cx="250" cy="170" r="150" stroke={isLight ? "rgba(16, 185, 129, 0.12)" : "rgba(52, 211, 153, 0.08)"} strokeWidth="1" strokeDasharray="4 6" />
+
+            {/* Crosshairs */}
+            <line x1="250" y1="20" x2="250" y2="320" stroke={isLight ? "rgba(16, 185, 129, 0.15)" : "rgba(52, 211, 153, 0.1)"} strokeWidth="1" strokeDasharray="2 4" />
+            <line x1="100" y1="170" x2="400" y2="170" stroke={isLight ? "rgba(16, 185, 129, 0.15)" : "rgba(52, 211, 153, 0.1)"} strokeWidth="1" strokeDasharray="2 4" />
+
+            {/* Global Region Beacons */}
+            {[
+              { name: "US-East", ping: "18ms", x: 140, y: 130, c: "#38bdf8" },
+              { name: "EU-Central", ping: "24ms", x: 260, y: 110, c: "#34d399" },
+              { name: "MENA-Gulf", ping: "31ms", x: 320, y: 190, c: "#c084fc" },
+              { name: "APAC-East", ping: "42ms", x: 410, y: 200, c: "#fbbf24" },
+            ].map((b, i) => (
+              <g key={i}>
+                <circle cx={b.x} cy={b.y} r="10" stroke={b.c} strokeWidth="1" opacity="0.3" />
+                <circle cx={b.x} cy={b.y} r="4" fill={b.c} />
+                <text x={b.x + 10} y={b.y + 4} fill={isLight ? "#1e293b" : "#e2e8f0"} fontSize="11" fontFamily="ui-monospace, monospace" fontWeight="700">
+                  {b.name} • {b.ping}
+                </text>
+              </g>
+            ))}
+
+            <text x="24" y="320" fill={isLight ? "#0f172a" : "#ffffff"} fontSize="12" fontFamily="ui-monospace, monospace" fontWeight="600">
+              ● 70+ ENTERPRISE CLOUD REGIONS LIVE
+            </text>
+          </g>
+        )}
+
+        {/* MODE 2: HIGH-FREQUENCY SPRINT OSCILLOSCOPE (12,000+ Hours) */}
+        {mode === 2 && (
+          <g>
+            <rect width="500" height="340" fill={isLight ? "rgba(192, 132, 252, 0.04)" : "rgba(192, 132, 252, 0.02)"} />
+            {/* Grid Tick Lines */}
+            {[60, 120, 180, 240, 300, 360, 420, 480].map((gx) => (
+              <line key={gx} x1={gx} y1="0" x2={gx} y2="340" stroke={isLight ? "rgba(0,0,0,0.05)" : "rgba(255,255,255,0.05)"} strokeWidth="1" />
+            ))}
+
+            {/* Multi-frequency Sprint Waves */}
+            <path d="M 0 170 Q 60 110, 125 170 T 250 170 T 375 170 T 500 170" stroke="#c084fc" strokeWidth="2.5" fill="none" />
+            <path d="M 0 170 Q 50 140, 100 170 T 200 170 T 300 170 T 400 170 T 500 170" stroke="#38bdf8" strokeWidth="1.8" fill="none" opacity="0.8" />
+            <path d="M 0 170 Q 120 80, 250 170 T 500 170" stroke="#34d399" strokeWidth="1.4" fill="none" opacity="0.7" />
+
+            <text x="24" y="320" fill={isLight ? "#0f172a" : "#ffffff"} fontSize="12" fontFamily="ui-monospace, monospace" fontWeight="600">
+              ● VELOCITY: 48.6 SPRINTS / MONTH CADENCE
+            </text>
+          </g>
+        )}
+
+        {/* MODE 3: 10-YEAR EXPANSION CHRONOMETER (8+ Years) */}
+        {mode === 3 && (
+          <g>
+            <rect width="500" height="340" fill={isLight ? "rgba(251, 191, 36, 0.03)" : "rgba(251, 191, 36, 0.02)"} />
+            {/* Outer Track */}
+            <circle cx="250" cy="160" r="105" stroke={isLight ? "rgba(251, 191, 36, 0.2)" : "rgba(251, 191, 36, 0.15)"} strokeWidth="6" fill="none" />
+            {/* Active Arc (85% completed) */}
+            <circle
+              cx="250"
+              cy="160"
+              r="105"
+              stroke="#fbbf24"
+              strokeWidth="6"
+              strokeDasharray="560"
+              strokeDashoffset="90"
+              strokeLinecap="round"
+              fill="none"
+            />
+            {/* Satellite Node */}
+            <circle cx="250" cy="55" r="7" fill="#ffffff" stroke="#fbbf24" strokeWidth="3" />
+
+            {/* Center Typography */}
+            <text x="250" y="165" textAnchor="middle" fill={isLight ? "#0f172a" : "#f8fafc"} fontSize="28" fontWeight="800" fontFamily="var(--font-display), monospace">
+              2016 → 2026
+            </text>
+            <text x="250" y="190" textAnchor="middle" fill={isLight ? "#64748b" : "#94a3b8"} fontSize="11" fontWeight="600" fontFamily="ui-monospace, monospace">
+              DECADE OF ARCHITECTURAL EXCELLENCE
+            </text>
+
+            <text x="24" y="320" fill={isLight ? "#0f172a" : "#ffffff"} fontSize="12" fontFamily="ui-monospace, monospace" fontWeight="600">
+              ● 9 GLOBAL MARKETS SUSTAINED
+            </text>
+          </g>
+        )}
+      </svg>
+    </div>
   );
 }
 

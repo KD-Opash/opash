@@ -3753,13 +3753,13 @@ body {
   width: 780px;
   height: 720px;
   border-radius: 50%;
-  background: radial-gradient(ellipse at 40% 40%, rgba(71, 109, 154, 0.44) 0%, rgba(47, 85, 138, 0.2) 45%, transparent 70%);
-  filter: blur(100px);
-  animation: auroraDrift1 14s ease-in-out infinite;
+  background: radial-gradient(ellipse at 40% 40%, rgba(71, 109, 154, 0.35) 0%, rgba(47, 85, 138, 0.15) 45%, transparent 70%);
+  filter: blur(40px);
+  pointer-events: none;
 }
 
 [data-theme="light"] .hero-valerio-glow-slate {
-  background: radial-gradient(ellipse at 40% 40%, rgba(71, 109, 154, 0.32) 0%, rgba(71, 109, 154, 0.12) 45%, transparent 70%);
+  background: radial-gradient(ellipse at 40% 40%, rgba(71, 109, 154, 0.22) 0%, rgba(71, 109, 154, 0.08) 45%, transparent 70%);
 }
 
 .hero-valerio-glow-mint {
@@ -3769,13 +3769,13 @@ body {
   width: 780px;
   height: 720px;
   border-radius: 50%;
-  background: radial-gradient(ellipse at 60% 40%, rgba(37, 99, 235, 0.35) 0%, rgba(71, 109, 154, 0.22) 45%, transparent 70%);
-  filter: blur(100px);
-  animation: auroraDrift2 16s ease-in-out infinite;
+  background: radial-gradient(ellipse at 60% 40%, rgba(37, 99, 235, 0.25) 0%, rgba(71, 109, 154, 0.15) 45%, transparent 70%);
+  filter: blur(40px);
+  pointer-events: none;
 }
 
 [data-theme="light"] .hero-valerio-glow-mint {
-  background: radial-gradient(ellipse at 60% 40%, rgba(59, 130, 246, 0.24) 0%, rgba(71, 109, 154, 0.1) 45%, transparent 70%);
+  background: radial-gradient(ellipse at 60% 40%, rgba(59, 130, 246, 0.18) 0%, rgba(71, 109, 154, 0.06) 45%, transparent 70%);
 }
 
 /* 2. Centered Announcement Pill */
@@ -4355,16 +4355,15 @@ body {
   left: 45%;
   width: 900px;
   height: 520px;
-  background: radial-gradient(ellipse at center, rgba(71, 109, 154, 0.28) 0%, rgba(94, 192, 152, 0.16) 45%, transparent 75%);
-  filter: blur(100px);
+  background: radial-gradient(ellipse at center, rgba(71, 109, 154, 0.22) 0%, rgba(94, 192, 152, 0.12) 45%, transparent 75%);
+  filter: blur(40px);
   pointer-events: none;
   z-index: 0;
-  animation: auroraDrift1 12s ease-in-out infinite;
 }
 
 [data-theme="light"] .reactbits-aurora-glow-1 {
-  background: radial-gradient(ellipse at center, rgba(59, 130, 246, 0.16) 0%, rgba(94, 192, 152, 0.12) 45%, transparent 75%);
-  filter: blur(90px);
+  background: radial-gradient(ellipse at center, rgba(59, 130, 246, 0.12) 0%, rgba(94, 192, 152, 0.08) 45%, transparent 75%);
+  filter: blur(35px);
 }
 
 .reactbits-aurora-glow-2 {
@@ -4373,16 +4372,15 @@ body {
   left: 55%;
   width: 750px;
   height: 480px;
-  background: radial-gradient(ellipse at center, rgba(94, 192, 152, 0.2) 0%, rgba(37, 99, 235, 0.12) 50%, transparent 75%);
-  filter: blur(110px);
+  background: radial-gradient(ellipse at center, rgba(94, 192, 152, 0.16) 0%, rgba(37, 99, 235, 0.08) 50%, transparent 75%);
+  filter: blur(40px);
   pointer-events: none;
   z-index: 0;
-  animation: auroraDrift2 16s ease-in-out infinite;
 }
 
 [data-theme="light"] .reactbits-aurora-glow-2 {
-  background: radial-gradient(ellipse at center, rgba(16, 185, 129, 0.12) 0%, rgba(59, 130, 246, 0.08) 50%, transparent 75%);
-  filter: blur(95px);
+  background: radial-gradient(ellipse at center, rgba(16, 185, 129, 0.08) 0%, rgba(59, 130, 246, 0.05) 50%, transparent 75%);
+  filter: blur(35px);
 }
 
 /* 2. ReactBits Shiny Text (Metallic light sheen sweep) */

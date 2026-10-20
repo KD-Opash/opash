@@ -911,6 +911,17 @@ export default function LettersInMotionVisual({
       const timeSinceTransition = elapsed - transitionStartTime;
       const isTransitioning = timeSinceTransition < TRANSITION_DURATION;
 
+      // Camera parallax damping check
+      const camDistX = targetCamX - camera.position.x;
+      const camDistY = targetCamY - camera.position.y;
+      const hasCamDamping = Math.abs(camDistX) > 0.003 || Math.abs(camDistY) > 0.003;
+
+      const shouldKeepLoopingInitial = isTransitioning || wasTransitioning || isMouseActive || hasCamDamping;
+      if (!shouldKeepLoopingInitial) {
+        animId = 0; // Sleep at rest! 0% CPU & 0% GPU!
+        return;
+      }
+
       // Throttle to 30 FPS while active
       const targetInterval = 33;
       const delta = now - lastFrameTime;
@@ -1088,36 +1099,38 @@ export default function LettersInMotionVisual({
         coreJewelMesh.scale.setScalar(jewelPulse);
       }
 
-      particleFrameSkip = (particleFrameSkip + 1) % 2;
-      if (particleFrameSkip === 0) {
-        // Shared Particle Depth Flow
-        const pos = particleGeom.attributes.position.array as Float32Array;
-        const col = particleGeom.attributes.color.array as Float32Array;
+      if (isTransitioning || isMouseActive) {
+        particleFrameSkip = (particleFrameSkip + 1) % 2;
+        if (particleFrameSkip === 0) {
+          // Shared Particle Depth Flow
+          const pos = particleGeom.attributes.position.array as Float32Array;
+          const col = particleGeom.attributes.color.array as Float32Array;
 
-        for (let i = 0; i < particleCount; i++) {
-          const flow = particleFlows[i];
-          pos[i * 3 + 1] += flow.vel.y * speedFactor * 2;
-          pos[i * 3] += flow.vel.x * speedFactor * 2;
+          for (let i = 0; i < particleCount; i++) {
+            const flow = particleFlows[i];
+            pos[i * 3 + 1] += flow.vel.y * speedFactor * 2;
+            pos[i * 3] += flow.vel.x * speedFactor * 2;
 
-          if (pos[i * 3 + 1] > 5.5) pos[i * 3 + 1] = -5.5;
-          if (pos[i * 3] > 8.5) pos[i * 3] = -8.5;
-          if (pos[i * 3] < -8.5) pos[i * 3] = 8.5;
+            if (pos[i * 3 + 1] > 5.5) pos[i * 3 + 1] = -5.5;
+            if (pos[i * 3] > 8.5) pos[i * 3] = -8.5;
+            if (pos[i * 3] < -8.5) pos[i * 3] = 8.5;
 
-          // Shift particle color to active scene
-          const targetC = i % 2 === 0 ? curPrimary : curSecondary;
-          col[i * 3] += (targetC.r - col[i * 3]) * 0.05;
-          col[i * 3 + 1] += (targetC.g - col[i * 3 + 1]) * 0.05;
-          col[i * 3 + 2] += (targetC.b - col[i * 3 + 2]) * 0.05;
+            // Shift particle color to active scene
+            const targetC = i % 2 === 0 ? curPrimary : curSecondary;
+            col[i * 3] += (targetC.r - col[i * 3]) * 0.05;
+            col[i * 3 + 1] += (targetC.g - col[i * 3 + 1]) * 0.05;
+            col[i * 3 + 2] += (targetC.b - col[i * 3 + 2]) * 0.05;
+          }
+          particleGeom.attributes.position.needsUpdate = true;
+          particleGeom.attributes.color.needsUpdate = true;
         }
-        particleGeom.attributes.position.needsUpdate = true;
-        particleGeom.attributes.color.needsUpdate = true;
       }
 
       renderer.render(scene, camera);
 
       // Settle and sleep check: Keep looping only while active transition, mouse movement, or camera damping
-      const shouldKeepLooping = isTransitioning || wasTransitioning || isMouseActive || isCamMoving;
-      if (shouldKeepLooping && isVisible && isTabVisible) {
+      const shouldContinue = isTransitioning || wasTransitioning || isMouseActive || isCamMoving;
+      if (shouldContinue && isVisible && isTabVisible) {
         animId = requestAnimationFrame(animate);
       } else {
         animId = 0; // Sleep at rest! 0% CPU & 0% GPU!

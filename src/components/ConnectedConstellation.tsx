@@ -193,22 +193,47 @@ const CONTINENT_DOTS: [number, number][] = [
 export default function ConnectedConstellation() {
   const [activeMarketId, setActiveMarketId] = useState<string>("usa");
   const [hoveredMarketId, setHoveredMarketId] = useState<string | null>(null);
+  const [isVisible, setIsVisible] = useState(true);
+  const containerRef = React.useRef<HTMLDivElement>(null);
 
-  // Auto-cycle through the 8 international markets when user is not actively hovering
+  // Auto-cycle through the 8 international markets only when visible in viewport
   useEffect(() => {
-    if (hoveredMarketId !== null) return;
+    const el = containerRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(el);
+
+    const handleVisibility = () => {
+      setIsVisible(!document.hidden);
+    };
+    document.addEventListener("visibilitychange", handleVisibility);
+
+    return () => {
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", handleVisibility);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (hoveredMarketId !== null || !isVisible) return;
 
     const marketIds = ["usa", "can", "gbr", "deu", "are", "sgp", "aus", "bra"];
-    let idx = marketIds.indexOf(activeMarketId);
-    if (idx === -1) idx = 0;
 
     const timer = setInterval(() => {
-      idx = (idx + 1) % marketIds.length;
-      setActiveMarketId(marketIds[idx]);
-    }, 3800);
+      setActiveMarketId((prev) => {
+        const nextIdx = (marketIds.indexOf(prev) + 1) % marketIds.length;
+        return marketIds[nextIdx];
+      });
+    }, 5500);
 
     return () => clearInterval(timer);
-  }, [hoveredMarketId, activeMarketId]);
+  }, [hoveredMarketId, isVisible]);
 
   const currentFocusId = hoveredMarketId || activeMarketId;
   const currentMarket = useMemo(
@@ -218,6 +243,7 @@ export default function ConnectedConstellation() {
 
   return (
     <div
+      ref={containerRef}
       className="global-radar-wrapper"
       role="region"
       aria-label="Interactive Global Delivery Network: 9 Connected Markets"
