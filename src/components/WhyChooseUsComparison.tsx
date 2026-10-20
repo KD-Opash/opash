@@ -25,7 +25,6 @@ import {
   ExternalLink,
 } from "lucide-react";
 import { useTheme } from "./ThemeProvider";
-import ColorBends from "./ColorBends";
 
 interface MetricRow {
   id: string;
@@ -193,23 +192,46 @@ export function WhyChooseUsComparison() {
           overflow: "hidden",
           pointerEvents: "none",
           zIndex: 0,
-          opacity: isLight ? 0.38 : 0.65,
         }}
       >
-        <ColorBends
-          colors={["#ff5c7a", "#8a5cff", "#00ffd1"]}
-          rotation={90}
-          speed={0.2}
-          scale={1}
-          frequency={1}
-          warpStrength={1}
-          mouseInfluence={1}
-          noise={0.15}
-          parallax={0.5}
-          iterations={1}
-          intensity={1.5}
-          bandWidth={6}
-          transparent
+        <div
+          style={{
+            position: "absolute",
+            top: "10%",
+            left: "20%",
+            width: "60%",
+            height: "500px",
+            background: isLight
+              ? "radial-gradient(ellipse at center, rgba(0, 168, 143, 0.12) 0%, transparent 70%)"
+              : "radial-gradient(ellipse at center, rgba(0, 187, 171, 0.18) 0%, transparent 70%)",
+            pointerEvents: "none",
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            right: "10%",
+            width: "55%",
+            height: "550px",
+            background: isLight
+              ? "radial-gradient(ellipse at center, rgba(14, 165, 233, 0.1) 0%, transparent 70%)"
+              : "radial-gradient(ellipse at center, rgba(56, 189, 248, 0.15) 0%, transparent 70%)",
+            pointerEvents: "none",
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            bottom: "10%",
+            left: "15%",
+            width: "50%",
+            height: "450px",
+            background: isLight
+              ? "radial-gradient(ellipse at center, rgba(138, 92, 255, 0.08) 0%, transparent 70%)"
+              : "radial-gradient(ellipse at center, rgba(129, 140, 248, 0.14) 0%, transparent 70%)",
+            pointerEvents: "none",
+          }}
         />
       </div>
 

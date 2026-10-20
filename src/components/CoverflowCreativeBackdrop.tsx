@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import FluxLines from "./FluxLines";
 import { useTheme } from "./ThemeProvider";
 
 interface CoverflowCreativeBackdropProps {
@@ -31,53 +30,49 @@ export function CoverflowCreativeBackdrop({
         zIndex: 0,
       }}
     >
-      {/* Soft Ambient Radial Luminous Glow */}
+      {/* Primary Center Accent Aura */}
       <div
         style={{
           position: "absolute",
-          top: "50%",
+          top: "45%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          width: "85%",
-          height: "500px",
-          borderRadius: "50%",
+          width: "80%",
+          height: "460px",
           background: isLight
-            ? `radial-gradient(ellipse at center, rgba(${accentRgb}, 0.12) 0%, rgba(0, 168, 143, 0.05) 45%, transparent 75%)`
-            : `radial-gradient(ellipse at center, rgba(${accentRgb}, 0.22) 0%, rgba(14, 165, 233, 0.08) 50%, transparent 75%)`,
-          filter: "blur(50px)",
+            ? `radial-gradient(ellipse at center, rgba(${accentRgb}, 0.16) 0%, rgba(0, 168, 143, 0.06) 45%, transparent 70%)`
+            : `radial-gradient(ellipse at center, rgba(${accentRgb}, 0.28) 0%, rgba(14, 165, 233, 0.1) 45%, transparent 70%)`,
           pointerEvents: "none",
         }}
       />
 
-      {/* FluxLines Background Stream */}
+      {/* Secondary Dynamic Aurora Glows */}
       <div
         style={{
-          width: "100%",
-          height: "600px",
-          position: "relative",
-          top: "50%",
-          transform: "translateY(-50%)",
-          overflow: "hidden",
+          position: "absolute",
+          top: "20%",
+          left: "15%",
+          width: "45%",
+          height: "360px",
+          background: isLight
+            ? "radial-gradient(circle, rgba(0, 168, 143, 0.1) 0%, transparent 65%)"
+            : "radial-gradient(circle, rgba(0, 187, 171, 0.16) 0%, transparent 65%)",
+          pointerEvents: "none",
         }}
-      >
-        <FluxLines
-          colors={
-            isLight
-              ? [accent, "#00A88F", "#38bdf8"]
-              : [accent, "#0284c7", "#0369a1"]
-          }
-          glow={isLight ? 0.4 : 0.8}
-          rimWidth={0.2}
-          lineWidth={1}
-          flowDirection="down"
-          mouseInteraction={false}
-          clickSwirl={false}
-          transparent
-          lightMode={false}
-          opacity={isLight ? 0.3 : 0.75}
-          dpr={0.75}
-        />
-      </div>
+      />
+      <div
+        style={{
+          position: "absolute",
+          bottom: "15%",
+          right: "15%",
+          width: "45%",
+          height: "360px",
+          background: isLight
+            ? "radial-gradient(circle, rgba(14, 165, 233, 0.08) 0%, transparent 65%)"
+            : "radial-gradient(circle, rgba(56, 189, 248, 0.14) 0%, transparent 65%)",
+          pointerEvents: "none",
+        }}
+      />
     </div>
   );
 }

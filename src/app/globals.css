@@ -6606,10 +6606,9 @@ h2.heading-section {
 }
 
 .global-radar-arc-base.active {
-  stroke: rgba(0, 187, 171, 0.75);
-  stroke-width: 1.8;
+  stroke: rgba(0, 187, 171, 0.95);
+  stroke-width: 2;
   stroke-dasharray: none;
-  filter: drop-shadow(0 0 4px #00bbab);
 }
 
 .global-radar-arc-pulse {
@@ -6627,7 +6626,6 @@ h2.heading-section {
   stroke-width: 2.8;
   opacity: 1;
   animation: radarArcTravel 4.5s linear infinite;
-  filter: drop-shadow(0 0 4px #38bdf8);
 }
 
 @keyframes radarArcTravel {
@@ -6646,7 +6644,7 @@ h2.heading-section {
 
 .global-radar-pin-group:hover,
 .global-radar-pin-group.focused {
-  filter: drop-shadow(0 0 6px rgba(0, 187, 171, 0.8));
+  opacity: 1;
 }
 
 .global-radar-pin-ring {
@@ -6684,7 +6682,6 @@ h2.heading-section {
 .global-radar-pin-group:hover .global-radar-pin-label {
   fill: #ffffff;
   font-weight: 700;
-  filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.9));
 }
 
 .global-radar-pin-group.is-hq .global-radar-pin-label {
@@ -6697,25 +6694,14 @@ h2.heading-section {
   fill: none;
   stroke: rgba(0, 187, 171, 0.6);
   stroke-width: 1.2;
-  animation: radarPingHalo 2.5s ease-out infinite;
+  opacity: 0.75;
 }
 
 .global-radar-halo-2 {
   fill: none;
   stroke: rgba(56, 189, 248, 0.4);
   stroke-width: 1;
-  animation: radarPingHalo 2.5s ease-out infinite 0.75s;
-}
-
-@keyframes radarPingHalo {
-  0% {
-    r: 6px;
-    opacity: 0.9;
-  }
-  100% {
-    r: 28px;
-    opacity: 0;
-  }
+  opacity: 0.5;
 }
 
 /* Floating Focus Card */

@@ -252,12 +252,6 @@ export default function ConnectedConstellation() {
               <stop offset="50%" stopColor="#38bdf8" stopOpacity="1" />
               <stop offset="100%" stopColor="#00A88F" stopOpacity="0" />
             </linearGradient>
-
-            {/* Subtle atmospheric glow filter */}
-            <filter id="radarNodeGlow" x="-30%" y="-30%" width="160%" height="160%">
-              <feGaussianBlur stdDeviation="3" result="blur" />
-              <feComposite in="SourceGraphic" in2="blur" operator="over" />
-            </filter>
           </defs>
 
           {/* Background Dot-Matrix World Landmasses */}

@@ -246,7 +246,7 @@ export default function LettersInMotionVisual({
             depthWrite: false,
             userData: { baseOpacity },
           })
-        : new THREE.MeshPhysicalMaterial({
+        : new THREE.MeshStandardMaterial({
             color: new THREE.Color(0x021a28),
             emissive: new THREE.Color(0x00bbab),
             emissiveIntensity: 0.32,
@@ -423,7 +423,7 @@ export default function LettersInMotionVisual({
             depthWrite: false,
             userData: { baseOpacity: panelOpacity },
           })
-        : new THREE.MeshPhysicalMaterial({
+        : new THREE.MeshStandardMaterial({
             color: new THREE.Color(0x021626),
             emissive: new THREE.Color(0x0284c7),
             emissiveIntensity: 0.3,
@@ -514,7 +514,7 @@ export default function LettersInMotionVisual({
             depthWrite: false,
             userData: { baseOpacity: formOpacity },
           })
-        : new THREE.MeshPhysicalMaterial({
+        : new THREE.MeshStandardMaterial({
             color: new THREE.Color(0x022218),
             emissive: new THREE.Color(
               i % 2 === 0 ? 0x5EC098 : 0x0ea5e9
@@ -801,8 +801,8 @@ export default function LettersInMotionVisual({
       startLoop();
     };
 
-    window.addEventListener("mousemove", handleMouseMove, { passive: true });
-    window.addEventListener("mouseleave", handleMouseLeave);
+    container.addEventListener("mousemove", handleMouseMove, { passive: true });
+    container.addEventListener("mouseleave", handleMouseLeave);
 
     const handleResize = () => {
       if (!container || !renderer) return;
@@ -1132,8 +1132,8 @@ export default function LettersInMotionVisual({
       observer.disconnect();
       document.removeEventListener("visibilitychange", onVisibilityChange);
       window.removeEventListener("resize", handleResize);
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseleave", handleMouseLeave);
+      container.removeEventListener("mousemove", handleMouseMove);
+      container.removeEventListener("mouseleave", handleMouseLeave);
 
       // Comprehensive Disposal
       renderer.dispose();

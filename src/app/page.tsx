@@ -90,10 +90,8 @@ import { TechStackShowcase } from "@/components/TechStackShowcase";
 import { FeaturedSuccessStories } from "@/components/FeaturedSuccessStories";
 import { WhyChooseUsComparison } from "@/components/WhyChooseUsComparison";
 import { GlobalDeliveryMesh } from "@/components/GlobalDeliveryMesh";
-import GradientWaves from "@/components/GradientWaves";
 import { FounderShowcase } from "@/components/FounderShowcase";
 import { TechInsightsShowcase } from "@/components/TechInsightsShowcase";
-import SoftAurora from "@/components/SoftAurora";
 import { useTheme } from "@/components/ThemeProvider";
 
 export default function HomePage() {
@@ -194,7 +192,7 @@ export default function HomePage() {
           overflow: "hidden",
         }}
       >
-        {/* Animated GradientWaves Canvas Backdrop */}
+        {/* Ambient CSS Aurora Glow Backdrop */}
         <div
           aria-hidden="true"
           style={{
@@ -207,29 +205,17 @@ export default function HomePage() {
             pointerEvents: "none",
           }}
         >
-          <GradientWaves
-            horizonColor="#5227FF"
-            waveColor="#FF9FFC"
-            crestColor="#FFFFFF"
-            speed={0.25}
-            amplitude={2.0}
-            relief={0.8}
-            lightAngle={120}
-            mouseInteraction={false}
-            swellOnClick={false}
-            lightMode={isLight}
-            opacity={isLight ? 0.35 : 0.75}
-            quality="low"
-            dpr={1}
-          />
-          {/* Ambient Vignette for enhanced card readability */}
           <div
             style={{
               position: "absolute",
-              inset: 0,
+              top: "20%",
+              left: "50%",
+              transform: "translateX(-50%)",
+              width: "75%",
+              height: "400px",
               background: isLight
-                ? "linear-gradient(180deg, rgba(241, 245, 249, 0.65) 0%, rgba(241, 245, 249, 0.15) 35%, rgba(241, 245, 249, 0.7) 100%)"
-                : "linear-gradient(180deg, rgba(3, 8, 20, 0.65) 0%, rgba(3, 8, 20, 0.2) 35%, rgba(3, 8, 20, 0.7) 100%)",
+                ? "radial-gradient(ellipse at center, rgba(138, 92, 255, 0.1) 0%, rgba(0, 168, 143, 0.05) 50%, transparent 75%)"
+                : "radial-gradient(ellipse at center, rgba(138, 92, 255, 0.18) 0%, rgba(0, 187, 171, 0.08) 50%, transparent 75%)",
               pointerEvents: "none",
             }}
           />
@@ -309,7 +295,7 @@ export default function HomePage() {
           transition: "background-color 0.4s ease",
         }}
       >
-        {/* SoftAurora Dynamic Background Shader */}
+        {/* Dynamic Ambient Aurora Background */}
         <div
           aria-hidden="true"
           style={{
@@ -319,19 +305,21 @@ export default function HomePage() {
             height: "100%",
             pointerEvents: "none",
             zIndex: 0,
-            opacity: isLight ? 0.38 : 0.75,
           }}
         >
-          <SoftAurora
-            speed={0.35}
-            scale={1.5}
-            brightness={1.0}
-            color1="#00ffd1"
-            color2="#8a5cff"
-            bandHeight={0.5}
-            bandSpread={1}
-            enableMouseInteraction={false}
-            lightMode={isLight}
+          <div
+            style={{
+              position: "absolute",
+              top: "30%",
+              left: "50%",
+              transform: "translateX(-50%)",
+              width: "70%",
+              height: "450px",
+              background: isLight
+                ? "radial-gradient(ellipse at center, rgba(0, 168, 143, 0.12) 0%, rgba(138, 92, 255, 0.06) 50%, transparent 75%)"
+                : "radial-gradient(ellipse at center, rgba(0, 187, 171, 0.22) 0%, rgba(138, 92, 255, 0.12) 50%, transparent 75%)",
+              pointerEvents: "none",
+            }}
           />
         </div>
 
