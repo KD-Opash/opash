@@ -533,6 +533,8 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
               opacity: isLight ? 0.12 : 0.28,
               filter: isLight ? "saturate(1.15) contrast(1.05)" : "saturate(1.3) brightness(0.9)",
               transform: "scale(1.04)",
+              maskImage: "linear-gradient(to bottom, black 0%, black 55%, rgba(0, 0, 0, 0.3) 85%, transparent 100%)",
+              WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 55%, rgba(0, 0, 0, 0.3) 85%, transparent 100%)",
             }}
           />
           {/* Radial Spotlight & Vignette Fade Mask */}
@@ -543,42 +545,49 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
               background: isLight
                 ? `
                   radial-gradient(ellipse 80% 65% at 50% 30%, rgba(248, 250, 252, 0.45) 0%, rgba(248, 250, 252, 0.88) 60%, #f8fafc 100%),
-                  linear-gradient(to bottom, rgba(248, 250, 252, 0.2) 0%, rgba(248, 250, 252, 0.95) 85%, #f8fafc 100%)
+                  linear-gradient(to bottom, rgba(248, 250, 252, 0.15) 0%, rgba(248, 250, 252, 0.95) 85%, #f8fafc 100%)
                 `
                 : `
                   radial-gradient(ellipse 80% 65% at 50% 30%, rgba(4, 10, 23, 0.35) 0%, rgba(4, 10, 23, 0.88) 60%, #020712 100%),
-                  linear-gradient(to bottom, rgba(2, 7, 18, 0.2) 0%, rgba(2, 7, 18, 0.95) 85%, #020712 100%)
+                  linear-gradient(to bottom, rgba(2, 7, 18, 0.15) 0%, rgba(2, 7, 18, 0.95) 85%, #020712 100%)
                 `,
             }}
           />
+          {/* Multi-stop Ambient Spotlights (Full bleed inset: 0, zero box-clipping lines) */}
           <div
             style={{
               position: "absolute",
-              top: "-15%",
-              left: "50%",
-              transform: "translateX(-50%)",
-              width: "85%",
-              height: "550px",
+              inset: 0,
               background: isLight
-                ? "radial-gradient(ellipse at center, rgba(0, 168, 143, 0.15) 0%, rgba(14, 165, 233, 0.06) 45%, transparent 70%)"
-                : "radial-gradient(ellipse at center, rgba(0, 187, 171, 0.25) 0%, rgba(14, 165, 233, 0.1) 45%, transparent 70%)",
-              pointerEvents: "none",
-            }}
-          />
-          <div
-            style={{
-              position: "absolute",
-              top: "35%",
-              right: "-10%",
-              width: "45%",
-              height: "400px",
-              background: isLight
-                ? "radial-gradient(circle, rgba(14, 165, 233, 0.08) 0%, transparent 65%)"
-                : "radial-gradient(circle, rgba(56, 189, 248, 0.14) 0%, transparent 65%)",
+                ? `
+                  radial-gradient(ellipse 70% 50% at 50% 15%, rgba(0, 168, 143, 0.12) 0%, transparent 65%),
+                  radial-gradient(circle 450px at 85% 30%, rgba(14, 165, 233, 0.08) 0%, transparent 70%)
+                `
+                : `
+                  radial-gradient(ellipse 70% 50% at 50% 15%, rgba(0, 187, 171, 0.22) 0%, transparent 65%),
+                  radial-gradient(circle 450px at 85% 30%, rgba(56, 189, 248, 0.12) 0%, transparent 70%)
+                `,
               pointerEvents: "none",
             }}
           />
         </div>
+
+        {/* Seamless Hero Bottom Feather Blender */}
+        <div
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: "180px",
+            background: isLight
+              ? "linear-gradient(to bottom, transparent 0%, rgba(248, 250, 252, 0.85) 60%, #f8fafc 100%)"
+              : "linear-gradient(to bottom, transparent 0%, rgba(2, 7, 18, 0.85) 60%, #020712 100%)",
+            pointerEvents: "none",
+            zIndex: 1,
+          }}
+        />
 
         <div className="container-custom" style={{ position: "relative", zIndex: 1, maxWidth: "1240px", margin: "0 auto" }}>
           {/* Eyebrow Label */}
@@ -750,8 +759,8 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
         style={{
           padding: "5rem 1.5rem",
           position: "relative",
-          borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.07)",
-          background: isLight ? "#f1f5f9" : "rgba(4, 12, 26, 0.75)",
+          borderTop: "none",
+          background: isLight ? "#f8fafc" : "#020712",
         }}
       >
         <div className="container-custom" style={{ maxWidth: "1240px", margin: "0 auto" }}>
