@@ -366,13 +366,7 @@ export function GlobalDeliveryMesh() {
 
           <h2 className="heading-section" style={{ margin: "0 0 1rem 0" }}>
             Delivering Software Worldwide Across{" "}
-            <span
-              style={{
-                background: "linear-gradient(135deg, #0ea5e9 0%, #10b981 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-              }}
-            >
+            <span className="opash-hero-gradient-text">
               8 Key Global Markets
             </span>
           </h2>

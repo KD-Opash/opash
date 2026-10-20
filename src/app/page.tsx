@@ -252,13 +252,7 @@ export default function HomePage() {
 
             <h2 className="heading-section" style={{ margin: "0 0 1rem 0" }}>
               Verified Feedback From{" "}
-              <span
-                style={{
-                  background: "linear-gradient(135deg, #0ea5e9 0%, #10b981 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                }}
-              >
+              <span className="opash-hero-gradient-text">
                 Founders & CTOs
               </span>
             </h2>

@@ -206,7 +206,7 @@ export default function CompanyPageClient() {
                 gap: "0.6rem",
                 padding: "0.45rem 1.25rem",
                 borderRadius: "9999px",
-                background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(0, 187, 171, 0.12)",
+                backgroundColor: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(0, 187, 171, 0.12)",
                 border: isLight ? "1px solid rgba(0, 168, 143, 0.25)" : "1px solid rgba(0, 187, 171, 0.35)",
                 fontSize: "0.82rem",
                 fontWeight: 700,
@@ -270,7 +270,7 @@ export default function CompanyPageClient() {
                   gap: "0.5rem",
                   padding: "0.85rem 1.85rem",
                   borderRadius: "12px",
-                  background: isLight
+                  backgroundImage: isLight
                     ? "linear-gradient(135deg, #008a75 0%, #00a88f 100%)"
                     : "linear-gradient(135deg, #00a88f 0%, #2dd4bf 100%)",
                   color: "#ffffff",
@@ -294,7 +294,7 @@ export default function CompanyPageClient() {
                   gap: "0.5rem",
                   padding: "0.85rem 1.65rem",
                   borderRadius: "12px",
-                  background: isLight ? "#ffffff" : "rgba(15, 23, 42, 0.65)",
+                  backgroundColor: isLight ? "#ffffff" : "rgba(15, 23, 42, 0.65)",
                   border: isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.12)",
                   color: isLight ? "#0f172a" : "#f8fafc",
                   fontWeight: 600,
@@ -315,7 +315,7 @@ export default function CompanyPageClient() {
                   gap: "0.5rem",
                   padding: "0.85rem 1.65rem",
                   borderRadius: "12px",
-                  background: isLight ? "rgba(2, 132, 199, 0.08)" : "rgba(56, 189, 248, 0.1)",
+                  backgroundColor: isLight ? "rgba(2, 132, 199, 0.08)" : "rgba(56, 189, 248, 0.1)",
                   border: isLight ? "1px solid rgba(2, 132, 199, 0.2)" : "1px solid rgba(56, 189, 248, 0.25)",
                   color: isLight ? "#0284c7" : "#38bdf8",
                   fontWeight: 600,

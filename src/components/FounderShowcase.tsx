@@ -212,13 +212,7 @@ export function FounderShowcase() {
             }}
           >
             Meet Our{" "}
-            <span
-              style={{
-                background: "linear-gradient(135deg, #0ea5e9 0%, #10b981 50%, #00ffd1 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-              }}
-            >
+            <span className="opash-hero-gradient-text">
               Founder & Chief Architect
             </span>
           </h2>

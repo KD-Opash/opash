@@ -269,13 +269,11 @@ export default function CareerPageClient() {
                   }}
                 >
                   <div
+                    className="opash-hero-gradient-text"
                     style={{
                       fontSize: '1.85rem',
                       fontWeight: 850,
                       letterSpacing: '-0.02em',
-                      background: 'linear-gradient(135deg, #00ffd1 0%, #38bdf8 100%)',
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
                       marginBottom: '0.2rem',
                     }}
                   >

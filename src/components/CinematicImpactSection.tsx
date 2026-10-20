@@ -758,7 +758,7 @@ export default function CinematicImpactSection() {
                   >
                     <span
                       style={{
-                        background: `linear-gradient(135deg, ${active.color} 0%, #ffffff 80%)`,
+                        backgroundImage: `linear-gradient(135deg, ${active.color} 0%, #ffffff 80%)`,
                         WebkitBackgroundClip: "text",
                         WebkitTextFillColor: "transparent",
                       }}

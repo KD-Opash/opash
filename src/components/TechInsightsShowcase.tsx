@@ -200,13 +200,7 @@ export function TechInsightsShowcase() {
               }}
             >
               Tech Insights by{" "}
-              <span
-                style={{
-                  background: "linear-gradient(135deg, #0ea5e9 0%, #10b981 50%, #00ffd1 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                }}
-              >
+              <span className="opash-hero-gradient-text">
                 Opash
               </span>
             </h2>

@@ -323,14 +323,7 @@ export function WhyChooseUsComparison() {
             }}
           >
             Why Global Brands{" "}
-            <span
-              style={{
-                background: "linear-gradient(135deg, #00ffd1 0%, #8a5cff 50%, #ff5c7a 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                filter: isLight ? "drop-shadow(0 2px 8px rgba(138,92,255,0.2))" : "drop-shadow(0 2px 14px rgba(0,255,209,0.3))",
-              }}
-            >
+            <span className="opash-hero-gradient-text">
               Choose Us
             </span>
           </h2>
