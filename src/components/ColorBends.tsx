@@ -195,12 +195,12 @@ export default function ColorBends({
 
     const renderer = new THREE.WebGLRenderer({
       antialias: false,
-      powerPreference: 'high-performance',
+      powerPreference: 'low-power',
       alpha: true
     });
     rendererRef.current = renderer;
     (renderer as any).outputColorSpace = (THREE as any).SRGBColorSpace;
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.25));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 0.75));
     renderer.setClearColor(0x000000, transparent ? 0 : 1);
     renderer.domElement.style.position = 'absolute';
     renderer.domElement.style.top = '0';

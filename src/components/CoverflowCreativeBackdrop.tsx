@@ -75,7 +75,7 @@ export function CoverflowCreativeBackdrop({
           transparent
           lightMode={false}
           opacity={isLight ? 0.3 : 0.75}
-          dpr={1}
+          dpr={0.75}
         />
       </div>
     </div>

@@ -98,13 +98,10 @@ float vn(vec2 p, float s, float seed) {
 }
 
 float dbn(vec2 p, float s, float seed) {
-  float o = s / 2.0;
+  float o = s * 0.5;
   float n0 = vn(p, s, seed);
-  float n1 = vn(p + vec2(o, o), s, seed + 0.1);
-  float n2 = vn(p + vec2(-o, o), s, seed + 0.2);
-  float n3 = vn(p + vec2(o, -o), s, seed + 0.3);
-  float n4 = vn(p + vec2(-o, -o), s, seed + 0.4);
-  return (2.0 * n0 + 1.5 * n1 + 1.25 * n2 + 1.125 * n3 + n4) / 7.0;
+  float n1 = vn(p + vec2(o, o), s, seed + 0.2);
+  return mix(n0, n1, 0.45);
 }
 `;
 
@@ -169,9 +166,8 @@ void main() {
   vec2 dir = uFlow;
   vec2 perp = vec2(-dir.y, dir.x);
   float distort1 = vn(p + perp * (t * spd), 60.0, 10.0) * 50.0 * uTurbulence;
-  float distort2 = vn(p - perp * (t * spd), 120.0, 15.0) * 100.0 * uTurbulence;
   float peaks = dbn(p + distort1 + dir * (t * spd * 0.5), 40.0, 1.0);
-  float peaks2 = dbn(p + distort2 - dir * (t * spd * 0.5), 40.0, 0.0);
+  float peaks2 = dbn(p - distort1 - dir * (t * spd * 0.5), 40.0, 0.0);
   float field = smin(peaks, peaks2, max(uFluidity, 0.001));
 
   float slope = length(vec2(dFdx(field), dFdy(field)));
