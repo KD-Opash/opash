@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import Folder, { FolderItem } from "@/components/Folder";
 import { useTheme } from "./ThemeProvider";
+import PortfolioCreativeBackdrop from "./PortfolioCreativeBackdrop";
 
 export default function PortfolioPageClient() {
   const { theme } = useTheme();
@@ -208,63 +209,8 @@ export default function PortfolioPageClient() {
           overflow: "hidden",
         }}
       >
-        {/* Soft Ambient Radial Spotlights Backdrop */}
-        <div
-          aria-hidden="true"
-          style={{
-            position: "absolute",
-            inset: 0,
-            overflow: "hidden",
-            pointerEvents: "none",
-            zIndex: 0,
-          }}
-        >
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              background: isLight
-                ? `
-                  radial-gradient(ellipse 70% 50% at 50% 15%, rgba(0, 168, 143, 0.12) 0%, transparent 65%),
-                  radial-gradient(circle 450px at 85% 30%, rgba(14, 165, 233, 0.08) 0%, transparent 70%)
-                `
-                : `
-                  radial-gradient(ellipse 70% 50% at 50% 15%, rgba(0, 187, 171, 0.22) 0%, transparent 65%),
-                  radial-gradient(circle 450px at 85% 30%, rgba(56, 189, 248, 0.12) 0%, transparent 70%)
-                `,
-            }}
-          />
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              opacity: isLight ? 0.4 : 0.25,
-              backgroundImage: isLight
-                ? "radial-gradient(#94a3b8 1px, transparent 1px)"
-                : "radial-gradient(#334155 1px, transparent 1px)",
-              backgroundSize: "28px 28px",
-              maskImage: "radial-gradient(ellipse 75% 65% at 50% 35%, black 40%, transparent 85%)",
-              WebkitMaskImage: "radial-gradient(ellipse 75% 65% at 50% 35%, black 40%, transparent 85%)",
-            }}
-          />
-        </div>
-
-        {/* Hero Bottom Feather Blender */}
-        <div
-          aria-hidden="true"
-          style={{
-            position: "absolute",
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: "140px",
-            background: isLight
-              ? "linear-gradient(to bottom, transparent 0%, rgba(248, 250, 252, 0.8) 60%, #f8fafc 100%)"
-              : "linear-gradient(to bottom, transparent 0%, rgba(2, 7, 18, 0.8) 60%, #020712 100%)",
-            pointerEvents: "none",
-            zIndex: 1,
-          }}
-        />
+        {/* Bespoke Creative Exhibition Runway Backdrop (0% GPU/CPU) */}
+        <PortfolioCreativeBackdrop isLightMode={isLight} />
 
         <div className="container-custom" style={{ position: "relative", zIndex: 2, maxWidth: "1240px", margin: "0 auto" }}>
           {/* Eyebrow Status Badge */}
@@ -302,18 +248,7 @@ export default function PortfolioPageClient() {
               }}
             >
               Proven Software Architectures{" "}
-              <span
-                style={{
-                  display: "inline-block",
-                  background: isLight
-                    ? "linear-gradient(135deg, #008a75 0%, #0284c7 100%)"
-                    : "linear-gradient(135deg, #2dd4bf 0%, #38bdf8 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                  color: "transparent",
-                }}
-              >
+              <span className="opash-hero-gradient-text">
                 Delivered At Scale
               </span>
             </h1>

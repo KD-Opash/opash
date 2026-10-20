@@ -461,7 +461,26 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   padding: 0 0.15rem;
-  letter-spacing: -0.01em;
+}
+
+/* Rock-solid Gradient Text Class (Prevents React inline style reconciliation bugs in WebKit) */
+.opash-hero-gradient-text {
+  background: linear-gradient(135deg, #008a75 0%, #0284c7 100%);
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  display: inline-block;
+}
+
+[data-theme="dark"] .opash-hero-gradient-text,
+.dark .opash-hero-gradient-text {
+  background: linear-gradient(135deg, #2dd4bf 0%, #38bdf8 100%);
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  display: inline-block;
 }
 
 /* ========================================================================= */
