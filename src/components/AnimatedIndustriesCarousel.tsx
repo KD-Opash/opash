@@ -458,7 +458,6 @@ export function AnimatedIndustriesCarousel() {
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
-  const [elapsedMs, setElapsedMs] = useState(0);
   const CARD_DURATION_MS = 3800; // 3.8 seconds per card
 
   const activeIndustry = CAROUSEL_INDUSTRIES[activeIndex];
@@ -480,51 +479,32 @@ export function AnimatedIndustriesCarousel() {
     }
   }, [activeIndex]);
 
-  // Main animation timer loop
+  // Main animation timer loop - advances card without constant re-renders
   useEffect(() => {
     if (!isPlaying) return;
 
-    const interval = 50; // update 20 times per second for smooth millisecond clock
     const timer = setInterval(() => {
-      setElapsedMs((prev) => {
-        const next = prev + interval;
-        if (next >= CARD_DURATION_MS) {
-          setActiveIndex((idx) => (idx + 1) % CAROUSEL_INDUSTRIES.length);
-          return 0;
-        }
-        return next;
-      });
-    }, interval);
+      setActiveIndex((idx) => (idx + 1) % CAROUSEL_INDUSTRIES.length);
+    }, CARD_DURATION_MS);
 
     return () => clearInterval(timer);
   }, [isPlaying, CARD_DURATION_MS]);
 
-  // Format timecode matching the user screenshot: "00:01.70 / 00:10"
-  const currentTotalSeconds = activeIndex + elapsedMs / CARD_DURATION_MS;
-  const currentSec = Math.floor(currentTotalSeconds);
-  const currentHundredths = Math.floor(
-    (currentTotalSeconds - currentSec) * 100
-  );
-  const formattedTime = `00:${currentSec < 10 ? "0" + currentSec : currentSec}.${
-    currentHundredths < 10 ? "0" + currentHundredths : currentHundredths
-  }`;
+  const formattedTime = `00:${activeIndex < 9 ? "0" + (activeIndex + 1) : activeIndex + 1}.00`;
   const totalDurationStr = `00:${CAROUSEL_INDUSTRIES.length < 10 ? "0" + CAROUSEL_INDUSTRIES.length : CAROUSEL_INDUSTRIES.length}`;
 
   const handleSelectCard = useCallback((index: number) => {
     setActiveIndex(index);
-    setElapsedMs(0);
   }, []);
 
   const handlePrev = useCallback(() => {
     setActiveIndex((prev) =>
       prev === 0 ? CAROUSEL_INDUSTRIES.length - 1 : prev - 1
     );
-    setElapsedMs(0);
   }, []);
 
   const handleNext = useCallback(() => {
     setActiveIndex((prev) => (prev + 1) % CAROUSEL_INDUSTRIES.length);
-    setElapsedMs(0);
   }, []);
 
   return (
@@ -812,10 +792,10 @@ export function AnimatedIndustriesCarousel() {
               <div
                 style={{
                   height: "100%",
-                  width: `${((activeIndex + elapsedMs / CARD_DURATION_MS) / CAROUSEL_INDUSTRIES.length) * 100}%`,
+                  width: `${((activeIndex + 1) / CAROUSEL_INDUSTRIES.length) * 100}%`,
                   backgroundColor: activeIndustry.accent,
                   boxShadow: `0 0 12px ${activeIndustry.accent}`,
-                  transition: isPlaying ? "width 50ms linear" : "none",
+                  transition: isPlaying ? "width 0.4s ease" : "none",
                 }}
               />
             </div>

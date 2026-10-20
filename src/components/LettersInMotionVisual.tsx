@@ -127,16 +127,16 @@ export default function LettersInMotionVisual({
     let renderer: THREE.WebGLRenderer;
     try {
       renderer = new THREE.WebGLRenderer({
-        antialias: true,
+        antialias: false,
         alpha: false,
-        powerPreference: "high-performance",
+        powerPreference: "low-power",
       });
     } catch (e) {
       console.warn("WebGL not supported or unavailable:", e);
       return;
     }
     renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.25));
+    renderer.setPixelRatio(1.0);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = isLight ? 0.92 : 1.0;
     mount.appendChild(renderer.domElement);
@@ -769,6 +769,8 @@ export default function LettersInMotionVisual({
     // 5. CAMERA PARALLAX & MOUSE EVENT LISTENERS
     let targetCamX = 0;
     let targetCamY = 0;
+    let isMouseActive = false;
+    let mouseActiveTimer: any = null;
 
     const handleMouseMove = (e: MouseEvent) => {
       const rect = container.getBoundingClientRect();
@@ -776,11 +778,18 @@ export default function LettersInMotionVisual({
       const y = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
       targetCamX = x * 0.35;
       targetCamY = y * 0.25;
+
+      isMouseActive = true;
+      clearTimeout(mouseActiveTimer);
+      mouseActiveTimer = setTimeout(() => {
+        isMouseActive = false;
+      }, 1000);
     };
 
     const handleMouseLeave = () => {
       targetCamX = 0;
       targetCamY = 0;
+      isMouseActive = false;
     };
 
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
@@ -820,10 +829,9 @@ export default function LettersInMotionVisual({
     let isVisible = true;
     let isTabVisible = !document.hidden;
     let lastFrameTime = performance.now();
-    const TARGET_FPS = 30; // 30 FPS ambient background cuts GPU consumption significantly
-    const FRAME_INTERVAL = 1000 / TARGET_FPS;
     let neuralFrameSkip = 0;
     let particleFrameSkip = 0;
+    let wasTransitioning = true;
 
     const startLoop = () => {
       if (!animId && isVisible && isTabVisible) {
@@ -869,10 +877,6 @@ export default function LettersInMotionVisual({
       }
       animId = requestAnimationFrame(animate);
 
-      const delta = now - lastFrameTime;
-      if (delta < FRAME_INTERVAL) return;
-      lastFrameTime = now - (delta % FRAME_INTERVAL);
-
       const elapsed = clock.getElapsedTime();
       const activeIdx = currentIndexRef.current;
       const activeMeta = SCENE_METAS[activeIdx] || SCENE_METAS[0];
@@ -882,6 +886,7 @@ export default function LettersInMotionVisual({
         prevSceneIdx = currentSceneIdx;
         currentSceneIdx = activeIdx;
         transitionStartTime = elapsed;
+        wasTransitioning = true;
 
         // Ensure both outgoing and incoming scenes are visible during cross-fade
         sceneGroups.forEach((g, idx) => {
@@ -893,6 +898,14 @@ export default function LettersInMotionVisual({
 
       const timeSinceTransition = elapsed - transitionStartTime;
       const isTransitioning = timeSinceTransition < TRANSITION_DURATION;
+
+      // Dynamic Frame Throttling: 30 FPS during transition or active mouse hover, 15 FPS when resting idle
+      const isDynamic = isTransitioning || isMouseActive;
+      const targetInterval = isDynamic ? 33 : 66; // 30 FPS vs 15 FPS
+      const delta = now - lastFrameTime;
+      if (delta < targetInterval) return;
+      lastFrameTime = now - (delta % targetInterval);
+
       const tProgress = Math.min(Math.max(timeSinceTransition / TRANSITION_DURATION, 0), 1);
 
       // Smooth cubic ease-in-out
@@ -900,55 +913,60 @@ export default function LettersInMotionVisual({
         ? 4 * tProgress * tProgress * tProgress
         : 1 - Math.pow(-2 * tProgress + 2, 3) / 2;
 
-      // Update scene group opacities and hide inactive scenes completely
-      sceneGroups.forEach((group, idx) => {
-        if (idx === currentSceneIdx) {
-          group.visible = true;
-          const alpha = isTransitioning ? easeProgress : 1.0;
-          group.scale.setScalar(0.94 + alpha * 0.06);
+      // Update scene group opacities only while transitioning (or on final settle frame)
+      if (isTransitioning || wasTransitioning) {
+        sceneGroups.forEach((group, idx) => {
+          if (idx === currentSceneIdx) {
+            group.visible = true;
+            const alpha = isTransitioning ? easeProgress : 1.0;
+            group.scale.setScalar(0.94 + alpha * 0.06);
 
-          group.traverse((child) => {
-            if (child instanceof THREE.Mesh && child.material) {
-              if (Array.isArray(child.material)) {
-                child.material.forEach((m) => {
-                  m.opacity = (m.userData.baseOpacity ?? (isLight ? 0.14 : 0.7)) * alpha;
-                });
-              } else {
-                child.material.opacity = (child.material.userData.baseOpacity ?? (isLight ? 0.14 : 0.7)) * alpha;
+            group.traverse((child) => {
+              if (child instanceof THREE.Mesh && child.material) {
+                if (Array.isArray(child.material)) {
+                  child.material.forEach((m) => {
+                    m.opacity = (m.userData.baseOpacity ?? (isLight ? 0.14 : 0.7)) * alpha;
+                  });
+                } else {
+                  child.material.opacity = (child.material.userData.baseOpacity ?? (isLight ? 0.14 : 0.7)) * alpha;
+                }
+              } else if (child instanceof THREE.Line || child instanceof THREE.LineSegments) {
+                if (child.material && "opacity" in child.material) {
+                  const baseLine = child.material.userData?.baseOpacity ?? (isLight ? 0.2 : 0.65);
+                  (child.material as THREE.Material).opacity = baseLine * alpha;
+                }
               }
-            } else if (child instanceof THREE.Line || child instanceof THREE.LineSegments) {
-              if (child.material && "opacity" in child.material) {
-                const baseLine = child.material.userData?.baseOpacity ?? (isLight ? 0.2 : 0.65);
-                (child.material as THREE.Material).opacity = baseLine * alpha;
-              }
-            }
-          });
-        } else if (idx === prevSceneIdx && isTransitioning) {
-          group.visible = true;
-          const alpha = 1.0 - easeProgress;
-          group.scale.setScalar(1.0 - easeProgress * 0.05);
+            });
+          } else if (idx === prevSceneIdx && isTransitioning) {
+            group.visible = true;
+            const alpha = 1.0 - easeProgress;
+            group.scale.setScalar(1.0 - easeProgress * 0.05);
 
-          group.traverse((child) => {
-            if (child instanceof THREE.Mesh && child.material) {
-              if (Array.isArray(child.material)) {
-                child.material.forEach((m) => {
-                  m.opacity = (m.userData.baseOpacity ?? (isLight ? 0.14 : 0.7)) * alpha;
-                });
-              } else {
-                child.material.opacity = (child.material.userData.baseOpacity ?? (isLight ? 0.14 : 0.7)) * alpha;
+            group.traverse((child) => {
+              if (child instanceof THREE.Mesh && child.material) {
+                if (Array.isArray(child.material)) {
+                  child.material.forEach((m) => {
+                    m.opacity = (m.userData.baseOpacity ?? (isLight ? 0.14 : 0.7)) * alpha;
+                  });
+                } else {
+                  child.material.opacity = (child.material.userData.baseOpacity ?? (isLight ? 0.14 : 0.7)) * alpha;
+                }
+              } else if (child instanceof THREE.Line || child instanceof THREE.LineSegments) {
+                if (child.material && "opacity" in child.material) {
+                  const baseLine = child.material.userData?.baseOpacity ?? (isLight ? 0.2 : 0.65);
+                  (child.material as THREE.Material).opacity = baseLine * alpha;
+                }
               }
-            } else if (child instanceof THREE.Line || child instanceof THREE.LineSegments) {
-              if (child.material && "opacity" in child.material) {
-                const baseLine = child.material.userData?.baseOpacity ?? (isLight ? 0.2 : 0.65);
-                (child.material as THREE.Material).opacity = baseLine * alpha;
-              }
-            }
-          });
-        } else {
-          // Inactive scenes are completely hidden and do not show through
-          group.visible = false;
+            });
+          } else {
+            group.visible = false;
+          }
+        });
+
+        if (!isTransitioning) {
+          wasTransitioning = false;
         }
-      });
+      }
 
       // Lighting Palette Interpolation
       targetPrimary.set(activeMeta.primaryColor);
