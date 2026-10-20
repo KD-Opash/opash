@@ -104,6 +104,12 @@ export default function LettersInMotionVisual({
   const currentIndexRef = useRef(currentIndex);
   currentIndexRef.current = currentIndex;
 
+  const wakeLoopRef = useRef<(() => void) | null>(null);
+
+  useEffect(() => {
+    wakeLoopRef.current?.();
+  }, [currentIndex, activePhrase]);
+
   useEffect(() => {
     const container = containerRef.current;
     const mount = mountRef.current;
@@ -773,6 +779,7 @@ export default function LettersInMotionVisual({
     let mouseActiveTimer: any = null;
 
     const handleMouseMove = (e: MouseEvent) => {
+      if (!isVisible) return;
       const rect = container.getBoundingClientRect();
       const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
       const y = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
@@ -783,13 +790,15 @@ export default function LettersInMotionVisual({
       clearTimeout(mouseActiveTimer);
       mouseActiveTimer = setTimeout(() => {
         isMouseActive = false;
-      }, 1000);
+      }, 700);
+      startLoop();
     };
 
     const handleMouseLeave = () => {
       targetCamX = 0;
       targetCamY = 0;
       isMouseActive = false;
+      startLoop();
     };
 
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
@@ -840,6 +849,10 @@ export default function LettersInMotionVisual({
       }
     };
 
+    wakeLoopRef.current = () => {
+      startLoop();
+    };
+
     const stopLoop = () => {
       if (animId) {
         cancelAnimationFrame(animId);
@@ -875,7 +888,6 @@ export default function LettersInMotionVisual({
         animId = 0;
         return;
       }
-      animId = requestAnimationFrame(animate);
 
       const elapsed = clock.getElapsedTime();
       const activeIdx = currentIndexRef.current;
@@ -899,11 +911,13 @@ export default function LettersInMotionVisual({
       const timeSinceTransition = elapsed - transitionStartTime;
       const isTransitioning = timeSinceTransition < TRANSITION_DURATION;
 
-      // Dynamic Frame Throttling: 30 FPS during transition or active mouse hover, 15 FPS when resting idle
-      const isDynamic = isTransitioning || isMouseActive;
-      const targetInterval = isDynamic ? 33 : 66; // 30 FPS vs 15 FPS
+      // Throttle to 30 FPS while active
+      const targetInterval = 33;
       const delta = now - lastFrameTime;
-      if (delta < targetInterval) return;
+      if (delta < targetInterval) {
+        animId = requestAnimationFrame(animate);
+        return;
+      }
       lastFrameTime = now - (delta % targetInterval);
 
       const tProgress = Math.min(Math.max(timeSinceTransition / TRANSITION_DURATION, 0), 1);
@@ -980,8 +994,12 @@ export default function LettersInMotionVisual({
       rightRimLight.color.copy(curSecondary);
 
       // Camera parallax damping
-      camera.position.x += (targetCamX - camera.position.x) * 0.035;
-      camera.position.y += (targetCamY - camera.position.y) * 0.035;
+      const camDx = targetCamX - camera.position.x;
+      const camDy = targetCamY - camera.position.y;
+      camera.position.x += camDx * 0.045;
+      camera.position.y += camDy * 0.045;
+
+      const isCamMoving = Math.abs(camDx) > 0.001 || Math.abs(camDy) > 0.001;
 
       const speedFactor = prefersReducedMotion ? 0.25 : 1.0;
 
@@ -1096,11 +1114,20 @@ export default function LettersInMotionVisual({
       }
 
       renderer.render(scene, camera);
+
+      // Settle and sleep check: Keep looping only while active transition, mouse movement, or camera damping
+      const shouldKeepLooping = isTransitioning || wasTransitioning || isMouseActive || isCamMoving;
+      if (shouldKeepLooping && isVisible && isTabVisible) {
+        animId = requestAnimationFrame(animate);
+      } else {
+        animId = 0; // Sleep at rest! 0% CPU & 0% GPU!
+      }
     };
 
     startLoop();
 
     return () => {
+      wakeLoopRef.current = null;
       stopLoop();
       observer.disconnect();
       document.removeEventListener("visibilitychange", onVisibilityChange);
