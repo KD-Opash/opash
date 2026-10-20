@@ -6618,14 +6618,15 @@ h2.heading-section {
   stroke-linecap: round;
   stroke-dasharray: 25 180;
   stroke-dashoffset: 240;
-  animation: radarArcTravel 4.5s linear infinite;
-  opacity: 0.85;
+  opacity: 0.35;
+  will-change: stroke-dashoffset;
 }
 
 .global-radar-arc-pulse.active {
   stroke-width: 2.8;
   opacity: 1;
-  filter: drop-shadow(0 0 5px #38bdf8);
+  animation: radarArcTravel 4.5s linear infinite;
+  filter: drop-shadow(0 0 4px #38bdf8);
 }
 
 @keyframes radarArcTravel {

@@ -124,8 +124,60 @@ export function TechShowcaseBackdrop({ isLightMode = false }: TechShowcaseBackdr
     document.addEventListener('mouseleave', handleMouseLeave);
 
     let time = 0;
+    let isVisible = false;
+    let isTabVisible = !document.hidden;
+    let lastTime = performance.now();
+    const TARGET_FPS = 30;
+    const FRAME_INTERVAL = 1000 / TARGET_FPS;
 
-    const render = () => {
+    const startLoop = () => {
+      if (!animFrameRef.current && isVisible && isTabVisible) {
+        lastTime = performance.now();
+        animFrameRef.current = requestAnimationFrame(render);
+      }
+    };
+
+    const stopLoop = () => {
+      if (animFrameRef.current) {
+        cancelAnimationFrame(animFrameRef.current);
+        animFrameRef.current = 0;
+      }
+    };
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible && isTabVisible) {
+          startLoop();
+        } else {
+          stopLoop();
+        }
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(canvas);
+
+    const onVisibilityChange = () => {
+      isTabVisible = !document.hidden;
+      if (isVisible && isTabVisible) {
+        startLoop();
+      } else {
+        stopLoop();
+      }
+    };
+    document.addEventListener('visibilitychange', onVisibilityChange);
+
+    const render = (now: number) => {
+      if (!isVisible || !isTabVisible) {
+        animFrameRef.current = 0;
+        return;
+      }
+      animFrameRef.current = requestAnimationFrame(render);
+
+      const delta = now - lastTime;
+      if (delta < FRAME_INTERVAL) return;
+      lastTime = now - (delta % FRAME_INTERVAL);
+
       time += 1;
       ctx.clearRect(0, 0, width, height);
 
@@ -198,14 +250,14 @@ export function TechShowcaseBackdrop({ isLightMode = false }: TechShowcaseBackdr
         ctx.arc(mouseRef.current.x, mouseRef.current.y, 260, 0, Math.PI * 2);
         ctx.fill();
       }
-
-      animFrameRef.current = requestAnimationFrame(render);
     };
 
-    render();
+    startLoop();
 
     return () => {
-      cancelAnimationFrame(animFrameRef.current);
+      stopLoop();
+      observer.disconnect();
+      document.removeEventListener('visibilitychange', onVisibilityChange);
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseleave', handleMouseLeave);

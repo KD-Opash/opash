@@ -59,7 +59,7 @@ const SWELL_GAIN = 2.8;
 const SWELL_WIDTH = 8;
 const INTRO_SECONDS = 2.6;
 const CAMERA_HEIGHT = 30;
-const QUALITY: Record<string, number> = { low: 56, medium: 84, high: 120 };
+const QUALITY: Record<string, number> = { low: 22, medium: 32, high: 48 };
 
 const VERTEX = `#version 300 es
 in vec2 aPosition;
@@ -353,7 +353,7 @@ export default function GradientWaves({
     mouseStrength: clamp(mouseStrength, 0, 1),
     swellOnClick,
     paused,
-    dpr: Math.max(0.5, dpr)
+    dpr: Math.min(Math.max(0.5, dpr || 1), 1)
   };
   const settingsRef = useRef(settings);
   settingsRef.current = settings;
@@ -567,6 +567,10 @@ export default function GradientWaves({
       if (!state.visible || document.hidden) return;
       const s = settingsRef.current;
       const dt = state.last ? Math.min((now - state.last) / 1000, 0.1) : 0;
+      if (dt < 0.033) {
+        state.raf = requestAnimationFrame(tick);
+        return;
+      }
       state.last = now;
       const reduced = prefersReduced();
       state.clock += dt;
@@ -623,6 +627,7 @@ export default function GradientWaves({
     };
 
     const onMove = (event: PointerEvent) => {
+      if (!state.visible || document.hidden) return;
       const point = local(event);
       const was = state.inside;
       state.inside = point.inside;

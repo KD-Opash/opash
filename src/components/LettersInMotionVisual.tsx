@@ -136,7 +136,7 @@ export default function LettersInMotionVisual({
       return;
     }
     renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.25));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = isLight ? 0.92 : 1.0;
     mount.appendChild(renderer.domElement);
@@ -706,7 +706,7 @@ export default function LettersInMotionVisual({
     // -------------------------------------------------------------------------
     // 4. SHARED 3-ZONE DEPTH PARTICLES (Foreground Motes, Midground, Deep Stardust)
     // -------------------------------------------------------------------------
-    const particleCount = isLight ? 75 : 140;
+    const particleCount = isLight ? 36 : 56;
     const pPositions = new Float32Array(particleCount * 3);
     const pColors = new Float32Array(particleCount * 3);
     const pSizes = new Float32Array(particleCount);
@@ -811,15 +811,68 @@ export default function LettersInMotionVisual({
     let currentSceneIdx = currentIndexRef.current;
     let prevSceneIdx = currentIndexRef.current;
     let transitionStartTime = -10;
-    const TRANSITION_DURATION = 1.15; // Coordinated 1.15s (1150ms) transition
-
+    const TRANSITION_DURATION = 1.15;
     const curPrimary = new THREE.Color(SCENE_METAS[0].primaryColor);
     const curSecondary = new THREE.Color(SCENE_METAS[0].secondaryColor);
     const targetPrimary = new THREE.Color(SCENE_METAS[0].primaryColor);
     const targetSecondary = new THREE.Color(SCENE_METAS[0].secondaryColor);
 
-    const animate = () => {
+    let isVisible = true;
+    let isTabVisible = !document.hidden;
+    let lastFrameTime = performance.now();
+    const TARGET_FPS = 30; // 30 FPS ambient background cuts GPU consumption significantly
+    const FRAME_INTERVAL = 1000 / TARGET_FPS;
+    let neuralFrameSkip = 0;
+    let particleFrameSkip = 0;
+
+    const startLoop = () => {
+      if (!animId && isVisible && isTabVisible) {
+        lastFrameTime = performance.now();
+        animId = requestAnimationFrame(animate);
+      }
+    };
+
+    const stopLoop = () => {
+      if (animId) {
+        cancelAnimationFrame(animId);
+        animId = 0;
+      }
+    };
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible && isTabVisible) {
+          startLoop();
+        } else {
+          stopLoop();
+        }
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(container);
+
+    const onVisibilityChange = () => {
+      isTabVisible = !document.hidden;
+      if (isVisible && isTabVisible) {
+        startLoop();
+      } else {
+        stopLoop();
+      }
+    };
+    document.addEventListener("visibilitychange", onVisibilityChange);
+
+    const animate = (now: number) => {
+      if (!isVisible || !isTabVisible) {
+        animId = 0;
+        return;
+      }
       animId = requestAnimationFrame(animate);
+
+      const delta = now - lastFrameTime;
+      if (delta < FRAME_INTERVAL) return;
+      lastFrameTime = now - (delta % FRAME_INTERVAL);
+
       const elapsed = clock.getElapsedTime();
       const activeIdx = currentIndexRef.current;
       const activeMeta = SCENE_METAS[activeIdx] || SCENE_METAS[0];
@@ -940,31 +993,34 @@ export default function LettersInMotionVisual({
           node.mesh.rotation.y += 0.012;
         });
 
-        // Update Dynamic Proximity Lines between Neural Nodes
-        let segCount = 0;
-        const posArr = neuralLinesGeom.attributes.position.array as Float32Array;
-        const threshold = 2.4;
+        neuralFrameSkip = (neuralFrameSkip + 1) % 2;
+        if (neuralFrameSkip === 0) {
+          // Update Dynamic Proximity Lines between Neural Nodes
+          let segCount = 0;
+          const posArr = neuralLinesGeom.attributes.position.array as Float32Array;
+          const threshold = 2.4;
 
-        for (let i = 0; i < neuralNodes.length && segCount < maxLineSegments; i++) {
-          for (let j = i + 1; j < neuralNodes.length && segCount < maxLineSegments; j++) {
-            const p1 = neuralNodes[i].mesh.position;
-            const p2 = neuralNodes[j].mesh.position;
-            const d = p1.distanceTo(p2);
+          for (let i = 0; i < neuralNodes.length && segCount < maxLineSegments; i++) {
+            for (let j = i + 1; j < neuralNodes.length && segCount < maxLineSegments; j++) {
+              const p1 = neuralNodes[i].mesh.position;
+              const p2 = neuralNodes[j].mesh.position;
+              const d = p1.distanceTo(p2);
 
-            if (d < threshold) {
-              const idx = segCount * 6;
-              posArr[idx] = p1.x;
-              posArr[idx + 1] = p1.y;
-              posArr[idx + 2] = p1.z;
-              posArr[idx + 3] = p2.x;
-              posArr[idx + 4] = p2.y;
-              posArr[idx + 5] = p2.z;
-              segCount++;
+              if (d < threshold) {
+                const idx = segCount * 6;
+                posArr[idx] = p1.x;
+                posArr[idx + 1] = p1.y;
+                posArr[idx + 2] = p1.z;
+                posArr[idx + 3] = p2.x;
+                posArr[idx + 4] = p2.y;
+                posArr[idx + 5] = p2.z;
+                segCount++;
+              }
             }
           }
+          neuralLinesGeom.setDrawRange(0, segCount * 2);
+          neuralLinesGeom.attributes.position.needsUpdate = true;
         }
-        neuralLinesGeom.setDrawRange(0, segCount * 2);
-        neuralLinesGeom.attributes.position.needsUpdate = true;
       }
 
       if (groupWebApps.visible) {
@@ -996,35 +1052,40 @@ export default function LettersInMotionVisual({
         coreJewelMesh.scale.setScalar(jewelPulse);
       }
 
-      // Shared Particle Depth Flow
-      const pos = particleGeom.attributes.position.array as Float32Array;
-      const col = particleGeom.attributes.color.array as Float32Array;
+      particleFrameSkip = (particleFrameSkip + 1) % 2;
+      if (particleFrameSkip === 0) {
+        // Shared Particle Depth Flow
+        const pos = particleGeom.attributes.position.array as Float32Array;
+        const col = particleGeom.attributes.color.array as Float32Array;
 
-      for (let i = 0; i < particleCount; i++) {
-        const flow = particleFlows[i];
-        pos[i * 3 + 1] += flow.vel.y * speedFactor;
-        pos[i * 3] += flow.vel.x * speedFactor;
+        for (let i = 0; i < particleCount; i++) {
+          const flow = particleFlows[i];
+          pos[i * 3 + 1] += flow.vel.y * speedFactor * 2;
+          pos[i * 3] += flow.vel.x * speedFactor * 2;
 
-        if (pos[i * 3 + 1] > 5.5) pos[i * 3 + 1] = -5.5;
-        if (pos[i * 3] > 8.5) pos[i * 3] = -8.5;
-        if (pos[i * 3] < -8.5) pos[i * 3] = 8.5;
+          if (pos[i * 3 + 1] > 5.5) pos[i * 3 + 1] = -5.5;
+          if (pos[i * 3] > 8.5) pos[i * 3] = -8.5;
+          if (pos[i * 3] < -8.5) pos[i * 3] = 8.5;
 
-        // Shift particle color to active scene
-        const targetC = i % 2 === 0 ? curPrimary : curSecondary;
-        col[i * 3] += (targetC.r - col[i * 3]) * 0.05;
-        col[i * 3 + 1] += (targetC.g - col[i * 3 + 1]) * 0.05;
-        col[i * 3 + 2] += (targetC.b - col[i * 3 + 2]) * 0.05;
+          // Shift particle color to active scene
+          const targetC = i % 2 === 0 ? curPrimary : curSecondary;
+          col[i * 3] += (targetC.r - col[i * 3]) * 0.05;
+          col[i * 3 + 1] += (targetC.g - col[i * 3 + 1]) * 0.05;
+          col[i * 3 + 2] += (targetC.b - col[i * 3 + 2]) * 0.05;
+        }
+        particleGeom.attributes.position.needsUpdate = true;
+        particleGeom.attributes.color.needsUpdate = true;
       }
-      particleGeom.attributes.position.needsUpdate = true;
-      particleGeom.attributes.color.needsUpdate = true;
 
       renderer.render(scene, camera);
     };
 
-    animate();
+    startLoop();
 
     return () => {
-      cancelAnimationFrame(animId);
+      stopLoop();
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", onVisibilityChange);
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseleave", handleMouseLeave);

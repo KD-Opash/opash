@@ -75,9 +75,61 @@ function TelemetryCanvas({ mode, isLight, accentColor }: TelemetryCanvasProps) {
     ];
 
     let t = 0;
+    let isVisible = false;
+    let isTabVisible = !document.hidden;
+    let lastTime = performance.now();
+    const TARGET_FPS = 30;
+    const FRAME_INTERVAL = 1000 / TARGET_FPS;
 
-    const render = () => {
-      t += 0.025;
+    const startLoop = () => {
+      if (!animId && isVisible && isTabVisible) {
+        lastTime = performance.now();
+        animId = requestAnimationFrame(render);
+      }
+    };
+
+    const stopLoop = () => {
+      if (animId) {
+        cancelAnimationFrame(animId);
+        animId = 0;
+      }
+    };
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible && isTabVisible) {
+          startLoop();
+        } else {
+          stopLoop();
+        }
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(canvas);
+
+    const onVisibilityChange = () => {
+      isTabVisible = !document.hidden;
+      if (isVisible && isTabVisible) {
+        startLoop();
+      } else {
+        stopLoop();
+      }
+    };
+    document.addEventListener("visibilitychange", onVisibilityChange);
+
+    const render = (now: number) => {
+      if (!isVisible || !isTabVisible) {
+        animId = 0;
+        return;
+      }
+      animId = requestAnimationFrame(render);
+
+      const delta = now - lastTime;
+      if (delta < FRAME_INTERVAL) return;
+      lastTime = now - (delta % FRAME_INTERVAL);
+
+      t += 0.035;
       ctx.clearRect(0, 0, width, height);
 
       // MODE 0: NEURAL SQUAD NETWORK (50+ Developers)
@@ -294,10 +346,9 @@ function TelemetryCanvas({ mode, isLight, accentColor }: TelemetryCanvasProps) {
         ctx.fillText("● 9 GLOBAL MARKETS SUSTAINED", 20, height - 20);
       }
 
-      animId = requestAnimationFrame(render);
     };
 
-    render();
+    startLoop();
 
     const handlePointerMove = (e: MouseEvent) => {
       const rect = canvas.getBoundingClientRect();
@@ -315,7 +366,9 @@ function TelemetryCanvas({ mode, isLight, accentColor }: TelemetryCanvasProps) {
     canvas.addEventListener("mouseleave", handlePointerLeave);
 
     return () => {
-      cancelAnimationFrame(animId);
+      stopLoop();
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", onVisibilityChange);
       window.removeEventListener("resize", handleResize);
       canvas.removeEventListener("mousemove", handlePointerMove);
       canvas.removeEventListener("mouseleave", handlePointerLeave);

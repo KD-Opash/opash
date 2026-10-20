@@ -192,10 +192,9 @@ void main() {
   vec3 tint = palette(h);
 
   if (uLight > 0.5) {
-    float chroma = max(tint.r, max(tint.g, tint.b)) - min(tint.r, min(tint.g, tint.b));
-    vec3 ink = mix(vec3(0.07, 0.07, 0.08), tint * 0.55, clamp(chroma * 1.6, 0.0, 1.0));
-    float cover = energy * uOpacity;
-    outColor = uOpaque > 0.5 ? vec4(mix(uBackground, ink, cover), 1.0) : vec4(ink * cover, cover);
+    vec3 lightTint = tint;
+    float cover = energy * uOpacity * 0.5;
+    outColor = uOpaque > 0.5 ? vec4(mix(uBackground, lightTint, cover), 1.0) : vec4(lightTint * cover, cover);
     return;
   }
 
@@ -358,7 +357,7 @@ const FluxLines = ({
     let reveal = settingsRef.current.intro && !reduce ? 0 : 1;
     let raf = 0;
     let last = 0;
-    let visible = true;
+    let visible = false;
 
     const render = () => {
       const s = settingsRef.current;
@@ -398,6 +397,10 @@ const FluxLines = ({
     const frame = (now: number) => {
       raf = 0;
       if (!visible || document.hidden) return;
+      if (last && now - last < 33) {
+        raf = requestAnimationFrame(frame);
+        return;
+      }
       const s = settingsRef.current;
       const dt = last ? clamp((now - last) / 1000, 0.0005, 0.05) : 1 / 60;
       last = now;
@@ -431,7 +434,7 @@ const FluxLines = ({
       const s = settingsRef.current;
       const width = Math.max(1, container.clientWidth);
       const height = Math.max(1, container.clientHeight);
-      const ratio = Math.min(s.dpr || window.devicePixelRatio || 1, 2);
+      const ratio = Math.min(s.dpr || 1, 1.25);
       canvas.width = Math.max(1, Math.round(width * ratio));
       canvas.height = Math.max(1, Math.round(height * ratio));
       render();
@@ -449,13 +452,14 @@ const FluxLines = ({
     };
 
     const onPointerMove = (event: PointerEvent) => {
+      if (!visible || document.hidden) return;
       const wasInside = pointer.inside;
       locate(event);
       if (pointer.inside && !wasInside && magnet.active < 0.05) {
         magnet.x = pointer.x;
         magnet.y = pointer.y;
       }
-      wake();
+      if (pointer.inside || wasInside) wake();
     };
 
     const onPointerDown = (event: PointerEvent) => {

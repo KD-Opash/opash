@@ -351,7 +351,7 @@ export const SoftAurora: React.FC<SoftAuroraProps> = ({
     let opening = settingsRef.current.intro && !reduced && generation === 0 ? 0 : 1;
     let raf = 0;
     let last = 0;
-    let visible = true;
+    let visible = false;
     let pageVisible = document.visibilityState !== 'hidden';
     let lost = false;
 
@@ -373,10 +373,14 @@ export const SoftAurora: React.FC<SoftAuroraProps> = ({
 
     const frame = (now: number) => {
       raf = 0;
-      if (lost) return;
+      if (lost || !visible || !pageVisible) return;
+      if (last && now - last < 33) {
+        raf = requestAnimationFrame(frame);
+        return;
+      }
       const s = settingsRef.current;
-      const dt = clamp((now - last) / 1000 || 0, 0, 0.05);
-      last = Math.max(last, now);
+      const dt = clamp((now - (last || now)) / 1000 || 0, 0, 0.05);
+      last = now;
       const pace = reduced ? 0.35 : 1;
       flow += dt * s.speed * pace;
       hue += dt * s.speed * s.colorSpeed * pace;
@@ -473,11 +477,12 @@ export const SoftAurora: React.FC<SoftAuroraProps> = ({
     };
 
     const onPointerMove = (event: PointerEvent) => {
+      if (!visible || !pageVisible) return;
       const spot = locate(event);
       pointer.x = spot.x;
       pointer.y = spot.y;
       pointer.inside = spot.inside;
-      wake();
+      if (spot.inside) wake();
     };
     const onPointerDown = (event: PointerEvent) => {
       const s = settingsRef.current;

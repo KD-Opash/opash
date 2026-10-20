@@ -211,14 +211,16 @@ export default function HomePage() {
             horizonColor="#5227FF"
             waveColor="#FF9FFC"
             crestColor="#FFFFFF"
-            speed={0.4}
-            amplitude={2.5}
-            relief={1}
+            speed={0.25}
+            amplitude={2.0}
+            relief={0.8}
             lightAngle={120}
-            mouseInteraction
-            swellOnClick
+            mouseInteraction={false}
+            swellOnClick={false}
             lightMode={isLight}
             opacity={isLight ? 0.35 : 0.75}
+            quality="low"
+            dpr={1}
           />
           {/* Ambient Vignette for enhanced card readability */}
           <div
@@ -321,15 +323,14 @@ export default function HomePage() {
           }}
         >
           <SoftAurora
-            speed={0.6}
+            speed={0.35}
             scale={1.5}
-            brightness={1.1}
+            brightness={1.0}
             color1="#00ffd1"
             color2="#8a5cff"
             bandHeight={0.5}
             bandSpread={1}
-            enableMouseInteraction
-            mouseInfluence={0.25}
+            enableMouseInteraction={false}
             lightMode={isLight}
           />
         </div>

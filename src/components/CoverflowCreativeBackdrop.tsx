@@ -31,6 +31,24 @@ export function CoverflowCreativeBackdrop({
         zIndex: 0,
       }}
     >
+      {/* Soft Ambient Radial Luminous Glow */}
+      <div
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: "85%",
+          height: "500px",
+          borderRadius: "50%",
+          background: isLight
+            ? `radial-gradient(ellipse at center, rgba(${accentRgb}, 0.12) 0%, rgba(0, 168, 143, 0.05) 45%, transparent 75%)`
+            : `radial-gradient(ellipse at center, rgba(${accentRgb}, 0.22) 0%, rgba(14, 165, 233, 0.08) 50%, transparent 75%)`,
+          filter: "blur(50px)",
+          pointerEvents: "none",
+        }}
+      />
+
       {/* FluxLines Background Stream */}
       <div
         style={{
@@ -45,17 +63,19 @@ export function CoverflowCreativeBackdrop({
         <FluxLines
           colors={
             isLight
-              ? ["#0f172a", "#1e293b", "#0369a1"]
+              ? [accent, "#00A88F", "#38bdf8"]
               : [accent, "#0284c7", "#0369a1"]
           }
-          glow={1.2}
+          glow={isLight ? 0.4 : 0.8}
           rimWidth={0.2}
           lineWidth={1}
           flowDirection="down"
-          mouseInteraction
-          clickSwirl
+          mouseInteraction={false}
+          clickSwirl={false}
           transparent
-          lightMode={isLight}
+          lightMode={false}
+          opacity={isLight ? 0.3 : 0.75}
+          dpr={1}
         />
       </div>
     </div>

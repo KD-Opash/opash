@@ -200,7 +200,7 @@ export default function ColorBends({
     });
     rendererRef.current = renderer;
     (renderer as any).outputColorSpace = (THREE as any).SRGBColorSpace;
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.25));
     renderer.setClearColor(0x000000, transparent ? 0 : 1);
     renderer.domElement.style.position = 'absolute';
     renderer.domElement.style.top = '0';
@@ -212,6 +212,48 @@ export default function ColorBends({
     container.appendChild(renderer.domElement);
 
     const clock = new THREE.Clock();
+    let isVisible = false;
+    let isTabVisible = !document.hidden;
+    let lastTime = performance.now();
+    const TARGET_FPS = 30;
+    const FRAME_INTERVAL = 1000 / TARGET_FPS;
+
+    const startLoop = () => {
+      if (!rafRef.current && isVisible && isTabVisible) {
+        lastTime = performance.now();
+        rafRef.current = requestAnimationFrame(loop);
+      }
+    };
+
+    const stopLoop = () => {
+      if (rafRef.current !== null) {
+        cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
+      }
+    };
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible && isTabVisible) {
+          startLoop();
+        } else {
+          stopLoop();
+        }
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(container);
+
+    const onVisibilityChange = () => {
+      isTabVisible = !document.hidden;
+      if (isVisible && isTabVisible) {
+        startLoop();
+      } else {
+        stopLoop();
+      }
+    };
+    document.addEventListener('visibilitychange', onVisibilityChange);
 
     const handleResize = () => {
       const w = container.clientWidth || 1;
@@ -230,7 +272,17 @@ export default function ColorBends({
       (window as Window).addEventListener('resize', handleResize);
     }
 
-    const loop = () => {
+    const loop = (now: number) => {
+      if (!isVisible || !isTabVisible) {
+        rafRef.current = null;
+        return;
+      }
+      rafRef.current = requestAnimationFrame(loop);
+
+      const delta = now - lastTime;
+      if (delta < FRAME_INTERVAL) return;
+      lastTime = now - (delta % FRAME_INTERVAL);
+
       const dt = clock.getDelta();
       const elapsed = clock.elapsedTime;
       material.uniforms.uTime.value = elapsed;
@@ -247,12 +299,14 @@ export default function ColorBends({
       cur.lerp(tgt, amt);
       (material.uniforms.uPointer.value as THREE.Vector2).copy(cur);
       renderer.render(scene, camera);
-      rafRef.current = requestAnimationFrame(loop);
     };
-    rafRef.current = requestAnimationFrame(loop);
+
+    startLoop();
 
     return () => {
-      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+      stopLoop();
+      observer.disconnect();
+      document.removeEventListener('visibilitychange', onVisibilityChange);
       if (resizeObserverRef.current) resizeObserverRef.current.disconnect();
       else (window as Window).removeEventListener('resize', handleResize);
       geometry.dispose();
