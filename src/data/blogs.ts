@@ -25,7 +25,7 @@ export const blogsData: BlogPost[] = [
     author: {
       name: "Hiren Danecha",
       role: "CEO & Tech Strategist",
-      avatar: "HD"
+      avatar: "/images/image.webp"
     },
     tags: ["Next.js", "DevOps", "Cloud", "Full-Stack", "CI/CD"],
     content: [
@@ -65,7 +65,7 @@ export const blogsData: BlogPost[] = [
     author: {
       name: "Hiren Danecha",
       role: "Founder & AI Strategist",
-      avatar: "HD"
+      avatar: "/images/image.webp"
     },
     tags: ["Generative AI", "LLMs", "RAG", "Automation", "Agents"],
     content: [

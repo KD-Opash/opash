@@ -2016,20 +2016,7 @@ export default function ServiceDetailTemplate({ service }: ServiceDetailTemplate
             </p>
           </div>
 
-          <div
-            style={{
-              padding: "2.5rem 2rem",
-              borderRadius: "24px",
-              background: isLight ? "#f8fafc" : "rgba(10, 20, 36, 0.8)",
-              border: isLight ? "1px solid #cbd5e1" : "1px solid rgba(0, 187, 171, 0.35)",
-              boxShadow: isLight
-                ? "0 20px 50px rgba(0, 0, 0, 0.08)"
-                : "0 25px 60px -10px rgba(0, 187, 171, 0.2)",
-              backdropFilter: "blur(16px)",
-            }}
-          >
-            <ContactForm />
-          </div>
+          <ContactForm />
         </div>
       </section>
     </div>

@@ -304,19 +304,9 @@ export function FounderShowcase() {
               <div
                 style={{
                   position: "relative",
-                  borderRadius: "20px",
-                  padding: "1.75rem 2rem",
-                  background: isLight
-                    ? "linear-gradient(135deg, rgba(14, 165, 233, 0.06) 0%, rgba(16, 185, 129, 0.06) 100%)"
-                    : "linear-gradient(135deg, rgba(14, 165, 233, 0.12) 0%, rgba(16, 185, 129, 0.08) 100%)",
-                  borderLeft: `4px solid #10b981`,
-                  borderTop: `1px solid ${isLight ? "rgba(16, 185, 129, 0.2)" : "rgba(16, 185, 129, 0.3)"}`,
-                  borderRight: `1px solid ${isLight ? "rgba(16, 185, 129, 0.2)" : "rgba(16, 185, 129, 0.3)"}`,
-                  borderBottom: `1px solid ${isLight ? "rgba(16, 185, 129, 0.2)" : "rgba(16, 185, 129, 0.3)"}`,
+                  padding: "0.5rem 0 0.5rem 1.5rem",
+                  borderLeft: `3px solid #10b981`,
                   marginBottom: "2rem",
-                  boxShadow: isLight
-                    ? "0 10px 25px -8px rgba(16, 185, 129, 0.1)"
-                    : "0 10px 30px -10px rgba(16, 185, 129, 0.2)",
                 }}
               >
                 <Quote

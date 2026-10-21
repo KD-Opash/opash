@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { BlogPost, blogsData } from '@/data/blogs';
 import { 
@@ -403,9 +404,11 @@ export default function BlogsPageClient() {
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                       <div
                         style={{
+                          position: 'relative',
                           width: '44px',
                           height: '44px',
                           borderRadius: '50%',
+                          overflow: 'hidden',
                           background: 'linear-gradient(135deg, #00bbab 0%, #0284c7 100%)',
                           display: 'flex',
                           alignItems: 'center',
@@ -414,9 +417,20 @@ export default function BlogsPageClient() {
                           fontWeight: 800,
                           fontSize: '0.9rem',
                           boxShadow: '0 0 12px rgba(0, 187, 171, 0.4)',
+                          flexShrink: 0,
                         }}
                       >
-                        {featuredArticle.author.avatar}
+                        {featuredArticle.author.avatar.startsWith('/') ? (
+                          <Image
+                            src={featuredArticle.author.avatar}
+                            alt={featuredArticle.author.name}
+                            fill
+                            sizes="44px"
+                            style={{ objectFit: 'cover', objectPosition: 'top' }}
+                          />
+                        ) : (
+                          featuredArticle.author.avatar
+                        )}
                       </div>
                       <div>
                         <div style={{ fontWeight: 700, fontSize: '0.92rem', color: isLight ? '#0f172a' : '#f8fafc' }}>
@@ -778,9 +792,11 @@ export default function BlogsPageClient() {
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
                         <div
                           style={{
+                            position: 'relative',
                             width: '34px',
                             height: '34px',
                             borderRadius: '50%',
+                            overflow: 'hidden',
                             background: `linear-gradient(135deg, ${catColor} 0%, #0284c7 100%)`,
                             display: 'flex',
                             alignItems: 'center',
@@ -788,9 +804,20 @@ export default function BlogsPageClient() {
                             fontSize: '0.76rem',
                             fontWeight: 800,
                             color: '#ffffff',
+                            flexShrink: 0,
                           }}
                         >
-                          {post.author.avatar}
+                          {post.author.avatar.startsWith('/') ? (
+                            <Image
+                              src={post.author.avatar}
+                              alt={post.author.name}
+                              fill
+                              sizes="34px"
+                              style={{ objectFit: 'cover', objectPosition: 'top' }}
+                            />
+                          ) : (
+                            post.author.avatar
+                          )}
                         </div>
                         <div>
                           <div style={{ fontSize: '0.84rem', fontWeight: 700, color: isLight ? '#0f172a' : '#f8fafc' }}>

@@ -265,8 +265,10 @@ export default function TestimonialsSlider() {
                       ? `rgba(${item.accentRgb}, 0.12)`
                       : `rgba(${item.accentRgb}, 0.22)`
                     : isLight
-                    ? "#ffffff"
-                    : "rgba(15, 23, 42, 0.6)",
+                    ? "rgba(255, 255, 255, 0.85)"
+                    : "rgba(10, 18, 34, 0.75)",
+                  backdropFilter: "blur(12px)",
+                  WebkitBackdropFilter: "blur(12px)",
                   color: isActive
                     ? item.accent
                     : isLight
@@ -302,7 +304,9 @@ export default function TestimonialsSlider() {
             alignItems: "center",
             padding: "3px",
             borderRadius: "10px",
-            background: isLight ? "#e2e8f0" : "rgba(15, 23, 42, 0.8)",
+            background: isLight ? "rgba(226, 232, 240, 0.85)" : "rgba(10, 18, 34, 0.8)",
+            backdropFilter: "blur(12px)",
+            WebkitBackdropFilter: "blur(12px)",
             border: `1px solid ${isLight ? "#cbd5e1" : "rgba(255, 255, 255, 0.08)"}`,
             gap: "2px",
           }}
@@ -692,17 +696,10 @@ export default function TestimonialsSlider() {
                   <span>Verified Project Impact</span>
                 </div>
 
-                {/* Big Metric Callout */}
+                {/* Big Metric Callout (Clean single-card layout, no nested inner box) */}
                 <div
                   style={{
-                    padding: "1.8rem",
-                    borderRadius: "20px",
-                    background: isLight
-                      ? `rgba(${current.accentRgb}, 0.08)`
-                      : `rgba(${current.accentRgb}, 0.14)`,
-                    border: `1px solid rgba(${current.accentRgb}, ${isLight ? 0.3 : 0.4})`,
                     marginBottom: "2rem",
-                    boxShadow: `0 12px 30px -10px rgba(${current.accentRgb}, 0.2)`,
                   }}
                 >
                   <div

@@ -42,7 +42,7 @@ const THEMES: Record<'dark' | 'light', Record<string, string>> = {
     '--chroma-frame-edge': 'rgba(255, 255, 255, 0.08)',
     '--chroma-frame-highlight': 'rgba(255, 255, 255, 0.07)',
     '--chroma-frame-shadow': '0 22px 44px -20px rgba(0, 0, 0, 0.8), 0 6px 16px -8px rgba(0, 0, 0, 0.5)',
-    '--chroma-tile': 'rgba(14, 25, 41, 0.85)',
+    '--chroma-tile': 'rgba(10, 20, 36, 0.65)',
     '--chroma-tile-edge': 'rgba(255, 255, 255, 0.08)',
     '--chroma-tile-highlight': 'rgba(255, 255, 255, 0.12)',
     '--chroma-tile-shadow': '0 10px 24px -6px rgba(0, 0, 0, 0.55)',
@@ -331,6 +331,8 @@ export const ChromaGrid: React.FC<ChromaGridProps> = ({
             padding: '20px 14px 16px 14px',
             borderRadius: 'var(--chroma-radius)',
             background: 'var(--chroma-tile)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
             boxShadow: 'var(--chroma-tile-shadow)',
             color: 'var(--chroma-ink)',
             overflow: 'hidden',
@@ -352,7 +354,7 @@ export const ChromaGrid: React.FC<ChromaGridProps> = ({
               {/* Media Container: Either Image or Custom Icon */}
               <div
                 data-chroma-area=""
-                className="relative z-[1] flex items-center justify-center overflow-hidden"
+                className="relative z-[1] flex items-center justify-center"
                 style={{
                   position: 'relative',
                   zIndex: 1,
@@ -361,11 +363,11 @@ export const ChromaGrid: React.FC<ChromaGridProps> = ({
                   justifyContent: 'center',
                   width: '100%',
                   aspectRatio: item.image ? 'var(--chroma-ratio)' : 'auto',
-                  minHeight: item.icon ? '56px' : 'auto',
-                  borderRadius: 'max(0px, calc(var(--chroma-radius) - 6px))',
-                  background: 'var(--chroma-well)',
-                  marginBottom: '10px',
-                  overflow: 'hidden'
+                  minHeight: item.icon ? '52px' : 'auto',
+                  borderRadius: item.image ? 'max(0px, calc(var(--chroma-radius) - 6px))' : '0px',
+                  background: item.image ? 'var(--chroma-well)' : 'transparent',
+                  marginBottom: '8px',
+                  overflow: item.image ? 'hidden' : 'visible'
                 }}
               >
                 {item.image && (
@@ -399,6 +401,16 @@ export const ChromaGrid: React.FC<ChromaGridProps> = ({
                       aria-hidden="true"
                       loading="lazy"
                     />
+                    <span
+                      aria-hidden="true"
+                      style={{
+                        position: 'absolute',
+                        inset: 0,
+                        pointerEvents: 'none',
+                        borderRadius: 'inherit',
+                        boxShadow: 'inset 0 0 0 1px var(--chroma-media-edge)'
+                      }}
+                    />
                   </>
                 )}
 
@@ -409,47 +421,20 @@ export const ChromaGrid: React.FC<ChromaGridProps> = ({
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      padding: '4px'
+                      padding: '2px',
+                      transition: 'transform 0.24s cubic-bezier(0.34, 1.56, 0.64, 1)'
                     }}
                   >
-                    {/* Grayscale Icon */}
                     <div
                       style={{
-                        filter: 'grayscale(var(--chroma-gray)) brightness(calc(1 - var(--chroma-dim)))',
-                        opacity: 0.85,
-                        transition: 'transform 0.3s ease'
+                        opacity: 1,
+                        transition: 'transform 0.24s ease'
                       }}
-                    >
-                      {item.icon}
-                    </div>
-                    {/* Color Icon Revealed via Spotlight */}
-                    <div
-                      className={fadeClass}
-                      style={{
-                        ...colorStyle,
-                        position: 'absolute',
-                        inset: 0,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                      }}
-                      aria-hidden="true"
                     >
                       {item.icon}
                     </div>
                   </div>
                 )}
-
-                <span
-                  aria-hidden="true"
-                  style={{
-                    position: 'absolute',
-                    inset: 0,
-                    pointerEvents: 'none',
-                    borderRadius: 'inherit',
-                    boxShadow: 'inset 0 0 0 1px var(--chroma-media-edge)'
-                  }}
-                />
               </div>
 
               {/* Info Container */}

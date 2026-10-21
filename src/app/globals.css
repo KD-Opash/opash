@@ -305,8 +305,8 @@ body {
 }
 
 [data-theme="light"] .section-alt {
-  background-color: #f1f5f9 !important;
-  border-color: rgba(15, 23, 42, 0.08) !important;
+  background-color: transparent !important;
+  border: none !important;
 }
 
 [data-theme="light"] .glass-pill {
@@ -353,8 +353,8 @@ body {
 
 .section-alt {
   background-color: transparent;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: none !important;
+  border-bottom: none !important;
 }
 
 .cta-banner-box {
@@ -4885,11 +4885,11 @@ body {
 h2,
 .heading-section,
 h2.heading-section {
-  font-family: var(--font-prime-serif) !important;
+  font-family: var(--font-display), "Space Grotesk", "Plus Jakarta Sans", sans-serif !important;
   font-size: clamp(2.1rem, 3.4vw, 3.15rem);
-  font-weight: 600;
+  font-weight: 800;
   line-height: 1.22;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.025em;
 }
 
 .heading-card {
@@ -5277,9 +5277,10 @@ h2.heading-section {
   position: relative;
   width: 100%;
   overflow-x: clip;
-  background-color: #030814;
+  background-color: transparent;
   color: #f8fafc;
-  padding: 4.5rem 0 5rem 0;
+  padding: 6.5rem 0 5rem 0;
+  scroll-margin-top: 100px;
 }
 
 [data-theme="light"] .coverflow-services-section {
@@ -5406,10 +5407,11 @@ h2.heading-section {
   font-family: var(--font-display), "Space Grotesk", sans-serif;
   font-size: clamp(2.2rem, 4vw, 3.5rem);
   font-weight: 800;
-  line-height: 1.15;
+  line-height: 1.25;
   letter-spacing: -0.03em;
   color: #ffffff;
   margin: 0;
+  padding-top: 0.25rem;
 }
 
 [data-theme="light"] .coverflow-headline {
@@ -10979,27 +10981,25 @@ html[data-theme="light"] .tech-showcase-card:hover {
 
 .tech-showcase-card-iconpod {
   position: relative;
-  width: 52px;
-  height: 52px;
-  border-radius: 14px;
+  width: 48px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  margin-bottom: 12px;
+  background: transparent;
+  border: none;
+  margin-bottom: 8px;
   transition: transform 0.24s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 [data-theme="light"] .tech-showcase-card-iconpod,
 html[data-theme="light"] .tech-showcase-card-iconpod {
-  background: #F8FAFC !important;
-  border: 1px solid #E2E8F0 !important;
+  background: transparent !important;
+  border: none !important;
 }
 
 .tech-showcase-card:hover .tech-showcase-card-iconpod {
-  transform: scale(1.1);
-  border-color: var(--card-brand, #00bbab);
+  transform: scale(1.12);
 }
 
 .tech-showcase-card-name {

@@ -420,32 +420,22 @@ export function FeaturedSuccessStories() {
                     style={{
                       position: "relative",
                       borderRadius: "24px",
-                      padding: "1.5px",
-                      background: isLight
-                        ? `linear-gradient(135deg, ${meta.accent}55 0%, rgba(14, 165, 233, 0.2) 50%, ${meta.accent}25 100%)`
-                        : `linear-gradient(135deg, ${meta.accent}aa 0%, rgba(56, 189, 248, 0.35) 50%, ${meta.accent}44 100%)`,
+                      background: isLight ? "#ffffff" : "#0f172a",
+                      border: isLight
+                        ? `1px solid ${meta.accent}40`
+                        : `1px solid ${meta.accent}50`,
                       boxShadow: isLight
-                        ? `0 10px 30px -10px ${meta.accent}20`
-                        : `0 12px 40px -12px ${meta.accent}40`,
+                        ? `0 14px 38px -10px rgba(15, 23, 42, 0.08), 0 0 20px -8px ${meta.accent}15`
+                        : `0 20px 50px -12px rgba(0, 0, 0, 0.85), 0 0 25px -8px ${meta.accent}35`,
+                      padding: "1.35rem 1.4rem",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "space-between",
+                      height: "100%",
+                      gap: "1rem",
+                      overflow: "hidden",
                     }}
                   >
-                    <div
-                      style={{
-                        background: isLight ? "#ffffff" : "#0f172a",
-                        borderRadius: "24px",
-                        border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
-                        boxShadow: isLight
-                          ? "0 14px 38px -10px rgba(15, 23, 42, 0.08)"
-                          : "0 20px 50px -12px rgba(0, 0, 0, 0.85)",
-                        padding: "1.35rem 1.4rem",
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "space-between",
-                        height: "100%",
-                        gap: "1rem",
-                        overflow: "hidden",
-                      }}
-                    >
                       {/* 1. Header: Client Info + Domain Badge */}
                       <div>
                         <div
@@ -688,7 +678,6 @@ export function FeaturedSuccessStories() {
                         </div>
                       </div>
                     </div>
-                  </div>
                 </motion.div>
               );
             })}

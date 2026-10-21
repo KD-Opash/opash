@@ -79,8 +79,8 @@ import DigitalPillarHero from "@/components/DigitalPillarHero";
 import { servicesData } from "@/data/services";
 import { caseStudiesData } from "@/data/case-studies";
 import { industriesData } from "@/data/industries";
-import { blogsData } from "@/data/blogs";
 import TestimonialsSlider from "@/components/TestimonialsSlider";
+import TestimonialsCreativeBackdrop from "@/components/TestimonialsCreativeBackdrop";
 import ContactForm from "@/components/ContactForm";
 import { Boxes } from "@/components/ui/background-boxes";
 import CinematicImpactSection from "@/components/CinematicImpactSection";
@@ -187,39 +187,14 @@ export default function HomePage() {
         id="testimonials"
         className="section-alt"
         style={{
-          padding: "6rem 0",
+          padding: "7.5rem 0 6.5rem 0",
           position: "relative",
           overflow: "hidden",
+          scrollMarginTop: "100px",
         }}
       >
-        {/* Ambient CSS Aurora Glow Backdrop */}
-        <div
-          aria-hidden="true"
-          style={{
-            position: "absolute",
-            inset: 0,
-            width: "100%",
-            height: "100%",
-            zIndex: 0,
-            overflow: "hidden",
-            pointerEvents: "none",
-          }}
-        >
-          <div
-            style={{
-              position: "absolute",
-              top: "20%",
-              left: "50%",
-              transform: "translateX(-50%)",
-              width: "75%",
-              height: "400px",
-              background: isLight
-                ? "radial-gradient(ellipse at center, rgba(138, 92, 255, 0.1) 0%, rgba(0, 168, 143, 0.05) 50%, transparent 75%)"
-                : "radial-gradient(ellipse at center, rgba(138, 92, 255, 0.18) 0%, rgba(0, 187, 171, 0.08) 50%, transparent 75%)",
-              pointerEvents: "none",
-            }}
-          />
-        </div>
+        {/* Unified Ambient Backdrop with Seamless Feather Melts */}
+        <TestimonialsCreativeBackdrop isLightMode={isLight} />
 
         <div className="container-custom" style={{ position: "relative", zIndex: 1 }}>
           <div

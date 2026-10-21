@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -562,9 +563,11 @@ export function TechInsightsShowcase() {
                 <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
                   <div
                     style={{
+                      position: "relative",
                       width: "40px",
                       height: "40px",
                       borderRadius: "50%",
+                      overflow: "hidden",
                       background: "linear-gradient(135deg, #0ea5e9, #10b981)",
                       display: "flex",
                       alignItems: "center",
@@ -573,9 +576,20 @@ export function TechInsightsShowcase() {
                       fontSize: "0.9rem",
                       fontWeight: 800,
                       boxShadow: "0 2px 10px rgba(14, 165, 233, 0.3)",
+                      flexShrink: 0,
                     }}
                   >
-                    {heroPost.author.avatar}
+                    {heroPost.author.avatar.startsWith("/") ? (
+                      <Image
+                        src={heroPost.author.avatar}
+                        alt={heroPost.author.name}
+                        fill
+                        sizes="40px"
+                        style={{ objectFit: "cover", objectPosition: "top" }}
+                      />
+                    ) : (
+                      heroPost.author.avatar
+                    )}
                   </div>
                   <div>
                     <div style={{ fontSize: "0.92rem", fontWeight: 750, color: isLight ? "#0f172a" : "#f1f5f9" }}>
@@ -744,9 +758,11 @@ export function TechInsightsShowcase() {
                     <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
                       <div
                         style={{
+                          position: "relative",
                           width: "28px",
                           height: "28px",
                           borderRadius: "50%",
+                          overflow: "hidden",
                           background: isLight ? "#e2e8f0" : "rgba(255, 255, 255, 0.1)",
                           display: "flex",
                           alignItems: "center",
@@ -754,9 +770,20 @@ export function TechInsightsShowcase() {
                           fontSize: "0.75rem",
                           fontWeight: 800,
                           color: isLight ? "#0f172a" : "#ffffff",
+                          flexShrink: 0,
                         }}
                       >
-                        {post.author.avatar}
+                        {post.author.avatar.startsWith("/") ? (
+                          <Image
+                            src={post.author.avatar}
+                            alt={post.author.name}
+                            fill
+                            sizes="28px"
+                            style={{ objectFit: "cover", objectPosition: "top" }}
+                          />
+                        ) : (
+                          post.author.avatar
+                        )}
                       </div>
                       <span style={{ fontSize: "0.78rem", color: isLight ? "#64748b" : "#94a3b8", fontWeight: 600 }}>
                         {post.author.name} • {post.date}

@@ -1850,17 +1850,7 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
             </p>
           </div>
 
-          <div
-            style={{
-              borderRadius: "24px",
-              padding: "clamp(1.5rem, 3.5vw, 2.5rem)",
-              background: isLight ? "#f8fafc" : "rgba(8, 18, 36, 0.85)",
-              border: isLight ? "1px solid #cbd5e1" : "1px solid rgba(0, 187, 171, 0.3)",
-              boxShadow: isLight ? "0 10px 30px rgba(0,0,0,0.05)" : "0 25px 60px rgba(0, 0, 0, 0.6)",
-            }}
-          >
-            <ContactForm />
-          </div>
+          <ContactForm />
         </div>
       </section>
     </div>

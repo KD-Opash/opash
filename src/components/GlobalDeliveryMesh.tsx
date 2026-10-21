@@ -312,11 +312,42 @@ export function GlobalDeliveryMesh() {
         position: "relative",
         padding: "6.5rem 0 5.5rem 0",
         overflow: "hidden",
-        backgroundColor: isLight ? "#f8fafc" : "#030814",
+        backgroundColor: "transparent",
         color: isLight ? "#0f172a" : "#f8fafc",
-        transition: "background-color 0.4s ease, color 0.4s ease",
+        transition: "color 0.4s ease",
       }}
     >
+      {/* Top & Bottom Seamless Feather Melts */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          height: "140px",
+          background: isLight
+            ? "linear-gradient(180deg, #f8fafc 0%, transparent 100%)"
+            : "linear-gradient(180deg, #01040a 0%, transparent 100%)",
+          pointerEvents: "none",
+          zIndex: 1,
+        }}
+      />
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: "140px",
+          background: isLight
+            ? "linear-gradient(0deg, #f8fafc 0%, transparent 100%)"
+            : "linear-gradient(0deg, #01040a 0%, transparent 100%)",
+          pointerEvents: "none",
+          zIndex: 1,
+        }}
+      />
       {/* Background Holographic Atmospheric Radiance */}
       <div
         aria-hidden="true"
@@ -555,16 +586,49 @@ export function GlobalDeliveryMesh() {
               xmlns="http://www.w3.org/2000/svg"
             >
               <defs>
-                {/* Glow Filter for Active Trajectory Arcs */}
-                <filter id={`arc-glow-${uniqueId}`} x="-20%" y="-20%" width="140%" height="140%">
-                  <feGaussianBlur stdDeviation="3.5" result="blur" />
+                {/* 1. Neon Glow Filter for Arcs & Reticles */}
+                <filter id={`arc-glow-${uniqueId}`} x="-30%" y="-30%" width="160%" height="160%">
+                  <feGaussianBlur stdDeviation="4" result="blur" />
+                  <feMerge>
+                    <feMergeNode in="blur" />
+                    <feMergeNode in="blur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+
+                {/* 2. Intense Core Glow Filter */}
+                <filter id={`reticle-glow-${uniqueId}`} x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur stdDeviation="2" result="blur" />
                   <feMerge>
                     <feMergeNode in="blur" />
                     <feMergeNode in="SourceGraphic" />
                   </feMerge>
                 </filter>
 
-                {/* Linear Gradients from Surat HQ to Destination Hubs */}
+                {/* 3. Rotating Radar Sweep Gradient */}
+                <linearGradient id={`radar-wedge-grad-${uniqueId}`} x1="0%" y1="0%" x2="100%" y2="80%">
+                  <stop offset="0%" stopColor="#00ffd1" stopOpacity={isLight ? "0.35" : "0.5"} />
+                  <stop offset="50%" stopColor="#10b981" stopOpacity={isLight ? "0.15" : "0.22"} />
+                  <stop offset="100%" stopColor="#00ffd1" stopOpacity="0" />
+                </linearGradient>
+
+                {/* 4. Fine Cyber Matrix Grid Pattern */}
+                <pattern id={`cyber-matrix-${uniqueId}`} width="50" height="50" patternUnits="userSpaceOnUse">
+                  <path
+                    d="M 50 0 L 0 0 0 50"
+                    fill="none"
+                    stroke={isLight ? "rgba(15, 23, 42, 0.04)" : "rgba(0, 255, 209, 0.04)"}
+                    strokeWidth="1"
+                  />
+                  <circle
+                    cx="0"
+                    cy="0"
+                    r="1"
+                    fill={isLight ? "rgba(15, 23, 42, 0.15)" : "rgba(0, 255, 209, 0.25)"}
+                  />
+                </pattern>
+
+                {/* 5. Trajectory Linear Gradients from Surat HQ to Destination Hubs */}
                 {destinationHubs.map((hub) => (
                   <linearGradient
                     key={hub.id}
@@ -575,74 +639,246 @@ export function GlobalDeliveryMesh() {
                     y2={hub.y}
                     gradientUnits="userSpaceOnUse"
                   >
-                    <stop offset="0%" stopColor="#10b981" stopOpacity="0.9" />
-                    <stop offset="60%" stopColor={hub.accent} stopOpacity="1" />
+                    <stop offset="0%" stopColor="#10b981" stopOpacity="0.95" />
+                    <stop offset="65%" stopColor={hub.accent} stopOpacity="1" />
                     <stop offset="100%" stopColor={hub.accent} stopOpacity="0.85" />
                   </linearGradient>
                 ))}
               </defs>
 
-              {/* 1. Coordinate Grid Lines */}
-              <g stroke={isLight ? "rgba(15, 23, 42, 0.05)" : "rgba(255, 255, 255, 0.04)"} strokeWidth="1">
-                {/* Latitudes */}
-                <line x1="0" y1="125" x2="1000" y2="125" strokeDasharray="4 4" />
-                <line x1="0" y1="250" x2="1000" y2="250" />
-                <line x1="0" y1="375" x2="1000" y2="375" strokeDasharray="4 4" />
-                {/* Longitudes */}
-                <line x1="250" y1="0" x2="250" y2="500" strokeDasharray="4 4" />
-                <line x1="500" y1="0" x2="500" y2="500" />
-                <line x1="750" y1="0" x2="750" y2="500" strokeDasharray="4 4" />
+              {/* ------------------------------------------------------------- */}
+              {/* LAYER 0: Background Holographic Cyber Matrix                  */}
+              {/* ------------------------------------------------------------- */}
+              <rect width="1000" height="500" fill={`url(#cyber-matrix-${uniqueId})`} />
+
+              {/* HUD Corner Precision Reticles */}
+              <g stroke={isLight ? "rgba(14, 165, 233, 0.5)" : "rgba(0, 255, 209, 0.65)"} strokeWidth="1.75" fill="none">
+                {/* Top-Left Bracket */}
+                <path d="M 22 42 L 22 22 L 42 22" />
+                <circle cx="22" cy="22" r="1.5" fill="#00ffd1" />
+                {/* Top-Right Bracket */}
+                <path d="M 978 42 L 978 22 L 958 22" />
+                <circle cx="978" cy="22" r="1.5" fill="#00ffd1" />
+                {/* Bottom-Left Bracket */}
+                <path d="M 22 458 L 22 478 L 42 478" />
+                <circle cx="22" cy="478" r="1.5" fill="#00ffd1" />
+                {/* Bottom-Right Bracket */}
+                <path d="M 978 458 L 978 478 L 958 478" />
+                <circle cx="978" cy="478" r="1.5" fill="#00ffd1" />
               </g>
 
-              {/* Equator and Prime Meridian Subtle Labels */}
-              <text x="12" y="246" fill={isLight ? "#94a3b8" : "#475569"} fontSize="9" fontWeight="700">
+              {/* HUD Coordinate & Telemetry Header Readouts */}
+              <g fontSize="8.5" fontFamily="monospace" fontWeight="700" letterSpacing="0.08em">
+                <text x="50" y="32" fill={isLight ? "#0284c7" : "#00ffd1"}>
+                  SYS.STATUS: OPERATIONAL // PROTOCOL: WG-MESH-01 // LATENCY ENGINE: ACTIVE
+                </text>
+                <text x="950" y="32" fill={isLight ? "#64748b" : "#38bdf8"} textAnchor="end">
+                  PACKET INTEGRITY: 100% // LOSS: 0.00% // 24/7 ENCRYPTED
+                </text>
+                <text x="50" y="474" fill={isLight ? "#64748b" : "#64748b"}>
+                  SURAT HQ: 21.1702° N, 72.8311° E // R&amp;D EPICENTER
+                </text>
+                <text x="950" y="474" fill={isLight ? "#0f766e" : "#10b981"} textAnchor="end">
+                  TOTAL DISTRIBUTED CAPACITY: 50+ SENIOR SPECIALISTS
+                </text>
+              </g>
+
+              {/* Coordinate Grid Lines */}
+              <g stroke={isLight ? "rgba(15, 23, 42, 0.06)" : "rgba(255, 255, 255, 0.05)"} strokeWidth="1">
+                {/* Latitudes */}
+                <line x1="0" y1="125" x2="1000" y2="125" strokeDasharray="4 6" />
+                <line x1="0" y1="250" x2="1000" y2="250" />
+                <line x1="0" y1="375" x2="1000" y2="375" strokeDasharray="4 6" />
+                {/* Longitudes */}
+                <line x1="250" y1="0" x2="250" y2="500" strokeDasharray="4 6" />
+                <line x1="500" y1="0" x2="500" y2="500" />
+                <line x1="750" y1="0" x2="750" y2="500" strokeDasharray="4 6" />
+              </g>
+
+              {/* Equator & Meridian Telemetry Labels */}
+              <text x="14" y="246" fill={isLight ? "#94a3b8" : "#475569"} fontSize="8" fontWeight="700" fontFamily="monospace">
                 0° EQUATOR
               </text>
-              <text x="496" y="20" fill={isLight ? "#94a3b8" : "#475569"} fontSize="9" fontWeight="700" textAnchor="end">
-                0° GMT
+              <text x="496" y="16" fill={isLight ? "#94a3b8" : "#475569"} fontSize="8" fontWeight="700" fontFamily="monospace" textAnchor="end">
+                0° GMT MERIDIAN
               </text>
 
-              {/* 2. World Dot-Matrix Continent Points */}
+              {/* ------------------------------------------------------------- */}
+              {/* LAYER 1: SURAT HQ RADAR TELEMETRY RANGE RINGS & SCANNER       */}
+              {/* ------------------------------------------------------------- */}
+              <g>
+                {/* Concentric Telemetry Radar Range Rings centered at Surat HQ */}
+                {[
+                  { r: 90, label: "2,500 KM" },
+                  { r: 195, label: "5,000 KM" },
+                  { r: 320, label: "8,500 KM" },
+                  { r: 470, label: "12,000 KM" },
+                ].map((ring, idx) => (
+                  <g key={idx}>
+                    <circle
+                      cx={hqHub.x}
+                      cy={hqHub.y}
+                      r={ring.r}
+                      fill="none"
+                      stroke={isLight ? "rgba(16, 185, 129, 0.22)" : "rgba(0, 255, 209, 0.2)"}
+                      strokeWidth="1"
+                      strokeDasharray="4 7"
+                    />
+                    <text
+                      x={hqHub.x + ring.r + 4}
+                      y={hqHub.y - 4}
+                      fill={isLight ? "#059669" : "#10b981"}
+                      fontSize="7.5"
+                      fontFamily="monospace"
+                      fontWeight="700"
+                      opacity="0.75"
+                    >
+                      {ring.label}
+                    </text>
+                  </g>
+                ))}
+
+                {/* Azimuth Crosshair Rays from Surat HQ */}
+                <g stroke={isLight ? "rgba(16, 185, 129, 0.15)" : "rgba(0, 255, 209, 0.15)"} strokeWidth="1" strokeDasharray="2 4">
+                  <line x1={hqHub.x - 470} y1={hqHub.y} x2={hqHub.x + 470} y2={hqHub.y} />
+                  <line x1={hqHub.x} y1={hqHub.y - 470} x2={hqHub.x} y2={hqHub.y + 470} />
+                </g>
+
+                {/* 360° Rotating Cyber Radar Sweep Beam */}
+                <g>
+                  <g>
+                    <animateTransform
+                      attributeName="transform"
+                      type="rotate"
+                      from={`0 ${hqHub.x} ${hqHub.y}`}
+                      to={`360 ${hqHub.x} ${hqHub.y}`}
+                      dur="8.5s"
+                      repeatCount="indefinite"
+                    />
+                    {/* Sweeping Conic Wedge (approx 36° sector) */}
+                    <path
+                      d={`M ${hqHub.x} ${hqHub.y} L ${hqHub.x + 470} ${hqHub.y} A 470 470 0 0 0 ${hqHub.x + 440} ${hqHub.y - 160} Z`}
+                      fill={`url(#radar-wedge-grad-${uniqueId})`}
+                    />
+                    {/* Leading Scanner Ray with Neon Edge */}
+                    <line
+                      x1={hqHub.x}
+                      y1={hqHub.y}
+                      x2={hqHub.x + 470}
+                      y2={hqHub.y}
+                      stroke="#00ffd1"
+                      strokeWidth="1.8"
+                      strokeOpacity="0.85"
+                      filter={`url(#reticle-glow-${uniqueId})`}
+                    />
+                  </g>
+                </g>
+              </g>
+
+              {/* ------------------------------------------------------------- */}
+              {/* LAYER 2: BIOLUMINESCENT CONTINENT NODE MATRIX                 */}
+              {/* ------------------------------------------------------------- */}
               <g>
                 {(worldDotsData as [number, number][]).map(([px, py], idx) => {
-                  // Map percentage (0-100) to 1000x500 coordinates
                   const cx = (px / 100) * 1000;
                   const cy = (py / 100) * 500;
+
+                  // Identify tactical cluster nodes near major delivery regions
+                  const isNearHQ = Math.hypot(cx - hqHub.x, cy - hqHub.y) < 110;
+                  const isStrategicNode = idx % 19 === 0;
 
                   return (
                     <circle
                       key={idx}
                       cx={cx}
                       cy={cy}
-                      r="2.2"
-                      fill={isLight ? "#64748b" : "#38bdf8"}
-                      opacity={isLight ? 0.42 : 0.45}
+                      r={isNearHQ ? 2.5 : isStrategicNode ? 2.3 : 1.9}
+                      fill={
+                        isNearHQ
+                          ? "#00ffd1"
+                          : isStrategicNode
+                          ? isLight
+                            ? "#0ea5e9"
+                            : "#38bdf8"
+                          : isLight
+                          ? "#64748b"
+                          : "#38bdf8"
+                      }
+                      opacity={
+                        isNearHQ
+                          ? 0.85
+                          : isStrategicNode
+                          ? isLight
+                            ? 0.65
+                            : 0.7
+                          : isLight
+                          ? 0.35
+                          : 0.38
+                      }
                     />
                   );
                 })}
+
+                {/* Tactical Blinking Sensor Nodes (Pulsing Bioluminescent Beacons) */}
+                {[
+                  { x: 310, y: 165 }, // US East
+                  { x: 260, y: 190 }, // US West
+                  { x: 505, y: 120 }, // Western Europe
+                  { x: 540, y: 145 }, // Central Europe
+                  { x: 670, y: 220 }, // Middle East
+                  { x: 730, y: 250 }, // South Asia
+                  { x: 800, y: 290 }, // Southeast Asia
+                  { x: 875, y: 400 }, // Australia
+                  { x: 370, y: 360 }, // South America
+                ].map((beacon, bIdx) => (
+                  <circle
+                    key={`sensor-${bIdx}`}
+                    cx={beacon.x}
+                    cy={beacon.y}
+                    r="2.5"
+                    fill="#00ffd1"
+                    filter={`url(#reticle-glow-${uniqueId})`}
+                  >
+                    <animate
+                      attributeName="opacity"
+                      values="0.2;1;0.2"
+                      dur={`${2.2 + (bIdx % 3) * 0.7}s`}
+                      repeatCount="indefinite"
+                    />
+                    <animate
+                      attributeName="r"
+                      values="1.8;3.4;1.8"
+                      dur={`${2.2 + (bIdx % 3) * 0.7}s`}
+                      repeatCount="indefinite"
+                    />
+                  </circle>
+                ))}
               </g>
 
-              {/* 3. Flight Trajectory Arcs from Surat HQ */}
+              {/* ------------------------------------------------------------- */}
+              {/* LAYER 3: FLIGHT TRAJECTORY ARCS & DUAL PHOTON COMETS          */}
+              {/* ------------------------------------------------------------- */}
               {destinationHubs.map((hub) => {
                 const isSelected = hub.id === activeHubId;
                 const isHighlighted = isSelected || !isolateRoute;
                 const pathD = `M ${hqHub.x} ${hqHub.y} Q ${hub.curveControl.cx} ${hub.curveControl.cy} ${hub.x} ${hub.y}`;
+                const cometDuration = `${Math.max(2.2, (hub.latencyMs / 40) * 0.9)}s`;
 
                 return (
                   <g key={hub.id}>
-                    {/* Shadow/Glow Base Path for active route */}
-                    {isSelected && (
+                    {/* Background Laser Glow Conduit */}
+                    {isHighlighted && (
                       <path
                         d={pathD}
                         fill="none"
                         stroke={hub.accent}
-                        strokeWidth="5"
-                        opacity="0.35"
+                        strokeWidth={isSelected ? "5" : "3"}
+                        opacity={isSelected ? "0.45" : "0.18"}
                         filter={`url(#arc-glow-${uniqueId})`}
                       />
                     )}
 
-                    {/* Main Trajectory Line */}
+                    {/* Main Cyber Trajectory Flow Line */}
                     <path
                       d={pathD}
                       fill="none"
@@ -653,17 +889,33 @@ export function GlobalDeliveryMesh() {
                           ? "rgba(148, 163, 184, 0.15)"
                           : "rgba(255, 255, 255, 0.08)"
                       }
-                      strokeWidth={isSelected ? "3" : isHighlighted ? "2" : "1"}
-                      strokeDasharray={isSelected ? "8 4" : "6 4"}
-                      opacity={isSelected ? 1 : isHighlighted ? 0.8 : 0.25}
+                      strokeWidth={isSelected ? "2.8" : isHighlighted ? "1.8" : "1"}
+                      strokeDasharray={isSelected ? "8 4" : "5 5"}
+                      opacity={isSelected ? 1 : isHighlighted ? 0.85 : 0.25}
                       style={{ transition: "stroke-width 0.3s ease, opacity 0.3s ease" }}
                     />
 
-                    {/* Animated Traveling Photon Comet */}
+                    {/* DUAL PHOTON PACKET 1 (Lead White Comet) */}
                     {isHighlighted && (
-                      <circle r={isSelected ? "4.5" : "3"} fill="#ffffff" filter={`url(#arc-glow-${uniqueId})`}>
+                      <circle r={isSelected ? "4.5" : "3.2"} fill="#ffffff" filter={`url(#arc-glow-${uniqueId})`}>
                         <animateMotion
-                          dur={`${Math.max(2.2, (hub.latencyMs / 40) * 0.9)}s`}
+                          dur={cometDuration}
+                          repeatCount="indefinite"
+                          path={pathD}
+                        />
+                      </circle>
+                    )}
+
+                    {/* DUAL PHOTON PACKET 2 (Trailing Neon Comet - 50% Cycle Offset) */}
+                    {isHighlighted && (
+                      <circle
+                        r={isSelected ? "3.5" : "2.4"}
+                        fill={hub.accent}
+                        filter={`url(#reticle-glow-${uniqueId})`}
+                      >
+                        <animateMotion
+                          dur={cometDuration}
+                          begin={`-${Math.max(1.1, (hub.latencyMs / 80) * 0.9)}s`}
                           repeatCount="indefinite"
                           path={pathD}
                         />
@@ -673,7 +925,9 @@ export function GlobalDeliveryMesh() {
                 );
               })}
 
-              {/* 4. Destination Beacon Pins (Interactive) */}
+              {/* ------------------------------------------------------------- */}
+              {/* LAYER 4: DESTINATION RETICLE PINS & GLASSMORPHIC HUD TAGS     */}
+              {/* ------------------------------------------------------------- */}
               {destinationHubs.map((hub) => {
                 const isSelected = hub.id === activeHubId;
                 const isHovered = hub.id === hoveredHubId;
@@ -686,28 +940,49 @@ export function GlobalDeliveryMesh() {
                     onMouseLeave={() => setHoveredHubId(null)}
                     style={{ cursor: "pointer" }}
                   >
-                    {/* Concentric Radar Wave on active hub */}
+                    {/* Rotating Targeting Reticle on Selected Hub */}
                     {isSelected && (
                       <>
+                        {/* Outer Rotating Dash Bracket Ring */}
                         <circle
                           cx={hub.x}
                           cy={hub.y}
-                          r="16"
+                          r="19"
                           fill="none"
                           stroke={hub.accent}
                           strokeWidth="1.5"
-                          opacity="0.5"
+                          strokeDasharray="6 4"
+                        >
+                          <animateTransform
+                            attributeName="transform"
+                            type="rotate"
+                            from={`0 ${hub.x} ${hub.y}`}
+                            to={`360 ${hub.x} ${hub.y}`}
+                            dur="5s"
+                            repeatCount="indefinite"
+                          />
+                        </circle>
+
+                        {/* Outward Sonar Pulse Ring */}
+                        <circle
+                          cx={hub.x}
+                          cy={hub.y}
+                          r="10"
+                          fill="none"
+                          stroke={hub.accent}
+                          strokeWidth="1.5"
+                          opacity="0.8"
                         >
                           <animate
                             attributeName="r"
-                            from="6"
-                            to="22"
+                            from="8"
+                            to="26"
                             dur="2s"
                             repeatCount="indefinite"
                           />
                           <animate
                             attributeName="opacity"
-                            from="0.8"
+                            from="0.9"
                             to="0"
                             dur="2s"
                             repeatCount="indefinite"
@@ -716,36 +991,37 @@ export function GlobalDeliveryMesh() {
                       </>
                     )}
 
-                    {/* Anchor Dot */}
+                    {/* Hub Anchor Reticle Pin */}
                     <circle
                       cx={hub.x}
                       cy={hub.y}
                       r={isSelected ? "6" : "4.5"}
                       fill={hub.accent}
                       stroke="#ffffff"
-                      strokeWidth={isSelected ? "2" : "1"}
-                      filter={`url(#arc-glow-${uniqueId})`}
+                      strokeWidth={isSelected ? "2" : "1.2"}
+                      filter={`url(#reticle-glow-${uniqueId})`}
                     />
 
-                    {/* Floating Neon Telemetry Pill Tag */}
+                    {/* Floating Aeronautical Telemetry Tag */}
                     <g
                       transform={`translate(${hub.x + hub.labelOffset.x}, ${hub.y + hub.labelOffset.y})`}
                       style={{ transition: "transform 0.2s ease" }}
                     >
+                      {/* Background Pill Frame */}
                       <rect
                         x="0"
                         y="0"
                         width={hub.tagWidth}
                         height="24"
-                        rx="6"
+                        rx="7"
                         fill={
                           isSelected
                             ? isLight
                               ? "#ffffff"
-                              : "#0b162c"
+                              : "#081326"
                             : isLight
-                            ? "rgba(255, 255, 255, 0.95)"
-                            : "rgba(10, 18, 36, 0.9)"
+                            ? "rgba(255, 255, 255, 0.94)"
+                            : "rgba(8, 14, 28, 0.88)"
                         }
                         stroke={
                           isSelected
@@ -754,26 +1030,44 @@ export function GlobalDeliveryMesh() {
                             ? "#38bdf8"
                             : isLight
                             ? "#cbd5e1"
-                            : "rgba(255, 255, 255, 0.14)"
+                            : "rgba(255, 255, 255, 0.16)"
                         }
-                        strokeWidth={isSelected ? "1.5" : "1"}
-                        style={{ filter: isSelected ? `drop-shadow(0 2px 8px rgba(${hub.accentRgb}, 0.45))` : "none" }}
+                        strokeWidth={isSelected ? "1.8" : "1"}
+                        style={{
+                          filter: isSelected
+                            ? `drop-shadow(0 4px 14px rgba(${hub.accentRgb}, 0.5))`
+                            : "drop-shadow(0 2px 6px rgba(0,0,0,0.2))",
+                        }}
                       />
+
+                      {/* Status Indicator Dot */}
+                      <circle
+                        cx="10"
+                        cy="12"
+                        r="3"
+                        fill={hub.accent}
+                        filter={`url(#reticle-glow-${uniqueId})`}
+                      />
+
+                      {/* Flag + Country Text */}
                       <text
-                        x="7"
+                        x="18"
                         y="16"
-                        fontSize="11"
+                        fontSize="10.5"
                         fill={isLight ? "#0f172a" : "#f8fafc"}
                         fontWeight="800"
                       >
                         {hub.flag} {hub.country}
                       </text>
+
+                      {/* Edge Latency Metric */}
                       <text
-                        x={hub.tagWidth - 7}
+                        x={hub.tagWidth - 8}
                         y="16"
                         fontSize="9.5"
                         fill={hub.accent}
                         fontWeight="800"
+                        fontFamily="monospace"
                         textAnchor="end"
                       >
                         {hub.latency.split(" ")[0]}
@@ -783,48 +1077,82 @@ export function GlobalDeliveryMesh() {
                 );
               })}
 
-              {/* 5. Surat HQ Center Beacon (Epicenter) */}
+              {/* ------------------------------------------------------------- */}
+              {/* LAYER 5: SURAT HQ GLOBAL COMMAND EPICENTER (702, 228)         */}
+              {/* ------------------------------------------------------------- */}
               <g
                 onClick={() => handleSelectRoute("india")}
                 style={{ cursor: "pointer" }}
               >
-                {/* 3 Layer Concentric Radar Sonar Waves */}
-                <circle cx={hqHub.x} cy={hqHub.y} r="18" fill="none" stroke="#10b981" strokeWidth="1.5">
+                {/* Outer Gyroscopic Rotating Compass Ring (Counter-clockwise) */}
+                <circle
+                  cx={hqHub.x}
+                  cy={hqHub.y}
+                  r="28"
+                  fill="none"
+                  stroke="#10b981"
+                  strokeWidth="1.2"
+                  strokeDasharray="6 3"
+                  opacity="0.6"
+                >
+                  <animateTransform
+                    attributeName="transform"
+                    type="rotate"
+                    from={`360 ${hqHub.x} ${hqHub.y}`}
+                    to={`0 ${hqHub.x} ${hqHub.y}`}
+                    dur="12s"
+                    repeatCount="indefinite"
+                  />
+                </circle>
+
+                {/* Triple Concentric Sonar Pulse Waves */}
+                <circle cx={hqHub.x} cy={hqHub.y} r="18" fill="none" stroke="#00ffd1" strokeWidth="1.5">
                   <animate
                     attributeName="r"
-                    from="6"
-                    to="28"
-                    dur="2.5s"
+                    from="8"
+                    to="36"
+                    dur="2.4s"
                     repeatCount="indefinite"
                   />
                   <animate
                     attributeName="opacity"
                     from="0.9"
                     to="0"
-                    dur="2.5s"
+                    dur="2.4s"
                     repeatCount="indefinite"
                   />
                 </circle>
 
-                <circle cx={hqHub.x} cy={hqHub.y} r="8" fill="#10b981" stroke="#ffffff" strokeWidth="2.5" />
+                {/* HQ Center Glowing Core */}
+                <circle
+                  cx={hqHub.x}
+                  cy={hqHub.y}
+                  r="9"
+                  fill="#10b981"
+                  stroke="#ffffff"
+                  strokeWidth="2.5"
+                  filter={`url(#arc-glow-${uniqueId})`}
+                />
+                <circle cx={hqHub.x} cy={hqHub.y} r="3.5" fill="#ffffff" />
 
-                {/* Surat HQ Floating Badge */}
-                <g transform={`translate(${hqHub.x - 70}, ${hqHub.y + 14})`}>
+                {/* Surat HQ Command HUD Badge */}
+                <g transform={`translate(${hqHub.x - 85}, ${hqHub.y + 16})`}>
                   <rect
                     x="0"
                     y="0"
-                    width="145"
-                    height="24"
-                    rx="6"
-                    fill={isLight ? "#ffffff" : "#062218"}
+                    width="170"
+                    height="26"
+                    rx="8"
+                    fill={isLight ? "#ffffff" : "#041a12"}
                     stroke="#10b981"
-                    strokeWidth="1.5"
-                    style={{ filter: "drop-shadow(0 4px 10px rgba(16, 185, 129, 0.4))" }}
+                    strokeWidth="1.8"
+                    style={{ filter: "drop-shadow(0 4px 16px rgba(16, 185, 129, 0.5))" }}
                   />
-                  <text x="8" y="16" fontSize="10.5" fill="#10b981" fontWeight="800">
-                    🇮🇳 SURAT HQ (50+ Devs)
+                  <circle cx="12" cy="13" r="3.5" fill="#10b981" className="animate-ping" />
+                  <circle cx="12" cy="13" r="2.5" fill="#10b981" />
+                  <text x="22" y="17" fontSize="10.5" fill={isLight ? "#047857" : "#00ffd1"} fontWeight="850">
+                    SURAT HQ (50+ Devs Active)
                   </text>
-                  <circle cx="134" cy="12" r="3" fill="#10b981" className="animate-ping" />
                 </g>
               </g>
             </svg>

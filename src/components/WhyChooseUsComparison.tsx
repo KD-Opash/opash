@@ -1203,19 +1203,16 @@ export function WhyChooseUsComparison() {
                 {activeRow.metric}
               </h3>
 
-              {/* OPASH WINNER SHOWCASE PANEL */}
+              {/* OPASH WINNER SHOWCASE SECTION */}
               <div
                 style={{
-                  borderRadius: "20px",
-                  padding: "1.75rem",
+                  borderRadius: "16px",
+                  padding: "1.5rem",
                   background: isLight
-                    ? "linear-gradient(135deg, rgba(0, 255, 209, 0.12) 0%, rgba(16, 185, 129, 0.08) 100%)"
-                    : "linear-gradient(135deg, rgba(0, 255, 209, 0.2) 0%, rgba(138, 92, 255, 0.12) 100%)",
-                  border: `1px solid ${isLight ? "rgba(0, 255, 209, 0.5)" : "rgba(0, 255, 209, 0.45)"}`,
-                  boxShadow: isLight
-                    ? "0 10px 30px -10px rgba(0, 255, 209, 0.3)"
-                    : "0 10px 35px -10px rgba(0, 255, 209, 0.25)",
-                  marginBottom: "1.75rem",
+                    ? "linear-gradient(135deg, rgba(0, 255, 209, 0.08) 0%, rgba(16, 185, 129, 0.04) 100%)"
+                    : "linear-gradient(135deg, rgba(0, 255, 209, 0.12) 0%, rgba(138, 92, 255, 0.08) 100%)",
+                  borderLeft: "4px solid #00ffd1",
+                  marginBottom: "1.5rem",
                   position: "relative",
                   overflow: "hidden",
                 }}
@@ -1293,13 +1290,13 @@ export function WhyChooseUsComparison() {
 
               {/* DUAL ALTERNATIVES COMPARISON GRID */}
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.25rem" }}>
-                {/* Traditional Agency Card */}
+                {/* Traditional Agency Column */}
                 <div
                   style={{
-                    padding: "1.4rem",
-                    borderRadius: "16px",
-                    background: isLight ? "#f8fafc" : "rgba(255, 255, 255, 0.03)",
-                    border: `1px solid ${isLight ? "#e2e8f0" : "rgba(255, 255, 255, 0.06)"}`,
+                    padding: "1.25rem 1.4rem",
+                    borderRadius: "14px",
+                    background: isLight ? "rgba(241, 245, 249, 0.6)" : "rgba(255, 255, 255, 0.02)",
+                    borderLeft: "3px solid #f59e0b",
                   }}
                 >
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.6rem" }}>
@@ -1340,13 +1337,13 @@ export function WhyChooseUsComparison() {
                   </div>
                 </div>
 
-                {/* Freelance Portals Card */}
+                {/* Freelance Portals Column */}
                 <div
                   style={{
-                    padding: "1.4rem",
-                    borderRadius: "16px",
-                    background: isLight ? "#f8fafc" : "rgba(255, 255, 255, 0.03)",
-                    border: `1px solid ${isLight ? "#e2e8f0" : "rgba(255, 255, 255, 0.06)"}`,
+                    padding: "1.25rem 1.4rem",
+                    borderRadius: "14px",
+                    background: isLight ? "rgba(241, 245, 249, 0.6)" : "rgba(255, 255, 255, 0.02)",
+                    borderLeft: "3px solid #ef4444",
                   }}
                 >
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.6rem" }}>

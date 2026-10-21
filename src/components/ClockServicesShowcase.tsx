@@ -265,6 +265,11 @@ export function ClockServicesShowcase() {
         {/* 1. SECTION HEADER                                                         */}
         {/* ========================================================================= */}
         <div className="coverflow-header-wrapper">
+          <div className="coverflow-eyebrow">
+            <span className="coverflow-eyebrow-dot" />
+            <span>FULL-SPECTRUM CAPABILITIES &bull; BESPOKE ARCHITECTURE</span>
+          </div>
+
           <h2 className="coverflow-headline">
             Our <span className="coverflow-headline-highlight">Services</span>
           </h2>

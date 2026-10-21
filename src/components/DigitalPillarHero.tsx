@@ -5,11 +5,15 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, MessageSquare, CheckCircle2, ShieldCheck } from "lucide-react";
 import { companyData } from "@/data/company";
-import LettersInMotionVisual, { ActivePhraseState } from "@/components/LettersInMotionVisual";
+import { ActivePhraseState } from "@/components/LettersInMotionVisual";
 import LettersInMotionHeadline, { OPASH_SERVICES_PHRASES } from "@/components/LettersInMotionHeadline";
 import ConnectedConstellation from "@/components/ConnectedConstellation";
+import HeroCreativeBackdrop from "@/components/HeroCreativeBackdrop";
+import { useTheme } from "@/components/ThemeProvider";
 
 export default function DigitalPillarHero() {
+  const { theme } = useTheme();
+  const isLight = theme === "light";
   const heroRef = useRef<HTMLDivElement>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -62,9 +66,12 @@ export default function DigitalPillarHero() {
       {/* 1. 3D WEBGL STAGE: "OPASH — LETTERS IN MOTION"                            */}
       {/* Dynamic Luminous Ribbon + Ambient Reactive Glows + Coordinated Color Morph */}
       {/* ========================================================================= */}
-      <LettersInMotionVisual
+      <HeroCreativeBackdrop
+        isLightMode={isLight}
         currentIndex={currentIndex}
-        activePhrase={activePhrase}
+        activePrimaryColor={activeDef.primaryColor}
+        activeSecondaryColor={activeDef.secondaryColor}
+        activeTitle={activeDef.title}
         onSelectPhrase={handleSelectService}
       />
 

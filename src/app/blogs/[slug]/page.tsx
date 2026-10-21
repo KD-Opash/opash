@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
@@ -106,18 +107,31 @@ export default async function BlogPostPage({ params }: Props) {
               <div className="flex items-center gap-3">
                 <div
                   style={{
+                    position: "relative",
                     width: 44,
                     height: 44,
                     borderRadius: "50%",
+                    overflow: "hidden",
                     background: "linear-gradient(135deg, #476D9A, #5EC098)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
                     fontWeight: 700,
                     color: "#ffffff",
+                    flexShrink: 0,
                   }}
                 >
-                  {post.author.avatar}
+                  {post.author.avatar.startsWith("/") ? (
+                    <Image
+                      src={post.author.avatar}
+                      alt={post.author.name}
+                      fill
+                      sizes="44px"
+                      style={{ objectFit: "cover", objectPosition: "top" }}
+                    />
+                  ) : (
+                    post.author.avatar
+                  )}
                 </div>
                 <div>
                   <div style={{ color: "var(--text-primary)", fontWeight: 600 }}>{post.author.name}</div>
@@ -210,9 +224,11 @@ export default async function BlogPostPage({ params }: Props) {
             <div className="flex items-center gap-4" style={{ marginBottom: "1rem" }}>
               <div
                 style={{
+                  position: "relative",
                   width: 54,
                   height: 54,
                   borderRadius: "50%",
+                  overflow: "hidden",
                   background: "linear-gradient(135deg, #476D9A, #5EC098)",
                   display: "flex",
                   alignItems: "center",
@@ -220,9 +236,20 @@ export default async function BlogPostPage({ params }: Props) {
                   fontSize: "1.2rem",
                   fontWeight: 800,
                   color: "#ffffff",
+                  flexShrink: 0,
                 }}
               >
-                {post.author.avatar}
+                {post.author.avatar.startsWith("/") ? (
+                  <Image
+                    src={post.author.avatar}
+                    alt={post.author.name}
+                    fill
+                    sizes="54px"
+                    style={{ objectFit: "cover", objectPosition: "top" }}
+                  />
+                ) : (
+                  post.author.avatar
+                )}
               </div>
               <div>
                 <div style={{ color: "var(--text-primary)", fontWeight: 700, fontSize: "1.15rem" }}>

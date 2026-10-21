@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useMemo } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { 
   Shield, 
@@ -1393,22 +1394,28 @@ export default function CompanyPageClient() {
               >
                 <div
                   style={{
+                    position: "relative",
                     width: "140px",
                     height: "140px",
                     borderRadius: "50%",
-                    background: "linear-gradient(135deg, #008a75 0%, #0284c7 100%)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    color: "#ffffff",
-                    fontSize: "2.8rem",
-                    fontWeight: 900,
+                    overflow: "hidden",
+                    border: "3px solid #00ffd1",
+                    boxShadow: "0 10px 35px rgba(0, 168, 143, 0.45)",
                     marginBottom: "1.75rem",
-                    boxShadow: "0 10px 35px rgba(0, 168, 143, 0.4)",
-                    letterSpacing: "-0.05em",
+                    background: isLight ? "#0f172a" : "#060d1d",
                   }}
                 >
-                  HD
+                  <Image
+                    src="/images/image.webp"
+                    alt={companyData.ceo.name}
+                    fill
+                    sizes="140px"
+                    priority
+                    style={{
+                      objectFit: "cover",
+                      objectPosition: "top center",
+                    }}
+                  />
                 </div>
                 <h3 style={{ fontSize: "1.6rem", fontWeight: 800 }}>
                   {companyData.ceo.name}

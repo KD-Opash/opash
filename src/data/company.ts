@@ -47,7 +47,8 @@ export const companyData = {
     bio: "With a decade of experience in software architecture, distributed systems, and product engineering, Hiren founded Opash Software to help ambitious startups, SMEs, and Fortune 500 partners transform complex ideas into market-defining digital products. Under his leadership, Opash has delivered 75+ global projects with a 96% client retention rate.",
     tags: ["Tech Strategist", "Startup Mentor", "Full-Stack Architect", "AI Evangelist"],
     email: "hiren@opashsoftware.com",
-    linkedin: "https://in.linkedin.com/company/opash-software"
+    linkedin: "https://in.linkedin.com/company/opash-software",
+    image: "/images/image.webp"
   },
 
   contact: {
