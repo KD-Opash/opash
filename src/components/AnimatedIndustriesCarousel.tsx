@@ -184,11 +184,9 @@ export const CAROUSEL_INDUSTRIES: CarouselIndustry[] = [
   },
 ];
 
-// Bespoke Neon Glowing Icons matching the user's screenshot
+// Clean Vector Icons matching the domain aesthetics without expensive GPU drop-shadow filters
 function IndustryNeonIcon({ type, accent }: { type: string; accent: string }) {
-  const glowStyle = {
-    filter: `drop-shadow(0 0 10px ${accent}) drop-shadow(0 0 20px ${accent}88)`,
-  };
+  const glowStyle = {};
 
   switch (type) {
     case "health":
@@ -401,51 +399,28 @@ function IndustryNeonIcon({ type, accent }: { type: string; accent: string }) {
   }
 }
 
-// Custom High-Performance Animated Typewriter for the Active Card
+// Zero-CPU Static Typography Console for the Active Card
 function TypewriterConsole({
   text,
-  speed = 28,
   accent,
 }: {
   text: string;
   speed?: number;
   accent: string;
 }) {
-  const [displayed, setDisplayed] = useState("");
-  const [isTyping, setIsTyping] = useState(true);
-
-  useEffect(() => {
-    setDisplayed("");
-    setIsTyping(true);
-    let currentIndex = 0;
-
-    const timer = setInterval(() => {
-      if (currentIndex < text.length) {
-        setDisplayed(text.slice(0, currentIndex + 1));
-        currentIndex++;
-      } else {
-        setIsTyping(false);
-        clearInterval(timer);
-      }
-    }, speed);
-
-    return () => clearInterval(timer);
-  }, [text, speed]);
-
   return (
     <span style={{ display: "inline" }}>
-      {displayed}
+      {text}
       <span
         style={{
           display: "inline-block",
-          width: "8px",
-          height: "1.1em",
+          width: "6px",
+          height: "1.05em",
           verticalAlign: "middle",
           backgroundColor: accent,
-          marginLeft: "4px",
+          marginLeft: "6px",
           borderRadius: "2px",
-          opacity: isTyping ? 1 : 0.4,
-          animation: "cursorPulse 0.8s infinite ease-in-out",
+          opacity: 0.85,
         }}
       />
     </span>
@@ -526,11 +501,10 @@ export function AnimatedIndustriesCarousel() {
           transform: "translate(-50%, -50%)",
           width: "900px",
           height: "450px",
-          background: `radial-gradient(ellipse at center, rgba(${activeIndustry.accentRgb}, 0.12) 0%, rgba(${activeIndustry.accentRgb}, 0.02) 50%, transparent 75%)`,
-          filter: "blur(60px)",
+          background: `radial-gradient(ellipse at center, rgba(${activeIndustry.accentRgb}, 0.08) 0%, rgba(${activeIndustry.accentRgb}, 0.02) 50%, transparent 75%)`,
           pointerEvents: "none",
           zIndex: 0,
-          transition: "background 0.8s ease",
+          transition: "background 0.5s ease",
         }}
       />
 
@@ -592,10 +566,8 @@ export function AnimatedIndustriesCarousel() {
               ? "1px solid rgba(226, 232, 240, 0.9)"
               : "1px solid rgba(255, 255, 255, 0.08)",
             boxShadow: isLight
-              ? "0 20px 45px -15px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.03)"
-              : "0 25px 60px -15px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05)",
-            backdropFilter: "blur(24px)",
-            WebkitBackdropFilter: "blur(24px)",
+              ? "0 10px 25px -5px rgba(0, 0, 0, 0.05)"
+              : "0 15px 35px -10px rgba(0, 0, 0, 0.4)",
             padding: "1.75rem 2rem 2.25rem 2rem",
             marginBottom: "2.5rem",
           }}

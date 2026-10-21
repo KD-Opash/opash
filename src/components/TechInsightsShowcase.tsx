@@ -325,10 +325,8 @@ export function TechInsightsShowcase() {
               style={{
                 borderRadius: "26px",
                 background: isLight
-                  ? "rgba(255, 255, 255, 0.92)"
-                  : "rgba(10, 18, 34, 0.8)",
-                backdropFilter: "blur(20px)",
-                WebkitBackdropFilter: "blur(20px)",
+                  ? "rgba(255, 255, 255, 0.98)"
+                  : "#0b1220",
                 border: `1px solid ${
                   hoveredSlug === heroPost.slug
                     ? isLight
@@ -639,10 +637,8 @@ export function TechInsightsShowcase() {
                   style={{
                     borderRadius: "22px",
                     background: isLight
-                      ? "rgba(255, 255, 255, 0.9)"
-                      : "rgba(10, 18, 34, 0.7)",
-                    backdropFilter: "blur(20px)",
-                    WebkitBackdropFilter: "blur(20px)",
+                      ? "rgba(255, 255, 255, 0.98)"
+                      : "#0b1220",
                     border: `1px solid ${
                       isHovered
                         ? isLight
@@ -828,7 +824,6 @@ export function TechInsightsShowcase() {
               ? "linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)"
               : "linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(8, 14, 28, 0.95) 100%)",
             border: `1px solid ${isLight ? "rgba(14, 165, 233, 0.25)" : "rgba(0, 255, 209, 0.25)"}`,
-            backdropFilter: "blur(20px)",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",

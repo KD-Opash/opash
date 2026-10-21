@@ -424,8 +424,8 @@ export function FeaturedSuccessStories() {
                         ? `1px solid ${meta.accent}40`
                         : `1px solid ${meta.accent}50`,
                       boxShadow: isLight
-                        ? `0 14px 38px -10px rgba(15, 23, 42, 0.08), 0 0 20px -8px ${meta.accent}15`
-                        : `0 20px 50px -12px rgba(0, 0, 0, 0.85), 0 0 25px -8px ${meta.accent}35`,
+                        ? "0 8px 24px -6px rgba(15, 23, 42, 0.06)"
+                        : "0 12px 30px -8px rgba(0, 0, 0, 0.6)",
                       padding: "1.35rem 1.4rem",
                       display: "flex",
                       flexDirection: "column",
