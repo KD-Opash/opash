@@ -125,9 +125,8 @@ export function TechInsightsShowcase() {
           height: "550px",
           borderRadius: "50%",
           background: isLight
-            ? "radial-gradient(circle, rgba(14, 165, 233, 0.08) 0%, rgba(138, 92, 255, 0.04) 50%, transparent 70%)"
-            : "radial-gradient(circle, rgba(14, 165, 233, 0.12) 0%, rgba(138, 92, 255, 0.08) 50%, transparent 70%)",
-          filter: "blur(90px)",
+            ? "radial-gradient(circle, rgba(14, 165, 233, 0.06) 0%, rgba(138, 92, 255, 0.03) 50%, transparent 70%)"
+            : "radial-gradient(circle, rgba(14, 165, 233, 0.08) 0%, rgba(138, 92, 255, 0.05) 50%, transparent 70%)",
           pointerEvents: "none",
           zIndex: 0,
         }}
@@ -142,9 +141,8 @@ export function TechInsightsShowcase() {
           height: "500px",
           borderRadius: "50%",
           background: isLight
-            ? "radial-gradient(circle, rgba(16, 185, 129, 0.07) 0%, rgba(0, 255, 209, 0.03) 50%, transparent 70%)"
-            : "radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, rgba(0, 255, 209, 0.05) 50%, transparent 70%)",
-          filter: "blur(100px)",
+            ? "radial-gradient(circle, rgba(16, 185, 129, 0.05) 0%, rgba(0, 255, 209, 0.02) 50%, transparent 70%)"
+            : "radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, rgba(0, 255, 209, 0.04) 50%, transparent 70%)",
           pointerEvents: "none",
           zIndex: 0,
         }}

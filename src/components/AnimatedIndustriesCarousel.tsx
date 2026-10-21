@@ -457,7 +457,7 @@ export function AnimatedIndustriesCarousel() {
   const isLight = theme === "light";
 
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
   const CARD_DURATION_MS = 3800; // 3.8 seconds per card
 
   const activeIndustry = CAROUSEL_INDUSTRIES[activeIndex];

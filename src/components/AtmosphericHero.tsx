@@ -13,7 +13,6 @@ import {
 } from "lucide-react";
 import { companyData } from "@/data/company";
 import GlobalNetworkMap from "./GlobalNetworkMap";
-import ElasticLettering from "./ElasticLettering";
 
 export interface HeroCardProps {
   tag?: string;
@@ -112,32 +111,19 @@ export default function AtmosphericHero({
           {isDefaultHomeHero ? (
             <>
               <div>
-                <ElasticLettering
-                  text="Think Global Scale."
-                  as="span"
-                  discoveryTug={true}
-                />
+                <span>Think Global Scale.</span>
               </div>
               <div>
-                <ElasticLettering
-                  text="Act Like a Pro."
-                  as="span"
-                  gradient={true}
-                  discoveryTug={true}
-                />
+                <span className="gradient-text">Act Like a Pro.</span>
               </div>
             </>
           ) : (
             <>
               <div>
-                <ElasticLettering text={titleTop || ""} as="span" />
+                <span>{titleTop || ""}</span>
               </div>
               <div>
-                <ElasticLettering
-                  text={titleAccent || ""}
-                  as="span"
-                  gradient={true}
-                />
+                <span className="gradient-text">{titleAccent || ""}</span>
               </div>
             </>
           )}

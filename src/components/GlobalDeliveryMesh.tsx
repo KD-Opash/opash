@@ -744,34 +744,24 @@ export function GlobalDeliveryMesh() {
                   <line x1={hqHub.x} y1={hqHub.y - 470} x2={hqHub.x} y2={hqHub.y + 470} />
                 </g>
 
-                {/* 360° Rotating Cyber Radar Sweep Beam */}
+                {/* Static Cyber Radar Telemetry Sector & Scan Ray */}
                 <g>
-                  <g>
-                    <animateTransform
-                      attributeName="transform"
-                      type="rotate"
-                      from={`0 ${hqHub.x} ${hqHub.y}`}
-                      to={`360 ${hqHub.x} ${hqHub.y}`}
-                      dur="8.5s"
-                      repeatCount="indefinite"
-                    />
-                    {/* Sweeping Conic Wedge (approx 36° sector) */}
-                    <path
-                      d={`M ${hqHub.x} ${hqHub.y} L ${hqHub.x + 470} ${hqHub.y} A 470 470 0 0 0 ${hqHub.x + 440} ${hqHub.y - 160} Z`}
-                      fill={`url(#radar-wedge-grad-${uniqueId})`}
-                    />
-                    {/* Leading Scanner Ray with Neon Edge */}
-                    <line
-                      x1={hqHub.x}
-                      y1={hqHub.y}
-                      x2={hqHub.x + 470}
-                      y2={hqHub.y}
-                      stroke="#00ffd1"
-                      strokeWidth="1.8"
-                      strokeOpacity="0.85"
-                      filter={`url(#reticle-glow-${uniqueId})`}
-                    />
-                  </g>
+                  {/* Static Radar Conic Wedge */}
+                  <path
+                    d={`M ${hqHub.x} ${hqHub.y} L ${hqHub.x - 420} ${hqHub.y - 120} A 440 440 0 0 1 ${hqHub.x - 300} ${hqHub.y - 280} Z`}
+                    fill={`url(#radar-wedge-grad-${uniqueId})`}
+                  />
+                  {/* Precision Laser Scan Ray */}
+                  <line
+                    x1={hqHub.x}
+                    y1={hqHub.y}
+                    x2={hqHub.x - 420}
+                    y2={hqHub.y - 120}
+                    stroke="#00ffd1"
+                    strokeWidth="1.5"
+                    strokeOpacity="0.8"
+                    filter={`url(#reticle-glow-${uniqueId})`}
+                  />
                 </g>
               </g>
 
@@ -819,7 +809,7 @@ export function GlobalDeliveryMesh() {
                   );
                 })}
 
-                {/* Tactical Blinking Sensor Nodes (Pulsing Bioluminescent Beacons) */}
+                {/* Static Tactical Sensor Beacons */}
                 {[
                   { x: 310, y: 165 }, // US East
                   { x: 260, y: 190 }, // US West
@@ -837,32 +827,19 @@ export function GlobalDeliveryMesh() {
                     cy={beacon.y}
                     r="2.5"
                     fill="#00ffd1"
+                    opacity="0.85"
                     filter={`url(#reticle-glow-${uniqueId})`}
-                  >
-                    <animate
-                      attributeName="opacity"
-                      values="0.2;1;0.2"
-                      dur={`${2.2 + (bIdx % 3) * 0.7}s`}
-                      repeatCount="indefinite"
-                    />
-                    <animate
-                      attributeName="r"
-                      values="1.8;3.4;1.8"
-                      dur={`${2.2 + (bIdx % 3) * 0.7}s`}
-                      repeatCount="indefinite"
-                    />
-                  </circle>
+                  />
                 ))}
               </g>
 
               {/* ------------------------------------------------------------- */}
-              {/* LAYER 3: FLIGHT TRAJECTORY ARCS & DUAL PHOTON COMETS          */}
+              {/* LAYER 3: FLIGHT TRAJECTORY ARCS & PHOTON PACKETS              */}
               {/* ------------------------------------------------------------- */}
               {destinationHubs.map((hub) => {
                 const isSelected = hub.id === activeHubId;
                 const isHighlighted = isSelected || !isolateRoute;
                 const pathD = `M ${hqHub.x} ${hqHub.y} Q ${hub.curveControl.cx} ${hub.curveControl.cy} ${hub.x} ${hub.y}`;
-                const cometDuration = `${Math.max(2.2, (hub.latencyMs / 40) * 0.9)}s`;
 
                 return (
                   <g key={hub.id}>
@@ -895,31 +872,15 @@ export function GlobalDeliveryMesh() {
                       style={{ transition: "stroke-width 0.3s ease, opacity 0.3s ease" }}
                     />
 
-                    {/* DUAL PHOTON PACKET 1 (Lead White Comet) */}
-                    {isHighlighted && (
-                      <circle r={isSelected ? "4.5" : "3.2"} fill="#ffffff" filter={`url(#arc-glow-${uniqueId})`}>
-                        <animateMotion
-                          dur={cometDuration}
-                          repeatCount="indefinite"
-                          path={pathD}
-                        />
-                      </circle>
-                    )}
-
-                    {/* DUAL PHOTON PACKET 2 (Trailing Neon Comet - 50% Cycle Offset) */}
-                    {isHighlighted && (
+                    {/* Static High-Precision Photon Node on Active Route */}
+                    {isSelected && (
                       <circle
-                        r={isSelected ? "3.5" : "2.4"}
-                        fill={hub.accent}
+                        cx={hub.curveControl.cx}
+                        cy={hub.curveControl.cy}
+                        r="3.5"
+                        fill="#ffffff"
                         filter={`url(#reticle-glow-${uniqueId})`}
-                      >
-                        <animateMotion
-                          dur={cometDuration}
-                          begin={`-${Math.max(1.1, (hub.latencyMs / 80) * 0.9)}s`}
-                          repeatCount="indefinite"
-                          path={pathD}
-                        />
-                      </circle>
+                      />
                     )}
                   </g>
                 );
@@ -940,54 +901,30 @@ export function GlobalDeliveryMesh() {
                     onMouseLeave={() => setHoveredHubId(null)}
                     style={{ cursor: "pointer" }}
                   >
-                    {/* Rotating Targeting Reticle on Selected Hub */}
+                    {/* Targeting Reticle on Selected Hub */}
                     {isSelected && (
                       <>
-                        {/* Outer Rotating Dash Bracket Ring */}
+                        {/* Outer Dash Bracket Ring */}
                         <circle
                           cx={hub.x}
                           cy={hub.y}
-                          r="19"
+                          r="18"
                           fill="none"
                           stroke={hub.accent}
                           strokeWidth="1.5"
                           strokeDasharray="6 4"
-                        >
-                          <animateTransform
-                            attributeName="transform"
-                            type="rotate"
-                            from={`0 ${hub.x} ${hub.y}`}
-                            to={`360 ${hub.x} ${hub.y}`}
-                            dur="5s"
-                            repeatCount="indefinite"
-                          />
-                        </circle>
-
-                        {/* Outward Sonar Pulse Ring */}
+                          opacity="0.85"
+                        />
+                        {/* Precision Radar Ring */}
                         <circle
                           cx={hub.x}
                           cy={hub.y}
-                          r="10"
+                          r="11"
                           fill="none"
                           stroke={hub.accent}
-                          strokeWidth="1.5"
-                          opacity="0.8"
-                        >
-                          <animate
-                            attributeName="r"
-                            from="8"
-                            to="26"
-                            dur="2s"
-                            repeatCount="indefinite"
-                          />
-                          <animate
-                            attributeName="opacity"
-                            from="0.9"
-                            to="0"
-                            dur="2s"
-                            repeatCount="indefinite"
-                          />
-                        </circle>
+                          strokeWidth="1"
+                          opacity="0.5"
+                        />
                       </>
                     )}
 
@@ -1084,7 +1021,7 @@ export function GlobalDeliveryMesh() {
                 onClick={() => handleSelectRoute("india")}
                 style={{ cursor: "pointer" }}
               >
-                {/* Outer Gyroscopic Rotating Compass Ring (Counter-clockwise) */}
+                {/* Outer Gyroscopic Compass Ring */}
                 <circle
                   cx={hqHub.x}
                   cy={hqHub.y}
@@ -1093,35 +1030,11 @@ export function GlobalDeliveryMesh() {
                   stroke="#10b981"
                   strokeWidth="1.2"
                   strokeDasharray="6 3"
-                  opacity="0.6"
-                >
-                  <animateTransform
-                    attributeName="transform"
-                    type="rotate"
-                    from={`360 ${hqHub.x} ${hqHub.y}`}
-                    to={`0 ${hqHub.x} ${hqHub.y}`}
-                    dur="12s"
-                    repeatCount="indefinite"
-                  />
-                </circle>
+                  opacity="0.65"
+                />
 
-                {/* Triple Concentric Sonar Pulse Waves */}
-                <circle cx={hqHub.x} cy={hqHub.y} r="18" fill="none" stroke="#00ffd1" strokeWidth="1.5">
-                  <animate
-                    attributeName="r"
-                    from="8"
-                    to="36"
-                    dur="2.4s"
-                    repeatCount="indefinite"
-                  />
-                  <animate
-                    attributeName="opacity"
-                    from="0.9"
-                    to="0"
-                    dur="2.4s"
-                    repeatCount="indefinite"
-                  />
-                </circle>
+                {/* Radar Reticle Ring */}
+                <circle cx={hqHub.x} cy={hqHub.y} r="18" fill="none" stroke="#00ffd1" strokeWidth="1.2" opacity="0.6" />
 
                 {/* HQ Center Glowing Core */}
                 <circle
@@ -1146,10 +1059,9 @@ export function GlobalDeliveryMesh() {
                     fill={isLight ? "#ffffff" : "#041a12"}
                     stroke="#10b981"
                     strokeWidth="1.8"
-                    style={{ filter: "drop-shadow(0 4px 16px rgba(16, 185, 129, 0.5))" }}
+                    style={{ filter: "drop-shadow(0 4px 16px rgba(16, 185, 129, 0.4))" }}
                   />
-                  <circle cx="12" cy="13" r="3.5" fill="#10b981" className="animate-ping" />
-                  <circle cx="12" cy="13" r="2.5" fill="#10b981" />
+                  <circle cx="12" cy="13" r="3" fill="#10b981" />
                   <text x="22" y="17" fontSize="10.5" fill={isLight ? "#047857" : "#00ffd1"} fontWeight="850">
                     SURAT HQ (50+ Devs Active)
                   </text>

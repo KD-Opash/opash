@@ -253,9 +253,8 @@ export function FeaturedSuccessStories() {
           height: "450px",
           borderRadius: "50%",
           background: isLight
-            ? "radial-gradient(circle, rgba(14, 165, 233, 0.07) 0%, transparent 70%)"
-            : "radial-gradient(circle, rgba(139, 92, 246, 0.08) 0%, rgba(14, 165, 233, 0.05) 50%, transparent 75%)",
-          filter: "blur(90px)",
+            ? "radial-gradient(circle, rgba(14, 165, 233, 0.05) 0%, transparent 70%)"
+            : "radial-gradient(circle, rgba(139, 92, 246, 0.06) 0%, rgba(14, 165, 233, 0.04) 50%, transparent 75%)",
           pointerEvents: "none",
           zIndex: 0,
         }}

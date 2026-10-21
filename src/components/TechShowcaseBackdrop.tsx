@@ -33,9 +33,8 @@ export function TechShowcaseBackdrop({ isLightMode = false }: TechShowcaseBackdr
           height: '560px',
           borderRadius: '50%',
           background: isLightMode
-            ? 'radial-gradient(circle, rgba(0, 168, 143, 0.22) 0%, rgba(0, 168, 143, 0.08) 45%, transparent 72%)'
-            : 'radial-gradient(circle, rgba(0, 255, 209, 0.28) 0%, rgba(0, 187, 171, 0.16) 45%, transparent 75%)',
-          filter: 'blur(75px)',
+            ? 'radial-gradient(circle, rgba(0, 168, 143, 0.18) 0%, rgba(0, 168, 143, 0.05) 45%, transparent 72%)'
+            : 'radial-gradient(circle, rgba(0, 255, 209, 0.20) 0%, rgba(0, 187, 171, 0.10) 45%, transparent 75%)',
           pointerEvents: 'none',
         }}
       />
@@ -50,9 +49,8 @@ export function TechShowcaseBackdrop({ isLightMode = false }: TechShowcaseBackdr
           height: '520px',
           borderRadius: '50%',
           background: isLightMode
-            ? 'radial-gradient(circle, rgba(99, 102, 241, 0.20) 0%, rgba(139, 92, 246, 0.08) 45%, transparent 70%)'
-            : 'radial-gradient(circle, rgba(129, 140, 248, 0.26) 0%, rgba(99, 102, 241, 0.18) 45%, transparent 72%)',
-          filter: 'blur(80px)',
+            ? 'radial-gradient(circle, rgba(99, 102, 241, 0.16) 0%, rgba(139, 92, 246, 0.05) 45%, transparent 70%)'
+            : 'radial-gradient(circle, rgba(129, 140, 248, 0.18) 0%, rgba(99, 102, 241, 0.10) 45%, transparent 72%)',
           pointerEvents: 'none',
         }}
       />
@@ -68,9 +66,8 @@ export function TechShowcaseBackdrop({ isLightMode = false }: TechShowcaseBackdr
           height: '620px',
           borderRadius: '50%',
           background: isLightMode
-            ? 'radial-gradient(ellipse at center, rgba(14, 165, 233, 0.18) 0%, rgba(56, 189, 248, 0.06) 50%, transparent 75%)'
-            : 'radial-gradient(ellipse at center, rgba(14, 165, 233, 0.25) 0%, rgba(56, 189, 248, 0.12) 50%, transparent 75%)',
-          filter: 'blur(95px)',
+            ? 'radial-gradient(ellipse at center, rgba(14, 165, 233, 0.14) 0%, rgba(56, 189, 248, 0.04) 50%, transparent 75%)'
+            : 'radial-gradient(ellipse at center, rgba(14, 165, 233, 0.18) 0%, rgba(56, 189, 248, 0.08) 50%, transparent 75%)',
           pointerEvents: 'none',
         }}
       />
@@ -85,9 +82,8 @@ export function TechShowcaseBackdrop({ isLightMode = false }: TechShowcaseBackdr
           height: '480px',
           borderRadius: '50%',
           background: isLightMode
-            ? 'radial-gradient(circle, rgba(16, 185, 129, 0.18) 0%, transparent 70%)'
-            : 'radial-gradient(circle, rgba(16, 185, 129, 0.22) 0%, rgba(52, 211, 153, 0.1) 45%, transparent 72%)',
-          filter: 'blur(85px)',
+            ? 'radial-gradient(circle, rgba(16, 185, 129, 0.14) 0%, transparent 70%)'
+            : 'radial-gradient(circle, rgba(16, 185, 129, 0.16) 0%, rgba(52, 211, 153, 0.06) 45%, transparent 72%)',
           pointerEvents: 'none',
         }}
       />
@@ -102,9 +98,8 @@ export function TechShowcaseBackdrop({ isLightMode = false }: TechShowcaseBackdr
           height: '500px',
           borderRadius: '50%',
           background: isLightMode
-            ? 'radial-gradient(circle, rgba(168, 85, 247, 0.16) 0%, transparent 70%)'
-            : 'radial-gradient(circle, rgba(192, 132, 252, 0.24) 0%, rgba(147, 51, 234, 0.14) 45%, transparent 72%)',
-          filter: 'blur(90px)',
+            ? 'radial-gradient(circle, rgba(168, 85, 247, 0.12) 0%, transparent 70%)'
+            : 'radial-gradient(circle, rgba(192, 132, 252, 0.18) 0%, rgba(147, 51, 234, 0.08) 45%, transparent 72%)',
           pointerEvents: 'none',
         }}
       />
@@ -119,9 +114,8 @@ export function TechShowcaseBackdrop({ isLightMode = false }: TechShowcaseBackdr
           height: '420px',
           borderRadius: '50%',
           background: isLightMode
-            ? 'radial-gradient(circle, rgba(245, 158, 11, 0.14) 0%, transparent 68%)'
-            : 'radial-gradient(circle, rgba(251, 191, 36, 0.18) 0%, rgba(245, 158, 11, 0.08) 50%, transparent 70%)',
-          filter: 'blur(80px)',
+            ? 'radial-gradient(circle, rgba(245, 158, 11, 0.10) 0%, transparent 68%)'
+            : 'radial-gradient(circle, rgba(251, 191, 36, 0.14) 0%, rgba(245, 158, 11, 0.05) 50%, transparent 70%)',
           pointerEvents: 'none',
         }}
       />

@@ -220,20 +220,8 @@ export default function ConnectedConstellation() {
     };
   }, []);
 
-  useEffect(() => {
-    if (hoveredMarketId !== null || !isVisible) return;
+  // Keep static focus on USA/IND, only update on user hover or click interaction to prevent idle CPU ticks
 
-    const marketIds = ["usa", "can", "gbr", "deu", "are", "sgp", "aus", "bra"];
-
-    const timer = setInterval(() => {
-      setActiveMarketId((prev) => {
-        const nextIdx = (marketIds.indexOf(prev) + 1) % marketIds.length;
-        return marketIds[nextIdx];
-      });
-    }, 5500);
-
-    return () => clearInterval(timer);
-  }, [hoveredMarketId, isVisible]);
 
   const currentFocusId = hoveredMarketId || activeMarketId;
   const currentMarket = useMemo(

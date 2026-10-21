@@ -259,8 +259,7 @@ export function WhyChooseUsComparison() {
           width: "800px",
           height: "400px",
           borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(0, 255, 209, 0.12) 0%, rgba(138, 92, 255, 0.08) 50%, transparent 75%)",
-          filter: "blur(90px)",
+          background: "radial-gradient(circle, rgba(0, 255, 209, 0.08) 0%, rgba(138, 92, 255, 0.05) 50%, transparent 75%)",
           pointerEvents: "none",
           zIndex: 1,
         }}

@@ -82,7 +82,6 @@ import { industriesData } from "@/data/industries";
 import TestimonialsSlider from "@/components/TestimonialsSlider";
 import TestimonialsCreativeBackdrop from "@/components/TestimonialsCreativeBackdrop";
 import ContactForm from "@/components/ContactForm";
-import { Boxes } from "@/components/ui/background-boxes";
 import CinematicImpactSection from "@/components/CinematicImpactSection";
 import { ClockServicesShowcase } from "@/components/ClockServicesShowcase";
 import { AnimatedIndustriesCarousel } from "@/components/AnimatedIndustriesCarousel";

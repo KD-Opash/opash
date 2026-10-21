@@ -163,7 +163,6 @@ body {
   width: 600px;
   height: 600px;
   border-radius: 50%;
-  filter: blur(120px);
   pointer-events: none;
   z-index: 0;
   opacity: 0.25;
@@ -5797,22 +5796,9 @@ h2.heading-section {
 /* Active Spinning Laser Border Beam */
 .coverflow-laser-border {
   position: absolute;
-  inset: -2px;
+  inset: -1px;
   border-radius: 26px;
-  padding: 2px;
-  background: conic-gradient(
-    from var(--laser-deg),
-    transparent 0deg,
-    var(--service-accent) 60deg,
-    #38bdf8 120deg,
-    transparent 180deg,
-    transparent 360deg
-  );
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  animation: laserBorderSpin 3.8s linear infinite;
+  border: 1px solid rgba(56, 189, 248, 0.25);
   pointer-events: none;
   z-index: 5;
 }
@@ -12290,4 +12276,50 @@ html[data-theme="light"] .industries-bento-section {
     padding: 1.5rem !important;
   }
 }
+
+/* ========================================================================= */
+/* AGGRESSIVE CPU & GPU PERFORMANCE OPTIMIZATIONS                            */
+/* ========================================================================= */
+
+/* Clamp excessive backdrop-filter blurs across containers to prevent GPU memory/fill-rate bottlenecks */
+[class*="backdrop-blur-"],
+.backdrop-blur-xl,
+.backdrop-blur-2xl,
+.backdrop-blur-3xl {
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+
+/* Deactivate infinite decorative background animation loops that waste CPU/GPU raster cycles */
+.animate-float-3d,
+.animate-spin-slow,
+.hud-dial-rotate,
+.hud-dial-rotate-reverse,
+.radar-sweep-rotate,
+.sonar-ripple,
+.conduit-dash-flow,
+.stardust-float,
+.flight-arc-stream,
+.map-breathing-pulse,
+.core-aura-pulse,
+.opash-portal-breathe,
+.tech-beam-glide,
+.shimmer-gleam,
+.holo-spin-cw,
+.holo-spin-ccw {
+  animation: none !important;
+}
+
+/* Strictly honor user's reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 

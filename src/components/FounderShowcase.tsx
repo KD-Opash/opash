@@ -134,9 +134,8 @@ export function FounderShowcase() {
           height: "550px",
           borderRadius: "50%",
           background: isLight
-            ? "radial-gradient(circle, rgba(14, 165, 233, 0.08) 0%, rgba(16, 185, 129, 0.04) 50%, transparent 70%)"
-            : "radial-gradient(circle, rgba(14, 165, 233, 0.12) 0%, rgba(16, 185, 129, 0.06) 50%, transparent 70%)",
-          filter: "blur(100px)",
+            ? "radial-gradient(circle, rgba(14, 165, 233, 0.06) 0%, rgba(16, 185, 129, 0.03) 50%, transparent 70%)"
+            : "radial-gradient(circle, rgba(14, 165, 233, 0.08) 0%, rgba(16, 185, 129, 0.04) 50%, transparent 70%)",
           pointerEvents: "none",
           zIndex: 0,
         }}
@@ -151,9 +150,8 @@ export function FounderShowcase() {
           height: "600px",
           borderRadius: "50%",
           background: isLight
-            ? "radial-gradient(circle, rgba(138, 92, 255, 0.07) 0%, rgba(0, 255, 209, 0.05) 50%, transparent 70%)"
-            : "radial-gradient(circle, rgba(138, 92, 255, 0.12) 0%, rgba(0, 255, 209, 0.07) 50%, transparent 70%)",
-          filter: "blur(110px)",
+            ? "radial-gradient(circle, rgba(138, 92, 255, 0.05) 0%, rgba(0, 255, 209, 0.03) 50%, transparent 70%)"
+            : "radial-gradient(circle, rgba(138, 92, 255, 0.08) 0%, rgba(0, 255, 209, 0.04) 50%, transparent 70%)",
           pointerEvents: "none",
           zIndex: 0,
         }}
@@ -689,17 +687,15 @@ export function FounderShowcase() {
                   justifyContent: "center",
                 }}
               >
-                {/* Outer Glow Halo */}
+                {/* Outer Subtle Accent Ring */}
                 <div
                   aria-hidden="true"
                   style={{
                     position: "absolute",
-                    inset: "-8px",
+                    inset: "-3px",
                     borderRadius: "50%",
-                    background: "conic-gradient(from 0deg, #0ea5e9, #10b981, #00ffd1, #8a5cff, #0ea5e9)",
-                    filter: "blur(14px)",
-                    opacity: isLight ? 0.4 : 0.65,
-                    animation: "spin 12s linear infinite",
+                    border: "1px solid rgba(14, 165, 233, 0.4)",
+                    opacity: isLight ? 0.6 : 0.8,
                   }}
                 />
 

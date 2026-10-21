@@ -183,21 +183,7 @@ export default function TestimonialsSlider() {
     setCurrentIndex((prev) => (prev === total - 1 ? 0 : prev + 1));
   };
 
-  // Auto-advance every 6.5s unless hovered or user switched to grid mode
-  useEffect(() => {
-    if (viewMode === "grid" || isPaused) {
-      if (timerRef.current) clearInterval(timerRef.current);
-      return;
-    }
-
-    timerRef.current = setInterval(() => {
-      setCurrentIndex((prev) => (prev === total - 1 ? 0 : prev + 1));
-    }, 6500);
-
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, [viewMode, isPaused, total]);
+  // Static by default: slides advance on user interaction (arrows or tab selection)
 
   return (
     <div

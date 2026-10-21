@@ -190,16 +190,8 @@ export default function LettersInMotionHeadline({
     [currentIndex, activeDef, heroRef, onPhraseChange]
   );
 
-  // Interval timer for rotating through services (strictly pauses when paused, offscreen, or tab hidden)
-  useEffect(() => {
-    if (isPaused || !isVisible) return;
+  // Capability phrases switch on user dot selection or click, avoiding continuous idle CPU execution
 
-    const timer = setInterval(() => {
-      onSelectIndex((currentIndex + 1) % OPASH_SERVICES_PHRASES.length);
-    }, 4500);
-
-    return () => clearInterval(timer);
-  }, [currentIndex, isPaused, isVisible, onSelectIndex]);
 
   // Measure whenever the active index changes or window resizes
   useEffect(() => {

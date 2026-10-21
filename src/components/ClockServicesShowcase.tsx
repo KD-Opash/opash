@@ -1,14 +1,10 @@
 "use client";
 
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import {
   ArrowRight,
   ArrowUpRight,
-  ChevronLeft,
-  ChevronRight,
-  Sparkles,
-  Layers,
   Code2,
   Globe2,
   Smartphone,
@@ -16,8 +12,8 @@ import {
   Network,
   Users2,
 } from "lucide-react";
-import { Service3DLiveIcon } from "@/components/Service3DLiveIcon";
 import { CoverflowCreativeBackdrop } from "@/components/CoverflowCreativeBackdrop";
+import { useTheme } from "@/components/ThemeProvider";
 
 export interface ServiceItem {
   id: string;
@@ -30,7 +26,7 @@ export interface ServiceItem {
   accentRgb: string;
   image: string;
   tags: string[];
-  icon: any;
+  icon: React.ComponentType<{ size?: number; className?: string; style?: React.CSSProperties }>;
   shortLabel: string;
 }
 
@@ -43,7 +39,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     url: "https://www.opashsoftware.com/custom-software-development/",
     slug: "custom-software-development",
     badge: "Enterprise Grade",
-    accent: "#0ea5e9", // Blue
+    accent: "#0ea5e9", // Sky Blue
     accentRgb: "14, 165, 233",
     image: "",
     tags: ["Enterprise Architecture", "DevOps & CI/CD", "Cloud-Native"],
@@ -57,7 +53,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     url: "https://www.opashsoftware.com/web-development/",
     slug: "web-development",
     badge: "Lightning Fast",
-    accent: "#10b981", // Green
+    accent: "#10b981", // Emerald Green
     accentRgb: "16, 185, 129",
     image: "",
     tags: ["Next.js & React", "High Performance", "SEO Ready"],
@@ -71,7 +67,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     url: "https://www.opashsoftware.com/mobile-development/",
     slug: "mobile-development",
     badge: "Cross-Platform",
-    accent: "#3b82f6", // Blue
+    accent: "#3b82f6", // Royal Blue
     accentRgb: "59, 130, 246",
     image: "",
     tags: ["iOS & Android", "React Native", "Native UX"],
@@ -85,7 +81,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     url: "https://www.opashsoftware.com/ai-ml-solutions/",
     slug: "ai-ml-solutions",
     badge: "AI Systems",
-    accent: "#00bbab", // Green
+    accent: "#00bbab", // Teal
     accentRgb: "0, 187, 171",
     image: "",
     tags: ["LLMs & GenAI", "Neural Models", "AutoML"],
@@ -99,7 +95,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     url: "https://www.opashsoftware.com/api-integration/",
     slug: "api-integration",
     badge: "Microservices",
-    accent: "#0284c7", // Blue
+    accent: "#0284c7", // Ocean Blue
     accentRgb: "2, 132, 199",
     image: "",
     tags: ["Microservices", "REST & GraphQL", "Low Latency"],
@@ -113,7 +109,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     url: "https://www.opashsoftware.com/hire-developers/",
     slug: "hire-developers",
     badge: "Dedicated Team",
-    accent: "#10b981", // Green
+    accent: "#10b981", // Emerald
     accentRgb: "16, 185, 129",
     image: "",
     tags: ["Top 1% Talent", "Zero Overhead", "Flexible Scale"],
@@ -122,184 +118,139 @@ export const SERVICES_DATA: ServiceItem[] = [
 ];
 
 export function ClockServicesShowcase() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
-  const [mouseTilt, setMouseTilt] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
-  const [touchStartX, setTouchStartX] = useState<number | null>(null);
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const { theme } = useTheme();
+  const isLight = theme === "light";
+  const [selectedFilter, setSelectedFilter] = useState<string>("all");
 
-  const stageRef = useRef<HTMLDivElement>(null);
-  const total = SERVICES_DATA.length;
-
-  // Listen for reduced motion preference
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setPrefersReducedMotion(mql.matches);
-    const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
-    mql.addEventListener("change", handler);
-    return () => mql.removeEventListener("change", handler);
-  }, []);
-
-  const goTo = useCallback((index: number) => {
-    setActiveIndex((index + total) % total);
-  }, [total]);
-
-  const prevService = useCallback(() => {
-    goTo(activeIndex - 1);
-  }, [activeIndex, goTo]);
-
-  const nextService = useCallback(() => {
-    goTo(activeIndex + 1);
-  }, [activeIndex, goTo]);
-
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const el = stageRef.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsVisible(entry.isIntersecting);
-      },
-      { threshold: 0.1 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  // Cinematic auto-rotation every 3.5 seconds (only when in view)
-  useEffect(() => {
-    if (!isVisible || isHovered || prefersReducedMotion) return;
-    const interval = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % total);
-    }, 3500);
-    return () => clearInterval(interval);
-  }, [isVisible, isHovered, prefersReducedMotion, total, activeIndex]);
-
-  // Keyboard navigation
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft") {
-        prevService();
-      } else if (e.key === "ArrowRight") {
-        nextService();
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [prevService, nextService]);
-
-  // Smooth pointer tilt calculation on active center card only
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!stageRef.current) return;
-    const rect = stageRef.current.getBoundingClientRect();
-    const x = (e.clientX - (rect.left + rect.width / 2)) / (rect.width / 2);
-    const y = (e.clientY - (rect.top + rect.height / 2)) / (rect.height / 2);
-    setMouseTilt({
-      x: Math.max(-1, Math.min(1, x)),
-      y: Math.max(-1, Math.min(1, y)),
-    });
-  };
-
-  const handleMouseLeave = () => {
-    setMouseTilt({ x: 0, y: 0 });
-    setIsHovered(false);
-  };
-
-  // Touch Swipe handlers for mobile
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setTouchStartX(e.touches[0].clientX);
-  };
-
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    if (touchStartX === null) return;
-    const diff = e.changedTouches[0].clientX - touchStartX;
-    if (diff > 40) {
-      prevService();
-    } else if (diff < -40) {
-      nextService();
-    }
-    setTouchStartX(null);
-  };
-
-  // Deterministic 3D slot resolution for 6 cards continuous rotation
-  const getSlot = (index: number) => {
-    let diff = (index - activeIndex) % total;
-    if (diff < 0) diff += total;
-
-    switch (diff) {
-      case 0:
-        return "center";
-      case 1:
-        return "right-1";
-      case 2:
-        return "right-2";
-      case 3:
-        return "back";
-      case 4:
-        return "left-2";
-      case 5:
-        return "left-1";
-      default:
-        return "back";
-    }
-  };
-
-  const activeService = SERVICES_DATA[activeIndex];
+  const displayedServices =
+    selectedFilter === "all"
+      ? SERVICES_DATA
+      : SERVICES_DATA.filter((s) => s.id === selectedFilter);
 
   return (
     <section
       id="services"
-      className="coverflow-services-section relative overflow-x-clip w-full select-none"
+      className="coverflow-services-section relative w-full"
+      style={{
+        position: "relative",
+        padding: "6rem 0 6.5rem 0",
+        overflow: "hidden",
+      }}
       aria-label="Opash Software Services and Capabilities"
     >
-      {/* Dynamic Ambient Creative Hologram & Warp Backdrop */}
+      {/* Lightweight, zero-GPU static ambient backdrop */}
       <CoverflowCreativeBackdrop
-        accent={activeService.accent}
-        accentRgb={activeService.accentRgb}
+        accent="#0ea5e9"
+        accentRgb="14, 165, 233"
       />
 
       <div className="container-custom relative z-10">
         {/* ========================================================================= */}
         {/* 1. SECTION HEADER                                                         */}
         {/* ========================================================================= */}
-        <div className="coverflow-header-wrapper">
-          <div className="coverflow-eyebrow">
-            <span className="coverflow-eyebrow-dot" />
-            <span>FULL-SPECTRUM CAPABILITIES &bull; BESPOKE ARCHITECTURE</span>
+        <div className="coverflow-header-wrapper" style={{ textAlign: "center", marginBottom: "3rem" }}>
+          <div className="coverflow-eyebrow" style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem" }}>
+            <span
+              className="coverflow-eyebrow-dot"
+              style={{
+                width: 8,
+                height: 8,
+                borderRadius: "50%",
+                backgroundColor: "#00bbab",
+                display: "inline-block",
+              }}
+            />
+            <span style={{ fontSize: "0.82rem", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase" }}>
+              FULL-SPECTRUM CAPABILITIES &bull; BESPOKE ARCHITECTURE
+            </span>
           </div>
 
-          <h2 className="coverflow-headline">
-            Our <span className="coverflow-headline-highlight">Services</span>
+          <h2
+            className="heading-section"
+            style={{ fontSize: "clamp(2rem, 4vw, 2.85rem)", fontWeight: 850, margin: "0.75rem 0 1rem 0" }}
+          >
+            Our <span className="opash-hero-gradient-text">Services</span>
           </h2>
 
-          <p className="coverflow-subhead">
+          <p
+            className="subhead-lead"
+            style={{
+              margin: "0 auto 2rem auto",
+              maxWidth: "680px",
+              color: isLight ? "#475569" : "#94a3b8",
+              fontSize: "1.05rem",
+              lineHeight: 1.6,
+            }}
+          >
             We engineer high-performance digital platforms with remarkable aesthetics, delivering a full spectrum of result-oriented enterprise solutions.
           </p>
 
           {/* Quick-Jump Category / Service Pills */}
-          <div className="coverflow-pill-tabs" role="tablist">
-            {SERVICES_DATA.map((srv, idx) => {
-              const isActive = idx === activeIndex;
+          <div
+            className="coverflow-pill-tabs"
+            role="tablist"
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "0.5rem",
+            }}
+          >
+            <button
+              onClick={() => setSelectedFilter("all")}
+              className={`coverflow-tab-btn ${selectedFilter === "all" ? "active" : ""}`}
+              role="tab"
+              aria-selected={selectedFilter === "all"}
+              style={{
+                padding: "0.45rem 1rem",
+                borderRadius: "9999px",
+                fontSize: "0.82rem",
+                fontWeight: 650,
+                border: selectedFilter === "all"
+                  ? "1px solid #00bbab"
+                  : `1px solid ${isLight ? "#e2e8f0" : "rgba(255, 255, 255, 0.08)"}`,
+                background: selectedFilter === "all"
+                  ? isLight ? "rgba(0, 187, 171, 0.12)" : "rgba(0, 187, 171, 0.2)"
+                  : isLight ? "#ffffff" : "rgba(15, 23, 42, 0.6)",
+                color: selectedFilter === "all" ? (isLight ? "#0f766e" : "#00ffd1") : isLight ? "#64748b" : "#94a3b8",
+                cursor: "pointer",
+                transition: "all 0.2s ease",
+              }}
+            >
+              All Services
+            </button>
+            {SERVICES_DATA.map((srv) => {
+              const isActive = selectedFilter === srv.id;
               const Icon = srv.icon;
               return (
                 <button
                   key={srv.id}
-                  onClick={() => goTo(idx)}
+                  onClick={() => setSelectedFilter(srv.id)}
                   className={`coverflow-tab-btn ${isActive ? "active" : ""}`}
                   role="tab"
                   aria-selected={isActive}
-                  style={
-                    {
-                      "--tab-accent": srv.accent,
-                      "--tab-accent-rgb": srv.accentRgb,
-                    } as React.CSSProperties
-                  }
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "0.45rem",
+                    padding: "0.45rem 1rem",
+                    borderRadius: "9999px",
+                    fontSize: "0.82rem",
+                    fontWeight: 650,
+                    border: isActive
+                      ? `1px solid ${srv.accent}`
+                      : `1px solid ${isLight ? "#e2e8f0" : "rgba(255, 255, 255, 0.08)"}`,
+                    background: isActive
+                      ? `rgba(${srv.accentRgb}, ${isLight ? 0.12 : 0.2})`
+                      : isLight ? "#ffffff" : "rgba(15, 23, 42, 0.6)",
+                    color: isActive ? srv.accent : isLight ? "#64748b" : "#94a3b8",
+                    cursor: "pointer",
+                    transition: "all 0.2s ease",
+                  }}
                 >
-                  <Icon size={13} className="coverflow-tab-icon" />
+                  <Icon size={14} />
                   <span>{srv.shortLabel}</span>
-                  {isActive && <span className="coverflow-tab-active-glow" />}
                 </button>
               );
             })}
@@ -307,212 +258,238 @@ export function ClockServicesShowcase() {
         </div>
 
         {/* ========================================================================= */}
-        {/* 2. 3D PERSPECTIVE COVERFLOW CAROUSEL STAGE                                */}
+        {/* 2. HIGH-PERFORMANCE STATIC RESPONSIVE 6-CARD GRID (0% GPU/CPU OVERHEAD)   */}
         {/* ========================================================================= */}
         <div
-          ref={stageRef}
-          className="coverflow-stage-container"
-          onMouseMove={handleMouseMove}
-          onTouchStart={handleTouchStart}
-          onTouchEnd={handleTouchEnd}
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 350px), 1fr))",
+            gap: "1.75rem",
+            alignItems: "stretch",
+          }}
         >
-          {/* Left Navigation Arrow */}
-          <button
-            onClick={prevService}
-            aria-label="Previous service card"
-            className="coverflow-stage-nav-btn prev-btn"
-          >
-            <ChevronLeft size={22} />
-          </button>
+          {displayedServices.map((service, index) => {
+            const Icon = service.icon;
 
-          {/* Right Navigation Arrow */}
-          <button
-            onClick={nextService}
-            aria-label="Next service card"
-            className="coverflow-stage-nav-btn next-btn"
-          >
-            <ChevronRight size={22} />
-          </button>
-
-          {/* 3D Cards Carousel Deck with 6-Slot Continuous Orbit */}
-          <div className="coverflow-deck-wrapper">
-            {SERVICES_DATA.map((service, index) => {
-              const slot = getSlot(index);
-              const isCenter = slot === "center";
-              const isBack = slot === "back";
-
-              return (
-                <div
-                  key={service.id}
-                  data-slot={slot}
-                  onClick={(e) => {
-                    if (!isCenter) {
-                      e.preventDefault();
-                      goTo(index);
-                    }
+            return (
+              <div
+                key={service.id}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  height: "100%",
+                }}
+              >
+                <Link
+                  href={service.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    height: "100%",
+                    padding: "2rem",
+                    borderRadius: "22px",
+                    background: isLight ? "#ffffff" : "rgba(10, 18, 36, 0.75)",
+                    border: isLight
+                      ? `1px solid #e2e8f0`
+                      : `1px solid rgba(255, 255, 255, 0.08)`,
+                    textDecoration: "none",
+                    color: "inherit",
+                    position: "relative",
+                    overflow: "hidden",
+                    transition: "transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease",
                   }}
-                  className={`coverflow-card-anchor ${isCenter ? "is-center" : ""} ${
-                    slot === "right-1" || slot === "left-1" ? "is-adjacent" : ""
-                  } ${slot === "right-2" || slot === "left-2" ? "is-far" : ""} ${
-                    isBack ? "is-back" : ""
-                  }`}
-                  style={
-                    {
-                      "--service-accent": service.accent,
-                      "--service-accent-rgb": service.accentRgb,
-                    } as React.CSSProperties
-                  }
-                  role="group"
-                  aria-roledescription="slide"
-                  aria-label={`${service.title} (${index + 1} of ${total})`}
-                  aria-hidden={isBack}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "translateY(-4px)";
+                    e.currentTarget.style.borderColor = service.accent;
+                    e.currentTarget.style.boxShadow = isLight
+                      ? `0 14px 30px -10px rgba(${service.accentRgb}, 0.2)`
+                      : `0 16px 36px -12px rgba(${service.accentRgb}, 0.35)`;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "none";
+                    e.currentTarget.style.borderColor = isLight ? "#e2e8f0" : "rgba(255, 255, 255, 0.08)";
+                    e.currentTarget.style.boxShadow = "none";
+                  }}
                 >
-                  <Link
-                    href={service.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="coverflow-card-box"
-                    tabIndex={isCenter ? 0 : -1}
-                    onMouseEnter={() => isCenter && setIsHovered(true)}
-                    onMouseLeave={() => isCenter && handleMouseLeave()}
-                    style={
-                      isCenter && isHovered && !prefersReducedMotion && (mouseTilt.x !== 0 || mouseTilt.y !== 0)
-                        ? {
-                            transform: `rotateX(${mouseTilt.y * -4}deg) rotateY(${mouseTilt.x * 4}deg)`,
-                            transition: "transform 0.12s ease-out",
-                          }
-                        : undefined
-                    }
-                  >
-                    {/* Active Laser Border Beam (spinning around card perimeter) */}
-                    {isCenter && <div className="coverflow-laser-border" aria-hidden="true" />}
+                  {/* Subtle Top Accent Line */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      height: "3px",
+                      background: `linear-gradient(90deg, transparent, ${service.accent}, transparent)`,
+                    }}
+                  />
 
-                    {/* Ambient Accent Radial Glow */}
+                  {/* Card Header: Badge + Arrow */}
+                  <div>
                     <div
-                      className="coverflow-card-halo"
                       style={{
-                        background: `radial-gradient(circle at 50% 0%, rgba(${service.accentRgb}, 0.55) 0%, transparent 65%)`,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        marginBottom: "1.5rem",
                       }}
-                    />
-
-                    {/* Top Specular Sheen */}
-                    <div
-                      className="coverflow-card-top-sheen"
-                      style={{
-                        background: `linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.2) 25%, ${service.accent} 50%, rgba(255,255,255,0.2) 75%, transparent 100%)`,
-                      }}
-                    />
-
-                    {/* Card Header: Badge + Arrow */}
-                    <div className="coverflow-card-header">
+                    >
                       <span
-                        className="coverflow-badge"
                         style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "0.4rem",
+                          padding: "0.3rem 0.8rem",
+                          borderRadius: "9999px",
+                          fontSize: "0.74rem",
+                          fontWeight: 750,
                           backgroundColor: `rgba(${service.accentRgb}, 0.12)`,
                           color: service.accent,
-                          border: `1px solid rgba(${service.accentRgb}, 0.35)`,
+                          border: `1px solid rgba(${service.accentRgb}, 0.3)`,
                         }}
                       >
                         <span
-                          className="coverflow-badge-dot"
                           style={{
+                            width: 6,
+                            height: 6,
+                            borderRadius: "50%",
                             backgroundColor: service.accent,
-                            boxShadow: `0 0 8px ${service.accent}`,
                           }}
                         />
                         {service.badge}
                       </span>
 
                       <div
-                        className="coverflow-corner-btn"
                         style={{
-                          borderColor: `rgba(${service.accentRgb}, 0.3)`,
+                          width: "34px",
+                          height: "34px",
+                          borderRadius: "50%",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          border: `1px solid rgba(${service.accentRgb}, 0.3)`,
                           color: service.accent,
+                          background: isLight ? "#f8fafc" : "rgba(255, 255, 255, 0.04)",
                         }}
                       >
-                        <ArrowUpRight size={15} />
+                        <ArrowUpRight size={16} />
                       </div>
                     </div>
 
-                    {/* 3D Tech Icon Stage */}
-                    <div className="coverflow-icon-stage">
-                      <Service3DLiveIcon
-                        id={service.id}
-                        image={service.image}
-                        title={service.title}
-                        accent={service.accent}
-                        accentRgb={service.accentRgb}
-                      />
+                    {/* Service Icon Badge */}
+                    <div
+                      style={{
+                        width: "56px",
+                        height: "56px",
+                        borderRadius: "16px",
+                        backgroundColor: `rgba(${service.accentRgb}, 0.12)`,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        color: service.accent,
+                        marginBottom: "1.25rem",
+                        border: `1px solid rgba(${service.accentRgb}, 0.25)`,
+                      }}
+                    >
+                      <Icon size={28} />
                     </div>
 
                     {/* Card Content */}
-                    <div className="coverflow-card-body">
-                      <h3 className="coverflow-card-title">{service.title}</h3>
+                    <h3
+                      style={{
+                        fontSize: "1.35rem",
+                        fontWeight: 800,
+                        margin: "0 0 0.75rem 0",
+                        letterSpacing: "-0.01em",
+                        color: isLight ? "#0f172a" : "#f8fafc",
+                      }}
+                    >
+                      {service.title}
+                    </h3>
 
-                      <p className="coverflow-card-desc">{service.desc}</p>
+                    <p
+                      style={{
+                        fontSize: "0.92rem",
+                        lineHeight: 1.6,
+                        color: isLight ? "#64748b" : "#94a3b8",
+                        margin: "0 0 1.5rem 0",
+                      }}
+                    >
+                      {service.desc}
+                    </p>
 
-                      {/* Feature Chips */}
-                      <div className="coverflow-tags-row">
-                        {service.tags.map((tag, tIdx) => (
-                          <span key={tIdx} className="coverflow-tag-chip">
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
+                    {/* Feature Chips */}
+                    <div
+                      style={{
+                        display: "flex",
+                        flexWrap: "wrap",
+                        gap: "0.45rem",
+                        marginBottom: "1.75rem",
+                      }}
+                    >
+                      {service.tags.map((tag, tIdx) => (
+                        <span
+                          key={tIdx}
+                          style={{
+                            fontSize: "0.72rem",
+                            fontWeight: 650,
+                            padding: "0.22rem 0.65rem",
+                            borderRadius: "6px",
+                            background: isLight ? "#f1f5f9" : "rgba(255, 255, 255, 0.05)",
+                            color: isLight ? "#475569" : "#cbd5e1",
+                            border: `1px solid ${isLight ? "#e2e8f0" : "rgba(255, 255, 255, 0.06)"}`,
+                          }}
+                        >
+                          {tag}
+                        </span>
+                      ))}
                     </div>
+                  </div>
 
-                    {/* Footer CTA */}
-                    <div className="coverflow-card-footer">
-                      <span className="coverflow-cta-text" style={{ color: service.accent }}>
-                        Explore Service
-                      </span>
-                      <div
-                        className="coverflow-cta-arrow"
-                        style={{
-                          backgroundColor: `rgba(${service.accentRgb}, 0.15)`,
-                          color: service.accent,
-                        }}
-                      >
-                        <ArrowRight size={14} />
-                      </div>
+                  {/* Footer CTA */}
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      paddingTop: "1.2rem",
+                      borderTop: `1px solid ${isLight ? "#f1f5f9" : "rgba(255, 255, 255, 0.06)"}`,
+                    }}
+                  >
+                    <span
+                      style={{
+                        color: service.accent,
+                        fontSize: "0.88rem",
+                        fontWeight: 750,
+                      }}
+                    >
+                      Explore Service
+                    </span>
+                    <div
+                      style={{
+                        width: "28px",
+                        height: "28px",
+                        borderRadius: "50%",
+                        backgroundColor: `rgba(${service.accentRgb}, 0.15)`,
+                        color: service.accent,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <ArrowRight size={14} />
                     </div>
-
-                    {/* Corner Cyber Accents */}
-                    <div className="coverflow-corner-bracket top-left" />
-                    <div className="coverflow-corner-bracket top-right" />
-                    <div className="coverflow-corner-bracket bottom-left" />
-                    <div className="coverflow-corner-bracket bottom-right" />
-                  </Link>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* ========================================================================= */}
-        {/* 3. SIX-STEP POSITION INDICATOR & PROGRESS DOCK                            */}
-        {/* ========================================================================= */}
-        <div className="coverflow-pagination-dock" role="navigation" aria-label="Carousel navigation">
-          <div className="coverflow-dots-group">
-            {SERVICES_DATA.map((srv, idx) => {
-              const isActive = idx === activeIndex;
-              return (
-                <button
-                  key={srv.id}
-                  onClick={() => goTo(idx)}
-                  className={`coverflow-dot-pill ${isActive ? "active" : ""}`}
-                  aria-label={`Jump to ${srv.title} (${idx + 1} of ${total})`}
-                  aria-current={isActive ? "true" : undefined}
-                  style={{
-                    backgroundColor: isActive ? srv.accent : undefined,
-                    boxShadow: isActive ? `0 0 14px ${srv.accent}` : undefined,
-                  }}
-                />
-              );
-            })}
-          </div>
+                  </div>
+                </Link>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
   );
 }
+
+export default ClockServicesShowcase;

@@ -61,8 +61,7 @@ export default function HeroCreativeBackdrop({
           width: '850px',
           height: '650px',
           borderRadius: '50%',
-          background: `radial-gradient(circle, ${activePrimaryColor}${isLightMode ? '1c' : '26'} 0%, transparent 68%)`,
-          filter: 'blur(70px)',
+          background: `radial-gradient(circle, ${activePrimaryColor}${isLightMode ? '18' : '22'} 0%, ${activePrimaryColor}08 45%, transparent 70%)`,
           transition: 'background 0.7s ease',
           pointerEvents: 'none',
         }}
@@ -77,8 +76,7 @@ export default function HeroCreativeBackdrop({
           width: '650px',
           height: '550px',
           borderRadius: '50%',
-          background: `radial-gradient(circle, ${activeSecondaryColor}${isLightMode ? '14' : '20'} 0%, transparent 70%)`,
-          filter: 'blur(80px)',
+          background: `radial-gradient(circle, ${activeSecondaryColor}${isLightMode ? '10' : '18'} 0%, ${activeSecondaryColor}05 45%, transparent 70%)`,
           transition: 'background 0.7s ease',
           pointerEvents: 'none',
         }}
@@ -94,9 +92,8 @@ export default function HeroCreativeBackdrop({
           height: '450px',
           borderRadius: '50%',
           background: isLightMode
-            ? 'radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, transparent 70%)'
-            : 'radial-gradient(circle, rgba(99, 102, 241, 0.14) 0%, transparent 70%)',
-          filter: 'blur(90px)',
+            ? 'radial-gradient(circle, rgba(99, 102, 241, 0.06) 0%, transparent 70%)'
+            : 'radial-gradient(circle, rgba(99, 102, 241, 0.10) 0%, transparent 70%)',
           pointerEvents: 'none',
         }}
       />

@@ -280,9 +280,8 @@ export default function CinematicImpactSection() {
           height: "450px",
           borderRadius: "50%",
           background: isLight
-            ? "radial-gradient(circle, rgba(14, 165, 233, 0.06) 0%, transparent 70%)"
-            : `radial-gradient(circle, rgba(${active.colorRgb}, 0.08) 0%, transparent 75%)`,
-          filter: "blur(90px)",
+            ? "radial-gradient(circle, rgba(14, 165, 233, 0.05) 0%, transparent 70%)"
+            : `radial-gradient(circle, rgba(${active.colorRgb}, 0.06) 0%, transparent 75%)`,
           pointerEvents: "none",
           transition: "background 0.5s ease",
           zIndex: 0,
