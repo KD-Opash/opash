@@ -22,8 +22,11 @@ import {
 } from "lucide-react";
 import { companyData } from "@/data/company";
 import ThemeToggle from "./ThemeToggle";
+import { useTheme } from "./ThemeProvider";
 
 export default function Navbar() {
+  const { theme } = useTheme();
+  const isLight = theme === "light";
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
@@ -131,11 +134,11 @@ export default function Navbar() {
     },
   ];
 
-  const isServicesActive = servicesList.some((s) => pathname === s.href);
+  const isServicesActive = pathname === "/services" || servicesList.some((s) => pathname === s.href);
   const isHome = pathname === "/";
 
   return (
-    <header className={`corporate-navbar ${isHome ? "navbar-overlay" : ""} ${scrolled ? "scrolled" : ""}`}>
+    <header className={`corporate-navbar navbar-overlay ${scrolled ? "scrolled" : ""}`}>
       <div className="corporate-nav-container">
         {/* Brand Logo - Light & Dark Mode */}
         <Link href="/" className="corporate-nav-brand" aria-label="Opash Software Home">
@@ -170,13 +173,12 @@ export default function Navbar() {
             onMouseEnter={handleServicesEnter}
             onMouseLeave={handleServicesLeave}
           >
-            <button
-              type="button"
+            <Link
+              href="/services"
               className={`corporate-link ${isServicesActive || servicesDropdownOpen ? "active" : ""}`}
-              onClick={() => setServicesDropdownOpen(!servicesDropdownOpen)}
-              aria-expanded={servicesDropdownOpen}
+              style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem" }}
             >
-              Services
+              <span>Services</span>
               <ChevronDown
                 size={14}
                 style={{
@@ -184,7 +186,7 @@ export default function Navbar() {
                   transition: "transform 0.2s ease",
                 }}
               />
-            </button>
+            </Link>
 
             {/* Clean Professional Services Dropdown */}
             {servicesDropdownOpen && (
@@ -237,14 +239,28 @@ export default function Navbar() {
                         Talk directly with our solutions architects.
                       </div>
                     </div>
-                    <Link
-                      href="/get-a-quote"
-                      className="corporate-footer-cta"
-                      onClick={() => setServicesDropdownOpen(false)}
-                    >
-                      <span>Free Architecture Call</span>
-                      <ArrowRight size={14} />
-                    </Link>
+                    <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
+                      <Link
+                        href="/services"
+                        className="corporate-footer-cta"
+                        style={{
+                          background: isLight ? "rgba(15, 23, 42, 0.05)" : "rgba(255, 255, 255, 0.06)",
+                          color: isLight ? "#0f172a" : "#f8fafc",
+                          border: isLight ? "1px solid rgba(15, 23, 42, 0.1)" : "1px solid rgba(255, 255, 255, 0.12)",
+                        }}
+                        onClick={() => setServicesDropdownOpen(false)}
+                      >
+                        <span>View All Services</span>
+                      </Link>
+                      <Link
+                        href="/get-a-quote"
+                        className="corporate-footer-cta"
+                        onClick={() => setServicesDropdownOpen(false)}
+                      >
+                        <span>Free Architecture Call</span>
+                        <ArrowRight size={14} />
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -354,6 +370,26 @@ export default function Navbar() {
 
               {mobileServicesOpen && (
                 <div style={{ display: "grid", gap: "0.4rem", padding: "0.5rem 0 0.5rem 0.5rem" }}>
+                  <Link
+                    href="/services"
+                    onClick={() => setMobileMenuOpen(false)}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "0.6rem",
+                      padding: "0.55rem 0.75rem",
+                      borderRadius: "8px",
+                      color: pathname === "/services" ? "#00BBAB" : (isLight ? "#008a75" : "#5EC098"),
+                      fontWeight: 700,
+                      textDecoration: "none",
+                      fontSize: "0.92rem",
+                      background: isLight ? "rgba(0, 168, 143, 0.08)" : "rgba(94, 192, 152, 0.12)",
+                      border: isLight ? "1px solid rgba(0, 168, 143, 0.2)" : "1px solid rgba(94, 192, 152, 0.25)",
+                      marginBottom: "0.35rem",
+                    }}
+                  >
+                    <span>View All Services Overview &rarr;</span>
+                  </Link>
                   {servicesList.map((s) => {
                     const Icon = s.icon;
                     return (

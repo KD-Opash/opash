@@ -11,6 +11,8 @@ import {
   Cpu,
   Network,
   Users2,
+  Cloud,
+  ShieldCheck,
 } from "lucide-react";
 import { CoverflowCreativeBackdrop } from "@/components/CoverflowCreativeBackdrop";
 import { useTheme } from "@/components/ThemeProvider";
@@ -36,7 +38,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     title: "Custom Software Development",
     shortLabel: "Custom Software",
     desc: "Opash Software builds scalable custom software tailored to your business needs — from enterprise platforms to niche solutions. Our agile approach ensures faster delivery and long-term performance.",
-    url: "https://www.opashsoftware.com/custom-software-development/",
+    url: "/custom-software-development",
     slug: "custom-software-development",
     badge: "Enterprise Grade",
     accent: "#0ea5e9", // Sky Blue
@@ -50,7 +52,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     title: "Web Development",
     shortLabel: "Web Apps",
     desc: "Get modern, responsive, and SEO-friendly websites with Opash Software’s web development services. We build high-performance platforms using cutting-edge technologies.",
-    url: "https://www.opashsoftware.com/web-development/",
+    url: "/web-development",
     slug: "web-development",
     badge: "Lightning Fast",
     accent: "#10b981", // Emerald Green
@@ -64,7 +66,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     title: "Mobile App Development",
     shortLabel: "Mobile Apps",
     desc: "We design and develop feature-rich mobile apps for iOS and Android that are fast, secure, and scalable. Deliver exceptional user experiences with cross-platform and native apps.",
-    url: "https://www.opashsoftware.com/mobile-development/",
+    url: "/mobile-development",
     slug: "mobile-development",
     badge: "Cross-Platform",
     accent: "#3b82f6", // Royal Blue
@@ -78,7 +80,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     title: "AI & ML Solutions",
     shortLabel: "AI & ML",
     desc: "Leverage Artificial Intelligence and Machine Learning to automate workflows, enhance decision-making, and personalize experiences tailored to your business goals.",
-    url: "https://www.opashsoftware.com/ai-ml-solutions/",
+    url: "/ai-ml-solutions",
     slug: "ai-ml-solutions",
     badge: "AI Systems",
     accent: "#00bbab", // Teal
@@ -88,11 +90,25 @@ export const SERVICES_DATA: ServiceItem[] = [
     icon: Cpu,
   },
   {
+    id: "saas-development",
+    title: "SaaS Development",
+    shortLabel: "SaaS Engine",
+    desc: "Architect multi-tenant cloud platforms with automated recurring billing, granular role permissions, high availability, and horizontal elasticity.",
+    url: "/saas-development",
+    slug: "saas-development",
+    badge: "Multi-Tenant",
+    accent: "#6366f1", // Indigo
+    accentRgb: "99, 102, 241",
+    image: "",
+    tags: ["Multi-Tenancy", "Stripe Subscriptions", "AWS Cloud"],
+    icon: Cloud,
+  },
+  {
     id: "api-integration",
     title: "API Integration & Microservices",
     shortLabel: "API & Microservices",
     desc: "Enhance system efficiency with seamless API integration and microservices architecture. Enable rapid scalability, modular development, and faster time-to-market.",
-    url: "https://www.opashsoftware.com/api-integration/",
+    url: "/api-integration",
     slug: "api-integration",
     badge: "Microservices",
     accent: "#0284c7", // Ocean Blue
@@ -102,11 +118,25 @@ export const SERVICES_DATA: ServiceItem[] = [
     icon: Network,
   },
   {
+    id: "qa-testing",
+    title: "QA & Software Testing",
+    shortLabel: "QA & Testing",
+    desc: "Eliminate defects with comprehensive automated Playwright and manual testing suites, verifying reliability, security, and edge performance.",
+    url: "/qa-testing",
+    slug: "qa-testing",
+    badge: "Zero Defects",
+    accent: "#f43f5e", // Rose
+    accentRgb: "244, 63, 94",
+    image: "",
+    tags: ["Playwright E2E", "Security Audits", "Load Testing"],
+    icon: ShieldCheck,
+  },
+  {
     id: "hire-developers",
     title: "Hire Dedicated Developers",
     shortLabel: "Dedicated Team",
     desc: "Hire vetted and skilled developers from Opash Software for your custom projects. Scale your tech team on-demand with flexible engagement models and domain expertise.",
-    url: "https://www.opashsoftware.com/hire-developers/",
+    url: "/hire-developers",
     slug: "hire-developers",
     badge: "Dedicated Team",
     accent: "#10b981", // Emerald
@@ -282,8 +312,6 @@ export function ClockServicesShowcase() {
               >
                 <Link
                   href={service.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   style={{
                     display: "flex",
                     flexDirection: "column",

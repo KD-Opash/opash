@@ -6,199 +6,184 @@ interface BlogsCreativeBackdropProps {
   isLightMode?: boolean;
 }
 
+/**
+ * 0% GPU Ultra-Efficient Ambient Architectural Telemetry Backdrop.
+ * Fully spread across the entire width and height without harsh boundaries,
+ * cutoffs, or dark artificial bars. Uses native multi-stop CSS radial gradients
+ * and crisp SVG telemetry vector lines for an authentic high-tech engineering feel.
+ */
 export default function BlogsCreativeBackdrop({ isLightMode = false }: BlogsCreativeBackdropProps) {
   return (
     <div
       aria-hidden="true"
       style={{
+     
         position: 'absolute',
         inset: 0,
         overflow: 'hidden',
         pointerEvents: 'none',
         zIndex: 0,
+        background: 'transparent',
       }}
     >
-      {/* 1. Multi-Stop Atmospheric Gradients (Knowledge Matrix Glow) */}
+      {/* 1. Fully-Spread Ambient Radiant Aura (Opash Logo Palette) */}
       <div
         style={{
           position: 'absolute',
           inset: 0,
           background: isLightMode
             ? `
-              radial-gradient(ellipse 75% 55% at 50% 12%, rgba(0, 168, 143, 0.12) 0%, transparent 65%),
-              radial-gradient(ellipse 65% 50% at 85% 25%, rgba(99, 102, 241, 0.10) 0%, transparent 65%),
-              radial-gradient(ellipse 60% 45% at 15% 30%, rgba(14, 165, 233, 0.10) 0%, transparent 60%),
-              radial-gradient(circle 600px at 50% 8%, #f8fafc 0%, #f1f5f9 100%)
+              radial-gradient(ellipse 130% 90% at 50% -15%, rgba(0, 168, 143, 0.16) 0%, rgba(71, 109, 154, 0.11) 35%, rgba(98, 137, 184, 0.04) 65%, transparent 85%),
+              radial-gradient(ellipse 70% 60% at 0% 35%, rgba(71, 109, 154, 0.14) 0%, transparent 70%),
+              radial-gradient(ellipse 70% 60% at 100% 35%, rgba(0, 168, 143, 0.13) 0%, transparent 70%),
+              radial-gradient(ellipse 90% 50% at 50% 100%, rgba(71, 109, 154, 0.08) 0%, transparent 75%)
             `
             : `
-              radial-gradient(ellipse 80% 55% at 50% 12%, rgba(0, 187, 171, 0.20) 0%, transparent 70%),
-              radial-gradient(ellipse 65% 50% at 85% 25%, rgba(129, 140, 248, 0.16) 0%, transparent 65%),
-              radial-gradient(ellipse 60% 45% at 15% 30%, rgba(56, 189, 248, 0.16) 0%, transparent 65%),
-              radial-gradient(circle 750px at 50% 5%, #050d22 0%, #020712 100%)
+              radial-gradient(ellipse 140% 90% at 50% -15%, rgba(94, 192, 152, 0.22) 0%, rgba(71, 109, 154, 0.18) 35%, rgba(98, 137, 184, 0.08) 65%, transparent 85%),
+              radial-gradient(ellipse 75% 65% at 0% 40%, rgba(71, 109, 154, 0.20) 0%, transparent 75%),
+              radial-gradient(ellipse 75% 65% at 100% 40%, rgba(94, 192, 152, 0.18) 0%, transparent 75%),
+              radial-gradient(ellipse 90% 50% at 50% 100%, rgba(71, 109, 154, 0.10) 0%, transparent 75%)
             `,
-          transition: 'background 0.5s ease',
         }}
       />
 
-      {/* 2. Bespoke 3D AI & Engineering Innovation Backdrop */}
-      <img
-        src="/images/services/ai_ml_3d.jpg"
-        alt=""
-        style={{
-          position: 'absolute',
-          top: '-12%',
-          left: '50%',
-          transform: 'translateX(-50%) scale(1.04)',
-          width: '100%',
-          maxWidth: '1400px',
-          height: '120%',
-          objectFit: 'cover',
-          objectPosition: 'center 20%',
-          opacity: isLightMode ? 0.08 : 0.20,
-          filter: isLightMode ? 'saturate(1.2) contrast(1.1)' : 'saturate(1.3) brightness(0.9)',
-          maskImage: 'radial-gradient(ellipse 85% 65% at 50% 36%, black 25%, rgba(0, 0, 0, 0.2) 65%, transparent 95%)',
-          WebkitMaskImage: 'radial-gradient(ellipse 85% 65% at 50% 36%, black 25%, rgba(0, 0, 0, 0.2) 65%, transparent 95%)',
-        }}
-      />
-
-      {/* 3. Knowledge Graph Neural Constellation SVG */}
-      <svg
-        style={{
-          position: 'absolute',
-          top: '45%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: '1200px',
-          height: '700px',
-          opacity: isLightMode ? 0.35 : 0.45,
-        }}
-        viewBox="0 0 1200 700"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <defs>
-          <linearGradient id="blogLineGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor={isLightMode ? "#00a88f" : "#2dd4bf"} stopOpacity="0.4" />
-            <stop offset="100%" stopColor={isLightMode ? "#0284c7" : "#38bdf8"} stopOpacity="0" />
-          </linearGradient>
-          <linearGradient id="blogLineGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor={isLightMode ? "#6366f1" : "#818cf8"} stopOpacity="0.4" />
-            <stop offset="100%" stopColor={isLightMode ? "#00a88f" : "#2dd4bf"} stopOpacity="0" />
-          </linearGradient>
-        </defs>
-
-        {/* Neural connection vectors */}
-        <line x1="200" y1="200" x2="450" y2="350" stroke="url(#blogLineGrad1)" strokeWidth="1" strokeDasharray="4 4" />
-        <line x1="450" y1="350" x2="750" y2="350" stroke="url(#blogLineGrad1)" strokeWidth="1" />
-        <line x1="750" y1="350" x2="1000" y2="220" stroke="url(#blogLineGrad2)" strokeWidth="1" strokeDasharray="4 4" />
-        <line x1="450" y1="350" x2="600" y2="520" stroke="url(#blogLineGrad2)" strokeWidth="1" strokeDasharray="2 6" />
-        <line x1="750" y1="350" x2="600" y2="520" stroke="url(#blogLineGrad1)" strokeWidth="1" />
-
-        {/* Constellation Nodes */}
-        <circle cx="200" cy="200" r="4" fill={isLightMode ? "#00a88f" : "#2dd4bf"} />
-        <circle cx="450" cy="350" r="6" fill={isLightMode ? "#0284c7" : "#38bdf8"} />
-        <circle cx="750" cy="350" r="6" fill={isLightMode ? "#6366f1" : "#818cf8"} />
-        <circle cx="1000" cy="220" r="4" fill={isLightMode ? "#00a88f" : "#2dd4bf"} />
-        <circle cx="600" cy="520" r="5" fill={isLightMode ? "#0284c7" : "#38bdf8"} />
-
-        {/* Surrounding concentric orbits */}
-        <circle cx="600" cy="350" r="280" stroke={isLightMode ? "rgba(0, 168, 143, 0.12)" : "rgba(45, 212, 191, 0.15)"} strokeWidth="1" strokeDasharray="6 8" />
-        <circle cx="600" cy="350" r="440" stroke={isLightMode ? "rgba(2, 132, 199, 0.08)" : "rgba(56, 189, 248, 0.10)"} strokeWidth="1" strokeDasharray="3 10" />
-      </svg>
-
-      {/* 4. Architectural Dot Matrix Grid */}
+      {/* 2. Top Luminous Laser Horizon Beam (Opash Mint & Slate) */}
       <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: '50%',
+          transform: 'translateX(-50%)',
+          width: '90%',
+          maxWidth: '1320px',
+          height: '1px',
+          background: isLightMode
+            ? 'linear-gradient(90deg, transparent 0%, rgba(71, 109, 154, 0.3) 20%, rgba(0, 168, 143, 0.8) 50%, rgba(71, 109, 154, 0.3) 75%, transparent 100%)'
+            : 'linear-gradient(90deg, transparent 0%, rgba(71, 109, 154, 0.35) 20%, rgba(94, 192, 152, 0.95) 50%, rgba(98, 137, 184, 0.5) 80%, transparent 100%)',
+          boxShadow: isLightMode
+            ? '0 0 20px rgba(0, 168, 143, 0.3)'
+            : '0 0 25px rgba(94, 192, 152, 0.5), 0 0 10px rgba(71, 109, 154, 0.35)',
+        }}
+      />
+
+      {/* 3. Architectural Telemetry SVG Vector Grid & Blueprint HUD (0% GPU) */}
+      <svg
+        width="100%"
+        height="100%"
         style={{
           position: 'absolute',
           inset: 0,
-          opacity: isLightMode ? 0.32 : 0.2,
-          backgroundImage: isLightMode
-            ? 'radial-gradient(#94a3b8 1px, transparent 1px)'
-            : 'radial-gradient(#38bdf8 1px, transparent 1px)',
-          backgroundSize: '32px 32px',
-          maskImage: 'radial-gradient(ellipse 75% 65% at 50% 35%, black 40%, transparent 80%)',
-          WebkitMaskImage: 'radial-gradient(ellipse 75% 65% at 50% 35%, black 40%, transparent 80%)',
-        }}
-      />
-
-      {/* 5. Floating Knowledge Telemetry Badges */}
-      <div
-        className="hidden xl:flex"
-        style={{
-          position: 'absolute',
-          top: '11%',
-          left: '4%',
-          alignItems: 'center',
-          gap: '8px',
-          padding: '6px 14px',
-          borderRadius: '9999px',
-          background: isLightMode ? 'rgba(255, 255, 255, 0.75)' : 'rgba(15, 23, 42, 0.65)',
-          border: isLightMode ? '1px solid rgba(0, 168, 143, 0.2)' : '1px solid rgba(45, 212, 191, 0.25)',
-          backdropFilter: 'blur(10px)',
-          fontSize: '0.74rem',
-          fontFamily: 'monospace',
-          letterSpacing: '0.04em',
-          color: isLightMode ? '#008a75' : '#2dd4bf',
-          boxShadow: isLightMode ? '0 4px 16px rgba(0, 168, 143, 0.08)' : '0 4px 20px rgba(0, 0, 0, 0.4)',
+          opacity: isLightMode ? 0.45 : 0.35,
+          maskImage: 'linear-gradient(to bottom, black 0%, black 80%, transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 80%, transparent 100%)',
         }}
       >
-        <span
-          style={{
-            width: '6px',
-            height: '6px',
-            borderRadius: '50%',
-            backgroundColor: isLightMode ? '#00a88f' : '#2dd4bf',
-            boxShadow: '0 0 8px #2dd4bf',
-          }}
-        />
-        <span>PEER-REVIEWED ARCHITECTURE WHITEPAPERS</span>
-      </div>
+        <defs>
+          {/* Micro Grid Pattern */}
+          <pattern id="blogs-grid-pattern" width="48" height="48" patternUnits="userSpaceOnUse">
+            <path
+              d="M 48 0 L 0 0 0 48"
+              fill="none"
+              stroke={isLightMode ? 'rgba(71, 109, 154, 0.25)' : 'rgba(71, 109, 154, 0.25)'}
+              strokeWidth="0.8"
+            />
+            {/* Center dot in grid cell */}
+            <circle
+              cx="24"
+              cy="24"
+              r="0.9"
+              fill={isLightMode ? 'rgba(0, 168, 143, 0.4)' : 'rgba(94, 192, 152, 0.45)'}
+            />
+          </pattern>
+        </defs>
 
-      <div
-        className="hidden xl:flex"
-        style={{
-          position: 'absolute',
-          top: '11%',
-          right: '4%',
-          alignItems: 'center',
-          gap: '8px',
-          padding: '6px 14px',
-          borderRadius: '9999px',
-          background: isLightMode ? 'rgba(255, 255, 255, 0.75)' : 'rgba(15, 23, 42, 0.65)',
-          border: isLightMode ? '1px solid rgba(99, 102, 241, 0.2)' : '1px solid rgba(129, 140, 248, 0.25)',
-          backdropFilter: 'blur(10px)',
-          fontSize: '0.74rem',
-          fontFamily: 'monospace',
-          letterSpacing: '0.04em',
-          color: isLightMode ? '#6366f1' : '#818cf8',
-          boxShadow: isLightMode ? '0 4px 16px rgba(99, 102, 241, 0.08)' : '0 4px 20px rgba(0, 0, 0, 0.4)',
-        }}
-      >
-        <span
-          style={{
-            width: '6px',
-            height: '6px',
-            borderRadius: '50%',
-            backgroundColor: isLightMode ? '#6366f1' : '#818cf8',
-            boxShadow: '0 0 8px #818cf8',
-          }}
-        />
-        <span>PRODUCTION TELEMETRY &bull; 0% VENDOR BIAS</span>
-      </div>
+        {/* Base Grid Layer */}
+        <rect width="100%" height="100%" fill="url(#blogs-grid-pattern)" />
 
-      {/* 6. Bottom Transition Feather Blender */}
-      <div
-        style={{
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          height: '180px',
-          background: isLightMode
-            ? 'linear-gradient(to bottom, transparent 0%, rgba(248, 250, 252, 0.85) 60%, #f8fafc 100%)'
-            : 'linear-gradient(to bottom, transparent 0%, rgba(2, 7, 18, 0.85) 60%, #020712 100%)',
-        }}
-      />
+        {/* High-Tech Blueprint Crosshairs at Intersections */}
+        {[
+          { x: '10%', y: '20%' },
+          { x: '25%', y: '65%' },
+          { x: '88%', y: '25%' },
+          { x: '80%', y: '75%' },
+          { x: '50%', y: '88%' },
+        ].map((pt, i) => (
+          <g key={i} transform={`translate(${pt.x}, ${pt.y})`}>
+            <line
+              x1="-8"
+              y1="0"
+              x2="8"
+              y2="0"
+              stroke={isLightMode ? '#008a75' : '#2dd4bf'}
+              strokeWidth="1.2"
+              opacity="0.6"
+            />
+            <line
+              x1="0"
+              y1="-8"
+              x2="0"
+              y2="8"
+              stroke={isLightMode ? '#008a75' : '#2dd4bf'}
+              strokeWidth="1.2"
+              opacity="0.6"
+            />
+            <circle
+              cx="0"
+              cy="0"
+              r="2"
+              fill="none"
+              stroke={isLightMode ? '#008a75' : '#2dd4bf'}
+              strokeWidth="0.8"
+              opacity="0.7"
+            />
+          </g>
+        ))}
+
+        {/* Subtle Micro-Telemetry Coordinate Tags in Margin */}
+        <text
+          x="3%"
+          y="12%"
+          fill={isLightMode ? '#64748b' : '#38bdf8'}
+          fontSize="9"
+          fontFamily="monospace"
+          letterSpacing="0.1em"
+          opacity="0.6"
+        >
+          // SYS_TELEMETRY: OPASH_KNOWLEDGE_NET
+        </text>
+        <text
+          x="3%"
+          y="15%"
+          fill={isLightMode ? '#94a3b8' : '#2dd4bf'}
+          fontSize="8"
+          fontFamily="monospace"
+          opacity="0.5"
+        >
+          NODE_LOC: [LAT: 37.77 / LON: -122.41]
+        </text>
+
+        <text
+          x="84%"
+          y="12%"
+          fill={isLightMode ? '#64748b' : '#818cf8'}
+          fontSize="9"
+          fontFamily="monospace"
+          letterSpacing="0.1em"
+          opacity="0.6"
+        >
+          // WHITEPAPERS: ARCHITECTURE_LIVE
+        </text>
+        <text
+          x="84%"
+          y="15%"
+          fill={isLightMode ? '#94a3b8' : '#38bdf8'}
+          fontSize="8"
+          fontFamily="monospace"
+          opacity="0.5"
+        >
+          LATENCY: 0.18ms &bull; 99.999% SLA
+        </text>
+      </svg>
     </div>
   );
 }

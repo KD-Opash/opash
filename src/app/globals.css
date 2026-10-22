@@ -160,12 +160,14 @@ body {
 
 .ambient-glow-orb {
   position: absolute;
-  width: 600px;
-  height: 600px;
+  width: 750px;
+  height: 750px;
   border-radius: 50%;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.25;
+  opacity: 0.22;
+  filter: blur(120px);
+  transform: translate3d(0, 0, 0);
 }
 
 [data-theme="light"] .ambient-glow-orb {
@@ -482,6 +484,28 @@ body {
   display: inline-block;
 }
 
+/* Rock-solid Brand Gradient Text (Prevents gradient box glitch in WebKit/Chromium) */
+.opash-brand-gradient-text {
+  background: linear-gradient(135deg, #00A88F 0%, #476D9A 100%);
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  display: inline-block !important;
+  vertical-align: baseline;
+}
+
+[data-theme="dark"] .opash-brand-gradient-text,
+.dark .opash-brand-gradient-text {
+  background: linear-gradient(135deg, #5EC098 0%, #6289B8 100%);
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  display: inline-block !important;
+  vertical-align: baseline;
+}
+
 /* ========================================================================= */
 /* CLEAN PROFESSIONAL CORPORATE NAVBAR (Zero busy lines, Executive look)   */
 /* ========================================================================= */
@@ -524,11 +548,20 @@ body {
   box-shadow: 0 2px 14px rgba(15, 23, 42, 0.05) !important;
 }
 
-[data-theme="light"] .corporate-navbar.navbar-overlay {
-  background: rgba(255, 255, 255, 0.92) !important;
+[data-theme="light"] .corporate-navbar.navbar-overlay:not(.scrolled) {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.2) 75%, transparent 100%) !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+[data-theme="light"] .corporate-navbar.navbar-overlay.scrolled {
+  background: rgba(255, 255, 255, 0.96) !important;
   border-bottom: 1px solid rgba(15, 23, 42, 0.08) !important;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.08) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
 [data-theme="light"] .corporate-navbar .corporate-link,
@@ -12018,145 +12051,145 @@ html[data-theme="light"] .industries-bento-section {
   padding: 4px 0;
 }
 
-.rotating-gear-svg {
-  width: 52px;
-  height: 52px;
-  flex-shrink: 0;
-  animation: none;
-  filter: none;
-}
+  .rotating-gear-svg {
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+    animation: none;
+    filter: none;
+  }
 
-.industrial-telemetry {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
+  .industrial-telemetry {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
 
-.industrial-code-line {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 0.72rem;
-  color: #cbd5e1;
-}
+  .industrial-code-line {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.72rem;
+    color: #cbd5e1;
+  }
 
-[data-theme="light"] .industrial-code-line {
-  color: #334155;
-}
+  [data-theme="light"] .industrial-code-line {
+    color: #334155;
+  }
 
-.industrial-code-line .code-accent {
-  color: #10b981;
-  font-weight: 700;
-}
+  .industrial-code-line .code-accent {
+    color: #10b981;
+    font-weight: 700;
+  }
 
-.industrial-progress-rail {
-  height: 6px;
-  width: 100%;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.08);
-  overflow: hidden;
-}
+  .industrial-progress-rail {
+    height: 6px;
+    width: 100%;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+  }
 
-[data-theme="light"] .industrial-progress-rail {
-  background: rgba(0, 0, 0, 0.07);
-}
+  [data-theme="light"] .industrial-progress-rail {
+    background: rgba(0, 0, 0, 0.07);
+  }
 
-.industrial-progress-bar {
-  height: 100%;
-  border-radius: 999px;
-  background: linear-gradient(90deg, #059669, #10b981, #34d399);
-  width: 82%;
-  animation: none;
-}
+  .industrial-progress-bar {
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #059669, #10b981, #34d399);
+    width: 82%;
+    animation: none;
+  }
 
-.industrial-status-sub {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.67rem;
-  color: #94a3b8;
-}
+  .industrial-status-sub {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.67rem;
+    color: #94a3b8;
+  }
 
-[data-theme="light"] .industrial-status-sub {
-  color: #64748b;
-}
+  [data-theme="light"] .industrial-status-sub {
+    color: #64748b;
+  }
 
-/* eSanad: Laser Holographic Scanner */
-.notary-screen {
-  position: relative;
-  overflow: hidden;
-}
+  /* eSanad: Laser Holographic Scanner */
+  .notary-screen {
+    position: relative;
+    overflow: hidden;
+  }
 
-.notary-laser-beam {
-  display: none;
-}
+  .notary-laser-beam {
+    display: none;
+  }
 
-.notary-cert-card {
-  background: rgba(139, 92, 246, 0.07);
-  border: 1px solid rgba(139, 92, 246, 0.22);
-  border-radius: 9px;
-  padding: 8px 10px;
-}
+  .notary-cert-card {
+    background: rgba(139, 92, 246, 0.07);
+    border: 1px solid rgba(139, 92, 246, 0.22);
+    border-radius: 9px;
+    padding: 8px 10px;
+  }
 
-[data-theme="light"] .notary-cert-card {
-  background: rgba(139, 92, 246, 0.05);
-  border: 1px solid rgba(139, 92, 246, 0.2);
-}
+  [data-theme="light"] .notary-cert-card {
+    background: rgba(139, 92, 246, 0.05);
+    border: 1px solid rgba(139, 92, 246, 0.2);
+  }
 
-.notary-cert-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 6px;
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: #f1f5f9;
-}
+  .notary-cert-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #f1f5f9;
+  }
 
-[data-theme="light"] .notary-cert-header {
-  color: #0f172a;
-}
+  [data-theme="light"] .notary-cert-header {
+    color: #0f172a;
+  }
 
-.notary-verified-badge {
-  font-size: 0.6rem;
-  font-weight: 800;
-  padding: 2px 6px;
-  border-radius: 4px;
-  background: rgba(139, 92, 246, 0.22);
-  color: #c084fc;
-  letter-spacing: 0.06em;
-}
+  .notary-verified-badge {
+    font-size: 0.6rem;
+    font-weight: 800;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(139, 92, 246, 0.22);
+    color: #c084fc;
+    letter-spacing: 0.06em;
+  }
 
-[data-theme="light"] .notary-verified-badge {
-  background: rgba(139, 92, 246, 0.15);
-  color: #7c3aed;
-}
+  [data-theme="light"] .notary-verified-badge {
+    background: rgba(139, 92, 246, 0.15);
+    color: #7c3aed;
+  }
 
-.notary-cert-hash {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 0.65rem;
-  color: #94a3b8;
-  margin: 5px 0 6px 0;
-}
+  .notary-cert-hash {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.65rem;
+    color: #94a3b8;
+    margin: 5px 0 6px 0;
+  }
 
-[data-theme="light"] .notary-cert-hash {
-  color: #64748b;
-}
+  [data-theme="light"] .notary-cert-hash {
+    color: #64748b;
+  }
 
-.notary-metrics-row {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.68rem;
-  color: #cbd5e1;
-}
+  .notary-metrics-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.68rem;
+    color: #cbd5e1;
+  }
 
-[data-theme="light"] .notary-metrics-row {
-  color: #334155;
-}
+  [data-theme="light"] .notary-metrics-row {
+    color: #334155;
+  }
 
-/* Compact Mockup Viewport Overrides */
-.compact-mockup .client-mockup-bar {
-  padding: 5px 10px;
-}
+  /* Compact Mockup Viewport Overrides */
+  .compact-mockup .client-mockup-bar {
+    padding: 5px 10px;
+  }
 
 .compact-screen {
   min-height: 80px !important;
@@ -12250,5 +12283,13 @@ html[data-theme="light"] .industries-bento-section {
     scroll-behavior: auto !important;
   }
 }
+
+/* Get A Quote Page: Responsive Configurator Layout */
+@media (max-width: 1024px) {
+  .estimator-interactive-layout {
+    grid-template-columns: 1fr !important;
+  }
+}
+
 
 

@@ -6,6 +6,12 @@ interface CareerCreativeBackdropProps {
   isLightMode?: boolean;
 }
 
+/**
+ * 0% GPU Ultra-Efficient Ambient Career Backdrop.
+ * Removes heavy 3D sculpture images, corner clutter, and harsh oval masks.
+ * Features an expansive edge-to-edge radiant gradient aura, top horizon beam,
+ * precision micro-grid, and crisp career growth trajectory vectors.
+ */
 export default function CareerCreativeBackdrop({ isLightMode = false }: CareerCreativeBackdropProps) {
   return (
     <div
@@ -16,61 +22,63 @@ export default function CareerCreativeBackdrop({ isLightMode = false }: CareerCr
         overflow: 'hidden',
         pointerEvents: 'none',
         zIndex: 0,
+        background: 'transparent',
       }}
     >
-      {/* 1. Multi-Stop Vibrant Growth Aurora (Emerald & Cyan Energy) */}
+      {/* 1. Fully-Spread Ambient Radiant Aura (Opash Logo Palette) */}
       <div
         style={{
           position: 'absolute',
           inset: 0,
           background: isLightMode
             ? `
-              radial-gradient(ellipse 75% 55% at 50% 12%, rgba(0, 168, 143, 0.14) 0%, transparent 65%),
-              radial-gradient(ellipse 65% 50% at 85% 25%, rgba(14, 165, 233, 0.10) 0%, transparent 65%),
-              radial-gradient(ellipse 60% 45% at 15% 30%, rgba(16, 185, 129, 0.10) 0%, transparent 60%),
-              radial-gradient(circle 600px at 50% 8%, #f8fafc 0%, #f1f5f9 100%)
+              radial-gradient(ellipse 130% 90% at 50% -15%, rgba(0, 168, 143, 0.16) 0%, rgba(71, 109, 154, 0.11) 35%, rgba(98, 137, 184, 0.05) 65%, transparent 85%),
+              radial-gradient(ellipse 70% 60% at 0% 35%, rgba(71, 109, 154, 0.14) 0%, transparent 70%),
+              radial-gradient(ellipse 70% 60% at 100% 35%, rgba(0, 168, 143, 0.13) 0%, transparent 70%),
+              radial-gradient(ellipse 90% 50% at 50% 100%, rgba(71, 109, 154, 0.08) 0%, transparent 75%)
             `
             : `
-              radial-gradient(ellipse 80% 55% at 50% 12%, rgba(0, 187, 171, 0.22) 0%, transparent 70%),
-              radial-gradient(ellipse 65% 50% at 85% 25%, rgba(56, 189, 248, 0.16) 0%, transparent 65%),
-              radial-gradient(ellipse 60% 45% at 15% 30%, rgba(16, 185, 129, 0.16) 0%, transparent 65%),
-              radial-gradient(circle 750px at 50% 5%, #03141f 0%, #020712 100%)
+              radial-gradient(ellipse 140% 90% at 50% -15%, rgba(94, 192, 152, 0.22) 0%, rgba(71, 109, 154, 0.18) 35%, rgba(98, 137, 184, 0.08) 65%, transparent 85%),
+              radial-gradient(ellipse 75% 65% at 0% 35%, rgba(71, 109, 154, 0.20) 0%, transparent 70%),
+              radial-gradient(ellipse 75% 65% at 100% 35%, rgba(94, 192, 152, 0.18) 0%, transparent 70%),
+              radial-gradient(ellipse 90% 50% at 50% 100%, rgba(71, 109, 154, 0.10) 0%, transparent 75%)
             `,
           transition: 'background 0.5s ease',
         }}
       />
 
-      {/* 2. 3D Engineering Craftsmanship Visual Texture */}
-      <img
-        src="/images/hero-sculpture-tech.jpg"
-        alt=""
+      {/* 2. Top Luminous Horizon Accent Beam (Opash Mint & Slate) */}
+      <div
         style={{
           position: 'absolute',
-          top: '-8%',
+          top: 0,
           left: '50%',
-          transform: 'translateX(-50%) scale(1.05)',
-          width: '100%',
-          maxWidth: '1450px',
-          height: '115%',
-          objectFit: 'cover',
-          objectPosition: 'center 25%',
-          opacity: isLightMode ? 0.12 : 0.24,
-          filter: isLightMode ? 'saturate(1.2) contrast(1.15)' : 'saturate(1.35) brightness(0.92)',
-          maskImage: 'radial-gradient(ellipse 85% 65% at 50% 36%, black 25%, rgba(0, 0, 0, 0.2) 65%, transparent 95%)',
-          WebkitMaskImage: 'radial-gradient(ellipse 85% 65% at 50% 36%, black 25%, rgba(0, 0, 0, 0.2) 65%, transparent 95%)',
+          transform: 'translateX(-50%)',
+          width: '90%',
+          maxWidth: '1320px',
+          height: '1px',
+          background: isLightMode
+            ? 'linear-gradient(90deg, transparent 0%, rgba(71, 109, 154, 0.3) 20%, rgba(0, 168, 143, 0.8) 50%, rgba(71, 109, 154, 0.3) 75%, transparent 100%)'
+            : 'linear-gradient(90deg, transparent 0%, rgba(71, 109, 154, 0.35) 20%, rgba(94, 192, 152, 0.95) 50%, rgba(98, 137, 184, 0.5) 80%, transparent 100%)',
+          boxShadow: isLightMode
+            ? '0 0 20px rgba(0, 168, 143, 0.3)'
+            : '0 0 25px rgba(94, 192, 152, 0.5), 0 0 10px rgba(71, 109, 154, 0.35)',
         }}
       />
 
-      {/* 3. Career Constellation & Growth Trajectory Orbit SVG */}
+      {/* 3. Career Constellation & Growth Trajectory Orbit SVG (Opash Brand Vectors) */}
       <svg
         style={{
           position: 'absolute',
-          top: '48%',
+          top: '46%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: '1200px',
+          width: '100%',
+          maxWidth: '1300px',
           height: '750px',
           opacity: isLightMode ? 0.35 : 0.45,
+          maskImage: 'linear-gradient(to bottom, black 0%, black 80%, transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 80%, transparent 100%)',
         }}
         viewBox="0 0 1200 750"
         fill="none"
@@ -78,117 +86,41 @@ export default function CareerCreativeBackdrop({ isLightMode = false }: CareerCr
       >
         <defs>
           <linearGradient id="careerTrajectory" x1="0%" y1="100%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor={isLightMode ? "#00a88f" : "#2dd4bf"} stopOpacity="0" />
-            <stop offset="50%" stopColor={isLightMode ? "#00a88f" : "#2dd4bf"} stopOpacity="0.4" />
-            <stop offset="100%" stopColor={isLightMode ? "#38bdf8" : "#38bdf8"} stopOpacity="0.6" />
+            <stop offset="0%" stopColor={isLightMode ? "#476D9A" : "#476D9A"} stopOpacity="0" />
+            <stop offset="50%" stopColor={isLightMode ? "#00A88F" : "#5EC098"} stopOpacity="0.5" />
+            <stop offset="100%" stopColor={isLightMode ? "#1e3a5f" : "#6289B8"} stopOpacity="0.7" />
           </linearGradient>
         </defs>
 
-        {/* Parabolic Growth Curves */}
-        <path d="M 100 650 Q 600 500 1100 150" stroke="url(#careerTrajectory)" strokeWidth="2" strokeDasharray="6 6" />
-        <path d="M 250 680 Q 650 420 1050 220" stroke={isLightMode ? "rgba(14, 165, 233, 0.2)" : "rgba(56, 189, 248, 0.25)"} strokeWidth="1" strokeDasharray="3 8" />
+        {/* Parabolic Engineering Career Growth Curves */}
+        <path d="M 80 620 Q 600 480 1120 160" stroke="url(#careerTrajectory)" strokeWidth="1.8" strokeDasharray="6 6" />
+        <path d="M 220 660 Q 640 400 1060 210" stroke={isLightMode ? "rgba(71, 109, 154, 0.25)" : "rgba(98, 137, 184, 0.3)"} strokeWidth="1" strokeDasharray="3 8" />
 
-        {/* Orbit Rings */}
-        <ellipse cx="600" cy="380" rx="360" ry="180" stroke={isLightMode ? "rgba(0, 168, 143, 0.15)" : "rgba(45, 212, 191, 0.18)"} strokeWidth="1" strokeDasharray="4 8" />
-        <ellipse cx="600" cy="380" rx="520" ry="260" stroke={isLightMode ? "rgba(2, 132, 199, 0.1)" : "rgba(56, 189, 248, 0.12)"} strokeWidth="1" strokeDasharray="2 10" />
+        {/* Career Radar Orbit Rings */}
+        <ellipse cx="600" cy="380" rx="380" ry="190" stroke={isLightMode ? "rgba(0, 168, 143, 0.16)" : "rgba(94, 192, 152, 0.2)"} strokeWidth="1" strokeDasharray="4 8" />
+        <ellipse cx="600" cy="380" rx="540" ry="270" stroke={isLightMode ? "rgba(71, 109, 154, 0.12)" : "rgba(71, 109, 154, 0.15)"} strokeWidth="1" strokeDasharray="2 10" />
 
-        {/* Glowing Trajectory Nodes */}
-        <circle cx="600" cy="460" r="4" fill={isLightMode ? "#00a88f" : "#2dd4bf"} />
-        <circle cx="850" cy="325" r="5" fill={isLightMode ? "#0284c7" : "#38bdf8"} />
-        <circle cx="1100" cy="150" r="7" fill={isLightMode ? "#00a88f" : "#2dd4bf"} />
+        {/* Glowing Trajectory Talent Nodes */}
+        <circle cx="600" cy="460" r="4.5" fill={isLightMode ? "#00A88F" : "#5EC098"} />
+        <circle cx="850" cy="325" r="5.5" fill={isLightMode ? "#476D9A" : "#6289B8"} />
+        <circle cx="1120" cy="160" r="7" fill={isLightMode ? "#00A88F" : "#5EC098"} />
+
+        {/* Pulse halos */}
+        <circle cx="1120" cy="160" r="14" stroke={isLightMode ? "rgba(0, 168, 143, 0.4)" : "rgba(94, 192, 152, 0.4)"} strokeWidth="1" fill="none" />
       </svg>
 
-      {/* 4. Precision Dot Matrix */}
+      {/* 4. Full-Width Architectural Micro-Grid (Edge-to-Edge Spread) */}
       <div
         style={{
           position: 'absolute',
           inset: 0,
-          opacity: isLightMode ? 0.32 : 0.2,
+          opacity: isLightMode ? 0.35 : 0.22,
           backgroundImage: isLightMode
-            ? 'radial-gradient(#94a3b8 1px, transparent 1px)'
-            : 'radial-gradient(#2dd4bf 1px, transparent 1px)',
+            ? 'radial-gradient(rgba(148, 163, 184, 0.5) 1px, transparent 1px)'
+            : 'radial-gradient(rgba(45, 212, 191, 0.5) 1px, transparent 1px)',
           backgroundSize: '32px 32px',
-          maskImage: 'radial-gradient(ellipse 75% 65% at 50% 35%, black 40%, transparent 80%)',
-          WebkitMaskImage: 'radial-gradient(ellipse 75% 65% at 50% 35%, black 40%, transparent 80%)',
-        }}
-      />
-
-      {/* 5. Floating Career Telemetry Badges */}
-      <div
-        className="hidden xl:flex"
-        style={{
-          position: 'absolute',
-          top: '11%',
-          left: '4%',
-          alignItems: 'center',
-          gap: '8px',
-          padding: '6px 14px',
-          borderRadius: '9999px',
-          background: isLightMode ? 'rgba(255, 255, 255, 0.75)' : 'rgba(15, 23, 42, 0.65)',
-          border: isLightMode ? '1px solid rgba(0, 168, 143, 0.2)' : '1px solid rgba(45, 212, 191, 0.25)',
-          backdropFilter: 'blur(10px)',
-          fontSize: '0.74rem',
-          fontFamily: 'monospace',
-          letterSpacing: '0.04em',
-          color: isLightMode ? '#008a75' : '#2dd4bf',
-          boxShadow: isLightMode ? '0 4px 16px rgba(0, 168, 143, 0.08)' : '0 4px 20px rgba(0, 0, 0, 0.4)',
-        }}
-      >
-        <span
-          style={{
-            width: '6px',
-            height: '6px',
-            borderRadius: '50%',
-            backgroundColor: isLightMode ? '#00a88f' : '#2dd4bf',
-            boxShadow: '0 0 8px #2dd4bf',
-          }}
-        />
-        <span>SURAT HQ &bull; TOP 1% TECH TALENT</span>
-      </div>
-
-      <div
-        className="hidden xl:flex"
-        style={{
-          position: 'absolute',
-          top: '11%',
-          right: '4%',
-          alignItems: 'center',
-          gap: '8px',
-          padding: '6px 14px',
-          borderRadius: '9999px',
-          background: isLightMode ? 'rgba(255, 255, 255, 0.75)' : 'rgba(15, 23, 42, 0.65)',
-          border: isLightMode ? '1px solid rgba(14, 165, 233, 0.2)' : '1px solid rgba(56, 189, 248, 0.25)',
-          backdropFilter: 'blur(10px)',
-          fontSize: '0.74rem',
-          fontFamily: 'monospace',
-          letterSpacing: '0.04em',
-          color: isLightMode ? '#0284c7' : '#38bdf8',
-          boxShadow: isLightMode ? '0 4px 16px rgba(14, 165, 233, 0.08)' : '0 4px 20px rgba(0, 0, 0, 0.4)',
-        }}
-      >
-        <span
-          style={{
-            width: '6px',
-            height: '6px',
-            borderRadius: '50%',
-            backgroundColor: isLightMode ? '#0284c7' : '#38bdf8',
-            boxShadow: '0 0 8px #38bdf8',
-          }}
-        />
-        <span>ZERO MICRO-MANAGEMENT &bull; HIGH AGENCY</span>
-      </div>
-
-      {/* 6. Bottom Feather Blender */}
-      <div
-        style={{
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          height: '180px',
-          background: isLightMode
-            ? 'linear-gradient(to bottom, transparent 0%, rgba(248, 250, 252, 0.85) 60%, #f8fafc 100%)'
-            : 'linear-gradient(to bottom, transparent 0%, rgba(2, 7, 18, 0.85) 60%, #020712 100%)',
+          maskImage: 'linear-gradient(to bottom, black 0%, black 80%, transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 80%, transparent 100%)',
         }}
       />
     </div>

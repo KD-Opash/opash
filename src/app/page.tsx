@@ -122,15 +122,6 @@ export default function HomePage() {
           background: "radial-gradient(circle, #476D9A 0%, transparent 70%)",
         }}
       />
-      <div
-        className="ambient-glow-orb"
-        style={{
-          top: "800px",
-          right: "-100px",
-          background: "radial-gradient(circle, #5EC098 0%, transparent 70%)",
-          opacity: 0.15,
-        }}
-      />
 
       {/* ========================================================= */}
       {/* SECTION 1: 3D DIGITAL PILLAR HERO (Title, Buttons, 3D Earth) */}

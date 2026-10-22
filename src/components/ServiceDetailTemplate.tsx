@@ -807,12 +807,12 @@ export default function ServiceDetailTemplate({ service }: ServiceDetailTemplate
               inset: 0,
               background: isLight
                 ? `
-                  radial-gradient(ellipse 70% 50% at 50% 15%, rgba(0, 168, 143, 0.12) 0%, transparent 65%),
-                  radial-gradient(circle 450px at 85% 30%, rgba(14, 165, 233, 0.08) 0%, transparent 70%)
+                  radial-gradient(ellipse 70% 50% at 50% 15%, rgba(0, 168, 143, 0.14) 0%, transparent 65%),
+                  radial-gradient(circle 450px at 85% 30%, rgba(71, 109, 154, 0.10) 0%, transparent 70%)
                 `
                 : `
-                  radial-gradient(ellipse 70% 50% at 50% 15%, rgba(0, 187, 171, 0.22) 0%, transparent 65%),
-                  radial-gradient(circle 450px at 85% 30%, rgba(56, 189, 248, 0.12) 0%, transparent 70%)
+                  radial-gradient(ellipse 70% 50% at 50% 15%, rgba(94, 192, 152, 0.20) 0%, transparent 65%),
+                  radial-gradient(circle 450px at 85% 30%, rgba(71, 109, 154, 0.15) 0%, transparent 70%)
                 `,
               pointerEvents: "none",
             }}

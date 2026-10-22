@@ -448,101 +448,145 @@ export default function ContactForm() {
             </div>
           </div>
 
-          {/* Row 3: Budget & Timeline */}
+          {/* Row 3: Budget & Timeline with Interactive Modern Chips */}
           <div
             style={{
               display: "grid",
               gridTemplateColumns: "1fr 1fr",
               gap: "1.5rem",
-              marginBottom: "1.5rem",
+              marginBottom: "1.75rem",
             }}
             className="form-two-col"
           >
+            {/* Interactive Budget Pills */}
             <div>
               <label
                 style={{
-                  display: "block",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
                   fontSize: "0.84rem",
                   fontWeight: 750,
-                  marginBottom: "0.5rem",
+                  marginBottom: "0.6rem",
                   color: isLight ? "#0f172a" : "#f1f5f9",
                 }}
               >
-                Estimated Budget Range
+                <span>Estimated Budget Range</span>
+                <span style={{ fontSize: "0.72rem", color: isLight ? "#008a75" : "#00ffd1", fontWeight: 700 }}>
+                  Selected: {formData.budget}
+                </span>
               </label>
               <div
                 style={{
-                  display: "flex",
-                  alignItems: "center",
-                  padding: "0.85rem 1.15rem",
-                  borderRadius: "14px",
-                  background: isLight ? "#ffffff" : "rgba(0, 0, 0, 0.35)",
-                  border: `1px solid ${isLight ? "#cbd5e1" : "rgba(255, 255, 255, 0.1)"}`,
+                  display: "grid",
+                  gridTemplateColumns: "repeat(2, 1fr)",
+                  gap: "0.5rem",
                 }}
               >
-                <DollarSign size={16} color={isLight ? "#94a3b8" : "#64748b"} style={{ marginRight: "0.65rem", flexShrink: 0 }} />
-                <select
-                  value={formData.budget}
-                  onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
-                  style={{
-                    width: "100%",
-                    background: "transparent",
-                    border: "none",
-                    outline: "none",
-                    fontSize: "0.92rem",
-                    color: isLight ? "#0f172a" : "#ffffff",
-                    cursor: "pointer",
-                  }}
-                >
-                  <option value="< $10k" style={{ background: isLight ? "#fff" : "#0f172a", color: isLight ? "#000" : "#fff" }}>&lt; $10,000</option>
-                  <option value="$10k - $25k" style={{ background: isLight ? "#fff" : "#0f172a", color: isLight ? "#000" : "#fff" }}>$10,000 - $25,000</option>
-                  <option value="$25k - $50k" style={{ background: isLight ? "#fff" : "#0f172a", color: isLight ? "#000" : "#fff" }}>$25,000 - $50,000</option>
-                  <option value="$50k+" style={{ background: isLight ? "#fff" : "#0f172a", color: isLight ? "#000" : "#fff" }}>$50,000+ (Enterprise)</option>
-                </select>
+                {[
+                  { id: "< $10k", label: "< $10,000" },
+                  { id: "$10k - $25k", label: "$10k - $25k" },
+                  { id: "$25k - $50k", label: "$25k - $50k" },
+                  { id: "$50k+", label: "$50k+ (Enterprise)" },
+                ].map((item) => {
+                  const isSelected = formData.budget === item.id;
+                  return (
+                    <button
+                      type="button"
+                      key={item.id}
+                      onClick={() => setFormData({ ...formData, budget: item.id })}
+                      style={{
+                        padding: "0.65rem 0.6rem",
+                        borderRadius: "12px",
+                        fontSize: "0.82rem",
+                        fontWeight: isSelected ? 750 : 600,
+                        cursor: "pointer",
+                        border: isSelected
+                          ? "1px solid #00ffd1"
+                          : isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.1)",
+                        background: isSelected
+                          ? isLight ? "rgba(0, 168, 143, 0.12)" : "rgba(0, 255, 209, 0.15)"
+                          : isLight ? "#ffffff" : "rgba(0, 0, 0, 0.35)",
+                        color: isSelected
+                          ? isLight ? "#008a75" : "#00ffd1"
+                          : isLight ? "#475569" : "#cbd5e1",
+                        boxShadow: isSelected
+                          ? isLight ? "0 2px 10px rgba(0, 168, 143, 0.15)" : "0 0 16px rgba(0, 255, 209, 0.2)"
+                          : "none",
+                        transition: "all 0.2s ease",
+                        textAlign: "center",
+                      }}
+                    >
+                      {item.label}
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
+            {/* Interactive Timeline Pills */}
             <div>
               <label
                 style={{
-                  display: "block",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
                   fontSize: "0.84rem",
                   fontWeight: 750,
-                  marginBottom: "0.5rem",
+                  marginBottom: "0.6rem",
                   color: isLight ? "#0f172a" : "#f1f5f9",
                 }}
               >
-                Target Timeline
+                <span>Target Timeline</span>
+                <span style={{ fontSize: "0.72rem", color: isLight ? "#0284c7" : "#38bdf8", fontWeight: 700 }}>
+                  Selected: {formData.timeline}
+                </span>
               </label>
               <div
                 style={{
-                  display: "flex",
-                  alignItems: "center",
-                  padding: "0.85rem 1.15rem",
-                  borderRadius: "14px",
-                  background: isLight ? "#ffffff" : "rgba(0, 0, 0, 0.35)",
-                  border: `1px solid ${isLight ? "#cbd5e1" : "rgba(255, 255, 255, 0.1)"}`,
+                  display: "grid",
+                  gridTemplateColumns: "repeat(2, 1fr)",
+                  gap: "0.5rem",
                 }}
               >
-                <Calendar size={16} color={isLight ? "#94a3b8" : "#64748b"} style={{ marginRight: "0.65rem", flexShrink: 0 }} />
-                <select
-                  value={formData.timeline}
-                  onChange={(e) => setFormData({ ...formData, timeline: e.target.value })}
-                  style={{
-                    width: "100%",
-                    background: "transparent",
-                    border: "none",
-                    outline: "none",
-                    fontSize: "0.92rem",
-                    color: isLight ? "#0f172a" : "#ffffff",
-                    cursor: "pointer",
-                  }}
-                >
-                  <option value="Urgent (< 1 month)" style={{ background: isLight ? "#fff" : "#0f172a", color: isLight ? "#000" : "#fff" }}>Urgent (&lt; 1 month)</option>
-                  <option value="1 - 3 Months" style={{ background: isLight ? "#fff" : "#0f172a", color: isLight ? "#000" : "#fff" }}>1 - 3 Months</option>
-                  <option value="3 - 6 Months" style={{ background: isLight ? "#fff" : "#0f172a", color: isLight ? "#000" : "#fff" }}>3 - 6 Months</option>
-                  <option value="Flexible / Ongoing" style={{ background: isLight ? "#fff" : "#0f172a", color: isLight ? "#000" : "#fff" }}>Flexible / Dedicated Squad</option>
-                </select>
+                {[
+                  { id: "Urgent (< 1 month)", label: "⚡ Urgent (< 1 Mo)" },
+                  { id: "1 - 3 Months", label: "1 - 3 Months" },
+                  { id: "3 - 6 Months", label: "3 - 6 Months" },
+                  { id: "Flexible / Ongoing", label: "Dedicated Squad" },
+                ].map((item) => {
+                  const isSelected = formData.timeline === item.id;
+                  return (
+                    <button
+                      type="button"
+                      key={item.id}
+                      onClick={() => setFormData({ ...formData, timeline: item.id })}
+                      style={{
+                        padding: "0.65rem 0.6rem",
+                        borderRadius: "12px",
+                        fontSize: "0.82rem",
+                        fontWeight: isSelected ? 750 : 600,
+                        cursor: "pointer",
+                        border: isSelected
+                          ? "1px solid #38bdf8"
+                          : isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.1)",
+                        background: isSelected
+                          ? isLight ? "rgba(14, 165, 233, 0.12)" : "rgba(56, 189, 248, 0.15)"
+                          : isLight ? "#ffffff" : "rgba(0, 0, 0, 0.35)",
+                        color: isSelected
+                          ? isLight ? "#0284c7" : "#38bdf8"
+                          : isLight ? "#475569" : "#cbd5e1",
+                        boxShadow: isSelected
+                          ? isLight ? "0 2px 10px rgba(14, 165, 233, 0.15)" : "0 0 16px rgba(56, 189, 248, 0.2)"
+                          : "none",
+                        transition: "all 0.2s ease",
+                        textAlign: "center",
+                      }}
+                    >
+                      {item.label}
+                    </button>
+                  );
+                })}
               </div>
             </div>
           </div>

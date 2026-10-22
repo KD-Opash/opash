@@ -504,6 +504,8 @@ export function AnimatedIndustriesCarousel() {
           background: `radial-gradient(ellipse at center, rgba(${activeIndustry.accentRgb}, 0.08) 0%, rgba(${activeIndustry.accentRgb}, 0.02) 50%, transparent 75%)`,
           pointerEvents: "none",
           zIndex: 0,
+          filter: "blur(100px)",
+          transform: "translate(-50%, -50%) translate3d(0, 0, 0)",
           transition: "background 0.5s ease",
         }}
       />

@@ -11,7 +11,7 @@ export const metadata = {
 export default function TermsAndConditionsPage() {
   return (
     <div className="bg-grid-pattern" style={{ minHeight: "100vh", position: "relative" }}>
-      <section style={{ paddingTop: "6rem", paddingBottom: "6rem" }}>
+      <section style={{ paddingTop: "7.5rem", paddingBottom: "6rem" }}>
         <div className="container-custom" style={{ maxWidth: "840px" }}>
           <Link
             href="/"

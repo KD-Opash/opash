@@ -29,9 +29,7 @@ export function CoverflowCreativeBackdrop({
         overflow: "hidden",
         pointerEvents: "none",
         zIndex: 0,
-        background: isLight
-          ? "radial-gradient(ellipse at 50% 30%, rgba(14, 165, 233, 0.04) 0%, transparent 70%)"
-          : "radial-gradient(ellipse at 50% 30%, rgba(14, 165, 233, 0.08) 0%, transparent 70%)",
+        background: "transparent",
       }}
     />
   );

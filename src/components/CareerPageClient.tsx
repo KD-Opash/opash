@@ -6,6 +6,8 @@ import { careersData, JobOpening } from '@/data/careers';
 import { companyData } from '@/data/company';
 import CareerCreativeBackdrop from '@/components/CareerCreativeBackdrop';
 import { useTheme } from '@/components/ThemeProvider';
+import LifeAtOpashSection from '@/components/LifeAtOpashSection';
+import OurAchievementsSection from '@/components/OurAchievementsSection';
 import {
   Briefcase,
   MapPin,
@@ -217,7 +219,7 @@ export default function CareerPageClient() {
               </a>
 
               <a
-                href="#culture"
+                href="#life-at-opash"
                 style={{
                   padding: '0.9rem 2rem',
                   fontSize: '1rem',
@@ -435,9 +437,21 @@ export default function CareerPageClient() {
       </section>
 
       {/* ========================================================
-          3. LIFE AT OPASH & PERKS BENTO GRID
+          3. LIFE AT OPASH (Real Photos Carousel & Lightbox)
       ======================================================== */}
-      <section style={{ padding: '6rem 0', position: 'relative' }}>
+      <LifeAtOpashSection />
+
+      {/* ========================================================
+          4. BENEFITS & CULTURE PERKS BENTO GRID
+      ======================================================== */}
+      <section
+        style={{
+          padding: '6rem 0',
+          position: 'relative',
+          background: isLight ? 'rgba(241, 245, 249, 0.45)' : 'rgba(10, 18, 34, 0.45)',
+          borderBottom: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.08)',
+        }}
+      >
         <div className="container-custom">
           <div style={{ textAlign: 'center', maxWidth: '680px', margin: '0 auto 3.5rem auto' }}>
             <span
@@ -534,7 +548,12 @@ export default function CareerPageClient() {
       </section>
 
       {/* ========================================================
-          4. INTERACTIVE OPEN POSITIONS CONSOLE
+          5. OUR ACHIEVEMENTS (Milestones & Orbiting Counters)
+      ======================================================== */}
+      <OurAchievementsSection />
+
+      {/* ========================================================
+          6. INTERACTIVE OPEN POSITIONS CONSOLE
       ======================================================== */}
       <section
         id="openings"

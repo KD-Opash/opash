@@ -241,25 +241,6 @@ export function FeaturedSuccessStories() {
         overflow: "hidden",
       }}
     >
-      {/* Soft Ambient Radial Backdrop */}
-      <div
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          top: "10%",
-          left: "50%",
-          transform: "translateX(-50%)",
-          width: "1000px",
-          height: "450px",
-          borderRadius: "50%",
-          background: isLight
-            ? "radial-gradient(circle, rgba(14, 165, 233, 0.05) 0%, transparent 70%)"
-            : "radial-gradient(circle, rgba(139, 92, 246, 0.06) 0%, rgba(14, 165, 233, 0.04) 50%, transparent 75%)",
-          pointerEvents: "none",
-          zIndex: 0,
-        }}
-      />
-
       <div className="container-custom" style={{ position: "relative", zIndex: 1 }}>
         {/* Section Header */}
         <div

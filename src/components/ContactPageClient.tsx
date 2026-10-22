@@ -229,7 +229,15 @@ export default function ContactPageClient() {
       {/* ========================================================
           2. DUAL-COLUMN COMMAND CONSOLE & INQUIRY FORM
       ======================================================== */}
-      <section id="inquiry-form" style={{ paddingBottom: '6rem', position: 'relative' }}>
+      <section
+        id="inquiry-form"
+        style={{
+          paddingTop: 'clamp(3.5rem, 6vw, 5.5rem)',
+          paddingBottom: '6.5rem',
+          scrollMarginTop: '110px',
+          position: 'relative',
+        }}
+      >
         <div className="container-custom">
           <div
             style={{

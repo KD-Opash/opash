@@ -89,7 +89,7 @@ export default function BlogsPageClient() {
       }}
     >
       {/* ===================================================================== */}
-      {/* 1. CINEMATIC HERO SECTION: KNOWLEDGE NEXUS & TELEMETRY HUB             */}
+      {/* 1. CINEMATIC HERO SECTION: CREATIVE ARCHITECTURE TELEMETRY NEXUS      */}
       {/* ===================================================================== */}
       <section
         style={{
@@ -98,22 +98,22 @@ export default function BlogsPageClient() {
           overflow: 'hidden',
         }}
       >
-        {/* Bespoke Creative Knowledge Graph Matrix Backdrop (0% GPU/CPU) */}
+        {/* Bespoke 0% GPU Native Gradient Ambient Backdrop */}
         <BlogsCreativeBackdrop isLightMode={isLight} />
 
-        <div className="container-custom" style={{ position: 'relative', zIndex: 2, maxWidth: '1240px', margin: '0 auto' }}>
-          {/* Eyebrow Status Badge */}
-          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.25rem' }}>
+        <div className="container-custom" style={{ position: 'relative', zIndex: 2, maxWidth: '980px', margin: '0 auto', textAlign: 'center' }}>
+          {/* Eyebrow Status Badges */}
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.65rem', flexWrap: 'wrap', marginBottom: '1.15rem' }}>
             <div
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '0.6rem',
-                padding: '0.45rem 1.25rem',
+                gap: '0.5rem',
+                padding: '0.4rem 1.15rem',
                 borderRadius: '9999px',
-                background: isLight ? 'rgba(0, 168, 143, 0.1)' : 'rgba(0, 187, 171, 0.12)',
+                background: isLight ? 'rgba(0, 168, 143, 0.08)' : 'rgba(0, 187, 171, 0.12)',
                 border: isLight ? '1px solid rgba(0, 168, 143, 0.25)' : '1px solid rgba(0, 187, 171, 0.35)',
-                fontSize: '0.82rem',
+                fontSize: '0.78rem',
                 fontWeight: 700,
                 letterSpacing: '0.05em',
                 textTransform: 'uppercase',
@@ -123,140 +123,214 @@ export default function BlogsPageClient() {
               <Sparkles size={14} />
               <span>ENGINEERING KNOWLEDGE HUB &bull; PRODUCTION WHITEPAPERS</span>
             </div>
-          </div>
 
-          {/* Main Headline */}
-          <div style={{ textAlign: 'center', maxWidth: '980px', margin: '0 auto' }}>
-            <h1
-              style={{
-                fontSize: 'clamp(2.4rem, 5vw, 4.3rem)',
-                fontWeight: 800,
-                lineHeight: 1.12,
-                letterSpacing: '-0.03em',
-                marginBottom: '1.25rem',
-              }}
-            >
-              Architectural Insights &{' '}
-              <span className="opash-hero-gradient-text">Engineering Telemetry</span>
-            </h1>
-
-            <p
-              style={{
-                fontSize: 'clamp(1.05rem, 1.8vw, 1.25rem)',
-                lineHeight: 1.65,
-                color: isLight ? '#475569' : '#94a3b8',
-                maxWidth: '840px',
-                margin: '0 auto 2.75rem auto',
-              }}
-            >
-              First-principles deep dives on microservices resilience, multi-tenant database models, agentic AI systems, and modern full-stack performance authored by Opash’s senior engineering squad.
-            </p>
-
-            {/* High-Tech Search & Domain Filter Console */}
             <div
               style={{
-                maxWidth: '780px',
-                margin: '0 auto 2rem auto',
-                padding: '0.5rem',
-                borderRadius: '18px',
-                background: isLight ? '#ffffff' : 'rgba(15, 23, 42, 0.8)',
-                border: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.12)',
-                boxShadow: isLight
-                  ? '0 10px 30px rgba(0, 0, 0, 0.05)'
-                  : '0 15px 40px rgba(0, 0, 0, 0.4)',
-                backdropFilter: 'blur(16px)',
-                display: 'flex',
+                display: 'inline-flex',
                 alignItems: 'center',
-                gap: '0.75rem',
+                gap: '0.45rem',
+                padding: '0.4rem 0.9rem',
+                borderRadius: '9999px',
+                background: isLight ? 'rgba(16, 185, 129, 0.08)' : 'rgba(16, 185, 129, 0.12)',
+                border: isLight ? '1px solid rgba(16, 185, 129, 0.25)' : '1px solid rgba(16, 185, 129, 0.35)',
+                fontSize: '0.78rem',
+                fontWeight: 700,
+                color: isLight ? '#059669' : '#34d399',
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', paddingLeft: '1rem', color: isLight ? '#94a3b8' : '#64748b' }}>
-                <Search size={20} />
-              </div>
-              <input
-                type="text"
-                placeholder="Search microservices, AI agents, Next.js, multi-tenant databases..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+              <span
                 style={{
-                  width: '100%',
-                  background: 'transparent',
-                  border: 'none',
-                  outline: 'none',
-                  fontSize: '0.98rem',
-                  color: isLight ? '#0f172a' : '#f8fafc',
-                  padding: '0.65rem 0',
+                  width: '7px',
+                  height: '7px',
+                  borderRadius: '50%',
+                  backgroundColor: '#10b981',
+                  display: 'inline-block',
                 }}
               />
-              {searchTerm && (
-                <button
-                  onClick={() => setSearchTerm('')}
-                  style={{
-                    background: 'transparent',
-                    border: 'none',
-                    cursor: 'pointer',
-                    padding: '0.4rem',
-                    color: isLight ? '#94a3b8' : '#64748b',
-                  }}
-                  title="Clear search"
-                >
-                  <X size={18} />
-                </button>
-              )}
+              <span>100% IN-HOUSE SENIOR TECH EXPERT AUTHORED</span>
             </div>
+          </div>
 
-            {/* Category Filter Pills with Item Counts */}
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.6rem', flexWrap: 'wrap' }}>
-              {categories.map((cat) => {
-                const isSelected = selectedCategory === cat;
-                const count = categoryStats[cat] || 0;
-                const catColor = getCategoryColor(cat);
+          {/* Headline */}
+          <h1
+            style={{
+              fontSize: 'clamp(2.3rem, 4.5vw, 3.8rem)',
+              fontWeight: 800,
+              lineHeight: 1.14,
+              letterSpacing: '-0.035em',
+              marginBottom: '1.1rem',
+            }}
+          >
+            Architectural Insights &{' '}
+            <span className="opash-hero-gradient-text" style={{ display: 'block', marginTop: '0.35rem' }}>
+              Engineering Telemetry.
+            </span>
+          </h1>
 
-                return (
-                  <button
-                    key={cat}
-                    onClick={() => setSelectedCategory(cat)}
+          {/* Narrative */}
+          <p
+            style={{
+              fontSize: 'clamp(0.96rem, 1.25vw, 1.12rem)',
+              lineHeight: 1.65,
+              color: isLight ? '#475569' : '#94a3b8',
+              maxWidth: '720px',
+              margin: '0 auto 1.6rem auto',
+            }}
+          >
+            First-principles deep dives on distributed microservices resilience, multi-tenant database models, agentic AI systems, and modern full-stack performance authored by Opash&apos;s senior engineering squad.
+          </p>
+
+          {/* Search Console */}
+          <div
+            style={{
+              maxWidth: '620px',
+              margin: '0 auto 1.25rem auto',
+              padding: '0.42rem',
+              borderRadius: '16px',
+              background: isLight ? '#ffffff' : 'rgba(15, 23, 42, 0.92)',
+              border: isLight ? '1px solid #e2e8f0' : '1px solid rgba(45, 212, 191, 0.28)',
+              boxShadow: isLight
+                ? '0 6px 25px rgba(0, 0, 0, 0.05)'
+                : '0 10px 30px rgba(0, 0, 0, 0.45), 0 0 20px rgba(0, 187, 171, 0.1)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.65rem',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', paddingLeft: '0.85rem', color: isLight ? '#008a75' : '#2dd4bf' }}>
+              <Search size={18} />
+            </div>
+            <input
+              type="text"
+              placeholder="Search microservices, AI agents, Next.js, multi-tenant databases..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              style={{
+                width: '100%',
+                background: 'transparent',
+                border: 'none',
+                outline: 'none',
+                fontSize: '0.94rem',
+                color: isLight ? '#0f172a' : '#f8fafc',
+                padding: '0.5rem 0',
+              }}
+            />
+            {searchTerm && (
+              <button
+                onClick={() => setSearchTerm('')}
+                style={{
+                  background: 'transparent',
+                  border: 'none',
+                  cursor: 'pointer',
+                  padding: '0.35rem',
+                  color: isLight ? '#94a3b8' : '#64748b',
+                }}
+                title="Clear search"
+              >
+                <X size={16} />
+              </button>
+            )}
+            <div
+              style={{
+                padding: '0.3rem 0.65rem',
+                borderRadius: '8px',
+                backgroundColor: isLight ? '#f1f5f9' : 'rgba(255, 255, 255, 0.06)',
+                fontSize: '0.72rem',
+                fontFamily: 'monospace',
+                color: isLight ? '#64748b' : '#94a3b8',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.2rem',
+                marginRight: '0.35rem',
+              }}
+            >
+              <span>⌘K</span>
+            </div>
+          </div>
+
+          {/* Category Filter Chips */}
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '1.4rem' }}>
+            {categories.map((cat) => {
+              const isSelected = selectedCategory === cat;
+              const count = categoryStats[cat] || 0;
+              const catColor = getCategoryColor(cat);
+
+              return (
+                <button
+                  key={cat}
+                  onClick={() => setSelectedCategory(cat)}
+                  style={{
+                    padding: '0.45rem 1rem',
+                    borderRadius: '9999px',
+                    fontSize: '0.82rem',
+                    fontWeight: isSelected ? 700 : 500,
+                    cursor: 'pointer',
+                    border: isSelected
+                      ? `1px solid ${catColor}`
+                      : isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.08)',
+                    background: isSelected
+                      ? isLight ? `${catColor}14` : `${catColor}25`
+                      : isLight ? '#ffffff' : 'rgba(15, 23, 42, 0.7)',
+                    color: isSelected
+                      ? isLight ? '#008a75' : '#2dd4bf'
+                      : isLight ? '#64748b' : '#94a3b8',
+                    transition: 'all 0.2s ease',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.45rem',
+                  }}
+                >
+                  <span>{cat}</span>
+                  <span
                     style={{
-                      padding: '0.5rem 1.15rem',
+                      fontSize: '0.72rem',
+                      fontFamily: 'monospace',
+                      fontWeight: 700,
+                      padding: '0.1rem 0.45rem',
                       borderRadius: '9999px',
-                      fontSize: '0.84rem',
-                      fontWeight: isSelected ? 700 : 500,
-                      cursor: 'pointer',
-                      border: isSelected
-                        ? `1px solid ${catColor}`
-                        : isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.08)',
                       background: isSelected
-                        ? isLight ? `${catColor}14` : `${catColor}22`
-                        : isLight ? '#ffffff' : 'rgba(15, 23, 42, 0.6)',
-                      color: isSelected
                         ? isLight ? '#008a75' : '#2dd4bf'
-                        : isLight ? '#64748b' : '#94a3b8',
-                      boxShadow: isSelected ? `0 0 16px ${catColor}33` : 'none',
-                      transition: 'all 0.25s ease',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '0.45rem',
+                        : isLight ? '#f1f5f9' : 'rgba(255, 255, 255, 0.08)',
+                      color: isSelected ? '#ffffff' : isLight ? '#64748b' : '#94a3b8',
                     }}
                   >
-                    <span>{cat}</span>
-                    <span
-                      style={{
-                        fontSize: '0.74rem',
-                        fontFamily: 'monospace',
-                        fontWeight: 700,
-                        padding: '0.1rem 0.45rem',
-                        borderRadius: '9999px',
-                        background: isSelected
-                          ? isLight ? '#008a75' : '#2dd4bf'
-                          : isLight ? '#f1f5f9' : 'rgba(255, 255, 255, 0.06)',
-                        color: isSelected ? '#ffffff' : isLight ? '#64748b' : '#94a3b8',
-                      }}
-                    >
-                      {count}
-                    </span>
-                  </button>
-                );
-              })}
+                    {count}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Engineering Methodology Trust Strip */}
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              flexWrap: 'wrap',
+              gap: '1.25rem',
+              fontSize: '0.8rem',
+              color: isLight ? '#64748b' : '#94a3b8',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+              <BookOpen size={14} style={{ color: isLight ? '#008a75' : '#2dd4bf' }} />
+              <span>Peer-Reviewed Whitepapers</span>
+            </div>
+            <span style={{ opacity: 0.35 }}>&bull;</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+              <Clock size={14} style={{ color: '#38bdf8' }} />
+              <span>First-Principles Deep Dives</span>
+            </div>
+            <span style={{ opacity: 0.35 }}>&bull;</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+              <Terminal size={14} style={{ color: '#818cf8' }} />
+              <span>Production Code Examples</span>
+            </div>
+            <span style={{ opacity: 0.35 }}>&bull;</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+              <CheckCircle2 size={14} style={{ color: '#10b981' }} />
+              <span>Zero Vendor Fluff</span>
             </div>
           </div>
         </div>
@@ -266,7 +340,7 @@ export default function BlogsPageClient() {
       {/* 2. FEATURED ARCHITECTURAL WHITEPAPER (Spotlight Hero Article)         */}
       {/* ===================================================================== */}
       {!searchTerm && selectedCategory === 'All' && (
-        <section style={{ padding: '0 1.5rem 4rem 1.5rem' }}>
+        <section style={{ padding: '2rem 1.5rem 5rem 1.5rem' }}>
           <div className="container-custom" style={{ maxWidth: '1240px', margin: '0 auto' }}>
             <div
               style={{

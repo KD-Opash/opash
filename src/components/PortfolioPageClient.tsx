@@ -265,6 +265,46 @@ export default function PortfolioPageClient() {
               Explore how Opash Software partners with international tech founders, healthcare innovators, and enterprise CTOs to modernize legacy architectures, launch resilient microservices, and scale mission-critical cloud portals.
             </p>
 
+            {/* Live Flagship Deployments Ticker Ribbon */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "0.75rem",
+                flexWrap: "wrap",
+                marginBottom: "2.25rem",
+              }}
+            >
+              {[
+                { name: "UCareHQ", sector: "Healthcare Telehealth", stat: "1.2M Patient Records", color: "#00ffd1" },
+                { name: "IKO International", sector: "Industrial CAD IoT", stat: "3x Query Acceleration", color: "#38bdf8" },
+                { name: "eSanad", sector: "GovTech & FinTech", stat: "0.82s Latency SLA", color: "#818cf8" },
+                { name: "Taygo", sector: "Mortgage Lending SaaS", stat: "6x Lead Velocity", color: "#10b981" },
+              ].map((pill, idx) => (
+                <div
+                  key={idx}
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "0.5rem",
+                    padding: "0.4rem 0.95rem",
+                    borderRadius: "9999px",
+                    background: isLight ? "#ffffff" : "rgba(15, 23, 42, 0.78)",
+                    border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
+                    fontSize: "0.8rem",
+                    fontWeight: 650,
+                    boxShadow: isLight ? "0 2px 8px rgba(0, 0, 0, 0.04)" : "0 4px 14px rgba(0, 0, 0, 0.3)",
+                  }}
+                >
+                  <span style={{ width: "7px", height: "7px", borderRadius: "50%", backgroundColor: pill.color, display: "inline-block" }} />
+                  <span style={{ color: isLight ? "#0f172a" : "#f8fafc", fontWeight: 750 }}>{pill.name}</span>
+                  <span style={{ opacity: 0.35 }}>&bull;</span>
+                  <span style={{ color: isLight ? "#64748b" : "#94a3b8", fontSize: "0.76rem" }}>{pill.stat}</span>
+                </div>
+              ))}
+            </div>
+
             {/* Quick CTAs */}
             <div style={{ display: "flex", justifyContent: "center", gap: "1rem", flexWrap: "wrap", marginBottom: "3.5rem" }}>
               <a
@@ -324,72 +364,96 @@ export default function PortfolioPageClient() {
             <div
               style={{
                 padding: "1.6rem 1.25rem",
-                borderRadius: "16px",
-                background: isLight ? "#ffffff" : "rgba(10, 20, 36, 0.7)",
-                border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
+                borderRadius: "18px",
+                background: isLight ? "#ffffff" : "rgba(10, 20, 36, 0.78)",
+                border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(45, 212, 191, 0.22)",
                 boxShadow: isLight ? "0 4px 20px rgba(0, 0, 0, 0.04)" : "0 8px 30px rgba(0, 0, 0, 0.35)",
                 textAlign: "center",
+                position: "relative",
+                overflow: "hidden",
               }}
             >
+              <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "3px", background: "linear-gradient(90deg, #00ffd1, #38bdf8)" }} />
               <div style={{ fontSize: "2.6rem", fontWeight: 800, color: isLight ? "#008a75" : "#2dd4bf", lineHeight: 1.1, marginBottom: "0.35rem" }}>
                 75+
               </div>
-              <div style={{ fontSize: "0.88rem", fontWeight: 600, color: isLight ? "#475569" : "#94a3b8" }}>
+              <div style={{ fontSize: "0.88rem", fontWeight: 700, color: isLight ? "#1e293b" : "#f8fafc", marginBottom: "0.2rem" }}>
                 Production Platforms Shipped
+              </div>
+              <div style={{ fontSize: "0.74rem", color: isLight ? "#64748b" : "#94a3b8" }}>
+                100% On-Time Enterprise Cadence
               </div>
             </div>
 
             <div
               style={{
                 padding: "1.6rem 1.25rem",
-                borderRadius: "16px",
-                background: isLight ? "#ffffff" : "rgba(10, 20, 36, 0.7)",
-                border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
+                borderRadius: "18px",
+                background: isLight ? "#ffffff" : "rgba(10, 20, 36, 0.78)",
+                border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(56, 189, 248, 0.22)",
                 boxShadow: isLight ? "0 4px 20px rgba(0, 0, 0, 0.04)" : "0 8px 30px rgba(0, 0, 0, 0.35)",
                 textAlign: "center",
+                position: "relative",
+                overflow: "hidden",
               }}
             >
+              <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "3px", background: "linear-gradient(90deg, #38bdf8, #818cf8)" }} />
               <div style={{ fontSize: "2.6rem", fontWeight: 800, color: isLight ? "#0284c7" : "#38bdf8", lineHeight: 1.1, marginBottom: "0.35rem" }}>
                 99.99%
               </div>
-              <div style={{ fontSize: "0.88rem", fontWeight: 600, color: isLight ? "#475569" : "#94a3b8" }}>
+              <div style={{ fontSize: "0.88rem", fontWeight: 700, color: isLight ? "#1e293b" : "#f8fafc", marginBottom: "0.2rem" }}>
                 Verified Production Uptime
+              </div>
+              <div style={{ fontSize: "0.74rem", color: isLight ? "#64748b" : "#94a3b8" }}>
+                Zero Mission-Critical Outages
               </div>
             </div>
 
             <div
               style={{
                 padding: "1.6rem 1.25rem",
-                borderRadius: "16px",
-                background: isLight ? "#ffffff" : "rgba(10, 20, 36, 0.7)",
-                border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
+                borderRadius: "18px",
+                background: isLight ? "#ffffff" : "rgba(10, 20, 36, 0.78)",
+                border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(129, 140, 248, 0.22)",
                 boxShadow: isLight ? "0 4px 20px rgba(0, 0, 0, 0.04)" : "0 8px 30px rgba(0, 0, 0, 0.35)",
                 textAlign: "center",
+                position: "relative",
+                overflow: "hidden",
               }}
             >
+              <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "3px", background: "linear-gradient(90deg, #818cf8, #a855f7)" }} />
               <div style={{ fontSize: "2.6rem", fontWeight: 800, color: isLight ? "#4f46e5" : "#818cf8", lineHeight: 1.1, marginBottom: "0.35rem" }}>
                 $40M+
               </div>
-              <div style={{ fontSize: "0.88rem", fontWeight: 600, color: isLight ? "#475569" : "#94a3b8" }}>
+              <div style={{ fontSize: "0.88rem", fontWeight: 700, color: isLight ? "#1e293b" : "#f8fafc", marginBottom: "0.2rem" }}>
                 Client Valuations Powered
+              </div>
+              <div style={{ fontSize: "0.74rem", color: isLight ? "#64748b" : "#94a3b8" }}>
+                Scalable Multi-Tenant Architecture
               </div>
             </div>
 
             <div
               style={{
                 padding: "1.6rem 1.25rem",
-                borderRadius: "16px",
-                background: isLight ? "#ffffff" : "rgba(10, 20, 36, 0.7)",
-                border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
+                borderRadius: "18px",
+                background: isLight ? "#ffffff" : "rgba(10, 20, 36, 0.78)",
+                border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(45, 212, 191, 0.22)",
                 boxShadow: isLight ? "0 4px 20px rgba(0, 0, 0, 0.04)" : "0 8px 30px rgba(0, 0, 0, 0.35)",
                 textAlign: "center",
+                position: "relative",
+                overflow: "hidden",
               }}
             >
+              <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "3px", background: "linear-gradient(90deg, #00ffd1, #10b981)" }} />
               <div style={{ fontSize: "2.6rem", fontWeight: 800, color: isLight ? "#0d9488" : "#2dd4bf", lineHeight: 1.1, marginBottom: "0.35rem" }}>
                 96%
               </div>
-              <div style={{ fontSize: "0.88rem", fontWeight: 600, color: isLight ? "#475569" : "#94a3b8" }}>
+              <div style={{ fontSize: "0.88rem", fontWeight: 700, color: isLight ? "#1e293b" : "#f8fafc", marginBottom: "0.2rem" }}>
                 Long-Term Retention Rate
+              </div>
+              <div style={{ fontSize: "0.74rem", color: isLight ? "#64748b" : "#94a3b8" }}>
+                Dedicated Multi-Year Engagements
               </div>
             </div>
           </div>

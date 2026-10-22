@@ -268,26 +268,6 @@ export default function CinematicImpactSection() {
       }}
       aria-label="Opash Software Engineering Impact Engine"
     >
-      {/* Ambient Radial Spotlight */}
-      <div
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          top: "15%",
-          left: "50%",
-          transform: "translateX(-50%)",
-          width: "1200px",
-          height: "450px",
-          borderRadius: "50%",
-          background: isLight
-            ? "radial-gradient(circle, rgba(14, 165, 233, 0.05) 0%, transparent 70%)"
-            : `radial-gradient(circle, rgba(${active.colorRgb}, 0.06) 0%, transparent 75%)`,
-          pointerEvents: "none",
-          transition: "background 0.5s ease",
-          zIndex: 0,
-        }}
-      />
-
       <div className="container-custom" style={{ position: "relative", zIndex: 1 }}>
         {/* ========================================================================= */}
         {/* 1. SECTION INTRO                                                          */}
@@ -369,7 +349,7 @@ export default function CinematicImpactSection() {
               : `1px solid rgba(${active.colorRgb}, 0.25)`,
             boxShadow: isLight
               ? "0 20px 50px -15px rgba(15, 23, 42, 0.08)"
-              : `0 30px 80px -20px rgba(0, 0, 0, 0.95), 0 0 50px -15px rgba(${active.colorRgb}, 0.15)`,
+              : "0 30px 80px -20px rgba(0, 0, 0, 0.95), 0 0 1px 1px rgba(255, 255, 255, 0.05)",
             overflow: "hidden",
             transition: "border-color 0.4s ease, box-shadow 0.4s ease",
           }}
@@ -554,7 +534,10 @@ export default function CinematicImpactSection() {
                       style={{
                         backgroundImage: `linear-gradient(135deg, ${active.color} 0%, #ffffff 80%)`,
                         WebkitBackgroundClip: "text",
+                        backgroundClip: "text",
                         WebkitTextFillColor: "transparent",
+                        color: "transparent",
+                        display: "inline-block",
                       }}
                     >
                       {active.val}
