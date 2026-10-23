@@ -498,7 +498,6 @@ export function AnimatedIndustriesCarousel() {
           position: "absolute",
           top: "30%",
           left: "50%",
-          transform: "translate(-50%, -50%)",
           width: "900px",
           height: "450px",
           background: `radial-gradient(ellipse at center, rgba(${activeIndustry.accentRgb}, 0.08) 0%, rgba(${activeIndustry.accentRgb}, 0.02) 50%, transparent 75%)`,
