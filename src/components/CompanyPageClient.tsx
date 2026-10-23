@@ -148,6 +148,7 @@ export default function CompanyPageClient() {
   const [activeMilestoneIndex, setActiveMilestoneIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [copiedEmail, setCopiedEmail] = useState(false);
+  const [hoveredWhyCard, setHoveredWhyCard] = useState<number | null>(null);
 
   // Auto-advance progress bar every 5.5 seconds (pauses on user interaction)
   useEffect(() => {
@@ -535,129 +536,327 @@ export default function CompanyPageClient() {
       {/* ===================================================================== */}
       <section
         style={{
-          padding: "5.5rem 1.5rem",
+          padding: "6.5rem 1.5rem",
           position: "relative",
-          background: isLight ? "#f0f6ff" : "rgba(8, 16, 32, 0.65)",
+          overflow: "hidden",
+          background: isLight
+            ? "linear-gradient(180deg, #f0f6ff 0%, #f8fafc 100%)"
+            : "linear-gradient(180deg, #050b18 0%, #030712 100%)",
           borderTop: isLight ? "1px solid #e0ecff" : "1px solid rgba(255, 255, 255, 0.06)",
           borderBottom: isLight ? "1px solid #e0ecff" : "1px solid rgba(255, 255, 255, 0.06)",
         }}
       >
-        <div className="container-custom" style={{ maxWidth: "1240px", margin: "0 auto" }}>
+        {/* Ambient Top Glow */}
+        <div
+          style={{
+            position: "absolute",
+            top: "-15%",
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: "800px",
+            height: "450px",
+            background: "radial-gradient(circle, rgba(29, 99, 237, 0.15) 0%, transparent 70%)",
+            filter: "blur(60px)",
+            pointerEvents: "none",
+          }}
+        />
+
+        <div className="container-custom" style={{ maxWidth: "1240px", margin: "0 auto", position: "relative", zIndex: 2 }}>
           {/* Section Header */}
-          <div style={{ textAlign: "center", marginBottom: "3.75rem" }}>
+          <div style={{ textAlign: "center", maxWidth: "820px", margin: "0 auto 4rem auto" }}>
+            <div
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "0.5rem",
+                padding: "0.45rem 1.25rem",
+                borderRadius: "9999px",
+                background: isLight ? "rgba(29, 99, 237, 0.08)" : "rgba(29, 99, 237, 0.15)",
+                border: isLight ? "1px solid rgba(29, 99, 237, 0.25)" : "1px solid rgba(29, 99, 237, 0.35)",
+                color: isLight ? "#1d63ed" : "#60a5fa",
+                fontSize: "0.82rem",
+                fontWeight: 700,
+                letterSpacing: "0.06em",
+                textTransform: "uppercase",
+                marginBottom: "1rem",
+              }}
+            >
+              <Sparkles size={14} />
+              <span>Why Choose Opash Software</span>
+            </div>
+
             <h2
               style={{
-                fontSize: "clamp(2rem, 3.5vw, 2.75rem)",
+                fontSize: "clamp(2.1rem, 3.8vw, 3rem)",
                 fontWeight: 800,
                 color: isLight ? "#0f172a" : "#ffffff",
                 letterSpacing: "-0.025em",
-                fontFamily: "var(--font-heading), sans-serif",
                 lineHeight: 1.2,
+                fontFamily: "var(--font-heading), sans-serif",
               }}
             >
-              What Makes Opash Software Unique
+              What Makes Us{" "}
+              <span
+                style={{
+                  background: "linear-gradient(135deg, #1d63ed 0%, #38bdf8 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                Truly Unique
+              </span>
             </h2>
-            <div
+
+            <p
               style={{
-                fontSize: "1.15rem",
-                fontWeight: 700,
-                color: "#1d63ed",
-                marginTop: "0.5rem",
-                letterSpacing: "0.01em",
+                maxWidth: "680px",
+                margin: "1rem auto 0 auto",
+                color: isLight ? "#475569" : "#94a3b8",
+                fontSize: "1.05rem",
+                lineHeight: 1.65,
               }}
             >
-              Why Choose Us
-            </div>
+              We combine senior engineering talent, agile sprint cadence, and 100% intellectual property ownership to engineer digital platforms that scale seamlessly.
+            </p>
           </div>
 
-          {/* 6 Circular Feature Items in Responsive Row */}
+          {/* 6 Bento-Style Feature Cards Grid */}
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
-              gap: "2.5rem 1.5rem",
-              justifyItems: "center",
-              alignItems: "flex-start",
+              gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))",
+              gap: "2rem",
+              marginBottom: "3.5rem",
             }}
           >
             {companyData.whyChooseUs.map((item, idx) => {
               const IconComponent = whyChooseUsIconMap[item.icon] || Star;
+              const isHovered = hoveredWhyCard === idx;
+              const indexStr = `0${idx + 1}`;
+
               return (
                 <div
                   key={idx}
+                  onMouseEnter={() => setHoveredWhyCard(idx)}
+                  onMouseLeave={() => setHoveredWhyCard(null)}
                   style={{
+                    position: "relative",
+                    borderRadius: "22px",
+                    padding: "2.25rem 2rem",
+                    background: isLight
+                      ? isHovered
+                        ? "#ffffff"
+                        : "#ffffff"
+                      : isHovered
+                      ? "linear-gradient(145deg, rgba(20, 35, 65, 0.9) 0%, rgba(10, 20, 40, 0.95) 100%)"
+                      : "linear-gradient(145deg, rgba(13, 22, 42, 0.75) 0%, rgba(8, 15, 30, 0.85) 100%)",
+                    border: isLight
+                      ? isHovered
+                        ? "1.5px solid #1d63ed"
+                        : "1.5px solid #e2e8f0"
+                      : isHovered
+                      ? "1.5px solid rgba(56, 189, 248, 0.6)"
+                      : "1.5px solid rgba(255, 255, 255, 0.08)",
+                    borderTop: `3.5px solid ${isHovered ? "#38bdf8" : "#1d63ed"}`,
+                    boxShadow: isLight
+                      ? isHovered
+                        ? "0 20px 40px rgba(29, 99, 237, 0.16), 0 0 20px rgba(29, 99, 237, 0.08)"
+                        : "0 10px 30px rgba(0, 0, 0, 0.04)"
+                      : isHovered
+                      ? "0 22px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(29, 99, 237, 0.25)"
+                      : "0 14px 35px rgba(0, 0, 0, 0.35)",
+                    transform: isHovered ? "translateY(-6px)" : "translateY(0)",
+                    transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
                     display: "flex",
                     flexDirection: "column",
-                    alignItems: "center",
-                    textAlign: "center",
-                    maxWidth: "155px",
+                    justifyContent: "space-between",
                   }}
                 >
-                  {/* Circular Node with Blue Disc & White Halo */}
+                  <div>
+                    {/* Top Row: Icon Medallion + Index & Badge */}
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        marginBottom: "1.5rem",
+                      }}
+                    >
+                      {/* Vibrant Blue Disc Medallion */}
+                      <div
+                        style={{
+                          width: "56px",
+                          height: "56px",
+                          borderRadius: "16px",
+                          background: "linear-gradient(135deg, #1d63ed 0%, #0284c7 100%)",
+                          color: "#ffffff",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          boxShadow: "0 8px 24px rgba(29, 99, 237, 0.38)",
+                          transform: isHovered ? "scale(1.08)" : "scale(1)",
+                          transition: "transform 0.3s ease",
+                        }}
+                      >
+                        <IconComponent
+                          size={26}
+                          strokeWidth={item.icon === "Check" ? 3 : 2.2}
+                          style={{ fill: item.icon === "Star" ? "#ffffff" : "none" }}
+                        />
+                      </div>
+
+                      {/* Right Tag + Number Index */}
+                      <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                        <span
+                          style={{
+                            display: "inline-block",
+                            padding: "0.3rem 0.75rem",
+                            borderRadius: "9999px",
+                            fontSize: "0.76rem",
+                            fontWeight: 700,
+                            letterSpacing: "0.03em",
+                            background: isLight ? "rgba(29, 99, 237, 0.08)" : "rgba(29, 99, 237, 0.16)",
+                            color: isLight ? "#1d63ed" : "#38bdf8",
+                            border: isLight ? "1px solid rgba(29, 99, 237, 0.2)" : "1px solid rgba(29, 99, 237, 0.3)",
+                          }}
+                        >
+                          {item.badge}
+                        </span>
+                        <span
+                          style={{
+                            fontFamily: "monospace",
+                            fontSize: "1.25rem",
+                            fontWeight: 800,
+                            color: isLight ? "#94a3b8" : "#475569",
+                          }}
+                        >
+                          {indexStr}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Card Title */}
+                    <h3
+                      style={{
+                        fontSize: "1.35rem",
+                        fontWeight: 800,
+                        color: isLight ? "#0f172a" : "#ffffff",
+                        letterSpacing: "-0.015em",
+                        marginBottom: "0.65rem",
+                        lineHeight: 1.3,
+                      }}
+                    >
+                      {item.title}
+                    </h3>
+
+                    {/* Card User-Readable Description */}
+                    <p
+                      style={{
+                        color: isLight ? "#334155" : "#cbd5e1",
+                        fontSize: "0.95rem",
+                        lineHeight: 1.68,
+                        marginBottom: "1.75rem",
+                      }}
+                    >
+                      {item.description}
+                    </p>
+                  </div>
+
+                  {/* Bottom Highlight Pill with Micro-Interaction */}
                   <div
                     style={{
-                      width: "78px",
-                      height: "78px",
-                      borderRadius: "50%",
-                      background: isLight ? "#ffffff" : "rgba(15, 23, 42, 0.85)",
-                      border: isLight ? "2px solid #e0ecff" : "2px solid rgba(29, 99, 237, 0.35)",
-                      boxShadow: isLight
-                        ? "0 10px 24px rgba(29, 99, 237, 0.12), 0 2px 8px rgba(0,0,0,0.04)"
-                        : "0 10px 30px rgba(0, 0, 0, 0.5)",
+                      borderTop: isLight ? "1px solid #f1f5f9" : "1px solid rgba(255, 255, 255, 0.08)",
+                      paddingTop: "1.1rem",
                       display: "flex",
                       alignItems: "center",
-                      justifyContent: "center",
-                      transition: "transform 0.25s ease, box-shadow 0.25s ease",
+                      justifyContent: "space-between",
                     }}
                   >
                     <div
                       style={{
-                        width: "60px",
-                        height: "60px",
-                        borderRadius: "50%",
-                        background: "#1d63ed",
-                        color: "#ffffff",
                         display: "flex",
                         alignItems: "center",
-                        justifyContent: "center",
-                        boxShadow: "0 4px 14px rgba(29, 99, 237, 0.4)",
+                        gap: "0.45rem",
+                        fontSize: "0.84rem",
+                        fontWeight: 700,
+                        color: isLight ? "#1d63ed" : "#38bdf8",
                       }}
                     >
-                      <IconComponent
-                        size={25}
-                        strokeWidth={item.icon === "Check" ? 3 : 2.2}
-                        style={{ fill: item.icon === "Star" ? "#ffffff" : "none" }}
-                      />
+                      <CheckCircle2 size={16} style={{ color: isLight ? "#1d63ed" : "#38bdf8" }} />
+                      <span>{item.highlight}</span>
                     </div>
+
+                    <ArrowRight
+                      size={16}
+                      style={{
+                        color: isHovered
+                          ? isLight ? "#1d63ed" : "#38bdf8"
+                          : isLight ? "#94a3b8" : "#475569",
+                        transform: isHovered ? "translateX(4px)" : "translateX(0)",
+                        transition: "all 0.25s ease",
+                      }}
+                    />
                   </div>
-
-                  {/* Horizontal Blue Accent Bar */}
-                  <div
-                    style={{
-                      width: "60px",
-                      height: "2.5px",
-                      background: "#1d63ed",
-                      borderRadius: "9999px",
-                      marginTop: "1.25rem",
-                      marginBottom: "0.85rem",
-                    }}
-                  />
-
-                  {/* Label */}
-                  <span
-                    style={{
-                      fontSize: "0.95rem",
-                      fontWeight: 700,
-                      color: isLight ? "#0f172a" : "#f1f5f9",
-                      lineHeight: 1.35,
-                      letterSpacing: "-0.01em",
-                    }}
-                  >
-                    {item.title}
-                  </span>
                 </div>
               );
             })}
+          </div>
+
+          {/* Bottom Trust & Delivery Metrics Ribbon */}
+          <div
+            style={{
+              padding: "1.75rem 2rem",
+              borderRadius: "20px",
+              background: isLight
+                ? "#ffffff"
+                : "rgba(15, 23, 42, 0.65)",
+              border: isLight ? "1.5px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
+              boxShadow: isLight ? "0 10px 30px rgba(0, 0, 0, 0.03)" : "0 10px 30px rgba(0, 0, 0, 0.3)",
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+              gap: "1.5rem",
+              alignItems: "center",
+            }}
+          >
+            {[
+              { stat: "50+", label: "In-House Senior Engineers", color: "#1d63ed" },
+              { stat: "75+", label: "Production Platforms Shipped", color: "#00a88f" },
+              { stat: "96%", label: "Client Retention Rate", color: "#38bdf8" },
+              { stat: "100%", label: "Day-One IP & Code Ownership", color: "#6366f1" },
+            ].map((metric, mIdx) => (
+              <div
+                key={mIdx}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "1rem",
+                  padding: "0 0.5rem",
+                  borderLeft: mIdx > 0 && isLight ? "1px solid #f1f5f9" : mIdx > 0 ? "1px solid rgba(255, 255, 255, 0.08)" : "none",
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: "2rem",
+                    fontWeight: 800,
+                    color: metric.color,
+                    fontFamily: "var(--font-heading), sans-serif",
+                    lineHeight: 1,
+                  }}
+                >
+                  {metric.stat}
+                </div>
+                <div
+                  style={{
+                    fontSize: "0.85rem",
+                    fontWeight: 600,
+                    color: isLight ? "#475569" : "#cbd5e1",
+                    lineHeight: 1.35,
+                  }}
+                >
+                  {metric.label}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>

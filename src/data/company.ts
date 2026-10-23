@@ -24,6 +24,9 @@ export interface CoreValue {
 export interface WhyChooseUsItem {
   icon: string;
   title: string;
+  badge: string;
+  description: string;
+  highlight: string;
 }
 
 export interface ArchitecturalPillar {
@@ -179,12 +182,48 @@ export const companyData = {
   ],
 
   whyChooseUs: [
-    { icon: "Star", title: "Custom Solutions" },
-    { icon: "Clock", title: "Fast + Reliable Delivery" },
-    { icon: "RefreshCw", title: "Full-Cycle Development" },
-    { icon: "AtSign", title: "Agile & Transparent" },
-    { icon: "Lock", title: "Scalable Codebase" },
-    { icon: "Check", title: "Global Experience" },
+    {
+      icon: "Star",
+      title: "Custom Solutions",
+      badge: "Bespoke Architecture",
+      description: "Engineered from first principles to fit your exact business goals — without rigid templates, technical bloat, or throwaway code.",
+      highlight: "100% Tailored Code",
+    },
+    {
+      icon: "Clock",
+      title: "Fast + Reliable Delivery",
+      badge: "On-Time Sprints",
+      description: "Accelerated release cycles powered by automated CI/CD pipelines, daily PR reviews, and predictable 2-week milestone delivery.",
+      highlight: "2-Week Sprints",
+    },
+    {
+      icon: "RefreshCw",
+      title: "Full-Cycle Development",
+      badge: "End-to-End",
+      description: "Complete execution from product discovery, system architecture, and UX design to cloud DevOps and post-launch scale.",
+      highlight: "Concept to Scale",
+    },
+    {
+      icon: "AtSign",
+      title: "Agile & Transparent",
+      badge: "Direct Comms",
+      description: "Direct collaboration with senior engineers through dedicated Slack channels, weekly sprint demos, and live GitHub tracking.",
+      highlight: "Zero Hidden Layers",
+    },
+    {
+      icon: "Lock",
+      title: "Scalable Codebase",
+      badge: "Enterprise Ready",
+      description: "Modular microservices and clean domain architectures built to handle millions of transactions with sub-second latency.",
+      highlight: "High Concurrency",
+    },
+    {
+      icon: "Check",
+      title: "Global Experience",
+      badge: "Worldwide Reach",
+      description: "Proven track record delivering mission-critical platforms for fast-growth startups and enterprise leaders across 15+ countries.",
+      highlight: "15+ Countries",
+    },
   ] as WhyChooseUsItem[],
 
   architecturalPillars: [
