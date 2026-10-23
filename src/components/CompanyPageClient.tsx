@@ -1921,186 +1921,161 @@ export default function CompanyPageClient() {
           <div
             style={{
               width: "100%",
-              overflowX: "auto",
-              paddingBottom: "1rem",
-              marginBottom: "3.5rem",
-              WebkitOverflowScrolling: "touch",
+              maxWidth: "1020px",
+              margin: "0 auto 3.5rem auto",
+              padding: "1rem 3.5rem 3rem 3.5rem",
+              position: "relative",
+              boxSizing: "border-box",
             }}
           >
+            {/* Base Track Rail */}
             <div
               style={{
-                minWidth: "780px",
-                maxWidth: "1020px",
-                margin: "0 auto",
-                padding: "1.5rem 1.5rem 3rem 1.5rem",
                 position: "relative",
+                width: "100%",
+                height: "5px",
+                borderRadius: "9999px",
+                background: isLight ? "#e2e8f0" : "rgba(255, 255, 255, 0.12)",
               }}
             >
-              {/* Base Track Rail */}
+              {/* Active Filled Progress Line */}
               <div
                 style={{
-                  position: "relative",
-                  width: "100%",
-                  height: "8px",
+                  position: "absolute",
+                  left: 0,
+                  top: 0,
+                  height: "100%",
+                  width: `${(activeMilestoneIndex / (PROGRESS_MILESTONES.length - 1)) * 100}%`,
+                  background: "linear-gradient(90deg, #00A88F 0%, #00BFA5 50%, #2DD4BF 100%)",
                   borderRadius: "9999px",
-                  background: isLight ? "#e2e8f0" : "rgba(255, 255, 255, 0.12)",
-                  boxShadow: isLight ? "inset 0 1px 3px rgba(0,0,0,0.06)" : "none",
+                  boxShadow: "0 0 14px rgba(45, 212, 191, 0.6)",
+                  transition: "width 0.5s cubic-bezier(0.16, 1, 0.3, 1)",
                 }}
-              >
-                {/* Active Filled Progress Line */}
-                <div
-                  style={{
-                    position: "absolute",
-                    left: 0,
-                    top: 0,
-                    height: "100%",
-                    width: `${(activeMilestoneIndex / (PROGRESS_MILESTONES.length - 1)) * 100}%`,
-                    background: `linear-gradient(90deg, #00A88F 0%, #0284C7 45%, #9333EA 75%, ${PROGRESS_MILESTONES[activeMilestoneIndex].accentColor} 100%)`,
-                    borderRadius: "9999px",
-                    boxShadow: `0 0 16px ${PROGRESS_MILESTONES[activeMilestoneIndex].glowColor}`,
-                    transition: "width 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
-                  }}
-                />
+              />
 
-                {/* Stepper Nodes */}
-                {PROGRESS_MILESTONES.map((milestone, idx) => {
-                  const isCompleted = idx < activeMilestoneIndex;
-                  const isActive = idx === activeMilestoneIndex;
-                  const percentage = (idx / (PROGRESS_MILESTONES.length - 1)) * 100;
+              {/* Stepper Nodes */}
+              {PROGRESS_MILESTONES.map((milestone, idx) => {
+                const isCompleted = idx < activeMilestoneIndex;
+                const isActive = idx === activeMilestoneIndex;
+                const percentage = (idx / (PROGRESS_MILESTONES.length - 1)) * 100;
+                const IconNode = milestone.icon;
 
-                  return (
+                return (
+                  <div
+                    key={milestone.year}
+                    style={{
+                      position: "absolute",
+                      left: `${percentage}%`,
+                      top: "50%",
+                      transform: "translate(-50%, -50%)",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }}
+                  >
+                    {/* Checkpoint Node Button */}
+                    <button
+                      onClick={() => {
+                        setActiveMilestoneIndex(idx);
+                        setIsAutoPlaying(false);
+                      }}
+                      style={{
+                        width: isActive ? "42px" : "32px",
+                        height: isActive ? "42px" : "32px",
+                        borderRadius: "50%",
+                        border: isActive
+                          ? `3px solid ${isLight ? "#ffffff" : "#0A1424"}`
+                          : isCompleted
+                            ? `2px solid ${isLight ? "#ffffff" : "#0A1424"}`
+                            : `2px solid ${isLight ? "#cbd5e1" : "rgba(255, 255, 255, 0.2)"}`,
+                        background: isActive
+                          ? "#00A88F"
+                          : isCompleted
+                            ? "#00A88F"
+                            : isLight
+                              ? "#ffffff"
+                              : "#1e293b",
+                        color: isActive || isCompleted ? "#ffffff" : isLight ? "#94a3b8" : "#64748b",
+                        boxShadow: isActive
+                          ? "0 0 20px rgba(45, 212, 191, 0.7), 0 4px 12px rgba(0,0,0,0.25)"
+                          : isCompleted
+                            ? "0 0 10px rgba(0, 168, 143, 0.35)"
+                            : "none",
+                        cursor: "pointer",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        transform: isActive ? "scale(1.15)" : "scale(1)",
+                        transition: "all 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
+                        zIndex: 4,
+                      }}
+                      aria-label={`Jump to milestone ${milestone.year}`}
+                    >
+                      {isCompleted ? (
+                        <Check size={16} strokeWidth={2.8} />
+                      ) : isActive ? (
+                        <IconNode size={20} strokeWidth={2.2} />
+                      ) : (
+                        <span style={{ fontSize: "0.75rem", fontWeight: 700 }}>{idx + 1}</span>
+                      )}
+                    </button>
+
+                    {/* Year & Badge Labels */}
                     <div
-                      key={milestone.year}
+                      onClick={() => {
+                        setActiveMilestoneIndex(idx);
+                        setIsAutoPlaying(false);
+                      }}
                       style={{
                         position: "absolute",
-                        left: `${percentage}%`,
-                        top: "50%",
-                        transform: "translate(-50%, -50%)",
+                        top: "34px",
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "center",
+                        cursor: "pointer",
+                        whiteSpace: "nowrap",
                       }}
                     >
-                      {/* Checkpoint Node Button */}
-                      <button
-                        onClick={() => {
-                          setActiveMilestoneIndex(idx);
-                          setIsAutoPlaying(false);
-                        }}
+                      <span
                         style={{
-                          width: isActive ? "44px" : "34px",
-                          height: isActive ? "44px" : "34px",
-                          borderRadius: "50%",
-                          border: isActive
-                            ? `3.5px solid ${isLight ? "#ffffff" : "#0A1424"}`
+                          fontSize: isActive ? "1rem" : "0.86rem",
+                          fontWeight: isActive ? 800 : 600,
+                          color: isActive
+                            ? isLight ? "#008a75" : "#2dd4bf"
                             : isCompleted
-                              ? `2.5px solid ${isLight ? "#ffffff" : "#0A1424"}`
-                              : `2px solid ${isLight ? "#cbd5e1" : "rgba(255, 255, 255, 0.25)"}`,
+                              ? isLight ? "#0f172a" : "#f1f5f9"
+                              : isLight ? "#64748b" : "#94a3b8",
+                          transition: "all 0.25s ease",
+                          letterSpacing: "-0.01em",
+                        }}
+                      >
+                        {milestone.year}
+                      </span>
+                      <span
+                        style={{
+                          fontSize: "0.72rem",
+                          fontWeight: 700,
+                          padding: "2px 8px",
+                          borderRadius: "9999px",
                           background: isActive
-                            ? milestone.accentColor
-                            : isCompleted
-                              ? "#00A88F"
-                              : isLight
-                                ? "#ffffff"
-                                : "#1e293b",
-                          color: isActive || isCompleted ? "#ffffff" : isLight ? "#94a3b8" : "#64748b",
-                          boxShadow: isActive
-                            ? `0 0 24px ${milestone.accentColor}, 0 4px 12px rgba(0,0,0,0.3)`
-                            : isCompleted
-                              ? "0 0 12px rgba(0, 168, 143, 0.4)"
-                              : "none",
-                          cursor: "pointer",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          transform: isActive ? "scale(1.15)" : "scale(1)",
-                          transition: "all 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
-                          zIndex: 4,
-                        }}
-                        aria-label={`Jump to milestone ${milestone.year}`}
-                      >
-                        {isCompleted ? (
-                          <Check size={18} strokeWidth={3} />
-                        ) : isActive ? (
-                          <span
-                            style={{
-                              width: "12px",
-                              height: "12px",
-                              borderRadius: "50%",
-                              background: "#ffffff",
-                              boxShadow: "0 0 8px #ffffff",
-                            }}
-                          />
-                        ) : (
-                          <span style={{ fontSize: "0.78rem", fontWeight: 700 }}>{idx + 1}</span>
-                        )}
-                      </button>
-
-                      {/* Year & Badge Labels */}
-                      <div
-                        onClick={() => {
-                          setActiveMilestoneIndex(idx);
-                          setIsAutoPlaying(false);
-                        }}
-                        style={{
-                          position: "absolute",
-                          top: "38px",
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                          cursor: "pointer",
-                          whiteSpace: "nowrap",
+                            ? isLight ? "rgba(0, 168, 143, 0.14)" : "rgba(45, 212, 191, 0.16)"
+                            : isLight ? "rgba(241, 245, 249, 0.9)" : "rgba(255, 255, 255, 0.05)",
+                          color: isActive
+                            ? isLight ? "#008a75" : "#2dd4bf"
+                            : isLight ? "#64748b" : "#94a3b8",
+                          marginTop: "3px",
+                          border: isActive
+                            ? `1px solid ${isLight ? "rgba(0, 168, 143, 0.35)" : "rgba(45, 212, 191, 0.4)"}`
+                            : "1px solid transparent",
+                          transition: "all 0.25s ease",
                         }}
                       >
-                        <span
-                          style={{
-                            fontSize: isActive ? "1rem" : "0.88rem",
-                            fontWeight: isActive ? 800 : 650,
-                            color: isActive
-                              ? milestone.accentColor
-                              : isCompleted
-                                ? isLight
-                                  ? "#0f172a"
-                                  : "#e2e8f0"
-                                : isLight
-                                  ? "#64748b"
-                                  : "#94a3b8",
-                            transition: "all 0.25s ease",
-                            letterSpacing: "-0.01em",
-                          }}
-                        >
-                          {milestone.year}
-                        </span>
-                        <span
-                          style={{
-                            fontSize: "0.72rem",
-                            fontWeight: 700,
-                            padding: "3px 9px",
-                            borderRadius: "9999px",
-                            background: isActive
-                              ? `rgba(${milestone.accentRgb}, ${isLight ? 0.12 : 0.2})`
-                              : isLight
-                                ? "rgba(241, 245, 249, 0.9)"
-                                : "rgba(255, 255, 255, 0.06)",
-                            color: isActive
-                              ? milestone.accentColor
-                              : isLight
-                                ? "#64748b"
-                                : "#94a3b8",
-                            marginTop: "4px",
-                            border: isActive
-                              ? `1px solid rgba(${milestone.accentRgb}, 0.35)`
-                              : "1px solid transparent",
-                            transition: "all 0.25s ease",
-                          }}
-                        >
-                          {milestone.badge}
-                        </span>
-                      </div>
+                        {milestone.badge}
+                      </span>
                     </div>
-                  );
-                })}
-              </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
 
@@ -2122,10 +2097,10 @@ export default function CompanyPageClient() {
                   background: isLight
                     ? "#ffffff"
                     : "linear-gradient(135deg, rgba(15, 23, 42, 0.88) 0%, rgba(10, 18, 34, 0.96) 100%)",
-                  border: `1.5px solid rgba(${current.accentRgb}, ${isLight ? 0.3 : 0.35})`,
+                  border: `1.5px solid ${isLight ? "rgba(0, 168, 143, 0.25)" : "rgba(45, 212, 191, 0.28)"}`,
                   boxShadow: isLight
-                    ? `0 16px 48px rgba(${current.accentRgb}, 0.12), 0 4px 16px rgba(0, 0, 0, 0.04)`
-                    : `0 24px 60px rgba(0, 0, 0, 0.5), 0 0 35px rgba(${current.accentRgb}, 0.2)`,
+                    ? "0 16px 48px rgba(0, 168, 143, 0.1), 0 4px 16px rgba(0, 0, 0, 0.04)"
+                    : "0 24px 60px rgba(0, 0, 0, 0.5), 0 0 35px rgba(0, 168, 143, 0.18)",
                   display: "grid",
                   gridTemplateColumns: "1fr auto",
                   gap: "2.5rem",
@@ -2145,7 +2120,7 @@ export default function CompanyPageClient() {
                     width: "220px",
                     height: "220px",
                     borderRadius: "50%",
-                    background: `radial-gradient(circle, rgba(${current.accentRgb}, ${isLight ? 0.15 : 0.25}) 0%, transparent 70%)`,
+                    background: `radial-gradient(circle, rgba(0, 168, 143, ${isLight ? 0.12 : 0.22}) 0%, transparent 70%)`,
                     pointerEvents: "none",
                   }}
                 />
@@ -2167,7 +2142,7 @@ export default function CompanyPageClient() {
                         fontSize: "2.5rem",
                         fontWeight: 900,
                         fontFamily: "var(--font-heading), sans-serif",
-                        color: current.accentColor,
+                        color: isLight ? "#008a75" : "#2dd4bf",
                         lineHeight: 1,
                         letterSpacing: "-0.03em",
                       }}
@@ -2179,13 +2154,13 @@ export default function CompanyPageClient() {
                       style={{
                         padding: "0.35rem 0.95rem",
                         borderRadius: "9999px",
-                        background: `rgba(${current.accentRgb}, ${isLight ? 0.1 : 0.18})`,
-                        color: current.accentColor,
+                        background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(45, 212, 191, 0.16)",
+                        color: isLight ? "#008a75" : "#2dd4bf",
                         fontWeight: 750,
                         fontSize: "0.82rem",
                         textTransform: "uppercase",
                         letterSpacing: "0.06em",
-                        border: `1px solid rgba(${current.accentRgb}, 0.3)`,
+                        border: `1px solid ${isLight ? "rgba(0, 168, 143, 0.3)" : "rgba(45, 212, 191, 0.35)"}`,
                       }}
                     >
                       {current.badge}
@@ -2252,7 +2227,7 @@ export default function CompanyPageClient() {
                           fontWeight: 650,
                         }}
                       >
-                        <CheckCircle2 size={17} style={{ color: current.accentColor, flexShrink: 0 }} />
+                        <CheckCircle2 size={17} style={{ color: isLight ? "#008a75" : "#2dd4bf", flexShrink: 0 }} />
                         <span>{metric}</span>
                       </div>
                     ))}
@@ -2301,13 +2276,13 @@ export default function CompanyPageClient() {
                         padding: "0.55rem 1.1rem",
                         borderRadius: "12px",
                         background: isAutoPlaying
-                          ? `rgba(${current.accentRgb}, ${isLight ? 0.12 : 0.2})`
+                          ? isLight ? "rgba(0, 168, 143, 0.12)" : "rgba(45, 212, 191, 0.18)"
                           : isLight ? "#f1f5f9" : "rgba(255, 255, 255, 0.06)",
                         color: isAutoPlaying
-                          ? current.accentColor
+                          ? isLight ? "#008a75" : "#2dd4bf"
                           : isLight ? "#64748b" : "#94a3b8",
                         border: isAutoPlaying
-                          ? `1px solid rgba(${current.accentRgb}, 0.35)`
+                          ? `1px solid ${isLight ? "rgba(0, 168, 143, 0.35)" : "rgba(45, 212, 191, 0.4)"}`
                           : isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.12)",
                         fontSize: "0.84rem",
                         fontWeight: 700,
@@ -2331,7 +2306,7 @@ export default function CompanyPageClient() {
                       style={{
                         padding: "0.55rem 1.25rem",
                         borderRadius: "12px",
-                        background: current.accentColor,
+                        background: isLight ? "#008a75" : "#00A88F",
                         color: "#ffffff",
                         border: "none",
                         fontSize: "0.84rem",
@@ -2340,7 +2315,7 @@ export default function CompanyPageClient() {
                         display: "flex",
                         alignItems: "center",
                         gap: "6px",
-                        boxShadow: `0 4px 14px rgba(${current.accentRgb}, 0.35)`,
+                        boxShadow: "0 4px 14px rgba(0, 168, 143, 0.35)",
                         transition: "all 0.25s ease",
                       }}
                     >
@@ -2368,14 +2343,14 @@ export default function CompanyPageClient() {
                       height: "130px",
                       borderRadius: "26px",
                       background: isLight
-                        ? `linear-gradient(135deg, #ffffff 0%, rgba(${current.accentRgb}, 0.08) 100%)`
-                        : `linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(${current.accentRgb}, 0.2) 100%)`,
-                      border: `1.5px solid rgba(${current.accentRgb}, ${isLight ? 0.35 : 0.45})`,
-                      boxShadow: `0 14px 32px rgba(${current.accentRgb}, ${isLight ? 0.2 : 0.35})`,
+                        ? "linear-gradient(135deg, #ffffff 0%, rgba(0, 168, 143, 0.08) 100%)"
+                        : "linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(0, 168, 143, 0.2) 100%)",
+                      border: `1.5px solid ${isLight ? "rgba(0, 168, 143, 0.3)" : "rgba(45, 212, 191, 0.35)"}`,
+                      boxShadow: `0 14px 32px rgba(0, 168, 143, ${isLight ? 0.15 : 0.25})`,
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      color: current.accentColor,
+                      color: isLight ? "#008a75" : "#2dd4bf",
                       transition: "all 0.4s ease",
                     }}
                   >
@@ -2388,9 +2363,9 @@ export default function CompanyPageClient() {
                       fontWeight: 750,
                       padding: "4px 12px",
                       borderRadius: "9999px",
-                      background: `rgba(${current.accentRgb}, ${isLight ? 0.1 : 0.16})`,
-                      color: current.accentColor,
-                      border: `1px solid rgba(${current.accentRgb}, 0.25)`,
+                      background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(45, 212, 191, 0.16)",
+                      color: isLight ? "#008a75" : "#2dd4bf",
+                      border: `1px solid ${isLight ? "rgba(0, 168, 143, 0.25)" : "rgba(45, 212, 191, 0.3)"}`,
                       whiteSpace: "nowrap",
                     }}
                   >
