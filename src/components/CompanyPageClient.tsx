@@ -1530,11 +1530,11 @@ export default function CompanyPageClient() {
       </section>
 
       {/* ===================================================================== */}
-      {/* 3. DUAL CORE CARDS: VISION & MISSION                                  */}
+      {/* 3. CORE FOUNDATIONAL PILLARS: VISION, MISSION & VALUES                */}
       {/* ===================================================================== */}
       <section style={{ padding: "6rem 1.5rem", position: "relative" }}>
         <div className="container-custom" style={{ maxWidth: "1240px", margin: "0 auto" }}>
-          <div style={{ textAlign: "center", maxWidth: "780px", margin: "0 auto 3.5rem auto" }}>
+          <div style={{ textAlign: "center", maxWidth: "780px", margin: "0 auto 4rem auto" }}>
             <span
               style={{
                 display: "inline-block",
@@ -1555,106 +1555,319 @@ export default function CompanyPageClient() {
               The Conviction That Drives Opash
             </h2>
             <p style={{ color: isLight ? "#64748b" : "#94a3b8", fontSize: "1.05rem", marginTop: "0.75rem" }}>
-              How our founders and engineering team approach software creation, partnerships, and impact.
+              Our guiding principles, strategic mission, and uncompromising core values shaping how we build and scale.
             </p>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(360px, 1fr))", gap: "2rem" }}>
-            {/* Vision */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+              gap: "2.75rem 2rem",
+              alignItems: "stretch",
+              paddingTop: "2rem",
+            }}
+          >
+            {/* 1. OUR VISION CARD */}
             <div
               style={{
-                padding: "3rem 2.5rem",
-                borderRadius: "24px",
-                background: isLight ? "#ffffff" : "rgba(15, 23, 42, 0.6)",
-                border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
                 position: "relative",
-                overflow: "hidden",
-                boxShadow: isLight ? "0 10px 30px rgba(0, 0, 0, 0.04)" : "0 10px 30px rgba(0, 0, 0, 0.25)",
+                filter: isLight
+                  ? "drop-shadow(0 14px 28px rgba(0, 0, 0, 0.08))"
+                  : "drop-shadow(0 18px 40px rgba(0, 0, 0, 0.45))",
+                transition: "transform 0.3s ease",
               }}
             >
+              {/* Ribbon Medallion Header */}
               <div
                 style={{
                   position: "absolute",
                   top: 0,
-                  left: 0,
-                  right: 0,
-                  height: "4px",
-                  background: "linear-gradient(90deg, #00a88f, #38bdf8)",
-                }}
-              />
-              <span
-                style={{
-                  display: "inline-block",
-                  padding: "0.3rem 0.8rem",
-                  borderRadius: "9999px",
-                  background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(0, 187, 171, 0.15)",
-                  color: isLight ? "#008a75" : "#2dd4bf",
-                  fontSize: "0.78rem",
-                  fontWeight: 700,
-                  marginBottom: "1.25rem",
-                  textTransform: "uppercase",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  zIndex: 10,
                 }}
               >
-                Our Vision 2030
-              </span>
-              <h3 style={{ fontSize: "1.85rem", fontWeight: 800, lineHeight: 1.25, marginBottom: "1rem" }}>
-                Empowering Ideas. Transforming Futures.
-              </h3>
-              <p style={{ color: isLight ? "#475569" : "#94a3b8", fontSize: "1.05rem", lineHeight: 1.7, marginBottom: "1.5rem" }}>
-                At Opash Software, our vision is to empower global innovators, ambitious startups, and established enterprises by fusing cutting-edge software architecture with bold product ideas. We strive to be the definitive global catalyst for digital transformation, helping businesses build enduring digital assets that scale cleanly.
-              </p>
-              <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", color: isLight ? "#008a75" : "#2dd4bf", fontWeight: 700, fontSize: "0.95rem" }}>
-                <CheckCircle2 size={18} />
-                <span>Zero Technical Debt Architecture</span>
+                <svg width="176" height="70" viewBox="0 0 176 70" fill="none" style={{ overflow: "visible" }}>
+                  <path d="M 54 20 L 8 20 L 22 35 L 8 50 L 54 50 Z" fill="#1D63ED" />
+                  <path d="M 54 50 L 64 50 L 54 56 Z" fill="rgba(0,0,0,0.3)" />
+                  <path d="M 122 20 L 168 20 L 154 35 L 168 50 L 122 50 Z" fill="#1D63ED" />
+                  <path d="M 122 50 L 112 50 L 122 56 Z" fill="rgba(0,0,0,0.3)" />
+                  <circle cx="88" cy="35" r="31" fill="rgba(29, 99, 237, 0.28)" />
+                  <circle cx="88" cy="35" r="25" fill="#1D63ED" />
+                  <circle cx="88" cy="35" r="21" fill="none" stroke="rgba(255, 255, 255, 0.55)" strokeWidth="1.5" />
+                </svg>
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    color: "#ffffff",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Target size={24} strokeWidth={2.4} />
+                </div>
+              </div>
+
+              {/* Pennant Card Body */}
+              <div
+                style={{
+                  background: isLight ? "#EDF2F7" : "linear-gradient(180deg, #131E30 0%, #0D1624 100%)",
+                  clipPath: "polygon(0 0, 100% 0, 100% calc(100% - 50px), 50% 100%, 0 calc(100% - 50px))",
+                  padding: "3.75rem 2.25rem 5.5rem 2.25rem",
+                  height: "100%",
+                  boxSizing: "border-box",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <h3
+                  style={{
+                    fontFamily: "var(--font-heading), sans-serif",
+                    fontSize: "1.65rem",
+                    fontWeight: 800,
+                    color: isLight ? "#1D4ED8" : "#60A5FA",
+                    textAlign: "center",
+                    marginBottom: "1.25rem",
+                    letterSpacing: "-0.02em",
+                  }}
+                >
+                  Our Vision
+                </h3>
+                <h4
+                  style={{
+                    fontSize: "1.05rem",
+                    fontWeight: 700,
+                    color: isLight ? "#1E293B" : "#F1F5F9",
+                    marginBottom: "1rem",
+                    lineHeight: 1.45,
+                  }}
+                >
+                  Empowering Ideas. Transforming Futures.
+                </h4>
+                <p
+                  style={{
+                    color: isLight ? "#475569" : "#94A3B8",
+                    fontSize: "0.95rem",
+                    lineHeight: 1.7,
+                    margin: 0,
+                  }}
+                >
+                  At Opash Software, our vision is to empower innovators, startups, and enterprises by blending cutting-edge technology with bold ideas. We strive to be a catalyst for digital transformation, helping businesses create meaningful change in the world through impactful, scalable software solutions.
+                </p>
               </div>
             </div>
 
-            {/* Mission */}
+            {/* 2. OUR MISSION CARD */}
             <div
               style={{
-                padding: "3rem 2.5rem",
-                borderRadius: "24px",
-                background: isLight ? "#ffffff" : "rgba(15, 23, 42, 0.6)",
-                border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
                 position: "relative",
-                overflow: "hidden",
-                boxShadow: isLight ? "0 10px 30px rgba(0, 0, 0, 0.04)" : "0 10px 30px rgba(0, 0, 0, 0.25)",
+                filter: isLight
+                  ? "drop-shadow(0 14px 28px rgba(0, 0, 0, 0.08))"
+                  : "drop-shadow(0 18px 40px rgba(0, 0, 0, 0.45))",
+                transition: "transform 0.3s ease",
               }}
             >
+              {/* Ribbon Medallion Header */}
               <div
                 style={{
                   position: "absolute",
                   top: 0,
-                  left: 0,
-                  right: 0,
-                  height: "4px",
-                  background: "linear-gradient(90deg, #38bdf8, #6366f1)",
-                }}
-              />
-              <span
-                style={{
-                  display: "inline-block",
-                  padding: "0.3rem 0.8rem",
-                  borderRadius: "9999px",
-                  background: isLight ? "rgba(2, 132, 199, 0.1)" : "rgba(56, 189, 248, 0.15)",
-                  color: isLight ? "#0284c7" : "#38bdf8",
-                  fontSize: "0.78rem",
-                  fontWeight: 700,
-                  marginBottom: "1.25rem",
-                  textTransform: "uppercase",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  zIndex: 10,
                 }}
               >
-                Our Daily Mission
-              </span>
-              <h3 style={{ fontSize: "1.85rem", fontWeight: 800, lineHeight: 1.25, marginBottom: "1rem" }}>
-                Delivering Innovation with Precision & Passion.
-              </h3>
-              <p style={{ color: isLight ? "#475569" : "#94a3b8", fontSize: "1.05rem", lineHeight: 1.7, marginBottom: "1.5rem" }}>
-                Our mission is to engineer high-velocity, tailor-made digital systems that produce tangible, measurable business metrics. We commit to unwavering client satisfaction through clean code, total transparency, predictable sprint release dates, and long-term architectural stewardship.
-              </p>
-              <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", color: isLight ? "#0284c7" : "#38bdf8", fontWeight: 700, fontSize: "0.95rem" }}>
-                <CheckCircle2 size={18} />
-                <span>Predictable 2-Week Agile Delivery Cycles</span>
+                <svg width="176" height="70" viewBox="0 0 176 70" fill="none" style={{ overflow: "visible" }}>
+                  <path d="M 54 20 L 8 20 L 22 35 L 8 50 L 54 50 Z" fill="#D97706" />
+                  <path d="M 54 50 L 64 50 L 54 56 Z" fill="rgba(0,0,0,0.3)" />
+                  <path d="M 122 20 L 168 20 L 154 35 L 168 50 L 122 50 Z" fill="#D97706" />
+                  <path d="M 122 50 L 112 50 L 122 56 Z" fill="rgba(0,0,0,0.3)" />
+                  <circle cx="88" cy="35" r="31" fill="rgba(217, 119, 6, 0.28)" />
+                  <circle cx="88" cy="35" r="25" fill="#D97706" />
+                  <circle cx="88" cy="35" r="21" fill="none" stroke="rgba(255, 255, 255, 0.55)" strokeWidth="1.5" />
+                </svg>
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    color: "#ffffff",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Star size={24} strokeWidth={2.4} />
+                </div>
+              </div>
+
+              {/* Pennant Card Body */}
+              <div
+                style={{
+                  background: isLight ? "#EDF2F7" : "linear-gradient(180deg, #131E30 0%, #0D1624 100%)",
+                  clipPath: "polygon(0 0, 100% 0, 100% calc(100% - 50px), 50% 100%, 0 calc(100% - 50px))",
+                  padding: "3.75rem 2.25rem 5.5rem 2.25rem",
+                  height: "100%",
+                  boxSizing: "border-box",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <h3
+                  style={{
+                    fontFamily: "var(--font-heading), sans-serif",
+                    fontSize: "1.65rem",
+                    fontWeight: 800,
+                    color: isLight ? "#B45309" : "#FBBF24",
+                    textAlign: "center",
+                    marginBottom: "1.25rem",
+                    letterSpacing: "-0.02em",
+                  }}
+                >
+                  Our Mission
+                </h3>
+                <h4
+                  style={{
+                    fontSize: "1.05rem",
+                    fontWeight: 700,
+                    color: isLight ? "#1E293B" : "#F1F5F9",
+                    marginBottom: "1rem",
+                    lineHeight: 1.45,
+                  }}
+                >
+                  Delivering Innovation with Precision & Passion.
+                </h4>
+                <p
+                  style={{
+                    color: isLight ? "#475569" : "#94A3B8",
+                    fontSize: "0.95rem",
+                    lineHeight: 1.7,
+                    margin: 0,
+                  }}
+                >
+                  Our mission is to provide tailor-made, high-performance IT solutions that deliver measurable business value. We are committed to achieving client satisfaction through quality, transparency, and timely delivery, ensuring every project we undertake exceeds expectations and drives growth.
+                </p>
+              </div>
+            </div>
+
+            {/* 3. OUR CORE VALUES CARD */}
+            <div
+              style={{
+                position: "relative",
+                filter: isLight
+                  ? "drop-shadow(0 14px 28px rgba(0, 0, 0, 0.08))"
+                  : "drop-shadow(0 18px 40px rgba(0, 0, 0, 0.45))",
+                transition: "transform 0.3s ease",
+              }}
+            >
+              {/* Ribbon Medallion Header */}
+              <div
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  zIndex: 10,
+                }}
+              >
+                <svg width="176" height="70" viewBox="0 0 176 70" fill="none" style={{ overflow: "visible" }}>
+                  <path d="M 54 20 L 8 20 L 22 35 L 8 50 L 54 50 Z" fill="#DC2626" />
+                  <path d="M 54 50 L 64 50 L 54 56 Z" fill="rgba(0,0,0,0.3)" />
+                  <path d="M 122 20 L 168 20 L 154 35 L 168 50 L 122 50 Z" fill="#DC2626" />
+                  <path d="M 122 50 L 112 50 L 122 56 Z" fill="rgba(0,0,0,0.3)" />
+                  <circle cx="88" cy="35" r="31" fill="rgba(220, 38, 38, 0.28)" />
+                  <circle cx="88" cy="35" r="25" fill="#DC2626" />
+                  <circle cx="88" cy="35" r="21" fill="none" stroke="rgba(255, 255, 255, 0.55)" strokeWidth="1.5" />
+                </svg>
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    color: "#ffffff",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Award size={24} strokeWidth={2.4} />
+                </div>
+              </div>
+
+              {/* Pennant Card Body */}
+              <div
+                style={{
+                  background: isLight ? "#EDF2F7" : "linear-gradient(180deg, #131E30 0%, #0D1624 100%)",
+                  clipPath: "polygon(0 0, 100% 0, 100% calc(100% - 50px), 50% 100%, 0 calc(100% - 50px))",
+                  padding: "3.75rem 2.25rem 5.5rem 2.25rem",
+                  height: "100%",
+                  boxSizing: "border-box",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <h3
+                  style={{
+                    fontFamily: "var(--font-heading), sans-serif",
+                    fontSize: "1.65rem",
+                    fontWeight: 800,
+                    color: isLight ? "#B91C1C" : "#F87171",
+                    textAlign: "center",
+                    marginBottom: "1.25rem",
+                    letterSpacing: "-0.02em",
+                  }}
+                >
+                  Our Core Values
+                </h3>
+                <p
+                  style={{
+                    color: isLight ? "#475569" : "#94A3B8",
+                    fontSize: "0.95rem",
+                    lineHeight: 1.6,
+                    marginBottom: "1.25rem",
+                    margin: 0,
+                  }}
+                >
+                  At the heart of Opash Software lies a set of core values that shape our work culture and define how we serve our clients:
+                </p>
+                <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem", marginTop: "1rem" }}>
+                  <div style={{ display: "flex", alignItems: "flex-start", gap: "0.6rem", fontSize: "0.92rem", lineHeight: 1.5, color: isLight ? "#334155" : "#cbd5e1" }}>
+                    <span style={{ fontSize: "1rem", flexShrink: 0 }}>🤝</span>
+                    <span><strong style={{ color: isLight ? "#0f172a" : "#f8fafc" }}>Integrity First:</strong> Honesty and transparency in all we do.</span>
+                  </div>
+                  <div style={{ display: "flex", alignItems: "flex-start", gap: "0.6rem", fontSize: "0.92rem", lineHeight: 1.5, color: isLight ? "#334155" : "#cbd5e1" }}>
+                    <span style={{ fontSize: "1rem", flexShrink: 0 }}>💡</span>
+                    <span><strong style={{ color: isLight ? "#0f172a" : "#f8fafc" }}>Innovation-Driven:</strong> Continuously pushing boundaries with new ideas.</span>
+                  </div>
+                  <div style={{ display: "flex", alignItems: "flex-start", gap: "0.6rem", fontSize: "0.92rem", lineHeight: 1.5, color: isLight ? "#334155" : "#cbd5e1" }}>
+                    <span style={{ fontSize: "1rem", flexShrink: 0 }}>🧠</span>
+                    <span><strong style={{ color: isLight ? "#0f172a" : "#f8fafc" }}>Client-Centric Approach:</strong> We build solutions around your goals.</span>
+                  </div>
+                  <div style={{ display: "flex", alignItems: "flex-start", gap: "0.6rem", fontSize: "0.92rem", lineHeight: 1.5, color: isLight ? "#334155" : "#cbd5e1" }}>
+                    <span style={{ fontSize: "1rem", flexShrink: 0 }}>⏱️</span>
+                    <span><strong style={{ color: isLight ? "#0f172a" : "#f8fafc" }}>On-Time, Every Time:</strong> We respect your time and timelines.</span>
+                  </div>
+                  <div style={{ display: "flex", alignItems: "flex-start", gap: "0.6rem", fontSize: "0.92rem", lineHeight: 1.5, color: isLight ? "#334155" : "#cbd5e1" }}>
+                    <span style={{ fontSize: "1rem", flexShrink: 0 }}>👥</span>
+                    <span><strong style={{ color: isLight ? "#0f172a" : "#f8fafc" }}>Collaboration Culture:</strong> Great results come from great teamwork.</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
