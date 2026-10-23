@@ -50,36 +50,7 @@ import ContactForm from "@/components/ContactForm";
 import { useTheme } from "./ThemeProvider";
 import AboutCreativeBackdrop from "./AboutCreativeBackdrop";
 
-function LiveSuratClock({ isLight }: { isLight: boolean }) {
-  const [currentTime, setCurrentTime] = useState("");
 
-  useEffect(() => {
-    const updateTime = () => {
-      try {
-        const now = new Date();
-        const timeStr = now.toLocaleTimeString("en-US", {
-          timeZone: "Asia/Kolkata",
-          hour: "2-digit",
-          minute: "2-digit",
-          second: "2-digit",
-          hour12: true,
-        });
-        setCurrentTime(timeStr);
-      } catch {
-        setCurrentTime("09:30:00 AM");
-      }
-    };
-    updateTime();
-    const interval = setInterval(updateTime, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  return (
-    <div style={{ fontSize: "1.4rem", fontWeight: 800, fontFamily: "monospace", color: isLight ? "#0f172a" : "#f8fafc", marginTop: "0.15rem" }}>
-      {currentTime || "09:30:00 AM"} IST
-    </div>
-  );
-}
 
 interface ProgressMilestone {
   year: string;
@@ -175,10 +146,8 @@ export default function CompanyPageClient() {
   // State
   const [activeMilestoneIndex, setActiveMilestoneIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-  const [selectedHubIndex, setSelectedHubIndex] = useState(0); // Default to Surat HQ
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [activePillar, setActivePillar] = useState<number>(0);
-  const [activeHeroValue, setActiveHeroValue] = useState<number>(0);
 
   // Auto-advance progress bar every 5.5 seconds (pauses on user interaction)
   useEffect(() => {
@@ -193,23 +162,6 @@ export default function CompanyPageClient() {
     navigator.clipboard.writeText(companyData.ceo.email);
     setCopiedEmail(true);
     setTimeout(() => setCopiedEmail(false), 2500);
-  };
-
-  const milestoneIcons: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
-    Compass: Compass,
-    Layers: Layers,
-    Globe: Globe,
-    ShieldCheck: ShieldCheck,
-    Sparkles: Sparkles,
-  };
-
-  const valueIcons: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
-    Shield: Shield,
-    Zap: Zap,
-    Users: Users,
-    Clock: Clock,
-    Lock: Lock,
-    Headphones: Headphones,
   };
 
   const pillars = [
@@ -254,92 +206,6 @@ export default function CompanyPageClient() {
         "Zero Proprietary Framework Hostage Fees",
         "Comprehensive Architectural Documentation & Schematics"
       ]
-    }
-  ];
-
-  const agencyComparison = [
-    {
-      criteria: "Engineering Talent",
-      traditional: "Outsourced junior coders with high churn rate",
-      opash: "In-house senior full-stack & AI architects with 5+ yrs experience",
-      highlight: true
-    },
-    {
-      criteria: "Communication Channel",
-      traditional: "Layers of account managers and ticket delays",
-      opash: "Direct Slack channel with senior devs & founder oversight",
-      highlight: false
-    },
-    {
-      criteria: "Code & IP Ownership",
-      traditional: "Vendor lock-in, proprietary runtime licensing fees",
-      opash: "100% Client IP ownership & clean Git repo access day 1",
-      highlight: true
-    },
-    {
-      criteria: "Delivery Velocity",
-      traditional: "Unpredictable 6-month waterfall with budget creeps",
-      opash: "Agile 2-week production sprints with live test environments",
-      highlight: false
-    },
-    {
-      criteria: "Code Quality & Testing",
-      traditional: "Manual ad-hoc testing prone to regressions",
-      opash: "Automated CI/CD pipelines, static analysis & 90%+ test coverage",
-      highlight: true
-    }
-  ];
-
-  const heroCoreValues = [
-    {
-      id: 0,
-      title: "Integrity First",
-      subtitle: "Radical Transparency & Code Honesty",
-      desc: "Transparency, honesty, and accountability in every line of code, git commit, and business conversation. Zero hidden costs, zero proprietary hostage traps, and 100% Day-One IP ownership guaranteed.",
-      icon: Shield,
-      accent: "#00a88f",
-      accentLight: "#008a75",
-      tags: ["100% Day-One IP Ownership", "Direct Git Repository Access", "Honest Velocity Estimates"]
-    },
-    {
-      id: 1,
-      title: "Innovation-Driven",
-      subtitle: "Cloud-Native & Enterprise AI",
-      desc: "We don't rely on obsolete blueprints. We engineer forward-looking architectures using modern web frameworks, stateless microservices, distributed cloud backends, and intelligent AI/ML automation.",
-      icon: Zap,
-      accent: "#38bdf8",
-      accentLight: "#0284c7",
-      tags: ["Distributed Microservices", "Enterprise AI & LLM Systems", "Sub-Second Latency SLAs"]
-    },
-    {
-      id: 2,
-      title: "Client-Centric Approach",
-      subtitle: "Solving Real Business Pain Points",
-      desc: "Your runway, business metrics, and end-user adoption shape our technical roadmaps. We architect software as a high-leverage growth engine tailored precisely to your commercial goals.",
-      icon: Users,
-      accent: "#818cf8",
-      accentLight: "#4f46e5",
-      tags: ["KPI-Driven Engineering", "Real User Empathy", "Agile Roadmap Alignment"]
-    },
-    {
-      id: 3,
-      title: "On-Time Every Time",
-      subtitle: "Predictable 2-Week Agile Cadence",
-      desc: "Predictable velocity and agile project management ensuring milestone adherence with zero compromise on code quality. Automated CI/CD pipelines guarantee working software in every sprint.",
-      icon: Clock,
-      accent: "#fbbf24",
-      accentLight: "#d97706",
-      tags: ["2-Week Production Sprints", "Automated CI/CD Deploys", "Zero Regression Releases"]
-    },
-    {
-      id: 4,
-      title: "Collaboration Culture",
-      subtitle: "Direct Senior Developer Access",
-      desc: "High-touch communication, seamless timezone overlap, and direct access to senior developers with zero non-technical account management friction. You collaborate directly with lead engineers.",
-      icon: Handshake,
-      accent: "#c084fc",
-      accentLight: "#9333ea",
-      tags: ["Direct Slack & Zoom Pods", "Global Timezone Overlap", "Radical Co-Creation"]
     }
   ];
 
@@ -560,697 +426,6 @@ export default function CompanyPageClient() {
           </div>
 
           {/* ================================================================= */}
-          {/* THE HERO BENTO SHOWCASE GRID (4 MODULAR HIGH-IMPACT CARDS)        */}
-          {/* ================================================================= */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 560px), 1fr))",
-              gap: "1.5rem",
-              marginBottom: "3.5rem",
-            }}
-          >
-            {/* ------------------------------------------------------------- */}
-            {/* Bento Card 1: Official 5 Core Values Interactive Vault        */}
-            {/* ------------------------------------------------------------- */}
-            <div
-              style={{
-                borderRadius: "22px",
-                background: isLight ? "rgba(255, 255, 255, 0.9)" : "rgba(10, 20, 36, 0.72)",
-                backdropFilter: "blur(20px)",
-                border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(45, 212, 191, 0.22)",
-                boxShadow: isLight ? "0 10px 30px rgba(0, 0, 0, 0.04)" : "0 20px 50px rgba(0, 0, 0, 0.4)",
-                padding: "1.75rem",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-                position: "relative",
-                overflow: "hidden",
-              }}
-            >
-              {/* Header with Selector Pills */}
-              <div>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    flexWrap: "wrap",
-                    gap: "0.5rem",
-                    marginBottom: "1.25rem",
-                  }}
-                >
-                  <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                    <div
-                      style={{
-                        width: "32px",
-                        height: "32px",
-                        borderRadius: "10px",
-                        backgroundColor: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(45, 212, 191, 0.15)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        color: isLight ? "#008a75" : "#2dd4bf",
-                      }}
-                    >
-                      <Shield size={16} />
-                    </div>
-                    <div>
-                      <span
-                        style={{
-                          fontSize: "0.78rem",
-                          fontWeight: 700,
-                          letterSpacing: "0.06em",
-                          textTransform: "uppercase",
-                          color: isLight ? "#008a75" : "#2dd4bf",
-                        }}
-                      >
-                        OFFICIAL 5 CORE VALUES
-                      </span>
-                      <div style={{ fontSize: "0.74rem", color: isLight ? "#64748b" : "#94a3b8" }}>
-                        Click to explore each guiding principle
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Micro indicator */}
-                  <div
-                    style={{
-                      fontSize: "0.75rem",
-                      fontFamily: "monospace",
-                      fontWeight: 700,
-                      color: isLight ? "#64748b" : "#94a3b8",
-                      backgroundColor: isLight ? "#f1f5f9" : "rgba(15, 23, 42, 0.6)",
-                      padding: "0.3rem 0.65rem",
-                      borderRadius: "8px",
-                    }}
-                  >
-                    VALUE {activeHeroValue + 1} OF 5
-                  </div>
-                </div>
-
-                {/* Value Tabs Row */}
-                <div
-                  style={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                    gap: "0.4rem",
-                    marginBottom: "1.5rem",
-                  }}
-                >
-                  {heroCoreValues.map((v, i) => {
-                    const isSelected = activeHeroValue === i;
-                    const VIcon = v.icon;
-                    return (
-                      <button
-                        key={i}
-                        onClick={() => setActiveHeroValue(i)}
-                        style={{
-                          display: "inline-flex",
-                          alignItems: "center",
-                          gap: "0.4rem",
-                          padding: "0.45rem 0.85rem",
-                          borderRadius: "10px",
-                          border: isSelected
-                            ? `1px solid ${isLight ? v.accentLight : v.accent}`
-                            : isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
-                          backgroundColor: isSelected
-                            ? isLight ? "rgba(0, 168, 143, 0.08)" : "rgba(45, 212, 191, 0.15)"
-                            : isLight ? "#ffffff" : "rgba(15, 23, 42, 0.4)",
-                          color: isSelected
-                            ? isLight ? v.accentLight : v.accent
-                            : isLight ? "#475569" : "#94a3b8",
-                          fontSize: "0.78rem",
-                          fontWeight: isSelected ? 700 : 500,
-                          cursor: "pointer",
-                          transition: "all 0.2s ease",
-                        }}
-                      >
-                        <VIcon size={13} />
-                        <span>{v.title}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-
-                {/* Active Value Spotlight Content */}
-                {(() => {
-                  const curr = heroCoreValues[activeHeroValue];
-                  const CurrIcon = curr.icon;
-                  const accentColor = isLight ? curr.accentLight : curr.accent;
-
-                  return (
-                    <div
-                      style={{
-                        padding: "1.5rem",
-                        borderRadius: "16px",
-                        backgroundColor: isLight ? "#ffffff" : "rgba(15, 23, 42, 0.6)",
-                        border: isLight ? "1px solid #e2e8f0" : `1px solid ${accentColor}33`,
-                        boxShadow: `0 4px 20px ${accentColor}15`,
-                        marginBottom: "1.25rem",
-                      }}
-                    >
-                      <div style={{ display: "flex", gap: "1rem", alignItems: "flex-start", marginBottom: "0.85rem" }}>
-                        <div
-                          style={{
-                            width: "48px",
-                            height: "48px",
-                            borderRadius: "14px",
-                            backgroundColor: `${accentColor}18`,
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            flexShrink: 0,
-                            color: accentColor,
-                          }}
-                        >
-                          <CurrIcon size={24} />
-                        </div>
-                        <div>
-                          <div style={{ fontSize: "1.25rem", fontWeight: 800, color: isLight ? "#0f172a" : "#f8fafc" }}>
-                            {curr.title}
-                          </div>
-                          <div style={{ fontSize: "0.85rem", fontWeight: 600, color: accentColor }}>
-                            {curr.subtitle}
-                          </div>
-                        </div>
-                      </div>
-
-                      <p
-                        style={{
-                          fontSize: "0.94rem",
-                          lineHeight: 1.6,
-                          color: isLight ? "#475569" : "#cbd5e1",
-                          marginBottom: "1rem",
-                        }}
-                      >
-                        {curr.desc}
-                      </p>
-
-                      {/* Proof Pills */}
-                      <div style={{ display: "flex", flexWrap: "wrap", gap: "0.45rem" }}>
-                        {curr.tags.map((t, idx) => (
-                          <span
-                            key={idx}
-                            style={{
-                              display: "inline-flex",
-                              alignItems: "center",
-                              gap: "0.3rem",
-                              padding: "0.3rem 0.65rem",
-                              borderRadius: "6px",
-                              backgroundColor: isLight ? "#f1f5f9" : "rgba(255, 255, 255, 0.05)",
-                              fontSize: "0.76rem",
-                              fontWeight: 600,
-                              color: isLight ? "#334155" : "#e2e8f0",
-                            }}
-                          >
-                            <CheckCircle2 size={12} style={{ color: accentColor }} />
-                            <span>{t}</span>
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  );
-                })()}
-              </div>
-
-              {/* Bottom Discipline Row */}
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  paddingTop: "0.85rem",
-                  borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
-                  fontSize: "0.78rem",
-                  color: isLight ? "#64748b" : "#94a3b8",
-                }}
-              >
-                <span>50+ Full-Stack, Cloud & AI Specialists Under One Roof</span>
-                <span style={{ fontWeight: 700, color: isLight ? "#008a75" : "#2dd4bf" }}>
-                  Zero Outsourced Layers &rarr;
-                </span>
-              </div>
-            </div>
-
-            {/* ------------------------------------------------------------- */}
-            {/* Bento Card 2: Surat HQ & Global Timezone Corridor             */}
-            {/* ------------------------------------------------------------- */}
-            <div
-              style={{
-                borderRadius: "22px",
-                background: isLight ? "rgba(255, 255, 255, 0.9)" : "rgba(10, 20, 36, 0.72)",
-                backdropFilter: "blur(20px)",
-                border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(56, 189, 248, 0.22)",
-                boxShadow: isLight ? "0 10px 30px rgba(0, 0, 0, 0.04)" : "0 20px 50px rgba(0, 0, 0, 0.4)",
-                padding: "1.75rem",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-              }}
-            >
-              <div>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.25rem" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                    <div
-                      style={{
-                        width: "32px",
-                        height: "32px",
-                        borderRadius: "10px",
-                        backgroundColor: isLight ? "rgba(2, 132, 199, 0.1)" : "rgba(56, 189, 248, 0.15)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        color: isLight ? "#0284c7" : "#38bdf8",
-                      }}
-                    >
-                      <Globe size={16} />
-                    </div>
-                    <div>
-                      <span
-                        style={{
-                          fontSize: "0.78rem",
-                          fontWeight: 700,
-                          letterSpacing: "0.06em",
-                          textTransform: "uppercase",
-                          color: isLight ? "#0284c7" : "#38bdf8",
-                        }}
-                      >
-                        STRATEGIC NEARSHORE HUB
-                      </span>
-                      <div style={{ fontSize: "0.74rem", color: isLight ? "#64748b" : "#94a3b8" }}>
-                        Surat HQ & Global Synchronized Desks
-                      </div>
-                    </div>
-                  </div>
-                  <span
-                    style={{
-                      width: "8px",
-                      height: "8px",
-                      borderRadius: "50%",
-                      backgroundColor: "#10b981",
-                      boxShadow: "0 0 8px rgba(16, 185, 129, 0.8)",
-                    }}
-                  />
-                </div>
-
-                {/* 4 Timezone Grid */}
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem", marginBottom: "1.25rem" }}>
-                  <div
-                    style={{
-                      padding: "0.85rem",
-                      borderRadius: "12px",
-                      backgroundColor: isLight ? "#f8fafc" : "rgba(15, 23, 42, 0.6)",
-                      border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(45, 212, 191, 0.2)",
-                    }}
-                  >
-                    <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", color: isLight ? "#008a75" : "#2dd4bf" }}>
-                      🇮🇳 SURAT HQ (IST)
-                    </div>
-                    <LiveSuratClock isLight={isLight} />
-                    <div style={{ fontSize: "0.72rem", color: isLight ? "#64748b" : "#94a3b8" }}>
-                      21.1702° N, 72.8311° E
-                    </div>
-                  </div>
-
-                  <div
-                    style={{
-                      padding: "0.85rem",
-                      borderRadius: "12px",
-                      backgroundColor: isLight ? "#f8fafc" : "rgba(15, 23, 42, 0.6)",
-                      border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
-                    }}
-                  >
-                    <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", color: isLight ? "#0284c7" : "#38bdf8" }}>
-                      🇺🇸 US OVERLAP
-                    </div>
-                    <div style={{ fontSize: "1.1rem", fontWeight: 700, color: isLight ? "#0f172a" : "#f8fafc", marginTop: "0.2rem" }}>
-                      PST / EST
-                    </div>
-                    <div style={{ fontSize: "0.72rem", color: isLight ? "#64748b" : "#94a3b8" }}>
-                      4-6 hrs live overlap daily
-                    </div>
-                  </div>
-
-                  <div
-                    style={{
-                      padding: "0.85rem",
-                      borderRadius: "12px",
-                      backgroundColor: isLight ? "#f8fafc" : "rgba(15, 23, 42, 0.6)",
-                      border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
-                    }}
-                  >
-                    <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", color: isLight ? "#4f46e5" : "#818cf8" }}>
-                      🇬🇧 UK & EUROPE
-                    </div>
-                    <div style={{ fontSize: "1.1rem", fontWeight: 700, color: isLight ? "#0f172a" : "#f8fafc", marginTop: "0.2rem" }}>
-                      GMT / CET
-                    </div>
-                    <div style={{ fontSize: "0.72rem", color: isLight ? "#64748b" : "#94a3b8" }}>
-                      Full afternoon coverage
-                    </div>
-                  </div>
-
-                  <div
-                    style={{
-                      padding: "0.85rem",
-                      borderRadius: "12px",
-                      backgroundColor: isLight ? "#f8fafc" : "rgba(15, 23, 42, 0.6)",
-                      border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
-                    }}
-                  >
-                    <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", color: isLight ? "#d97706" : "#fbbf24" }}>
-                      🇦🇪 MIDDLE EAST
-                    </div>
-                    <div style={{ fontSize: "1.1rem", fontWeight: 700, color: isLight ? "#0f172a" : "#f8fafc", marginTop: "0.2rem" }}>
-                      GST (UTC+4)
-                    </div>
-                    <div style={{ fontSize: "0.72rem", color: isLight ? "#64748b" : "#94a3b8" }}>
-                      Near identical business day
-                    </div>
-                  </div>
-                </div>
-
-                {/* Nearshore Perks List */}
-                <div style={{ display: "flex", flexDirection: "column", gap: "0.55rem" }}>
-                  {[
-                    "40%–60% Capital Efficiency vs Western US/UK Agencies",
-                    "Direct Slack / Zoom Collaboration with Lead Architects",
-                    "Surat's Deep Engineering Talent Pool & Low Churn"
-                  ].map((perk, idx) => (
-                    <div
-                      key={idx}
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "0.55rem",
-                        fontSize: "0.82rem",
-                        color: isLight ? "#334155" : "#cbd5e1",
-                      }}
-                    >
-                      <CheckCircle2 size={14} style={{ color: isLight ? "#008a75" : "#2dd4bf", flexShrink: 0 }} />
-                      <span>{perk}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Bottom Nearshore Link */}
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  paddingTop: "0.85rem",
-                  marginTop: "1rem",
-                  borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
-                  fontSize: "0.78rem",
-                  color: isLight ? "#64748b" : "#94a3b8",
-                }}
-              >
-                <span>Operating from Pal, Adajan, Surat</span>
-                <span style={{ fontWeight: 700, color: isLight ? "#0284c7" : "#38bdf8" }}>
-                  Global Sprints &bull; 24/7 Coverage
-                </span>
-              </div>
-            </div>
-
-            {/* ------------------------------------------------------------- */}
-            {/* Bento Card 3: Dual Vault — Vision & Mission                   */}
-            {/* ------------------------------------------------------------- */}
-            <div
-              style={{
-                borderRadius: "22px",
-                background: isLight ? "rgba(255, 255, 255, 0.9)" : "rgba(10, 20, 36, 0.72)",
-                backdropFilter: "blur(20px)",
-                border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(99, 102, 241, 0.22)",
-                boxShadow: isLight ? "0 10px 30px rgba(0, 0, 0, 0.04)" : "0 20px 50px rgba(0, 0, 0, 0.4)",
-                padding: "1.75rem",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-              }}
-            >
-              <div>
-                <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "1.25rem" }}>
-                  <div
-                    style={{
-                      width: "32px",
-                      height: "32px",
-                      borderRadius: "10px",
-                      backgroundColor: isLight ? "rgba(79, 70, 229, 0.1)" : "rgba(129, 140, 248, 0.15)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      color: isLight ? "#4f46e5" : "#818cf8",
-                    }}
-                  >
-                    <Target size={16} />
-                  </div>
-                  <div>
-                    <span
-                      style={{
-                        fontSize: "0.78rem",
-                        fontWeight: 700,
-                        letterSpacing: "0.06em",
-                        textTransform: "uppercase",
-                        color: isLight ? "#4f46e5" : "#818cf8",
-                      }}
-                    >
-                      THE OPASH MANDATE
-                    </span>
-                    <div style={{ fontSize: "0.74rem", color: isLight ? "#64748b" : "#94a3b8" }}>
-                      Our Official Vision & Mission
-                    </div>
-                  </div>
-                </div>
-
-                {/* Dual Chamber Sub-Cards */}
-                <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-                  {/* Vision Chamber */}
-                  <div
-                    style={{
-                      padding: "1.15rem 1.25rem",
-                      borderRadius: "14px",
-                      backgroundColor: isLight ? "#ffffff" : "rgba(15, 23, 42, 0.6)",
-                      border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(0, 168, 143, 0.25)",
-                    }}
-                  >
-                    <div style={{ display: "flex", alignItems: "center", gap: "0.45rem", marginBottom: "0.35rem" }}>
-                      <Target size={15} style={{ color: isLight ? "#008a75" : "#2dd4bf" }} />
-                      <span style={{ fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", color: isLight ? "#008a75" : "#2dd4bf", letterSpacing: "0.06em" }}>
-                        OUR VISION
-                      </span>
-                    </div>
-                    <div style={{ fontSize: "1.05rem", fontWeight: 800, color: isLight ? "#0f172a" : "#f8fafc", marginBottom: "0.35rem" }}>
-                      Empowering Ideas. Transforming Futures.
-                    </div>
-                    <p style={{ fontSize: "0.84rem", lineHeight: 1.55, color: isLight ? "#475569" : "#94a3b8", margin: 0 }}>
-                      To be globally recognized as a premier digital transformation partner, enabling businesses of all sizes to scale through secure, elegant, and resilient technology.
-                    </p>
-                  </div>
-
-                  {/* Mission Chamber */}
-                  <div
-                    style={{
-                      padding: "1.15rem 1.25rem",
-                      borderRadius: "14px",
-                      backgroundColor: isLight ? "#ffffff" : "rgba(15, 23, 42, 0.6)",
-                      border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(56, 189, 248, 0.25)",
-                    }}
-                  >
-                    <div style={{ display: "flex", alignItems: "center", gap: "0.45rem", marginBottom: "0.35rem" }}>
-                      <Rocket size={15} style={{ color: isLight ? "#0284c7" : "#38bdf8" }} />
-                      <span style={{ fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", color: isLight ? "#0284c7" : "#38bdf8", letterSpacing: "0.06em" }}>
-                        OUR MISSION
-                      </span>
-                    </div>
-                    <div style={{ fontSize: "1.05rem", fontWeight: 800, color: isLight ? "#0f172a" : "#f8fafc", marginBottom: "0.35rem" }}>
-                      Delivering Innovation with Precision & Passion.
-                    </div>
-                    <p style={{ fontSize: "0.84rem", lineHeight: 1.55, color: isLight ? "#475569" : "#94a3b8", margin: 0 }}>
-                      To craft bespoke software, cloud platforms, and mobile experiences with zero technical debt, empowering enterprises and startups to accelerate time-to-market.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Bottom Tag */}
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  paddingTop: "0.85rem",
-                  marginTop: "1rem",
-                  borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
-                  fontSize: "0.78rem",
-                  color: isLight ? "#64748b" : "#94a3b8",
-                }}
-              >
-                <span>Zero Technical Debt Guarantee</span>
-                <span style={{ fontWeight: 700, color: isLight ? "#4f46e5" : "#818cf8" }}>
-                  Future-Proof Architecture &rarr;
-                </span>
-              </div>
-            </div>
-
-            {/* ------------------------------------------------------------- */}
-            {/* Bento Card 4: CEO & Executive Founder Dispatch                */}
-            {/* ------------------------------------------------------------- */}
-            <div
-              style={{
-                borderRadius: "22px",
-                background: isLight ? "rgba(255, 255, 255, 0.9)" : "rgba(10, 20, 36, 0.72)",
-                backdropFilter: "blur(20px)",
-                border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(0, 168, 143, 0.22)",
-                boxShadow: isLight ? "0 10px 30px rgba(0, 0, 0, 0.04)" : "0 20px 50px rgba(0, 0, 0, 0.4)",
-                padding: "1.75rem",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-              }}
-            >
-              <div>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.25rem" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                    <div
-                      style={{
-                        width: "32px",
-                        height: "32px",
-                        borderRadius: "10px",
-                        backgroundColor: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(45, 212, 191, 0.15)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        color: isLight ? "#008a75" : "#2dd4bf",
-                      }}
-                    >
-                      <Quote size={16} />
-                    </div>
-                    <div>
-                      <span
-                        style={{
-                          fontSize: "0.78rem",
-                          fontWeight: 700,
-                          letterSpacing: "0.06em",
-                          textTransform: "uppercase",
-                          color: isLight ? "#008a75" : "#2dd4bf",
-                        }}
-                      >
-                        FOUNDER&apos;S DIRECT DISPATCH
-                      </span>
-                      <div style={{ fontSize: "0.74rem", color: isLight ? "#64748b" : "#94a3b8" }}>
-                        From the Desk of Hiren Danecha
-                      </div>
-                    </div>
-                  </div>
-
-                  <span
-                    style={{
-                      fontSize: "0.72rem",
-                      fontWeight: 700,
-                      color: isLight ? "#008a75" : "#2dd4bf",
-                      backgroundColor: isLight ? "rgba(0, 168, 143, 0.08)" : "rgba(45, 212, 191, 0.12)",
-                      padding: "0.25rem 0.65rem",
-                      borderRadius: "6px",
-                    }}
-                  >
-                    EXECUTIVE VOICE
-                  </span>
-                </div>
-
-                {/* Founder Identity Strip */}
-                <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1.25rem" }}>
-                  <div
-                    style={{
-                      width: "52px",
-                      height: "52px",
-                      borderRadius: "16px",
-                      backgroundImage: isLight
-                        ? "linear-gradient(135deg, #008a75 0%, #0284c7 100%)"
-                        : "linear-gradient(135deg, #00a88f 0%, #38bdf8 100%)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      color: "#ffffff",
-                      fontWeight: 800,
-                      fontSize: "1.2rem",
-                      flexShrink: 0,
-                      boxShadow: "0 4px 15px rgba(0, 168, 143, 0.3)",
-                    }}
-                  >
-                    HD
-                  </div>
-                  <div>
-                    <div style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
-                      <span style={{ fontSize: "1.1rem", fontWeight: 800, color: isLight ? "#0f172a" : "#f8fafc" }}>
-                        Hiren Danecha
-                      </span>
-                      <CheckCircle2 size={16} style={{ color: isLight ? "#008a75" : "#2dd4bf" }} />
-                    </div>
-                    <div style={{ fontSize: "0.82rem", fontWeight: 600, color: isLight ? "#008a75" : "#2dd4bf" }}>
-                      Founder & Chief Executive Officer
-                    </div>
-                    <div style={{ fontSize: "0.75rem", color: isLight ? "#64748b" : "#94a3b8" }}>
-                      10+ Years in Software Architecture & Product Strategy
-                    </div>
-                  </div>
-                </div>
-
-                {/* Executive Quote Body */}
-                <div
-                  style={{
-                    position: "relative",
-                    padding: "1.25rem",
-                    borderRadius: "14px",
-                    backgroundColor: isLight ? "#ffffff" : "rgba(15, 23, 42, 0.6)",
-                    border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
-                  }}
-                >
-                  <p
-                    style={{
-                      fontSize: "0.95rem",
-                      fontStyle: "italic",
-                      lineHeight: 1.65,
-                      color: isLight ? "#1e293b" : "#e2e8f0",
-                      margin: 0,
-                    }}
-                  >
-                    &ldquo;We don&apos;t just build software — we build long-term partnerships powered by innovation, reliability, and mutual growth. From Surat to Silicon Valley, our mission is to empower visionaries with engineering that endures.&rdquo;
-                  </p>
-                </div>
-              </div>
-
-              {/* Founder Badges */}
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  paddingTop: "0.85rem",
-                  marginTop: "1rem",
-                  borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
-                  fontSize: "0.78rem",
-                  color: isLight ? "#64748b" : "#94a3b8",
-                }}
-              >
-                <span>Direct Access &bull; Founder Oversight</span>
-                <a
-                  href="#leadership"
-                  style={{
-                    fontWeight: 700,
-                    color: isLight ? "#008a75" : "#2dd4bf",
-                    textDecoration: "none",
-                  }}
-                >
-                  Read Executive Bio &rarr;
-                </a>
-              </div>
-            </div>
-          </div>
-
-          {/* ================================================================= */}
           {/* BOTTOM TELEMETRY STRIP: 4 VERIFIED POWERS FROM OPASH OFFICIAL     */}
           {/* ================================================================= */}
           <div
@@ -1386,151 +561,7 @@ export default function CompanyPageClient() {
       </section>
 
       {/* ===================================================================== */}
-      {/* 2. LIVE HEADQUARTERS COMMAND & TIMEZONE SYNCHRONIZATION BAR           */}
-      {/* ===================================================================== */}
-      <section
-        style={{
-          padding: "3.5rem 1.5rem",
-          position: "relative",
-          background: isLight ? "#f1f5f9" : "rgba(8, 16, 32, 0.5)",
-          borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
-          borderBottom: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
-        }}
-      >
-        <div className="container-custom" style={{ maxWidth: "1240px", margin: "0 auto" }}>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-              gap: "1.5rem",
-              alignItems: "center",
-            }}
-          >
-            {/* Live HQ Clock Card */}
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "1.25rem",
-                padding: "1.25rem 1.5rem",
-                borderRadius: "16px",
-                background: isLight ? "#ffffff" : "rgba(15, 23, 42, 0.7)",
-                border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
-              }}
-            >
-              <div
-                style={{
-                  width: "50px",
-                  height: "50px",
-                  borderRadius: "14px",
-                  background: isLight ? "rgba(0, 168, 143, 0.12)" : "rgba(0, 187, 171, 0.15)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: isLight ? "#008a75" : "#2dd4bf",
-                  flexShrink: 0,
-                }}
-              >
-                <Clock size={24} />
-              </div>
-              <div>
-                <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                  <span style={{ fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.05em", color: isLight ? "#008a75" : "#2dd4bf", textTransform: "uppercase" }}>
-                    Live Surat HQ Time
-                  </span>
-                  <span
-                    style={{
-                      width: "6px",
-                      height: "6px",
-                      borderRadius: "50%",
-                      backgroundColor: "#10b981",
-                      display: "inline-block",
-                    }}
-                  />
-                </div>
-                <LiveSuratClock isLight={isLight} />
-              </div>
-            </div>
-
-            {/* Global Sprints Overlap */}
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "1.25rem",
-                padding: "1.25rem 1.5rem",
-                borderRadius: "16px",
-                background: isLight ? "#ffffff" : "rgba(15, 23, 42, 0.7)",
-                border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
-              }}
-            >
-              <div
-                style={{
-                  width: "50px",
-                  height: "50px",
-                  borderRadius: "14px",
-                  background: isLight ? "rgba(2, 132, 199, 0.12)" : "rgba(56, 189, 248, 0.15)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: isLight ? "#0284c7" : "#38bdf8",
-                  flexShrink: 0,
-                }}
-              >
-                <Globe size={24} />
-              </div>
-              <div>
-                <div style={{ fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.05em", color: isLight ? "#0284c7" : "#38bdf8", textTransform: "uppercase" }}>
-                  Global Sprints Overlap
-                </div>
-                <div style={{ fontSize: "1.05rem", fontWeight: 700, color: isLight ? "#0f172a" : "#f8fafc", marginTop: "0.15rem" }}>
-                  18 Timezones Synchronized (US, UK, UAE, EU)
-                </div>
-              </div>
-            </div>
-
-            {/* Quality Commitment */}
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "1.25rem",
-                padding: "1.25rem 1.5rem",
-                borderRadius: "16px",
-                background: isLight ? "#ffffff" : "rgba(15, 23, 42, 0.7)",
-                border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
-              }}
-            >
-              <div
-                style={{
-                  width: "50px",
-                  height: "50px",
-                  borderRadius: "14px",
-                  background: isLight ? "rgba(99, 102, 241, 0.12)" : "rgba(129, 140, 248, 0.15)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: isLight ? "#4f46e5" : "#818cf8",
-                  flexShrink: 0,
-                }}
-              >
-                <ShieldCheck size={24} />
-              </div>
-              <div>
-                <div style={{ fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.05em", color: isLight ? "#4f46e5" : "#818cf8", textTransform: "uppercase" }}>
-                  Engineering Assurance
-                </div>
-                <div style={{ fontSize: "1.05rem", fontWeight: 700, color: isLight ? "#0f172a" : "#f8fafc", marginTop: "0.15rem" }}>
-                  Zero Vendor Lock-In & 100% IP Ownership
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ===================================================================== */}
-      {/* 3. CORE FOUNDATIONAL PILLARS: VISION, MISSION & VALUES                */}
+      {/* 2. CORE FOUNDATIONAL PILLARS: VISION, MISSION & VALUES                */}
       {/* ===================================================================== */}
       <section style={{ padding: "6rem 1.5rem", position: "relative" }}>
         <div className="container-custom" style={{ maxWidth: "1240px", margin: "0 auto" }}>
@@ -1875,222 +906,7 @@ export default function CompanyPageClient() {
       </section>
 
       {/* ===================================================================== */}
-      {/* 4. STRATEGIC ARCHITECTURAL PILLARS (Interactive Tabs)                 */}
-      {/* ===================================================================== */}
-      <section
-        id="pillars"
-        style={{
-          padding: "6rem 1.5rem",
-          position: "relative",
-          background: isLight ? "#f8fafc" : "#020712",
-        }}
-      >
-        <div className="container-custom" style={{ maxWidth: "1240px", margin: "0 auto" }}>
-          <div style={{ textAlign: "center", maxWidth: "780px", margin: "0 auto 3.5rem auto" }}>
-            <span
-              style={{
-                display: "inline-block",
-                padding: "0.35rem 0.95rem",
-                borderRadius: "9999px",
-                background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(0, 187, 171, 0.12)",
-                color: isLight ? "#008a75" : "#2dd4bf",
-                fontSize: "0.82rem",
-                fontWeight: 700,
-                letterSpacing: "0.05em",
-                textTransform: "uppercase",
-                marginBottom: "0.75rem",
-              }}
-            >
-              Engineering DNA
-            </span>
-            <h2 style={{ fontSize: "clamp(2rem, 3.5vw, 2.9rem)", fontWeight: 800, lineHeight: 1.2 }}>
-              Our 3 Architectural Pillars
-            </h2>
-            <p style={{ color: isLight ? "#64748b" : "#94a3b8", fontSize: "1.05rem", marginTop: "0.75rem" }}>
-              Why international tech companies, healthcare pioneers, and FinTech platforms choose Opash.
-            </p>
-          </div>
-
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-              gap: "1.75rem",
-            }}
-          >
-            {pillars.map((pillar, idx) => {
-              const IconComp = pillar.icon;
-              const isSelected = activePillar === idx;
-              return (
-                <div
-                  key={pillar.number}
-                  onClick={() => setActivePillar(idx)}
-                  style={{
-                    padding: "2.5rem 2rem",
-                    borderRadius: "20px",
-                    background: isLight
-                      ? isSelected ? "#ffffff" : "#f1f5f9"
-                      : isSelected ? "rgba(15, 23, 42, 0.9)" : "rgba(10, 20, 36, 0.4)",
-                    border: isSelected
-                      ? `2px solid ${pillar.accent}`
-                      : isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
-                    boxShadow: isSelected
-                      ? `0 12px 35px ${pillar.accent}25`
-                      : "none",
-                    cursor: "pointer",
-                    transition: "all 0.25s ease",
-                  }}
-                >
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
-                    <div
-                      style={{
-                        width: "50px",
-                        height: "50px",
-                        borderRadius: "14px",
-                        background: `${pillar.accent}20`,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        color: pillar.accent,
-                      }}
-                    >
-                      <IconComp size={24} />
-                    </div>
-                    <span style={{ fontSize: "1.4rem", fontWeight: 800, fontFamily: "monospace", color: isLight ? "#94a3b8" : "#475569" }}>
-                      {pillar.number}
-                    </span>
-                  </div>
-
-                  <h3 style={{ fontSize: "1.4rem", fontWeight: 800, marginBottom: "0.4rem" }}>
-                    {pillar.title}
-                  </h3>
-                  <div style={{ fontSize: "0.9rem", fontWeight: 700, color: pillar.accent, marginBottom: "1rem" }}>
-                    {pillar.tagline}
-                  </div>
-                  <p style={{ color: isLight ? "#475569" : "#94a3b8", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "1.5rem" }}>
-                    {pillar.desc}
-                  </p>
-
-                  <div style={{ borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)", paddingTop: "1.25rem" }}>
-                    <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "0.6rem" }}>
-                      {pillar.features.map((feat, fIdx) => (
-                        <li key={fIdx} style={{ display: "flex", alignItems: "flex-start", gap: "0.55rem", fontSize: "0.86rem", color: isLight ? "#334155" : "#cbd5e1" }}>
-                          <CheckCircle2 size={15} style={{ color: pillar.accent, flexShrink: 0, marginTop: "2px" }} />
-                          <span>{feat}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ===================================================================== */}
-      {/* 5. OPASH VS TRADITIONAL AGENCIES (The Clarity Matrix)                 */}
-      {/* ===================================================================== */}
-      <section
-        style={{
-          padding: "6rem 1.5rem",
-          position: "relative",
-          background: isLight ? "#f1f5f9" : "rgba(6, 12, 24, 0.6)",
-          borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
-          borderBottom: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
-        }}
-      >
-        <div className="container-custom" style={{ maxWidth: "1140px", margin: "0 auto" }}>
-          <div style={{ textAlign: "center", maxWidth: "780px", margin: "0 auto 3.5rem auto" }}>
-            <span
-              style={{
-                display: "inline-block",
-                padding: "0.35rem 0.95rem",
-                borderRadius: "9999px",
-                background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(0, 187, 171, 0.12)",
-                color: isLight ? "#008a75" : "#2dd4bf",
-                fontSize: "0.82rem",
-                fontWeight: 700,
-                letterSpacing: "0.05em",
-                textTransform: "uppercase",
-                marginBottom: "0.75rem",
-              }}
-            >
-              Why Founders Partner With Us
-            </span>
-            <h2 style={{ fontSize: "clamp(2rem, 3.5vw, 2.9rem)", fontWeight: 800, lineHeight: 1.2 }}>
-              The Opash Difference
-            </h2>
-            <p style={{ color: isLight ? "#64748b" : "#94a3b8", fontSize: "1.05rem", marginTop: "0.75rem" }}>
-              How our engineering-first culture eliminates the friction of traditional outsourced software development.
-            </p>
-          </div>
-
-          <div
-            style={{
-              borderRadius: "20px",
-              overflow: "hidden",
-              border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
-              background: isLight ? "#ffffff" : "rgba(10, 20, 36, 0.7)",
-              boxShadow: isLight ? "0 8px 30px rgba(0, 0, 0, 0.04)" : "0 10px 40px rgba(0, 0, 0, 0.35)",
-            }}
-          >
-            {/* Table Header */}
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1.2fr 1.4fr 1.6fr",
-                padding: "1.25rem 2rem",
-                background: isLight ? "#f8fafc" : "rgba(15, 23, 42, 0.8)",
-                borderBottom: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
-                fontWeight: 700,
-                fontSize: "0.92rem",
-                letterSpacing: "0.03em",
-                textTransform: "uppercase",
-              }}
-            >
-              <div style={{ color: isLight ? "#64748b" : "#94a3b8" }}>Operational Aspect</div>
-              <div style={{ color: "#ef4444" }}>Traditional Agency Model</div>
-              <div style={{ color: isLight ? "#008a75" : "#2dd4bf" }}>Opash Software Model</div>
-            </div>
-
-            {/* Table Rows */}
-            {agencyComparison.map((row, idx) => (
-              <div
-                key={idx}
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "1.2fr 1.4fr 1.6fr",
-                  padding: "1.4rem 2rem",
-                  borderBottom: idx < agencyComparison.length - 1
-                    ? isLight ? "1px solid #f1f5f9" : "1px solid rgba(255, 255, 255, 0.05)"
-                    : "none",
-                  alignItems: "center",
-                  fontSize: "0.95rem",
-                  background: row.highlight
-                    ? isLight ? "rgba(0, 168, 143, 0.03)" : "rgba(0, 187, 171, 0.03)"
-                    : "transparent",
-                }}
-              >
-                <div style={{ fontWeight: 700, color: isLight ? "#0f172a" : "#f8fafc" }}>
-                  {row.criteria}
-                </div>
-                <div style={{ color: isLight ? "#64748b" : "#94a3b8", display: "flex", alignItems: "flex-start", gap: "0.5rem" }}>
-                  <span style={{ color: "#ef4444", fontWeight: 800 }}>&times;</span>
-                  <span>{row.traditional}</span>
-                </div>
-                <div style={{ color: isLight ? "#0f172a" : "#f8fafc", fontWeight: 600, display: "flex", alignItems: "flex-start", gap: "0.5rem" }}>
-                  <CheckCircle2 size={18} style={{ color: isLight ? "#008a75" : "#2dd4bf", flexShrink: 0, marginTop: "2px" }} />
-                  <span>{row.opash}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ===================================================================== */}
-      {/* 6. INTERACTIVE EVOLUTION PROGRESSBAR TIMELINE                         */}
+      {/* 3. INTERACTIVE EVOLUTION PROGRESSBAR TIMELINE                         */}
       {/* ===================================================================== */}
       <section
         id="our-journey"
@@ -2600,15 +1416,14 @@ export default function CompanyPageClient() {
       </section>
 
       {/* ===================================================================== */}
-      {/* 7. CORE CULTURAL VALUES (6 Interactive Cards)                         */}
+      {/* 4. STRATEGIC ARCHITECTURAL PILLARS (Interactive Tabs)                 */}
       {/* ===================================================================== */}
       <section
+        id="pillars"
         style={{
           padding: "6rem 1.5rem",
           position: "relative",
-          background: isLight ? "#f1f5f9" : "rgba(6, 12, 24, 0.6)",
-          borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
-          borderBottom: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
+          background: isLight ? "#f8fafc" : "#020712",
         }}
       >
         <div className="container-custom" style={{ maxWidth: "1240px", margin: "0 auto" }}>
@@ -2627,13 +1442,13 @@ export default function CompanyPageClient() {
                 marginBottom: "0.75rem",
               }}
             >
-              Guiding Principles
+              Engineering DNA
             </span>
             <h2 style={{ fontSize: "clamp(2rem, 3.5vw, 2.9rem)", fontWeight: 800, lineHeight: 1.2 }}>
-              Our Core Cultural Values
+              Our 3 Architectural Pillars
             </h2>
             <p style={{ color: isLight ? "#64748b" : "#94a3b8", fontSize: "1.05rem", marginTop: "0.75rem" }}>
-              How we work, maintain trust, and foster engineering mastery every day.
+              Why international tech companies, healthcare pioneers, and FinTech platforms choose Opash.
             </p>
           </div>
 
@@ -2644,41 +1459,69 @@ export default function CompanyPageClient() {
               gap: "1.75rem",
             }}
           >
-            {companyData.coreValues.map((v) => {
-              const IconComp = valueIcons[v.icon] || Shield;
+            {pillars.map((pillar, idx) => {
+              const IconComp = pillar.icon;
+              const isSelected = activePillar === idx;
               return (
                 <div
-                  key={v.title}
+                  key={pillar.number}
+                  onClick={() => setActivePillar(idx)}
                   style={{
-                    padding: "2.25rem 2rem",
+                    padding: "2.5rem 2rem",
                     borderRadius: "20px",
-                    background: isLight ? "#ffffff" : "rgba(10, 20, 36, 0.7)",
-                    border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
-                    boxShadow: isLight ? "0 4px 20px rgba(0, 0, 0, 0.04)" : "0 8px 30px rgba(0, 0, 0, 0.25)",
-                    transition: "transform 0.2s ease, box-shadow 0.2s ease",
+                    background: isLight
+                      ? isSelected ? "#ffffff" : "#f1f5f9"
+                      : isSelected ? "rgba(15, 23, 42, 0.9)" : "rgba(10, 20, 36, 0.4)",
+                    border: isSelected
+                      ? `2px solid ${pillar.accent}`
+                      : isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
+                    boxShadow: isSelected
+                      ? `0 12px 35px ${pillar.accent}25`
+                      : "none",
+                    cursor: "pointer",
+                    transition: "all 0.25s ease",
                   }}
                 >
-                  <div
-                    style={{
-                      width: "48px",
-                      height: "48px",
-                      borderRadius: "12px",
-                      background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(0, 187, 171, 0.15)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      color: isLight ? "#008a75" : "#2dd4bf",
-                      marginBottom: "1.25rem",
-                    }}
-                  >
-                    <IconComp size={22} />
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
+                    <div
+                      style={{
+                        width: "50px",
+                        height: "50px",
+                        borderRadius: "14px",
+                        background: `${pillar.accent}20`,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        color: pillar.accent,
+                      }}
+                    >
+                      <IconComp size={24} />
+                    </div>
+                    <span style={{ fontSize: "1.4rem", fontWeight: 800, fontFamily: "monospace", color: isLight ? "#94a3b8" : "#475569" }}>
+                      {pillar.number}
+                    </span>
                   </div>
-                  <h3 style={{ fontSize: "1.3rem", fontWeight: 800, marginBottom: "0.6rem" }}>
-                    {v.title}
+
+                  <h3 style={{ fontSize: "1.4rem", fontWeight: 800, marginBottom: "0.4rem" }}>
+                    {pillar.title}
                   </h3>
-                  <p style={{ color: isLight ? "#475569" : "#94a3b8", fontSize: "0.95rem", lineHeight: 1.65 }}>
-                    {v.description}
+                  <div style={{ fontSize: "0.9rem", fontWeight: 700, color: pillar.accent, marginBottom: "1rem" }}>
+                    {pillar.tagline}
+                  </div>
+                  <p style={{ color: isLight ? "#475569" : "#94a3b8", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "1.5rem" }}>
+                    {pillar.desc}
                   </p>
+
+                  <div style={{ borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)", paddingTop: "1.25rem" }}>
+                    <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "0.6rem" }}>
+                      {pillar.features.map((feat, fIdx) => (
+                        <li key={fIdx} style={{ display: "flex", alignItems: "flex-start", gap: "0.55rem", fontSize: "0.86rem", color: isLight ? "#334155" : "#cbd5e1" }}>
+                          <CheckCircle2 size={15} style={{ color: pillar.accent, flexShrink: 0, marginTop: "2px" }} />
+                          <span>{feat}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
               );
             })}
@@ -2687,7 +1530,7 @@ export default function CompanyPageClient() {
       </section>
 
       {/* ===================================================================== */}
-      {/* 8. LEADERSHIP PROFILE: HIREN DANECHA (FOUNDER & CEO)                  */}
+      {/* 5. LEADERSHIP PROFILE: HIREN DANECHA (FOUNDER & CEO)                  */}
       {/* ===================================================================== */}
       <section id="leadership" style={{ padding: "6rem 1.5rem", position: "relative" }}>
         <div className="container-custom" style={{ maxWidth: "1240px", margin: "0 auto" }}>
@@ -2922,89 +1765,7 @@ export default function CompanyPageClient() {
       </section>
 
       {/* ===================================================================== */}
-      {/* 9. GLOBAL HUBS & TIMEZONE OVERVIEW                                    */}
-      {/* ===================================================================== */}
-      <section
-        style={{
-          padding: "5rem 1.5rem",
-          position: "relative",
-          background: isLight ? "#f8fafc" : "#020712",
-        }}
-      >
-        <div className="container-custom" style={{ maxWidth: "1240px", margin: "0 auto" }}>
-          <div style={{ textAlign: "center", maxWidth: "780px", margin: "0 auto 3rem auto" }}>
-            <span
-              style={{
-                display: "inline-block",
-                padding: "0.35rem 0.95rem",
-                borderRadius: "9999px",
-                background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(0, 187, 171, 0.12)",
-                color: isLight ? "#008a75" : "#2dd4bf",
-                fontSize: "0.82rem",
-                fontWeight: 700,
-                letterSpacing: "0.05em",
-                textTransform: "uppercase",
-                marginBottom: "0.75rem",
-              }}
-            >
-              Distributed Velocity
-            </span>
-            <h2 style={{ fontSize: "clamp(2rem, 3.5vw, 2.7rem)", fontWeight: 800, lineHeight: 1.2 }}>
-              Active Client Delivery Corridors
-            </h2>
-            <p style={{ color: isLight ? "#64748b" : "#94a3b8", fontSize: "1.05rem", marginTop: "0.75rem" }}>
-              Our Surat headquarters provides seamless, dedicated sprint overlap across international business hours.
-            </p>
-          </div>
-
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-              gap: "1.25rem",
-            }}
-          >
-            {companyData.globalPresence.map((hub, idx) => (
-              <div
-                key={hub.country}
-                style={{
-                  padding: "1.5rem",
-                  borderRadius: "16px",
-                  background: isLight ? "#ffffff" : "rgba(10, 20, 36, 0.7)",
-                  border: hub.country.includes("HQ")
-                    ? isLight ? "2px solid #00a88f" : "2px solid #2dd4bf"
-                    : isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
-                  boxShadow: isLight ? "0 4px 15px rgba(0, 0, 0, 0.03)" : "none",
-                }}
-              >
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "0.75rem" }}>
-                  <div style={{ fontWeight: 800, fontSize: "1.1rem" }}>
-                    {hub.country}
-                  </div>
-                  <span
-                    style={{
-                      width: "8px",
-                      height: "8px",
-                      borderRadius: "50%",
-                      backgroundColor: "#10b981",
-                      marginTop: "5px",
-                    }}
-                  />
-                </div>
-                <div style={{ fontSize: "0.95rem", color: isLight ? "#008a75" : "#2dd4bf", fontWeight: 700, marginBottom: "0.25rem" }}>
-                  {hub.city}
-                </div>
-                <div style={{ fontSize: "0.82rem", color: isLight ? "#64748b" : "#94a3b8" }}>
-                  {hub.timezone}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ===================================================================== */}
-      {/* 10. INQUIRY & STRATEGY CONSULTATION FORM                              */}
+      {/* 6. INQUIRY & STRATEGY CONSULTATION FORM                              */}
       {/* ===================================================================== */}
       <section
         style={{
