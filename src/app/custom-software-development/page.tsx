@@ -4,16 +4,28 @@ import { servicesData } from "@/data/services";
 import CustomSoftwarePageClient from "@/components/CustomSoftwarePageClient";
 
 export const metadata: Metadata = {
-  title: "Custom Software Development Services | Bespoke Architecture | Opash Software",
+  title: "Custom Software Development Services | Opash Software",
   description:
-    "Scalable, secure, and bespoke software systems engineered around your exact enterprise workflows, eliminating off-the-shelf limitations and vendor lock-in.",
+    "We offer custom software development services tailored precisely to your business needs, industry workflows, and growth goals. Enterprise-grade, scalable, and secure solutions.",
+  alternates: {
+    canonical: "https://www.opashsoftware.com/custom-software-development/",
+  },
+  openGraph: {
+    title: "Custom Software Development Services | Opash Software",
+    description:
+      "Tailored custom software development services built from the ground up for Insurance, Fintech, eCommerce, Education, Real Estate, and Healthcare.",
+    url: "https://www.opashsoftware.com/custom-software-development/",
+    siteName: "Opash Software",
+    type: "website",
+  },
   keywords: [
     "custom software development",
+    "custom web and mobile applications",
+    "legacy system modernization",
+    "third-party integrations",
     "enterprise software development",
-    "microservices architecture",
     "bespoke software",
-    "legacy modernization",
-    "cloud native software engineering",
+    "Opash Software",
   ],
 };
 

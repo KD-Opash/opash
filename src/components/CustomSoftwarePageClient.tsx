@@ -39,10 +39,20 @@ import {
   Rocket,
   FileText,
   Compass,
+  Shield,
+  CreditCard,
+  ShoppingBag,
+  GraduationCap,
+  Building2,
+  HeartPulse,
+  Plane,
+  Factory,
+  Settings,
+  Smartphone,
+  SlidersHorizontal,
 } from "lucide-react";
 import { useTheme } from "./ThemeProvider";
 import ContactForm from "./ContactForm";
-import { companyData } from "@/data/company";
 import { ServiceDetail } from "@/data/services";
 import EnterpriseDeliveryLifecycle from "./EnterpriseDeliveryLifecycle";
 
@@ -51,7 +61,285 @@ interface CustomSoftwarePageClientProps {
 }
 
 // -----------------------------------------------------------------------------
-// Interactive Architectural Topology Definitions
+// 1. Why Custom Software Development (From Live Opash Site)
+// -----------------------------------------------------------------------------
+const WHY_CUSTOM_PILLARS = [
+  {
+    icon: Settings,
+    title: "Tailored to Your Operational DNA",
+    tagline: "Total Control & Alignment",
+    desc: "Unlike off-the-shelf products, custom software is designed around your processes, not the other way around. Total control over features, security, user experience, and integrations.",
+  },
+  {
+    icon: RefreshCw,
+    title: "Future-Proof & Elastic Scalability",
+    tagline: "Adapts as Your Business Evolves",
+    desc: "Off-the-shelf software often limits growth or charges exorbitant tier upgrades. Custom architectures scale horizontally with your user traffic and operational volume.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "100% IP Ownership & Zero SaaS Tax",
+    tagline: "Permanent Cost Efficiency",
+    desc: "Eliminate perpetual per-seat licensing penalties and recurring subscription inflation. You own 100% of the intellectual property, code repositories, and data schemas.",
+  },
+  {
+    icon: Zap,
+    title: "Defensible Competitive Edge",
+    tagline: "Proprietary Workflows",
+    desc: "Gain unique market advantages with intelligent proprietary algorithms, custom back-office automation, and private data pipelines competitors cannot duplicate.",
+  },
+];
+
+// -----------------------------------------------------------------------------
+// 2. What Custom Software Development Includes (6 Core Live Offerings)
+// -----------------------------------------------------------------------------
+const WHAT_INCLUDES_DATA = [
+  {
+    icon: Code2,
+    title: "Custom Web & Mobile Applications",
+    subtitle: "Frontend, Backend & APIs",
+    desc: "Frontend, backend, and robust APIs engineered specifically for your use case using modern reactive frameworks and microservices backends.",
+    tags: ["React / Next.js", "Flutter / Native", "Microservices", "REST & GraphQL"],
+  },
+  {
+    icon: Network,
+    title: "Third-Party Integrations",
+    subtitle: "Unified Enterprise Ecosystem",
+    desc: "Seamless connectivity with CRM, ERP, payment gateways, AI engines, biometric authentication, and external partner APIs.",
+    tags: ["Salesforce / SAP", "Stripe / PayPal", "OpenAI / Claude", "Custom Webhooks"],
+  },
+  {
+    icon: Activity,
+    title: "Real-Time Features",
+    subtitle: "Live Telemetry & Sync",
+    desc: "Live data updates, interactive dashboards, event streaming, push notifications, WebSocket chat, and real-time asset tracking.",
+    tags: ["WebSockets", "Kafka Streams", "Real-Time BI", "Push Alerts"],
+  },
+  {
+    icon: Workflow,
+    title: "Automation Tools",
+    subtitle: "Operational Velocity",
+    desc: "Task automation, automated PDF/Excel report generation, approval pipelines, and robotic process workflows to eliminate human bottlenecks.",
+    tags: ["Cron Pipelines", "Batch Processing", "Workflow Triggers", "Audit Trails"],
+  },
+  {
+    icon: Lock,
+    title: "Security & Compliance",
+    subtitle: "Bank-Grade Protection",
+    desc: "Custom data encryption (TLS 1.3 & AES-256), immutable audit logs, role-based access control (RBAC), and compliance with GDPR, HIPAA, and SOC-2.",
+    tags: ["Zero-Trust RBAC", "GDPR / HIPAA", "AES-256 At Rest", "Audit Logging"],
+  },
+  {
+    icon: RefreshCw,
+    title: "Legacy System Modernization",
+    subtitle: "Zero-Downtime Migration",
+    desc: "Upgrade or rebuild monolithic, slow, or deprecated systems into agile, cloud-native microservices with seamless data migration and zero downtime.",
+    tags: ["Strangler-Fig", "CDC Replication", "Microservices", "Cloud Migration"],
+  },
+];
+
+// -----------------------------------------------------------------------------
+// 3. Industries We Specialize In (10 Industries from live Opash page)
+// -----------------------------------------------------------------------------
+const INDUSTRIES_DATA = [
+  {
+    id: "insuretech",
+    title: "InsureTech",
+    category: "Insurance & Underwriting",
+    icon: Shield,
+    tagline: "Policy Lifecycle & Underwriting Automation",
+    desc: "Streamlined policy generation, automated claim triage, algorithmic risk scoring, and carrier integration portals that cut processing time by 60%.",
+    highlights: ["Automated Claim Processing", "Risk Underwriting Engine", "Carrier API Integrations", "Customer Self-Service Portal"],
+  },
+  {
+    id: "fintech",
+    title: "Fintech",
+    category: "Banking & Financial Services",
+    icon: CreditCard,
+    tagline: "High-Throughput Financial Systems",
+    desc: "Secure transaction processing, digital banking workflows, automated KYC/AML verification, double-entry ledgers, and multi-currency payment switches.",
+    highlights: ["Sub-Millisecond Payment Switch", "Automated KYC / AML", "Double-Entry Ledger", "PCI-DSS Compliant Security"],
+  },
+  {
+    id: "ecommerce",
+    title: "eCommerce",
+    category: "Retail & Omnichannel",
+    icon: ShoppingBag,
+    tagline: "High-Concurrency Omnichannel Commerce",
+    desc: "Headless storefronts, multi-warehouse inventory sync, dynamic pricing algorithms, and seamless payment and shipping gateway integrations.",
+    highlights: ["Headless Shopping Cart", "Multi-Warehouse Sync", "Dynamic Pricing AI", "ERP & Logistics Integrations"],
+  },
+  {
+    id: "education",
+    title: "Education",
+    category: "EdTech & Learning Platforms",
+    icon: GraduationCap,
+    tagline: "Next-Gen Virtual Classrooms & LMS",
+    desc: "Scalable learning management systems, live video classrooms, automated student assessment, interactive exams, and institutional dashboards.",
+    highlights: ["Interactive LMS Platform", "Live Audio/Video Rooms", "Automated Grading Engines", "Student Analytics Dashboards"],
+  },
+  {
+    id: "realestate",
+    title: "Real Estate",
+    category: "PropTech & Property Management",
+    icon: Building2,
+    tagline: "Property Management & Virtual Tours",
+    desc: "MLS listing aggregation, 3D interactive virtual tour viewers, automated leasing pipelines, tenant billing, and property management portals.",
+    highlights: ["Property Listing Aggregator", "3D Virtual Tour Viewer", "Automated Lease Agreements", "Tenant & Owner Portals"],
+  },
+  {
+    id: "healthcare",
+    title: "Health Care",
+    category: "Digital Health & Telemedicine",
+    icon: HeartPulse,
+    tagline: "HIPAA-Compliant Health Platforms",
+    desc: "Telehealth video consultation bridges, electronic health records (EHR) sync, automated appointment scheduling, and secure patient portals.",
+    highlights: ["HIPAA-Compliant Telehealth", "EHR / EMR Interoperability", "Doctor & Patient Apps", "Automated Prescriptions"],
+  },
+  {
+    id: "travel",
+    title: "Travel & Hospitality",
+    category: "Booking & Reservations",
+    icon: Plane,
+    tagline: "Global Booking Engines & Reservations",
+    desc: "High-availability flight, hotel, and vehicle reservation engines, dynamic tour packaging, and automated real-time booking management.",
+    highlights: ["GDS / API Booking Engines", "Dynamic Packaging Engine", "Reservation Management", "Mobile Guest Check-In"],
+  },
+  {
+    id: "telecom",
+    title: "Telecommunication",
+    category: "Networks & Subscriber Portals",
+    icon: Radio,
+    tagline: "High-Volume Subscriber Billing & Portals",
+    desc: "Complex tiered billing systems, subscriber self-service apps, automated network provisioning, and real-time network telemetry.",
+    highlights: ["Telecom Rating & Billing", "Subscriber Mobile App", "SIM / eSIM Provisioning", "Real-Time Usage Telemetry"],
+  },
+  {
+    id: "industrial",
+    title: "Industrial Tech",
+    category: "IIoT & Asset Intelligence",
+    icon: Factory,
+    tagline: "Sensor Telemetry & Predictive Maintenance",
+    desc: "Real-time IIoT telemetry dashboards, sensor data processing at scale, asset lifecycle tracking, and automated predictive maintenance alerts.",
+    highlights: ["MQTT / Sensor Ingestion", "Digital Twin Dashboards", "Predictive Alert Engine", "Fleet & Asset Tracking"],
+  },
+  {
+    id: "ngo",
+    title: "NGOs",
+    category: "Non-Profit & Social Impact",
+    icon: Globe2,
+    tagline: "Transparent Donation Ledgers & Campaigns",
+    desc: "Donor engagement platforms, global fundraising campaigns, grant management, volunteer mobilization, and auditable fund allocation reporting.",
+    highlights: ["Donor Contribution Portal", "Auditable Fund Ledger", "Global Campaign Tools", "Volunteer Mobilization CRM"],
+  },
+];
+
+// -----------------------------------------------------------------------------
+// 4. Technologies We Deploy (Exact Live Site Stack Categorized)
+// -----------------------------------------------------------------------------
+const TECH_STACK_TABS = [
+  {
+    category: "Frontend",
+    items: [
+      { name: "React", role: "Component-driven reactive web interfaces", tag: "UI Library", badge: "Core" },
+      { name: "Next.js", role: "Hybrid SSR / SSG enterprise web architecture", tag: "Framework", badge: "Primary" },
+      { name: "Angular", role: "Enterprise modular web client architecture", tag: "Enterprise", badge: "Scale" },
+      { name: "HTML / HTML5", role: "Semantic, accessible structural web markup", tag: "Standard", badge: "Clean" },
+      { name: "TailwindCSS", role: "Modern utility-first responsive styling", tag: "CSS Engine", badge: "Design" },
+      { name: "Material UI", role: "Production-ready enterprise UI design system", tag: "Components", badge: "UI Kit" },
+    ],
+  },
+  {
+    category: "Backend & APIs",
+    items: [
+      { name: "Node.js", role: "Event-driven asynchronous backend execution", tag: "Runtime", badge: "Fast" },
+      { name: "Nest.js", role: "Enterprise TypeScript architecture with IoC", tag: "Enterprise", badge: "Primary" },
+      { name: "Python", role: "High-performance data computing & automation", tag: "Language", badge: "Standard" },
+      { name: "Django", role: "Secure, batteries-included Python framework", tag: "Framework", badge: "Robust" },
+      { name: "RESTful API", role: "Standardized OpenAPI / Swagger interfaces", tag: "Protocol", badge: "API" },
+      { name: "GraphQL", role: "Declarative, precise client-driven data queries", tag: "Data Graph", badge: "Modern" },
+      { name: "Webhooks", role: "Real-time bi-directional event publishing", tag: "Event Bus", badge: "Events" },
+    ],
+  },
+  {
+    category: "Mobile",
+    items: [
+      { name: "React Native", role: "Native cross-platform iOS & Android mobile apps", tag: "Cross-Platform", badge: "Primary" },
+      { name: "Flutter", role: "High-performance multi-platform UI framework", tag: "Google Engine", badge: "60 FPS" },
+    ],
+  },
+  {
+    category: "Databases & Storage",
+    items: [
+      { name: "PostgreSQL", role: "ACID-compliant relational database with JSONB", tag: "Relational", badge: "Primary" },
+      { name: "MS SQL", role: "Enterprise relational database for corporate data", tag: "Enterprise DB", badge: "ACID" },
+      { name: "MongoDB", role: "Polymorphic document database for agile scale", tag: "NoSQL", badge: "Flexible" },
+      { name: "Firebase", role: "Real-time serverless database & live auth", tag: "Real-Time DB", badge: "Cloud" },
+    ],
+  },
+  {
+    category: "Cloud & DevOps",
+    items: [
+      { name: "AWS", role: "Full AWS suite (EC2, ECS, Lambda, RDS, S3)", tag: "Cloud Leader", badge: "Certified" },
+      { name: "Google Cloud", role: "GKE, Cloud Run, BigQuery, and Pub/Sub", tag: "Google Cloud", badge: "Cloud" },
+      { name: "Microsoft Azure", role: "Enterprise cloud, Azure Functions & AKS", tag: "Azure Cloud", badge: "Enterprise" },
+      { name: "DigitalOcean", role: "Lightweight cloud droplets and managed DBs", tag: "Cloud Compute", badge: "Agile" },
+      { name: "Docker", role: "Containerization ensuring environment parity", tag: "Containers", badge: "Standard" },
+      { name: "Kubernetes", role: "Automated container orchestration & scaling", tag: "Orchestration", badge: "Resilient" },
+      { name: "Terraform", role: "Infrastructure as Code (IaC) provisioning", tag: "IaC Automation", badge: "GitOps" },
+      { name: "GitHub Actions", role: "Automated CI/CD pipelines and testing", tag: "CI / CD", badge: "Pipeline" },
+      { name: "Jenkins", role: "Custom enterprise continuous integration", tag: "Automation", badge: "CI Server" },
+    ],
+  },
+  {
+    category: "QA & Testing",
+    items: [
+      { name: "Cypress", role: "Modern end-to-end browser user testing", tag: "E2E Testing", badge: "Automated" },
+      { name: "Selenium", role: "Cross-browser regression and stress testing", tag: "Automated QA", badge: "Scale" },
+      { name: "Jest", role: "Fast unit and snapshot test runner", tag: "Unit Testing", badge: "Coverage" },
+      { name: "Postman", role: "Automated API contract and performance tests", tag: "API Testing", badge: "Security" },
+    ],
+  },
+];
+
+// -----------------------------------------------------------------------------
+// 5. Custom Software Development Process (6 Phases from live site)
+// -----------------------------------------------------------------------------
+const PROCESS_STEPS = [
+  {
+    step: "01",
+    title: "Discovery & Requirement Analysis",
+    desc: "We dive deep into your business goals, user journeys, and workflows to define clear technical specifications, architecture blueprints, and measurable success metrics.",
+  },
+  {
+    step: "02",
+    title: "Planning & Architecture Design",
+    desc: "We create wireframes, system architecture blueprints, and intuitive UI/UX prototypes, laying out a strategic technology roadmap tailored to your timeline and budget.",
+  },
+  {
+    step: "03",
+    title: "Development in Agile Sprints",
+    desc: "Development is executed in Agile sprints using clean, modular code and an API-first approach to ensure complete flexibility, high velocity, and bi-weekly demos.",
+  },
+  {
+    step: "04",
+    title: "Testing & Quality Assurance",
+    desc: "Our QA process involves both manual and automated testing (Jest, Cypress, Selenium, Postman) to guarantee rigorous security, speed, and rock-solid performance.",
+  },
+  {
+    step: "05",
+    title: "CI/CD-Driven Deployment",
+    desc: "Your software is seamlessly launched on cloud (AWS, Azure, GCP) or on-premise environments with automated zero-downtime deployment pipelines.",
+  },
+  {
+    step: "06",
+    title: "Support & Maintenance",
+    desc: "Post-launch, we provide continuous performance optimization, proactive security updates, bug fixes, upgrades, and feature enhancements to scale with your business.",
+  },
+];
+
+// -----------------------------------------------------------------------------
+// 6. Interactive Architectural Topologies (Interactive WOW Widget)
 // -----------------------------------------------------------------------------
 interface ArchitectureNode {
   id: string;
@@ -75,7 +363,7 @@ const ARCHITECTURE_TOPOLOGIES: ArchitectureTopology[] = [
     id: "microservices",
     title: "Event-Driven Microservices",
     tagline: "Autonomous service domains powered by Kafka & gRPC with zero single point of failure",
-    accent: "#00bbab",
+    accent: "#5EC098",
     nodes: [
       {
         id: "gateway",
@@ -115,7 +403,7 @@ const ARCHITECTURE_TOPOLOGIES: ArchitectureTopology[] = [
     id: "multi-tenant-saas",
     title: "Multi-Tenant Enterprise SaaS",
     tagline: "Bank-grade tenant data isolation, granular RBAC, and real-time elastic billing",
-    accent: "#38bdf8",
+    accent: "#476D9A",
     nodes: [
       {
         id: "auth-mesh",
@@ -153,9 +441,9 @@ const ARCHITECTURE_TOPOLOGIES: ArchitectureTopology[] = [
   },
   {
     id: "legacy-modernization",
-    title: "Strangler-Fig Monolith Modernization",
+    title: "Strangler-Fig Modernization",
     tagline: "Deconstruct legacy enterprise systems piece by piece with 100% operational uptime",
-    accent: "#818cf8",
+    accent: "#5EC098",
     nodes: [
       {
         id: "strangler-proxy",
@@ -171,7 +459,7 @@ const ARCHITECTURE_TOPOLOGIES: ArchitectureTopology[] = [
         role: "Transactional Outbox & CDC Adapter",
         protocol: "Debezium / Kafka CDC",
         latency: "Near-instant replication",
-        specs: ["Real-Time Change Data Capture", "Bi-Directional Schema Sync", "Zero Database Lock contention"],
+        specs: ["Real-Time Change Data Capture", "Bi-Directional Schema Sync", "Zero Database Lock Contention"],
       },
       {
         id: "modern-service",
@@ -194,56 +482,13 @@ const ARCHITECTURE_TOPOLOGIES: ArchitectureTopology[] = [
 ];
 
 // -----------------------------------------------------------------------------
-// Interactive Tech Stack Categories
-// -----------------------------------------------------------------------------
-const TECH_STACK_TABS = [
-  {
-    category: "Backend & Microservices",
-    items: [
-      { name: "Node.js / Nest.js", role: "High-concurrency enterprise microservices", tag: "Microservices", badge: "Primary" },
-      { name: "Go (Golang)", role: "Ultra-low-latency distributed network engines", tag: "High Throughput", badge: "Engine" },
-      { name: "Python / FastAPI", role: "High-performance asynchronous data APIs", tag: "Data & ML", badge: "Modern" },
-      { name: "TypeScript", role: "End-to-end strict type-safety across stack", tag: "Standard", badge: "Strict" },
-      { name: "gRPC & Protobuf", role: "Binary inter-service communication", tag: "Low Latency", badge: "Fast" },
-    ],
-  },
-  {
-    category: "Frontend & Web Edge",
-    items: [
-      { name: "Next.js & React", role: "Sub-second hybrid SSR/SSG web platforms", tag: "Web Edge", badge: "Tier 1" },
-      { name: "TypeScript", role: "Strict compile-time UI state validation", tag: "Reliability", badge: "Typed" },
-      { name: "Tailwind & Vanilla CSS", role: "Hardware-accelerated fluid interfaces", tag: "60 FPS UI", badge: "Fluid" },
-      { name: "React Native", role: "Cross-platform mobile apps with native bridges", tag: "iOS & Android", badge: "Native" },
-    ],
-  },
-  {
-    category: "Databases & In-Memory",
-    items: [
-      { name: "PostgreSQL", role: "ACID-compliant partitioned relational data", tag: "Relational", badge: "Primary" },
-      { name: "Redis Cluster", role: "Sub-millisecond caching & distributed locks", tag: "In-Memory", badge: "Cache" },
-      { name: "ClickHouse", role: "Columnar analytical queries over billions of rows", tag: "Big Data", badge: "Analytics" },
-      { name: "MongoDB", role: "Flexible document stores for polymorphic payloads", tag: "NoSQL", badge: "Flexible" },
-    ],
-  },
-  {
-    category: "Cloud, DevOps & Security",
-    items: [
-      { name: "Amazon Web Services (AWS)", role: "ECS, EKS, RDS, Lambda, SQS, CloudFront", tag: "Cloud Leader", badge: "Certified" },
-      { name: "Google Cloud Platform (GCP)", role: "GKE, Cloud Run, BigQuery, IAM Security", tag: "Cloud Native", badge: "Cloud" },
-      { name: "Docker & Kubernetes", role: "Container orchestration & auto-healing pods", tag: "Orchestration", badge: "DevOps" },
-      { name: "GitHub Actions & ArgoCD", role: "Automated GitOps & zero-downtime rollouts", tag: "CI / CD", badge: "GitOps" },
-    ],
-  },
-];
-
-// -----------------------------------------------------------------------------
-// Comparison Matrix Data
+// 7. Decision Matrix: Opash vs. Off-The-Shelf vs. Freelancers
 // -----------------------------------------------------------------------------
 const COMPARISON_ROWS = [
   {
     feature: "Intellectual Property & Code Ownership",
     opash: "100% Client-Owned from Day 1. Full Git repos, docs, & patents.",
-    offShelf: "Zero IP ownership. Locked inside proprietary cloud vendor.",
+    offShelf: "Zero IP ownership. Locked inside proprietary SaaS vendor cloud.",
     freelance: "Vague contracts, unvetted IP, and frequent code disputes.",
   },
   {
@@ -255,11 +500,11 @@ const COMPARISON_ROWS = [
   {
     feature: "Workflow Tailoring & Precision",
     opash: "Modeled 100% around your exact internal operations and compliance.",
-    offShelf: "Forces your enterprise to change its operational processes.",
+    offShelf: "Forces your enterprise to compromise and change its processes.",
     freelance: "Generic templates with minimal business logic understanding.",
   },
   {
-    feature: "Security, SOC2 & Data Sovereignty",
+    feature: "Security, SOC2 & Compliance",
     opash: "Bank-grade encryption, zero-trust RBAC, and dedicated DB instances.",
     offShelf: "Shared multitenancy with unknown co-hosted third-party data.",
     freelance: "Frequent security holes, unpatched dependencies, zero audits.",
@@ -272,161 +517,23 @@ const COMPARISON_ROWS = [
   },
 ];
 
-// -----------------------------------------------------------------------------
-// Interactive 5-Stage Lifecycle Governance Definitions
-// -----------------------------------------------------------------------------
-interface LifecycleStageData {
-  step: string;
-  phase: string;
-  duration: string;
-  title: string;
-  tagline: string;
-  desc: string;
-  accent: string;
-  iconName: "Compass" | "Layers" | "Terminal" | "ShieldCheck" | "Rocket";
-  leadRole: string;
-  gate: string;
-  deliverables: string[];
-  keyActions: string[];
-  clientTouchpoint: string;
-}
-
-const LIFECYCLE_STAGES: LifecycleStageData[] = [
-  {
-    step: "01",
-    phase: "PHASE 01",
-    duration: "Weeks 1–2",
-    title: "Discovery & Blueprinting",
-    tagline: "First-principles domain modeling, tech feasibility & risk elimination",
-    desc: "We analyze your business logic, workflow dependencies, transaction loads, data privacy requirements, and compliance frameworks to engineer a deterministic architecture plan.",
-    accent: "#00bbab",
-    iconName: "Compass",
-    leadRole: "Principal Enterprise Architect",
-    gate: "Architecture & SLA Sign-Off Gate",
-    deliverables: [
-      "Software Requirements Spec (SRS)",
-      "Domain ER & Schema Blueprint",
-      "SOC-2 / HIPAA Compliance Matrix",
-      "Guaranteed Fixed-Sprint SLA",
-    ],
-    keyActions: [
-      "Interviews with core domain stakeholders",
-      "Legacy dependency mapping & gap analysis",
-      "Data ingestion & traffic concurrency modeling",
-    ],
-    clientTouchpoint: "Daily interactive workshops & shared Miro architecture whiteboard",
-  },
-  {
-    step: "02",
-    phase: "PHASE 02",
-    duration: "Weeks 3–4",
-    title: "Architecture & UI/UX Prototyping",
-    tagline: "High-fidelity interactive prototypes & strict API contracts",
-    desc: "Crafting wireframes, micro-interaction systems, and schema contracts. We decouple frontend and backend teams using strict OpenAPI/GraphQL specifications from day one.",
-    accent: "#38bdf8",
-    iconName: "Layers",
-    leadRole: "Staff Product Designer & API Architect",
-    gate: "Interactive Prototype Usability Gate",
-    deliverables: [
-      "Click-Through Figma Prototype",
-      "OpenAPI 3.0 & Protobuf Contracts",
-      "Microservice Boundary Auth Models",
-      "Terraform Infrastructure Scaffolding",
-    ],
-    keyActions: [
-      "Design system typography & dark/light tokens",
-      "Component interaction states & user flows",
-      "Mock API server generation for early testing",
-    ],
-    clientTouchpoint: "Bi-weekly design review & recorded Figma prototype walkthrough",
-  },
-  {
-    step: "03",
-    phase: "PHASE 03",
-    duration: "Weeks 5–10",
-    title: "Agile Sprint Execution",
-    tagline: "Bi-weekly working software releases with 100% Git visibility",
-    desc: "Two-week agile sprints where code is continuously written, peer-reviewed, and deployed to isolated staging environments. You inspect real software every 14 days.",
-    accent: "#10b981",
-    iconName: "Terminal",
-    leadRole: "Senior Scrum Engineering Team",
-    gate: "Bi-Weekly Sprint Demo Acceptance",
-    deliverables: [
-      "Bi-Weekly Staging Releases with Demos",
-      "Direct GitHub/GitLab PR Visibility",
-      "Automated Unit & Integration Tests (>90%)",
-      "Isolated Staging Sandbox for Client QA",
-    ],
-    keyActions: [
-      "Bi-weekly sprint planning & backlog grooming",
-      "Automated CI/CD linting & regression checks",
-      "Continuous peer code review by Staff Engineers",
-    ],
-    clientTouchpoint: "Live demo every other Thursday & direct shared Slack/Teams channel",
-  },
-  {
-    step: "04",
-    phase: "PHASE 04",
-    duration: "Weeks 11–12",
-    title: "Automated QA & Security Audits",
-    tagline: "Chaos engineering, penetration tests & high-concurrency benchmarks",
-    desc: "We stress-test your system against 100,000+ simulated concurrent requests, execute OWASP Top 10 penetration audits, and verify zero critical vulnerabilities before production.",
-    accent: "#818cf8",
-    iconName: "ShieldCheck",
-    leadRole: "Staff QA Engineer & Cyber Security Auditor",
-    gate: "Zero-Vulnerability Security Sign-Off",
-    deliverables: [
-      "OWASP Top 10 Pen-Test Audit Report",
-      "Concurrency Stress Benchmark (100k+ RPS)",
-      "Zero Critical Vulnerability Guarantee",
-      "Disaster Recovery & Multi-Region Plan",
-    ],
-    keyActions: [
-      "Static & dynamic code analysis (SonarQube)",
-      "Automated load testing with k6 & Locust",
-      "Role-based permission & data leakage validation",
-    ],
-    clientTouchpoint: "Detailed security report walkthrough & hardening executive debrief",
-  },
-  {
-    step: "05",
-    phase: "PHASE 05",
-    duration: "Week 13+",
-    title: "Cloud Deployment & Handover",
-    tagline: "Zero-downtime blue-green rollout with 100% legal IP transfer",
-    desc: "Production launch with zero downtime, full observability dashboards, root Git repository handover, and comprehensive team runbooks with post-launch SLA coverage.",
-    accent: "#f59e0b",
-    iconName: "Rocket",
-    leadRole: "DevOps Director & Client Solutions Architect",
-    gate: "Production Cutover & Full Legal IP Transfer",
-    deliverables: [
-      "Zero-Downtime Blue/Green Production Cutover",
-      "100% Git Repository & License Handover",
-      "Full Architectural Runbooks & Video Training",
-      "24/7 Production SLA & Post-Launch Support",
-    ],
-    keyActions: [
-      "Production DNS & SSL switchover with zero blip",
-      "CloudWatch / DataDog monitoring & alerts setup",
-      "Hands-on engineering transition sessions with your team",
-    ],
-    clientTouchpoint: "Go-live war room coordination & engineering handover workshops",
-  },
-];
-
 export default function CustomSoftwarePageClient({ service }: CustomSoftwarePageClientProps) {
   const { theme } = useTheme();
   const isLight = theme === "light";
 
-  // State: Delivery Lifecycle Stage Selection
-  const [activeLifecycleStage, setActiveLifecycleStage] = useState<number>(0);
+  // Brand color tokens
+  const mintColor = isLight ? "#00A88F" : "#5EC098";
+  const slateColor = isLight ? "#102033" : "#476D9A";
+
+  // State: Active Industry Tab
+  const [activeIndustryId, setActiveIndustryId] = useState<string>("insuretech");
+
+  // State: Interactive Tech Stack Tab
+  const [activeTechTab, setActiveTechTab] = useState<number>(0);
 
   // State: Interactive Architecture Explorer
   const [activeTopologyId, setActiveTopologyId] = useState<string>("microservices");
   const [selectedNodeId, setSelectedNodeId] = useState<string>("gateway");
-
-  // State: Interactive Tech Stack Tab
-  const [activeTechTab, setActiveTechTab] = useState<number>(0);
 
   // State: Interactive Scope & Timeline Estimator
   const [estimatorType, setEstimatorType] = useState<string>("enterprise");
@@ -445,6 +552,12 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
   const activeNode = useMemo(
     () => activeTopology.nodes.find((n) => n.id === selectedNodeId) || activeTopology.nodes[0],
     [activeTopology, selectedNodeId]
+  );
+
+  // Active Industry
+  const activeIndustry = useMemo(
+    () => INDUSTRIES_DATA.find((ind) => ind.id === activeIndustryId) || INDUSTRIES_DATA[0],
+    [activeIndustryId]
   );
 
   // Estimator Calculations
@@ -483,7 +596,6 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
       weeks: `${weeksBase}–${weeksBase + 3} Weeks`,
       sprints: `${sprints} Sprints (Bi-Weekly Demos)`,
       stack,
-      deliverablesCount: "14 Key Production Artifacts",
     };
   }, [estimatorType, estimatorScale, estimatorCompliance]);
 
@@ -499,7 +611,7 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
       }}
     >
       {/* ===================================================================== */}
-      {/* 1. HERO SECTION: BESPOKE ARCHITECTURE & ENTERPRISE VELOCITY           */}
+      {/* 1. HERO SECTION: TAILORED CUSTOM SOFTWARE DEVELOPMENT                  */}
       {/* ===================================================================== */}
       <section
         className="custom-software-hero"
@@ -554,7 +666,7 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
                 `,
             }}
           />
-          {/* Multi-stop Ambient Spotlights (Full bleed inset: 0, zero box-clipping lines) */}
+          {/* Multi-stop Brand Ambient Spotlights */}
           <div
             style={{
               position: "absolute",
@@ -600,40 +712,33 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
                 gap: "0.55rem",
                 padding: "0.45rem 1.15rem",
                 borderRadius: "9999px",
-                background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(0, 187, 171, 0.12)",
-                border: isLight ? "1px solid rgba(0, 168, 143, 0.25)" : "1px solid rgba(0, 187, 171, 0.35)",
+                background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.12)",
+                border: isLight ? "1px solid rgba(0, 168, 143, 0.25)" : "1px solid rgba(94, 192, 152, 0.35)",
                 fontSize: "0.82rem",
                 fontWeight: 700,
                 letterSpacing: "0.06em",
                 textTransform: "uppercase",
-                color: isLight ? "#008a75" : "#2dd4bf",
+                color: mintColor,
               }}
             >
               <Sparkles size={14} />
-              <span>Bespoke Engineering · 100% IP Ownership · Zero Vendor Lock-In</span>
+              <span>Tailored Solutions · 8+ Years Experience · 100% IP Ownership</span>
             </div>
           </div>
 
           {/* Main Headline */}
-          <div style={{ textAlign: "center", maxWidth: "980px", margin: "0 auto" }}>
+          <div style={{ textAlign: "center", maxWidth: "1020px", margin: "0 auto" }}>
             <h1
               style={{
-                fontSize: "clamp(2.5rem, 5.2vw, 4.4rem)",
+                fontSize: "clamp(2.4rem, 5vw, 4.2rem)",
                 fontWeight: 800,
-                lineHeight: 1.08,
+                lineHeight: 1.1,
                 letterSpacing: "-0.03em",
                 marginBottom: "1.5rem",
               }}
             >
-              Custom Software Engineered for{" "}
-              <span
-                style={{
-                  color: isLight ? "#008a75" : "#2dd4bf",
-                }}
-              >
-                Sub-Second Latency
-              </span>{" "}
-              & Enterprise Autonomy
+              Custom Software Development Tailored to{" "}
+              <span style={{ color: mintColor }}>Your Business Needs</span>
             </h1>
 
             <p
@@ -641,11 +746,26 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
                 fontSize: "clamp(1.05rem, 1.8vw, 1.25rem)",
                 color: isLight ? "#475569" : "#94a3b8",
                 lineHeight: 1.65,
-                maxWidth: "820px",
+                maxWidth: "860px",
+                margin: "0 auto 2rem auto",
+              }}
+            >
+              We offer custom software development services tailored precisely to your business needs, industry workflows, and growth goals.
+              Whether you&apos;re building internal tools, client-facing portals, or enterprise-grade systems, our team delivers scalable,
+              secure, and fully personalized solutions—built from the ground up.
+            </p>
+
+            <p
+              style={{
+                fontSize: "0.98rem",
+                color: isLight ? "#64748b" : "#cbd5e1",
+                lineHeight: 1.6,
+                maxWidth: "800px",
                 margin: "0 auto 2.5rem auto",
               }}
             >
-              Eliminate the operational bottlenecks and recurring licensing penalties of generic off-the-shelf software. We engineer scalable microservices, multi-tenant SaaS engines, and bespoke business systems tailored precisely to your operational DNA.
+              Unlike off-the-shelf products, custom software is designed around your processes, not the other way around. We craft intelligent,
+              performance-optimized applications that integrate with your existing infrastructure, deliver superior UX, and scale effortlessly as your business evolves.
             </p>
 
             {/* Hero Action CTAs */}
@@ -659,29 +779,29 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
                 marginBottom: "3.5rem",
               }}
             >
-              <Link
-                href="/get-a-quote"
+              <a
+                href="#quote-form"
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
                   gap: "0.6rem",
                   padding: "0.95rem 2rem",
                   borderRadius: "12px",
-                  background: "linear-gradient(135deg, #00bbab 0%, #0284c7 100%)",
+                  background: `linear-gradient(135deg, ${mintColor} 0%, #0284c7 100%)`,
                   color: "#ffffff",
                   fontWeight: 700,
                   fontSize: "1rem",
-                  boxShadow: "0 8px 24px -4px rgba(0, 187, 171, 0.4)",
+                  boxShadow: `0 8px 24px -4px ${isLight ? "rgba(0, 168, 143, 0.4)" : "rgba(94, 192, 152, 0.4)"}`,
                   textDecoration: "none",
                   transition: "transform 0.2s ease, box-shadow 0.2s ease",
                 }}
               >
-                <span>Schedule Architecture Review</span>
+                <span>Get Your Free Quote Today</span>
                 <ArrowRight size={17} />
-              </Link>
+              </a>
 
               <a
-                href="#architecture-explorer"
+                href="#what-includes"
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
@@ -696,8 +816,28 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
                   textDecoration: "none",
                 }}
               >
-                <Cpu size={17} style={{ color: isLight ? "#008a75" : "#2dd4bf" }} />
-                <span>Explore Live Topologies</span>
+                <Code2 size={17} style={{ color: mintColor }} />
+                <span>Explore What It Includes</span>
+              </a>
+
+              <a
+                href="#industries"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "0.6rem",
+                  padding: "0.95rem 1.85rem",
+                  borderRadius: "12px",
+                  background: isLight ? "#ffffff" : "rgba(255, 255, 255, 0.05)",
+                  color: isLight ? "#0f172a" : "#f8fafc",
+                  border: isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.12)",
+                  fontWeight: 600,
+                  fontSize: "1rem",
+                  textDecoration: "none",
+                }}
+              >
+                <Building2 size={17} style={{ color: mintColor }} />
+                <span>Industries We Specialize In</span>
               </a>
             </div>
 
@@ -705,7 +845,7 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
             <div
               style={{
                 display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+                gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
                 gap: "1.25rem",
                 maxWidth: "1080px",
                 margin: "0 auto",
@@ -715,7 +855,7 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
                 <div
                   key={idx}
                   style={{
-                    padding: "1.25rem 1rem",
+                    padding: "1.35rem 1rem",
                     borderRadius: "14px",
                     background: isLight ? "#ffffff" : "rgba(10, 20, 36, 0.65)",
                     border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
@@ -727,7 +867,7 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
                     style={{
                       fontSize: "2.1rem",
                       fontWeight: 800,
-                      color: isLight ? "#008a75" : "#2dd4bf",
+                      color: mintColor,
                       letterSpacing: "-0.02em",
                       lineHeight: 1.1,
                       marginBottom: "0.35rem",
@@ -753,15 +893,649 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
       </section>
 
       {/* ===================================================================== */}
-      {/* 2. INTERACTIVE ARCHITECTURAL TOPOLOGY EXPLORER (The WOW Showcase)      */}
+      {/* 2. WHY CUSTOM SOFTWARE DEVELOPMENT? (Dedicated Section from Live Site)*/}
+      {/* ===================================================================== */}
+      <section
+        id="why-custom"
+        style={{
+          padding: "5.5rem 1.5rem",
+          position: "relative",
+          background: isLight ? "#ffffff" : "rgba(4, 10, 22, 0.9)",
+          borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
+        }}
+      >
+        <div className="container-custom" style={{ maxWidth: "1240px", margin: "0 auto" }}>
+          <div style={{ textAlign: "center", maxWidth: "860px", margin: "0 auto 3.5rem auto" }}>
+            <span
+              style={{
+                display: "inline-block",
+                padding: "0.35rem 0.95rem",
+                borderRadius: "9999px",
+                background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.12)",
+                color: mintColor,
+                fontSize: "0.82rem",
+                fontWeight: 700,
+                letterSpacing: "0.05em",
+                textTransform: "uppercase",
+                marginBottom: "0.75rem",
+              }}
+            >
+              Why Custom Software Development?
+            </span>
+            <h2 style={{ fontSize: "clamp(2rem, 3.8vw, 3rem)", fontWeight: 800, letterSpacing: "-0.02em", marginBottom: "1.2rem" }}>
+              Every Business is Unique — Your Software Should Be Too
+            </h2>
+            <p style={{ color: isLight ? "#475569" : "#94a3b8", fontSize: "1.08rem", lineHeight: 1.7, marginBottom: "1rem" }}>
+              Off-the-shelf products often come with limitations, unused features, or poor alignment with your operations.
+              With custom software, you get a solution tailored to your exact requirements, giving you total control over features,
+              security, user experience, and integrations.
+            </p>
+            <p style={{ color: isLight ? "#64748b" : "#cbd5e1", fontSize: "0.98rem", lineHeight: 1.65 }}>
+              Custom software is future-proof, flexible, and cost-efficient in the long run. It adapts as your organization grows,
+              provides a competitive edge, and ensures higher productivity, stronger customer satisfaction, and complete ownership over your tech stack.
+            </p>
+          </div>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(270px, 1fr))",
+              gap: "1.5rem",
+            }}
+          >
+            {WHY_CUSTOM_PILLARS.map((pillar, idx) => {
+              const IconComp = pillar.icon;
+              return (
+                <div
+                  key={idx}
+                  style={{
+                    padding: "2rem 1.75rem",
+                    borderRadius: "18px",
+                    background: isLight ? "#f8fafc" : "rgba(10, 20, 36, 0.7)",
+                    border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <div>
+                    <div
+                      style={{
+                        width: 50,
+                        height: 50,
+                        borderRadius: "14px",
+                        background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.15)",
+                        border: isLight ? "1px solid rgba(0, 168, 143, 0.25)" : "1px solid rgba(94, 192, 152, 0.35)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        color: mintColor,
+                        marginBottom: "1.25rem",
+                      }}
+                    >
+                      <IconComp size={24} />
+                    </div>
+                    <div style={{ fontSize: "0.78rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em", color: mintColor, marginBottom: "0.35rem" }}>
+                      {pillar.tagline}
+                    </div>
+                    <h3 style={{ fontSize: "1.22rem", fontWeight: 700, marginBottom: "0.75rem" }}>
+                      {pillar.title}
+                    </h3>
+                    <p style={{ color: isLight ? "#64748b" : "#94a3b8", fontSize: "0.92rem", lineHeight: 1.6 }}>
+                      {pillar.desc}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ===================================================================== */}
+      {/* 3. WHAT CUSTOM SOFTWARE DEVELOPMENT INCLUDES (6 Live Offerings)       */}
+      {/* ===================================================================== */}
+      <section
+        id="what-includes"
+        style={{
+          padding: "5.5rem 1.5rem",
+          position: "relative",
+          background: isLight ? "#f8fafc" : "#020712",
+          borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
+        }}
+      >
+        <div className="container-custom" style={{ maxWidth: "1240px", margin: "0 auto" }}>
+          <div style={{ textAlign: "center", maxWidth: "800px", margin: "0 auto 3.5rem auto" }}>
+            <span
+              style={{
+                display: "inline-block",
+                padding: "0.35rem 0.95rem",
+                borderRadius: "9999px",
+                background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.12)",
+                color: mintColor,
+                fontSize: "0.82rem",
+                fontWeight: 700,
+                letterSpacing: "0.05em",
+                textTransform: "uppercase",
+                marginBottom: "0.75rem",
+              }}
+            >
+              Comprehensive Capabilities
+            </span>
+            <h2 style={{ fontSize: "clamp(2rem, 3.8vw, 3rem)", fontWeight: 800, letterSpacing: "-0.02em", marginBottom: "1rem" }}>
+              What Custom Software Development Includes
+            </h2>
+            <p style={{ color: isLight ? "#475569" : "#94a3b8", fontSize: "1.05rem", lineHeight: 1.6 }}>
+              From initial architecture design to full deployment and ongoing maintenance, our custom software lifecycle covers every strategic tier of your digital ecosystem.
+            </p>
+          </div>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))",
+              gap: "1.75rem",
+            }}
+          >
+            {WHAT_INCLUDES_DATA.map((item, idx) => {
+              const IconComp = item.icon;
+              return (
+                <div
+                  key={idx}
+                  style={{
+                    padding: "2.2rem 2rem",
+                    borderRadius: "18px",
+                    background: isLight ? "#ffffff" : "rgba(10, 20, 36, 0.65)",
+                    border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
+                    boxShadow: isLight ? "0 4px 16px rgba(0,0,0,0.03)" : "none",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <div>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.25rem" }}>
+                      <div
+                        style={{
+                          width: 48,
+                          height: 48,
+                          borderRadius: "12px",
+                          background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.15)",
+                          border: isLight ? "1px solid rgba(0, 168, 143, 0.25)" : "1px solid rgba(94, 192, 152, 0.35)",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          color: mintColor,
+                        }}
+                      >
+                        <IconComp size={24} />
+                      </div>
+                      <span style={{ fontSize: "0.8rem", color: isLight ? "#64748b" : "#94a3b8", fontWeight: 600 }}>
+                        {item.subtitle}
+                      </span>
+                    </div>
+
+                    <h3 style={{ fontSize: "1.3rem", fontWeight: 700, marginBottom: "0.75rem" }}>
+                      {item.title}
+                    </h3>
+
+                    <p style={{ color: isLight ? "#64748b" : "#94a3b8", fontSize: "0.95rem", lineHeight: 1.65, marginBottom: "1.5rem" }}>
+                      {item.desc}
+                    </p>
+                  </div>
+
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: "0.45rem" }}>
+                    {item.tags.map((tag, tIdx) => (
+                      <span
+                        key={tIdx}
+                        style={{
+                          fontSize: "0.76rem",
+                          fontWeight: 600,
+                          padding: "0.25rem 0.65rem",
+                          borderRadius: "6px",
+                          background: isLight ? "#f1f5f9" : "rgba(255, 255, 255, 0.05)",
+                          color: isLight ? "#475569" : "#cbd5e1",
+                          border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
+                        }}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ===================================================================== */}
+      {/* 4. INDUSTRIES WE SPECIALIZE IN (10 Industries from live Opash page)     */}
+      {/* ===================================================================== */}
+      <section
+        id="industries"
+        style={{
+          padding: "5.5rem 1.5rem",
+          position: "relative",
+          background: isLight ? "#ffffff" : "rgba(4, 10, 22, 0.95)",
+          borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
+        }}
+      >
+        <div className="container-custom" style={{ maxWidth: "1240px", margin: "0 auto" }}>
+          <div style={{ textAlign: "center", maxWidth: "860px", margin: "0 auto 3rem auto" }}>
+            <span
+              style={{
+                display: "inline-block",
+                padding: "0.35rem 0.95rem",
+                borderRadius: "9999px",
+                background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.12)",
+                color: mintColor,
+                fontSize: "0.82rem",
+                fontWeight: 700,
+                letterSpacing: "0.05em",
+                textTransform: "uppercase",
+                marginBottom: "0.75rem",
+              }}
+            >
+              Industry Domain Mastery
+            </span>
+            <h2 style={{ fontSize: "clamp(2rem, 3.8vw, 3rem)", fontWeight: 800, letterSpacing: "-0.02em", marginBottom: "1rem" }}>
+              Industries We Specialize In
+            </h2>
+            <p style={{ color: isLight ? "#475569" : "#94a3b8", fontSize: "1.06rem", lineHeight: 1.65 }}>
+              Opash Software brings over 8+ years of expertise in delivering tailored digital solutions for Insurance, Fintech, eCommerce,
+              Education, and Real Estate — helping businesses overcome industry challenges and scale confidently.
+            </p>
+
+            {/* Quick Industry Pill Selector */}
+            <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "0.5rem", marginTop: "2rem" }}>
+              {INDUSTRIES_DATA.map((ind) => {
+                const isSelected = ind.id === activeIndustryId;
+                return (
+                  <button
+                    key={ind.id}
+                    type="button"
+                    onClick={() => setActiveIndustryId(ind.id)}
+                    style={{
+                      padding: "0.55rem 1.15rem",
+                      borderRadius: "9999px",
+                      cursor: "pointer",
+                      fontSize: "0.86rem",
+                      fontWeight: isSelected ? 700 : 500,
+                      background: isSelected
+                        ? mintColor
+                        : isLight ? "#f1f5f9" : "rgba(255, 255, 255, 0.05)",
+                      color: isSelected ? "#ffffff" : isLight ? "#475569" : "#94a3b8",
+                      border: isSelected
+                        ? `1px solid ${mintColor}`
+                        : isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
+                      transition: "all 0.2s ease",
+                    }}
+                  >
+                    {ind.title}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Active Industry Spotlight Card */}
+          <div
+            style={{
+              borderRadius: "22px",
+              padding: "clamp(2rem, 4vw, 3rem)",
+              background: isLight
+                ? "linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)"
+                : "linear-gradient(135deg, rgba(10, 20, 36, 0.85) 0%, rgba(3, 8, 20, 0.95) 100%)",
+              border: isLight ? "1px solid #e2e8f0" : `1px solid rgba(94, 192, 152, 0.25)`,
+              boxShadow: isLight ? "0 10px 30px rgba(0,0,0,0.04)" : "0 20px 50px rgba(0, 0, 0, 0.5)",
+              marginBottom: "3.5rem",
+            }}
+          >
+            <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: "2.5rem" }} className="dual-grid">
+              <div>
+                <div style={{ display: "inline-flex", alignItems: "center", gap: "0.6rem", color: mintColor, marginBottom: "0.75rem" }}>
+                  {React.createElement(activeIndustry.icon, { size: 22 })}
+                  <span style={{ fontSize: "0.86rem", fontWeight: 700, letterSpacing: "0.05em", textTransform: "uppercase" }}>
+                    {activeIndustry.category}
+                  </span>
+                </div>
+                <h3 style={{ fontSize: "clamp(1.7rem, 2.8vw, 2.3rem)", fontWeight: 800, marginBottom: "0.85rem" }}>
+                  {activeIndustry.title}: {activeIndustry.tagline}
+                </h3>
+                <p style={{ color: isLight ? "#475569" : "#cbd5e1", fontSize: "1.02rem", lineHeight: 1.7, marginBottom: "1.75rem" }}>
+                  {activeIndustry.desc}
+                </p>
+                <a
+                  href="#quote-form"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "0.55rem",
+                    padding: "0.75rem 1.5rem",
+                    borderRadius: "10px",
+                    background: mintColor,
+                    color: "#ffffff",
+                    fontWeight: 700,
+                    fontSize: "0.92rem",
+                    textDecoration: "none",
+                  }}
+                >
+                  <span>Build For {activeIndustry.title}</span>
+                  <ArrowRight size={15} />
+                </a>
+              </div>
+
+              <div>
+                <h4 style={{ fontSize: "0.95rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em", color: isLight ? "#64748b" : "#94a3b8", marginBottom: "1rem" }}>
+                  Tailored Systems & Deliverables
+                </h4>
+                <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+                  {activeIndustry.highlights.map((hl, hIdx) => (
+                    <div
+                      key={hIdx}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "0.75rem",
+                        padding: "0.95rem 1.25rem",
+                        borderRadius: "12px",
+                        background: isLight ? "#ffffff" : "rgba(10, 20, 36, 0.75)",
+                        border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
+                      }}
+                    >
+                      <CheckCircle2 size={18} color="#10b981" style={{ flexShrink: 0 }} />
+                      <span style={{ fontWeight: 600, fontSize: "0.92rem" }}>{hl}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* All 10 Industries Compact Grid */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+              gap: "1.25rem",
+            }}
+          >
+            {INDUSTRIES_DATA.map((ind) => {
+              const IconComp = ind.icon;
+              const isSelected = ind.id === activeIndustryId;
+              return (
+                <div
+                  key={ind.id}
+                  onClick={() => setActiveIndustryId(ind.id)}
+                  style={{
+                    padding: "1.4rem",
+                    borderRadius: "14px",
+                    background: isSelected
+                      ? isLight ? "rgba(0, 168, 143, 0.08)" : "rgba(94, 192, 152, 0.12)"
+                      : isLight ? "#f8fafc" : "rgba(10, 20, 36, 0.65)",
+                    border: isSelected
+                      ? `1.5px solid ${mintColor}`
+                      : isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
+                    cursor: "pointer",
+                    transition: "all 0.2s ease",
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.5rem" }}>
+                    <div
+                      style={{
+                        width: 36,
+                        height: 36,
+                        borderRadius: "10px",
+                        background: isLight ? "rgba(0, 168, 143, 0.12)" : "rgba(94, 192, 152, 0.15)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        color: mintColor,
+                      }}
+                    >
+                      <IconComp size={18} />
+                    </div>
+                    <span style={{ fontSize: "0.98rem", fontWeight: 700 }}>{ind.title}</span>
+                  </div>
+                  <p style={{ color: isLight ? "#64748b" : "#94a3b8", fontSize: "0.82rem", lineHeight: 1.5 }}>
+                    {ind.tagline}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ===================================================================== */}
+      {/* 5. TECHNOLOGY STACK MATRIX (The Authentic Live Stack by Category)      */}
+      {/* ===================================================================== */}
+      <section
+        id="tech-stack"
+        style={{
+          padding: "5.5rem 1.5rem",
+          position: "relative",
+          background: isLight ? "#f1f5f9" : "rgba(4, 10, 22, 0.85)",
+          borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
+        }}
+      >
+        <div className="container-custom" style={{ maxWidth: "1240px", margin: "0 auto" }}>
+          <div style={{ textAlign: "center", maxWidth: "760px", margin: "0 auto 3rem auto" }}>
+            <span
+              style={{
+                display: "inline-block",
+                padding: "0.35rem 0.95rem",
+                borderRadius: "9999px",
+                background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.12)",
+                color: mintColor,
+                fontSize: "0.82rem",
+                fontWeight: 700,
+                letterSpacing: "0.05em",
+                textTransform: "uppercase",
+                marginBottom: "0.75rem",
+              }}
+            >
+              Enterprise Technology Stack
+            </span>
+            <h2 style={{ fontSize: "clamp(2rem, 3.8vw, 3rem)", fontWeight: 800, letterSpacing: "-0.02em", marginBottom: "1rem" }}>
+              Battle-Tested Technologies We Deploy
+            </h2>
+            <p style={{ color: isLight ? "#475569" : "#94a3b8", fontSize: "1.05rem" }}>
+              Our engineers specialize in leading-edge frameworks, cloud platforms, and automated QA suites—delivering speed, resilience, and maintainability.
+            </p>
+
+            {/* Category Filter Tabs */}
+            <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "0.5rem", marginTop: "2rem" }}>
+              {TECH_STACK_TABS.map((tab, tIdx) => {
+                const isActive = tIdx === activeTechTab;
+                return (
+                  <button
+                    key={tIdx}
+                    type="button"
+                    onClick={() => setActiveTechTab(tIdx)}
+                    style={{
+                      padding: "0.65rem 1.35rem",
+                      borderRadius: "10px",
+                      cursor: "pointer",
+                      fontSize: "0.9rem",
+                      fontWeight: isActive ? 700 : 500,
+                      background: isActive
+                        ? isLight ? "#ffffff" : "rgba(94, 192, 152, 0.2)"
+                        : isLight ? "rgba(255, 255, 255, 0.6)" : "rgba(255, 255, 255, 0.04)",
+                      border: isActive
+                        ? `1.5px solid ${mintColor}`
+                        : isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.08)",
+                      color: isActive ? (isLight ? "#0f172a" : "#ffffff") : isLight ? "#64748b" : "#94a3b8",
+                      boxShadow: isActive ? "0 4px 12px rgba(94, 192, 152, 0.2)" : "none",
+                    }}
+                  >
+                    {tab.category}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Active Tech Stack Grid */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+              gap: "1.25rem",
+            }}
+          >
+            {TECH_STACK_TABS[activeTechTab].items.map((tech, idx) => (
+              <div
+                key={idx}
+                style={{
+                  padding: "1.5rem",
+                  borderRadius: "14px",
+                  background: isLight ? "#ffffff" : "rgba(10, 20, 36, 0.75)",
+                  border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                }}
+              >
+                <div>
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.75rem" }}>
+                    <span
+                      style={{
+                        fontSize: "0.75rem",
+                        fontWeight: 700,
+                        padding: "0.2rem 0.55rem",
+                        borderRadius: "4px",
+                        background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.15)",
+                        color: mintColor,
+                      }}
+                    >
+                      {tech.badge}
+                    </span>
+                    <span style={{ fontSize: "0.78rem", color: isLight ? "#64748b" : "#94a3b8" }}>{tech.tag}</span>
+                  </div>
+                  <h4 style={{ fontSize: "1.2rem", fontWeight: 700, marginBottom: "0.4rem" }}>{tech.name}</h4>
+                  <p style={{ color: isLight ? "#64748b" : "#94a3b8", fontSize: "0.88rem", lineHeight: 1.5 }}>
+                    {tech.role}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ===================================================================== */}
+      {/* 6. CUSTOM SOFTWARE DEVELOPMENT PROCESS (6 Phases from Live Site)      */}
+      {/* ===================================================================== */}
+      <section
+        id="process"
+        style={{
+          padding: "5.5rem 1.5rem",
+          position: "relative",
+          background: isLight ? "#ffffff" : "#020712",
+          borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
+        }}
+      >
+        <div className="container-custom" style={{ maxWidth: "1240px", margin: "0 auto" }}>
+          <div style={{ textAlign: "center", maxWidth: "820px", margin: "0 auto 3.5rem auto" }}>
+            <span
+              style={{
+                display: "inline-block",
+                padding: "0.35rem 0.95rem",
+                borderRadius: "9999px",
+                background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.12)",
+                color: mintColor,
+                fontSize: "0.82rem",
+                fontWeight: 700,
+                letterSpacing: "0.05em",
+                textTransform: "uppercase",
+                marginBottom: "0.75rem",
+              }}
+            >
+              Development Lifecycle
+            </span>
+            <h2 style={{ fontSize: "clamp(2rem, 3.8vw, 3rem)", fontWeight: 800, letterSpacing: "-0.02em", marginBottom: "1rem" }}>
+              Custom Software Development Process
+            </h2>
+            <p style={{ color: isLight ? "#475569" : "#94a3b8", fontSize: "1.05rem", lineHeight: 1.65 }}>
+              Our Custom Software Development Process is designed to deliver high-quality, scalable solutions tailored to your business needs.
+              This end-to-end development lifecycle is fully adaptable to your timeline, budget, and technology stack—ensuring a future-ready, ROI-driven custom software solution.
+            </p>
+          </div>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))",
+              gap: "1.5rem",
+              marginBottom: "3.5rem",
+            }}
+          >
+            {PROCESS_STEPS.map((step, sIdx) => (
+              <div
+                key={sIdx}
+                style={{
+                  padding: "2rem",
+                  borderRadius: "16px",
+                  background: isLight ? "#f8fafc" : "rgba(10, 20, 36, 0.7)",
+                  border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
+                  position: "relative",
+                  overflow: "hidden",
+                }}
+              >
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "1rem",
+                    right: "1.25rem",
+                    fontSize: "2.5rem",
+                    fontWeight: 900,
+                    color: isLight ? "rgba(0,0,0,0.04)" : "rgba(255,255,255,0.04)",
+                    lineHeight: 1,
+                  }}
+                >
+                  {step.step}
+                </div>
+                <div
+                  style={{
+                    display: "inline-block",
+                    padding: "0.25rem 0.65rem",
+                    borderRadius: "6px",
+                    background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.15)",
+                    color: mintColor,
+                    fontSize: "0.78rem",
+                    fontWeight: 700,
+                    marginBottom: "1rem",
+                  }}
+                >
+                  Phase {step.step}
+                </div>
+                <h3 style={{ fontSize: "1.25rem", fontWeight: 700, marginBottom: "0.75rem" }}>
+                  {step.title}
+                </h3>
+                <p style={{ color: isLight ? "#64748b" : "#94a3b8", fontSize: "0.92rem", lineHeight: 1.6 }}>
+                  {step.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          {/* Granular Enterprise Delivery Lifecycle Component */}
+          <EnterpriseDeliveryLifecycle isLightMode={isLight} />
+        </div>
+      </section>
+
+      {/* ===================================================================== */}
+      {/* 7. INTERACTIVE ARCHITECTURAL TOPOLOGY EXPLORER (The WOW Showcase)      */}
       {/* ===================================================================== */}
       <section
         id="architecture-explorer"
         style={{
-          padding: "5rem 1.5rem",
+          padding: "5.5rem 1.5rem",
           position: "relative",
-          borderTop: "none",
           background: isLight ? "#f8fafc" : "#020712",
+          borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
         }}
       >
         <div className="container-custom" style={{ maxWidth: "1240px", margin: "0 auto" }}>
@@ -772,45 +1546,38 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
                 display: "inline-block",
                 padding: "0.35rem 0.95rem",
                 borderRadius: "9999px",
-                background: isLight ? "rgba(2, 132, 199, 0.1)" : "rgba(56, 189, 248, 0.12)",
-                border: isLight ? "1px solid rgba(2, 132, 199, 0.25)" : "1px solid rgba(56, 189, 248, 0.3)",
-                color: isLight ? "#0284c7" : "#38bdf8",
-                fontSize: "0.8rem",
+                background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.12)",
+                color: mintColor,
+                fontSize: "0.82rem",
                 fontWeight: 700,
                 letterSpacing: "0.05em",
                 textTransform: "uppercase",
                 marginBottom: "0.75rem",
               }}
             >
-              Interactive Topology Explorer
+              Interactive Topology Simulator
             </span>
-            <h2
-              style={{
-                fontSize: "clamp(2rem, 3.8vw, 3rem)",
-                fontWeight: 800,
-                letterSpacing: "-0.02em",
-                lineHeight: 1.15,
-                marginBottom: "1rem",
-              }}
-            >
-              Enterprise Systems We Architect & Deploy
+            <h2 style={{ fontSize: "clamp(2rem, 3.8vw, 3rem)", fontWeight: 800, letterSpacing: "-0.02em", marginBottom: "1rem" }}>
+              Explore Our Live Architectural Topologies
             </h2>
-            <p style={{ color: isLight ? "#475569" : "#94a3b8", fontSize: "1.05rem", lineHeight: 1.6 }}>
-              Select an architectural blueprint below to inspect the data flow, protocols, security policies, and performance targets engineered into every layer.
+            <p style={{ color: isLight ? "#475569" : "#94a3b8", fontSize: "1.05rem" }}>
+              Click between production topology models to examine the real-time node protocols, latency thresholds, and isolation boundaries we engineer.
             </p>
 
             {/* Topology Switcher Tabs */}
             <div
               style={{
-                display: "flex",
+                display: "inline-flex",
                 flexWrap: "wrap",
-                justifyContent: "center",
-                gap: "0.6rem",
+                gap: "0.5rem",
+                padding: "0.35rem",
+                borderRadius: "14px",
+                background: isLight ? "#e2e8f0" : "rgba(255, 255, 255, 0.05)",
                 marginTop: "2rem",
               }}
             >
               {ARCHITECTURE_TOPOLOGIES.map((topo) => {
-                const isActive = topo.id === activeTopologyId;
+                const isSelected = topo.id === activeTopologyId;
                 return (
                   <button
                     key={topo.id}
@@ -820,25 +1587,15 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
                       setSelectedNodeId(topo.nodes[0].id);
                     }}
                     style={{
-                      padding: "0.75rem 1.45rem",
-                      borderRadius: "12px",
-                      background: isActive
-                        ? isLight
-                          ? "#ffffff"
-                          : "rgba(0, 187, 171, 0.18)"
-                        : isLight
-                        ? "rgba(255, 255, 255, 0.6)"
-                        : "rgba(255, 255, 255, 0.04)",
-                      border: isActive
-                        ? `2px solid ${topo.accent}`
-                        : isLight
-                        ? "1px solid #cbd5e1"
-                        : "1px solid rgba(255, 255, 255, 0.08)",
-                      color: isActive ? (isLight ? "#0f172a" : "#ffffff") : isLight ? "#64748b" : "#94a3b8",
-                      fontWeight: isActive ? 700 : 500,
-                      fontSize: "0.95rem",
+                      padding: "0.6rem 1.25rem",
+                      borderRadius: "10px",
+                      border: "none",
                       cursor: "pointer",
-                      boxShadow: isActive ? `0 4px 16px ${topo.accent}25` : "none",
+                      fontSize: "0.88rem",
+                      fontWeight: isSelected ? 700 : 500,
+                      background: isSelected ? (isLight ? "#ffffff" : "rgba(10, 20, 36, 0.95)") : "transparent",
+                      color: isSelected ? (isLight ? "#0f172a" : "#ffffff") : isLight ? "#64748b" : "#94a3b8",
+                      boxShadow: isSelected ? "0 4px 12px rgba(0, 0, 0, 0.08)" : "none",
                       transition: "all 0.2s ease",
                     }}
                   >
@@ -849,203 +1606,149 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
             </div>
           </div>
 
-          {/* Topology Interactive Stage */}
+          {/* Interactive Topology Display */}
           <div
             style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1.15fr",
-              gap: "2.5rem",
               borderRadius: "20px",
-              background: isLight ? "#ffffff" : "rgba(8, 18, 34, 0.75)",
-              border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.1)",
-              padding: "2.5rem",
-              boxShadow: isLight ? "0 10px 30px rgba(0, 0, 0, 0.05)" : "0 20px 40px rgba(0, 0, 0, 0.4)",
+              background: isLight ? "#ffffff" : "rgba(8, 16, 32, 0.8)",
+              border: isLight ? "1px solid #cbd5e1" : `1px solid rgba(94, 192, 152, 0.3)`,
+              padding: "clamp(1.5rem, 3vw, 2.5rem)",
+              boxShadow: isLight ? "0 10px 30px rgba(0,0,0,0.04)" : "0 20px 40px rgba(0, 0, 0, 0.4)",
             }}
-            className="dual-grid"
           >
-            {/* Left: Architecture Node Pipeline */}
-            <div>
-              <div style={{ display: "flex", alignItems: "center", gap: "0.6rem", marginBottom: "0.5rem" }}>
-                <span
-                  style={{
-                    width: 10,
-                    height: 10,
-                    borderRadius: "50%",
-                    backgroundColor: activeTopology.accent,
-                    boxShadow: `0 0 10px ${activeTopology.accent}`,
-                  }}
-                />
-                <h3 style={{ fontSize: "1.45rem", fontWeight: 700 }}>{activeTopology.title}</h3>
-              </div>
-              <p style={{ color: isLight ? "#64748b" : "#94a3b8", fontSize: "0.92rem", marginBottom: "1.75rem", lineHeight: 1.5 }}>
-                {activeTopology.tagline}
-              </p>
+            <div style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: "2rem" }} className="dual-grid">
+              {/* Nodes Column */}
+              <div>
+                <div style={{ marginBottom: "1.5rem" }}>
+                  <h3 style={{ fontSize: "1.4rem", fontWeight: 800, marginBottom: "0.35rem" }}>{activeTopology.title}</h3>
+                  <p style={{ color: isLight ? "#64748b" : "#94a3b8", fontSize: "0.92rem" }}>{activeTopology.tagline}</p>
+                </div>
 
-              {/* Connected Pipeline Nodes */}
-              <div style={{ display: "flex", flexDirection: "column", gap: "0.85rem" }}>
-                {activeTopology.nodes.map((node, idx) => {
-                  const isNodeActive = node.id === selectedNodeId;
-                  return (
-                    <div
-                      key={node.id}
-                      onClick={() => setSelectedNodeId(node.id)}
-                      style={{
-                        padding: "1rem 1.25rem",
-                        borderRadius: "14px",
-                        cursor: "pointer",
-                        background: isNodeActive
-                          ? isLight
-                            ? "rgba(0, 168, 143, 0.08)"
-                            : "rgba(0, 187, 171, 0.12)"
-                          : isLight
-                          ? "#f8fafc"
-                          : "rgba(255, 255, 255, 0.02)",
-                        border: isNodeActive
-                          ? `1.5px solid ${activeTopology.accent}`
-                          : isLight
-                          ? "1px solid #e2e8f0"
-                          : "1px solid rgba(255, 255, 255, 0.06)",
-                        transition: "all 0.2s ease",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <div style={{ display: "flex", alignItems: "center", gap: "0.85rem" }}>
-                        <div
-                          style={{
-                            width: 32,
-                            height: 32,
-                            borderRadius: "8px",
-                            background: isNodeActive ? activeTopology.accent : isLight ? "#e2e8f0" : "rgba(255, 255, 255, 0.08)",
-                            color: isNodeActive ? "#ffffff" : isLight ? "#475569" : "#94a3b8",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            fontSize: "0.85rem",
-                            fontWeight: 700,
-                          }}
-                        >
-                          0{idx + 1}
-                        </div>
-                        <div>
-                          <div style={{ fontWeight: 700, fontSize: "0.98rem", color: isNodeActive ? (isLight ? "#0f172a" : "#ffffff") : undefined }}>
-                            {node.name}
-                          </div>
-                          <div style={{ fontSize: "0.82rem", color: isLight ? "#64748b" : "#94a3b8" }}>{node.role}</div>
-                        </div>
-                      </div>
-
+                <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+                  {activeTopology.nodes.map((node, nIdx) => {
+                    const isNodeSelected = node.id === selectedNodeId;
+                    return (
                       <div
+                        key={node.id}
+                        onClick={() => setSelectedNodeId(node.id)}
                         style={{
-                          fontSize: "0.78rem",
-                          fontWeight: 600,
-                          padding: "0.25rem 0.65rem",
-                          borderRadius: "9999px",
-                          background: isLight ? "#e2e8f0" : "rgba(255, 255, 255, 0.08)",
-                          color: isLight ? "#475569" : "#cbd5e1",
+                          padding: "1rem 1.25rem",
+                          borderRadius: "12px",
+                          background: isNodeSelected
+                            ? isLight ? "rgba(0, 168, 143, 0.08)" : "rgba(94, 192, 152, 0.12)"
+                            : isLight ? "#f8fafc" : "rgba(255, 255, 255, 0.03)",
+                          border: isNodeSelected
+                            ? `1.5px solid ${mintColor}`
+                            : isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
+                          cursor: "pointer",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          transition: "all 0.2s ease",
                         }}
                       >
-                        {node.latency}
+                        <div style={{ display: "flex", alignItems: "center", gap: "0.85rem" }}>
+                          <span
+                            style={{
+                              width: 26,
+                              height: 26,
+                              borderRadius: "50%",
+                              background: isNodeSelected ? mintColor : isLight ? "#cbd5e1" : "rgba(255, 255, 255, 0.15)",
+                              color: isNodeSelected ? "#ffffff" : isLight ? "#475569" : "#cbd5e1",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              fontSize: "0.75rem",
+                              fontWeight: 700,
+                            }}
+                          >
+                            {nIdx + 1}
+                          </span>
+                          <div>
+                            <div style={{ fontWeight: 700, fontSize: "0.95rem" }}>{node.name}</div>
+                            <div style={{ fontSize: "0.8rem", color: isLight ? "#64748b" : "#94a3b8" }}>{node.role}</div>
+                          </div>
+                        </div>
+
+                        <div style={{ textAlign: "right" }}>
+                          <span
+                            style={{
+                              fontSize: "0.75rem",
+                              fontWeight: 600,
+                              padding: "0.2rem 0.5rem",
+                              borderRadius: "4px",
+                              background: isLight ? "#e2e8f0" : "rgba(255, 255, 255, 0.08)",
+                              color: mintColor,
+                            }}
+                          >
+                            {node.latency}
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Right: Selected Node Technical Deep-Dive */}
-            <div
-              style={{
-                padding: "2rem",
-                borderRadius: "16px",
-                background: isLight ? "#f8fafc" : "rgba(4, 10, 22, 0.95)",
-                border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-              }}
-            >
-              <div>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.25rem" }}>
-                  <span
-                    style={{
-                      fontSize: "0.78rem",
-                      fontWeight: 700,
-                      letterSpacing: "0.06em",
-                      textTransform: "uppercase",
-                      color: activeTopology.accent,
-                    }}
-                  >
-                    Architectural Telemetry Specification
-                  </span>
-                  <span
-                    style={{
-                      fontSize: "0.8rem",
-                      fontWeight: 600,
-                      padding: "0.3rem 0.75rem",
-                      borderRadius: "6px",
-                      background: `${activeTopology.accent}18`,
-                      border: `1px solid ${activeTopology.accent}35`,
-                      color: activeTopology.accent,
-                    }}
-                  >
-                    {activeNode.protocol}
-                  </span>
-                </div>
-
-                <h4 style={{ fontSize: "1.6rem", fontWeight: 800, marginBottom: "0.4rem" }}>{activeNode.name}</h4>
-                <div style={{ color: isLight ? "#64748b" : "#94a3b8", fontSize: "0.95rem", marginBottom: "1.75rem" }}>
-                  Component Role: <strong style={{ color: isLight ? "#0f172a" : "#f8fafc" }}>{activeNode.role}</strong>
-                </div>
-
-                {/* Technical Specifications */}
-                <div style={{ marginBottom: "2rem" }}>
-                  <div style={{ fontSize: "0.85rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: "0.85rem", color: isLight ? "#475569" : "#cbd5e1" }}>
-                    Engineered Guarantees:
-                  </div>
-                  <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-                    {activeNode.specs.map((spec, sIdx) => (
-                      <div key={sIdx} style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-                        <CheckCircle2 size={16} style={{ color: activeTopology.accent, flexShrink: 0 }} />
-                        <span style={{ fontSize: "0.94rem", color: isLight ? "#334155" : "#e2e8f0" }}>{spec}</span>
-                      </div>
-                    ))}
-                  </div>
+                    );
+                  })}
                 </div>
               </div>
 
-              {/* Bottom Quick-Action */}
+              {/* Node Deep Dive Specs Card */}
               <div
                 style={{
-                  padding: "1.25rem",
-                  borderRadius: "12px",
-                  background: isLight ? "#ffffff" : "rgba(255, 255, 255, 0.03)",
-                  border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
+                  borderRadius: "16px",
+                  background: isLight ? "#f8fafc" : "rgba(4, 10, 22, 0.95)",
+                  border: isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.08)",
+                  padding: "1.75rem",
                   display: "flex",
-                  alignItems: "center",
+                  flexDirection: "column",
                   justifyContent: "space-between",
                 }}
               >
                 <div>
-                  <div style={{ fontSize: "0.82rem", color: isLight ? "#64748b" : "#94a3b8" }}>Target Latency SLA</div>
-                  <div style={{ fontSize: "1.1rem", fontWeight: 700, color: activeTopology.accent }}>{activeNode.latency}</div>
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", color: mintColor, marginBottom: "0.5rem" }}>
+                    <Server size={18} />
+                    <span style={{ fontSize: "0.8rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                      Active Node Specification
+                    </span>
+                  </div>
+                  <h4 style={{ fontSize: "1.3rem", fontWeight: 800, marginBottom: "0.35rem" }}>{activeNode.name}</h4>
+                  <div style={{ fontSize: "0.85rem", color: isLight ? "#64748b" : "#94a3b8", marginBottom: "1.25rem" }}>
+                    Protocol: <span style={{ fontWeight: 600, color: mintColor }}>{activeNode.protocol}</span> · Latency: <span style={{ fontWeight: 600 }}>{activeNode.latency}</span>
+                  </div>
+
+                  <div style={{ marginBottom: "1.5rem" }}>
+                    <div style={{ fontSize: "0.78rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em", color: isLight ? "#64748b" : "#94a3b8", marginBottom: "0.6rem" }}>
+                      Production Capabilities
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "0.55rem" }}>
+                      {activeNode.specs.map((spec, sIdx) => (
+                        <div key={sIdx} style={{ display: "flex", alignItems: "center", gap: "0.6rem", fontSize: "0.86rem" }}>
+                          <CheckCircle2 size={16} color="#10b981" style={{ flexShrink: 0 }} />
+                          <span>{spec}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
-                <Link
-                  href="/get-a-quote"
+
+                <a
+                  href="#quote-form"
                   style={{
-                    display: "inline-flex",
+                    display: "flex",
                     alignItems: "center",
-                    gap: "0.45rem",
-                    fontSize: "0.88rem",
+                    justifyContent: "center",
+                    gap: "0.5rem",
+                    padding: "0.85rem",
+                    borderRadius: "10px",
+                    background: mintColor,
+                    color: "#ffffff",
                     fontWeight: 700,
-                    color: isLight ? "#0284c7" : "#38bdf8",
+                    fontSize: "0.92rem",
+                    textAlign: "center",
                     textDecoration: "none",
                   }}
                 >
-                  <span>Build This Stack</span>
-                  <ArrowRight size={14} />
-                </Link>
+                  <span>Request Custom Architecture Topology</span>
+                  <ArrowRight size={15} />
+                </a>
               </div>
             </div>
           </div>
@@ -1053,7 +1756,7 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
       </section>
 
       {/* ===================================================================== */}
-      {/* 3. INTERACTIVE PROJECT SCOPE & SPRINT CALCULATOR                      */}
+      {/* 8. INTERACTIVE PROJECT SCOPE & SPRINT VELOCITY CALCULATOR             */}
       {/* ===================================================================== */}
       <section
         style={{
@@ -1070,14 +1773,14 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
               background: isLight
                 ? "linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)"
                 : "linear-gradient(135deg, rgba(10, 20, 36, 0.85) 0%, rgba(3, 8, 20, 0.95) 100%)",
-              border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(0, 187, 171, 0.25)",
+              border: isLight ? "1px solid #e2e8f0" : `1px solid rgba(94, 192, 152, 0.25)`,
               boxShadow: isLight ? "0 10px 30px rgba(0,0,0,0.04)" : "0 20px 50px rgba(0, 0, 0, 0.5)",
             }}
           >
             <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: "3rem" }} className="dual-grid">
               {/* Left Column: Scope Model Controls */}
               <div>
-                <div style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", color: isLight ? "#008a75" : "#2dd4bf", marginBottom: "0.75rem" }}>
+                <div style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", color: mintColor, marginBottom: "0.75rem" }}>
                   <Calculator size={18} />
                   <span style={{ fontSize: "0.85rem", fontWeight: 700, letterSpacing: "0.05em", textTransform: "uppercase" }}>
                     Interactive Scope Modeler
@@ -1087,7 +1790,7 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
                   Estimate Your Engineering Sprint Velocity
                 </h3>
                 <p style={{ color: isLight ? "#64748b" : "#94a3b8", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "2rem" }}>
-                  Configure your system specifications below to review estimated delivery milestones, sprint rhythm, and the recommended cloud stack.
+                  Configure your system specifications below to review estimated delivery milestones, sprint rhythm, and recommended cloud stack.
                 </p>
 
                 {/* 1. Software Archetype */}
@@ -1114,10 +1817,10 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
                           fontSize: "0.88rem",
                           fontWeight: estimatorType === opt.id ? 700 : 500,
                           background: estimatorType === opt.id
-                            ? isLight ? "#ffffff" : "rgba(0, 187, 171, 0.2)"
+                            ? isLight ? "#ffffff" : "rgba(94, 192, 152, 0.2)"
                             : isLight ? "rgba(255,255,255,0.5)" : "rgba(255, 255, 255, 0.04)",
                           border: estimatorType === opt.id
-                            ? "1.5px solid #00bbab"
+                            ? `1.5px solid ${mintColor}`
                             : isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.08)",
                           color: estimatorType === opt.id ? (isLight ? "#0f172a" : "#ffffff") : isLight ? "#64748b" : "#94a3b8",
                         }}
@@ -1210,7 +1913,7 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
                 style={{
                   borderRadius: "18px",
                   background: isLight ? "#ffffff" : "rgba(4, 10, 22, 0.9)",
-                  border: isLight ? "1px solid #cbd5e1" : "1px solid rgba(0, 187, 171, 0.3)",
+                  border: isLight ? "1px solid #cbd5e1" : `1px solid rgba(94, 192, 152, 0.3)`,
                   padding: "2rem",
                   display: "flex",
                   flexDirection: "column",
@@ -1220,7 +1923,7 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
               >
                 <div>
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.25rem" }}>
-                    <span style={{ fontSize: "0.8rem", fontWeight: 700, letterSpacing: "0.05em", textTransform: "uppercase", color: isLight ? "#008a75" : "#2dd4bf" }}>
+                    <span style={{ fontSize: "0.8rem", fontWeight: 700, letterSpacing: "0.05em", textTransform: "uppercase", color: mintColor }}>
                       Estimated Milestone Plan
                     </span>
                     <span style={{ fontSize: "0.8rem", color: isLight ? "#64748b" : "#94a3b8" }}>100% Dedicated Squad</span>
@@ -1228,7 +1931,7 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
 
                   {/* Big Timeline Display */}
                   <div style={{ marginBottom: "1.5rem" }}>
-                    <div style={{ fontSize: "2.4rem", fontWeight: 800, color: isLight ? "#008a75" : "#2dd4bf", letterSpacing: "-0.02em" }}>
+                    <div style={{ fontSize: "2.4rem", fontWeight: 800, color: mintColor, letterSpacing: "-0.02em" }}>
                       {calculatedEstimate.weeks}
                     </div>
                     <div style={{ fontSize: "0.95rem", color: isLight ? "#475569" : "#cbd5e1", fontWeight: 600 }}>
@@ -1262,8 +1965,8 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
                   </div>
                 </div>
 
-                <Link
-                  href="/get-a-quote"
+                <a
+                  href="#quote-form"
                   style={{
                     display: "flex",
                     alignItems: "center",
@@ -1271,18 +1974,18 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
                     gap: "0.6rem",
                     padding: "1rem",
                     borderRadius: "12px",
-                    background: "linear-gradient(135deg, #00bbab 0%, #0284c7 100%)",
+                    background: `linear-gradient(135deg, ${mintColor} 0%, #0284c7 100%Client)`,
                     color: "#ffffff",
                     fontWeight: 700,
                     fontSize: "0.98rem",
                     textAlign: "center",
                     textDecoration: "none",
-                    boxShadow: "0 6px 20px rgba(0, 187, 171, 0.35)",
+                    boxShadow: "0 6px 20px rgba(94, 192, 152, 0.35)",
                   }}
                 >
                   <span>Lock in Architecture Blueprint</span>
                   <ArrowRight size={16} />
-                </Link>
+                </a>
               </div>
             </div>
           </div>
@@ -1290,218 +1993,7 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
       </section>
 
       {/* ===================================================================== */}
-      {/* 4. CORE ENGINEERING CAPABILITIES (Bento Grid)                         */}
-      {/* ===================================================================== */}
-      <section
-        style={{
-          padding: "5.5rem 1.5rem",
-          position: "relative",
-          background: isLight ? "#f8fafc" : "rgba(2, 6, 16, 0.95)",
-          borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
-        }}
-      >
-        <div className="container-custom" style={{ maxWidth: "1240px", margin: "0 auto" }}>
-          <div style={{ textAlign: "center", maxWidth: "760px", margin: "0 auto 4rem auto" }}>
-            <span
-              style={{
-                display: "inline-block",
-                padding: "0.35rem 0.95rem",
-                borderRadius: "9999px",
-                background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(0, 187, 171, 0.12)",
-                color: isLight ? "#008a75" : "#2dd4bf",
-                fontSize: "0.82rem",
-                fontWeight: 700,
-                letterSpacing: "0.05em",
-                textTransform: "uppercase",
-                marginBottom: "0.75rem",
-              }}
-            >
-              Architectural Capabilities
-            </span>
-            <h2 style={{ fontSize: "clamp(2rem, 3.8vw, 3rem)", fontWeight: 800, letterSpacing: "-0.02em", marginBottom: "1rem" }}>
-              Engineered From First Principles
-            </h2>
-            <p style={{ color: isLight ? "#475569" : "#94a3b8", fontSize: "1.05rem", lineHeight: 1.6 }}>
-              We apply battle-tested architectures, clean Domain-Driven Design (DDD), and automated deployment pipelines to eliminate technical debt before it starts.
-            </p>
-          </div>
-
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))",
-              gap: "1.75rem",
-            }}
-          >
-            {service.features.map((feature, fIdx) => {
-              const icons = [Layers, RefreshCw, Workflow, Network, ShieldCheck, Cloud];
-              const IconComp = icons[fIdx % icons.length];
-              return (
-                <div
-                  key={fIdx}
-                  style={{
-                    padding: "2.2rem 1.85rem",
-                    borderRadius: "18px",
-                    background: isLight ? "#ffffff" : "rgba(10, 20, 36, 0.65)",
-                    border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
-                    boxShadow: isLight ? "0 4px 16px rgba(0,0,0,0.03)" : "none",
-                    transition: "transform 0.25s ease, border-color 0.25s ease",
-                  }}
-                >
-                  <div
-                    style={{
-                      width: 48,
-                      height: 48,
-                      borderRadius: "12px",
-                      background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(0, 187, 171, 0.15)",
-                      border: isLight ? "1px solid rgba(0, 168, 143, 0.25)" : "1px solid rgba(0, 187, 171, 0.35)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      color: isLight ? "#008a75" : "#2dd4bf",
-                      marginBottom: "1.4rem",
-                    }}
-                  >
-                    <IconComp size={24} />
-                  </div>
-
-                  <h3 style={{ fontSize: "1.3rem", fontWeight: 700, marginBottom: "0.75rem" }}>
-                    {feature.title}
-                  </h3>
-
-                  <p style={{ color: isLight ? "#64748b" : "#94a3b8", fontSize: "0.95rem", lineHeight: 1.65 }}>
-                    {feature.desc}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ===================================================================== */}
-      {/* 5. TECHNOLOGY STACK MATRIX WITH FILTER TABS                          */}
-      {/* ===================================================================== */}
-      <section
-        style={{
-          padding: "5rem 1.5rem",
-          position: "relative",
-          background: isLight ? "#f1f5f9" : "rgba(4, 10, 22, 0.85)",
-          borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
-        }}
-      >
-        <div className="container-custom" style={{ maxWidth: "1240px", margin: "0 auto" }}>
-          <div style={{ textAlign: "center", maxWidth: "760px", margin: "0 auto 3rem auto" }}>
-            <span
-              style={{
-                display: "inline-block",
-                padding: "0.35rem 0.95rem",
-                borderRadius: "9999px",
-                background: isLight ? "rgba(2, 132, 199, 0.1)" : "rgba(56, 189, 248, 0.12)",
-                color: isLight ? "#0284c7" : "#38bdf8",
-                fontSize: "0.82rem",
-                fontWeight: 700,
-                letterSpacing: "0.05em",
-                textTransform: "uppercase",
-                marginBottom: "0.75rem",
-              }}
-            >
-              Enterprise Technology Fabric
-            </span>
-            <h2 style={{ fontSize: "clamp(2rem, 3.8vw, 3rem)", fontWeight: 800, letterSpacing: "-0.02em", marginBottom: "1rem" }}>
-              Battle-Tested Technologies We Deploy
-            </h2>
-            <p style={{ color: isLight ? "#475569" : "#94a3b8", fontSize: "1.05rem" }}>
-              Every framework in our arsenal is evaluated for memory footprint, developer velocity, community stability, and horizontal scaling ceilings.
-            </p>
-
-            {/* Category Filter Tabs */}
-            <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "0.5rem", marginTop: "2rem" }}>
-              {TECH_STACK_TABS.map((tab, tIdx) => {
-                const isActive = tIdx === activeTechTab;
-                return (
-                  <button
-                    key={tIdx}
-                    type="button"
-                    onClick={() => setActiveTechTab(tIdx)}
-                    style={{
-                      padding: "0.65rem 1.35rem",
-                      borderRadius: "10px",
-                      cursor: "pointer",
-                      fontSize: "0.9rem",
-                      fontWeight: isActive ? 700 : 500,
-                      background: isActive
-                        ? isLight ? "#ffffff" : "rgba(0, 187, 171, 0.2)"
-                        : isLight ? "rgba(255, 255, 255, 0.6)" : "rgba(255, 255, 255, 0.04)",
-                      border: isActive
-                        ? "1.5px solid #00bbab"
-                        : isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.08)",
-                      color: isActive ? (isLight ? "#0f172a" : "#ffffff") : isLight ? "#64748b" : "#94a3b8",
-                      boxShadow: isActive ? "0 4px 12px rgba(0, 187, 171, 0.2)" : "none",
-                    }}
-                  >
-                    {tab.category}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Active Tech Stack Grid */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-              gap: "1.25rem",
-            }}
-          >
-            {TECH_STACK_TABS[activeTechTab].items.map((tech, idx) => (
-              <div
-                key={idx}
-                style={{
-                  padding: "1.5rem",
-                  borderRadius: "14px",
-                  background: isLight ? "#ffffff" : "rgba(10, 20, 36, 0.75)",
-                  border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                }}
-              >
-                <div>
-                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.75rem" }}>
-                    <span
-                      style={{
-                        fontSize: "0.75rem",
-                        fontWeight: 700,
-                        padding: "0.2rem 0.55rem",
-                        borderRadius: "4px",
-                        background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(0, 187, 171, 0.15)",
-                        color: isLight ? "#008a75" : "#2dd4bf",
-                      }}
-                    >
-                      {tech.badge}
-                    </span>
-                    <span style={{ fontSize: "0.78rem", color: isLight ? "#64748b" : "#94a3b8" }}>{tech.tag}</span>
-                  </div>
-                  <h4 style={{ fontSize: "1.2rem", fontWeight: 700, marginBottom: "0.4rem" }}>{tech.name}</h4>
-                  <p style={{ color: isLight ? "#64748b" : "#94a3b8", fontSize: "0.88rem", lineHeight: 1.5 }}>
-                    {tech.role}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ===================================================================== */}
-      {/* 6. REDESIGNED ENTERPRISE DELIVERY LIFECYCLE (UNIFIED PIPELINE & BENTO) */}
-      {/* ===================================================================== */}
-      <EnterpriseDeliveryLifecycle isLightMode={isLight} />
-
-      {/* ===================================================================== */}
-      {/* 7. ENTERPRISE COMPARISON MATRIX: OPASH VS OFF-THE-SHELF VS FREELANCING */}
+      {/* 9. ENTERPRISE COMPARISON MATRIX: OPASH VS OFF-THE-SHELF VS FREELANCING */}
       {/* ===================================================================== */}
       <section
         style={{
@@ -1518,8 +2010,8 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
                 display: "inline-block",
                 padding: "0.35rem 0.95rem",
                 borderRadius: "9999px",
-                background: isLight ? "rgba(2, 132, 199, 0.1)" : "rgba(56, 189, 248, 0.12)",
-                color: isLight ? "#0284c7" : "#38bdf8",
+                background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.12)",
+                color: mintColor,
                 fontSize: "0.82rem",
                 fontWeight: 700,
                 letterSpacing: "0.05em",
@@ -1530,7 +2022,7 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
               Enterprise Decision Matrix
             </span>
             <h2 style={{ fontSize: "clamp(2rem, 3.8vw, 3rem)", fontWeight: 800, letterSpacing: "-0.02em", marginBottom: "1rem" }}>
-              Why Global Brands Choose Bespoke Over SaaS
+              Why Global Brands Choose Custom Software Over SaaS
             </h2>
             <p style={{ color: isLight ? "#475569" : "#94a3b8", fontSize: "1.05rem" }}>
               Off-the-shelf software incurs rising recurring licenses without delivering competitive advantages. Compare the structural differences:
@@ -1559,8 +2051,8 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
                       width: "36%",
                       fontSize: "1rem",
                       fontWeight: 800,
-                      color: isLight ? "#008a75" : "#2dd4bf",
-                      background: isLight ? "rgba(0, 168, 143, 0.05)" : "rgba(0, 187, 171, 0.1)",
+                      color: mintColor,
+                      background: isLight ? "rgba(0, 168, 143, 0.05)" : "rgba(94, 192, 152, 0.1)",
                     }}
                   >
                     Opash Custom Software
@@ -1591,7 +2083,7 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
                         fontWeight: 600,
                         fontSize: "0.92rem",
                         color: isLight ? "#0f172a" : "#f8fafc",
-                        background: isLight ? "rgba(0, 168, 143, 0.03)" : "rgba(0, 187, 171, 0.06)",
+                        background: isLight ? "rgba(0, 168, 143, 0.03)" : "rgba(94, 192, 152, 0.06)",
                       }}
                     >
                       <div style={{ display: "flex", alignItems: "flex-start", gap: "0.5rem" }}>
@@ -1620,7 +2112,7 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
       </section>
 
       {/* ===================================================================== */}
-      {/* 8. WHAT YOU RECEIVE: 100% IP & PRODUCTION DELIVERABLES                */}
+      {/* 10. WHAT YOU RECEIVE: 100% IP & PRODUCTION DELIVERABLES               */}
       {/* ===================================================================== */}
       <section
         style={{
@@ -1637,8 +2129,8 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
                   display: "inline-block",
                   padding: "0.35rem 0.95rem",
                   borderRadius: "9999px",
-                  background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(0, 187, 171, 0.12)",
-                  color: isLight ? "#008a75" : "#2dd4bf",
+                  background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.12)",
+                  color: mintColor,
                   fontSize: "0.82rem",
                   fontWeight: 700,
                   letterSpacing: "0.05em",
@@ -1698,9 +2190,10 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
       </section>
 
       {/* ===================================================================== */}
-      {/* 9. FREQUENTLY ASKED QUESTIONS ACCORDION                               */}
+      {/* 11. FREQUENTLY ASKED QUESTIONS ACCORDION                              */}
       {/* ===================================================================== */}
       <section
+        id="faqs"
         style={{
           padding: "5rem 1.5rem",
           position: "relative",
@@ -1715,8 +2208,8 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
                 display: "inline-block",
                 padding: "0.35rem 0.95rem",
                 borderRadius: "9999px",
-                background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(0, 187, 171, 0.12)",
-                color: isLight ? "#008a75" : "#2dd4bf",
+                background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.12)",
+                color: mintColor,
                 fontSize: "0.82rem",
                 fontWeight: 700,
                 letterSpacing: "0.05em",
@@ -1771,7 +2264,7 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
                         transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
                         transition: "transform 0.25s ease",
                         flexShrink: 0,
-                        color: isLight ? "#008a75" : "#2dd4bf",
+                        color: mintColor,
                       }}
                     />
                   </button>
@@ -1796,9 +2289,10 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
       </section>
 
       {/* ===================================================================== */}
-      {/* 10. FINAL CONSULTATION & BRIEFING CTA SECTION                         */}
+      {/* 12. CONNECT WITH OPASH SOFTWARE / GET YOUR FREE QUOTE TODAY           */}
       {/* ===================================================================== */}
       <section
+        id="quote-form"
         style={{
           padding: "6rem 1.5rem",
           position: "relative",
@@ -1818,7 +2312,7 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
             height: "500px",
             background: isLight
               ? "radial-gradient(circle, rgba(0, 168, 143, 0.12) 0%, rgba(14, 165, 233, 0.05) 50%, transparent 75%)"
-              : "radial-gradient(circle, rgba(0, 187, 171, 0.2) 0%, rgba(14, 165, 233, 0.08) 50%, transparent 75%)",
+              : "radial-gradient(circle, rgba(94, 192, 152, 0.2) 0%, rgba(14, 165, 233, 0.08) 50%, transparent 75%)",
             pointerEvents: "none",
             zIndex: 0,
           }}
@@ -1831,8 +2325,8 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
                 display: "inline-block",
                 padding: "0.35rem 0.95rem",
                 borderRadius: "9999px",
-                background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(0, 187, 171, 0.12)",
-                color: isLight ? "#008a75" : "#2dd4bf",
+                background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.12)",
+                color: mintColor,
                 fontSize: "0.82rem",
                 fontWeight: 700,
                 letterSpacing: "0.05em",
@@ -1840,13 +2334,14 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
                 marginBottom: "0.75rem",
               }}
             >
-              Direct Engineering Consultation
+              Turn Your Ideas into Scalable Digital Solutions
             </span>
             <h2 style={{ fontSize: "clamp(2rem, 3.8vw, 3rem)", fontWeight: 800, letterSpacing: "-0.02em", marginBottom: "1rem" }}>
-              Ready to Architect Your Custom Platform?
+              Connect with Opash Software’s Expert Development Team Today
             </h2>
-            <p style={{ color: isLight ? "#475569" : "#94a3b8", fontSize: "1.05rem", maxWidth: "680px", margin: "0 auto" }}>
-              Submit your technical requirements or system scope below. A Senior Solutions Architect will analyze your specifications and respond within 24 business hours.
+            <p style={{ color: isLight ? "#475569" : "#94a3b8", fontSize: "1.08rem", maxWidth: "720px", margin: "0 auto" }}>
+              Get Your Free Quote Today — Tell us about your project requirements, target timeline, or architectural bottlenecks.
+              Our Senior Solutions Architect will analyze your specifications and reach out within 24 business hours.
             </p>
           </div>
 

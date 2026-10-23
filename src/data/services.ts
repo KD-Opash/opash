@@ -20,71 +20,89 @@ export const servicesData: ServiceDetail[] = [
     id: "custom-software",
     slug: "custom-software-development",
     title: "Custom Software Development",
-    shortDesc: "Scalable, secure, and bespoke software systems engineered around your exact workflows, eliminating off-the-shelf limitations.",
-    heroHeadline: "Bespoke Enterprise Software Engineered For Unlimited Scale",
-    heroSubheadline: "From automated back-office workflows to distributed multi-platform architectures, we engineer software tailored to your specific business DNA.",
+    shortDesc: "Tailored precisely to your business needs, industry workflows, and growth goals. We deliver scalable, secure, and fully personalized solutions built from the ground up.",
+    heroHeadline: "Custom Software Development Tailored to Your Business Needs",
+    heroSubheadline: "Whether you're building internal tools, client-facing portals, or enterprise-grade systems, our team delivers scalable, secure, and fully personalized solutions—built from the ground up.",
     iconName: "Code2",
     badge: "Enterprise Grade",
     metrics: [
+      { value: "8+ Years", label: "Industry Expertise" },
       { value: "40%", label: "Faster Time-To-Market" },
       { value: "99.98%", label: "System Availability" },
-      { value: "100%", label: "Custom Architecture Ownership" },
-      { value: "0", label: "Vendor Lock-in" }
+      { value: "100%", label: "IP & Architecture Ownership" }
     ],
     features: [
       {
-        title: "Bespoke Architecture Design",
-        desc: "Designed from first principles to handle your unique transaction loads, user roles, data privacy standards, and compliance demands."
+        title: "Custom Web & Mobile Applications",
+        desc: "Frontend, backend, APIs—built just for your use case with modern reactive frameworks and cloud backends."
       },
       {
-        title: "Legacy Modernization & Refactoring",
-        desc: "Upgrade monolithic, slow, or deprecated systems into agile, cloud-native microservices with zero downtime and seamless data migration."
+        title: "Third-party Integrations",
+        desc: "Seamless integration with CRM, ERP, payment gateways, AI tools, biometric services, and more."
       },
       {
-        title: "Enterprise Workflow Automation",
-        desc: "Eliminate repetitive manual bottlenecks with automated data processing, approval pipelines, real-time sync, and intelligent notifications."
+        title: "Real-time Features",
+        desc: "Live data updates, interactive dashboards, event streaming, push notifications, chat, and telemetry tracking."
       },
       {
-        title: "High-Throughput API Ecosystems",
-        desc: "Secure RESTful and GraphQL endpoints connecting CRM, ERP, payment gateways, biometric auth, and legacy databases effortlessly."
+        title: "Automation Tools",
+        desc: "Automated report generation, task automation, and streamlined workflow management to eliminate operational bottlenecks."
       },
       {
-        title: "Strict Security & Data Governance",
-        desc: "Role-based access control (RBAC), end-to-end data encryption, audit trails, and compliance with GDPR, HIPAA, and SOC-2 standards."
+        title: "Security & Compliance",
+        desc: "Custom data protection, granular audit logs, and rigorous compliance with GDPR, HIPAA, and industry-specific regulations."
       },
       {
-        title: "DevOps & CI/CD Pipelines",
-        desc: "Automated testing, containerized Docker deployments, and Kubernetes orchestration on AWS, GCP, or Azure for bulletproof resilience."
+        title: "Legacy System Modernization",
+        desc: "Upgrade or rebuild monolithic, aging systems into high-performance cloud architectures with zero downtime."
       }
     ],
-    technologies: ["React", "Next.js", "Angular", "Node.js", "Nest.js", "Python", "Django", "PostgreSQL", "MongoDB", "Docker", "Kubernetes", "AWS"],
+    technologies: [
+      "React", "Angular", "HTML", "TailwindCSS", "Material UI", "Next.js",
+      "Node", "Nest.js", "Django", "Python",
+      "React Native", "Flutter",
+      "PostgreSQL", "MS SQL", "MongoDB", "Firebase",
+      "RESTful API", "GraphQL", "Webhooks",
+      "AWS", "Google Cloud", "Microsoft Azure", "DigitalOcean",
+      "Docker", "GitHub Actions", "Jenkins", "Kubernetes", "Terraform",
+      "Cypress", "Selenium", "Jest", "Postman"
+    ],
     deliverables: [
-      "Full Source Code & Git Repositories",
-      "Interactive Figma Prototypes & UI Kits",
-      "Architectural Blueprints & ER Diagrams",
-      "Comprehensive Swagger / OpenAPI Documentation",
-      "CI/CD Deployment Automation Scripts",
-      "Production Handover & SLA Support Plan"
+      "Full Source Code & Git Repositories (100% IP Ownership)",
+      "Interactive Figma Prototypes & UI/UX Design System",
+      "System Architecture Blueprints & ER Diagrams",
+      "Swagger / OpenAPI RESTful & GraphQL Documentation",
+      "CI/CD Deployment Pipelines & Docker Containers",
+      "Production Handover, SLA Support & Maintenance Plan"
     ],
     process: [
-      { step: "01", title: "Discovery & Blueprinting", desc: "Deep dive into your business logic, system dependencies, technical bottlenecks, and success metrics." },
-      { step: "02", title: "Architecture & UI/UX Prototyping", desc: "Crafting wireframes, user journeys, schema models, and interactive click-through designs." },
-      { step: "03", title: "Agile Sprint Execution", desc: "Two-week agile sprints with bi-weekly live demos, continuous code reviews, and staging previews." },
-      { step: "04", title: "Automated QA & Security Audits", desc: "Unit, regression, load, and penetration testing ensuring zero critical vulnerabilities." },
-      { step: "05", title: "Cloud Deployment & Knowledge Handover", desc: "Zero-downtime production deployment, CI/CD setup, team training, and source code transfer." }
+      { step: "01", title: "Discovery & Requirement Analysis", desc: "We dive deep into your business goals, user journeys, and workflows to define clear success metrics and technical specifications." },
+      { step: "02", title: "Planning & Design", desc: "We create wireframes, system architecture, and intuitive UI/UX prototypes, laying out a strategic tech roadmap." },
+      { step: "03", title: "Development in Agile Sprints", desc: "Development is executed in Agile sprints using clean, modular code and an API-first approach to ensure flexibility and fast iterations." },
+      { step: "04", title: "Testing & Quality Assurance", desc: "Our QA process involves both manual and automated methods (Jest, Cypress, Selenium, Postman) to guarantee security, speed, and performance." },
+      { step: "05", title: "CI/CD-Driven Deployment", desc: "Your software is seamlessly launched on cloud (AWS, Azure, GCP) or on-premise environments with automated zero-downtime pipelines." },
+      { step: "06", title: "Support & Maintenance", desc: "Post-launch, we provide continuous performance optimization, bug fixes, upgrades, and feature enhancements to scale with your business." }
     ],
     faqs: [
       {
-        question: "Why should we choose custom software instead of off-the-shelf SaaS?",
-        answer: "Off-the-shelf software forces you to adapt your business around someone else's constraints, charges perpetual per-seat licensing fees, and limits integration capabilities. Custom software gives you complete intellectual property ownership, tailored efficiency, lower long-term TCO, and a unique competitive edge."
+        question: "Why should we choose custom software instead of off-the-shelf products?",
+        answer: "Every business is unique—your software should be too. Off-the-shelf products often come with limitations, unused features, recurring per-seat fees, or poor alignment with your operations. With custom software, you get a solution tailored to your exact requirements, giving you total control over features, security, user experience, and integrations. Custom software is future-proof, flexible, cost-efficient in the long run, and ensures 100% intellectual property ownership."
       },
       {
         question: "How long does a typical custom software project take?",
-        answer: "Initial MVP iterations are typically delivered in 6 to 10 weeks, while full enterprise systems range from 3 to 6 months depending on integration depth and complexity. Our agile sprints ensure you see working functionality every two weeks."
+        answer: "Initial MVP iterations and modular applications are typically delivered in 6 to 10 weeks, while full enterprise systems range from 3 to 6 months depending on integration depth and complexity. Our Agile sprints ensure you see working functionality every two weeks."
       },
       {
         question: "Do we retain full intellectual property (IP) and code rights?",
-        answer: "Yes, 100%. Upon project milestone sign-off, all source code, design files, database schemas, and intellectual property belong exclusively to you."
+        answer: "Yes, 100%. Upon project milestone sign-off, all source code, database architectures, APIs, design files, and intellectual property belong exclusively to you with zero vendor lock-in."
+      },
+      {
+        question: "Can you modernize or rebuild our legacy systems without business downtime?",
+        answer: "Yes. Using the Strangler Fig pattern and API micro-gateways, we gradually decouple and modernize monolithic legacy systems into cloud-native services with zero data loss and uninterrupted business continuity."
+      },
+      {
+        question: "How does Opash Software maintain security and regulatory compliance?",
+        answer: "We engineer enterprise security from day one with role-based access control (RBAC), end-to-end encryption (TLS 1.3 / AES-256), immutable audit logs, and adherence to GDPR, HIPAA, and SOC-2 guidelines."
       }
     ]
   },
