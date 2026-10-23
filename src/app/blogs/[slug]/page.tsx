@@ -42,7 +42,30 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function BlogPostPage({ params }: Props) {
+function BlogLoadingFallback() {
+  return (
+    <div className="bg-grid-pattern" style={{ minHeight: "100vh", position: "relative" }}>
+      <article style={{ position: "relative", zIndex: 1, paddingTop: "5rem", paddingBottom: "6rem" }}>
+        <div className="container-custom" style={{ maxWidth: "860px" }}>
+          <div style={{ height: "24px", width: "160px", background: "rgba(255, 255, 255, 0.08)", borderRadius: "8px", marginBottom: "2rem" }} />
+          <div style={{ height: "48px", width: "80%", background: "rgba(255, 255, 255, 0.08)", borderRadius: "12px", marginBottom: "1.5rem" }} />
+          <div style={{ height: "20px", width: "50%", background: "rgba(255, 255, 255, 0.06)", borderRadius: "6px", marginBottom: "3rem" }} />
+          <div style={{ height: "300px", width: "100%", background: "rgba(255, 255, 255, 0.04)", borderRadius: "16px" }} />
+        </div>
+      </article>
+    </div>
+  );
+}
+
+export default function BlogPostPage({ params }: Props) {
+  return (
+    <React.Suspense fallback={<BlogLoadingFallback />}>
+      <BlogPostContent params={params} />
+    </React.Suspense>
+  );
+}
+
+async function BlogPostContent({ params }: Props) {
   const { slug } = await params;
   const post = blogsData.find((p) => p.slug === slug);
 
