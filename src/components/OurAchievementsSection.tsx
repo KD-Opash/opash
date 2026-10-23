@@ -352,14 +352,12 @@ export default function OurAchievementsSection() {
                 >
                   <span
                     style={{
-                      fontSize: "0.72rem",
-                      fontWeight: 800,
-                      letterSpacing: "0.1em",
-                      fontFamily: "ui-monospace, monospace",
-                      color: isLight ? "#94a3b8" : "rgba(255, 255, 255, 0.4)",
+                      fontSize: "0.85rem",
+                      fontWeight: 700,
+                      color: isLight ? "#64748b" : "rgba(255, 255, 255, 0.6)",
                     }}
                   >
-                    // {stat.pillarNum}
+                    {idx + 1}
                   </span>
 
                   <span
@@ -460,21 +458,18 @@ export default function OurAchievementsSection() {
                   </div>
                 </div>
 
-                {/* 4. Display Counter Number (Luminous Gradient Counter) */}
+                {/* 4. Display Counter Number */}
                 <div
                   style={{
-                    fontSize: "clamp(2.6rem, 3.5vw, 3.2rem)",
+                    fontSize: "clamp(2.5rem, 3.4vw, 3.1rem)",
                     fontWeight: 900,
-                    letterSpacing: "-0.04em",
+                    letterSpacing: "-0.03em",
                     lineHeight: 1.05,
                     marginBottom: "0.55rem",
-                    background: isLight ? stat.gradientTextLight : stat.gradientTextDark,
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    filter: isHovered ? `drop-shadow(0 4px 14px rgba(${stat.accentRgb}, 0.35))` : "none",
-                    transition: "all 0.3s ease",
+                    color: isLight ? "#0f172a" : "#ffffff",
                     position: "relative",
                     zIndex: 2,
+                    transition: "color 0.3s ease",
                   }}
                 >
                   {stat.count}
