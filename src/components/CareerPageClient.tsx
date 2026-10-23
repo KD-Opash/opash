@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useId } from 'react';
+import React, { useState, useId, useRef } from 'react';
 import Link from 'next/link';
 import { careersData, JobOpening } from '@/data/careers';
 import { companyData } from '@/data/company';
@@ -36,6 +36,8 @@ import {
   Building2,
   Globe2,
   ExternalLink,
+  FileText,
+  X,
 } from 'lucide-react';
 
 export default function CareerPageClient() {
@@ -53,6 +55,11 @@ export default function CareerPageClient() {
   const [selectedRole, setSelectedRole] = useState(careersData.openings[0]?.title || 'Senior Full-Stack Engineer (React / Node.js)');
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [resumeFile, setResumeFile] = useState<File | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [showCloudLink, setShowCloudLink] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -77,12 +84,40 @@ export default function CareerPageClient() {
     }
   };
 
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      setResumeFile(e.dataTransfer.files[0]);
+    }
+  };
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setResumeFile(e.target.files[0]);
+    }
+  };
+
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
     setTimeout(() => {
       setSubmitting(false);
       setFormSubmitted(true);
+      setResumeFile(null);
     }, 800);
   };
 
@@ -1234,68 +1269,36 @@ export default function CareerPageClient() {
                     </div>
                   </div>
 
-                  {/* GitHub & Resume Links Row */}
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.25rem' }}>
-                    <div>
-                      <label
-                        style={{
-                          display: 'block',
-                          fontSize: '0.86rem',
-                          fontWeight: 700,
-                          marginBottom: '0.5rem',
-                          color: isLight ? '#334155' : '#cbd5e1',
-                        }}
-                      >
-                        GitHub / Portfolio / LinkedIn URL *
-                      </label>
-                      <input
-                        type="url"
-                        required
-                        placeholder="https://github.com/yourhandle"
-                        value={formData.portfolioUrl}
-                        onChange={(e) => setFormData((prev) => ({ ...prev, portfolioUrl: e.target.value }))}
-                        style={{
-                          width: '100%',
-                          padding: '0.85rem 1rem',
-                          borderRadius: '12px',
-                          background: isLight ? '#f8fafc' : 'rgba(255, 255, 255, 0.05)',
-                          border: isLight ? '1px solid #cbd5e1' : '1px solid rgba(255, 255, 255, 0.12)',
-                          color: isLight ? '#0f172a' : '#f8fafc',
-                          fontSize: '0.95rem',
-                          outline: 'none',
-                        }}
-                      />
-                    </div>
-
-                    <div>
-                      <label
-                        style={{
-                          display: 'block',
-                          fontSize: '0.86rem',
-                          fontWeight: 700,
-                          marginBottom: '0.5rem',
-                          color: isLight ? '#334155' : '#cbd5e1',
-                        }}
-                      >
-                        Resume Link (Google Drive / Dropbox / Cloud)
-                      </label>
-                      <input
-                        type="url"
-                        placeholder="https://drive.google.com/..."
-                        value={formData.resumeLink}
-                        onChange={(e) => setFormData((prev) => ({ ...prev, resumeLink: e.target.value }))}
-                        style={{
-                          width: '100%',
-                          padding: '0.85rem 1rem',
-                          borderRadius: '12px',
-                          background: isLight ? '#f8fafc' : 'rgba(255, 255, 255, 0.05)',
-                          border: isLight ? '1px solid #cbd5e1' : '1px solid rgba(255, 255, 255, 0.12)',
-                          color: isLight ? '#0f172a' : '#f8fafc',
-                          fontSize: '0.95rem',
-                          outline: 'none',
-                        }}
-                      />
-                    </div>
+                  {/* GitHub / Portfolio URL */}
+                  <div>
+                    <label
+                      style={{
+                        display: 'block',
+                        fontSize: '0.86rem',
+                        fontWeight: 700,
+                        marginBottom: '0.5rem',
+                        color: isLight ? '#334155' : '#cbd5e1',
+                      }}
+                    >
+                      GitHub / Portfolio / LinkedIn URL *
+                    </label>
+                    <input
+                      type="url"
+                      required
+                      placeholder="https://github.com/yourhandle"
+                      value={formData.portfolioUrl}
+                      onChange={(e) => setFormData((prev) => ({ ...prev, portfolioUrl: e.target.value }))}
+                      style={{
+                        width: '100%',
+                        padding: '0.85rem 1rem',
+                        borderRadius: '12px',
+                        background: isLight ? '#f8fafc' : 'rgba(255, 255, 255, 0.05)',
+                        border: isLight ? '1px solid #cbd5e1' : '1px solid rgba(255, 255, 255, 0.12)',
+                        color: isLight ? '#0f172a' : '#f8fafc',
+                        fontSize: '0.95rem',
+                        outline: 'none',
+                      }}
+                    />
                   </div>
 
                   {/* Message / Cover Note */}
@@ -1328,6 +1331,182 @@ export default function CareerPageClient() {
                         resize: 'vertical',
                       }}
                     />
+                  </div>
+
+                  {/* Resume Upload Dropzone Section */}
+                  <div>
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        marginBottom: '0.6rem',
+                      }}
+                    >
+                      <label
+                        style={{
+                          display: 'block',
+                          fontSize: '0.96rem',
+                          fontWeight: 600,
+                          color: isLight ? '#0f172a' : '#f8fafc',
+                          letterSpacing: '-0.01em',
+                        }}
+                      >
+                        Resume
+                      </label>
+                      <button
+                        type="button"
+                        onClick={() => setShowCloudLink((prev) => !prev)}
+                        style={{
+                          background: 'none',
+                          border: 'none',
+                          fontSize: '0.8rem',
+                          color: '#2563eb',
+                          cursor: 'pointer',
+                          textDecoration: 'underline',
+                          padding: 0,
+                          fontWeight: 500,
+                        }}
+                      >
+                        {showCloudLink ? 'Hide Cloud Link' : 'Or paste Cloud link (Drive / Dropbox)'}
+                      </button>
+                    </div>
+
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept=".pdf,.doc,.docx"
+                      onChange={handleFileSelect}
+                      style={{ display: 'none' }}
+                    />
+
+                    <div
+                      onDragOver={handleDragOver}
+                      onDragLeave={handleDragLeave}
+                      onDrop={handleDrop}
+                      onClick={() => fileInputRef.current?.click()}
+                      style={{
+                        border: isDragging
+                          ? '2px dashed #1d4ed8'
+                          : '1.5px dashed #2563eb',
+                        borderRadius: '8px',
+                        padding: '1.75rem 1.25rem',
+                        background: isDragging
+                          ? isLight
+                            ? 'rgba(37, 99, 235, 0.06)'
+                            : 'rgba(37, 99, 235, 0.15)'
+                          : isLight
+                            ? '#ffffff'
+                            : 'rgba(255, 255, 255, 0.02)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        textAlign: 'center',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease',
+                      }}
+                    >
+                      {resumeFile ? (
+                        <div
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            width: '100%',
+                            maxWidth: '480px',
+                            padding: '0.6rem 0.9rem',
+                            borderRadius: '8px',
+                            background: isLight ? '#f1f5f9' : 'rgba(255, 255, 255, 0.06)',
+                            border: isLight ? '1px solid #cbd5e1' : '1px solid rgba(255, 255, 255, 0.12)',
+                          }}
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', overflow: 'hidden' }}>
+                            <FileText size={22} color="#2563eb" style={{ flexShrink: 0 }} />
+                            <div style={{ textAlign: 'left', overflow: 'hidden' }}>
+                              <p
+                                style={{
+                                  fontSize: '0.9rem',
+                                  fontWeight: 600,
+                                  color: isLight ? '#0f172a' : '#f8fafc',
+                                  margin: 0,
+                                  whiteSpace: 'nowrap',
+                                  overflow: 'hidden',
+                                  textOverflow: 'ellipsis',
+                                  maxWidth: '280px',
+                                }}
+                              >
+                                {resumeFile.name}
+                              </p>
+                              <span style={{ fontSize: '0.75rem', color: isLight ? '#64748b' : '#94a3b8' }}>
+                                {(resumeFile.size / (1024 * 1024)).toFixed(2)} MB • Click to replace
+                              </span>
+                            </div>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setResumeFile(null);
+                              if (fileInputRef.current) fileInputRef.current.value = '';
+                            }}
+                            style={{
+                              background: 'transparent',
+                              border: 'none',
+                              color: '#ef4444',
+                              cursor: 'pointer',
+                              padding: '4px',
+                              display: 'flex',
+                              alignItems: 'center',
+                            }}
+                            title="Remove file"
+                          >
+                            <X size={18} />
+                          </button>
+                        </div>
+                      ) : (
+                        <div
+                          style={{
+                            fontSize: '0.95rem',
+                            color: isLight ? '#1e293b' : '#f1f5f9',
+                            fontWeight: 450,
+                            letterSpacing: '-0.01em',
+                          }}
+                        >
+                          Drag &amp; drop Files here or{' '}
+                          <span
+                            style={{
+                              color: '#2563eb',
+                              textDecoration: 'underline',
+                              fontWeight: 600,
+                              cursor: 'pointer',
+                            }}
+                          >
+                            Browse Files
+                          </span>
+                        </div>
+                      )}
+                    </div>
+
+                    {showCloudLink && (
+                      <div style={{ marginTop: '0.75rem' }}>
+                        <input
+                          type="url"
+                          placeholder="Or paste cloud link: https://drive.google.com/..."
+                          value={formData.resumeLink}
+                          onChange={(e) => setFormData((prev) => ({ ...prev, resumeLink: e.target.value }))}
+                          style={{
+                            width: '100%',
+                            padding: '0.75rem 1rem',
+                            borderRadius: '10px',
+                            background: isLight ? '#f8fafc' : 'rgba(255, 255, 255, 0.05)',
+                            border: isLight ? '1px solid #cbd5e1' : '1px solid rgba(255, 255, 255, 0.12)',
+                            color: isLight ? '#0f172a' : '#f8fafc',
+                            fontSize: '0.9rem',
+                            outline: 'none',
+                          }}
+                        />
+                      </div>
+                    )}
                   </div>
 
                   {/* Submit Button */}
