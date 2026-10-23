@@ -38,6 +38,8 @@ import {
   ExternalLink,
   FileText,
   X,
+  Phone,
+  Mail,
 } from 'lucide-react';
 
 export default function CareerPageClient() {
@@ -1007,19 +1009,28 @@ export default function CareerPageClient() {
         <div className="container-custom">
           <div
             style={{
-              maxWidth: '840px',
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))',
+              gap: '2.5rem',
+              alignItems: 'start',
+              maxWidth: '1240px',
               margin: '0 auto',
-              padding: 'clamp(2rem, 5vw, 3.5rem)',
-              borderRadius: '28px',
-              background: isLight ? '#ffffff' : 'rgba(15, 23, 42, 0.85)',
-              border: isLight ? '1px solid #e2e8f0' : '1px solid rgba(0, 255, 209, 0.25)',
-              boxShadow: isLight
-                ? '0 25px 60px -15px rgba(0, 168, 143, 0.12)'
-                : '0 30px 80px -20px rgba(0, 255, 209, 0.15)',
-              backdropFilter: 'blur(20px)',
-              position: 'relative',
             }}
           >
+            {/* Left: Application Form Card */}
+            <div
+              style={{
+                padding: 'clamp(2rem, 5vw, 3.5rem)',
+                borderRadius: '28px',
+                background: isLight ? '#ffffff' : 'rgba(15, 23, 42, 0.85)',
+                border: isLight ? '1px solid #e2e8f0' : '1px solid rgba(0, 255, 209, 0.25)',
+                boxShadow: isLight
+                  ? '0 25px 60px -15px rgba(0, 168, 143, 0.12)'
+                  : '0 30px 80px -20px rgba(0, 255, 209, 0.15)',
+                backdropFilter: 'blur(20px)',
+                position: 'relative',
+              }}
+            >
             {formSubmitted ? (
               <div style={{ textAlign: 'center', padding: '3rem 1rem' }}>
                 <div
@@ -1556,6 +1567,199 @@ export default function CareerPageClient() {
                 </form>
               </>
             )}
+            </div>
+
+            {/* Right: HR Contact Information Card (Matching Design Screenshot) */}
+            <div
+              style={{
+                borderRadius: '24px',
+                background: isLight ? '#f0f6ff' : 'rgba(15, 23, 42, 0.85)',
+                border: isLight ? '1px solid #dbeafe' : '1px solid rgba(59, 130, 246, 0.25)',
+                boxShadow: isLight
+                  ? '0 20px 45px -15px rgba(37, 99, 235, 0.1)'
+                  : '0 25px 60px -20px rgba(37, 99, 235, 0.25)',
+                padding: 'clamp(2rem, 4vw, 2.75rem)',
+                display: 'flex',
+                flexDirection: 'column',
+              }}
+            >
+              {/* 1. HR Contact Information */}
+              <div>
+                <h3
+                  style={{
+                    fontSize: '1.45rem',
+                    fontWeight: 800,
+                    color: '#1d68ff',
+                    margin: '0 0 1.25rem 0',
+                    letterSpacing: '-0.01em',
+                  }}
+                >
+                  HR Contact Information
+                </h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.95rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
+                    <Phone size={18} style={{ color: isLight ? '#0f172a' : '#f8fafc', flexShrink: 0 }} />
+                    <a
+                      href={`tel:${companyData.contact.phoneClean}`}
+                      style={{
+                        fontSize: '1.02rem',
+                        fontWeight: 500,
+                        color: isLight ? '#0f172a' : '#f8fafc',
+                        textDecoration: 'none',
+                      }}
+                    >
+                      {companyData.contact.phone}
+                    </a>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
+                    <Mail size={18} style={{ color: isLight ? '#0f172a' : '#f8fafc', flexShrink: 0 }} />
+                    <a
+                      href={`mailto:${companyData.contact.hrEmail}`}
+                      style={{
+                        fontSize: '1.02rem',
+                        fontWeight: 500,
+                        color: isLight ? '#0f172a' : '#f8fafc',
+                        textDecoration: 'none',
+                      }}
+                    >
+                      {companyData.contact.hrEmail}
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              {/* Divider 1 */}
+              <div
+                style={{
+                  borderBottom: isLight ? '1.5px solid #93c5fd' : '1px solid rgba(59, 130, 246, 0.25)',
+                  margin: '1.6rem 0',
+                }}
+              />
+
+              {/* 2. Office Address */}
+              <div>
+                <h3
+                  style={{
+                    fontSize: '1.45rem',
+                    fontWeight: 800,
+                    color: '#1d68ff',
+                    margin: '0 0 1.25rem 0',
+                    letterSpacing: '-0.01em',
+                  }}
+                >
+                  Office Address
+                </h3>
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.85rem' }}>
+                  <Building2 size={19} style={{ color: isLight ? '#0f172a' : '#f8fafc', flexShrink: 0, marginTop: '3px' }} />
+                  <p
+                    style={{
+                      margin: 0,
+                      fontSize: '0.98rem',
+                      lineHeight: 1.6,
+                      color: isLight ? '#1e293b' : '#e2e8f0',
+                      fontWeight: 450,
+                    }}
+                  >
+                    129, The Galleria Shopping Hub, Nr. Sanjeev Kumar Auditorium, Opp. 3Seventy Kitchen Restaurant, Pal, Adajan, Surat - 395009
+                  </p>
+                </div>
+              </div>
+
+              {/* Divider 2 */}
+              <div
+                style={{
+                  borderBottom: isLight ? '1.5px solid #93c5fd' : '1px solid rgba(59, 130, 246, 0.25)',
+                  margin: '1.6rem 0',
+                }}
+              />
+
+              {/* 3. Timing */}
+              <div>
+                <h3
+                  style={{
+                    fontSize: '1.45rem',
+                    fontWeight: 800,
+                    color: '#1d68ff',
+                    margin: '0 0 1.25rem 0',
+                    letterSpacing: '-0.01em',
+                  }}
+                >
+                  Timing
+                </h3>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
+                  <Clock size={19} style={{ color: isLight ? '#0f172a' : '#f8fafc', flexShrink: 0 }} />
+                  <span
+                    style={{
+                      fontSize: '1.02rem',
+                      fontWeight: 500,
+                      color: isLight ? '#0f172a' : '#f8fafc',
+                    }}
+                  >
+                    Monday – Friday : 9:30 AM to 6:30 PM IST
+                  </span>
+                </div>
+              </div>
+
+              {/* Divider 3 */}
+              <div
+                style={{
+                  borderBottom: isLight ? '1.5px solid #93c5fd' : '1px solid rgba(59, 130, 246, 0.25)',
+                  margin: '1.6rem 0',
+                }}
+              />
+
+              {/* 4. Quote & Connect */}
+              <div>
+                <p
+                  style={{
+                    fontSize: '1.02rem',
+                    fontWeight: 500,
+                    color: isLight ? '#0f172a' : '#f8fafc',
+                    lineHeight: 1.65,
+                    margin: 0,
+                  }}
+                >
+                  <span
+                    style={{
+                      color: '#1d68ff',
+                      fontSize: '1.65rem',
+                      fontWeight: 900,
+                      lineHeight: 1,
+                      verticalAlign: '-3px',
+                      marginRight: '6px',
+                    }}
+                  >
+                    “
+                  </span>
+                  Love What You Do? Do It with Us. Explore exciting career
+                  <span
+                    style={{
+                      color: '#1d68ff',
+                      fontSize: '1.65rem',
+                      fontWeight: 900,
+                      lineHeight: 1,
+                      verticalAlign: '-3px',
+                      marginLeft: '6px',
+                    }}
+                  >
+                    ”
+                  </span>
+                  <br />
+                  opportunities now.
+                </p>
+                <p
+                  style={{
+                    fontSize: '1rem',
+                    color: isLight ? '#334155' : '#94a3b8',
+                    marginTop: '1.35rem',
+                    marginBottom: 0,
+                    fontWeight: 500,
+                  }}
+                >
+                  Connect with our HR today.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
