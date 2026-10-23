@@ -43,7 +43,8 @@ import {
   Lightbulb,
   Handshake,
   ArrowUpRight,
-  AtSign
+  AtSign,
+  RefreshCw
 } from "lucide-react";
 import { companyData } from "@/data/company";
 import ContactForm from "@/components/ContactForm";
@@ -147,7 +148,6 @@ export default function CompanyPageClient() {
   const [activeMilestoneIndex, setActiveMilestoneIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [copiedEmail, setCopiedEmail] = useState(false);
-  const [activePillar, setActivePillar] = useState<number>(0);
 
   // Auto-advance progress bar every 5.5 seconds (pauses on user interaction)
   useEffect(() => {
@@ -164,50 +164,20 @@ export default function CompanyPageClient() {
     setTimeout(() => setCopiedEmail(false), 2500);
   };
 
-  const pillars = [
-    {
-      number: "01",
-      title: "Zero-Bloat Digital Foundations",
-      tagline: "Engineered for 10x Scalability & Sub-Second Latency",
-      desc: "We avoid brittle prototypes and throwaway code. Every application architecture is designed with modular microservices or structured modular monoliths, automated CI/CD pipelines, and clean abstractions that scale seamlessly to millions of users.",
-      metric: "99.99% Uptime SLAs",
-      icon: Layers,
-      accent: "#00a88f",
-      features: [
-        "Domain-Driven Architecture & Clean Code Standards",
-        "Automated Unit, Integration & End-to-End Test Suites",
-        "Stateless Edge Caching & Distributed Microservices"
-      ]
-    },
-    {
-      number: "02",
-      title: "Direct Senior Engineering Rigor",
-      tagline: "Specialist Devs Without Non-Technical Account Layers",
-      desc: "Legacy agencies sandwich non-technical project handlers between clients and developers. At Opash, you collaborate directly with domain-specialist senior software architects through shared Slack channels, daily standups, and transparent GitHub commits.",
-      metric: "Top 3% Vetted Talent",
-      icon: Cpu,
-      accent: "#38bdf8",
-      features: [
-        "Direct Slack & Zoom Access with Lead Engineers",
-        "Daily Git Commits & 2-Week Predictable Sprints",
-        "Real-Time Telemetry & Sprint Burn-Down Visibility"
-      ]
-    },
-    {
-      number: "03",
-      title: "100% Day-One IP Ownership",
-      tagline: "Your Code, Your Repositories, Your Infrastructure",
-      desc: "We establish partnerships rooted in mutual trust and transparency. You retain absolute ownership of all GitHub repositories, architectural schematics, Docker configurations, and intellectual property from the first commit—zero vendor lock-in.",
-      metric: "100% IP Transferred",
-      icon: ShieldCheck,
-      accent: "#6366f1",
-      features: [
-        "Direct Ownership of Private GitHub Repositories",
-        "Zero Proprietary Framework Hostage Fees",
-        "Comprehensive Architectural Documentation & Schematics"
-      ]
-    }
-  ];
+  const whyChooseUsIconMap: Record<string, React.ComponentType<{ size?: number; className?: string; strokeWidth?: number; style?: React.CSSProperties }>> = {
+    Star: Star,
+    Clock: Clock,
+    RefreshCw: RefreshCw,
+    AtSign: AtSign,
+    Lock: Lock,
+    Check: Check,
+  };
+
+  const pillarIconMap: Record<string, React.ComponentType<{ size?: number; className?: string; strokeWidth?: number; style?: React.CSSProperties }>> = {
+    Layers: Layers,
+    Cpu: Cpu,
+    ShieldCheck: ShieldCheck,
+  };
 
   return (
     <div
@@ -561,7 +531,139 @@ export default function CompanyPageClient() {
       </section>
 
       {/* ===================================================================== */}
-      {/* 2. CORE FOUNDATIONAL PILLARS: VISION, MISSION & VALUES                */}
+      {/* 2. WHAT MAKES OPASH SOFTWARE UNIQUE (WHY CHOOSE US)                   */}
+      {/* ===================================================================== */}
+      <section
+        style={{
+          padding: "5.5rem 1.5rem",
+          position: "relative",
+          background: isLight ? "#f0f6ff" : "rgba(8, 16, 32, 0.65)",
+          borderTop: isLight ? "1px solid #e0ecff" : "1px solid rgba(255, 255, 255, 0.06)",
+          borderBottom: isLight ? "1px solid #e0ecff" : "1px solid rgba(255, 255, 255, 0.06)",
+        }}
+      >
+        <div className="container-custom" style={{ maxWidth: "1240px", margin: "0 auto" }}>
+          {/* Section Header */}
+          <div style={{ textAlign: "center", marginBottom: "3.75rem" }}>
+            <h2
+              style={{
+                fontSize: "clamp(2rem, 3.5vw, 2.75rem)",
+                fontWeight: 800,
+                color: isLight ? "#0f172a" : "#ffffff",
+                letterSpacing: "-0.025em",
+                fontFamily: "var(--font-heading), sans-serif",
+                lineHeight: 1.2,
+              }}
+            >
+              What Makes Opash Software Unique
+            </h2>
+            <div
+              style={{
+                fontSize: "1.15rem",
+                fontWeight: 700,
+                color: "#1d63ed",
+                marginTop: "0.5rem",
+                letterSpacing: "0.01em",
+              }}
+            >
+              Why Choose Us
+            </div>
+          </div>
+
+          {/* 6 Circular Feature Items in Responsive Row */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
+              gap: "2.5rem 1.5rem",
+              justifyItems: "center",
+              alignItems: "flex-start",
+            }}
+          >
+            {companyData.whyChooseUs.map((item, idx) => {
+              const IconComponent = whyChooseUsIconMap[item.icon] || Star;
+              return (
+                <div
+                  key={idx}
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    textAlign: "center",
+                    maxWidth: "155px",
+                  }}
+                >
+                  {/* Circular Node with Blue Disc & White Halo */}
+                  <div
+                    style={{
+                      width: "78px",
+                      height: "78px",
+                      borderRadius: "50%",
+                      background: isLight ? "#ffffff" : "rgba(15, 23, 42, 0.85)",
+                      border: isLight ? "2px solid #e0ecff" : "2px solid rgba(29, 99, 237, 0.35)",
+                      boxShadow: isLight
+                        ? "0 10px 24px rgba(29, 99, 237, 0.12), 0 2px 8px rgba(0,0,0,0.04)"
+                        : "0 10px 30px rgba(0, 0, 0, 0.5)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      transition: "transform 0.25s ease, box-shadow 0.25s ease",
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: "60px",
+                        height: "60px",
+                        borderRadius: "50%",
+                        background: "#1d63ed",
+                        color: "#ffffff",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        boxShadow: "0 4px 14px rgba(29, 99, 237, 0.4)",
+                      }}
+                    >
+                      <IconComponent
+                        size={25}
+                        strokeWidth={item.icon === "Check" ? 3 : 2.2}
+                        style={{ fill: item.icon === "Star" ? "#ffffff" : "none" }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Horizontal Blue Accent Bar */}
+                  <div
+                    style={{
+                      width: "60px",
+                      height: "2.5px",
+                      background: "#1d63ed",
+                      borderRadius: "9999px",
+                      marginTop: "1.25rem",
+                      marginBottom: "0.85rem",
+                    }}
+                  />
+
+                  {/* Label */}
+                  <span
+                    style={{
+                      fontSize: "0.95rem",
+                      fontWeight: 700,
+                      color: isLight ? "#0f172a" : "#f1f5f9",
+                      lineHeight: 1.35,
+                      letterSpacing: "-0.01em",
+                    }}
+                  >
+                    {item.title}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ===================================================================== */}
+      {/* 3. CORE FOUNDATIONAL PILLARS: VISION, MISSION & VALUES                */}
       {/* ===================================================================== */}
       <section style={{ padding: "6rem 1.5rem", position: "relative" }}>
         <div className="container-custom" style={{ maxWidth: "1240px", margin: "0 auto" }}>
@@ -1416,7 +1518,7 @@ export default function CompanyPageClient() {
       </section>
 
       {/* ===================================================================== */}
-      {/* 4. STRATEGIC ARCHITECTURAL PILLARS (Interactive Tabs)                 */}
+      {/* 5. STRATEGIC ARCHITECTURAL PILLARS                                    */}
       {/* ===================================================================== */}
       <section
         id="pillars"
@@ -1447,7 +1549,7 @@ export default function CompanyPageClient() {
             <h2 style={{ fontSize: "clamp(2rem, 3.5vw, 2.9rem)", fontWeight: 800, lineHeight: 1.2 }}>
               Our 3 Architectural Pillars
             </h2>
-            <p style={{ color: isLight ? "#64748b" : "#94a3b8", fontSize: "1.05rem", marginTop: "0.75rem" }}>
+            <p style={{ color: isLight ? "#475569" : "#cbd5e1", fontSize: "1.05rem", marginTop: "0.75rem" }}>
               Why international tech companies, healthcare pioneers, and FinTech platforms choose Opash.
             </p>
           </div>
@@ -1456,67 +1558,133 @@ export default function CompanyPageClient() {
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-              gap: "1.75rem",
+              gap: "2rem",
             }}
           >
-            {pillars.map((pillar, idx) => {
-              const IconComp = pillar.icon;
-              const isSelected = activePillar === idx;
+            {companyData.architecturalPillars.map((pillar) => {
+              const IconComp = pillarIconMap[pillar.iconName] || Layers;
               return (
                 <div
                   key={pillar.number}
-                  onClick={() => setActivePillar(idx)}
                   style={{
                     padding: "2.5rem 2rem",
-                    borderRadius: "20px",
+                    borderRadius: "22px",
                     background: isLight
-                      ? isSelected ? "#ffffff" : "#f1f5f9"
-                      : isSelected ? "rgba(15, 23, 42, 0.9)" : "rgba(10, 20, 36, 0.4)",
-                    border: isSelected
-                      ? `2px solid ${pillar.accent}`
-                      : isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
-                    boxShadow: isSelected
-                      ? `0 12px 35px ${pillar.accent}25`
-                      : "none",
-                    cursor: "pointer",
-                    transition: "all 0.25s ease",
+                      ? "#ffffff"
+                      : "linear-gradient(180deg, rgba(15, 23, 42, 0.8) 0%, rgba(10, 18, 34, 0.92) 100%)",
+                    border: isLight
+                      ? "1.5px solid #e2e8f0"
+                      : "1.5px solid rgba(255, 255, 255, 0.08)",
+                    borderTop: `3.5px solid ${pillar.accent}`,
+                    boxShadow: isLight
+                      ? `0 10px 30px rgba(0, 0, 0, 0.04), 0 0 20px ${pillar.accent}12`
+                      : `0 16px 40px rgba(0, 0, 0, 0.4), 0 0 20px ${pillar.accent}15`,
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    transition: "all 0.3s ease",
                   }}
                 >
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
-                    <div
+                  <div>
+                    {/* Top Icon & Number */}
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
+                      <div
+                        style={{
+                          width: "50px",
+                          height: "50px",
+                          borderRadius: "14px",
+                          background: `${pillar.accent}20`,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          color: pillar.accent,
+                        }}
+                      >
+                        <IconComp size={24} />
+                      </div>
+                      <span
+                        style={{
+                          fontSize: "1.35rem",
+                          fontWeight: 800,
+                          fontFamily: "monospace",
+                          color: isLight ? "#94a3b8" : "#64748b",
+                        }}
+                      >
+                        {pillar.number}
+                      </span>
+                    </div>
+
+                    {/* Title & Tagline */}
+                    <h3
                       style={{
-                        width: "50px",
-                        height: "50px",
-                        borderRadius: "14px",
-                        background: `${pillar.accent}20`,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        color: pillar.accent,
+                        fontSize: "1.45rem",
+                        fontWeight: 800,
+                        color: isLight ? "#0f172a" : "#ffffff",
+                        marginBottom: "0.45rem",
+                        letterSpacing: "-0.015em",
                       }}
                     >
-                      <IconComp size={24} />
+                      {pillar.title}
+                    </h3>
+                    <div
+                      style={{
+                        fontSize: "0.92rem",
+                        fontWeight: 700,
+                        color: pillar.accent,
+                        marginBottom: "1rem",
+                        lineHeight: 1.4,
+                      }}
+                    >
+                      {pillar.tagline}
                     </div>
-                    <span style={{ fontSize: "1.4rem", fontWeight: 800, fontFamily: "monospace", color: isLight ? "#94a3b8" : "#475569" }}>
-                      {pillar.number}
-                    </span>
+
+                    {/* Highly Readable Description */}
+                    <p
+                      style={{
+                        color: isLight ? "#334155" : "#cbd5e1",
+                        fontSize: "0.96rem",
+                        lineHeight: 1.68,
+                        marginBottom: "1.5rem",
+                      }}
+                    >
+                      {pillar.description}
+                    </p>
                   </div>
 
-                  <h3 style={{ fontSize: "1.4rem", fontWeight: 800, marginBottom: "0.4rem" }}>
-                    {pillar.title}
-                  </h3>
-                  <div style={{ fontSize: "0.9rem", fontWeight: 700, color: pillar.accent, marginBottom: "1rem" }}>
-                    {pillar.tagline}
-                  </div>
-                  <p style={{ color: isLight ? "#475569" : "#94a3b8", fontSize: "0.95rem", lineHeight: 1.6, marginBottom: "1.5rem" }}>
-                    {pillar.desc}
-                  </p>
-
-                  <div style={{ borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)", paddingTop: "1.25rem" }}>
-                    <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "0.6rem" }}>
+                  {/* Features List */}
+                  <div
+                    style={{
+                      borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
+                      paddingTop: "1.25rem",
+                    }}
+                  >
+                    <ul
+                      style={{
+                        listStyle: "none",
+                        padding: 0,
+                        margin: 0,
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "0.65rem",
+                      }}
+                    >
                       {pillar.features.map((feat, fIdx) => (
-                        <li key={fIdx} style={{ display: "flex", alignItems: "flex-start", gap: "0.55rem", fontSize: "0.86rem", color: isLight ? "#334155" : "#cbd5e1" }}>
-                          <CheckCircle2 size={15} style={{ color: pillar.accent, flexShrink: 0, marginTop: "2px" }} />
+                        <li
+                          key={fIdx}
+                          style={{
+                            display: "flex",
+                            alignItems: "flex-start",
+                            gap: "0.6rem",
+                            fontSize: "0.88rem",
+                            lineHeight: 1.45,
+                            color: isLight ? "#1e293b" : "#e2e8f0",
+                            fontWeight: 550,
+                          }}
+                        >
+                          <CheckCircle2
+                            size={16}
+                            style={{ color: pillar.accent, flexShrink: 0, marginTop: "2px" }}
+                          />
                           <span>{feat}</span>
                         </li>
                       ))}

@@ -21,6 +21,22 @@ export interface CoreValue {
   description: string;
 }
 
+export interface WhyChooseUsItem {
+  icon: string;
+  title: string;
+}
+
+export interface ArchitecturalPillar {
+  number: string;
+  title: string;
+  tagline: string;
+  description: string;
+  metric: string;
+  iconName: string;
+  accent: string;
+  features: string[];
+}
+
 export const companyData = {
   name: "Opash Software",
   tagline: "Empowering You With Innovation & Technology",
@@ -160,5 +176,62 @@ export const companyData = {
     { name: "Upwork", rating: "100% Job Success", label: "Top Rated Plus Agency", logoText: "Upwork" },
     { name: "TechReviewer", rating: "Top 10", label: "Web & Mobile Developers", logoText: "TechReviewer" },
     { name: "TopDevelopers", rating: "5-Star", label: "Global IT Service Provider", logoText: "TopDevelopers" }
-  ]
+  ],
+
+  whyChooseUs: [
+    { icon: "Star", title: "Custom Solutions" },
+    { icon: "Clock", title: "Fast + Reliable Delivery" },
+    { icon: "RefreshCw", title: "Full-Cycle Development" },
+    { icon: "AtSign", title: "Agile & Transparent" },
+    { icon: "Lock", title: "Scalable Codebase" },
+    { icon: "Check", title: "Global Experience" },
+  ] as WhyChooseUsItem[],
+
+  architecturalPillars: [
+    {
+      number: "01",
+      title: "Zero-Bloat Digital Foundations",
+      tagline: "Engineered for 10x Scalability & Sub-Second Latency",
+      description:
+        "We build clean, robust architectures from day one. Every application is designed with modular microservices, automated CI/CD pipelines, and clean code that scales seamlessly to millions of users without technical debt.",
+      metric: "99.99% Uptime SLAs",
+      iconName: "Layers",
+      accent: "#00a88f",
+      features: [
+        "Domain-Driven Design & Clean Code Standards",
+        "Automated CI/CD Pipelines & Test Suites",
+        "Stateless Edge Caching & Scalable Microservices"
+      ]
+    },
+    {
+      number: "02",
+      title: "Direct Senior Engineering Rigor",
+      tagline: "Specialist Devs Without Non-Technical Account Layers",
+      description:
+        "No non-technical intermediaries or ticket delays. You collaborate directly with senior software architects via dedicated Slack pods, daily standups, and transparent GitHub commits.",
+      metric: "Top 3% Vetted Talent",
+      iconName: "Cpu",
+      accent: "#38bdf8",
+      features: [
+        "Direct Slack & Zoom Pods with Lead Engineers",
+        "Daily Git Commits & 2-Week Agile Sprints",
+        "Transparent Velocity & Sprint Burndown Telemetry"
+      ]
+    },
+    {
+      number: "03",
+      title: "100% Day-One IP Ownership",
+      tagline: "Your Code, Your Repositories, Your Infrastructure",
+      description:
+        "Complete peace of mind. You retain 100% ownership of all source code, private Git repositories, cloud infrastructure, and intellectual property from the first commit with zero vendor lock-in.",
+      metric: "100% IP Transferred",
+      iconName: "ShieldCheck",
+      accent: "#6366f1",
+      features: [
+        "Direct Ownership of Private GitHub Repositories",
+        "Zero Proprietary Framework Hostage Fees",
+        "Complete Architecture Schematics & Handover Docs"
+      ]
+    }
+  ] as ArchitecturalPillar[],
 };
