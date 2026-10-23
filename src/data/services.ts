@@ -110,57 +110,65 @@ export const servicesData: ServiceDetail[] = [
     id: "web-development",
     slug: "web-development",
     title: "Web Development",
-    shortDesc: "High-performance, responsive, and SEO-optimized web applications built with modern frontend and backend frameworks.",
-    heroHeadline: "Next-Gen Web Applications That Captivate & Convert",
-    heroSubheadline: "We build ultra-fast, accessible, and scalable web platforms using React, Next.js, Angular, Node, and headless cloud architectures.",
+    shortDesc: "End-to-end web development services that turn your ideas into high-performing, secure, and scalable web solutions.",
+    heroHeadline: "End-to-End Web Development Services",
+    heroSubheadline: "Whether you’re launching a marketing website, a custom business portal, or a full-fledged web application, our team focuses on building intuitive, visually compelling, and highly functional websites tailored to your business goals.",
     iconName: "Globe2",
-    badge: "Lightning Fast",
+    badge: "Fast & Scalable",
     metrics: [
+      { value: "8+ Years", label: "Industry Expertise" },
+      { value: "100%", label: "Mobile-Responsive" },
       { value: "<1.2s", label: "Average Page Load Time" },
-      { value: "98+", label: "Google Lighthouse Score" },
-      { value: "3.4x", label: "Conversion Rate Increase" },
-      { value: "100%", label: "Mobile Responsive" }
+      { value: "SEO", label: "Optimized From Day 1" }
     ],
     features: [
       {
-        title: "Modern Jamstack & Server Components",
-        desc: "Leveraging Next.js App Router, SSR, and Static Site Generation for instant load times and superior Core Web Vitals."
+        title: "Frontend Development",
+        desc: "We build intuitive, responsive, and visually appealing interfaces that ensure smooth user experiences across devices and browsers."
       },
       {
-        title: "Dynamic Single Page Applications (SPA)",
-        desc: "Complex interactive web applications with fluid state management, instant transitions, and rich client-side interactivity."
+        title: "Backend Development",
+        desc: "We create robust, secure, and scalable server logic, database connections, and API layers that power your web application."
       },
       {
-        title: "Progressive Web Apps (PWA)",
-        desc: "Offline-capable web apps with background sync, push notifications, and app-like installation on iOS and Android devices."
+        title: "Full-Stack Development",
+        desc: "Interactive, dynamic platforms like dashboards, CRMs, e-commerce sites, and portals."
       },
       {
-        title: "SEO & Conversion Architecture",
-        desc: "Semantic HTML5, automated schema markup, dynamic OpenGraph previews, and edge rendering that search engines love."
+        title: "CMS Development",
+        desc: "Headless CMS (Strapi, Sanity), or custom solutions for easy content management."
       },
       {
-        title: "Headless CMS & Content Hubs",
-        desc: "Flexible content management setups using Strapi, Contentful, Sanity, or WordPress APIs, empowering marketing teams."
+        title: "Third-party Integrations",
+        desc: "APIs, payment gateways, analytics tools, social media, and CRM systems."
       },
       {
-        title: "Accessibility & WCAG 2.1 Compliance",
-        desc: "Inclusive user interfaces designed for assistive technologies, keyboard navigation, and rigorous contrast standards."
+        title: "SEO Optimization & Performance Tuning",
+        desc: "On-page SEO, loading speed optimization, and accessibility improvements."
       }
     ],
-    technologies: ["React", "Next.js", "TypeScript", "TailwindCSS", "Angular", "Vue", "Node.js", "GraphQL", "Vercel", "AWS CloudFront"],
+    technologies: [
+      "React", "Next", "Angular", "HTML", "CSS", "TailwindCSS", "Bootstrap",
+      "Node", "Express", "Django", "Python",
+      "PostgreSQL", "MS SQL", "MongoDB", "Firebase", "Supabase",
+      "Strapi", "Sanity", "Contentful",
+      "aws", "googleCloud", "microsoft-azure", "Netlify", "Vercel", "Docker", "Git", "GitLab"
+    ],
     deliverables: [
-      "Production-Ready Next.js / React Application",
-      "Pixel-Perfect Responsive Layouts across all viewports",
-      "Optimized Asset Pipeline & SEO Schema Setup",
-      "Full API Integration & Analytics Dashboards",
-      "Automated CI/CD Deployment via GitHub Actions / Vercel"
+      "Intuitive, Mobile-Responsive Frontend Interfaces",
+      "Robust, Scalable Backend Architecture & APIs",
+      "Interactive Dynamic Platforms (Dashboards, CRMs, Portals)",
+      "Headless CMS Integration (Strapi, Sanity, Contentful)",
+      "Third-Party Payment & API Ecosystem Integrations",
+      "On-Page SEO Optimization & Core Web Vitals Tuning"
     ],
     process: [
-      { step: "01", title: "Information Architecture", desc: "User flows, content hierarchy, SEO keyword mapping, and technical feasibility scoping." },
-      { step: "02", title: "Figma UI/UX & Design System", desc: "Designing accessible typography tokens, component libraries, and interactive high-fidelity mocks." },
-      { step: "03", title: "Component-Driven Engineering", desc: "Building modular, reusable React/Next.js components with clean TypeScript types." },
-      { step: "04", title: "Performance & SEO Optimization", desc: "Image optimization, code-splitting, Core Web Vitals profiling, and cross-browser testing." },
-      { step: "05", title: "Launch & Edge Hosting", desc: "Zero-downtime deployment, SSL configuration, CDN caching setup, and post-launch monitoring." }
+      { step: "01", title: "Discovery & Planning", desc: "Thorough discovery and planning to understand your business goals, target users, and content needs." },
+      { step: "02", title: "Sitemap & UI/UX Design", desc: "Creating a sitemap, wireframes, and high-fidelity UI/UX designs that bring clarity to user journeys and functionality." },
+      { step: "03", title: "Agile Sprint Development", desc: "Building frontend and backend features in agile sprints with real-time feedback and transparency." },
+      { step: "04", title: "Cross-Device Testing & QA", desc: "Comprehensive testing across devices and browsers to guarantee security, speed, and performance." },
+      { step: "05", title: "Cloud Deployment", desc: "Deploying the website on your preferred cloud or hosting platform (Vercel, Netlify, AWS, Azure, GCP)." },
+      { step: "06", title: "Maintenance & Enhancement", desc: "Post-launch continuous monitoring, maintenance, and performance enhancements to ensure long-term value." }
     ],
     faqs: [
       {
