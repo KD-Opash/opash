@@ -149,6 +149,7 @@ export default function CompanyPageClient() {
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [hoveredWhyCard, setHoveredWhyCard] = useState<number | null>(null);
+  const [hoveredConvictionCard, setHoveredConvictionCard] = useState<number | null>(null);
 
   // Auto-advance progress bar every 5.5 seconds (pauses on user interaction)
   useEffect(() => {
@@ -891,312 +892,406 @@ export default function CompanyPageClient() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-              gap: "2.75rem 2rem",
+              gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))",
+              gap: "2rem",
               alignItems: "stretch",
-              paddingTop: "2rem",
             }}
           >
             {/* 1. OUR VISION CARD */}
             <div
+              onMouseEnter={() => setHoveredConvictionCard(0)}
+              onMouseLeave={() => setHoveredConvictionCard(null)}
               style={{
                 position: "relative",
-                filter: isLight
-                  ? "drop-shadow(0 14px 28px rgba(0, 0, 0, 0.08))"
-                  : "drop-shadow(0 18px 40px rgba(0, 0, 0, 0.45))",
-                transition: "transform 0.3s ease",
+                borderRadius: "22px",
+                padding: "2.5rem 2rem",
+                background: isLight
+                  ? "#ffffff"
+                  : hoveredConvictionCard === 0
+                  ? "linear-gradient(145deg, rgba(22, 38, 62, 0.95) 0%, rgba(14, 25, 41, 0.98) 100%)"
+                  : "linear-gradient(145deg, rgba(14, 25, 41, 0.85) 0%, rgba(10, 18, 30, 0.9) 100%)",
+                border: isLight
+                  ? hoveredConvictionCard === 0
+                    ? "1.5px solid #00A88F"
+                    : "1.5px solid #DCE6ED"
+                  : hoveredConvictionCard === 0
+                  ? "1.5px solid rgba(94, 192, 152, 0.55)"
+                  : "1.5px solid rgba(255, 255, 255, 0.08)",
+                borderTop: "3.5px solid #00A88F",
+                boxShadow: isLight
+                  ? hoveredConvictionCard === 0
+                    ? "0 20px 45px rgba(0, 168, 143, 0.15), 0 0 20px rgba(0, 168, 143, 0.06)"
+                    : "0 10px 30px rgba(16, 32, 51, 0.04)"
+                  : hoveredConvictionCard === 0
+                  ? "0 22px 55px rgba(0, 0, 0, 0.6), 0 0 30px rgba(94, 192, 152, 0.22)"
+                  : "0 14px 35px rgba(0, 0, 0, 0.4)",
+                transform: hoveredConvictionCard === 0 ? "translateY(-6px)" : "translateY(0)",
+                transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
               }}
             >
-              {/* Ribbon Medallion Header */}
-              <div
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  left: "50%",
-                  transform: "translate(-50%, -50%)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  zIndex: 10,
-                }}
-              >
-                <svg width="176" height="70" viewBox="0 0 176 70" fill="none" style={{ overflow: "visible" }}>
-                  <path d="M 54 20 L 8 20 L 22 35 L 8 50 L 54 50 Z" fill="#00A88F" />
-                  <path d="M 54 50 L 64 50 L 54 56 Z" fill="rgba(0,0,0,0.3)" />
-                  <path d="M 122 20 L 168 20 L 154 35 L 168 50 L 122 50 Z" fill="#00A88F" />
-                  <path d="M 122 50 L 112 50 L 122 56 Z" fill="rgba(0,0,0,0.3)" />
-                  <circle cx="88" cy="35" r="31" fill="rgba(0, 168, 143, 0.28)" />
-                  <circle cx="88" cy="35" r="25" fill="#00A88F" />
-                  <circle cx="88" cy="35" r="21" fill="none" stroke="rgba(255, 255, 255, 0.55)" strokeWidth="1.5" />
-                </svg>
-                <div
-                  style={{
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)",
-                    color: "#ffffff",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Target size={24} strokeWidth={2.4} />
+              <div>
+                {/* Header: Icon + Category Tag */}
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.75rem" }}>
+                  <div
+                    style={{
+                      width: "56px",
+                      height: "56px",
+                      borderRadius: "16px",
+                      background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.14)",
+                      border: isLight ? "1px solid rgba(0, 168, 143, 0.25)" : "1px solid rgba(94, 192, 152, 0.3)",
+                      color: isLight ? "#00A88F" : "#5EC098",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      boxShadow: "0 8px 20px rgba(0, 168, 143, 0.18)",
+                    }}
+                  >
+                    <Target size={26} strokeWidth={2.2} />
+                  </div>
+                  <span
+                    style={{
+                      padding: "0.35rem 0.85rem",
+                      borderRadius: "9999px",
+                      fontSize: "0.78rem",
+                      fontWeight: 700,
+                      letterSpacing: "0.04em",
+                      textTransform: "uppercase",
+                      background: isLight ? "rgba(0, 168, 143, 0.08)" : "rgba(94, 192, 152, 0.12)",
+                      color: isLight ? "#008a75" : "#5EC098",
+                      border: isLight ? "1px solid rgba(0, 168, 143, 0.2)" : "1px solid rgba(94, 192, 152, 0.3)",
+                    }}
+                  >
+                    Our Vision
+                  </span>
                 </div>
-              </div>
 
-              {/* Pennant Card Body */}
-              <div
-                style={{
-                  background: isLight ? "#EDF2F7" : "linear-gradient(180deg, #131E30 0%, #0D1624 100%)",
-                  clipPath: "polygon(0 0, 100% 0, 100% calc(100% - 50px), 50% 100%, 0 calc(100% - 50px))",
-                  padding: "3.75rem 2.25rem 5.5rem 2.25rem",
-                  height: "100%",
-                  boxSizing: "border-box",
-                  display: "flex",
-                  flexDirection: "column",
-                }}
-              >
+                {/* Headline */}
                 <h3
                   style={{
-                    fontFamily: "var(--font-heading), sans-serif",
-                    fontSize: "1.65rem",
+                    fontSize: "1.5rem",
                     fontWeight: 800,
-                    color: isLight ? "#1D4ED8" : "#60A5FA",
-                    textAlign: "center",
-                    marginBottom: "1.25rem",
+                    color: isLight ? "#102033" : "#ffffff",
                     letterSpacing: "-0.02em",
-                  }}
-                >
-                  Our Vision
-                </h3>
-                <h4
-                  style={{
-                    fontSize: "1.05rem",
-                    fontWeight: 700,
-                    color: isLight ? "#1E293B" : "#F1F5F9",
-                    marginBottom: "1rem",
-                    lineHeight: 1.45,
+                    marginBottom: "0.85rem",
+                    lineHeight: 1.3,
                   }}
                 >
                   Empowering Ideas. Transforming Futures.
-                </h4>
+                </h3>
+
+                {/* Narrative */}
                 <p
                   style={{
-                    color: isLight ? "#475569" : "#94A3B8",
-                    fontSize: "0.95rem",
+                    color: isLight ? "#526579" : "#cbd5e1",
+                    fontSize: "0.96rem",
                     lineHeight: 1.7,
-                    margin: 0,
+                    marginBottom: "1.75rem",
                   }}
                 >
-                  At Opash Software, our vision is to empower innovators, startups, and enterprises by blending cutting-edge technology with bold ideas. We strive to be a catalyst for digital transformation, helping businesses create meaningful change in the world through impactful, scalable software solutions.
+                  At Opash Software, our vision is to empower innovators, startups, and global enterprises by blending cutting-edge engineering with bold product strategy. We strive to be the definitive global catalyst for digital transformation, helping businesses build impactful, scalable software solutions that stand the test of time.
                 </p>
+              </div>
+
+              {/* Bottom Focus Tag */}
+              <div
+                style={{
+                  borderTop: isLight ? "1px solid #F0F5F8" : "1px solid rgba(255, 255, 255, 0.08)",
+                  paddingTop: "1.25rem",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", fontSize: "0.84rem", fontWeight: 700, color: isLight ? "#008a75" : "#5EC098" }}>
+                  <CheckCircle2 size={16} style={{ color: isLight ? "#00A88F" : "#5EC098" }} />
+                  <span>Global Impact & Innovation</span>
+                </div>
+                <ArrowRight
+                  size={16}
+                  style={{
+                    color: hoveredConvictionCard === 0 ? (isLight ? "#00A88F" : "#5EC098") : (isLight ? "#94a3b8" : "#64748b"),
+                    transform: hoveredConvictionCard === 0 ? "translateX(4px)" : "translateX(0)",
+                    transition: "all 0.25s ease",
+                  }}
+                />
               </div>
             </div>
 
             {/* 2. OUR MISSION CARD */}
             <div
+              onMouseEnter={() => setHoveredConvictionCard(1)}
+              onMouseLeave={() => setHoveredConvictionCard(null)}
               style={{
                 position: "relative",
-                filter: isLight
-                  ? "drop-shadow(0 14px 28px rgba(0, 0, 0, 0.08))"
-                  : "drop-shadow(0 18px 40px rgba(0, 0, 0, 0.45))",
-                transition: "transform 0.3s ease",
+                borderRadius: "22px",
+                padding: "2.5rem 2rem",
+                background: isLight
+                  ? "#ffffff"
+                  : hoveredConvictionCard === 1
+                  ? "linear-gradient(145deg, rgba(22, 38, 62, 0.95) 0%, rgba(14, 25, 41, 0.98) 100%)"
+                  : "linear-gradient(145deg, rgba(14, 25, 41, 0.85) 0%, rgba(10, 18, 30, 0.9) 100%)",
+                border: isLight
+                  ? hoveredConvictionCard === 1
+                    ? "1.5px solid #38bdf8"
+                    : "1.5px solid #DCE6ED"
+                  : hoveredConvictionCard === 1
+                  ? "1.5px solid rgba(56, 189, 248, 0.55)"
+                  : "1.5px solid rgba(255, 255, 255, 0.08)",
+                borderTop: "3.5px solid #38bdf8",
+                boxShadow: isLight
+                  ? hoveredConvictionCard === 1
+                    ? "0 20px 45px rgba(56, 189, 248, 0.15), 0 0 20px rgba(56, 189, 248, 0.06)"
+                    : "0 10px 30px rgba(16, 32, 51, 0.04)"
+                  : hoveredConvictionCard === 1
+                  ? "0 22px 55px rgba(0, 0, 0, 0.6), 0 0 30px rgba(56, 189, 248, 0.22)"
+                  : "0 14px 35px rgba(0, 0, 0, 0.4)",
+                transform: hoveredConvictionCard === 1 ? "translateY(-6px)" : "translateY(0)",
+                transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
               }}
             >
-              {/* Ribbon Medallion Header */}
-              <div
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  left: "50%",
-                  transform: "translate(-50%, -50%)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  zIndex: 10,
-                }}
-              >
-                <svg width="176" height="70" viewBox="0 0 176 70" fill="none" style={{ overflow: "visible" }}>
-                  <path d="M 54 20 L 8 20 L 22 35 L 8 50 L 54 50 Z" fill="#D97706" />
-                  <path d="M 54 50 L 64 50 L 54 56 Z" fill="rgba(0,0,0,0.3)" />
-                  <path d="M 122 20 L 168 20 L 154 35 L 168 50 L 122 50 Z" fill="#D97706" />
-                  <path d="M 122 50 L 112 50 L 122 56 Z" fill="rgba(0,0,0,0.3)" />
-                  <circle cx="88" cy="35" r="31" fill="rgba(217, 119, 6, 0.28)" />
-                  <circle cx="88" cy="35" r="25" fill="#D97706" />
-                  <circle cx="88" cy="35" r="21" fill="none" stroke="rgba(255, 255, 255, 0.55)" strokeWidth="1.5" />
-                </svg>
-                <div
-                  style={{
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)",
-                    color: "#ffffff",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Star size={24} strokeWidth={2.4} />
+              <div>
+                {/* Header: Icon + Category Tag */}
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.75rem" }}>
+                  <div
+                    style={{
+                      width: "56px",
+                      height: "56px",
+                      borderRadius: "16px",
+                      background: isLight ? "rgba(56, 189, 248, 0.1)" : "rgba(56, 189, 248, 0.14)",
+                      border: isLight ? "1px solid rgba(56, 189, 248, 0.25)" : "1px solid rgba(56, 189, 248, 0.3)",
+                      color: isLight ? "#0284c7" : "#38bdf8",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      boxShadow: "0 8px 20px rgba(56, 189, 248, 0.18)",
+                    }}
+                  >
+                    <Rocket size={26} strokeWidth={2.2} />
+                  </div>
+                  <span
+                    style={{
+                      padding: "0.35rem 0.85rem",
+                      borderRadius: "9999px",
+                      fontSize: "0.78rem",
+                      fontWeight: 700,
+                      letterSpacing: "0.04em",
+                      textTransform: "uppercase",
+                      background: isLight ? "rgba(56, 189, 248, 0.08)" : "rgba(56, 189, 248, 0.12)",
+                      color: isLight ? "#0284c7" : "#38bdf8",
+                      border: isLight ? "1px solid rgba(56, 189, 248, 0.2)" : "1px solid rgba(56, 189, 248, 0.3)",
+                    }}
+                  >
+                    Our Mission
+                  </span>
                 </div>
-              </div>
 
-              {/* Pennant Card Body */}
-              <div
-                style={{
-                  background: isLight ? "#EDF2F7" : "linear-gradient(180deg, #131E30 0%, #0D1624 100%)",
-                  clipPath: "polygon(0 0, 100% 0, 100% calc(100% - 50px), 50% 100%, 0 calc(100% - 50px))",
-                  padding: "3.75rem 2.25rem 5.5rem 2.25rem",
-                  height: "100%",
-                  boxSizing: "border-box",
-                  display: "flex",
-                  flexDirection: "column",
-                }}
-              >
+                {/* Headline */}
                 <h3
                   style={{
-                    fontFamily: "var(--font-heading), sans-serif",
-                    fontSize: "1.65rem",
+                    fontSize: "1.5rem",
                     fontWeight: 800,
-                    color: isLight ? "#B45309" : "#FBBF24",
-                    textAlign: "center",
-                    marginBottom: "1.25rem",
+                    color: isLight ? "#102033" : "#ffffff",
                     letterSpacing: "-0.02em",
-                  }}
-                >
-                  Our Mission
-                </h3>
-                <h4
-                  style={{
-                    fontSize: "1.05rem",
-                    fontWeight: 700,
-                    color: isLight ? "#1E293B" : "#F1F5F9",
-                    marginBottom: "1rem",
-                    lineHeight: 1.45,
+                    marginBottom: "0.85rem",
+                    lineHeight: 1.3,
                   }}
                 >
                   Delivering Innovation with Precision & Passion.
-                </h4>
+                </h3>
+
+                {/* Narrative */}
                 <p
                   style={{
-                    color: isLight ? "#475569" : "#94A3B8",
-                    fontSize: "0.95rem",
+                    color: isLight ? "#526579" : "#cbd5e1",
+                    fontSize: "0.96rem",
                     lineHeight: 1.7,
-                    margin: 0,
+                    marginBottom: "1.75rem",
                   }}
                 >
                   Our mission is to provide tailor-made, high-performance IT solutions that deliver measurable business value. We are committed to achieving client satisfaction through quality, transparency, and timely delivery, ensuring every project we undertake exceeds expectations and drives growth.
                 </p>
               </div>
+
+              {/* Bottom Focus Tag */}
+              <div
+                style={{
+                  borderTop: isLight ? "1px solid #F0F5F8" : "1px solid rgba(255, 255, 255, 0.08)",
+                  paddingTop: "1.25rem",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", fontSize: "0.84rem", fontWeight: 700, color: isLight ? "#0284c7" : "#38bdf8" }}>
+                  <CheckCircle2 size={16} style={{ color: isLight ? "#0284c7" : "#38bdf8" }} />
+                  <span>Measurable Business Value</span>
+                </div>
+                <ArrowRight
+                  size={16}
+                  style={{
+                    color: hoveredConvictionCard === 1 ? (isLight ? "#0284c7" : "#38bdf8") : (isLight ? "#94a3b8" : "#64748b"),
+                    transform: hoveredConvictionCard === 1 ? "translateX(4px)" : "translateX(0)",
+                    transition: "all 0.25s ease",
+                  }}
+                />
+              </div>
             </div>
 
             {/* 3. OUR CORE VALUES CARD */}
             <div
+              onMouseEnter={() => setHoveredConvictionCard(2)}
+              onMouseLeave={() => setHoveredConvictionCard(null)}
               style={{
                 position: "relative",
-                filter: isLight
-                  ? "drop-shadow(0 14px 28px rgba(0, 0, 0, 0.08))"
-                  : "drop-shadow(0 18px 40px rgba(0, 0, 0, 0.45))",
-                transition: "transform 0.3s ease",
+                borderRadius: "22px",
+                padding: "2.5rem 2rem",
+                background: isLight
+                  ? "#ffffff"
+                  : hoveredConvictionCard === 2
+                  ? "linear-gradient(145deg, rgba(22, 38, 62, 0.95) 0%, rgba(14, 25, 41, 0.98) 100%)"
+                  : "linear-gradient(145deg, rgba(14, 25, 41, 0.85) 0%, rgba(10, 18, 30, 0.9) 100%)",
+                border: isLight
+                  ? hoveredConvictionCard === 2
+                    ? "1.5px solid #6366f1"
+                    : "1.5px solid #DCE6ED"
+                  : hoveredConvictionCard === 2
+                  ? "1.5px solid rgba(99, 102, 241, 0.55)"
+                  : "1.5px solid rgba(255, 255, 255, 0.08)",
+                borderTop: "3.5px solid #6366f1",
+                boxShadow: isLight
+                  ? hoveredConvictionCard === 2
+                    ? "0 20px 45px rgba(99, 102, 241, 0.15), 0 0 20px rgba(99, 102, 241, 0.06)"
+                    : "0 10px 30px rgba(16, 32, 51, 0.04)"
+                  : hoveredConvictionCard === 2
+                  ? "0 22px 55px rgba(0, 0, 0, 0.6), 0 0 30px rgba(99, 102, 241, 0.22)"
+                  : "0 14px 35px rgba(0, 0, 0, 0.4)",
+                transform: hoveredConvictionCard === 2 ? "translateY(-6px)" : "translateY(0)",
+                transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
               }}
             >
-              {/* Ribbon Medallion Header */}
-              <div
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  left: "50%",
-                  transform: "translate(-50%, -50%)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  zIndex: 10,
-                }}
-              >
-                <svg width="176" height="70" viewBox="0 0 176 70" fill="none" style={{ overflow: "visible" }}>
-                  <path d="M 54 20 L 8 20 L 22 35 L 8 50 L 54 50 Z" fill="#DC2626" />
-                  <path d="M 54 50 L 64 50 L 54 56 Z" fill="rgba(0,0,0,0.3)" />
-                  <path d="M 122 20 L 168 20 L 154 35 L 168 50 L 122 50 Z" fill="#DC2626" />
-                  <path d="M 122 50 L 112 50 L 122 56 Z" fill="rgba(0,0,0,0.3)" />
-                  <circle cx="88" cy="35" r="31" fill="rgba(220, 38, 38, 0.28)" />
-                  <circle cx="88" cy="35" r="25" fill="#DC2626" />
-                  <circle cx="88" cy="35" r="21" fill="none" stroke="rgba(255, 255, 255, 0.55)" strokeWidth="1.5" />
-                </svg>
-                <div
+              <div>
+                {/* Header: Icon + Category Tag */}
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.75rem" }}>
+                  <div
+                    style={{
+                      width: "56px",
+                      height: "56px",
+                      borderRadius: "16px",
+                      background: isLight ? "rgba(99, 102, 241, 0.1)" : "rgba(99, 102, 241, 0.14)",
+                      border: isLight ? "1px solid rgba(99, 102, 241, 0.25)" : "1px solid rgba(99, 102, 241, 0.3)",
+                      color: isLight ? "#4f46e5" : "#818cf8",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      boxShadow: "0 8px 20px rgba(99, 102, 241, 0.18)",
+                    }}
+                  >
+                    <Award size={26} strokeWidth={2.2} />
+                  </div>
+                  <span
+                    style={{
+                      padding: "0.35rem 0.85rem",
+                      borderRadius: "9999px",
+                      fontSize: "0.78rem",
+                      fontWeight: 700,
+                      letterSpacing: "0.04em",
+                      textTransform: "uppercase",
+                      background: isLight ? "rgba(99, 102, 241, 0.08)" : "rgba(99, 102, 241, 0.12)",
+                      color: isLight ? "#4f46e5" : "#818cf8",
+                      border: isLight ? "1px solid rgba(99, 102, 241, 0.2)" : "1px solid rgba(99, 102, 241, 0.3)",
+                    }}
+                  >
+                    Our Core Values
+                  </span>
+                </div>
+
+                {/* Headline */}
+                <h3
                   style={{
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)",
-                    color: "#ffffff",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
+                    fontSize: "1.5rem",
+                    fontWeight: 800,
+                    color: isLight ? "#102033" : "#ffffff",
+                    letterSpacing: "-0.02em",
+                    marginBottom: "0.85rem",
+                    lineHeight: 1.3,
                   }}
                 >
-                  <Award size={24} strokeWidth={2.4} />
+                  Built on Integrity, Speed & Rigor.
+                </h3>
+
+                {/* Values List with Professional Icons */}
+                <div style={{ display: "flex", flexDirection: "column", gap: "0.85rem", marginBottom: "1.75rem" }}>
+                  {[
+                    { icon: ShieldCheck, title: "Integrity First", desc: "Honesty, code clarity, and transparent tracking." },
+                    { icon: Zap, title: "Innovation-Driven", desc: "Pushing boundaries with cutting-edge tech." },
+                    { icon: Users, title: "Client-Centric", desc: "Engineering solutions aligned with your goals." },
+                    { icon: Clock, title: "On-Time Delivery", desc: "Predictable 2-week agile sprint delivery." },
+                    { icon: Handshake, title: "Collaboration Culture", desc: "High-trust teamwork and shared ownership." },
+                  ].map((val, vIdx) => {
+                    const ValIcon = val.icon;
+                    return (
+                      <div key={vIdx} style={{ display: "flex", alignItems: "flex-start", gap: "0.75rem" }}>
+                        <div
+                          style={{
+                            width: "28px",
+                            height: "28px",
+                            borderRadius: "8px",
+                            background: isLight ? "rgba(99, 102, 241, 0.1)" : "rgba(99, 102, 241, 0.16)",
+                            color: isLight ? "#4f46e5" : "#818cf8",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            flexShrink: 0,
+                            marginTop: "2px",
+                          }}
+                        >
+                          <ValIcon size={15} strokeWidth={2.4} />
+                        </div>
+                        <div style={{ fontSize: "0.9rem", lineHeight: 1.45 }}>
+                          <strong style={{ color: isLight ? "#102033" : "#f8fafc", marginRight: "0.35rem" }}>
+                            {val.title}:
+                          </strong>
+                          <span style={{ color: isLight ? "#526579" : "#cbd5e1" }}>
+                            {val.desc}
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 
-              {/* Pennant Card Body */}
+              {/* Bottom Focus Tag */}
               <div
                 style={{
-                  background: isLight ? "#EDF2F7" : "linear-gradient(180deg, #131E30 0%, #0D1624 100%)",
-                  clipPath: "polygon(0 0, 100% 0, 100% calc(100% - 50px), 50% 100%, 0 calc(100% - 50px))",
-                  padding: "3.75rem 2.25rem 5.5rem 2.25rem",
-                  height: "100%",
-                  boxSizing: "border-box",
+                  borderTop: isLight ? "1px solid #F0F5F8" : "1px solid rgba(255, 255, 255, 0.08)",
+                  paddingTop: "1.25rem",
                   display: "flex",
-                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "space-between",
                 }}
               >
-                <h3
-                  style={{
-                    fontFamily: "var(--font-heading), sans-serif",
-                    fontSize: "1.65rem",
-                    fontWeight: 800,
-                    color: isLight ? "#B91C1C" : "#F87171",
-                    textAlign: "center",
-                    marginBottom: "1.25rem",
-                    letterSpacing: "-0.02em",
-                  }}
-                >
-                  Our Core Values
-                </h3>
-                <p
-                  style={{
-                    color: isLight ? "#475569" : "#94A3B8",
-                    fontSize: "0.95rem",
-                    lineHeight: 1.6,
-                    marginBottom: "1.25rem",
-                    margin: 0,
-                  }}
-                >
-                  At the heart of Opash Software lies a set of core values that shape our work culture and define how we serve our clients:
-                </p>
-                <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem", marginTop: "1rem" }}>
-                  <div style={{ display: "flex", alignItems: "flex-start", gap: "0.6rem", fontSize: "0.92rem", lineHeight: 1.5, color: isLight ? "#334155" : "#cbd5e1" }}>
-                    <span style={{ fontSize: "1rem", flexShrink: 0 }}>🤝</span>
-                    <span><strong style={{ color: isLight ? "#0f172a" : "#f8fafc" }}>Integrity First:</strong> Honesty and transparency in all we do.</span>
-                  </div>
-                  <div style={{ display: "flex", alignItems: "flex-start", gap: "0.6rem", fontSize: "0.92rem", lineHeight: 1.5, color: isLight ? "#334155" : "#cbd5e1" }}>
-                    <span style={{ fontSize: "1rem", flexShrink: 0 }}>💡</span>
-                    <span><strong style={{ color: isLight ? "#0f172a" : "#f8fafc" }}>Innovation-Driven:</strong> Continuously pushing boundaries with new ideas.</span>
-                  </div>
-                  <div style={{ display: "flex", alignItems: "flex-start", gap: "0.6rem", fontSize: "0.92rem", lineHeight: 1.5, color: isLight ? "#334155" : "#cbd5e1" }}>
-                    <span style={{ fontSize: "1rem", flexShrink: 0 }}>🧠</span>
-                    <span><strong style={{ color: isLight ? "#0f172a" : "#f8fafc" }}>Client-Centric Approach:</strong> We build solutions around your goals.</span>
-                  </div>
-                  <div style={{ display: "flex", alignItems: "flex-start", gap: "0.6rem", fontSize: "0.92rem", lineHeight: 1.5, color: isLight ? "#334155" : "#cbd5e1" }}>
-                    <span style={{ fontSize: "1rem", flexShrink: 0 }}>⏱️</span>
-                    <span><strong style={{ color: isLight ? "#0f172a" : "#f8fafc" }}>On-Time, Every Time:</strong> We respect your time and timelines.</span>
-                  </div>
-                  <div style={{ display: "flex", alignItems: "flex-start", gap: "0.6rem", fontSize: "0.92rem", lineHeight: 1.5, color: isLight ? "#334155" : "#cbd5e1" }}>
-                    <span style={{ fontSize: "1rem", flexShrink: 0 }}>👥</span>
-                    <span><strong style={{ color: isLight ? "#0f172a" : "#f8fafc" }}>Collaboration Culture:</strong> Great results come from great teamwork.</span>
-                  </div>
+                <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", fontSize: "0.84rem", fontWeight: 700, color: isLight ? "#4f46e5" : "#818cf8" }}>
+                  <CheckCircle2 size={16} style={{ color: isLight ? "#4f46e5" : "#818cf8" }} />
+                  <span>Uncompromising Engineering DNA</span>
                 </div>
+                <ArrowRight
+                  size={16}
+                  style={{
+                    color: hoveredConvictionCard === 2 ? (isLight ? "#4f46e5" : "#818cf8") : (isLight ? "#94a3b8" : "#64748b"),
+                    transform: hoveredConvictionCard === 2 ? "translateX(4px)" : "translateX(0)",
+                    transition: "all 0.25s ease",
+                  }}
+                />
               </div>
             </div>
           </div>
