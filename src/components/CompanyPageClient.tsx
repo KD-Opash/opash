@@ -597,18 +597,7 @@ export default function CompanyPageClient() {
                 fontFamily: "var(--font-heading), sans-serif",
               }}
             >
-              What Makes Us{" "}
-              <span
-                style={{
-                  background: isLight
-                    ? "linear-gradient(135deg, #102033 0%, #00A88F 100%)"
-                    : "linear-gradient(135deg, #6289B8 0%, #5EC098 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                }}
-              >
-                Truly Unique
-              </span>
+              What Makes Opash Software Unique
             </h2>
 
             <p
