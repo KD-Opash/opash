@@ -28,7 +28,10 @@ import {
   MapPin,
   Calendar,
   Award,
+  ChevronLeft,
   ChevronRight,
+  Play,
+  Pause,
   TrendingUp,
   Server,
   FileCheck2,
@@ -78,90 +81,90 @@ function LiveSuratClock({ isLight }: { isLight: boolean }) {
   );
 }
 
-interface TimelineMilestone {
+interface ProgressMilestone {
   year: string;
-  headerPill: string;
+  badge: string;
+  title: string;
   description: string;
-  footerTag: string;
+  category: string;
   icon: React.ComponentType<{ size?: number; className?: string; style?: React.CSSProperties; strokeWidth?: number }>;
   accentColor: string;
-  cardBg: string;
-  headerBg: string;
-  footerBg: string;
-  yearColor: string;
-  position: "top" | "bottom";
+  glowColor: string;
+  accentRgb: string;
+  metrics: string[];
+  kpi: string;
 }
 
-const TIMELINE_MILESTONES: TimelineMilestone[] = [
+const PROGRESS_MILESTONES: ProgressMilestone[] = [
   {
     year: "2021",
-    headerPill: "Laying the Foundation",
+    badge: "Inception",
+    title: "Laying The Foundation",
     description:
-      "Opash Software was established in Surat with a core mission: to deliver tailored, high-performance software solutions to startups and SMEs globally.",
-    footerTag: "Business Start",
-    icon: Star,
-    accentColor: "#704791",
-    cardBg: "#704791",
-    headerBg: "rgba(167, 139, 250, 0.45)",
-    footerBg: "#563273",
-    yearColor: "#704791",
-    position: "top",
+      "Opash Software was established in Surat with a core mission: to deliver tailored, high-performance software solutions to startups and SMEs globally. Founded by elite engineers dedicated to zero-bloat architecture and full-stack engineering rigor.",
+    category: "Business Start",
+    icon: Compass,
+    accentColor: "#00A88F",
+    glowColor: "rgba(0, 168, 143, 0.45)",
+    accentRgb: "0, 168, 143",
+    metrics: ["Surat HQ Established", "100% IP Ownership", "Top 1% Senior Engineers"],
+    kpi: "Surat HQ Launch",
   },
   {
     year: "2022",
-    headerPill: "Expanding Our Service Offerings",
+    badge: "Expansion",
+    title: "Expanding Our Service Offerings",
     description:
-      "We diversified into full-stack development, cloud infrastructure, and mobile app solutions—helping clients scale with robust digital products.",
-    footerTag: "Punctuality",
-    icon: Clock,
-    accentColor: "#e03b24",
-    cardBg: "#e03b24",
-    headerBg: "rgba(254, 202, 202, 0.35)",
-    footerBg: "#b52814",
-    yearColor: "#e03b24",
-    position: "bottom",
+      "We diversified into full-stack development, cloud infrastructure, and mobile app solutions—helping clients scale with robust digital products across React, Node.js, Python, and AWS multi-region setups.",
+    category: "Punctuality",
+    icon: Layers,
+    accentColor: "#0284C7",
+    glowColor: "rgba(2, 132, 199, 0.45)",
+    accentRgb: "2, 132, 199",
+    metrics: ["2-Week Agile Sprints", "Cloud-Native Deployments", "Cross-Platform Mobile"],
+    kpi: "100% On-Time Sprints",
   },
   {
     year: "2023",
-    headerPill: "Strategic Growth & Global Clients",
+    badge: "Global Growth",
+    title: "Strategic Growth & Global Clients",
     description:
-      "Grew to a team of 50+ experts. Successfully delivered 75+ projects for clients across the US, Europe, and Asia—spanning logistics, healthcare, finance, and more.",
-    footerTag: "Experience",
-    icon: AtSign,
-    accentColor: "#0d8bb9",
-    cardBg: "#0d8bb9",
-    headerBg: "rgba(186, 230, 253, 0.35)",
-    footerBg: "#086689",
-    yearColor: "#0d8bb9",
-    position: "top",
+      "Grew to a team of 50+ experts. Successfully delivered 75+ projects for clients across the US, Europe, and Asia—spanning logistics, healthcare, finance, and enterprise SaaS platforms with 96% client retention.",
+    category: "Experience",
+    icon: Globe,
+    accentColor: "#9333EA",
+    glowColor: "rgba(147, 51, 234, 0.45)",
+    accentRgb: "147, 51, 234",
+    metrics: ["50+ Full-Time Engineers", "75+ Global Projects", "US, UK & EU Corridors"],
+    kpi: "50+ Senior Devs",
   },
   {
     year: "2024",
-    headerPill: "Driving Digital Transformation Across Industries",
+    badge: "Transformation",
+    title: "Driving Digital Transformation Across Industries",
     description:
       "Empowered businesses across healthcare, fintech, and logistics with end-to-end digital solutions—combining UI/UX excellence, performance-driven code, and cloud-native deployment to accelerate growth and efficiency.",
-    footerTag: "Growth",
-    icon: Check,
-    accentColor: "#539e3e",
-    cardBg: "#539e3e",
-    headerBg: "rgba(187, 247, 208, 0.35)",
-    footerBg: "#3b752b",
-    yearColor: "#539e3e",
-    position: "bottom",
+    category: "Growth",
+    icon: ShieldCheck,
+    accentColor: "#16A34A",
+    glowColor: "rgba(22, 163, 74, 0.45)",
+    accentRgb: "22, 163, 74",
+    metrics: ["99.99% Uptime SLAs", "FinTech & HealthTech", "Sub-15m Critical Response"],
+    kpi: "99.99% SLA Uptime",
   },
   {
-    year: "2025",
-    headerPill: "Future-Ready Vision & Leadership",
+    year: "2025 - 2026",
+    badge: "Next-Gen AI",
+    title: "Future-Ready Vision & Leadership",
     description:
-      "Focusing on AI-driven applications, DevOps automation, and enterprise-grade security. Positioned as a trusted digital partner for global innovation and growth.",
-    footerTag: "Achievement",
-    icon: Lock,
-    accentColor: "#ea8e24",
-    cardBg: "#ea8e24",
-    headerBg: "rgba(254, 215, 170, 0.35)",
-    footerBg: "#b86910",
-    yearColor: "#ea8e24",
-    position: "top",
+      "Focusing on AI-driven applications, DevOps automation, and enterprise-grade security. Positioned as a trusted digital partner for global innovation, LLM orchestration, and cloud-first scale.",
+    category: "Achievement",
+    icon: Sparkles,
+    accentColor: "#F59E0B",
+    glowColor: "rgba(245, 158, 11, 0.45)",
+    accentRgb: "245, 158, 11",
+    metrics: ["Enterprise AI Agents", "Multi-Cloud DevOps", "Zero-Downtime Releases"],
+    kpi: "Enterprise AI & Scale",
   },
 ];
 
@@ -170,11 +173,21 @@ export default function CompanyPageClient() {
   const isLight = theme === "light";
 
   // State
-  const [hoveredTimelineYear, setHoveredTimelineYear] = useState<string | null>(null);
+  const [activeMilestoneIndex, setActiveMilestoneIndex] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [selectedHubIndex, setSelectedHubIndex] = useState(0); // Default to Surat HQ
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [activePillar, setActivePillar] = useState<number>(0);
   const [activeHeroValue, setActiveHeroValue] = useState<number>(0);
+
+  // Auto-advance progress bar every 5.5 seconds (pauses on user interaction)
+  useEffect(() => {
+    if (!isAutoPlaying) return;
+    const interval = setInterval(() => {
+      setActiveMilestoneIndex((prev) => (prev + 1) % PROGRESS_MILESTONES.length);
+    }, 5500);
+    return () => clearInterval(interval);
+  }, [isAutoPlaying]);
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(companyData.ceo.email);
@@ -1864,7 +1877,7 @@ export default function CompanyPageClient() {
       </section>
 
       {/* ===================================================================== */}
-      {/* 6. INTERACTIVE EVOLUTION TIMELINE (2021 – 2025)                       */}
+      {/* 6. INTERACTIVE EVOLUTION PROGRESSBAR TIMELINE                         */}
       {/* ===================================================================== */}
       <section
         id="our-journey"
@@ -1875,7 +1888,7 @@ export default function CompanyPageClient() {
           overflow: "hidden",
         }}
       >
-        <div className="container-custom" style={{ maxWidth: "1360px", margin: "0 auto" }}>
+        <div className="container-custom" style={{ maxWidth: "1180px", margin: "0 auto" }}>
           {/* Section Header */}
           <div style={{ textAlign: "center", maxWidth: "780px", margin: "0 auto 3.5rem auto" }}>
             <span
@@ -1898,363 +1911,191 @@ export default function CompanyPageClient() {
               Our Journey Over The Years
             </h2>
             <p style={{ color: isLight ? "#64748b" : "#94a3b8", fontSize: "1.05rem", marginTop: "0.75rem" }}>
-              From our founding in Surat to partnering with global enterprises across the US, Europe, and Asia.
+              From our founding in Surat to partnering with global enterprises across North America, Europe, and Asia.
             </p>
           </div>
 
-          {/* Mobile swipe hint banner */}
-          <div
-            className="md:hidden"
-            style={{
-              textAlign: "center",
-              fontSize: "0.8rem",
-              fontWeight: 600,
-              color: isLight ? "#64748b" : "#94a3b8",
-              marginBottom: "1rem",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "6px",
-            }}
-          >
-            <span>↔ Swipe horizontally to view full timeline</span>
-          </div>
-
-          {/* Timeline Scroll Container for Responsiveness */}
+          {/* ============================================================= */}
+          {/* 1. PROGRESS BAR TRACK & STEPPER NODES                        */}
+          {/* ============================================================= */}
           <div
             style={{
               width: "100%",
               overflowX: "auto",
-              paddingBottom: "1.5rem",
+              paddingBottom: "1rem",
+              marginBottom: "3.5rem",
               WebkitOverflowScrolling: "touch",
             }}
           >
             <div
               style={{
-                minWidth: "1160px",
+                minWidth: "780px",
+                maxWidth: "1020px",
+                margin: "0 auto",
+                padding: "1.5rem 1.5rem 3rem 1.5rem",
                 position: "relative",
-                padding: "1rem 0",
               }}
             >
-              {/* Continuous Horizontal Central Axis Line */}
-              <div
-                aria-hidden="true"
-                style={{
-                  position: "absolute",
-                  top: "350px",
-                  left: "60px",
-                  right: "60px",
-                  height: "2px",
-                  background: isLight ? "#cbd5e1" : "rgba(255, 255, 255, 0.2)",
-                  zIndex: 1,
-                }}
-              />
-
-              {/* 5-Column Grid */}
+              {/* Base Track Rail */}
               <div
                 style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(5, 1fr)",
-                  gap: "1.25rem",
                   position: "relative",
-                  zIndex: 2,
+                  width: "100%",
+                  height: "8px",
+                  borderRadius: "9999px",
+                  background: isLight ? "#e2e8f0" : "rgba(255, 255, 255, 0.12)",
+                  boxShadow: isLight ? "inset 0 1px 3px rgba(0,0,0,0.06)" : "none",
                 }}
               >
-                {TIMELINE_MILESTONES.map((item) => {
-                  const IconComponent = item.icon;
-                  const isHovered = hoveredTimelineYear === item.year;
-                  const isTop = item.position === "top";
+                {/* Active Filled Progress Line */}
+                <div
+                  style={{
+                    position: "absolute",
+                    left: 0,
+                    top: 0,
+                    height: "100%",
+                    width: `${(activeMilestoneIndex / (PROGRESS_MILESTONES.length - 1)) * 100}%`,
+                    background: `linear-gradient(90deg, #00A88F 0%, #0284C7 45%, #9333EA 75%, ${PROGRESS_MILESTONES[activeMilestoneIndex].accentColor} 100%)`,
+                    borderRadius: "9999px",
+                    boxShadow: `0 0 16px ${PROGRESS_MILESTONES[activeMilestoneIndex].glowColor}`,
+                    transition: "width 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
+                  }}
+                />
+
+                {/* Stepper Nodes */}
+                {PROGRESS_MILESTONES.map((milestone, idx) => {
+                  const isCompleted = idx < activeMilestoneIndex;
+                  const isActive = idx === activeMilestoneIndex;
+                  const percentage = (idx / (PROGRESS_MILESTONES.length - 1)) * 100;
 
                   return (
                     <div
-                      key={item.year}
-                      onMouseEnter={() => setHoveredTimelineYear(item.year)}
-                      onMouseLeave={() => setHoveredTimelineYear(null)}
+                      key={milestone.year}
                       style={{
+                        position: "absolute",
+                        left: `${percentage}%`,
+                        top: "50%",
+                        transform: "translate(-50%, -50%)",
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "center",
                       }}
                     >
-                      {/* --- TOP SLOT (Height: 300px) --- */}
-                      <div
-                        style={{
-                          height: "300px",
-                          width: "100%",
-                          display: "flex",
-                          flexDirection: "column",
-                          justifyContent: "flex-end",
-                          alignItems: "center",
+                      {/* Checkpoint Node Button */}
+                      <button
+                        onClick={() => {
+                          setActiveMilestoneIndex(idx);
+                          setIsAutoPlaying(false);
                         }}
-                      >
-                        {isTop ? (
-                          <>
-                            {/* Card on Top */}
-                            <div
-                              style={{
-                                width: "100%",
-                                minHeight: "246px",
-                                borderRadius: "14px",
-                                background: item.cardBg,
-                                color: "#ffffff",
-                                display: "flex",
-                                flexDirection: "column",
-                                overflow: "hidden",
-                                boxShadow: isHovered
-                                  ? `0 16px 36px rgba(0,0,0,0.28), 0 0 24px ${item.accentColor}55`
-                                  : isLight
-                                    ? "0 8px 24px rgba(0, 0, 0, 0.08)"
-                                    : "0 10px 30px rgba(0, 0, 0, 0.35)",
-                                transform: isHovered ? "translateY(-6px)" : "translateY(0)",
-                                transition: "transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease",
-                              }}
-                            >
-                              {/* Header Pill */}
-                              <div
-                                style={{
-                                  padding: "0.85rem 0.85rem 0.35rem 0.85rem",
-                                  display: "flex",
-                                  justifyContent: "center",
-                                }}
-                              >
-                                <span
-                                  style={{
-                                    display: "inline-block",
-                                    padding: "0.3rem 0.75rem",
-                                    borderRadius: "6px",
-                                    background: item.headerBg,
-                                    color: "#ffffff",
-                                    fontSize: "0.82rem",
-                                    fontWeight: 700,
-                                    lineHeight: 1.3,
-                                    textAlign: "center",
-                                  }}
-                                >
-                                  {item.headerPill}
-                                </span>
-                              </div>
-
-                              {/* Card Body */}
-                              <p
-                                style={{
-                                  padding: "0.6rem 1rem 1rem 1rem",
-                                  fontSize: "0.82rem",
-                                  lineHeight: 1.55,
-                                  textAlign: "center",
-                                  margin: 0,
-                                  color: "#ffffff",
-                                  opacity: 0.95,
-                                  flex: 1,
-                                }}
-                              >
-                                {item.description}
-                              </p>
-
-                              {/* Footer Strip */}
-                              <div
-                                style={{
-                                  marginTop: "auto",
-                                  padding: "0.55rem 0.75rem",
-                                  background: item.footerBg,
-                                  color: "#ffffff",
-                                  fontSize: "0.82rem",
-                                  fontWeight: 700,
-                                  textAlign: "center",
-                                  letterSpacing: "0.02em",
-                                }}
-                              >
-                                {item.footerTag}
-                              </div>
-                            </div>
-
-                            {/* Vertical Connector Line from Card Bottom to Node */}
-                            <div
-                              style={{
-                                width: "2px",
-                                height: "26px",
-                                background: isHovered
-                                  ? item.accentColor
-                                  : isLight
-                                    ? "#cbd5e1"
-                                    : "rgba(255, 255, 255, 0.25)",
-                                transition: "background 0.3s ease",
-                              }}
-                            />
-                          </>
-                        ) : (
-                          /* Even Years (2022, 2024): Year Label sits right above node */
-                          <div
-                            style={{
-                              paddingBottom: "14px",
-                              fontSize: "1.35rem",
-                              fontWeight: 800,
-                              fontFamily: "var(--font-heading), sans-serif",
-                              color: item.yearColor,
-                              letterSpacing: "0.02em",
-                              transform: isHovered ? "scale(1.12)" : "scale(1)",
-                              transition: "transform 0.3s ease",
-                            }}
-                          >
-                            {item.year}
-                          </div>
-                        )}
-                      </div>
-
-                      {/* --- CENTRAL NODE (Height: 80px) --- */}
-                      <div
                         style={{
-                          height: "80px",
+                          width: isActive ? "44px" : "34px",
+                          height: isActive ? "44px" : "34px",
+                          borderRadius: "50%",
+                          border: isActive
+                            ? `3.5px solid ${isLight ? "#ffffff" : "#0A1424"}`
+                            : isCompleted
+                              ? `2.5px solid ${isLight ? "#ffffff" : "#0A1424"}`
+                              : `2px solid ${isLight ? "#cbd5e1" : "rgba(255, 255, 255, 0.25)"}`,
+                          background: isActive
+                            ? milestone.accentColor
+                            : isCompleted
+                              ? "#00A88F"
+                              : isLight
+                                ? "#ffffff"
+                                : "#1e293b",
+                          color: isActive || isCompleted ? "#ffffff" : isLight ? "#94a3b8" : "#64748b",
+                          boxShadow: isActive
+                            ? `0 0 24px ${milestone.accentColor}, 0 4px 12px rgba(0,0,0,0.3)`
+                            : isCompleted
+                              ? "0 0 12px rgba(0, 168, 143, 0.4)"
+                              : "none",
+                          cursor: "pointer",
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
-                          position: "relative",
+                          transform: isActive ? "scale(1.15)" : "scale(1)",
+                          transition: "all 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
+                          zIndex: 4,
                         }}
+                        aria-label={`Jump to milestone ${milestone.year}`}
                       >
-                        <div
-                          style={{
-                            width: "56px",
-                            height: "56px",
-                            borderRadius: "50%",
-                            background: item.accentColor,
-                            color: "#ffffff",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            boxShadow: isHovered
-                              ? `0 0 22px ${item.accentColor}, 0 4px 12px rgba(0,0,0,0.25)`
-                              : "0 4px 14px rgba(0, 0, 0, 0.16)",
-                            transform: isHovered ? "scale(1.15)" : "scale(1)",
-                            transition: "all 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
-                            cursor: "pointer",
-                            zIndex: 3,
-                          }}
-                        >
-                          <IconComponent size={24} strokeWidth={2.4} />
-                        </div>
-                      </div>
+                        {isCompleted ? (
+                          <Check size={18} strokeWidth={3} />
+                        ) : isActive ? (
+                          <span
+                            style={{
+                              width: "12px",
+                              height: "12px",
+                              borderRadius: "50%",
+                              background: "#ffffff",
+                              boxShadow: "0 0 8px #ffffff",
+                            }}
+                          />
+                        ) : (
+                          <span style={{ fontSize: "0.78rem", fontWeight: 700 }}>{idx + 1}</span>
+                        )}
+                      </button>
 
-                      {/* --- BOTTOM SLOT (Height: 300px) --- */}
+                      {/* Year & Badge Labels */}
                       <div
+                        onClick={() => {
+                          setActiveMilestoneIndex(idx);
+                          setIsAutoPlaying(false);
+                        }}
                         style={{
-                          height: "300px",
-                          width: "100%",
+                          position: "absolute",
+                          top: "38px",
                           display: "flex",
                           flexDirection: "column",
-                          justifyContent: "flex-start",
                           alignItems: "center",
+                          cursor: "pointer",
+                          whiteSpace: "nowrap",
                         }}
                       >
-                        {isTop ? (
-                          /* Odd Years (2021, 2023, 2025): Year Label sits right below node */
-                          <div
-                            style={{
-                              paddingTop: "14px",
-                              fontSize: "1.35rem",
-                              fontWeight: 800,
-                              fontFamily: "var(--font-heading), sans-serif",
-                              color: item.yearColor,
-                              letterSpacing: "0.02em",
-                              transform: isHovered ? "scale(1.12)" : "scale(1)",
-                              transition: "transform 0.3s ease",
-                            }}
-                          >
-                            {item.year}
-                          </div>
-                        ) : (
-                          <>
-                            {/* Vertical Connector Line from Node to Card Top */}
-                            <div
-                              style={{
-                                width: "2px",
-                                height: "26px",
-                                background: isHovered
-                                  ? item.accentColor
-                                  : isLight
-                                    ? "#cbd5e1"
-                                    : "rgba(255, 255, 255, 0.25)",
-                                transition: "background 0.3s ease",
-                              }}
-                            />
-
-                            {/* Card on Bottom */}
-                            <div
-                              style={{
-                                width: "100%",
-                                minHeight: "246px",
-                                borderRadius: "14px",
-                                background: item.cardBg,
-                                color: "#ffffff",
-                                display: "flex",
-                                flexDirection: "column",
-                                overflow: "hidden",
-                                boxShadow: isHovered
-                                  ? `0 16px 36px rgba(0,0,0,0.28), 0 0 24px ${item.accentColor}55`
-                                  : isLight
-                                    ? "0 8px 24px rgba(0, 0, 0, 0.08)"
-                                    : "0 10px 30px rgba(0, 0, 0, 0.35)",
-                                transform: isHovered ? "translateY(6px)" : "translateY(0)",
-                                transition: "transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease",
-                              }}
-                            >
-                              {/* Header Pill */}
-                              <div
-                                style={{
-                                  padding: "0.85rem 0.85rem 0.35rem 0.85rem",
-                                  display: "flex",
-                                  justifyContent: "center",
-                                }}
-                              >
-                                <span
-                                  style={{
-                                    display: "inline-block",
-                                    padding: "0.3rem 0.75rem",
-                                    borderRadius: "6px",
-                                    background: item.headerBg,
-                                    color: "#ffffff",
-                                    fontSize: "0.82rem",
-                                    fontWeight: 700,
-                                    lineHeight: 1.3,
-                                    textAlign: "center",
-                                  }}
-                                >
-                                  {item.headerPill}
-                                </span>
-                              </div>
-
-                              {/* Card Body */}
-                              <p
-                                style={{
-                                  padding: "0.6rem 1rem 1rem 1rem",
-                                  fontSize: "0.82rem",
-                                  lineHeight: 1.55,
-                                  textAlign: "center",
-                                  margin: 0,
-                                  color: "#ffffff",
-                                  opacity: 0.95,
-                                  flex: 1,
-                                }}
-                              >
-                                {item.description}
-                              </p>
-
-                              {/* Footer Strip */}
-                              <div
-                                style={{
-                                  marginTop: "auto",
-                                  padding: "0.55rem 0.75rem",
-                                  background: item.footerBg,
-                                  color: "#ffffff",
-                                  fontSize: "0.82rem",
-                                  fontWeight: 700,
-                                  textAlign: "center",
-                                  letterSpacing: "0.02em",
-                                }}
-                              >
-                                {item.footerTag}
-                              </div>
-                            </div>
-                          </>
-                        )}
+                        <span
+                          style={{
+                            fontSize: isActive ? "1rem" : "0.88rem",
+                            fontWeight: isActive ? 800 : 650,
+                            color: isActive
+                              ? milestone.accentColor
+                              : isCompleted
+                                ? isLight
+                                  ? "#0f172a"
+                                  : "#e2e8f0"
+                                : isLight
+                                  ? "#64748b"
+                                  : "#94a3b8",
+                            transition: "all 0.25s ease",
+                            letterSpacing: "-0.01em",
+                          }}
+                        >
+                          {milestone.year}
+                        </span>
+                        <span
+                          style={{
+                            fontSize: "0.72rem",
+                            fontWeight: 700,
+                            padding: "3px 9px",
+                            borderRadius: "9999px",
+                            background: isActive
+                              ? `rgba(${milestone.accentRgb}, ${isLight ? 0.12 : 0.2})`
+                              : isLight
+                                ? "rgba(241, 245, 249, 0.9)"
+                                : "rgba(255, 255, 255, 0.06)",
+                            color: isActive
+                              ? milestone.accentColor
+                              : isLight
+                                ? "#64748b"
+                                : "#94a3b8",
+                            marginTop: "4px",
+                            border: isActive
+                              ? `1px solid rgba(${milestone.accentRgb}, 0.35)`
+                              : "1px solid transparent",
+                            transition: "all 0.25s ease",
+                          }}
+                        >
+                          {milestone.badge}
+                        </span>
                       </div>
                     </div>
                   );
@@ -2262,6 +2103,303 @@ export default function CompanyPageClient() {
               </div>
             </div>
           </div>
+
+          {/* ============================================================= */}
+          {/* 2. ACTIVE MILESTONE SHOWCASE CARD                           */}
+          {/* ============================================================= */}
+          {(() => {
+            const current = PROGRESS_MILESTONES[activeMilestoneIndex];
+            const IconComp = current.icon;
+
+            return (
+              <div
+                onMouseEnter={() => setIsAutoPlaying(false)}
+                style={{
+                  maxWidth: "1020px",
+                  margin: "0 auto",
+                  padding: "clamp(2rem, 4vw, 3.5rem) clamp(1.5rem, 4vw, 3.25rem)",
+                  borderRadius: "28px",
+                  background: isLight
+                    ? "#ffffff"
+                    : "linear-gradient(135deg, rgba(15, 23, 42, 0.88) 0%, rgba(10, 18, 34, 0.96) 100%)",
+                  border: `1.5px solid rgba(${current.accentRgb}, ${isLight ? 0.3 : 0.35})`,
+                  boxShadow: isLight
+                    ? `0 16px 48px rgba(${current.accentRgb}, 0.12), 0 4px 16px rgba(0, 0, 0, 0.04)`
+                    : `0 24px 60px rgba(0, 0, 0, 0.5), 0 0 35px rgba(${current.accentRgb}, 0.2)`,
+                  display: "grid",
+                  gridTemplateColumns: "1fr auto",
+                  gap: "2.5rem",
+                  alignItems: "center",
+                  position: "relative",
+                  overflow: "hidden",
+                  transition: "all 0.4s ease",
+                }}
+              >
+                {/* Ambient Corner Glow Accent */}
+                <div
+                  aria-hidden="true"
+                  style={{
+                    position: "absolute",
+                    top: "-40px",
+                    right: "-40px",
+                    width: "220px",
+                    height: "220px",
+                    borderRadius: "50%",
+                    background: `radial-gradient(circle, rgba(${current.accentRgb}, ${isLight ? 0.15 : 0.25}) 0%, transparent 70%)`,
+                    pointerEvents: "none",
+                  }}
+                />
+
+                {/* Left Content Column */}
+                <div style={{ position: "relative", zIndex: 2 }}>
+                  {/* Top Badge & Stage Progress */}
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "0.85rem",
+                      flexWrap: "wrap",
+                      marginBottom: "1.25rem",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontSize: "2.5rem",
+                        fontWeight: 900,
+                        fontFamily: "var(--font-heading), sans-serif",
+                        color: current.accentColor,
+                        lineHeight: 1,
+                        letterSpacing: "-0.03em",
+                      }}
+                    >
+                      {current.year}
+                    </span>
+
+                    <span
+                      style={{
+                        padding: "0.35rem 0.95rem",
+                        borderRadius: "9999px",
+                        background: `rgba(${current.accentRgb}, ${isLight ? 0.1 : 0.18})`,
+                        color: current.accentColor,
+                        fontWeight: 750,
+                        fontSize: "0.82rem",
+                        textTransform: "uppercase",
+                        letterSpacing: "0.06em",
+                        border: `1px solid rgba(${current.accentRgb}, 0.3)`,
+                      }}
+                    >
+                      {current.badge}
+                    </span>
+
+                    <span
+                      style={{
+                        fontSize: "0.78rem",
+                        fontWeight: 700,
+                        color: isLight ? "#64748b" : "#94a3b8",
+                        letterSpacing: "0.04em",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      • Milestone {activeMilestoneIndex + 1} of {PROGRESS_MILESTONES.length}
+                    </span>
+                  </div>
+
+                  {/* Milestone Title */}
+                  <h3
+                    style={{
+                      fontSize: "clamp(1.5rem, 2.5vw, 2.1rem)",
+                      fontWeight: 850,
+                      marginBottom: "1rem",
+                      lineHeight: 1.25,
+                      color: isLight ? "#0f172a" : "#ffffff",
+                    }}
+                  >
+                    {current.title}
+                  </h3>
+
+                  {/* Description Paragraph */}
+                  <p
+                    style={{
+                      color: isLight ? "#475569" : "#cbd5e1",
+                      fontSize: "1.05rem",
+                      lineHeight: 1.7,
+                      marginBottom: "1.75rem",
+                      maxWidth: "680px",
+                    }}
+                  >
+                    {current.description}
+                  </p>
+
+                  {/* Metrics & Deliverables */}
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "1.25rem",
+                      flexWrap: "wrap",
+                      marginBottom: "2rem",
+                    }}
+                  >
+                    {current.metrics.map((metric, mIdx) => (
+                      <div
+                        key={mIdx}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "0.5rem",
+                          color: isLight ? "#334155" : "#e2e8f0",
+                          fontSize: "0.88rem",
+                          fontWeight: 650,
+                        }}
+                      >
+                        <CheckCircle2 size={17} style={{ color: current.accentColor, flexShrink: 0 }} />
+                        <span>{metric}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Stepper Controls & Auto-Play */}
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "1rem",
+                      flexWrap: "wrap",
+                      paddingTop: "1.25rem",
+                      borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
+                    }}
+                  >
+                    {/* Prev Milestone */}
+                    <button
+                      onClick={() => {
+                        setActiveMilestoneIndex((prev) => (prev - 1 + PROGRESS_MILESTONES.length) % PROGRESS_MILESTONES.length);
+                        setIsAutoPlaying(false);
+                      }}
+                      style={{
+                        padding: "0.55rem 1.1rem",
+                        borderRadius: "12px",
+                        background: isLight ? "#f1f5f9" : "rgba(255, 255, 255, 0.06)",
+                        color: isLight ? "#334155" : "#cbd5e1",
+                        border: isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.12)",
+                        fontSize: "0.84rem",
+                        fontWeight: 700,
+                        cursor: "pointer",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "6px",
+                        transition: "all 0.25s ease",
+                      }}
+                    >
+                      <ChevronLeft size={16} />
+                      <span>Previous Year</span>
+                    </button>
+
+                    {/* Auto-Play Toggle */}
+                    <button
+                      onClick={() => setIsAutoPlaying(!isAutoPlaying)}
+                      style={{
+                        padding: "0.55rem 1.1rem",
+                        borderRadius: "12px",
+                        background: isAutoPlaying
+                          ? `rgba(${current.accentRgb}, ${isLight ? 0.12 : 0.2})`
+                          : isLight ? "#f1f5f9" : "rgba(255, 255, 255, 0.06)",
+                        color: isAutoPlaying
+                          ? current.accentColor
+                          : isLight ? "#64748b" : "#94a3b8",
+                        border: isAutoPlaying
+                          ? `1px solid rgba(${current.accentRgb}, 0.35)`
+                          : isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.12)",
+                        fontSize: "0.84rem",
+                        fontWeight: 700,
+                        cursor: "pointer",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "6px",
+                        transition: "all 0.25s ease",
+                      }}
+                    >
+                      {isAutoPlaying ? <Pause size={14} /> : <Play size={14} />}
+                      <span>{isAutoPlaying ? "Auto-Play Active" : "Resume Auto-Play"}</span>
+                    </button>
+
+                    {/* Next Milestone */}
+                    <button
+                      onClick={() => {
+                        setActiveMilestoneIndex((prev) => (prev + 1) % PROGRESS_MILESTONES.length);
+                        setIsAutoPlaying(false);
+                      }}
+                      style={{
+                        padding: "0.55rem 1.25rem",
+                        borderRadius: "12px",
+                        background: current.accentColor,
+                        color: "#ffffff",
+                        border: "none",
+                        fontSize: "0.84rem",
+                        fontWeight: 700,
+                        cursor: "pointer",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "6px",
+                        boxShadow: `0 4px 14px rgba(${current.accentRgb}, 0.35)`,
+                        transition: "all 0.25s ease",
+                      }}
+                    >
+                      <span>Next Year</span>
+                      <ChevronRight size={16} />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Right Side Visual Icon Pod */}
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    gap: "1rem",
+                    flexShrink: 0,
+                    position: "relative",
+                    zIndex: 2,
+                  }}
+                >
+                  <div
+                    style={{
+                      width: "130px",
+                      height: "130px",
+                      borderRadius: "26px",
+                      background: isLight
+                        ? `linear-gradient(135deg, #ffffff 0%, rgba(${current.accentRgb}, 0.08) 100%)`
+                        : `linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(${current.accentRgb}, 0.2) 100%)`,
+                      border: `1.5px solid rgba(${current.accentRgb}, ${isLight ? 0.35 : 0.45})`,
+                      boxShadow: `0 14px 32px rgba(${current.accentRgb}, ${isLight ? 0.2 : 0.35})`,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      color: current.accentColor,
+                      transition: "all 0.4s ease",
+                    }}
+                  >
+                    <IconComp size={58} strokeWidth={1.8} />
+                  </div>
+
+                  <span
+                    style={{
+                      fontSize: "0.78rem",
+                      fontWeight: 750,
+                      padding: "4px 12px",
+                      borderRadius: "9999px",
+                      background: `rgba(${current.accentRgb}, ${isLight ? 0.1 : 0.16})`,
+                      color: current.accentColor,
+                      border: `1px solid rgba(${current.accentRgb}, 0.25)`,
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {current.kpi}
+                  </span>
+                </div>
+              </div>
+            );
+          })()}
         </div>
       </section>
 
