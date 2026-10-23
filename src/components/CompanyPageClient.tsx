@@ -1918,12 +1918,14 @@ export default function CompanyPageClient() {
           {/* ============================================================= */}
           {/* 1. PROGRESS BAR TRACK & STEPPER NODES                        */}
           {/* ============================================================= */}
+          {/* 1. INTERACTIVE MILESTONE PROGRESS TRACK BAR                 */}
+          {/* ============================================================= */}
           <div
             style={{
               width: "100%",
               maxWidth: "1020px",
-              margin: "0 auto 3.5rem auto",
-              padding: "1rem 3.5rem 3rem 3.5rem",
+              margin: "0 auto 1.5rem auto",
+              padding: "1.5rem 3.5rem 5rem 3.5rem",
               position: "relative",
               boxSizing: "border-box",
             }}
@@ -1963,77 +1965,83 @@ export default function CompanyPageClient() {
                 return (
                   <div
                     key={milestone.year}
+                    onClick={() => {
+                      setActiveMilestoneIndex(idx);
+                      setIsAutoPlaying(false);
+                    }}
                     style={{
                       position: "absolute",
                       left: `${percentage}%`,
                       top: "50%",
-                      transform: "translate(-50%, -50%)",
+                      transform: "translateX(-50%)",
                       display: "flex",
                       flexDirection: "column",
                       alignItems: "center",
+                      cursor: "pointer",
+                      zIndex: 5,
                     }}
                   >
-                    {/* Checkpoint Node Button */}
-                    <button
-                      onClick={() => {
-                        setActiveMilestoneIndex(idx);
-                        setIsAutoPlaying(false);
-                      }}
+                    {/* Circle Node Container (Centered on the 5px track line) */}
+                    <div
                       style={{
-                        width: isActive ? "42px" : "32px",
-                        height: isActive ? "42px" : "32px",
-                        borderRadius: "50%",
-                        border: isActive
-                          ? `3px solid ${isLight ? "#ffffff" : "#0A1424"}`
-                          : isCompleted
-                            ? `2px solid ${isLight ? "#ffffff" : "#0A1424"}`
-                            : `2px solid ${isLight ? "#cbd5e1" : "rgba(255, 255, 255, 0.2)"}`,
-                        background: isActive
-                          ? "#00A88F"
-                          : isCompleted
-                            ? "#00A88F"
-                            : isLight
-                              ? "#ffffff"
-                              : "#1e293b",
-                        color: isActive || isCompleted ? "#ffffff" : isLight ? "#94a3b8" : "#64748b",
-                        boxShadow: isActive
-                          ? "0 0 20px rgba(45, 212, 191, 0.7), 0 4px 12px rgba(0,0,0,0.25)"
-                          : isCompleted
-                            ? "0 0 10px rgba(0, 168, 143, 0.35)"
-                            : "none",
-                        cursor: "pointer",
+                        width: "48px",
+                        height: "48px",
+                        marginTop: "-24px",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        transform: isActive ? "scale(1.15)" : "scale(1)",
-                        transition: "all 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
-                        zIndex: 4,
                       }}
-                      aria-label={`Jump to milestone ${milestone.year}`}
                     >
-                      {isCompleted ? (
-                        <Check size={16} strokeWidth={2.8} />
-                      ) : isActive ? (
-                        <IconNode size={20} strokeWidth={2.2} />
-                      ) : (
-                        <span style={{ fontSize: "0.75rem", fontWeight: 700 }}>{idx + 1}</span>
-                      )}
-                    </button>
+                      <button
+                        style={{
+                          width: isActive ? "44px" : "32px",
+                          height: isActive ? "44px" : "32px",
+                          borderRadius: "50%",
+                          border: isActive
+                            ? `3px solid ${isLight ? "#ffffff" : "#0A1424"}`
+                            : isCompleted
+                              ? `2px solid ${isLight ? "#ffffff" : "#0A1424"}`
+                              : `2px solid ${isLight ? "#cbd5e1" : "rgba(255, 255, 255, 0.2)"}`,
+                          background: isActive
+                            ? "#00A88F"
+                            : isCompleted
+                              ? "#00A88F"
+                              : isLight
+                                ? "#ffffff"
+                                : "#152136",
+                          color: isActive || isCompleted ? "#ffffff" : isLight ? "#64748b" : "#94a3b8",
+                          boxShadow: isActive
+                            ? "0 0 24px rgba(45, 212, 191, 0.75), 0 4px 12px rgba(0,0,0,0.3)"
+                            : isCompleted
+                              ? "0 0 10px rgba(0, 168, 143, 0.35)"
+                              : "none",
+                          cursor: "pointer",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          transition: "all 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
+                        }}
+                        aria-label={`Jump to milestone ${milestone.year}`}
+                      >
+                        {isCompleted ? (
+                          <Check size={16} strokeWidth={2.8} />
+                        ) : isActive ? (
+                          <IconNode size={22} strokeWidth={2.2} />
+                        ) : (
+                          <IconNode size={14} strokeWidth={2} style={{ opacity: 0.65 }} />
+                        )}
+                      </button>
+                    </div>
 
-                    {/* Year & Badge Labels */}
+                    {/* Year & Badge Labels (Comfortably spaced below circle with no overlap) */}
                     <div
-                      onClick={() => {
-                        setActiveMilestoneIndex(idx);
-                        setIsAutoPlaying(false);
-                      }}
                       style={{
-                        position: "absolute",
-                        top: "34px",
+                        marginTop: "12px",
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "center",
-                        cursor: "pointer",
                         whiteSpace: "nowrap",
+                        userSelect: "none",
                       }}
                     >
                       <span
@@ -2055,7 +2063,7 @@ export default function CompanyPageClient() {
                         style={{
                           fontSize: "0.72rem",
                           fontWeight: 700,
-                          padding: "2px 8px",
+                          padding: "3px 9px",
                           borderRadius: "9999px",
                           background: isActive
                             ? isLight ? "rgba(0, 168, 143, 0.14)" : "rgba(45, 212, 191, 0.16)"
@@ -2063,10 +2071,10 @@ export default function CompanyPageClient() {
                           color: isActive
                             ? isLight ? "#008a75" : "#2dd4bf"
                             : isLight ? "#64748b" : "#94a3b8",
-                          marginTop: "3px",
+                          marginTop: "4px",
                           border: isActive
                             ? `1px solid ${isLight ? "rgba(0, 168, 143, 0.35)" : "rgba(45, 212, 191, 0.4)"}`
-                            : "1px solid transparent",
+                            : isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
                           transition: "all 0.25s ease",
                         }}
                       >
