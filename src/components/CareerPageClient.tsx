@@ -999,33 +999,65 @@ export default function CareerPageClient() {
       {/* ========================================================
           5. DIRECT APPLICATION TERMINAL
       ======================================================== */}
+      <style>{`
+        .careers-apply-grid {
+          display: grid;
+          grid-template-columns: minmax(0, 1.42fr) minmax(360px, 1fr);
+          gap: 2.25rem;
+          align-items: start;
+          max-width: 1240px;
+          margin: 0 auto;
+        }
+        .careers-form-row {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 1.25rem;
+        }
+        .hr-contact-card {
+          position: sticky;
+          top: 100px;
+        }
+        .hr-card-title {
+          font-size: 1.45rem !important;
+          font-weight: 800 !important;
+          color: #175cff !important;
+          margin: 0 0 1.2rem 0 !important;
+          letter-spacing: -0.015em !important;
+          line-height: 1.3 !important;
+        }
+        @media (max-width: 991px) {
+          .careers-apply-grid {
+            grid-template-columns: 1fr;
+            gap: 2.5rem;
+          }
+          .hr-contact-card {
+            position: static;
+          }
+        }
+        @media (max-width: 600px) {
+          .careers-form-row {
+            grid-template-columns: 1fr;
+          }
+        }
+      `}</style>
       <section
         id="apply-section"
         style={{
-          padding: '6rem 0',
+          padding: '5.5rem 0',
           position: 'relative',
         }}
       >
         <div className="container-custom">
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))',
-              gap: '2.5rem',
-              alignItems: 'start',
-              maxWidth: '1240px',
-              margin: '0 auto',
-            }}
-          >
+          <div className="careers-apply-grid">
             {/* Left: Application Form Card */}
             <div
               style={{
-                padding: 'clamp(2rem, 5vw, 3.5rem)',
-                borderRadius: '28px',
+                padding: 'clamp(2rem, 4.5vw, 3.25rem)',
+                borderRadius: '24px',
                 background: isLight ? '#ffffff' : 'rgba(15, 23, 42, 0.85)',
                 border: isLight ? '1px solid #e2e8f0' : '1px solid rgba(0, 255, 209, 0.25)',
                 boxShadow: isLight
-                  ? '0 25px 60px -15px rgba(0, 168, 143, 0.12)'
+                  ? '0 20px 50px -15px rgba(0, 0, 0, 0.06)'
                   : '0 30px 80px -20px rgba(0, 255, 209, 0.15)',
                 backdropFilter: 'blur(20px)',
                 position: 'relative',
@@ -1149,7 +1181,7 @@ export default function CareerPageClient() {
                   </div>
 
                   {/* Name & Email Row */}
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.25rem' }}>
+                  <div className="careers-form-row">
                     <div>
                       <label
                         style={{
@@ -1214,7 +1246,7 @@ export default function CareerPageClient() {
                   </div>
 
                   {/* Phone & Experience Row */}
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.25rem' }}>
+                  <div className="careers-form-row">
                     <div>
                       <label
                         style={{
@@ -1571,6 +1603,7 @@ export default function CareerPageClient() {
 
             {/* Right: HR Contact Information Card (Matching Design Screenshot) */}
             <div
+              className="hr-contact-card"
               style={{
                 borderRadius: '24px',
                 background: isLight ? '#f0f6ff' : 'rgba(15, 23, 42, 0.85)',
@@ -1578,24 +1611,16 @@ export default function CareerPageClient() {
                 boxShadow: isLight
                   ? '0 20px 45px -15px rgba(37, 99, 235, 0.1)'
                   : '0 25px 60px -20px rgba(37, 99, 235, 0.25)',
-                padding: 'clamp(2rem, 4vw, 2.75rem)',
+                padding: 'clamp(2rem, 3.5vw, 2.75rem)',
                 display: 'flex',
                 flexDirection: 'column',
               }}
             >
               {/* 1. HR Contact Information */}
               <div>
-                <h3
-                  style={{
-                    fontSize: '1.45rem',
-                    fontWeight: 800,
-                    color: '#1d68ff',
-                    margin: '0 0 1.25rem 0',
-                    letterSpacing: '-0.01em',
-                  }}
-                >
+                <div className="hr-card-title">
                   HR Contact Information
-                </h3>
+                </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.95rem' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
                     <Phone size={18} style={{ color: isLight ? '#0f172a' : '#f8fafc', flexShrink: 0 }} />
@@ -1632,23 +1657,15 @@ export default function CareerPageClient() {
               <div
                 style={{
                   borderBottom: isLight ? '1.5px solid #93c5fd' : '1px solid rgba(59, 130, 246, 0.25)',
-                  margin: '1.6rem 0',
+                  margin: '1.5rem 0',
                 }}
               />
 
               {/* 2. Office Address */}
               <div>
-                <h3
-                  style={{
-                    fontSize: '1.45rem',
-                    fontWeight: 800,
-                    color: '#1d68ff',
-                    margin: '0 0 1.25rem 0',
-                    letterSpacing: '-0.01em',
-                  }}
-                >
+                <div className="hr-card-title">
                   Office Address
-                </h3>
+                </div>
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.85rem' }}>
                   <Building2 size={19} style={{ color: isLight ? '#0f172a' : '#f8fafc', flexShrink: 0, marginTop: '3px' }} />
                   <p
@@ -1669,23 +1686,15 @@ export default function CareerPageClient() {
               <div
                 style={{
                   borderBottom: isLight ? '1.5px solid #93c5fd' : '1px solid rgba(59, 130, 246, 0.25)',
-                  margin: '1.6rem 0',
+                  margin: '1.5rem 0',
                 }}
               />
 
               {/* 3. Timing */}
               <div>
-                <h3
-                  style={{
-                    fontSize: '1.45rem',
-                    fontWeight: 800,
-                    color: '#1d68ff',
-                    margin: '0 0 1.25rem 0',
-                    letterSpacing: '-0.01em',
-                  }}
-                >
+                <div className="hr-card-title">
                   Timing
-                </h3>
+                </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
                   <Clock size={19} style={{ color: isLight ? '#0f172a' : '#f8fafc', flexShrink: 0 }} />
                   <span
@@ -1704,7 +1713,7 @@ export default function CareerPageClient() {
               <div
                 style={{
                   borderBottom: isLight ? '1.5px solid #93c5fd' : '1px solid rgba(59, 130, 246, 0.25)',
-                  margin: '1.6rem 0',
+                  margin: '1.5rem 0',
                 }}
               />
 
@@ -1721,7 +1730,7 @@ export default function CareerPageClient() {
                 >
                   <span
                     style={{
-                      color: '#1d68ff',
+                      color: '#175cff',
                       fontSize: '1.65rem',
                       fontWeight: 900,
                       lineHeight: 1,
@@ -1734,7 +1743,7 @@ export default function CareerPageClient() {
                   Love What You Do? Do It with Us. Explore exciting career
                   <span
                     style={{
-                      color: '#1d68ff',
+                      color: '#175cff',
                       fontSize: '1.65rem',
                       fontWeight: 900,
                       lineHeight: 1,
