@@ -39,7 +39,8 @@ import {
   Rocket,
   Lightbulb,
   Handshake,
-  ArrowUpRight
+  ArrowUpRight,
+  AtSign
 } from "lucide-react";
 import { companyData } from "@/data/company";
 import ContactForm from "@/components/ContactForm";
@@ -77,12 +78,99 @@ function LiveSuratClock({ isLight }: { isLight: boolean }) {
   );
 }
 
+interface TimelineMilestone {
+  year: string;
+  headerPill: string;
+  description: string;
+  footerTag: string;
+  icon: React.ComponentType<{ size?: number; className?: string; style?: React.CSSProperties; strokeWidth?: number }>;
+  accentColor: string;
+  cardBg: string;
+  headerBg: string;
+  footerBg: string;
+  yearColor: string;
+  position: "top" | "bottom";
+}
+
+const TIMELINE_MILESTONES: TimelineMilestone[] = [
+  {
+    year: "2021",
+    headerPill: "Laying the Foundation",
+    description:
+      "Opash Software was established in Surat with a core mission: to deliver tailored, high-performance software solutions to startups and SMEs globally.",
+    footerTag: "Business Start",
+    icon: Star,
+    accentColor: "#704791",
+    cardBg: "#704791",
+    headerBg: "rgba(167, 139, 250, 0.45)",
+    footerBg: "#563273",
+    yearColor: "#704791",
+    position: "top",
+  },
+  {
+    year: "2022",
+    headerPill: "Expanding Our Service Offerings",
+    description:
+      "We diversified into full-stack development, cloud infrastructure, and mobile app solutions—helping clients scale with robust digital products.",
+    footerTag: "Punctuality",
+    icon: Clock,
+    accentColor: "#e03b24",
+    cardBg: "#e03b24",
+    headerBg: "rgba(254, 202, 202, 0.35)",
+    footerBg: "#b52814",
+    yearColor: "#e03b24",
+    position: "bottom",
+  },
+  {
+    year: "2023",
+    headerPill: "Strategic Growth & Global Clients",
+    description:
+      "Grew to a team of 50+ experts. Successfully delivered 75+ projects for clients across the US, Europe, and Asia—spanning logistics, healthcare, finance, and more.",
+    footerTag: "Experience",
+    icon: AtSign,
+    accentColor: "#0d8bb9",
+    cardBg: "#0d8bb9",
+    headerBg: "rgba(186, 230, 253, 0.35)",
+    footerBg: "#086689",
+    yearColor: "#0d8bb9",
+    position: "top",
+  },
+  {
+    year: "2024",
+    headerPill: "Driving Digital Transformation Across Industries",
+    description:
+      "Empowered businesses across healthcare, fintech, and logistics with end-to-end digital solutions—combining UI/UX excellence, performance-driven code, and cloud-native deployment to accelerate growth and efficiency.",
+    footerTag: "Growth",
+    icon: Check,
+    accentColor: "#539e3e",
+    cardBg: "#539e3e",
+    headerBg: "rgba(187, 247, 208, 0.35)",
+    footerBg: "#3b752b",
+    yearColor: "#539e3e",
+    position: "bottom",
+  },
+  {
+    year: "2025",
+    headerPill: "Future-Ready Vision & Leadership",
+    description:
+      "Focusing on AI-driven applications, DevOps automation, and enterprise-grade security. Positioned as a trusted digital partner for global innovation and growth.",
+    footerTag: "Achievement",
+    icon: Lock,
+    accentColor: "#ea8e24",
+    cardBg: "#ea8e24",
+    headerBg: "rgba(254, 215, 170, 0.35)",
+    footerBg: "#b86910",
+    yearColor: "#ea8e24",
+    position: "top",
+  },
+];
+
 export default function CompanyPageClient() {
   const { theme } = useTheme();
   const isLight = theme === "light";
 
   // State
-  const [selectedMilestoneIndex, setSelectedMilestoneIndex] = useState(4); // Default to latest 2025-2026
+  const [hoveredTimelineYear, setHoveredTimelineYear] = useState<string | null>(null);
   const [selectedHubIndex, setSelectedHubIndex] = useState(0); // Default to Surat HQ
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [activePillar, setActivePillar] = useState<number>(0);
@@ -1776,10 +1864,19 @@ export default function CompanyPageClient() {
       </section>
 
       {/* ===================================================================== */}
-      {/* 6. INTERACTIVE EVOLUTION TIMELINE (2021 – 2026)                       */}
+      {/* 6. INTERACTIVE EVOLUTION TIMELINE (2021 – 2025)                       */}
       {/* ===================================================================== */}
-      <section style={{ padding: "6rem 1.5rem", position: "relative" }}>
-        <div className="container-custom" style={{ maxWidth: "1240px", margin: "0 auto" }}>
+      <section
+        id="our-journey"
+        aria-label="Our Journey Over The Years"
+        style={{
+          padding: "6rem 1.5rem",
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        <div className="container-custom" style={{ maxWidth: "1360px", margin: "0 auto" }}>
+          {/* Section Header */}
           <div style={{ textAlign: "center", maxWidth: "780px", margin: "0 auto 3.5rem auto" }}>
             <span
               style={{
@@ -1801,159 +1898,370 @@ export default function CompanyPageClient() {
               Our Journey Over The Years
             </h2>
             <p style={{ color: isLight ? "#64748b" : "#94a3b8", fontSize: "1.05rem", marginTop: "0.75rem" }}>
-              From our founding in Surat to partnering with brands across North America, Europe, and Asia.
+              From our founding in Surat to partnering with global enterprises across the US, Europe, and Asia.
             </p>
           </div>
 
-          {/* Interactive Year Selector Bar */}
+          {/* Mobile swipe hint banner */}
           <div
+            className="md:hidden"
             style={{
+              textAlign: "center",
+              fontSize: "0.8rem",
+              fontWeight: 600,
+              color: isLight ? "#64748b" : "#94a3b8",
+              marginBottom: "1rem",
               display: "flex",
+              alignItems: "center",
               justifyContent: "center",
-              gap: "0.75rem",
-              flexWrap: "wrap",
-              marginBottom: "3rem",
+              gap: "6px",
             }}
           >
-            {companyData.milestones.map((m, idx) => {
-              const isSelected = selectedMilestoneIndex === idx;
-              return (
-                <button
-                  key={m.year}
-                  onClick={() => setSelectedMilestoneIndex(idx)}
-                  style={{
-                    padding: "0.75rem 1.5rem",
-                    borderRadius: "14px",
-                    background: isSelected
-                      ? isLight ? "#008a75" : "#2dd4bf"
-                      : isLight ? "#ffffff" : "rgba(15, 23, 42, 0.7)",
-                    color: isSelected
-                      ? isLight ? "#ffffff" : "#020712"
-                      : isLight ? "#475569" : "#cbd5e1",
-                    border: isSelected
-                      ? "none"
-                      : isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.1)",
-                    fontWeight: 700,
-                    fontSize: "0.95rem",
-                    cursor: "pointer",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "0.5rem",
-                    boxShadow: isSelected
-                      ? isLight ? "0 4px 15px rgba(0, 168, 143, 0.3)" : "0 4px 20px rgba(45, 212, 191, 0.3)"
-                      : "none",
-                    transition: "all 0.2s ease",
-                  }}
-                >
-                  <span>{m.year}</span>
-                  <span
-                    style={{
-                      fontSize: "0.75rem",
-                      padding: "0.15rem 0.45rem",
-                      borderRadius: "9999px",
-                      background: isSelected
-                        ? isLight ? "rgba(255, 255, 255, 0.25)" : "rgba(2, 7, 18, 0.2)"
-                        : isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(0, 187, 171, 0.15)",
-                      color: isSelected
-                        ? "inherit"
-                        : isLight ? "#008a75" : "#2dd4bf",
-                    }}
-                  >
-                    {m.badge}
-                  </span>
-                </button>
-              );
-            })}
+            <span>↔ Swipe horizontally to view full timeline</span>
           </div>
 
-          {/* Active Milestone Highlight Card */}
-          {(() => {
-            const activeMilestone = companyData.milestones[selectedMilestoneIndex];
-            const IconComp = milestoneIcons[activeMilestone.iconName] || Sparkles;
-            return (
+          {/* Timeline Scroll Container for Responsiveness */}
+          <div
+            style={{
+              width: "100%",
+              overflowX: "auto",
+              paddingBottom: "1.5rem",
+              WebkitOverflowScrolling: "touch",
+            }}
+          >
+            <div
+              style={{
+                minWidth: "1160px",
+                position: "relative",
+                padding: "1rem 0",
+              }}
+            >
+              {/* Continuous Horizontal Central Axis Line */}
+              <div
+                aria-hidden="true"
+                style={{
+                  position: "absolute",
+                  top: "350px",
+                  left: "60px",
+                  right: "60px",
+                  height: "2px",
+                  background: isLight ? "#cbd5e1" : "rgba(255, 255, 255, 0.2)",
+                  zIndex: 1,
+                }}
+              />
+
+              {/* 5-Column Grid */}
               <div
                 style={{
-                  maxWidth: "960px",
-                  margin: "0 auto",
-                  padding: "3.5rem 3rem",
-                  borderRadius: "24px",
-                  background: isLight ? "#ffffff" : "rgba(10, 20, 36, 0.75)",
-                  border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.1)",
-                  boxShadow: isLight ? "0 10px 40px rgba(0, 0, 0, 0.05)" : "0 15px 50px rgba(0, 0, 0, 0.4)",
                   display: "grid",
-                  gridTemplateColumns: "1fr auto",
-                  gap: "2.5rem",
-                  alignItems: "center",
+                  gridTemplateColumns: "repeat(5, 1fr)",
+                  gap: "1.25rem",
+                  position: "relative",
+                  zIndex: 2,
                 }}
               >
-                <div>
-                  <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1rem" }}>
-                    <span
+                {TIMELINE_MILESTONES.map((item) => {
+                  const IconComponent = item.icon;
+                  const isHovered = hoveredTimelineYear === item.year;
+                  const isTop = item.position === "top";
+
+                  return (
+                    <div
+                      key={item.year}
+                      onMouseEnter={() => setHoveredTimelineYear(item.year)}
+                      onMouseLeave={() => setHoveredTimelineYear(null)}
                       style={{
-                        fontSize: "2.4rem",
-                        fontWeight: 900,
-                        fontFamily: "monospace",
-                        color: isLight ? "#008a75" : "#2dd4bf",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
                       }}
                     >
-                      {activeMilestone.year}
-                    </span>
-                    <span
-                      style={{
-                        padding: "0.35rem 0.85rem",
-                        borderRadius: "9999px",
-                        background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(0, 187, 171, 0.15)",
-                        color: isLight ? "#008a75" : "#2dd4bf",
-                        fontWeight: 700,
-                        fontSize: "0.85rem",
-                        textTransform: "uppercase",
-                      }}
-                    >
-                      {activeMilestone.badge}
-                    </span>
-                  </div>
+                      {/* --- TOP SLOT (Height: 300px) --- */}
+                      <div
+                        style={{
+                          height: "300px",
+                          width: "100%",
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "flex-end",
+                          alignItems: "center",
+                        }}
+                      >
+                        {isTop ? (
+                          <>
+                            {/* Card on Top */}
+                            <div
+                              style={{
+                                width: "100%",
+                                minHeight: "246px",
+                                borderRadius: "14px",
+                                background: item.cardBg,
+                                color: "#ffffff",
+                                display: "flex",
+                                flexDirection: "column",
+                                overflow: "hidden",
+                                boxShadow: isHovered
+                                  ? `0 16px 36px rgba(0,0,0,0.28), 0 0 24px ${item.accentColor}55`
+                                  : isLight
+                                    ? "0 8px 24px rgba(0, 0, 0, 0.08)"
+                                    : "0 10px 30px rgba(0, 0, 0, 0.35)",
+                                transform: isHovered ? "translateY(-6px)" : "translateY(0)",
+                                transition: "transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease",
+                              }}
+                            >
+                              {/* Header Pill */}
+                              <div
+                                style={{
+                                  padding: "0.85rem 0.85rem 0.35rem 0.85rem",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                }}
+                              >
+                                <span
+                                  style={{
+                                    display: "inline-block",
+                                    padding: "0.3rem 0.75rem",
+                                    borderRadius: "6px",
+                                    background: item.headerBg,
+                                    color: "#ffffff",
+                                    fontSize: "0.82rem",
+                                    fontWeight: 700,
+                                    lineHeight: 1.3,
+                                    textAlign: "center",
+                                  }}
+                                >
+                                  {item.headerPill}
+                                </span>
+                              </div>
 
-                  <h3 style={{ fontSize: "1.9rem", fontWeight: 800, marginBottom: "1rem", lineHeight: 1.25 }}>
-                    {activeMilestone.title}
-                  </h3>
+                              {/* Card Body */}
+                              <p
+                                style={{
+                                  padding: "0.6rem 1rem 1rem 1rem",
+                                  fontSize: "0.82rem",
+                                  lineHeight: 1.55,
+                                  textAlign: "center",
+                                  margin: 0,
+                                  color: "#ffffff",
+                                  opacity: 0.95,
+                                  flex: 1,
+                                }}
+                              >
+                                {item.description}
+                              </p>
 
-                  <p style={{ color: isLight ? "#475569" : "#94a3b8", fontSize: "1.1rem", lineHeight: 1.7, marginBottom: "1.75rem" }}>
-                    {activeMilestone.description}
-                  </p>
+                              {/* Footer Strip */}
+                              <div
+                                style={{
+                                  marginTop: "auto",
+                                  padding: "0.55rem 0.75rem",
+                                  background: item.footerBg,
+                                  color: "#ffffff",
+                                  fontSize: "0.82rem",
+                                  fontWeight: 700,
+                                  textAlign: "center",
+                                  letterSpacing: "0.02em",
+                                }}
+                              >
+                                {item.footerTag}
+                              </div>
+                            </div>
 
-                  <div style={{ display: "flex", alignItems: "center", gap: "1.5rem", flexWrap: "wrap" }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", color: isLight ? "#008a75" : "#2dd4bf", fontWeight: 700 }}>
-                      <CheckCircle2 size={18} />
-                      <span>Verified Production Deliverable</span>
+                            {/* Vertical Connector Line from Card Bottom to Node */}
+                            <div
+                              style={{
+                                width: "2px",
+                                height: "26px",
+                                background: isHovered
+                                  ? item.accentColor
+                                  : isLight
+                                    ? "#cbd5e1"
+                                    : "rgba(255, 255, 255, 0.25)",
+                                transition: "background 0.3s ease",
+                              }}
+                            />
+                          </>
+                        ) : (
+                          /* Even Years (2022, 2024): Year Label sits right above node */
+                          <div
+                            style={{
+                              paddingBottom: "14px",
+                              fontSize: "1.35rem",
+                              fontWeight: 800,
+                              fontFamily: "var(--font-heading), sans-serif",
+                              color: item.yearColor,
+                              letterSpacing: "0.02em",
+                              transform: isHovered ? "scale(1.12)" : "scale(1)",
+                              transition: "transform 0.3s ease",
+                            }}
+                          >
+                            {item.year}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* --- CENTRAL NODE (Height: 80px) --- */}
+                      <div
+                        style={{
+                          height: "80px",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          position: "relative",
+                        }}
+                      >
+                        <div
+                          style={{
+                            width: "56px",
+                            height: "56px",
+                            borderRadius: "50%",
+                            background: item.accentColor,
+                            color: "#ffffff",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            boxShadow: isHovered
+                              ? `0 0 22px ${item.accentColor}, 0 4px 12px rgba(0,0,0,0.25)`
+                              : "0 4px 14px rgba(0, 0, 0, 0.16)",
+                            transform: isHovered ? "scale(1.15)" : "scale(1)",
+                            transition: "all 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
+                            cursor: "pointer",
+                            zIndex: 3,
+                          }}
+                        >
+                          <IconComponent size={24} strokeWidth={2.4} />
+                        </div>
+                      </div>
+
+                      {/* --- BOTTOM SLOT (Height: 300px) --- */}
+                      <div
+                        style={{
+                          height: "300px",
+                          width: "100%",
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "flex-start",
+                          alignItems: "center",
+                        }}
+                      >
+                        {isTop ? (
+                          /* Odd Years (2021, 2023, 2025): Year Label sits right below node */
+                          <div
+                            style={{
+                              paddingTop: "14px",
+                              fontSize: "1.35rem",
+                              fontWeight: 800,
+                              fontFamily: "var(--font-heading), sans-serif",
+                              color: item.yearColor,
+                              letterSpacing: "0.02em",
+                              transform: isHovered ? "scale(1.12)" : "scale(1)",
+                              transition: "transform 0.3s ease",
+                            }}
+                          >
+                            {item.year}
+                          </div>
+                        ) : (
+                          <>
+                            {/* Vertical Connector Line from Node to Card Top */}
+                            <div
+                              style={{
+                                width: "2px",
+                                height: "26px",
+                                background: isHovered
+                                  ? item.accentColor
+                                  : isLight
+                                    ? "#cbd5e1"
+                                    : "rgba(255, 255, 255, 0.25)",
+                                transition: "background 0.3s ease",
+                              }}
+                            />
+
+                            {/* Card on Bottom */}
+                            <div
+                              style={{
+                                width: "100%",
+                                minHeight: "246px",
+                                borderRadius: "14px",
+                                background: item.cardBg,
+                                color: "#ffffff",
+                                display: "flex",
+                                flexDirection: "column",
+                                overflow: "hidden",
+                                boxShadow: isHovered
+                                  ? `0 16px 36px rgba(0,0,0,0.28), 0 0 24px ${item.accentColor}55`
+                                  : isLight
+                                    ? "0 8px 24px rgba(0, 0, 0, 0.08)"
+                                    : "0 10px 30px rgba(0, 0, 0, 0.35)",
+                                transform: isHovered ? "translateY(6px)" : "translateY(0)",
+                                transition: "transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease",
+                              }}
+                            >
+                              {/* Header Pill */}
+                              <div
+                                style={{
+                                  padding: "0.85rem 0.85rem 0.35rem 0.85rem",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                }}
+                              >
+                                <span
+                                  style={{
+                                    display: "inline-block",
+                                    padding: "0.3rem 0.75rem",
+                                    borderRadius: "6px",
+                                    background: item.headerBg,
+                                    color: "#ffffff",
+                                    fontSize: "0.82rem",
+                                    fontWeight: 700,
+                                    lineHeight: 1.3,
+                                    textAlign: "center",
+                                  }}
+                                >
+                                  {item.headerPill}
+                                </span>
+                              </div>
+
+                              {/* Card Body */}
+                              <p
+                                style={{
+                                  padding: "0.6rem 1rem 1rem 1rem",
+                                  fontSize: "0.82rem",
+                                  lineHeight: 1.55,
+                                  textAlign: "center",
+                                  margin: 0,
+                                  color: "#ffffff",
+                                  opacity: 0.95,
+                                  flex: 1,
+                                }}
+                              >
+                                {item.description}
+                              </p>
+
+                              {/* Footer Strip */}
+                              <div
+                                style={{
+                                  marginTop: "auto",
+                                  padding: "0.55rem 0.75rem",
+                                  background: item.footerBg,
+                                  color: "#ffffff",
+                                  fontSize: "0.82rem",
+                                  fontWeight: 700,
+                                  textAlign: "center",
+                                  letterSpacing: "0.02em",
+                                }}
+                              >
+                                {item.footerTag}
+                              </div>
+                            </div>
+                          </>
+                        )}
+                      </div>
                     </div>
-                    <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", color: isLight ? "#0284c7" : "#38bdf8", fontWeight: 700 }}>
-                      <Users size={18} />
-                      <span>Surat HQ Core Squad</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div
-                  style={{
-                    width: "120px",
-                    height: "120px",
-                    borderRadius: "24px",
-                    background: isLight
-                      ? "linear-gradient(135deg, rgba(0, 168, 143, 0.15), rgba(14, 165, 233, 0.1))"
-                      : "linear-gradient(135deg, rgba(0, 187, 171, 0.25), rgba(56, 189, 248, 0.15))",
-                    border: isLight ? "1px solid rgba(0, 168, 143, 0.2)" : "1px solid rgba(0, 187, 171, 0.3)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    color: isLight ? "#008a75" : "#2dd4bf",
-                    flexShrink: 0,
-                  }}
-                >
-                  <IconComp size={56} />
-                </div>
+                  );
+                })}
               </div>
-            );
-          })()}
+            </div>
+          </div>
         </div>
       </section>
 
