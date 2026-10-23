@@ -185,8 +185,8 @@ export default function CompanyPageClient() {
       style={{
         position: "relative",
         overflowX: "clip",
-        backgroundColor: isLight ? "#f8fafc" : "#020712",
-        color: isLight ? "#0f172a" : "#f8fafc",
+        backgroundColor: isLight ? "#F7FAFC" : "#060b13",
+        color: isLight ? "#102033" : "#f8fafc",
         minHeight: "100vh",
       }}
     >
@@ -540,13 +540,13 @@ export default function CompanyPageClient() {
           position: "relative",
           overflow: "hidden",
           background: isLight
-            ? "linear-gradient(180deg, #f0f6ff 0%, #f8fafc 100%)"
-            : "linear-gradient(180deg, #050b18 0%, #030712 100%)",
-          borderTop: isLight ? "1px solid #e0ecff" : "1px solid rgba(255, 255, 255, 0.06)",
-          borderBottom: isLight ? "1px solid #e0ecff" : "1px solid rgba(255, 255, 255, 0.06)",
+            ? "linear-gradient(180deg, #F0F5F8 0%, #F7FAFC 100%)"
+            : "linear-gradient(180deg, #0a121e 0%, #060b13 100%)",
+          borderTop: isLight ? "1px solid #DCE6ED" : "1px solid rgba(255, 255, 255, 0.08)",
+          borderBottom: isLight ? "1px solid #DCE6ED" : "1px solid rgba(255, 255, 255, 0.08)",
         }}
       >
-        {/* Ambient Top Glow */}
+        {/* Ambient Top Glow using Opash Logo Mint (#5EC098) & Slate Blue (#476D9A) */}
         <div
           style={{
             position: "absolute",
@@ -555,7 +555,9 @@ export default function CompanyPageClient() {
             transform: "translateX(-50%)",
             width: "800px",
             height: "450px",
-            background: "radial-gradient(circle, rgba(29, 99, 237, 0.15) 0%, transparent 70%)",
+            background: isLight
+              ? "radial-gradient(circle, rgba(0, 168, 143, 0.1) 0%, rgba(16, 32, 51, 0.04) 50%, transparent 70%)"
+              : "radial-gradient(circle, rgba(94, 192, 152, 0.14) 0%, rgba(71, 109, 154, 0.1) 50%, transparent 70%)",
             filter: "blur(60px)",
             pointerEvents: "none",
           }}
@@ -571,9 +573,9 @@ export default function CompanyPageClient() {
                 gap: "0.5rem",
                 padding: "0.45rem 1.25rem",
                 borderRadius: "9999px",
-                background: isLight ? "rgba(29, 99, 237, 0.08)" : "rgba(29, 99, 237, 0.15)",
-                border: isLight ? "1px solid rgba(29, 99, 237, 0.25)" : "1px solid rgba(29, 99, 237, 0.35)",
-                color: isLight ? "#1d63ed" : "#60a5fa",
+                background: isLight ? "rgba(0, 168, 143, 0.08)" : "rgba(94, 192, 152, 0.12)",
+                border: isLight ? "1px solid rgba(0, 168, 143, 0.25)" : "1px solid rgba(94, 192, 152, 0.3)",
+                color: isLight ? "#008a75" : "#5EC098",
                 fontSize: "0.82rem",
                 fontWeight: 700,
                 letterSpacing: "0.06em",
@@ -589,7 +591,7 @@ export default function CompanyPageClient() {
               style={{
                 fontSize: "clamp(2.1rem, 3.8vw, 3rem)",
                 fontWeight: 800,
-                color: isLight ? "#0f172a" : "#ffffff",
+                color: isLight ? "#102033" : "#ffffff",
                 letterSpacing: "-0.025em",
                 lineHeight: 1.2,
                 fontFamily: "var(--font-heading), sans-serif",
@@ -598,7 +600,9 @@ export default function CompanyPageClient() {
               What Makes Us{" "}
               <span
                 style={{
-                  background: "linear-gradient(135deg, #1d63ed 0%, #38bdf8 100%)",
+                  background: isLight
+                    ? "linear-gradient(135deg, #102033 0%, #00A88F 100%)"
+                    : "linear-gradient(135deg, #6289B8 0%, #5EC098 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                 }}
@@ -611,7 +615,7 @@ export default function CompanyPageClient() {
               style={{
                 maxWidth: "680px",
                 margin: "1rem auto 0 auto",
-                color: isLight ? "#475569" : "#94a3b8",
+                color: isLight ? "#526579" : "#94a3b8",
                 fontSize: "1.05rem",
                 lineHeight: 1.65,
               }}
@@ -633,6 +637,8 @@ export default function CompanyPageClient() {
               const IconComponent = whyChooseUsIconMap[item.icon] || Star;
               const isHovered = hoveredWhyCard === idx;
               const indexStr = `0${idx + 1}`;
+              const brandMint = isLight ? "#00A88F" : "#5EC098";
+              const brandSlate = isLight ? "#102033" : "#476D9A";
 
               return (
                 <div
@@ -644,27 +650,25 @@ export default function CompanyPageClient() {
                     borderRadius: "22px",
                     padding: "2.25rem 2rem",
                     background: isLight
-                      ? isHovered
-                        ? "#ffffff"
-                        : "#ffffff"
+                      ? "#ffffff"
                       : isHovered
-                      ? "linear-gradient(145deg, rgba(20, 35, 65, 0.9) 0%, rgba(10, 20, 40, 0.95) 100%)"
-                      : "linear-gradient(145deg, rgba(13, 22, 42, 0.75) 0%, rgba(8, 15, 30, 0.85) 100%)",
+                      ? "linear-gradient(145deg, rgba(22, 38, 62, 0.95) 0%, rgba(14, 25, 41, 0.98) 100%)"
+                      : "linear-gradient(145deg, rgba(14, 25, 41, 0.85) 0%, rgba(10, 18, 30, 0.9) 100%)",
                     border: isLight
                       ? isHovered
-                        ? "1.5px solid #1d63ed"
-                        : "1.5px solid #e2e8f0"
+                        ? `1.5px solid ${brandMint}`
+                        : "1.5px solid #DCE6ED"
                       : isHovered
-                      ? "1.5px solid rgba(56, 189, 248, 0.6)"
+                      ? "1.5px solid rgba(94, 192, 152, 0.55)"
                       : "1.5px solid rgba(255, 255, 255, 0.08)",
-                    borderTop: `3.5px solid ${isHovered ? "#38bdf8" : "#1d63ed"}`,
+                    borderTop: `3.5px solid ${isHovered ? brandMint : brandSlate}`,
                     boxShadow: isLight
                       ? isHovered
-                        ? "0 20px 40px rgba(29, 99, 237, 0.16), 0 0 20px rgba(29, 99, 237, 0.08)"
-                        : "0 10px 30px rgba(0, 0, 0, 0.04)"
+                        ? "0 20px 40px rgba(0, 168, 143, 0.14), 0 0 20px rgba(0, 168, 143, 0.06)"
+                        : "0 10px 30px rgba(16, 32, 51, 0.04)"
                       : isHovered
-                      ? "0 22px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(29, 99, 237, 0.25)"
-                      : "0 14px 35px rgba(0, 0, 0, 0.35)",
+                      ? "0 22px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(94, 192, 152, 0.22)"
+                      : "0 14px 35px rgba(0, 0, 0, 0.4)",
                     transform: isHovered ? "translateY(-6px)" : "translateY(0)",
                     transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
                     display: "flex",
@@ -673,7 +677,7 @@ export default function CompanyPageClient() {
                   }}
                 >
                   <div>
-                    {/* Top Row: Icon Medallion + Index & Badge */}
+                    {/* Top Row: Icon Medallion with Opash Logo Gradient + Index & Badge */}
                     <div
                       style={{
                         display: "flex",
@@ -682,18 +686,22 @@ export default function CompanyPageClient() {
                         marginBottom: "1.5rem",
                       }}
                     >
-                      {/* Vibrant Blue Disc Medallion */}
+                      {/* Logo-Colored Gradient Medallion: Slate Blue to Mint */}
                       <div
                         style={{
                           width: "56px",
                           height: "56px",
                           borderRadius: "16px",
-                          background: "linear-gradient(135deg, #1d63ed 0%, #0284c7 100%)",
+                          background: isLight
+                            ? "linear-gradient(135deg, #102033 0%, #00A88F 100%)"
+                            : "linear-gradient(135deg, #476D9A 0%, #5EC098 100%)",
                           color: "#ffffff",
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
-                          boxShadow: "0 8px 24px rgba(29, 99, 237, 0.38)",
+                          boxShadow: isLight
+                            ? "0 8px 24px rgba(0, 168, 143, 0.28)"
+                            : "0 8px 24px rgba(94, 192, 152, 0.32)",
                           transform: isHovered ? "scale(1.08)" : "scale(1)",
                           transition: "transform 0.3s ease",
                         }}
@@ -715,9 +723,9 @@ export default function CompanyPageClient() {
                             fontSize: "0.76rem",
                             fontWeight: 700,
                             letterSpacing: "0.03em",
-                            background: isLight ? "rgba(29, 99, 237, 0.08)" : "rgba(29, 99, 237, 0.16)",
-                            color: isLight ? "#1d63ed" : "#38bdf8",
-                            border: isLight ? "1px solid rgba(29, 99, 237, 0.2)" : "1px solid rgba(29, 99, 237, 0.3)",
+                            background: isLight ? "rgba(0, 168, 143, 0.08)" : "rgba(94, 192, 152, 0.12)",
+                            color: isLight ? "#008a75" : "#5EC098",
+                            border: isLight ? "1px solid rgba(0, 168, 143, 0.2)" : "1px solid rgba(94, 192, 152, 0.3)",
                           }}
                         >
                           {item.badge}
@@ -727,7 +735,7 @@ export default function CompanyPageClient() {
                             fontFamily: "monospace",
                             fontSize: "1.25rem",
                             fontWeight: 800,
-                            color: isLight ? "#94a3b8" : "#475569",
+                            color: isLight ? "#94a3b8" : "#64748b",
                           }}
                         >
                           {indexStr}
@@ -740,7 +748,7 @@ export default function CompanyPageClient() {
                       style={{
                         fontSize: "1.35rem",
                         fontWeight: 800,
-                        color: isLight ? "#0f172a" : "#ffffff",
+                        color: isLight ? "#102033" : "#ffffff",
                         letterSpacing: "-0.015em",
                         marginBottom: "0.65rem",
                         lineHeight: 1.3,
@@ -752,7 +760,7 @@ export default function CompanyPageClient() {
                     {/* Card User-Readable Description */}
                     <p
                       style={{
-                        color: isLight ? "#334155" : "#cbd5e1",
+                        color: isLight ? "#526579" : "#cbd5e1",
                         fontSize: "0.95rem",
                         lineHeight: 1.68,
                         marginBottom: "1.75rem",
@@ -762,10 +770,10 @@ export default function CompanyPageClient() {
                     </p>
                   </div>
 
-                  {/* Bottom Highlight Pill with Micro-Interaction */}
+                  {/* Bottom Highlight Pill with Logo Mint Accent */}
                   <div
                     style={{
-                      borderTop: isLight ? "1px solid #f1f5f9" : "1px solid rgba(255, 255, 255, 0.08)",
+                      borderTop: isLight ? "1px solid #F0F5F8" : "1px solid rgba(255, 255, 255, 0.08)",
                       paddingTop: "1.1rem",
                       display: "flex",
                       alignItems: "center",
@@ -779,10 +787,10 @@ export default function CompanyPageClient() {
                         gap: "0.45rem",
                         fontSize: "0.84rem",
                         fontWeight: 700,
-                        color: isLight ? "#1d63ed" : "#38bdf8",
+                        color: isLight ? "#008a75" : "#5EC098",
                       }}
                     >
-                      <CheckCircle2 size={16} style={{ color: isLight ? "#1d63ed" : "#38bdf8" }} />
+                      <CheckCircle2 size={16} style={{ color: isLight ? "#00A88F" : "#5EC098" }} />
                       <span>{item.highlight}</span>
                     </div>
 
@@ -790,8 +798,8 @@ export default function CompanyPageClient() {
                       size={16}
                       style={{
                         color: isHovered
-                          ? isLight ? "#1d63ed" : "#38bdf8"
-                          : isLight ? "#94a3b8" : "#475569",
+                          ? brandMint
+                          : isLight ? "#94a3b8" : "#64748b",
                         transform: isHovered ? "translateX(4px)" : "translateX(0)",
                         transition: "all 0.25s ease",
                       }}
@@ -809,9 +817,9 @@ export default function CompanyPageClient() {
               borderRadius: "20px",
               background: isLight
                 ? "#ffffff"
-                : "rgba(15, 23, 42, 0.65)",
-              border: isLight ? "1.5px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
-              boxShadow: isLight ? "0 10px 30px rgba(0, 0, 0, 0.03)" : "0 10px 30px rgba(0, 0, 0, 0.3)",
+                : "rgba(14, 25, 41, 0.85)",
+              border: isLight ? "1.5px solid #DCE6ED" : "1px solid rgba(255, 255, 255, 0.08)",
+              boxShadow: isLight ? "0 10px 30px rgba(16, 32, 51, 0.04)" : "0 10px 30px rgba(0, 0, 0, 0.35)",
               display: "grid",
               gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
               gap: "1.5rem",
@@ -819,10 +827,10 @@ export default function CompanyPageClient() {
             }}
           >
             {[
-              { stat: "50+", label: "In-House Senior Engineers", color: "#1d63ed" },
-              { stat: "75+", label: "Production Platforms Shipped", color: "#00a88f" },
-              { stat: "96%", label: "Client Retention Rate", color: "#38bdf8" },
-              { stat: "100%", label: "Day-One IP & Code Ownership", color: "#6366f1" },
+              { stat: "50+", label: "In-House Senior Engineers", color: isLight ? "#102033" : "#6289B8" },
+              { stat: "75+", label: "Production Platforms Shipped", color: isLight ? "#00A88F" : "#5EC098" },
+              { stat: "96%", label: "Client Retention Rate", color: isLight ? "#008a75" : "#2dd4bf" },
+              { stat: "100%", label: "Day-One IP & Code Ownership", color: isLight ? "#476D9A" : "#818cf8" },
             ].map((metric, mIdx) => (
               <div
                 key={mIdx}
@@ -831,7 +839,7 @@ export default function CompanyPageClient() {
                   alignItems: "center",
                   gap: "1rem",
                   padding: "0 0.5rem",
-                  borderLeft: mIdx > 0 && isLight ? "1px solid #f1f5f9" : mIdx > 0 ? "1px solid rgba(255, 255, 255, 0.08)" : "none",
+                  borderLeft: mIdx > 0 && isLight ? "1px solid #DCE6ED" : mIdx > 0 ? "1px solid rgba(255, 255, 255, 0.08)" : "none",
                 }}
               >
                 <div
@@ -849,7 +857,7 @@ export default function CompanyPageClient() {
                   style={{
                     fontSize: "0.85rem",
                     fontWeight: 600,
-                    color: isLight ? "#475569" : "#cbd5e1",
+                    color: isLight ? "#526579" : "#cbd5e1",
                     lineHeight: 1.35,
                   }}
                 >
@@ -924,12 +932,12 @@ export default function CompanyPageClient() {
                 }}
               >
                 <svg width="176" height="70" viewBox="0 0 176 70" fill="none" style={{ overflow: "visible" }}>
-                  <path d="M 54 20 L 8 20 L 22 35 L 8 50 L 54 50 Z" fill="#1D63ED" />
+                  <path d="M 54 20 L 8 20 L 22 35 L 8 50 L 54 50 Z" fill="#00A88F" />
                   <path d="M 54 50 L 64 50 L 54 56 Z" fill="rgba(0,0,0,0.3)" />
-                  <path d="M 122 20 L 168 20 L 154 35 L 168 50 L 122 50 Z" fill="#1D63ED" />
+                  <path d="M 122 20 L 168 20 L 154 35 L 168 50 L 122 50 Z" fill="#00A88F" />
                   <path d="M 122 50 L 112 50 L 122 56 Z" fill="rgba(0,0,0,0.3)" />
-                  <circle cx="88" cy="35" r="31" fill="rgba(29, 99, 237, 0.28)" />
-                  <circle cx="88" cy="35" r="25" fill="#1D63ED" />
+                  <circle cx="88" cy="35" r="31" fill="rgba(0, 168, 143, 0.28)" />
+                  <circle cx="88" cy="35" r="25" fill="#00A88F" />
                   <circle cx="88" cy="35" r="21" fill="none" stroke="rgba(255, 255, 255, 0.55)" strokeWidth="1.5" />
                 </svg>
                 <div
@@ -1724,7 +1732,7 @@ export default function CompanyPageClient() {
         style={{
           padding: "6rem 1.5rem",
           position: "relative",
-          background: isLight ? "#f8fafc" : "#020712",
+          background: isLight ? "#F7FAFC" : "#060b13",
         }}
       >
         <div className="container-custom" style={{ maxWidth: "1240px", margin: "0 auto" }}>
