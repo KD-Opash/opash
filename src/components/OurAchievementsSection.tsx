@@ -13,7 +13,9 @@ interface AchievementStat {
   pillarTag: string;
   accentColor: string;
   glowColor: string;
-  gradientText: string;
+  gradientTextLight: string;
+  gradientTextDark: string;
+  accentGradient: string;
   accentRgb: string;
   specPill: string;
   detail: string;
@@ -26,10 +28,12 @@ const STATS_DATA: AchievementStat[] = [
     label: "Experienced Software Developers",
     pillarNum: "01",
     pillarTag: "ENGINEERING BENCH",
-    accentColor: "#FF4D79",
-    glowColor: "rgba(255, 77, 121, 0.3)",
-    gradientText: "linear-gradient(135deg, #FFFFFF 20%, #FF8FA3 100%)",
-    accentRgb: "255, 77, 121",
+    accentColor: "#FF3366",
+    glowColor: "rgba(255, 51, 102, 0.32)",
+    gradientTextLight: "linear-gradient(135deg, #E11D48 0%, #FF3366 50%, #FF6B8B 100%)",
+    gradientTextDark: "linear-gradient(135deg, #FFFFFF 15%, #FDA4AF 60%, #FF4D79 100%)",
+    accentGradient: "linear-gradient(90deg, #E11D48 0%, #FF3366 50%, #FF6B8B 100%)",
+    accentRgb: "255, 51, 102",
     specPill: "Vetted Top 1% Engineers",
     detail: "Full-Stack, Mobile & AI Solutions Specialists",
   },
@@ -39,10 +43,12 @@ const STATS_DATA: AchievementStat[] = [
     label: "Custom Software Projects Delivered",
     pillarNum: "02",
     pillarTag: "PRODUCTION PLATFORMS",
-    accentColor: "#00A3FF",
-    glowColor: "rgba(0, 163, 255, 0.3)",
-    gradientText: "linear-gradient(135deg, #FFFFFF 20%, #70C9FF 100%)",
-    accentRgb: "0, 163, 255",
+    accentColor: "#0088FF",
+    glowColor: "rgba(0, 136, 255, 0.32)",
+    gradientTextLight: "linear-gradient(135deg, #0284C7 0%, #0088FF 50%, #38BDF8 100%)",
+    gradientTextDark: "linear-gradient(135deg, #FFFFFF 15%, #7DD3FC 60%, #00A3FF 100%)",
+    accentGradient: "linear-gradient(90deg, #0284C7 0%, #0088FF 50%, #38BDF8 100%)",
+    accentRgb: "0, 136, 255",
     specPill: "100% On-Time Sprints",
     detail: "Global Startups, Scale-ups & Enterprises",
   },
@@ -52,10 +58,12 @@ const STATS_DATA: AchievementStat[] = [
     label: "Hours of Project Execution",
     pillarNum: "03",
     pillarTag: "SPRINT VELOCITY",
-    accentColor: "#A855F7",
-    glowColor: "rgba(168, 85, 247, 0.3)",
-    gradientText: "linear-gradient(135deg, #FFFFFF 20%, #D8B4FE 100%)",
-    accentRgb: "168, 85, 247",
+    accentColor: "#9333EA",
+    glowColor: "rgba(147, 51, 234, 0.32)",
+    gradientTextLight: "linear-gradient(135deg, #7E22CE 0%, #9333EA 50%, #C084FC 100%)",
+    gradientTextDark: "linear-gradient(135deg, #FFFFFF 15%, #E9D5FF 60%, #A855F7 100%)",
+    accentGradient: "linear-gradient(90deg, #7E22CE 0%, #9333EA 50%, #C084FC 100%)",
+    accentRgb: "147, 51, 234",
     specPill: "Agile CI/CD Cadence",
     detail: "Zero-Downtime Deployment Lifecycle",
   },
@@ -65,10 +73,12 @@ const STATS_DATA: AchievementStat[] = [
     label: "Years of Industry Experience in IT",
     pillarNum: "04",
     pillarTag: "ENTERPRISE MATURITY",
-    accentColor: "#5EC098",
-    glowColor: "rgba(94, 192, 152, 0.3)",
-    gradientText: "linear-gradient(135deg, #FFFFFF 20%, #A7F3D0 100%)",
-    accentRgb: "94, 192, 152",
+    accentColor: "#059669",
+    glowColor: "rgba(5, 150, 105, 0.32)",
+    gradientTextLight: "linear-gradient(135deg, #047857 0%, #059669 50%, #34D399 100%)",
+    gradientTextDark: "linear-gradient(135deg, #FFFFFF 15%, #A7F3D0 60%, #10B981 100%)",
+    accentGradient: "linear-gradient(90deg, #047857 0%, #059669 50%, #34D399 100%)",
+    accentRgb: "5, 150, 105",
     specPill: "ISO-Grade Reliability",
     detail: "Established Global Technology Partner",
   },
@@ -264,35 +274,54 @@ export default function OurAchievementsSection() {
                 onMouseLeave={() => setHoveredIndex(null)}
                 style={{
                   position: "relative",
-                  borderRadius: "24px",
-                  padding: "2.25rem 1.6rem 2rem 1.6rem",
+                  borderRadius: "26px",
+                  padding: "2.35rem 1.6rem 2rem 1.6rem",
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
                   textAlign: "center",
                   background: isLight
-                    ? "#ffffff"
-                    : "rgba(13, 21, 38, 0.78)",
+                    ? isHovered
+                      ? "linear-gradient(180deg, #ffffff 0%, #f8faff 100%)"
+                      : "linear-gradient(180deg, #ffffff 0%, #f4f8fd 100%)"
+                    : isHovered
+                      ? "linear-gradient(180deg, rgba(16, 26, 48, 0.95) 0%, rgba(10, 18, 36, 0.98) 100%)"
+                      : "linear-gradient(180deg, rgba(13, 21, 38, 0.85) 0%, rgba(8, 14, 28, 0.92) 100%)",
                   border: isLight
                     ? isHovered
                       ? `1.5px solid ${stat.accentColor}`
-                      : "1px solid #e2e8f0"
+                      : "1px solid rgba(226, 232, 240, 0.9)"
                     : isHovered
                       ? `1.5px solid ${stat.accentColor}`
                       : "1px solid rgba(255, 255, 255, 0.08)",
                   boxShadow: isLight
                     ? isHovered
-                      ? `0 24px 50px -12px ${stat.glowColor}`
-                      : "0 10px 30px -4px rgba(0, 0, 0, 0.05)"
+                      ? `0 24px 50px -12px ${stat.glowColor}, 0 4px 16px rgba(0,0,0,0.04)`
+                      : "0 10px 30px -4px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0,0,0,0.02)"
                     : isHovered
                       ? `0 24px 60px -10px ${stat.glowColor}, inset 0 1px 1px rgba(255, 255, 255, 0.15)`
                       : "0 14px 40px -8px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.05)",
-                  transform: isHovered ? "translateY(-8px)" : "translateY(0)",
+                  transform: isHovered ? "translateY(-10px) scale(1.02)" : "translateY(0) scale(1)",
                   transition: "all 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
                   overflow: "hidden",
                   cursor: "default",
                 }}
               >
+                {/* Top Glowing Laser Accent Beam */}
+                <div
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: isHovered ? "3px" : "2px",
+                    background: stat.accentGradient,
+                    boxShadow: isHovered ? `0 0 16px ${stat.accentColor}, 0 0 6px ${stat.accentColor}` : "none",
+                    transition: "all 0.35s ease",
+                    zIndex: 3,
+                  }}
+                />
+
                 {/* 1. Ambient Spotlight Glow within Card */}
                 <div
                   aria-hidden="true"
@@ -301,9 +330,9 @@ export default function OurAchievementsSection() {
                     top: "-20%",
                     left: "50%",
                     transform: "translateX(-50%)",
-                    width: "240px",
-                    height: "220px",
-                    background: `radial-gradient(circle, rgba(${stat.accentRgb}, ${isHovered ? 0.22 : 0.12}) 0%, transparent 70%)`,
+                    width: "250px",
+                    height: "230px",
+                    background: `radial-gradient(circle, rgba(${stat.accentRgb}, ${isHovered ? 0.22 : 0.1}) 0%, transparent 70%)`,
                     pointerEvents: "none",
                     transition: "background 0.35s ease",
                   }}
@@ -323,7 +352,7 @@ export default function OurAchievementsSection() {
                 >
                   <span
                     style={{
-                      fontSize: "0.7rem",
+                      fontSize: "0.72rem",
                       fontWeight: 800,
                       letterSpacing: "0.1em",
                       fontFamily: "ui-monospace, monospace",
@@ -339,10 +368,10 @@ export default function OurAchievementsSection() {
                       fontWeight: 750,
                       letterSpacing: "0.08em",
                       color: stat.accentColor,
-                      padding: "3px 10px",
+                      padding: "4px 11px",
                       borderRadius: "9999px",
-                      background: `rgba(${stat.accentRgb}, ${isLight ? 0.08 : 0.14})`,
-                      border: `1px solid rgba(${stat.accentRgb}, 0.25)`,
+                      background: `rgba(${stat.accentRgb}, ${isLight ? 0.08 : 0.16})`,
+                      border: `1px solid rgba(${stat.accentRgb}, 0.28)`,
                     }}
                   >
                     {stat.pillarTag}
@@ -369,8 +398,8 @@ export default function OurAchievementsSection() {
                       inset: 0,
                       width: "100%",
                       height: "100%",
-                      transform: isHovered ? "rotate(45deg)" : "rotate(0deg)",
-                      transition: "transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)",
+                      transform: isHovered ? "rotate(90deg)" : "rotate(0deg)",
+                      transition: "transform 0.9s cubic-bezier(0.16, 1, 0.3, 1)",
                       pointerEvents: "none",
                     }}
                     viewBox="0 0 148 148"
@@ -379,37 +408,39 @@ export default function OurAchievementsSection() {
                       cx="74"
                       cy="74"
                       r="70"
-                      stroke={`rgba(${stat.accentRgb}, ${isHovered ? 0.45 : 0.2})`}
-                      strokeWidth="1.2"
+                      stroke={`rgba(${stat.accentRgb}, ${isHovered ? 0.5 : 0.22})`}
+                      strokeWidth="1.5"
                       strokeDasharray="4 6"
                       fill="none"
                     />
                     {/* 4 Precision Vernier Tick Marks */}
-                    <line x1="74" y1="2" x2="74" y2="7" stroke={stat.accentColor} strokeWidth="1.5" />
-                    <line x1="74" y1="141" x2="74" y2="146" stroke={stat.accentColor} strokeWidth="1.5" />
-                    <line x1="2" y1="74" x2="7" y2="74" stroke={stat.accentColor} strokeWidth="1.5" />
-                    <line x1="141" y1="74" x2="146" y2="74" stroke={stat.accentColor} strokeWidth="1.5" />
+                    <line x1="74" y1="2" x2="74" y2="8" stroke={stat.accentColor} strokeWidth="2" strokeLinecap="round" />
+                    <line x1="74" y1="140" x2="74" y2="146" stroke={stat.accentColor} strokeWidth="2" strokeLinecap="round" />
+                    <line x1="2" y1="74" x2="8" y2="74" stroke={stat.accentColor} strokeWidth="2" strokeLinecap="round" />
+                    <line x1="140" y1="74" x2="146" y2="74" stroke={stat.accentColor} strokeWidth="2" strokeLinecap="round" />
                   </svg>
 
                   {/* Inner Lens Capsule */}
                   <div
                     style={{
                       position: "relative",
-                      width: "112px",
-                      height: "112px",
+                      width: "114px",
+                      height: "114px",
                       borderRadius: "50%",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
                       background: isLight
-                        ? (isHovered ? "#ffffff" : "rgba(241, 245, 249, 0.9)")
-                        : (isHovered ? "rgba(10, 18, 34, 0.95)" : "rgba(15, 23, 42, 0.75)"),
-                      border: isLight
-                        ? `1.5px solid ${isHovered ? stat.accentColor : "#e2e8f0"}`
-                        : `1.5px solid ${isHovered ? stat.accentColor : "rgba(255, 255, 255, 0.12)"}`,
+                        ? isHovered
+                          ? "linear-gradient(135deg, #ffffff 0%, #f8faff 100%)"
+                          : "linear-gradient(135deg, #f8fafc 0%, #edf2f7 100%)"
+                        : isHovered
+                          ? "linear-gradient(135deg, rgba(16, 26, 48, 0.95) 0%, rgba(10, 18, 36, 0.95) 100%)"
+                          : "rgba(15, 23, 42, 0.8)",
+                      border: `1.5px solid rgba(${stat.accentRgb}, ${isHovered ? 0.6 : 0.25})`,
                       boxShadow: isHovered
-                        ? `0 0 24px rgba(${stat.accentRgb}, 0.3), inset 0 0 12px rgba(${stat.accentRgb}, 0.15)`
-                        : "0 8px 20px rgba(0, 0, 0, 0.25)",
+                        ? `0 0 28px rgba(${stat.accentRgb}, 0.35), inset 0 0 14px rgba(${stat.accentRgb}, 0.18)`
+                        : `0 8px 24px rgba(0, 0, 0, ${isLight ? 0.05 : 0.3})`,
                       transition: "all 0.35s ease",
                     }}
                   >
@@ -423,9 +454,9 @@ export default function OurAchievementsSection() {
                         borderRadius: "50%",
                         background: stat.accentColor,
                         boxShadow: `0 0 12px ${stat.accentColor}, 0 0 4px #ffffff`,
-                        top: isHovered ? "80%" : "6%",
-                        left: isHovered ? "80%" : "6%",
-                        transition: "top 0.65s cubic-bezier(0.16, 1, 0.3, 1), left 0.65s cubic-bezier(0.16, 1, 0.3, 1)",
+                        top: isHovered ? "84%" : "6%",
+                        left: isHovered ? "84%" : "6%",
+                        transition: "top 0.7s cubic-bezier(0.16, 1, 0.3, 1), left 0.7s cubic-bezier(0.16, 1, 0.3, 1)",
                         zIndex: 4,
                       }}
                     />
@@ -440,9 +471,9 @@ export default function OurAchievementsSection() {
                         borderRadius: "50%",
                         background: stat.accentColor,
                         boxShadow: `0 0 12px ${stat.accentColor}, 0 0 4px #ffffff`,
-                        bottom: isHovered ? "80%" : "6%",
-                        right: isHovered ? "80%" : "6%",
-                        transition: "bottom 0.65s cubic-bezier(0.16, 1, 0.3, 1), right 0.65s cubic-bezier(0.16, 1, 0.3, 1)",
+                        bottom: isHovered ? "84%" : "6%",
+                        right: isHovered ? "84%" : "6%",
+                        transition: "bottom 0.7s cubic-bezier(0.16, 1, 0.3, 1), right 0.7s cubic-bezier(0.16, 1, 0.3, 1)",
                         zIndex: 4,
                       }}
                     />
@@ -451,42 +482,40 @@ export default function OurAchievementsSection() {
                     <div
                       style={{
                         position: "relative",
-                        width: "46px",
-                        height: "46px",
+                        width: "48px",
+                        height: "48px",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        transition: "transform 0.35s ease",
-                        transform: isHovered ? "scale(1.16)" : "scale(1)",
-                        filter: isHovered ? `drop-shadow(0 0 8px rgba(${stat.accentRgb}, 0.5))` : "none",
+                        transition: "transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
+                        transform: isHovered ? "scale(1.18)" : "scale(1)",
+                        filter: isHovered ? `drop-shadow(0 0 12px rgba(${stat.accentRgb}, 0.6))` : "none",
                       }}
                     >
                       <Image
                         src={stat.icon}
                         alt=""
-                        width={46}
-                        height={46}
+                        width={48}
+                        height={48}
                         style={{ objectFit: "contain" }}
                       />
                     </div>
                   </div>
                 </div>
 
-                {/* 4. Display Counter Number (Futuristic Typography) */}
+                {/* 4. Display Counter Number (Luminous Gradient Counter) */}
                 <div
                   style={{
-                    fontSize: "clamp(2.4rem, 3.2vw, 2.9rem)",
+                    fontSize: "clamp(2.6rem, 3.5vw, 3.2rem)",
                     fontWeight: 900,
                     letterSpacing: "-0.04em",
                     lineHeight: 1.05,
-                    marginBottom: "0.6rem",
-                    color: isLight ? "#03173C" : "#ffffff",
-                    textShadow: isLight
-                      ? "none"
-                      : isHovered
-                        ? `0 0 20px rgba(${stat.accentRgb}, 0.5)`
-                        : `0 0 12px rgba(${stat.accentRgb}, 0.25)`,
-                    transition: "text-shadow 0.3s ease",
+                    marginBottom: "0.55rem",
+                    background: isLight ? stat.gradientTextLight : stat.gradientTextDark,
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    filter: isHovered ? `drop-shadow(0 4px 14px rgba(${stat.accentRgb}, 0.35))` : "none",
+                    transition: "all 0.3s ease",
                     position: "relative",
                     zIndex: 2,
                   }}
@@ -497,7 +526,7 @@ export default function OurAchievementsSection() {
                 {/* 5. Stat Title Label */}
                 <div
                   style={{
-                    fontSize: "1.02rem",
+                    fontSize: "1.05rem",
                     fontWeight: 750,
                     color: isLight ? "#0f172a" : "#f1f5f9",
                     lineHeight: 1.35,
@@ -512,10 +541,10 @@ export default function OurAchievementsSection() {
                 {/* 6. Context Description */}
                 <div
                   style={{
-                    fontSize: "0.82rem",
-                    fontWeight: 500,
+                    fontSize: "0.85rem",
+                    fontWeight: 450,
                     color: isLight ? "#64748b" : "#94a3b8",
-                    lineHeight: 1.45,
+                    lineHeight: 1.5,
                     marginBottom: "1.5rem",
                     position: "relative",
                     zIndex: 2,
@@ -529,22 +558,20 @@ export default function OurAchievementsSection() {
                   style={{
                     marginTop: "auto",
                     width: "100%",
-                    padding: "0.5rem 0.8rem",
+                    padding: "0.55rem 0.85rem",
                     borderRadius: "12px",
                     background: isLight
-                      ? "rgba(241, 245, 249, 0.8)"
-                      : "rgba(10, 18, 34, 0.6)",
-                    borderWidth: "1px",
-                    borderStyle: "solid",
-                    borderColor: isHovered
-                      ? `rgba(${stat.accentRgb}, 0.3)`
-                      : isLight
-                      ? "#e2e8f0"
-                      : "rgba(255, 255, 255, 0.06)",
+                      ? isHovered
+                        ? `rgba(${stat.accentRgb}, 0.08)`
+                        : "rgba(241, 245, 249, 0.85)"
+                      : isHovered
+                        ? `rgba(${stat.accentRgb}, 0.16)`
+                        : "rgba(10, 18, 34, 0.6)",
+                    border: `1px solid rgba(${stat.accentRgb}, ${isHovered ? 0.35 : (isLight ? 0.14 : 0.08)})`,
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    gap: "6px",
+                    gap: "7px",
                     position: "relative",
                     zIndex: 2,
                     transition: "all 0.3s ease",
@@ -552,19 +579,27 @@ export default function OurAchievementsSection() {
                 >
                   <span
                     style={{
-                      width: "6px",
-                      height: "6px",
+                      width: "7px",
+                      height: "7px",
                       borderRadius: "50%",
                       backgroundColor: stat.accentColor,
-                      boxShadow: `0 0 6px ${stat.accentColor}`,
+                      boxShadow: `0 0 8px ${stat.accentColor}`,
+                      display: "inline-block",
                     }}
                   />
                   <span
                     style={{
-                      fontSize: "0.74rem",
+                      fontSize: "0.76rem",
                       fontWeight: 700,
-                      color: isLight ? "#334155" : "#cbd5e1",
+                      color: isLight
+                        ? isHovered
+                          ? stat.accentColor
+                          : "#334155"
+                        : isHovered
+                          ? "#ffffff"
+                          : "#cbd5e1",
                       letterSpacing: "0.02em",
+                      transition: "color 0.25s ease",
                     }}
                   >
                     {stat.specPill}
