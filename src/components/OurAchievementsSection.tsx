@@ -378,12 +378,13 @@ export default function OurAchievementsSection() {
                   </span>
                 </div>
 
-                {/* 3. High-Tech Holographic Orbital Core (Centerpiece) */}
+                {/* 3. Modern Glassmorphic Icon Pod */}
                 <div
                   style={{
                     position: "relative",
-                    width: "148px",
-                    height: "148px",
+                    width: "84px",
+                    height: "84px",
+                    marginTop: "0.25rem",
                     marginBottom: "1.75rem",
                     display: "flex",
                     alignItems: "center",
@@ -391,112 +392,68 @@ export default function OurAchievementsSection() {
                     zIndex: 2,
                   }}
                 >
-                  {/* Outer Dashed Radar Dial */}
-                  <svg
+                  {/* Soft Ambient Radial Backlight Glow */}
+                  <div
+                    aria-hidden="true"
                     style={{
                       position: "absolute",
-                      inset: 0,
-                      width: "100%",
-                      height: "100%",
-                      transform: isHovered ? "rotate(90deg)" : "rotate(0deg)",
-                      transition: "transform 0.9s cubic-bezier(0.16, 1, 0.3, 1)",
+                      inset: "-16px",
+                      borderRadius: "50%",
+                      background: `radial-gradient(circle, rgba(${stat.accentRgb}, ${isHovered ? 0.35 : (isLight ? 0.14 : 0.22)}) 0%, transparent 70%)`,
+                      filter: "blur(14px)",
+                      opacity: isHovered ? 1 : 0.7,
+                      transition: "opacity 0.4s ease, transform 0.4s ease",
+                      transform: isHovered ? "scale(1.2)" : "scale(1)",
                       pointerEvents: "none",
                     }}
-                    viewBox="0 0 148 148"
-                  >
-                    <circle
-                      cx="74"
-                      cy="74"
-                      r="70"
-                      stroke={`rgba(${stat.accentRgb}, ${isHovered ? 0.5 : 0.22})`}
-                      strokeWidth="1.5"
-                      strokeDasharray="4 6"
-                      fill="none"
-                    />
-                    {/* 4 Precision Vernier Tick Marks */}
-                    <line x1="74" y1="2" x2="74" y2="8" stroke={stat.accentColor} strokeWidth="2" strokeLinecap="round" />
-                    <line x1="74" y1="140" x2="74" y2="146" stroke={stat.accentColor} strokeWidth="2" strokeLinecap="round" />
-                    <line x1="2" y1="74" x2="8" y2="74" stroke={stat.accentColor} strokeWidth="2" strokeLinecap="round" />
-                    <line x1="140" y1="74" x2="146" y2="74" stroke={stat.accentColor} strokeWidth="2" strokeLinecap="round" />
-                  </svg>
+                  />
 
-                  {/* Inner Lens Capsule */}
+                  {/* Frosted Glass Squircle Pod */}
                   <div
                     style={{
                       position: "relative",
-                      width: "114px",
-                      height: "114px",
-                      borderRadius: "50%",
+                      width: "80px",
+                      height: "80px",
+                      borderRadius: "22px",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
                       background: isLight
                         ? isHovered
-                          ? "linear-gradient(135deg, #ffffff 0%, #f8faff 100%)"
-                          : "linear-gradient(135deg, #f8fafc 0%, #edf2f7 100%)"
+                          ? `linear-gradient(145deg, #ffffff 0%, rgba(${stat.accentRgb}, 0.08) 100%)`
+                          : "linear-gradient(145deg, #ffffff 0%, #f8fafc 100%)"
                         : isHovered
-                          ? "linear-gradient(135deg, rgba(16, 26, 48, 0.95) 0%, rgba(10, 18, 36, 0.95) 100%)"
-                          : "rgba(15, 23, 42, 0.8)",
-                      border: `1.5px solid rgba(${stat.accentRgb}, ${isHovered ? 0.6 : 0.25})`,
+                          ? `linear-gradient(145deg, rgba(30, 41, 59, 0.9) 0%, rgba(${stat.accentRgb}, 0.18) 100%)`
+                          : "linear-gradient(145deg, rgba(15, 23, 42, 0.85) 0%, rgba(10, 18, 34, 0.95) 100%)",
+                      border: `1.5px solid rgba(${stat.accentRgb}, ${isHovered ? (isLight ? 0.45 : 0.55) : (isLight ? 0.2 : 0.18)})`,
                       boxShadow: isHovered
-                        ? `0 0 28px rgba(${stat.accentRgb}, 0.35), inset 0 0 14px rgba(${stat.accentRgb}, 0.18)`
-                        : `0 8px 24px rgba(0, 0, 0, ${isLight ? 0.05 : 0.3})`,
-                      transition: "all 0.35s ease",
+                        ? `0 14px 28px -4px rgba(${stat.accentRgb}, ${isLight ? 0.22 : 0.35}), 0 4px 12px rgba(0, 0, 0, ${isLight ? 0.04 : 0.4}), inset 0 1px 1px rgba(255, 255, 255, ${isLight ? 0.8 : 0.15})`
+                        : `0 6px 18px -2px rgba(0, 0, 0, ${isLight ? 0.05 : 0.3}), inset 0 1px 1px rgba(255, 255, 255, ${isLight ? 0.6 : 0.08})`,
+                      transform: isHovered ? "translateY(-4px) scale(1.05)" : "translateY(0) scale(1)",
+                      transition: "all 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
                     }}
                   >
-                    {/* Orbiting Satellite Particle 1 */}
-                    <div
-                      aria-hidden="true"
-                      style={{
-                        position: "absolute",
-                        width: "12px",
-                        height: "12px",
-                        borderRadius: "50%",
-                        background: stat.accentColor,
-                        boxShadow: `0 0 12px ${stat.accentColor}, 0 0 4px #ffffff`,
-                        top: isHovered ? "84%" : "6%",
-                        left: isHovered ? "84%" : "6%",
-                        transition: "top 0.7s cubic-bezier(0.16, 1, 0.3, 1), left 0.7s cubic-bezier(0.16, 1, 0.3, 1)",
-                        zIndex: 4,
-                      }}
-                    />
-
-                    {/* Orbiting Satellite Particle 2 */}
-                    <div
-                      aria-hidden="true"
-                      style={{
-                        position: "absolute",
-                        width: "12px",
-                        height: "12px",
-                        borderRadius: "50%",
-                        background: stat.accentColor,
-                        boxShadow: `0 0 12px ${stat.accentColor}, 0 0 4px #ffffff`,
-                        bottom: isHovered ? "84%" : "6%",
-                        right: isHovered ? "84%" : "6%",
-                        transition: "bottom 0.7s cubic-bezier(0.16, 1, 0.3, 1), right 0.7s cubic-bezier(0.16, 1, 0.3, 1)",
-                        zIndex: 4,
-                      }}
-                    />
-
                     {/* SVG Icon */}
                     <div
                       style={{
                         position: "relative",
-                        width: "48px",
-                        height: "48px",
+                        width: "44px",
+                        height: "44px",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        transition: "transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
-                        transform: isHovered ? "scale(1.18)" : "scale(1)",
-                        filter: isHovered ? `drop-shadow(0 0 12px rgba(${stat.accentRgb}, 0.6))` : "none",
+                        transition: "transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), filter 0.35s ease",
+                        transform: isHovered ? "scale(1.1)" : "scale(1)",
+                        filter: isHovered
+                          ? `drop-shadow(0 4px 10px rgba(${stat.accentRgb}, 0.4))`
+                          : "none",
                       }}
                     >
                       <Image
                         src={stat.icon}
                         alt=""
-                        width={48}
-                        height={48}
+                        width={44}
+                        height={44}
                         style={{ objectFit: "contain" }}
                       />
                     </div>
