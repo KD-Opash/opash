@@ -4,8 +4,29 @@ import { servicesData } from "@/data/services";
 import ServiceDetailTemplate from "@/components/ServiceDetailTemplate";
 
 export const metadata: Metadata = {
-  title: "AI & ML Solutions | Generative AI & Autonomous Agents | Opash Software",
-  description: "Automate complex workflows, deploy private LLM agents, and unlock predictive insights tailored to your business data.",
+  title: "AI/ML Solution Dev | Opash Software",
+  description:
+    "We provide end-to-end AI & Machine Learning development services that empower businesses to unlock insights, automate decisions, and drive innovation.",
+  alternates: {
+    canonical: "https://www.opashsoftware.com/ai-ml-solutions/",
+  },
+  openGraph: {
+    title: "AI/ML Solution Dev | Opash Software",
+    description: "Empowering You With Innovation & Technology - Opash Software AI/ML Development Services",
+    url: "https://www.opashsoftware.com/ai-ml-solutions/",
+    siteName: "Opash Software",
+    type: "website",
+  },
+  keywords: [
+    "AI/ML solutions",
+    "artificial intelligence",
+    "machine learning development",
+    "data science",
+    "NLP",
+    "predictive analytics",
+    "computer vision",
+    "Opash Software",
+  ],
 };
 
 export default function AiMlSolutionsPage() {
