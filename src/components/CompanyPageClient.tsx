@@ -644,14 +644,28 @@ export default function CompanyPageClient() {
                       : isHovered
                       ? "linear-gradient(145deg, rgba(22, 38, 62, 0.95) 0%, rgba(14, 25, 41, 0.98) 100%)"
                       : "linear-gradient(145deg, rgba(14, 25, 41, 0.85) 0%, rgba(10, 18, 30, 0.9) 100%)",
-                    border: isLight
+                    borderTop: `3.5px solid ${isHovered ? brandMint : brandSlate}`,
+                    borderRight: isLight
                       ? isHovered
                         ? `1.5px solid ${brandMint}`
                         : "1.5px solid #DCE6ED"
                       : isHovered
                       ? "1.5px solid rgba(94, 192, 152, 0.55)"
                       : "1.5px solid rgba(255, 255, 255, 0.08)",
-                    borderTop: `3.5px solid ${isHovered ? brandMint : brandSlate}`,
+                    borderBottom: isLight
+                      ? isHovered
+                        ? `1.5px solid ${brandMint}`
+                        : "1.5px solid #DCE6ED"
+                      : isHovered
+                      ? "1.5px solid rgba(94, 192, 152, 0.55)"
+                      : "1.5px solid rgba(255, 255, 255, 0.08)",
+                    borderLeft: isLight
+                      ? isHovered
+                        ? `1.5px solid ${brandMint}`
+                        : "1.5px solid #DCE6ED"
+                      : isHovered
+                      ? "1.5px solid rgba(94, 192, 152, 0.55)"
+                      : "1.5px solid rgba(255, 255, 255, 0.08)",
                     boxShadow: isLight
                       ? isHovered
                         ? "0 20px 40px rgba(0, 168, 143, 0.14), 0 0 20px rgba(0, 168, 143, 0.06)"
@@ -910,14 +924,28 @@ export default function CompanyPageClient() {
                   : hoveredConvictionCard === 0
                   ? "linear-gradient(145deg, rgba(22, 38, 62, 0.95) 0%, rgba(14, 25, 41, 0.98) 100%)"
                   : "linear-gradient(145deg, rgba(14, 25, 41, 0.85) 0%, rgba(10, 18, 30, 0.9) 100%)",
-                border: isLight
-                  ? hoveredConvictionCard === 0
-                    ? "1.5px solid #00A88F"
-                    : "1.5px solid #DCE6ED"
-                  : hoveredConvictionCard === 0
-                  ? "1.5px solid rgba(94, 192, 152, 0.55)"
-                  : "1.5px solid rgba(255, 255, 255, 0.08)",
-                borderTop: "3.5px solid #00A88F",
+                    borderTop: "3.5px solid #00A88F",
+                    borderRight: isLight
+                      ? hoveredConvictionCard === 0
+                        ? "1.5px solid #00A88F"
+                        : "1.5px solid #DCE6ED"
+                      : hoveredConvictionCard === 0
+                      ? "1.5px solid rgba(94, 192, 152, 0.55)"
+                      : "1.5px solid rgba(255, 255, 255, 0.08)",
+                    borderBottom: isLight
+                      ? hoveredConvictionCard === 0
+                        ? "1.5px solid #00A88F"
+                        : "1.5px solid #DCE6ED"
+                      : hoveredConvictionCard === 0
+                      ? "1.5px solid rgba(94, 192, 152, 0.55)"
+                      : "1.5px solid rgba(255, 255, 255, 0.08)",
+                    borderLeft: isLight
+                      ? hoveredConvictionCard === 0
+                        ? "1.5px solid #00A88F"
+                        : "1.5px solid #DCE6ED"
+                      : hoveredConvictionCard === 0
+                      ? "1.5px solid rgba(94, 192, 152, 0.55)"
+                      : "1.5px solid rgba(255, 255, 255, 0.08)",
                 boxShadow: isLight
                   ? hoveredConvictionCard === 0
                     ? "0 20px 45px rgba(0, 168, 143, 0.15), 0 0 20px rgba(0, 168, 143, 0.06)"
@@ -1033,14 +1061,28 @@ export default function CompanyPageClient() {
                   : hoveredConvictionCard === 1
                   ? "linear-gradient(145deg, rgba(22, 38, 62, 0.95) 0%, rgba(14, 25, 41, 0.98) 100%)"
                   : "linear-gradient(145deg, rgba(14, 25, 41, 0.85) 0%, rgba(10, 18, 30, 0.9) 100%)",
-                border: isLight
-                  ? hoveredConvictionCard === 1
-                    ? "1.5px solid #38bdf8"
-                    : "1.5px solid #DCE6ED"
-                  : hoveredConvictionCard === 1
-                  ? "1.5px solid rgba(56, 189, 248, 0.55)"
-                  : "1.5px solid rgba(255, 255, 255, 0.08)",
-                borderTop: "3.5px solid #38bdf8",
+                    borderTop: "3.5px solid #38bdf8",
+                    borderRight: isLight
+                      ? hoveredConvictionCard === 1
+                        ? "1.5px solid #38bdf8"
+                        : "1.5px solid #DCE6ED"
+                      : hoveredConvictionCard === 1
+                      ? "1.5px solid rgba(56, 189, 248, 0.55)"
+                      : "1.5px solid rgba(255, 255, 255, 0.08)",
+                    borderBottom: isLight
+                      ? hoveredConvictionCard === 1
+                        ? "1.5px solid #38bdf8"
+                        : "1.5px solid #DCE6ED"
+                      : hoveredConvictionCard === 1
+                      ? "1.5px solid rgba(56, 189, 248, 0.55)"
+                      : "1.5px solid rgba(255, 255, 255, 0.08)",
+                    borderLeft: isLight
+                      ? hoveredConvictionCard === 1
+                        ? "1.5px solid #38bdf8"
+                        : "1.5px solid #DCE6ED"
+                      : hoveredConvictionCard === 1
+                      ? "1.5px solid rgba(56, 189, 248, 0.55)"
+                      : "1.5px solid rgba(255, 255, 255, 0.08)",
                 boxShadow: isLight
                   ? hoveredConvictionCard === 1
                     ? "0 20px 45px rgba(56, 189, 248, 0.15), 0 0 20px rgba(56, 189, 248, 0.06)"
@@ -1156,14 +1198,28 @@ export default function CompanyPageClient() {
                   : hoveredConvictionCard === 2
                   ? "linear-gradient(145deg, rgba(22, 38, 62, 0.95) 0%, rgba(14, 25, 41, 0.98) 100%)"
                   : "linear-gradient(145deg, rgba(14, 25, 41, 0.85) 0%, rgba(10, 18, 30, 0.9) 100%)",
-                border: isLight
-                  ? hoveredConvictionCard === 2
-                    ? "1.5px solid #6366f1"
-                    : "1.5px solid #DCE6ED"
-                  : hoveredConvictionCard === 2
-                  ? "1.5px solid rgba(99, 102, 241, 0.55)"
-                  : "1.5px solid rgba(255, 255, 255, 0.08)",
-                borderTop: "3.5px solid #6366f1",
+                    borderTop: "3.5px solid #6366f1",
+                    borderRight: isLight
+                      ? hoveredConvictionCard === 2
+                        ? "1.5px solid #6366f1"
+                        : "1.5px solid #DCE6ED"
+                      : hoveredConvictionCard === 2
+                      ? "1.5px solid rgba(99, 102, 241, 0.55)"
+                      : "1.5px solid rgba(255, 255, 255, 0.08)",
+                    borderBottom: isLight
+                      ? hoveredConvictionCard === 2
+                        ? "1.5px solid #6366f1"
+                        : "1.5px solid #DCE6ED"
+                      : hoveredConvictionCard === 2
+                      ? "1.5px solid rgba(99, 102, 241, 0.55)"
+                      : "1.5px solid rgba(255, 255, 255, 0.08)",
+                    borderLeft: isLight
+                      ? hoveredConvictionCard === 2
+                        ? "1.5px solid #6366f1"
+                        : "1.5px solid #DCE6ED"
+                      : hoveredConvictionCard === 2
+                      ? "1.5px solid rgba(99, 102, 241, 0.55)"
+                      : "1.5px solid rgba(255, 255, 255, 0.08)",
                 boxShadow: isLight
                   ? hoveredConvictionCard === 2
                     ? "0 20px 45px rgba(99, 102, 241, 0.15), 0 0 20px rgba(99, 102, 241, 0.06)"
@@ -1863,10 +1919,16 @@ export default function CompanyPageClient() {
                     background: isLight
                       ? "#ffffff"
                       : "linear-gradient(180deg, rgba(15, 23, 42, 0.8) 0%, rgba(10, 18, 34, 0.92) 100%)",
-                    border: isLight
+                    borderTop: `3.5px solid ${pillar.accent}`,
+                    borderRight: isLight
                       ? "1.5px solid #e2e8f0"
                       : "1.5px solid rgba(255, 255, 255, 0.08)",
-                    borderTop: `3.5px solid ${pillar.accent}`,
+                    borderBottom: isLight
+                      ? "1.5px solid #e2e8f0"
+                      : "1.5px solid rgba(255, 255, 255, 0.08)",
+                    borderLeft: isLight
+                      ? "1.5px solid #e2e8f0"
+                      : "1.5px solid rgba(255, 255, 255, 0.08)",
                     boxShadow: isLight
                       ? `0 10px 30px rgba(0, 0, 0, 0.04), 0 0 20px ${pillar.accent}12`
                       : `0 16px 40px rgba(0, 0, 0, 0.4), 0 0 20px ${pillar.accent}15`,
