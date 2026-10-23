@@ -40,6 +40,8 @@ import {
   X,
   Phone,
   Mail,
+  ArrowUpRight,
+  MessageCircle,
 } from 'lucide-react';
 
 export default function CareerPageClient() {
@@ -1016,14 +1018,23 @@ export default function CareerPageClient() {
         .hr-contact-card {
           position: sticky;
           top: 100px;
+          transition: transform 0.25s ease, box-shadow 0.25s ease;
         }
         .hr-card-title {
-          font-size: 1.45rem !important;
+          font-size: 1.35rem !important;
           font-weight: 800 !important;
-          color: #175cff !important;
-          margin: 0 0 1.2rem 0 !important;
+          color: #2563eb !important;
+          margin: 0 0 1rem 0 !important;
           letter-spacing: -0.015em !important;
           line-height: 1.3 !important;
+        }
+        .hr-channel-card {
+          transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        }
+        .hr-channel-card:hover {
+          transform: translateY(-2px);
+          border-color: #3b82f6 !important;
+          box-shadow: 0 10px 24px -6px rgba(37, 99, 235, 0.2) !important;
         }
         @media (max-width: 991px) {
           .careers-apply-grid {
@@ -1601,172 +1612,444 @@ export default function CareerPageClient() {
             )}
             </div>
 
-            {/* Right: HR Contact Information Card (Matching Design Screenshot) */}
+            {/* Right: Modern High-Impact HR Contact Information Card */}
             <div
               className="hr-contact-card"
               style={{
-                borderRadius: '24px',
-                background: isLight ? '#f0f6ff' : 'rgba(15, 23, 42, 0.85)',
-                border: isLight ? '1px solid #dbeafe' : '1px solid rgba(59, 130, 246, 0.25)',
+                borderRadius: '28px',
+                background: isLight
+                  ? 'linear-gradient(165deg, #ffffff 0%, #f4f8ff 60%, #ebf3ff 100%)'
+                  : 'linear-gradient(165deg, rgba(15, 23, 42, 0.95) 0%, rgba(10, 18, 38, 0.98) 100%)',
+                border: isLight ? '1px solid rgba(37, 99, 235, 0.18)' : '1px solid rgba(59, 130, 246, 0.32)',
                 boxShadow: isLight
-                  ? '0 20px 45px -15px rgba(37, 99, 235, 0.1)'
-                  : '0 25px 60px -20px rgba(37, 99, 235, 0.25)',
+                  ? '0 25px 60px -15px rgba(37, 99, 235, 0.12), 0 0 0 1px rgba(37, 99, 235, 0.05)'
+                  : '0 30px 80px -20px rgba(0, 0, 0, 0.7), 0 0 50px -10px rgba(37, 99, 235, 0.25)',
                 padding: 'clamp(2rem, 3.5vw, 2.75rem)',
                 display: 'flex',
                 flexDirection: 'column',
+                position: 'relative',
+                overflow: 'hidden',
               }}
             >
-              {/* 1. HR Contact Information */}
-              <div>
-                <div className="hr-card-title">
-                  HR Contact Information
+              {/* Ambient Radial Glow Orb */}
+              <div
+                style={{
+                  position: 'absolute',
+                  top: '-50px',
+                  right: '-50px',
+                  width: '240px',
+                  height: '240px',
+                  background: isLight
+                    ? 'radial-gradient(circle, rgba(37, 99, 235, 0.12) 0%, transparent 70%)'
+                    : 'radial-gradient(circle, rgba(59, 130, 246, 0.22) 0%, transparent 70%)',
+                  filter: 'blur(40px)',
+                  pointerEvents: 'none',
+                  zIndex: 0,
+                }}
+              />
+
+              <div style={{ position: 'relative', zIndex: 1 }}>
+                {/* Live Status Pill */}
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
+                  <span
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '7px',
+                      padding: '5px 12px',
+                      borderRadius: '9999px',
+                      fontSize: '0.72rem',
+                      fontWeight: 700,
+                      letterSpacing: '0.08em',
+                      textTransform: 'uppercase',
+                      background: isLight ? 'rgba(16, 185, 129, 0.1)' : 'rgba(16, 185, 129, 0.18)',
+                      border: isLight ? '1px solid rgba(16, 185, 129, 0.25)' : '1px solid rgba(16, 185, 129, 0.4)',
+                      color: isLight ? '#059669' : '#34d399',
+                    }}
+                  >
+                    <span
+                      style={{
+                        width: 7,
+                        height: 7,
+                        borderRadius: '50%',
+                        background: '#10b981',
+                        boxShadow: '0 0 8px #10b981',
+                        display: 'inline-block',
+                      }}
+                    />
+                    HR Desk Active • Quick Reply
+                  </span>
+                  <span
+                    style={{
+                      fontSize: '0.75rem',
+                      fontWeight: 700,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.06em',
+                      color: isLight ? '#2563eb' : '#60a5fa',
+                    }}
+                  >
+                    Careers Portal
+                  </span>
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.95rem' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
-                    <Phone size={18} style={{ color: isLight ? '#0f172a' : '#f8fafc', flexShrink: 0 }} />
+
+                {/* 1. HR Contact Information */}
+                <div style={{ marginBottom: '1.75rem' }}>
+                  <div className="hr-card-title">
+                    HR Contact Information
+                  </div>
+                  <p style={{ margin: '0 0 1.25rem 0', fontSize: '0.88rem', color: isLight ? '#64748b' : '#94a3b8', lineHeight: 1.55 }}>
+                    Reach our technical recruitment team directly for role inquiries, process details, or candidate updates.
+                  </p>
+
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+                    {/* Phone Channel Card */}
                     <a
                       href={`tel:${companyData.contact.phoneClean}`}
+                      className="hr-channel-card"
                       style={{
-                        fontSize: '1.02rem',
-                        fontWeight: 500,
-                        color: isLight ? '#0f172a' : '#f8fafc',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        padding: '1rem 1.15rem',
+                        borderRadius: '16px',
+                        background: isLight ? '#ffffff' : 'rgba(255, 255, 255, 0.04)',
+                        border: isLight ? '1px solid #dbeafe' : '1px solid rgba(255, 255, 255, 0.08)',
+                        boxShadow: isLight ? '0 2px 8px rgba(37, 99, 235, 0.04)' : 'none',
                         textDecoration: 'none',
                       }}
                     >
-                      {companyData.contact.phone}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.9rem' }}>
+                        <div
+                          style={{
+                            width: '42px',
+                            height: '42px',
+                            borderRadius: '12px',
+                            background: isLight ? 'rgba(37, 99, 235, 0.1)' : 'rgba(37, 99, 235, 0.25)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: isLight ? '#2563eb' : '#60a5fa',
+                            flexShrink: 0,
+                          }}
+                        >
+                          <Phone size={19} />
+                        </div>
+                        <div>
+                          <div style={{ fontSize: '0.72rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: isLight ? '#64748b' : '#94a3b8' }}>
+                            Call / WhatsApp
+                          </div>
+                          <div style={{ fontSize: '1.02rem', fontWeight: 650, color: isLight ? '#0f172a' : '#f8fafc' }}>
+                            {companyData.contact.phone}
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        style={{
+                          width: '32px',
+                          height: '32px',
+                          borderRadius: '50%',
+                          background: isLight ? '#f1f5f9' : 'rgba(255, 255, 255, 0.08)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: isLight ? '#2563eb' : '#60a5fa',
+                        }}
+                      >
+                        <ArrowUpRight size={16} />
+                      </div>
                     </a>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
-                    <Mail size={18} style={{ color: isLight ? '#0f172a' : '#f8fafc', flexShrink: 0 }} />
+
+                    {/* Email Channel Card */}
                     <a
                       href={`mailto:${companyData.contact.hrEmail}`}
+                      className="hr-channel-card"
                       style={{
-                        fontSize: '1.02rem',
-                        fontWeight: 500,
-                        color: isLight ? '#0f172a' : '#f8fafc',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        padding: '1rem 1.15rem',
+                        borderRadius: '16px',
+                        background: isLight ? '#ffffff' : 'rgba(255, 255, 255, 0.04)',
+                        border: isLight ? '1px solid #dbeafe' : '1px solid rgba(255, 255, 255, 0.08)',
+                        boxShadow: isLight ? '0 2px 8px rgba(37, 99, 235, 0.04)' : 'none',
                         textDecoration: 'none',
                       }}
                     >
-                      {companyData.contact.hrEmail}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.9rem' }}>
+                        <div
+                          style={{
+                            width: '42px',
+                            height: '42px',
+                            borderRadius: '12px',
+                            background: isLight ? 'rgba(14, 165, 233, 0.1)' : 'rgba(14, 165, 233, 0.25)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: isLight ? '#0284c7' : '#38bdf8',
+                            flexShrink: 0,
+                          }}
+                        >
+                          <Mail size={19} />
+                        </div>
+                        <div>
+                          <div style={{ fontSize: '0.72rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: isLight ? '#64748b' : '#94a3b8' }}>
+                            Official Talent Inbox
+                          </div>
+                          <div style={{ fontSize: '1.02rem', fontWeight: 650, color: isLight ? '#0f172a' : '#f8fafc' }}>
+                            {companyData.contact.hrEmail}
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        style={{
+                          width: '32px',
+                          height: '32px',
+                          borderRadius: '50%',
+                          background: isLight ? '#f1f5f9' : 'rgba(255, 255, 255, 0.08)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: isLight ? '#0284c7' : '#38bdf8',
+                        }}
+                      >
+                        <ArrowUpRight size={16} />
+                      </div>
                     </a>
                   </div>
                 </div>
-              </div>
 
-              {/* Divider 1 */}
-              <div
-                style={{
-                  borderBottom: isLight ? '1.5px solid #93c5fd' : '1px solid rgba(59, 130, 246, 0.25)',
-                  margin: '1.5rem 0',
-                }}
-              />
+                {/* Subtle Divider */}
+                <div
+                  style={{
+                    height: '1px',
+                    background: isLight
+                      ? 'linear-gradient(90deg, #bfdbfe 0%, rgba(191, 219, 254, 0.3) 100%)'
+                      : 'linear-gradient(90deg, rgba(59, 130, 246, 0.4) 0%, rgba(59, 130, 246, 0.08) 100%)',
+                    margin: '1.75rem 0',
+                  }}
+                />
 
-              {/* 2. Office Address */}
-              <div>
-                <div className="hr-card-title">
-                  Office Address
+                {/* 2. Office Address */}
+                <div style={{ marginBottom: '1.75rem' }}>
+                  <div className="hr-card-title">
+                    Office Address
+                  </div>
+                  <div
+                    style={{
+                      padding: '1.15rem 1.25rem',
+                      borderRadius: '16px',
+                      background: isLight ? '#ffffff' : 'rgba(255, 255, 255, 0.04)',
+                      border: isLight ? '1px solid #dbeafe' : '1px solid rgba(255, 255, 255, 0.08)',
+                      boxShadow: isLight ? '0 2px 8px rgba(37, 99, 235, 0.04)' : 'none',
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.9rem' }}>
+                      <div
+                        style={{
+                          width: '38px',
+                          height: '38px',
+                          borderRadius: '10px',
+                          background: isLight ? 'rgba(37, 99, 235, 0.1)' : 'rgba(37, 99, 235, 0.25)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: isLight ? '#2563eb' : '#60a5fa',
+                          flexShrink: 0,
+                          marginTop: '2px',
+                        }}
+                      >
+                        <Building2 size={19} />
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontSize: '0.96rem', fontWeight: 650, color: isLight ? '#0f172a' : '#f8fafc', marginBottom: '4px' }}>
+                          Opash Software Headquarters
+                        </div>
+                        <p style={{ margin: 0, fontSize: '0.88rem', lineHeight: 1.6, color: isLight ? '#475569' : '#cbd5e1' }}>
+                          129, The Galleria Shopping Hub, Nr. Sanjeev Kumar Auditorium, Opp. 3Seventy Kitchen Restaurant, Pal, Adajan, Surat - 395009
+                        </p>
+                        <a
+                          href={companyData.contact.googleMapsUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '5px',
+                            marginTop: '0.75rem',
+                            fontSize: '0.82rem',
+                            fontWeight: 650,
+                            color: isLight ? '#2563eb' : '#60a5fa',
+                            textDecoration: 'none',
+                          }}
+                        >
+                          <MapPin size={14} />
+                          <span>Locate on Google Maps</span>
+                          <ExternalLink size={12} />
+                        </a>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.85rem' }}>
-                  <Building2 size={19} style={{ color: isLight ? '#0f172a' : '#f8fafc', flexShrink: 0, marginTop: '3px' }} />
+
+                {/* Subtle Divider */}
+                <div
+                  style={{
+                    height: '1px',
+                    background: isLight
+                      ? 'linear-gradient(90deg, #bfdbfe 0%, rgba(191, 219, 254, 0.3) 100%)'
+                      : 'linear-gradient(90deg, rgba(59, 130, 246, 0.4) 0%, rgba(59, 130, 246, 0.08) 100%)',
+                    margin: '1.75rem 0',
+                  }}
+                />
+
+                {/* 3. Timing */}
+                <div style={{ marginBottom: '1.75rem' }}>
+                  <div className="hr-card-title">
+                    Timing
+                  </div>
+                  <div
+                    style={{
+                      padding: '1.15rem 1.25rem',
+                      borderRadius: '16px',
+                      background: isLight ? '#ffffff' : 'rgba(255, 255, 255, 0.04)',
+                      border: isLight ? '1px solid #dbeafe' : '1px solid rgba(255, 255, 255, 0.08)',
+                      boxShadow: isLight ? '0 2px 8px rgba(37, 99, 235, 0.04)' : 'none',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      flexWrap: 'wrap',
+                      gap: '0.75rem',
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
+                      <div
+                        style={{
+                          width: '38px',
+                          height: '38px',
+                          borderRadius: '10px',
+                          background: isLight ? 'rgba(16, 185, 129, 0.1)' : 'rgba(16, 185, 129, 0.25)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: isLight ? '#059669' : '#34d399',
+                          flexShrink: 0,
+                        }}
+                      >
+                        <Clock size={19} />
+                      </div>
+                      <div>
+                        <div style={{ fontSize: '0.72rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: isLight ? '#64748b' : '#94a3b8' }}>
+                          Working Days
+                        </div>
+                        <div style={{ fontSize: '0.96rem', fontWeight: 650, color: isLight ? '#0f172a' : '#f8fafc' }}>
+                          Monday – Friday
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      style={{
+                        padding: '6px 12px',
+                        borderRadius: '8px',
+                        background: isLight ? '#eff6ff' : 'rgba(37, 99, 235, 0.2)',
+                        border: isLight ? '1px solid #bfdbfe' : '1px solid rgba(59, 130, 246, 0.3)',
+                        fontSize: '0.86rem',
+                        fontWeight: 650,
+                        color: isLight ? '#1d4ed8' : '#93c5fd',
+                      }}
+                    >
+                      9:30 AM to 6:30 PM IST
+                    </div>
+                  </div>
+                </div>
+
+                {/* 4. Quote & Quick Connect Box */}
+                <div
+                  style={{
+                    padding: '1.4rem 1.35rem',
+                    borderRadius: '18px',
+                    background: isLight
+                      ? 'linear-gradient(135deg, rgba(37, 99, 235, 0.08) 0%, rgba(14, 165, 233, 0.04) 100%)'
+                      : 'linear-gradient(135deg, rgba(37, 99, 235, 0.22) 0%, rgba(14, 165, 233, 0.1) 100%)',
+                    border: isLight ? '1px solid rgba(37, 99, 235, 0.15)' : '1px solid rgba(59, 130, 246, 0.32)',
+                    position: 'relative',
+                  }}
+                >
                   <p
                     style={{
-                      margin: 0,
-                      fontSize: '0.98rem',
-                      lineHeight: 1.6,
-                      color: isLight ? '#1e293b' : '#e2e8f0',
-                      fontWeight: 450,
-                    }}
-                  >
-                    129, The Galleria Shopping Hub, Nr. Sanjeev Kumar Auditorium, Opp. 3Seventy Kitchen Restaurant, Pal, Adajan, Surat - 395009
-                  </p>
-                </div>
-              </div>
-
-              {/* Divider 2 */}
-              <div
-                style={{
-                  borderBottom: isLight ? '1.5px solid #93c5fd' : '1px solid rgba(59, 130, 246, 0.25)',
-                  margin: '1.5rem 0',
-                }}
-              />
-
-              {/* 3. Timing */}
-              <div>
-                <div className="hr-card-title">
-                  Timing
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
-                  <Clock size={19} style={{ color: isLight ? '#0f172a' : '#f8fafc', flexShrink: 0 }} />
-                  <span
-                    style={{
                       fontSize: '1.02rem',
-                      fontWeight: 500,
+                      fontWeight: 650,
                       color: isLight ? '#0f172a' : '#f8fafc',
+                      lineHeight: 1.6,
+                      margin: 0,
                     }}
                   >
-                    Monday – Friday : 9:30 AM to 6:30 PM IST
-                  </span>
+                    <span
+                      style={{
+                        color: isLight ? '#2563eb' : '#60a5fa',
+                        fontSize: '1.65rem',
+                        fontWeight: 900,
+                        lineHeight: 1,
+                        verticalAlign: '-3px',
+                        marginRight: '6px',
+                      }}
+                    >
+                      “
+                    </span>
+                    Love What You Do? Do It with Us. Explore exciting career
+                    <span
+                      style={{
+                        color: isLight ? '#2563eb' : '#60a5fa',
+                        fontSize: '1.65rem',
+                        fontWeight: 900,
+                        lineHeight: 1,
+                        verticalAlign: '-3px',
+                        marginLeft: '6px',
+                      }}
+                    >
+                      ”
+                    </span>
+                    <br />
+                    opportunities now.
+                  </p>
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      marginTop: '1.15rem',
+                      paddingTop: '0.95rem',
+                      borderTop: isLight ? '1px solid rgba(37, 99, 235, 0.12)' : '1px solid rgba(255, 255, 255, 0.08)',
+                      flexWrap: 'wrap',
+                      gap: '0.65rem',
+                    }}
+                  >
+                    <span style={{ fontSize: '0.92rem', fontWeight: 600, color: isLight ? '#475569' : '#cbd5e1' }}>
+                      Connect with our HR today.
+                    </span>
+                    <a
+                      href={`https://wa.me/${companyData.contact.phoneClean}?text=Hello%20Opash%20HR,%20I%20am%20interested%20in%20career%20opportunities%20at%20Opash%20Software.`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        padding: '6px 14px',
+                        borderRadius: '9999px',
+                        fontSize: '0.8rem',
+                        fontWeight: 700,
+                        background: '#2563eb',
+                        color: '#ffffff',
+                        textDecoration: 'none',
+                        boxShadow: '0 4px 12px rgba(37, 99, 235, 0.25)',
+                        transition: 'all 0.2s ease',
+                      }}
+                    >
+                      <MessageCircle size={14} />
+                      <span>WhatsApp HR</span>
+                    </a>
+                  </div>
                 </div>
-              </div>
-
-              {/* Divider 3 */}
-              <div
-                style={{
-                  borderBottom: isLight ? '1.5px solid #93c5fd' : '1px solid rgba(59, 130, 246, 0.25)',
-                  margin: '1.5rem 0',
-                }}
-              />
-
-              {/* 4. Quote & Connect */}
-              <div>
-                <p
-                  style={{
-                    fontSize: '1.02rem',
-                    fontWeight: 500,
-                    color: isLight ? '#0f172a' : '#f8fafc',
-                    lineHeight: 1.65,
-                    margin: 0,
-                  }}
-                >
-                  <span
-                    style={{
-                      color: '#175cff',
-                      fontSize: '1.65rem',
-                      fontWeight: 900,
-                      lineHeight: 1,
-                      verticalAlign: '-3px',
-                      marginRight: '6px',
-                    }}
-                  >
-                    “
-                  </span>
-                  Love What You Do? Do It with Us. Explore exciting career
-                  <span
-                    style={{
-                      color: '#175cff',
-                      fontSize: '1.65rem',
-                      fontWeight: 900,
-                      lineHeight: 1,
-                      verticalAlign: '-3px',
-                      marginLeft: '6px',
-                    }}
-                  >
-                    ”
-                  </span>
-                  <br />
-                  opportunities now.
-                </p>
-                <p
-                  style={{
-                    fontSize: '1rem',
-                    color: isLight ? '#334155' : '#94a3b8',
-                    marginTop: '1.35rem',
-                    marginBottom: 0,
-                    fontWeight: 500,
-                  }}
-                >
-                  Connect with our HR today.
-                </p>
               </div>
             </div>
           </div>
