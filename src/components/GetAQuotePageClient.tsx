@@ -255,7 +255,7 @@ export default function GetAQuotePageClient() {
   const faqs = [
     {
       q: 'How accurate is this interactive estimate?',
-      a: 'Our estimator is calibrated against 75+ completed production deliveries. It reflects our direct Indian nearshoring rate card with senior tech leads in Surat. The calculated range is typically accurate within ±10% following our initial 30-minute architectural scoping review.',
+      a: 'Our estimator is calibrated against 75+ completed production deliveries. It reflects our transparent pricing with senior tech leads based in Surat, India. The calculated range is typically accurate within ±10% following our initial 30-minute architectural scoping review.',
     },
     {
       q: 'What is included in the 2-Week Risk-Free Trial?',
@@ -306,19 +306,15 @@ export default function GetAQuotePageClient() {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '0.6rem',
-                padding: '0.45rem 1.25rem',
-                borderRadius: '9999px',
-                background: isLight ? 'rgba(0, 168, 143, 0.1)' : 'rgba(94, 192, 152, 0.12)',
-                border: isLight ? '1px solid rgba(0, 168, 143, 0.25)' : '1px solid rgba(94, 192, 152, 0.35)',
-                fontSize: '0.82rem',
+                fontSize: '0.86rem',
                 fontWeight: 700,
-                letterSpacing: '0.05em',
+                letterSpacing: '0.06em',
                 textTransform: 'uppercase',
                 color: isLight ? '#008a75' : '#2dd4bf',
               }}
             >
-              <Sparkles size={14} />
-              <span>TRANSPARENT SPRINT PRICING &bull; 0% SURPRISE FEES &bull; 100% IP OWNERSHIP</span>
+              <Sparkles size={16} />
+              <span>Transparent Sprint Pricing &bull; 0% Surprise Fees &bull; 100% IP Ownership</span>
             </div>
           </div>
 
@@ -1186,17 +1182,15 @@ export default function GetAQuotePageClient() {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '0.5rem',
-                padding: '0.35rem 0.95rem',
-                borderRadius: '9999px',
-                background: isLight ? 'rgba(0, 168, 143, 0.1)' : 'rgba(94, 192, 152, 0.12)',
                 color: isLight ? '#008a75' : '#2dd4bf',
-                fontSize: '0.82rem',
+                fontSize: '0.85rem',
                 fontWeight: 700,
                 textTransform: 'uppercase',
+                letterSpacing: '0.06em',
                 marginBottom: '0.85rem',
               }}
             >
-              <Workflow size={14} />
+              <Workflow size={16} />
               <span>Predictable Engineering Cadence</span>
             </div>
 
@@ -1322,7 +1316,7 @@ export default function GetAQuotePageClient() {
               Why Global Founders Choose Opash
             </h2>
             <p style={{ color: isLight ? '#64748b' : '#94a3b8', fontSize: '1rem', lineHeight: 1.6, margin: 0 }}>
-              Compare how our direct Surat nearshoring engineering squads perform against traditional Western hiring and legacy agencies.
+              Compare how our dedicated Surat engineering team performs against traditional in-house hiring and legacy agencies.
             </p>
           </div>
 

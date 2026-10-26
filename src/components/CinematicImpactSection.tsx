@@ -53,7 +53,7 @@ function TelemetryCanvas({ mode, isLight, accentColor }: TelemetryCanvasProps) {
         xmlns="http://www.w3.org/2000/svg"
         style={{ width: "100%", height: "100%", display: "block" }}
       >
-        {/* MODE 0: NEURAL SQUAD NETWORK (50+ Developers) */}
+        {/* MODE 0: NEURAL SQUAD NETWORK (Dedicated Squads) */}
         {mode === 0 && (
           <g>
             <rect width="500" height="340" fill={isLight ? "rgba(14, 165, 233, 0.05)" : "rgba(56, 189, 248, 0.03)"} />
@@ -83,7 +83,7 @@ function TelemetryCanvas({ mode, isLight, accentColor }: TelemetryCanvasProps) {
             ))}
 
             <text x="24" y="320" fill={isLight ? "#0f172a" : "#ffffff"} fontSize="12" fontFamily="ui-monospace, monospace" fontWeight="600">
-              ● 50 SENIOR ARCHITECT NODES SYNCED
+              ● DEDICATED SQUAD ARCHITECTURE ACTIVE
             </text>
           </g>
         )}
@@ -167,10 +167,10 @@ function TelemetryCanvas({ mode, isLight, accentColor }: TelemetryCanvasProps) {
 
             {/* Center Typography */}
             <text x="250" y="165" textAnchor="middle" fill={isLight ? "#0f172a" : "#f8fafc"} fontSize="28" fontWeight="800" fontFamily="var(--font-display), monospace">
-              2016 → 2026
+              2021 → Present
             </text>
             <text x="250" y="190" textAnchor="middle" fill={isLight ? "#64748b" : "#94a3b8"} fontSize="11" fontWeight="600" fontFamily="ui-monospace, monospace">
-              DECADE OF ARCHITECTURAL EXCELLENCE
+              PROVEN ENGINEERING EXCELLENCE
             </text>
 
             <text x="24" y="320" fill={isLight ? "#0f172a" : "#ffffff"} fontSize="12" fontFamily="ui-monospace, monospace" fontWeight="600">
@@ -191,14 +191,14 @@ const METRIC_PILLARS = [
   {
     id: 0,
     tag: "01",
-    val: "50+",
-    num: 50,
-    label: "Engineers",
-    title: "Senior Engineering Force",
+    val: "100%",
+    num: 100,
+    label: "In-House Team",
+    title: "Dedicated Engineering Force",
     icon: Users,
     color: "#38bdf8", // Sky Cyan
     colorRgb: "56, 189, 248",
-    telemetry: "98% Senior Talent Ratio",
+    telemetry: "100% In-House Engineers",
     desc: "Autonomous full-stack, distributed cloud-native, and AI engineers working under veteran tech leadership.",
     specs: ["Dedicated Squads", "Full-Stack + AI", "Zero Ramp-up Time"],
   },
@@ -240,7 +240,7 @@ const METRIC_PILLARS = [
     icon: Award,
     color: "#fbbf24", // Amber Gold
     colorRgb: "251, 191, 36",
-    telemetry: "Established 2016 • Retained",
+    telemetry: "Established 2021 • Retained",
     desc: "Deep engineering authority sustained across 9 connected markets with over 90% multi-year client retention.",
     specs: ["9 Global Markets", "US, UK & MENA", "Full IP Ownership"],
   },

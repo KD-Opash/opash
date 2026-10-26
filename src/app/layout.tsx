@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://www.opashsoftware.com"),
   title: "Opash Software | Custom Software Development Company | AI & Web Solutions",
   description:
-    "Empowering startups and enterprises with scalable Custom Software, Web Applications, Mobile Apps, SaaS Engineering, and AI/ML Solutions. 50+ developers, 75+ global projects delivered.",
+    "Empowering startups and enterprises with scalable Custom Software, Web Applications, Mobile Apps, SaaS Engineering, and AI/ML Solutions. Dedicated engineering teams, 75+ global projects delivered.",
   keywords: [
     "Custom Software Development",
     "Opash Software",

@@ -56,17 +56,17 @@ export const GLOBAL_HUBS: GlobalHub[] = [
     id: "india",
     country: "India (HQ)",
     flag: "🇮🇳",
-    category: "R&D Core",
-    headline: "50+ Devs Active",
-    cities: "Surat & Nationwide",
-    deployments: "Global Command Center",
+    category: "Engineering Core",
+    headline: "Surat HQ Active",
+    cities: "Surat, Gujarat, India",
+    deployments: "Global Engineering Hub",
     latency: "< 5ms Core",
     latencyMs: 4,
     timeZone: "Asia/Kolkata",
     timeZoneLabel: "IST (UTC+5:30)",
     region: "apac",
-    squadFocus: "Core Architecture, Full-Stack SaaS & Generative AI Squads",
-    overlap: "HQ Epicenter",
+    squadFocus: "Core Architecture, Full-Stack SaaS & AI Solutions",
+    overlap: "Surat HQ",
     overlapHours: 9,
     accent: "#10b981",
     accentRgb: "16, 185, 129",
@@ -379,20 +379,16 @@ export function GlobalDeliveryMesh() {
               display: "inline-flex",
               alignItems: "center",
               gap: "0.5rem",
-              padding: "0.4rem 1rem",
-              borderRadius: "9999px",
-              background: isLight ? "rgba(16, 185, 129, 0.1)" : "rgba(16, 185, 129, 0.15)",
-              border: `1px solid ${isLight ? "rgba(16, 185, 129, 0.3)" : "rgba(16, 185, 129, 0.45)"}`,
               color: isLight ? "#059669" : "#10b981",
-              fontSize: "0.82rem",
+              fontSize: "0.85rem",
               fontWeight: 700,
               letterSpacing: "0.06em",
               textTransform: "uppercase",
-              marginBottom: "1.2rem",
+              marginBottom: "1rem",
             }}
           >
-            <Radio size={14} className="animate-pulse" />
-            <span>LIVE TRAJECTORY // SURAT HQ ACTIVE BEACON [21.17° N, 72.83° E]</span>
+            <Globe size={16} />
+            <span>Global Delivery Network &bull; Surat, India &bull; Worldwide Coverage</span>
           </div>
 
           <h2 className="heading-section" style={{ margin: "0 0 1rem 0" }}>
@@ -667,19 +663,19 @@ export function GlobalDeliveryMesh() {
                 <circle cx="978" cy="478" r="1.5" fill="#00ffd1" />
               </g>
 
-              {/* HUD Coordinate & Telemetry Header Readouts */}
-              <g fontSize="8.5" fontFamily="monospace" fontWeight="700" letterSpacing="0.08em">
-                <text x="50" y="32" fill={isLight ? "#0284c7" : "#00ffd1"}>
-                  SYS.STATUS: OPERATIONAL // PROTOCOL: WG-MESH-01 // LATENCY ENGINE: ACTIVE
+              {/* Delivery Network Information Readouts */}
+              <g fontSize="9" fontFamily="var(--font-sans), sans-serif" fontWeight="600" letterSpacing="0.04em">
+                <text x="50" y="32" fill={isLight ? "#0284c7" : "#38bdf8"}>
+                  OPASH SOFTWARE • GLOBAL DELIVERY NETWORK
                 </text>
-                <text x="950" y="32" fill={isLight ? "#64748b" : "#38bdf8"} textAnchor="end">
-                  PACKET INTEGRITY: 100% // LOSS: 0.00% // 24/7 ENCRYPTED
+                <text x="950" y="32" fill={isLight ? "#64748b" : "#94a3b8"} textAnchor="end">
+                  SEAMLESS TIMEZONE COLLABORATION • AGILE SPRINTS
                 </text>
-                <text x="50" y="474" fill={isLight ? "#64748b" : "#64748b"}>
-                  SURAT HQ: 21.1702° N, 72.8311° E // R&amp;D EPICENTER
+                <text x="50" y="474" fill={isLight ? "#64748b" : "#94a3b8"}>
+                  HEADQUARTERS: SURAT, GUJARAT, INDIA
                 </text>
                 <text x="950" y="474" fill={isLight ? "#0f766e" : "#10b981"} textAnchor="end">
-                  TOTAL DISTRIBUTED CAPACITY: 50+ SENIOR SPECIALISTS
+                  DEDICATED FULL-STACK &amp; CLOUD SPECIALISTS
                 </text>
               </g>
 
@@ -1063,7 +1059,7 @@ export function GlobalDeliveryMesh() {
                   />
                   <circle cx="12" cy="13" r="3" fill="#10b981" />
                   <text x="22" y="17" fontSize="10.5" fill={isLight ? "#047857" : "#00ffd1"} fontWeight="850">
-                    SURAT HQ (50+ Devs Active)
+                    SURAT HQ (Engineering Hub)
                   </text>
                 </g>
               </g>
@@ -1091,7 +1087,7 @@ export function GlobalDeliveryMesh() {
             </div>
 
             <span style={{ fontWeight: 600, color: isLight ? "#0f172a" : "#cbd5e1" }}>
-              Origin: Surat HQ [21.17° N, 72.83° E]
+              Origin: Surat HQ, Gujarat, India
             </span>
           </div>
         </div>

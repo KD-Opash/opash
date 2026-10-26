@@ -305,18 +305,14 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "0.55rem",
-                padding: "0.45rem 1.15rem",
-                borderRadius: "9999px",
-                background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.12)",
-                border: isLight ? "1px solid rgba(0, 168, 143, 0.25)" : "1px solid rgba(94, 192, 152, 0.35)",
-                fontSize: "0.82rem",
+                fontSize: "0.85rem",
                 fontWeight: 700,
                 letterSpacing: "0.06em",
                 textTransform: "uppercase",
                 color: mintColor,
               }}
             >
-              <Sparkles size={14} />
+              <Sparkles size={16} />
               <span>Opash Software · End-to-End Web Solutions</span>
             </div>
           </div>
@@ -523,13 +519,10 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
             <span
               style={{
                 display: "inline-block",
-                padding: "0.35rem 0.95rem",
-                borderRadius: "9999px",
-                background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.12)",
                 color: mintColor,
-                fontSize: "0.82rem",
+                fontSize: "0.85rem",
                 fontWeight: 700,
-                letterSpacing: "0.05em",
+                letterSpacing: "0.06em",
                 textTransform: "uppercase",
                 marginBottom: "0.75rem",
               }}
@@ -677,13 +670,10 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
             <span
               style={{
                 display: "inline-block",
-                padding: "0.35rem 0.95rem",
-                borderRadius: "9999px",
-                background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.12)",
                 color: mintColor,
-                fontSize: "0.82rem",
+                fontSize: "0.85rem",
                 fontWeight: 700,
-                letterSpacing: "0.05em",
+                letterSpacing: "0.06em",
                 textTransform: "uppercase",
                 marginBottom: "0.75rem",
               }}
@@ -804,13 +794,10 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
             <span
               style={{
                 display: "inline-block",
-                padding: "0.35rem 0.95rem",
-                borderRadius: "9999px",
-                background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.12)",
                 color: mintColor,
-                fontSize: "0.82rem",
+                fontSize: "0.85rem",
                 fontWeight: 700,
-                letterSpacing: "0.05em",
+                letterSpacing: "0.06em",
                 textTransform: "uppercase",
                 marginBottom: "0.75rem",
               }}
@@ -934,13 +921,10 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
             <span
               style={{
                 display: "inline-block",
-                padding: "0.35rem 0.95rem",
-                borderRadius: "9999px",
-                background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.12)",
                 color: mintColor,
-                fontSize: "0.82rem",
+                fontSize: "0.85rem",
                 fontWeight: 700,
-                letterSpacing: "0.05em",
+                letterSpacing: "0.06em",
                 textTransform: "uppercase",
                 marginBottom: "0.75rem",
               }}
@@ -1094,13 +1078,10 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
             <span
               style={{
                 display: "inline-block",
-                padding: "0.35rem 0.95rem",
-                borderRadius: "9999px",
-                background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.12)",
                 color: mintColor,
-                fontSize: "0.82rem",
+                fontSize: "0.85rem",
                 fontWeight: 700,
-                letterSpacing: "0.05em",
+                letterSpacing: "0.06em",
                 textTransform: "uppercase",
                 marginBottom: "0.75rem",
               }}
@@ -1204,13 +1185,10 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
             <span
               style={{
                 display: "inline-block",
-                padding: "0.35rem 0.95rem",
-                borderRadius: "9999px",
-                background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.12)",
                 color: mintColor,
-                fontSize: "0.82rem",
+                fontSize: "0.85rem",
                 fontWeight: 700,
-                letterSpacing: "0.05em",
+                letterSpacing: "0.06em",
                 textTransform: "uppercase",
                 marginBottom: "0.75rem",
               }}

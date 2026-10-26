@@ -218,20 +218,16 @@ export default function EnterpriseDeliveryLifecycle({ isLightMode = false }: Ent
               display: 'inline-flex',
               alignItems: 'center',
               gap: '0.5rem',
-              padding: '0.4rem 1.1rem',
-              borderRadius: '9999px',
-              background: isLightMode ? 'rgba(0, 168, 143, 0.1)' : 'rgba(0, 187, 171, 0.12)',
-              border: isLightMode ? '1px solid rgba(0, 168, 143, 0.25)' : '1px solid rgba(0, 187, 171, 0.35)',
-              fontSize: '0.8rem',
+              fontSize: '0.85rem',
               fontWeight: 700,
               letterSpacing: '0.06em',
               textTransform: 'uppercase',
               color: isLightMode ? '#008a75' : '#2dd4bf',
-              marginBottom: '1rem',
+              marginBottom: '0.85rem',
             }}
           >
-            <Sparkles size={14} />
-            <span>VERIFIED PRODUCTION GOVERNANCE &bull; FIXED-SPRINT DELIVERABLES</span>
+            <Sparkles size={16} />
+            <span>Verified Production Governance &bull; Fixed-Sprint Deliverables</span>
           </div>
 
           <h2

@@ -199,19 +199,15 @@ export default function HomePage() {
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "0.5rem",
-                padding: "0.38rem 0.95rem",
-                borderRadius: "9999px",
-                background: "rgba(16, 185, 129, 0.12)",
-                border: "1px solid rgba(16, 185, 129, 0.3)",
-                color: "#10b981",
-                fontSize: "0.82rem",
+                color: isLight ? "#008a75" : "#10b981",
+                fontSize: "0.85rem",
                 fontWeight: 700,
-                letterSpacing: "0.06em",
+                letterSpacing: "0.08em",
                 textTransform: "uppercase",
-                marginBottom: "1.2rem",
+                marginBottom: "1rem",
               }}
             >
-              <Sparkles size={14} />
+              <Sparkles size={15} />
               <span>Real World Client Proof</span>
             </div>
 

@@ -186,16 +186,12 @@ export default function ContactForm() {
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "0.5rem",
-                padding: "0.38rem 0.95rem",
-                borderRadius: "9999px",
-                background: isLight ? "rgba(14, 165, 233, 0.1)" : "rgba(0, 255, 209, 0.12)",
-                border: `1px solid ${isLight ? "rgba(14, 165, 233, 0.3)" : "rgba(0, 255, 209, 0.35)"}`,
                 color: isLight ? "#0284c7" : "#00ffd1",
-                fontSize: "0.8rem",
-                fontWeight: 800,
+                fontSize: "0.82rem",
+                fontWeight: 700,
                 letterSpacing: "0.06em",
                 textTransform: "uppercase",
-                marginBottom: "0.85rem",
+                marginBottom: "0.6rem",
               }}
             >
               <span

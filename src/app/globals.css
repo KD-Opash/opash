@@ -1465,32 +1465,27 @@ body {
   min-height: 100px;
 }
 
-/* Eyebrow Pill - Neutral Glass (Green background completely removed) */
+/* Eyebrow - Clean Professional Text */
 .hero-cinema-badge {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
   gap: 0.5rem;
-  padding: 0.38rem 1.15rem;
-  border-radius: 9999px;
-  background: rgba(15, 23, 42, 0.65);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: transparent;
+  border: none;
   font-family: var(--font-display), "Space Grotesk", sans-serif;
-  font-size: clamp(0.7rem, 0.82vw, 0.8rem);
+  font-size: 0.85rem;
   font-weight: 600;
   color: #f8fafc;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.04em;
   margin-bottom: 0.75rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35), inset 0 0 12px rgba(255, 255, 255, 0.04);
+  box-shadow: none;
 }
 
 [data-theme="light"] .hero-cinema-badge {
-  background: rgba(255, 255, 255, 0.88);
-  border: 1px solid rgba(15, 23, 42, 0.14);
-  color: #0f172a;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  background: transparent !important;
+  border: none !important;
+  color: #0f172a !important;
+  box-shadow: none !important;
 }
 
 /* Global Presence Box below Title with slide-in from left */
@@ -2294,22 +2289,21 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 11px;
+  font-size: 0.82rem;
   font-weight: 700;
-  letter-spacing: 0.13em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding: 5px 14px;
-  border-radius: 9999px;
-  background: rgba(0, 187, 171, 0.1);
-  border: 1px solid rgba(0, 187, 171, 0.28);
+  background: transparent;
+  border: none;
   color: #00bbab;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1rem;
 }
 
 [data-theme="light"] .hud-eyebrow {
-  background: #E6F7F4 !important;
-  border: 1px solid #B3E8DF !important;
+  background: transparent !important;
+  border: none !important;
   color: #008775 !important;
+  box-shadow: none !important;
 }
 
 .hud-radar-beacon {
@@ -3598,25 +3592,22 @@ body {
   color: #5EC098;
 }
 
-/* 2. Sleek Eyebrow Pill Badge */
+/* 2. Sleek Eyebrow Text */
 .hero-eyebrow-pill {
   display: inline-flex;
   align-items: center;
   gap: 0.55rem;
-  padding: 0.35rem 0.95rem;
-  border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--border-subtle);
+  background: transparent;
+  border: none;
   margin-bottom: 1.25rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  box-shadow: none;
   user-select: none;
 }
 
 [data-theme="light"] .hero-eyebrow-pill {
-  background: rgba(15, 23, 42, 0.035);
-  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 .hero-eyebrow-pill-text {
@@ -5403,22 +5394,21 @@ h2.heading-section {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 5px 14px;
-  border-radius: 9999px;
-  font-size: 11px;
+  font-size: 0.82rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  background: rgba(0, 187, 171, 0.1);
-  border: 1px solid rgba(0, 187, 171, 0.28);
+  background: transparent;
+  border: none;
   color: #00bbab;
   margin-bottom: 1rem;
 }
 
 [data-theme="light"] .coverflow-eyebrow {
-  background: #E6F7F4 !important;
-  border: 1px solid #B3E8DF !important;
+  background: transparent !important;
+  border: none !important;
   color: #008775 !important;
+  box-shadow: none !important;
 }
 
 .coverflow-eyebrow-dot {
@@ -8863,15 +8853,13 @@ h2.heading-section {
   display: inline-flex !important;
   align-items: center !important;
   gap: 8px !important;
-  padding: 6px 14px !important;
-  border-radius: 9999px !important;
-  background: #FFFFFF !important;
-  border: 1px solid #DCE6ED !important;
-  color: #526579 !important;
+  background: transparent !important;
+  border: none !important;
+  color: #008775 !important;
   font-size: 11px !important;
   font-weight: 700 !important;
   letter-spacing: 0.12em !important;
-  box-shadow: 0 2px 6px rgba(16, 32, 51, 0.04) !important;
+  box-shadow: none !important;
   margin-bottom: 1.25rem !important;
   width: fit-content !important;
 }
@@ -10675,26 +10663,24 @@ html[data-theme="light"] .tech-showcase-radial-glow {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 16px;
-  border-radius: 9999px;
   font-family: var(--font-heading), "Plus Jakarta Sans", sans-serif;
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  background: rgba(0, 187, 171, 0.12);
-  border: 1px solid rgba(0, 187, 171, 0.35);
+  background: transparent;
+  border: none;
   color: #00bbab;
   margin-bottom: 1.25rem;
-  box-shadow: 0 0 16px rgba(0, 187, 171, 0.2);
+  box-shadow: none;
 }
 
 [data-theme="light"] .tech-showcase-badge,
 html[data-theme="light"] .tech-showcase-badge {
-  background: rgba(0, 168, 143, 0.1) !important;
-  border: 1px solid rgba(0, 168, 143, 0.3) !important;
+  background: transparent !important;
+  border: none !important;
   color: #00A88F !important;
-  box-shadow: 0 2px 8px rgba(0, 168, 143, 0.15) !important;
+  box-shadow: none !important;
 }
 
 .tech-showcase-title {

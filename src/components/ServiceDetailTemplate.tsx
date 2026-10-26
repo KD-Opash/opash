@@ -538,18 +538,14 @@ export default function ServiceDetailTemplate({ service }: ServiceDetailTemplate
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "0.55rem",
-                padding: "0.45rem 1.15rem",
-                borderRadius: "9999px",
-                background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.12)",
-                border: isLight ? "1px solid rgba(0, 168, 143, 0.25)" : "1px solid rgba(94, 192, 152, 0.35)",
-                fontSize: "0.82rem",
+                fontSize: "0.85rem",
                 fontWeight: 700,
                 letterSpacing: "0.06em",
                 textTransform: "uppercase",
                 color: mintColor,
               }}
             >
-              <Sparkles size={14} />
+              <Sparkles size={16} />
               <span>{service.badge} &bull; 8+ Years Expertise &bull; 100% IP Ownership</span>
             </div>
           </div>
@@ -723,18 +719,15 @@ export default function ServiceDetailTemplate({ service }: ServiceDetailTemplate
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "0.5rem",
-                padding: "0.35rem 0.9rem",
-                borderRadius: "9999px",
-                background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.12)",
-                fontSize: "0.8rem",
+                fontSize: "0.85rem",
                 fontWeight: 700,
                 color: mintColor,
                 textTransform: "uppercase",
-                letterSpacing: "0.05em",
-                marginBottom: "1rem",
+                letterSpacing: "0.06em",
+                marginBottom: "0.85rem",
               }}
             >
-              <Award size={14} />
+              <Award size={16} />
               <span>Strategic Advantage</span>
             </div>
 
@@ -876,18 +869,15 @@ export default function ServiceDetailTemplate({ service }: ServiceDetailTemplate
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "0.5rem",
-                padding: "0.35rem 0.9rem",
-                borderRadius: "9999px",
-                background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.12)",
-                fontSize: "0.8rem",
+                fontSize: "0.85rem",
                 fontWeight: 700,
                 color: mintColor,
                 textTransform: "uppercase",
-                letterSpacing: "0.05em",
-                marginBottom: "1rem",
+                letterSpacing: "0.06em",
+                marginBottom: "0.85rem",
               }}
             >
-              <Layers size={14} />
+              <Layers size={16} />
               <span>Full-Spectrum Capabilities</span>
             </div>
 
@@ -1045,18 +1035,15 @@ export default function ServiceDetailTemplate({ service }: ServiceDetailTemplate
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "0.5rem",
-                padding: "0.35rem 0.9rem",
-                borderRadius: "9999px",
-                background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.12)",
-                fontSize: "0.8rem",
+                fontSize: "0.85rem",
                 fontWeight: 700,
                 color: mintColor,
                 textTransform: "uppercase",
-                letterSpacing: "0.05em",
-                marginBottom: "1rem",
+                letterSpacing: "0.06em",
+                marginBottom: "0.85rem",
               }}
             >
-              <Cpu size={14} />
+              <Cpu size={16} />
               <span>Technology Ecosystem</span>
             </div>
 
@@ -1203,18 +1190,15 @@ export default function ServiceDetailTemplate({ service }: ServiceDetailTemplate
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "0.5rem",
-                padding: "0.35rem 0.9rem",
-                borderRadius: "9999px",
-                background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.12)",
-                fontSize: "0.8rem",
+                fontSize: "0.85rem",
                 fontWeight: 700,
                 color: mintColor,
                 textTransform: "uppercase",
-                letterSpacing: "0.05em",
-                marginBottom: "1rem",
+                letterSpacing: "0.06em",
+                marginBottom: "0.85rem",
               }}
             >
-              <Workflow size={14} />
+              <Workflow size={16} />
               <span>Agile Execution Framework</span>
             </div>
 
@@ -1401,18 +1385,15 @@ export default function ServiceDetailTemplate({ service }: ServiceDetailTemplate
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "0.5rem",
-                padding: "0.35rem 0.9rem",
-                borderRadius: "9999px",
-                background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.12)",
-                fontSize: "0.8rem",
+                fontSize: "0.85rem",
                 fontWeight: 700,
                 color: mintColor,
                 textTransform: "uppercase",
-                letterSpacing: "0.05em",
-                marginBottom: "1rem",
+                letterSpacing: "0.06em",
+                marginBottom: "0.85rem",
               }}
             >
-              <Globe2 size={14} />
+              <Globe2 size={16} />
               <span>Domain Expertise</span>
             </div>
 

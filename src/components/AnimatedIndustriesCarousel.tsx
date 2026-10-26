@@ -523,23 +523,15 @@ export function AnimatedIndustriesCarousel() {
               display: "inline-flex",
               alignItems: "center",
               gap: "8px",
-              padding: "6px 16px",
-              borderRadius: "999px",
-              backgroundColor: isLight
-                ? "rgba(14, 165, 233, 0.1)"
-                : "rgba(14, 165, 233, 0.15)",
-              border: `1px solid ${
-                isLight ? "rgba(14, 165, 233, 0.25)" : "rgba(14, 165, 233, 0.3)"
-              }`,
               color: isLight ? "#0284c7" : "#38bdf8",
-              fontSize: "0.82rem",
-              fontWeight: 600,
-              letterSpacing: "0.04em",
+              fontSize: "0.85rem",
+              fontWeight: 700,
+              letterSpacing: "0.08em",
               textTransform: "uppercase",
-              marginBottom: "1.2rem",
+              marginBottom: "1rem",
             }}
           >
-            <Sparkles size={14} />
+            <Sparkles size={15} />
             <span>Interactive Domain Architecture</span>
           </div>
 

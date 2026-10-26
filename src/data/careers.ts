@@ -12,7 +12,7 @@ export interface JobOpening {
 
 export const careersData = {
   headline: "Let Your Career Take Flight With Opash Software",
-  subheadline: "Join a passionate collective of 50+ engineers, creators, and innovators engineering world-class software for global brands.",
+  subheadline: "Join a passionate collective of engineers, creators, and innovators engineering world-class software for global brands.",
   cultureHighlights: [
     { title: "Continuous Learning", desc: "Annual education budgets, conference stipends, and access to premium tech masterclasses." },
     { title: "Work-Life Harmony", desc: "Flexible hours, hybrid schedules, and a collaborative vibe that values productivity without burnout." },

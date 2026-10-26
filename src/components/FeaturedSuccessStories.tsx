@@ -259,23 +259,15 @@ export function FeaturedSuccessStories() {
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "8px",
-                padding: "4px 13px",
-                borderRadius: "999px",
-                backgroundColor: isLight
-                  ? "rgba(139, 92, 246, 0.1)"
-                  : "rgba(139, 92, 246, 0.15)",
-                border: `1px solid ${
-                  isLight ? "rgba(139, 92, 246, 0.25)" : "rgba(139, 92, 246, 0.3)"
-                }`,
                 color: isLight ? "#7c3aed" : "#c084fc",
-                fontSize: "0.78rem",
-                fontWeight: 600,
-                letterSpacing: "0.05em",
+                fontSize: "0.85rem",
+                fontWeight: 700,
+                letterSpacing: "0.08em",
                 textTransform: "uppercase",
                 marginBottom: "0.85rem",
               }}
             >
-              <Award size={13} />
+              <Award size={15} />
               <span>Verified Enterprise Case Deployments</span>
             </div>
 

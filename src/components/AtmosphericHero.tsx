@@ -99,7 +99,7 @@ export default function AtmosphericHero({
             }}
           />
           <span>
-            {badge || "Opash Global Delivery Hub v2.4 is Live • 50+ Engineers"}
+            {badge || "Trusted Software Development & AI Solutions Partner"}
           </span>
           <ChevronRight size={14} style={{ color: "var(--color-mint, #5EC098)", marginLeft: "2px" }} />
         </Link>
@@ -228,7 +228,7 @@ export default function AtmosphericHero({
                     boxShadow: "0 0 8px #10b981",
                   }}
                 />
-                <span>SURAT HQ ⇄ 8 ACTIVE GLOBAL HUBS</span>
+                <span>SURAT HQ • GLOBAL CLIENT DELIVERY</span>
               </span>
               <span style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>•</span>
               <span
@@ -269,7 +269,7 @@ export default function AtmosphericHero({
 
             <div className="hero-trust-item">
               <CheckCircle2 size={14} color="#10b981" />
-              <span>50+ In-House Engineers in Surat HQ</span>
+              <span>Dedicated Engineering Team in Surat HQ</span>
             </div>
 
             <span className="hero-trust-separator" />

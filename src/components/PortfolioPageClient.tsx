@@ -220,19 +220,15 @@ export default function PortfolioPageClient() {
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "0.6rem",
-                padding: "0.45rem 1.25rem",
-                borderRadius: "9999px",
-                background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(0, 187, 171, 0.12)",
-                border: isLight ? "1px solid rgba(0, 168, 143, 0.25)" : "1px solid rgba(0, 187, 171, 0.35)",
-                fontSize: "0.82rem",
+                fontSize: "0.86rem",
                 fontWeight: 700,
-                letterSpacing: "0.05em",
+                letterSpacing: "0.06em",
                 textTransform: "uppercase",
                 color: isLight ? "#008a75" : "#2dd4bf",
               }}
             >
-              <Sparkles size={14} />
-              <span>VERIFIED ENTERPRISE DELIVERABLES &bull; 75+ PRODUCTION PLATFORMS</span>
+              <Sparkles size={16} />
+              <span>Verified Enterprise Deliverables &bull; 75+ Production Platforms</span>
             </div>
           </div>
 
@@ -477,13 +473,10 @@ export default function PortfolioPageClient() {
             <span
               style={{
                 display: "inline-block",
-                padding: "0.35rem 0.95rem",
-                borderRadius: "9999px",
-                background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(0, 187, 171, 0.12)",
                 color: isLight ? "#008a75" : "#2dd4bf",
-                fontSize: "0.82rem",
+                fontSize: "0.85rem",
                 fontWeight: 700,
-                letterSpacing: "0.05em",
+                letterSpacing: "0.06em",
                 textTransform: "uppercase",
                 marginBottom: "0.75rem",
               }}
@@ -937,13 +930,10 @@ export default function PortfolioPageClient() {
             <span
               style={{
                 display: "inline-block",
-                padding: "0.35rem 0.95rem",
-                borderRadius: "9999px",
-                background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(0, 187, 171, 0.12)",
                 color: isLight ? "#008a75" : "#2dd4bf",
-                fontSize: "0.82rem",
+                fontSize: "0.85rem",
                 fontWeight: 700,
-                letterSpacing: "0.05em",
+                letterSpacing: "0.06em",
                 textTransform: "uppercase",
                 marginBottom: "0.75rem",
               }}

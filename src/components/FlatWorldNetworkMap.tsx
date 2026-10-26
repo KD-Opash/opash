@@ -23,12 +23,12 @@ export interface NetworkLocation {
 export const NETWORK_LOCATIONS: NetworkLocation[] = [
   {
     id: "india",
-    name: "India (Global Command Center)",
+    name: "India (Global Headquarters)",
     label: "India",
     flag: "🇮🇳",
     city: "Surat, Gujarat",
     specialty: "Core Architecture & Generative AI",
-    squads: "50+ In-House Engineers",
+    squads: "Dedicated In-House Squads",
     ping: "2ms (Local)",
     x: 702,
     y: 218,

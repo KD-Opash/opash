@@ -198,19 +198,15 @@ export default function ServicesPageClient() {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '0.6rem',
-                padding: '0.45rem 1.25rem',
-                borderRadius: '9999px',
-                background: isLight ? 'rgba(0, 168, 143, 0.1)' : 'rgba(94, 192, 152, 0.12)',
-                border: isLight ? '1px solid rgba(0, 168, 143, 0.25)' : '1px solid rgba(94, 192, 152, 0.35)',
-                fontSize: '0.82rem',
+                fontSize: '0.86rem',
                 fontWeight: 700,
-                letterSpacing: '0.05em',
+                letterSpacing: '0.06em',
                 textTransform: 'uppercase',
                 color: isLight ? '#008a75' : '#2dd4bf',
               }}
             >
-              <Sparkles size={14} />
-              <span>FULL-SPECTRUM CAPABILITIES &bull; BESPOKE ARCHITECTURE &bull; SURAT HQ</span>
+              <Sparkles size={16} />
+              <span>Full-Spectrum Capabilities &bull; Bespoke Architecture &bull; Global Delivery</span>
             </div>
           </div>
 

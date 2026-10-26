@@ -168,21 +168,12 @@ export function FounderShowcase() {
               display: "inline-flex",
               alignItems: "center",
               gap: "0.55rem",
-              padding: "0.42rem 1.15rem",
-              borderRadius: "9999px",
-              background: isLight
-                ? "linear-gradient(135deg, rgba(14, 165, 233, 0.1) 0%, rgba(16, 185, 129, 0.1) 100%)"
-                : "linear-gradient(135deg, rgba(14, 165, 233, 0.18) 0%, rgba(16, 185, 129, 0.15) 100%)",
-              border: `1px solid ${isLight ? "rgba(14, 165, 233, 0.3)" : "rgba(14, 165, 233, 0.4)"}`,
               color: isLight ? "#0284c7" : "#38bdf8",
-              fontSize: "0.82rem",
-              fontWeight: 800,
+              fontSize: "0.85rem",
+              fontWeight: 700,
               letterSpacing: "0.08em",
               textTransform: "uppercase",
-              marginBottom: "1.2rem",
-              boxShadow: isLight
-                ? "0 4px 16px rgba(14, 165, 233, 0.12)"
-                : "0 4px 20px rgba(14, 165, 233, 0.2)",
+              marginBottom: "1rem",
             }}
           >
             <span
@@ -877,10 +868,10 @@ export function FounderShowcase() {
                 }}
               >
                 <div style={{ fontSize: "1.35rem", fontWeight: 850, color: "#00ffd1" }}>
-                  50+ Devs
+                  100%
                 </div>
                 <div style={{ fontSize: "0.72rem", color: isLight ? "#64748b" : "#94a3b8", fontWeight: 600 }}>
-                  Engineers Mentored
+                  Code Ownership
                 </div>
               </div>
             </div>

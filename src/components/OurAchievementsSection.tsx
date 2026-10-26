@@ -24,10 +24,10 @@ interface AchievementStat {
 const STATS_DATA: AchievementStat[] = [
   {
     icon: "/images/achievements/it-professionals.svg",
-    count: "50+",
-    label: "Experienced Software Developers",
+    count: "100%",
+    label: "In-House Software Developers",
     pillarNum: "01",
-    pillarTag: "ENGINEERING BENCH",
+    pillarTag: "ENGINEERING TEAM",
     accentColor: "#FF3366",
     glowColor: "rgba(255, 51, 102, 0.32)",
     gradientTextLight: "linear-gradient(135deg, #E11D48 0%, #FF3366 50%, #FF6B8B 100%)",
@@ -201,20 +201,13 @@ export default function OurAchievementsSection() {
               display: "inline-flex",
               alignItems: "center",
               gap: "8px",
-              padding: "6px 16px",
-              borderRadius: "9999px",
-              background: isLight ? "rgba(0, 168, 143, 0.08)" : "rgba(94, 192, 152, 0.12)",
-              border: isLight ? "1px solid rgba(0, 168, 143, 0.25)" : "1px solid rgba(94, 192, 152, 0.3)",
-              boxShadow: isLight
-                ? "0 2px 10px rgba(0, 168, 143, 0.1)"
-                : "0 0 20px rgba(94, 192, 152, 0.15)",
-              marginBottom: "1.25rem",
+              marginBottom: "1rem",
             }}
           >
-            <Trophy size={14} color={isLight ? "#00a88f" : "#5EC098"} />
+            <Trophy size={16} color={isLight ? "#00a88f" : "#5EC098"} />
             <span
               style={{
-                fontSize: "0.8rem",
+                fontSize: "0.85rem",
                 fontWeight: 700,
                 letterSpacing: "0.08em",
                 textTransform: "uppercase",

@@ -101,14 +101,14 @@ const PROGRESS_MILESTONES: ProgressMilestone[] = [
     badge: "Global Growth",
     title: "Strategic Growth & Global Clients",
     description:
-      "Grew to a team of 50+ experts. Successfully delivered 75+ projects for clients across the US, Europe, and Asia—spanning logistics, healthcare, finance, and enterprise SaaS platforms with 96% client retention.",
+      "Expanded our dedicated engineering squads and delivered 75+ projects for clients across the US, Europe, and Asia—spanning logistics, healthcare, finance, and enterprise SaaS platforms with 96% client retention.",
     category: "Experience",
     icon: Globe,
     accentColor: "#9333EA",
     glowColor: "rgba(147, 51, 234, 0.45)",
     accentRgb: "147, 51, 234",
-    metrics: ["50+ Full-Time Engineers", "75+ Global Projects", "US, UK & EU Corridors"],
-    kpi: "50+ Senior Devs",
+    metrics: ["Dedicated Engineering Squads", "75+ Global Projects", "US, UK & EU Corridors"],
+    kpi: "Global Delivery Scale",
   },
   {
     year: "2024",
@@ -205,15 +205,13 @@ export default function CompanyPageClient() {
         <AboutCreativeBackdrop isLightMode={isLight} />
 
         <div className="container-custom" style={{ position: "relative", zIndex: 2, maxWidth: "1320px", margin: "0 auto" }}>
-          {/* Eyebrow Status Badges Bar */}
+          {/* Eyebrow Location & Credential */}
           <div
             style={{
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              flexWrap: "wrap",
-              gap: "0.85rem",
-              marginBottom: "1.75rem",
+              marginBottom: "1.25rem",
             }}
           >
             <div
@@ -221,46 +219,17 @@ export default function CompanyPageClient() {
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "0.55rem",
-                padding: "0.45rem 1.25rem",
-                borderRadius: "9999px",
-                backgroundColor: isLight ? "rgba(0, 168, 143, 0.08)" : "rgba(0, 187, 171, 0.12)",
-                border: isLight ? "1px solid rgba(0, 168, 143, 0.25)" : "1px solid rgba(0, 187, 171, 0.35)",
-                fontSize: "0.82rem",
-                fontWeight: 700,
-                letterSpacing: "0.05em",
-                textTransform: "uppercase",
-                color: isLight ? "#008a75" : "#2dd4bf",
+                fontSize: "0.92rem",
+                fontWeight: 500,
+                color: isLight ? "#64748b" : "#94a3b8",
               }}
             >
-              <MapPin size={14} />
-              <span>SURAT HQ (21.1702° N, 72.8311° E) &bull; ESTABLISHED 2021 &bull; GLOBAL IT NEARSHORING HUB</span>
-            </div>
-
-            <div
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.5rem",
-                padding: "0.45rem 1rem",
-                borderRadius: "9999px",
-                backgroundColor: isLight ? "rgba(16, 185, 129, 0.08)" : "rgba(16, 185, 129, 0.12)",
-                border: isLight ? "1px solid rgba(16, 185, 129, 0.25)" : "1px solid rgba(16, 185, 129, 0.35)",
-                fontSize: "0.8rem",
-                fontWeight: 700,
-                color: isLight ? "#059669" : "#34d399",
-              }}
-            >
-              <span
-                style={{
-                  width: "8px",
-                  height: "8px",
-                  borderRadius: "50%",
-                  backgroundColor: "#10b981",
-                  boxShadow: "0 0 10px rgba(16, 185, 129, 0.8)",
-                  display: "inline-block",
-                }}
-              />
-              <span>50+ IN-HOUSE DEVELOPERS &bull; ACCEPTING GLOBAL ENGAGEMENTS</span>
+              <MapPin size={15} style={{ color: isLight ? "#008a75" : "#2dd4bf" }} />
+              <span style={{ color: isLight ? "#0f172a" : "#f8fafc", fontWeight: 600 }}>Surat, Gujarat, India</span>
+              <span style={{ opacity: 0.35 }}>•</span>
+              <span>Established 2021</span>
+              <span style={{ opacity: 0.35 }}>•</span>
+              <span style={{ color: isLight ? "#008a75" : "#2dd4bf", fontWeight: 600 }}>Serving Clients Globally</span>
             </div>
           </div>
 
@@ -277,7 +246,7 @@ export default function CompanyPageClient() {
             >
               Not Just Another IT Company.{" "}
               <span className="opash-hero-gradient-text" style={{ display: "block", marginTop: "0.35rem" }}>
-                We Are A Family Of 50+ Tech Experts.
+                We Are A Dedicated Team Of Tech Experts.
               </span>
             </h1>
 
@@ -367,11 +336,7 @@ export default function CompanyPageClient() {
                 flexWrap: "wrap",
                 justifyContent: "center",
                 gap: "1.25rem",
-                padding: "0.55rem 1.4rem",
-                borderRadius: "9999px",
-                backgroundColor: isLight ? "rgba(255, 255, 255, 0.7)" : "rgba(10, 20, 36, 0.5)",
-                border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
-                fontSize: "0.82rem",
+                fontSize: "0.86rem",
                 color: isLight ? "#64748b" : "#94a3b8",
               }}
             >
@@ -409,7 +374,7 @@ export default function CompanyPageClient() {
               margin: "0 auto",
             }}
           >
-            {/* Metric 1: 50+ In-House Developers */}
+            {/* Metric 1: Dedicated In-House Team */}
             <div
               style={{
                 padding: "1.75rem 1.4rem",
@@ -429,7 +394,7 @@ export default function CompanyPageClient() {
                   marginBottom: "0.35rem",
                 }}
               >
-                50+
+                100%
               </div>
               <div style={{ fontSize: "0.98rem", fontWeight: 700, color: isLight ? "#0f172a" : "#f8fafc", marginBottom: "0.2rem" }}>
                 In-House Tech Experts
@@ -572,19 +537,15 @@ export default function CompanyPageClient() {
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "0.5rem",
-                padding: "0.45rem 1.25rem",
-                borderRadius: "9999px",
-                background: isLight ? "rgba(0, 168, 143, 0.08)" : "rgba(94, 192, 152, 0.12)",
-                border: isLight ? "1px solid rgba(0, 168, 143, 0.25)" : "1px solid rgba(94, 192, 152, 0.3)",
                 color: isLight ? "#008a75" : "#5EC098",
-                fontSize: "0.82rem",
+                fontSize: "0.85rem",
                 fontWeight: 700,
-                letterSpacing: "0.06em",
+                letterSpacing: "0.08em",
                 textTransform: "uppercase",
-                marginBottom: "1rem",
+                marginBottom: "0.85rem",
               }}
             >
-              <Sparkles size={14} />
+              <Sparkles size={15} />
               <span>Why Choose Opash Software</span>
             </div>
 
@@ -831,7 +792,7 @@ export default function CompanyPageClient() {
             }}
           >
             {[
-              { stat: "50+", label: "In-House Senior Engineers", color: isLight ? "#102033" : "#6289B8" },
+              { stat: "100%", label: "In-House Dedicated Engineers", color: isLight ? "#102033" : "#6289B8" },
               { stat: "75+", label: "Production Platforms Shipped", color: isLight ? "#00A88F" : "#5EC098" },
               { stat: "96%", label: "Client Retention Rate", color: isLight ? "#008a75" : "#2dd4bf" },
               { stat: "100%", label: "Day-One IP & Code Ownership", color: isLight ? "#476D9A" : "#818cf8" },
@@ -882,13 +843,10 @@ export default function CompanyPageClient() {
             <span
               style={{
                 display: "inline-block",
-                padding: "0.35rem 0.95rem",
-                borderRadius: "9999px",
-                background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(0, 187, 171, 0.12)",
                 color: isLight ? "#008a75" : "#2dd4bf",
-                fontSize: "0.82rem",
+                fontSize: "0.85rem",
                 fontWeight: 700,
-                letterSpacing: "0.05em",
+                letterSpacing: "0.08em",
                 textTransform: "uppercase",
                 marginBottom: "0.75rem",
               }}
@@ -1372,13 +1330,10 @@ export default function CompanyPageClient() {
             <span
               style={{
                 display: "inline-block",
-                padding: "0.35rem 0.95rem",
-                borderRadius: "9999px",
-                background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(0, 187, 171, 0.12)",
                 color: isLight ? "#008a75" : "#2dd4bf",
-                fontSize: "0.82rem",
+                fontSize: "0.85rem",
                 fontWeight: 700,
-                letterSpacing: "0.05em",
+                letterSpacing: "0.08em",
                 textTransform: "uppercase",
                 marginBottom: "0.75rem",
               }}
@@ -1880,13 +1835,10 @@ export default function CompanyPageClient() {
             <span
               style={{
                 display: "inline-block",
-                padding: "0.35rem 0.95rem",
-                borderRadius: "9999px",
-                background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(0, 187, 171, 0.12)",
                 color: isLight ? "#008a75" : "#2dd4bf",
-                fontSize: "0.82rem",
+                fontSize: "0.85rem",
                 fontWeight: 700,
-                letterSpacing: "0.05em",
+                letterSpacing: "0.08em",
                 textTransform: "uppercase",
                 marginBottom: "0.75rem",
               }}
@@ -2301,13 +2253,10 @@ export default function CompanyPageClient() {
             <span
               style={{
                 display: "inline-block",
-                padding: "0.35rem 0.95rem",
-                borderRadius: "9999px",
-                background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(0, 187, 171, 0.12)",
                 color: isLight ? "#008a75" : "#2dd4bf",
-                fontSize: "0.82rem",
+                fontSize: "0.85rem",
                 fontWeight: 700,
-                letterSpacing: "0.05em",
+                letterSpacing: "0.08em",
                 textTransform: "uppercase",
                 marginBottom: "0.75rem",
               }}

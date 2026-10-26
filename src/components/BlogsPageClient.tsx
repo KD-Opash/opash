@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { BlogPost, blogsData } from '@/data/blogs';
@@ -35,21 +35,64 @@ export default function BlogsPageClient() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
 
+  // Dynamic blogs from NextHRMS API
+  const [blogs, setBlogs] = useState<BlogPost[]>(blogsData);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        setLoading(true);
+        const apiUrl = process.env.NEXT_PUBLIC_HRMS_API_URL || 'http://localhost:3001';
+        const res = await fetch(`${apiUrl}/api/blogs/public`);
+        if (res.ok) {
+          const json = await res.json();
+          if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+            const mapped = json.data.map((item: any) => ({
+              slug: item.slug,
+              title: item.title,
+              excerpt: item.excerpt,
+              category: item.category || 'Full-Stack Architecture',
+              readTime: item.readTime || '5 min read',
+              date: item.publishedAt
+                ? new Date(item.publishedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+                : 'Recent',
+              author: {
+                name: item.author?.name || 'Hiren Danecha',
+                role: item.author?.role || 'CEO & Tech Strategist',
+                avatar: item.author?.avatar || '/images/image.webp',
+              },
+              tags: item.tags && item.tags.length > 0 ? item.tags : ['Engineering', 'Architecture'],
+              content: item.content || [],
+            }));
+            setBlogs(mapped);
+          }
+        }
+      } catch (err) {
+        console.warn('NextHRMS blogs API offline, using fallback blogsData:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogs();
+  }, []);
+
   // Compute categories with counts
   const categoryStats = useMemo(() => {
-    const counts: Record<string, number> = { All: blogsData.length };
-    blogsData.forEach((b) => {
+    const counts: Record<string, number> = { All: blogs.length };
+    blogs.forEach((b) => {
       counts[b.category] = (counts[b.category] || 0) + 1;
     });
     return counts;
-  }, []);
+  }, [blogs]);
 
   const categories = useMemo(() => {
-    return ['All', ...Array.from(new Set(blogsData.map((b) => b.category)))];
-  }, []);
+    return ['All', ...Array.from(new Set(blogs.map((b) => b.category)))];
+  }, [blogs]);
 
   const filteredPosts = useMemo(() => {
-    return blogsData.filter((post) => {
+    return blogs.filter((post) => {
       const term = searchTerm.toLowerCase().trim();
       const matchesSearch =
         !term ||
@@ -60,10 +103,10 @@ export default function BlogsPageClient() {
         selectedCategory === 'All' || post.category === selectedCategory;
       return matchesSearch && matchesCategory;
     });
-  }, [searchTerm, selectedCategory]);
+  }, [blogs, searchTerm, selectedCategory]);
 
   // Featured article is the top architecture article
-  const featuredArticle = blogsData[0];
+  const featuredArticle = blogs[0];
 
   const getCategoryColor = (category: string) => {
     switch (category) {
@@ -102,52 +145,22 @@ export default function BlogsPageClient() {
         <BlogsCreativeBackdrop isLightMode={isLight} />
 
         <div className="container-custom" style={{ position: 'relative', zIndex: 2, maxWidth: '980px', margin: '0 auto', textAlign: 'center' }}>
-          {/* Eyebrow Status Badges */}
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.65rem', flexWrap: 'wrap', marginBottom: '1.15rem' }}>
+          {/* Eyebrow Status */}
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '1.25rem' }}>
             <div
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '0.5rem',
-                padding: '0.4rem 1.15rem',
-                borderRadius: '9999px',
-                background: isLight ? 'rgba(0, 168, 143, 0.08)' : 'rgba(0, 187, 171, 0.12)',
-                border: isLight ? '1px solid rgba(0, 168, 143, 0.25)' : '1px solid rgba(0, 187, 171, 0.35)',
-                fontSize: '0.78rem',
+                gap: '0.55rem',
+                fontSize: '0.86rem',
                 fontWeight: 700,
-                letterSpacing: '0.05em',
+                letterSpacing: '0.06em',
                 textTransform: 'uppercase',
                 color: isLight ? '#008a75' : '#2dd4bf',
               }}
             >
-              <Sparkles size={14} />
-              <span>ENGINEERING KNOWLEDGE HUB &bull; PRODUCTION WHITEPAPERS</span>
-            </div>
-
-            <div
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.45rem',
-                padding: '0.4rem 0.9rem',
-                borderRadius: '9999px',
-                background: isLight ? 'rgba(16, 185, 129, 0.08)' : 'rgba(16, 185, 129, 0.12)',
-                border: isLight ? '1px solid rgba(16, 185, 129, 0.25)' : '1px solid rgba(16, 185, 129, 0.35)',
-                fontSize: '0.78rem',
-                fontWeight: 700,
-                color: isLight ? '#059669' : '#34d399',
-              }}
-            >
-              <span
-                style={{
-                  width: '7px',
-                  height: '7px',
-                  borderRadius: '50%',
-                  backgroundColor: '#10b981',
-                  display: 'inline-block',
-                }}
-              />
-              <span>100% IN-HOUSE SENIOR TECH EXPERT AUTHORED</span>
+              <Sparkles size={16} />
+              <span>Engineering Insights &bull; Technical Guides &bull; Production Architectures</span>
             </div>
           </div>
 
@@ -970,19 +983,16 @@ export default function BlogsPageClient() {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '0.5rem',
-                padding: '0.35rem 1rem',
-                borderRadius: '9999px',
-                background: 'rgba(255, 255, 255, 0.15)',
-                border: '1px solid rgba(255, 255, 255, 0.25)',
-                fontSize: '0.8rem',
+                fontSize: '0.85rem',
                 fontWeight: 700,
                 textTransform: 'uppercase',
-                letterSpacing: '0.05em',
-                marginBottom: '1.25rem',
+                letterSpacing: '0.06em',
+                marginBottom: '1rem',
+                color: '#ffffff',
               }}
             >
-              <Terminal size={14} />
-              <span>HAVE A SYSTEM DESIGN BOTTLENECK?</span>
+              <Terminal size={16} />
+              <span>Have a System Design Bottleneck?</span>
             </div>
 
             <h2

@@ -36,7 +36,7 @@ const locations: NodeLocation[] = [
     country: "India",
     city: "Surat, Gujarat",
     timezone: "IST (UTC+5:30)",
-    detail: "Global Engineering Command Center • 50+ In-House Developers",
+    detail: "Global Engineering Headquarters • Dedicated In-House Team",
     focus: "Core Architecture, Full-Stack SaaS & Generative AI",
     ping: "2ms (Local)",
     activeSquads: "14 Core Squads",
@@ -249,7 +249,7 @@ export default function GlobalNetworkMap({ hideTopHud = false }: GlobalNetworkMa
                 textTransform: "uppercase",
               }}
             >
-              GLOBAL DELIVERY RADAR • SURAT HQ ⇄ 8 ACTIVE HUBS
+              GLOBAL DELIVERY NETWORK • SURAT HQ TO WORLDWIDE CLIENTS
             </span>
           </div>
         )}
@@ -393,7 +393,7 @@ export default function GlobalNetworkMap({ hideTopHud = false }: GlobalNetworkMa
             EQUATOR • 0°00' LATITUDE
           </text>
           <text x="702" y="16" fill="rgba(71, 109, 154, 0.75)" fontSize="8.5" fontWeight="700" textAnchor="middle" letterSpacing="0.08em">
-            72.83°E SURAT HQ MERIDIAN
+            SURAT, INDIA • GLOBAL HEADQUARTERS
           </text>
 
           {/* ========================================================================= */}
@@ -840,7 +840,7 @@ export default function GlobalNetworkMap({ hideTopHud = false }: GlobalNetworkMa
               Surat HQ Core
             </div>
             <div className="network-gauge-value">
-              50+ Senior Developers
+              Dedicated Engineering Hub
             </div>
           </div>
         </div>

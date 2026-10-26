@@ -138,51 +138,6 @@ export default function BlogsCreativeBackdrop({ isLightMode = false }: BlogsCrea
             />
           </g>
         ))}
-
-        {/* Subtle Micro-Telemetry Coordinate Tags in Margin */}
-        <text
-          x="3%"
-          y="12%"
-          fill={isLightMode ? '#64748b' : '#38bdf8'}
-          fontSize="9"
-          fontFamily="monospace"
-          letterSpacing="0.1em"
-          opacity="0.6"
-        >
-          // SYS_TELEMETRY: OPASH_KNOWLEDGE_NET
-        </text>
-        <text
-          x="3%"
-          y="15%"
-          fill={isLightMode ? '#94a3b8' : '#2dd4bf'}
-          fontSize="8"
-          fontFamily="monospace"
-          opacity="0.5"
-        >
-          NODE_LOC: [LAT: 37.77 / LON: -122.41]
-        </text>
-
-        <text
-          x="84%"
-          y="12%"
-          fill={isLightMode ? '#64748b' : '#818cf8'}
-          fontSize="9"
-          fontFamily="monospace"
-          letterSpacing="0.1em"
-          opacity="0.6"
-        >
-          // WHITEPAPERS: ARCHITECTURE_LIVE
-        </text>
-        <text
-          x="84%"
-          y="15%"
-          fill={isLightMode ? '#94a3b8' : '#38bdf8'}
-          fontSize="8"
-          fontFamily="monospace"
-          opacity="0.5"
-        >
-          LATENCY: 0.18ms &bull; 99.999% SLA
-        </text>
       </svg>
     </div>
   );

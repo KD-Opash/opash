@@ -169,23 +169,16 @@ export function TechInsightsShowcase() {
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "0.5rem",
-                padding: "0.4rem 1rem",
-                borderRadius: "9999px",
-                background: isLight ? "rgba(14, 165, 233, 0.1)" : "rgba(14, 165, 233, 0.16)",
-                border: `1px solid ${isLight ? "rgba(14, 165, 233, 0.25)" : "rgba(14, 165, 233, 0.35)"}`,
                 color: isLight ? "#0284c7" : "#38bdf8",
-                fontSize: "0.8rem",
-                fontWeight: 800,
-                letterSpacing: "0.08em",
+                fontSize: "0.85rem",
+                fontWeight: 700,
+                letterSpacing: "0.06em",
                 textTransform: "uppercase",
-                marginBottom: "1.2rem",
-                boxShadow: isLight
-                  ? "0 4px 16px rgba(14, 165, 233, 0.1)"
-                  : "0 4px 20px rgba(14, 165, 233, 0.15)",
+                marginBottom: "1rem",
               }}
             >
-              <BookOpen size={14} />
-              <span>Engineering Dispatch // 2026 Vault</span>
+              <BookOpen size={15} />
+              <span>Tech Insights & Industry Guides</span>
             </div>
 
             <h2

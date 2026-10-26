@@ -123,14 +123,7 @@ export default function ContactPageClient() {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                padding: '7px 18px',
-                borderRadius: '9999px',
-                background: isLight ? 'rgba(0, 168, 143, 0.08)' : 'rgba(0, 255, 209, 0.08)',
-                border: isLight ? '1px solid rgba(0, 168, 143, 0.25)' : '1px solid rgba(0, 255, 209, 0.3)',
-                boxShadow: isLight
-                  ? '0 2px 10px rgba(0, 168, 143, 0.1)'
-                  : '0 0 24px rgba(0, 255, 209, 0.15)',
-                marginBottom: '1.75rem',
+                marginBottom: '1.25rem',
               }}
             >
               <span
@@ -145,14 +138,14 @@ export default function ContactPageClient() {
               />
               <span
                 style={{
-                  fontSize: '0.82rem',
+                  fontSize: '0.85rem',
                   fontWeight: 700,
                   letterSpacing: '0.08em',
                   textTransform: 'uppercase',
                   color: isLight ? '#008a75' : '#00ffd1',
                 }}
               >
-                DIRECT LEAD ACCESS &bull; SAME-DAY TECHNICAL RESPONSE
+                Direct Access &bull; Fast Technical Response
               </span>
             </div>
 
@@ -569,13 +562,10 @@ export default function ContactPageClient() {
             <span
               style={{
                 display: 'inline-block',
-                padding: '4px 14px',
-                borderRadius: '9999px',
-                fontSize: '0.78rem',
+                fontSize: '0.85rem',
                 fontWeight: 700,
                 letterSpacing: '0.08em',
                 textTransform: 'uppercase',
-                background: isLight ? 'rgba(0, 168, 143, 0.1)' : 'rgba(0, 255, 209, 0.1)',
                 color: isLight ? '#008a75' : '#00ffd1',
                 marginBottom: '0.75rem',
               }}

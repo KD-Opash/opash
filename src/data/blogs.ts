@@ -12,6 +12,7 @@ export interface BlogPost {
   };
   content: string[];
   tags: string[];
+  coverImage?: string;
 }
 
 export const blogsData: BlogPost[] = [

@@ -273,28 +273,18 @@ export function WhyChooseUsComparison() {
         {/* HEADER BLOCK */}
         <div style={{ textAlign: "center", maxWidth: "860px", margin: "0 auto 3.25rem auto" }}>
           
-          {/* Cyber Holographic Badge */}
+          {/* Eyebrow Label */}
           <div
             style={{
               display: "inline-flex",
               alignItems: "center",
               gap: "0.6rem",
-              padding: "0.45rem 1.15rem",
-              borderRadius: "9999px",
-              background: isLight
-                ? "linear-gradient(135deg, rgba(255, 92, 122, 0.08) 0%, rgba(138, 92, 255, 0.08) 50%, rgba(0, 255, 209, 0.08) 100%)"
-                : "linear-gradient(135deg, rgba(255, 92, 122, 0.16) 0%, rgba(138, 92, 255, 0.16) 50%, rgba(0, 255, 209, 0.16) 100%)",
-              border: `1px solid ${isLight ? "rgba(138, 92, 255, 0.3)" : "rgba(0, 255, 209, 0.35)"}`,
-              backdropFilter: "blur(12px)",
               color: isLight ? "#7c3aed" : "#00ffd1",
-              fontSize: "0.82rem",
-              fontWeight: 800,
+              fontSize: "0.85rem",
+              fontWeight: 700,
               letterSpacing: "0.08em",
               textTransform: "uppercase",
-              marginBottom: "1.25rem",
-              boxShadow: isLight
-                ? "0 4px 16px rgba(138, 92, 255, 0.1)"
-                : "0 4px 20px rgba(0, 255, 209, 0.15)",
+              marginBottom: "1rem",
             }}
           >
             <span

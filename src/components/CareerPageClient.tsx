@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useId, useRef } from 'react';
+import React, { useState, useEffect, useId, useRef } from 'react';
 import Link from 'next/link';
 import { careersData, JobOpening } from '@/data/careers';
 import { companyData } from '@/data/company';
@@ -48,6 +48,50 @@ export default function CareerPageClient() {
   const { theme } = useTheme();
   const isLight = theme === 'light';
 
+  // Dynamic job openings from NextHRMS
+  const [openings, setOpenings] = useState<any[]>(careersData.openings);
+  const [loadingOpenings, setLoadingOpenings] = useState(false);
+
+  useEffect(() => {
+    const fetchOpenings = async () => {
+      try {
+        setLoadingOpenings(true);
+        const apiUrl = process.env.NEXT_PUBLIC_HRMS_API_URL || 'http://localhost:3001';
+        const res = await fetch(`${apiUrl}/api/job-postings/public`);
+        if (res.ok) {
+          const json = await res.json();
+          if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+            const mapped = json.data.map((item: any) => ({
+              id: item.id || item.token,
+              token: item.token,
+              title: item.title,
+              department: item.department || 'Engineering',
+              location: item.location || 'Surat, Gujarat (Hybrid / On-Site)',
+              type: item.type || 'Full-Time',
+              experience: item.experience || '2 - 5 Years',
+              description: item.description || 'Join our dedicated team building high-performance scalable systems.',
+              responsibilities: [
+                `Lead and execute ${item.title} deliverables adhering to sprint milestones.`,
+                'Participate in daily engineering scrums, code reviews, and architecture discussions.',
+                'Collaborate closely with team leads and client stakeholders.',
+              ],
+              requirements: item.skillsRequired && item.skillsRequired.length > 0
+                ? item.skillsRequired
+                : ['Professional software engineering experience', 'Strong analytical and problem-solving skills', 'Excellent team collaboration and communication'],
+            }));
+            setOpenings(mapped);
+          }
+        }
+      } catch (err) {
+        console.warn('NextHRMS job postings API offline, using fallback openings:', err);
+      } finally {
+        setLoadingOpenings(false);
+      }
+    };
+
+    fetchOpenings();
+  }, []);
+
   // Department filter
   const departments = ['All Roles', 'Engineering', 'AI Innovation Lab', 'Mobile Engineering', 'Quality Assurance', 'Early Careers'];
   const [activeDept, setActiveDept] = useState('All Roles');
@@ -76,8 +120,8 @@ export default function CareerPageClient() {
   });
 
   const filteredOpenings = activeDept === 'All Roles'
-    ? careersData.openings
-    : careersData.openings.filter((job) => job.department.toLowerCase().includes(activeDept.toLowerCase()));
+    ? openings
+    : openings.filter((job) => job.department.toLowerCase().includes(activeDept.toLowerCase()));
 
   const handleApplyClick = (jobTitle: string) => {
     setSelectedRole(jobTitle);
@@ -115,14 +159,35 @@ export default function CareerPageClient() {
     }
   };
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
-    setTimeout(() => {
+
+    try {
+      const activeJob = openings.find((j) => j.title === formData.position);
+      if (activeJob?.token) {
+        const apiUrl = process.env.NEXT_PUBLIC_HRMS_API_URL || 'http://localhost:3001';
+        await fetch(`${apiUrl}/api/recruitment/apply/${activeJob.token}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            currentLocation: 'Surat / Remote',
+            experience: formData.experience,
+            source: 'Opash Website Career Portal',
+            sourceDetails: formData.portfolioUrl || formData.resumeLink || formData.message,
+          }),
+        });
+      }
+    } catch (err) {
+      console.warn('NextHRMS recruitment application submission fallback:', err);
+    } finally {
       setSubmitting(false);
       setFormSubmitted(true);
       setResumeFile(null);
-    }, 800);
+    }
   };
 
   const perkIcons: Record<string, React.ReactNode> = {
@@ -167,14 +232,7 @@ export default function CareerPageClient() {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                padding: '7px 18px',
-                borderRadius: '9999px',
-                background: isLight ? 'rgba(0, 168, 143, 0.08)' : 'rgba(0, 255, 209, 0.08)',
-                border: isLight ? '1px solid rgba(0, 168, 143, 0.25)' : '1px solid rgba(0, 255, 209, 0.3)',
-                boxShadow: isLight
-                  ? '0 2px 10px rgba(0, 168, 143, 0.1)'
-                  : '0 0 24px rgba(0, 255, 209, 0.15)',
-                marginBottom: '1.75rem',
+                marginBottom: '1.25rem',
               }}
             >
               <span
@@ -189,14 +247,14 @@ export default function CareerPageClient() {
               />
               <span
                 style={{
-                  fontSize: '0.82rem',
+                  fontSize: '0.85rem',
                   fontWeight: 700,
                   letterSpacing: '0.08em',
                   textTransform: 'uppercase',
                   color: isLight ? '#008a75' : '#00ffd1',
                 }}
               >
-                WE ARE HIRING &bull; 5 OPEN ROLES AT SURAT HQ & HYBRID
+                We Are Hiring &bull; Open Roles in Surat & Hybrid
               </span>
             </div>
 
@@ -225,7 +283,7 @@ export default function CareerPageClient() {
                 fontWeight: 400,
               }}
             >
-              Join a high-agency squad of 50+ engineers, architects, and innovators building mission-critical
+              Join a dedicated squad of engineers, architects, and innovators building mission-critical
               cloud systems, AI agent pipelines, and enterprise platforms for global leaders.
             </p>
 
@@ -253,7 +311,7 @@ export default function CareerPageClient() {
                   gap: '8px',
                 }}
               >
-                <span>Explore Open Roles ({careersData.openings.length})</span>
+                <span>Explore Open Roles ({openings.length})</span>
                 <ChevronDown size={18} />
               </a>
 
@@ -290,7 +348,7 @@ export default function CareerPageClient() {
               }}
             >
               {[
-                { number: '50+', label: 'Global Technologists', sub: 'Surat HQ & Global' },
+                { number: '100%', label: 'In-House Engineers', sub: 'Surat HQ & Global Delivery' },
                 { number: '4.9 ★', label: 'Glassdoor Rating', sub: 'Top Employee CSAT' },
                 { number: '0%', label: 'Micro-Management', sub: 'High Agency Autonomy' },
                 { number: '100%', label: 'Modern AI & Cloud', sub: 'Next.js, Go, PyTorch' },
@@ -364,13 +422,10 @@ export default function CareerPageClient() {
             <span
               style={{
                 display: 'inline-block',
-                padding: '4px 14px',
-                borderRadius: '9999px',
-                fontSize: '0.78rem',
+                fontSize: '0.85rem',
                 fontWeight: 700,
                 letterSpacing: '0.08em',
                 textTransform: 'uppercase',
-                background: isLight ? 'rgba(0, 168, 143, 0.1)' : 'rgba(0, 255, 209, 0.1)',
                 color: isLight ? '#008a75' : '#00ffd1',
                 marginBottom: '0.75rem',
               }}
@@ -496,13 +551,10 @@ export default function CareerPageClient() {
             <span
               style={{
                 display: 'inline-block',
-                padding: '4px 14px',
-                borderRadius: '9999px',
-                fontSize: '0.78rem',
+                fontSize: '0.85rem',
                 fontWeight: 700,
                 letterSpacing: '0.08em',
                 textTransform: 'uppercase',
-                background: isLight ? 'rgba(0, 168, 143, 0.1)' : 'rgba(0, 255, 209, 0.1)',
                 color: isLight ? '#008a75' : '#00ffd1',
                 marginBottom: '0.75rem',
               }}
@@ -609,13 +661,10 @@ export default function CareerPageClient() {
             <span
               style={{
                 display: 'inline-block',
-                padding: '4px 14px',
-                borderRadius: '9999px',
-                fontSize: '0.78rem',
+                fontSize: '0.85rem',
                 fontWeight: 700,
                 letterSpacing: '0.08em',
                 textTransform: 'uppercase',
-                background: isLight ? 'rgba(0, 168, 143, 0.1)' : 'rgba(0, 255, 209, 0.1)',
                 color: isLight ? '#008a75' : '#00ffd1',
                 marginBottom: '0.75rem',
               }}
@@ -1180,7 +1229,7 @@ export default function CareerPageClient() {
                         outline: 'none',
                       }}
                     >
-                      {careersData.openings.map((j) => (
+                      {openings.map((j) => (
                         <option key={j.id} value={j.title} style={{ background: isLight ? '#ffffff' : '#0a1222' }}>
                           {j.title} ({j.experience})
                         </option>
@@ -2072,18 +2121,15 @@ export default function CareerPageClient() {
             <span
               style={{
                 display: 'inline-block',
-                padding: '4px 14px',
-                borderRadius: '9999px',
-                fontSize: '0.78rem',
+                fontSize: '0.85rem',
                 fontWeight: 700,
                 letterSpacing: '0.08em',
                 textTransform: 'uppercase',
-                background: isLight ? 'rgba(0, 168, 143, 0.1)' : 'rgba(0, 255, 209, 0.1)',
                 color: isLight ? '#008a75' : '#00ffd1',
                 marginBottom: '0.75rem',
               }}
             >
-              Speed & Respect
+              Hiring Process
             </span>
             <h2
               style={{

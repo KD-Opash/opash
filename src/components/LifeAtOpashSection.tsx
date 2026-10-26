@@ -232,14 +232,7 @@ export default function LifeAtOpashSection() {
               display: "inline-flex",
               alignItems: "center",
               gap: "8px",
-              padding: "6px 16px",
-              borderRadius: "9999px",
-              background: isLight ? "rgba(0, 168, 143, 0.08)" : "rgba(94, 192, 152, 0.12)",
-              border: isLight ? "1px solid rgba(0, 168, 143, 0.25)" : "1px solid rgba(94, 192, 152, 0.3)",
-              boxShadow: isLight
-                ? "0 2px 10px rgba(0, 168, 143, 0.1)"
-                : "0 0 20px rgba(94, 192, 152, 0.15)",
-              marginBottom: "1.25rem",
+              marginBottom: "1rem",
             }}
           >
             <span
@@ -253,7 +246,7 @@ export default function LifeAtOpashSection() {
             />
             <span
               style={{
-                fontSize: "0.8rem",
+                fontSize: "0.85rem",
                 fontWeight: 700,
                 letterSpacing: "0.08em",
                 textTransform: "uppercase",

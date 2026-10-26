@@ -45,12 +45,12 @@ export const companyData = {
   tagline: "Empowering You With Innovation & Technology",
   heroSubtitle: "Top Global Partner for Custom Software, Scalable SaaS & AI Solutions",
   aboutBrief:
-    "At Opash Software, we're not just another IT company — we're a passionate family of over 50+ tech experts dedicated to turning digital dreams into reality. Based in Surat, Gujarat, we engineer enterprise-grade web, mobile, SaaS, and AI-driven platforms for clients across the US, Europe, Middle East, and Asia.",
+    "At Opash Software, we're not just another IT company — we're a dedicated team of tech experts turning digital dreams into reality. Based in Surat, Gujarat, we engineer enterprise-grade web, mobile, SaaS, and AI-driven platforms for clients across the US, Europe, Middle East, and Asia.",
   fullStory:
     "Founded with a mission to eliminate software bloat and deliver tailor-made, high-velocity engineering, Opash Software has grown from a specialized development boutique into a trusted global engineering partner. Over 8+ years, we have mastered full-stack development, cloud infrastructure, AI/ML integrations, and DevOps pipelines. We build software that scales cleanly, performs flawlessly, and accelerates business growth.",
   
   stats: {
-    developers: "50+",
+    developers: "Dedicated Squads",
     projectsDelivered: "75+",
     hoursExecuted: "12,000+",
     yearsExperience: "8+",
@@ -119,8 +119,8 @@ export const companyData = {
     {
       year: "2023",
       badge: "Global Growth",
-      title: "50+ Engineers & 75+ Projects",
-      description: "Surpassed 50 full-time engineers and successfully delivered 75+ global projects across US, UK, UAE, and Europe, establishing high-trust Upwork and Clutch agency rankings.",
+      title: "Global Reach & 75+ Projects",
+      description: "Expanded our full-time engineering squads and successfully delivered 75+ global projects across US, UK, UAE, and Europe, establishing high-trust Upwork and Clutch agency rankings.",
       iconName: "Globe",
     },
     {

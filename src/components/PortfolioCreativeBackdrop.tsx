@@ -159,43 +159,6 @@ export default function PortfolioCreativeBackdrop({ isLightMode = false }: Portf
         }}
       />
 
-      {/* 6. Subtle Monospace HUD Coordinates in Margins */}
-      <div
-        style={{
-          position: 'absolute',
-          top: '12%',
-          left: '3%',
-          fontFamily: 'monospace',
-          fontSize: '0.72rem',
-          letterSpacing: '0.08em',
-          color: isLightMode ? '#64748b' : '#38bdf8',
-          opacity: 0.65,
-        }}
-      >
-        <div>// ARCHITECTURE_DELIVERY_MATRIX</div>
-        <div style={{ fontSize: '0.66rem', color: isLightMode ? '#94a3b8' : '#2dd4bf', marginTop: '2px' }}>
-          SCALE: 75+ ENTERPRISE CLUSTERS &bull; 99.99% UPTIME
-        </div>
-      </div>
-
-      <div
-        style={{
-          position: 'absolute',
-          top: '12%',
-          right: '3%',
-          textAlign: 'right',
-          fontFamily: 'monospace',
-          fontSize: '0.72rem',
-          letterSpacing: '0.08em',
-          color: isLightMode ? '#64748b' : '#818cf8',
-          opacity: 0.65,
-        }}
-      >
-        <div>// PRODUCTION_TELEMETRY: VERIFIED</div>
-        <div style={{ fontSize: '0.66rem', color: isLightMode ? '#94a3b8' : '#38bdf8', marginTop: '2px' }}>
-          REGIONS: [US &bull; EU &bull; UAE &bull; IN] &bull; 0% CRITICAL DOWNTIME
-        </div>
-      </div>
     </div>
   );
 }

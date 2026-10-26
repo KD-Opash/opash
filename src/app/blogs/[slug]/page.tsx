@@ -20,6 +20,42 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
+async function fetchPost(slug: string) {
+  try {
+    const apiUrl = process.env.NEXT_PUBLIC_HRMS_API_URL || "http://localhost:3001";
+    const res = await fetch(`${apiUrl}/api/blogs/public/${slug}`, {
+      next: { revalidate: 30 },
+    });
+    if (res.ok) {
+      const json = await res.json();
+      if (json.success && json.data) {
+        const item = json.data;
+        return {
+          slug: item.slug,
+          title: item.title,
+          excerpt: item.excerpt,
+          category: item.category || "Full-Stack Architecture",
+          readTime: item.readTime || "5 min read",
+          date: item.publishedAt
+            ? new Date(item.publishedAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
+            : "Recent",
+          author: {
+            name: item.author?.name || "Hiren Danecha",
+            role: item.author?.role || "CEO & Tech Strategist",
+            avatar: item.author?.avatar || "/images/image.webp",
+          },
+          tags: item.tags || ["Engineering", "Technology"],
+          content: item.content || [],
+          coverImage: item.coverImage || "",
+        };
+      }
+    }
+  } catch (err) {
+    console.warn("NextHRMS blog detail fetch error, using fallback:", err);
+  }
+  return blogsData.find((p) => p.slug === slug);
+}
+
 export async function generateStaticParams() {
   return blogsData.map((post) => ({
     slug: post.slug,
@@ -28,7 +64,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const post = blogsData.find((p) => p.slug === slug);
+  const post = await fetchPost(slug);
   if (!post) return { title: "Blog Post | Opash Software" };
 
   return {
@@ -67,13 +103,71 @@ export default function BlogPostPage({ params }: Props) {
 
 async function BlogPostContent({ params }: Props) {
   const { slug } = await params;
-  const post = blogsData.find((p) => p.slug === slug);
+  const post = await fetchPost(slug);
 
   if (!post) {
     notFound();
   }
 
   const relatedPosts = blogsData.filter((p) => p.slug !== slug).slice(0, 2);
+
+  const resolveImageUrl = (url?: string) => {
+    if (!url) return "";
+    if (url.startsWith("/uploads/")) {
+      const hrmsBase = process.env.NEXT_PUBLIC_HRMS_API_URL || "http://localhost:3001";
+      return `${hrmsBase}${url}`;
+    }
+    return url;
+  };
+
+  const parseInlineMarkup = (text: string) => {
+    const regex = /(\[.*?\]\(.*?\)|\*\*.*?\*\*|\*.*?\*|`.*?`)/g;
+    const parts = text.split(regex);
+
+    return parts.map((part, i) => {
+      if (part.startsWith("[") && part.includes("](")) {
+        const match = part.match(/^\[(.*?)\]\((.*?)\)$/);
+        if (match) {
+          return (
+            <a
+              key={i}
+              href={match[2]}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: "var(--color-cyan)", textDecoration: "underline", fontWeight: 600 }}
+            >
+              {match[1]}
+            </a>
+          );
+        }
+      }
+      if (part.startsWith("**") && part.endsWith("**") && part.length >= 4) {
+        return <strong key={i} style={{ color: "var(--text-primary)", fontWeight: 700 }}>{part.slice(2, -2)}</strong>;
+      }
+      if (part.startsWith("*") && part.endsWith("*") && part.length >= 2) {
+        return <em key={i} style={{ fontStyle: "italic" }}>{part.slice(1, -1)}</em>;
+      }
+      if (part.startsWith("`") && part.endsWith("`") && part.length >= 2) {
+        return (
+          <code
+            key={i}
+            style={{
+              backgroundColor: "var(--bg-elevated)",
+              border: "1px solid var(--border-subtle)",
+              padding: "0.15rem 0.45rem",
+              borderRadius: "4px",
+              fontSize: "0.9em",
+              color: "var(--color-cyan)",
+              fontFamily: "monospace",
+            }}
+          >
+            {part.slice(1, -1)}
+          </code>
+        );
+      }
+      return part;
+    });
+  };
 
   return (
     <div className="bg-grid-pattern" style={{ minHeight: "100vh", position: "relative" }}>
@@ -176,6 +270,33 @@ async function BlogPostContent({ params }: Props) {
             </div>
           </div>
 
+          {/* Featured Cover Image if available */}
+          {post.coverImage && (
+            <div
+              style={{
+                position: "relative",
+                width: "100%",
+                borderRadius: "var(--radius-xl, 16px)",
+                overflow: "hidden",
+                marginBottom: "2.5rem",
+                border: "1px solid var(--border-subtle)",
+                boxShadow: "0 20px 40px rgba(0, 0, 0, 0.15)",
+                backgroundColor: "var(--bg-elevated)",
+              }}
+            >
+              <img
+                src={resolveImageUrl(post.coverImage)}
+                alt={post.title}
+                style={{
+                  width: "100%",
+                  maxHeight: "480px",
+                  objectFit: "cover",
+                  display: "block",
+                }}
+              />
+            </div>
+          )}
+
           {/* Article Excerpt Callout */}
           <div
             style={{
@@ -205,9 +326,140 @@ async function BlogPostContent({ params }: Props) {
               marginBottom: "4rem",
             }}
           >
-            {post.content.map((paragraph, index) => (
-              <p key={index}>{paragraph}</p>
-            ))}
+            {post.content.map((paragraph, index) => {
+              const trimmed = paragraph.trim();
+
+              // Markdown Image
+              const markdownImgMatch = trimmed.match(/^!\[(.*?)\]\((.*?)\)$/);
+              if (markdownImgMatch) {
+                const alt = markdownImgMatch[1];
+                const src = resolveImageUrl(markdownImgMatch[2]);
+                return (
+                  <figure key={index} style={{ margin: "2.5rem 0", textAlign: "center" }}>
+                    <img
+                      src={src}
+                      alt={alt || "Article visual"}
+                      style={{
+                        maxWidth: "100%",
+                        maxHeight: "550px",
+                        borderRadius: "14px",
+                        border: "1px solid var(--border-subtle)",
+                        boxShadow: "0 15px 35px rgba(0,0,0,0.2)",
+                        margin: "0 auto",
+                        display: "block",
+                        objectFit: "contain",
+                      }}
+                    />
+                    {alt && (
+                      <figcaption style={{ fontSize: "0.85rem", color: "var(--text-muted)", marginTop: "0.75rem", fontStyle: "italic" }}>
+                        {alt}
+                      </figcaption>
+                    )}
+                  </figure>
+                );
+              }
+
+              // Headings
+              if (trimmed.startsWith("### ")) {
+                return (
+                  <h3 key={index} style={{ fontSize: "1.35rem", fontWeight: 700, color: "var(--text-primary)", marginTop: "1rem", marginBottom: "0.25rem" }}>
+                    {parseInlineMarkup(trimmed.substring(4))}
+                  </h3>
+                );
+              }
+              if (trimmed.startsWith("## ")) {
+                return (
+                  <h2 key={index} style={{ fontSize: "1.75rem", fontWeight: 800, color: "var(--text-primary)", marginTop: "1.75rem", marginBottom: "0.5rem" }}>
+                    {parseInlineMarkup(trimmed.substring(3))}
+                  </h2>
+                );
+              }
+              if (trimmed.startsWith("# ")) {
+                return (
+                  <h1 key={index} style={{ fontSize: "2.1rem", fontWeight: 800, color: "var(--text-primary)", marginTop: "2rem", marginBottom: "0.5rem" }}>
+                    {parseInlineMarkup(trimmed.substring(2))}
+                  </h1>
+                );
+              }
+
+              // Horizontal Divider
+              if (trimmed === "---" || trimmed === "***") {
+                return <hr key={index} style={{ border: "none", borderTop: "1px solid var(--border-subtle)", margin: "2rem 0" }} />;
+              }
+
+              // Blockquote
+              if (trimmed.startsWith("> ")) {
+                return (
+                  <blockquote
+                    key={index}
+                    style={{
+                      borderLeft: "4px solid var(--color-cyan)",
+                      padding: "1rem 1.5rem",
+                      margin: "1rem 0",
+                      backgroundColor: "var(--bg-elevated)",
+                      borderRadius: "0 8px 8px 0",
+                      fontStyle: "italic",
+                      color: "var(--text-primary)",
+                    }}
+                  >
+                    {parseInlineMarkup(trimmed.substring(2))}
+                  </blockquote>
+                );
+              }
+
+              // Bullet List
+              if (trimmed.split("\n").every((l) => l.trim().startsWith("- ") || l.trim().startsWith("* "))) {
+                return (
+                  <ul key={index} style={{ paddingLeft: "1.5rem", margin: "0.5rem 0", listStyleType: "disc" }}>
+                    {trimmed.split("\n").map((line, lIndex) => (
+                      <li key={lIndex} style={{ marginBottom: "0.4rem" }}>
+                        {parseInlineMarkup(line.trim().replace(/^[-*]\s+/, ""))}
+                      </li>
+                    ))}
+                  </ul>
+                );
+              }
+
+              // Numbered List
+              if (trimmed.split("\n").every((l) => /^\d+\.\s/.test(l.trim()))) {
+                return (
+                  <ol key={index} style={{ paddingLeft: "1.5rem", margin: "0.5rem 0", listStyleType: "decimal" }}>
+                    {trimmed.split("\n").map((line, lIndex) => (
+                      <li key={lIndex} style={{ marginBottom: "0.4rem" }}>
+                        {parseInlineMarkup(line.trim().replace(/^\d+\.\s+/, ""))}
+                      </li>
+                    ))}
+                  </ol>
+                );
+              }
+
+              // Code Block
+              if (trimmed.startsWith("```")) {
+                const codeContent = trimmed.replace(/^```[a-zA-Z]*\n?/, "").replace(/```$/, "");
+                return (
+                  <pre
+                    key={index}
+                    style={{
+                      backgroundColor: "var(--bg-elevated)",
+                      border: "1px solid var(--border-subtle)",
+                      padding: "1.25rem",
+                      borderRadius: "10px",
+                      overflowX: "auto",
+                      fontFamily: "monospace",
+                      fontSize: "0.92rem",
+                      lineHeight: 1.6,
+                      color: "var(--color-cyan)",
+                      margin: "1rem 0",
+                    }}
+                  >
+                    <code>{codeContent}</code>
+                  </pre>
+                );
+              }
+
+              // Default Paragraph
+              return <p key={index}>{parseInlineMarkup(paragraph)}</p>;
+            })}
           </div>
 
           {/* Tags */}
