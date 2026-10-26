@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
-import { blogsData } from "@/data/blogs";
+import { blogsData, BlogPost } from "@/data/blogs";
 import { 
   ArrowLeft, 
   Clock, 
@@ -20,7 +20,7 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
-async function fetchPost(slug: string) {
+async function fetchPost(slug: string): Promise<BlogPost | undefined> {
   try {
     const apiUrl = process.env.NEXT_PUBLIC_HRMS_API_URL || "http://localhost:3001";
     const res = await fetch(`${apiUrl}/api/blogs/public/${slug}`, {
@@ -44,8 +44,8 @@ async function fetchPost(slug: string) {
             role: item.author?.role || "CEO & Tech Strategist",
             avatar: item.author?.avatar || "/images/image.webp",
           },
-          tags: item.tags || ["Engineering", "Technology"],
-          content: item.content || [],
+          tags: Array.isArray(item.tags) ? item.tags : ["Engineering", "Technology"],
+          content: Array.isArray(item.content) ? item.content : [],
           coverImage: item.coverImage || "",
         };
       }

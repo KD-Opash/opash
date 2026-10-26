@@ -49,7 +49,7 @@ export default function CareerPageClient() {
   const isLight = theme === 'light';
 
   // Dynamic job openings from NextHRMS
-  const [openings, setOpenings] = useState<any[]>(careersData.openings);
+  const [openings, setOpenings] = useState<JobOpening[]>(careersData.openings);
   const [loadingOpenings, setLoadingOpenings] = useState(false);
 
   useEffect(() => {
@@ -61,7 +61,7 @@ export default function CareerPageClient() {
         if (res.ok) {
           const json = await res.json();
           if (json.success && Array.isArray(json.data) && json.data.length > 0) {
-            const mapped = json.data.map((item: any) => ({
+            const mapped: JobOpening[] = json.data.map((item: any) => ({
               id: item.id || item.token,
               token: item.token,
               title: item.title,
@@ -924,7 +924,7 @@ export default function CareerPageClient() {
                             Key Responsibilities
                           </h4>
                           <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
-                            {job.responsibilities.map((resp, idx) => (
+                            {job.responsibilities.map((resp: string, idx: number) => (
                               <li
                                 key={idx}
                                 style={{
@@ -973,7 +973,7 @@ export default function CareerPageClient() {
                             Qualifications & Mastery
                           </h4>
                           <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
-                            {job.requirements.map((req, idx) => (
+                            {job.requirements.map((req: string, idx: number) => (
                               <li
                                 key={idx}
                                 style={{

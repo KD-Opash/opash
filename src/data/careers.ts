@@ -1,5 +1,6 @@
 export interface JobOpening {
   id: string;
+  token?: string;
   title: string;
   department: string;
   location: string;
