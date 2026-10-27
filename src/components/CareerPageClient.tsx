@@ -56,8 +56,7 @@ export default function CareerPageClient() {
     const fetchOpenings = async () => {
       try {
         setLoadingOpenings(true);
-        const apiUrl = process.env.NEXT_PUBLIC_HRMS_API_URL || 'http://localhost:3001';
-        const res = await fetch(`${apiUrl}/api/job-postings/public`);
+        const res = await fetch('/api/job-postings/public');
         if (res.ok) {
           const json = await res.json();
           if (json.success && Array.isArray(json.data) && json.data.length > 0) {
@@ -65,19 +64,24 @@ export default function CareerPageClient() {
               id: item.id || item.token,
               token: item.token,
               title: item.title,
+              positions: item.positions || 1,
               department: item.department || 'Engineering',
               location: item.location || 'Surat, Gujarat (Hybrid / On-Site)',
               type: item.type || 'Full-Time',
               experience: item.experience || '2 - 5 Years',
               description: item.description || 'Join our dedicated team building high-performance scalable systems.',
-              responsibilities: [
-                `Lead and execute ${item.title} deliverables adhering to sprint milestones.`,
-                'Participate in daily engineering scrums, code reviews, and architecture discussions.',
-                'Collaborate closely with team leads and client stakeholders.',
-              ],
-              requirements: item.skillsRequired && item.skillsRequired.length > 0
+              responsibilities: Array.isArray(item.responsibilities) && item.responsibilities.length > 0
+                ? item.responsibilities
+                : [
+                    `Lead and execute ${item.title} deliverables adhering to sprint milestones.`,
+                    'Participate in daily engineering scrums, code reviews, and architecture discussions.',
+                    'Collaborate closely with team leads and client stakeholders.',
+                  ],
+              requirements: Array.isArray(item.skillsRequired) && item.skillsRequired.length > 0
                 ? item.skillsRequired
-                : ['Professional software engineering experience', 'Strong analytical and problem-solving skills', 'Excellent team collaboration and communication'],
+                : (Array.isArray(item.requirements) && item.requirements.length > 0
+                    ? item.requirements
+                    : ['Professional software engineering experience', 'Strong analytical and problem-solving skills', 'Excellent team collaboration and communication']),
             }));
             setOpenings(mapped);
           }
@@ -123,6 +127,15 @@ export default function CareerPageClient() {
     ? openings
     : openings.filter((job) => job.department.toLowerCase().includes(activeDept.toLowerCase()));
 
+  const handleShareResume = () => {
+    setSelectedRole('General Engineering Consideration');
+    setFormData((prev) => ({ ...prev, position: 'General Engineering Consideration' }));
+    const applyEl = document.getElementById('apply-section');
+    if (applyEl) {
+      applyEl.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   const handleApplyClick = (jobTitle: string) => {
     setSelectedRole(jobTitle);
     setFormData((prev) => ({ ...prev, position: jobTitle }));
@@ -166,8 +179,7 @@ export default function CareerPageClient() {
     try {
       const activeJob = openings.find((j) => j.title === formData.position);
       if (activeJob?.token) {
-        const apiUrl = process.env.NEXT_PUBLIC_HRMS_API_URL || 'http://localhost:3001';
-        await fetch(`${apiUrl}/api/recruitment/apply/${activeJob.token}`, {
+        await fetch(`/api/recruitment/apply/${activeJob.token}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -314,6 +326,29 @@ export default function CareerPageClient() {
                 <span>Explore Open Roles ({openings.length})</span>
                 <ChevronDown size={18} />
               </a>
+
+              <button
+                type="button"
+                onClick={handleShareResume}
+                style={{
+                  padding: '0.9rem 2rem',
+                  fontSize: '1rem',
+                  fontWeight: 700,
+                  borderRadius: '12px',
+                  color: '#ffffff',
+                  background: 'linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%)',
+                  border: 'none',
+                  boxShadow: '0 4px 20px rgba(14, 165, 233, 0.4)',
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  transition: 'all 0.25s ease',
+                }}
+              >
+                <UploadCloud size={18} />
+                <span>Share Resume</span>
+              </button>
 
               <a
                 href="#life-at-opash"
@@ -819,6 +854,24 @@ export default function CareerPageClient() {
                         >
                           {job.experience}
                         </span>
+                        {job.positions && (
+                          <span
+                            style={{
+                              fontSize: '0.74rem',
+                              fontWeight: 700,
+                              padding: '3px 10px',
+                              borderRadius: '6px',
+                              background: isLight ? 'rgba(59, 130, 246, 0.1)' : 'rgba(59, 130, 246, 0.18)',
+                              color: isLight ? '#2563eb' : '#60a5fa',
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: '4px',
+                            }}
+                          >
+                            <Users2 size={12} />
+                            {job.positions} {job.positions === 1 ? 'Opening' : 'Openings'}
+                          </span>
+                        )}
                       </div>
 
                       <h3
@@ -1044,6 +1097,75 @@ export default function CareerPageClient() {
               );
             })}
           </div>
+
+          {/* Share Resume / Direct Drop Callout Card */}
+          <div
+            style={{
+              maxWidth: '1000px',
+              margin: '3rem auto 0 auto',
+              padding: '2.25rem 2.5rem',
+              borderRadius: '20px',
+              background: isLight
+                ? 'linear-gradient(135deg, #f8fafc 0%, #edf2f7 100%)'
+                : 'linear-gradient(135deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.9) 100%)',
+              border: isLight ? '1px solid #cbd5e1' : '1px solid rgba(255, 255, 255, 0.12)',
+              display: 'flex',
+              flexWrap: 'wrap',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '1.5rem',
+              boxShadow: '0 10px 30px -10px rgba(0, 0, 0, 0.08)',
+            }}
+          >
+            <div style={{ flex: '1 1 500px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '0.6rem' }}>
+                <span
+                  style={{
+                    fontSize: '0.75rem',
+                    fontWeight: 700,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.08em',
+                    padding: '3px 9px',
+                    borderRadius: '6px',
+                    background: '#2563eb',
+                    color: '#ffffff',
+                  }}
+                >
+                  Direct Drop
+                </span>
+                <span style={{ fontSize: '0.88rem', fontWeight: 650, color: isLight ? '#334155' : '#cbd5e1' }}>
+                  Don&apos;t see an exact fit for your domain?
+                </span>
+              </div>
+              <h3 style={{ fontSize: '1.35rem', fontWeight: 800, marginBottom: '0.4rem', letterSpacing: '-0.01em' }}>
+                Share Your Resume for Fast-Track Consideration
+              </h3>
+              <p style={{ fontSize: '0.92rem', color: isLight ? '#64748b' : '#94a3b8', margin: 0, lineHeight: 1.55 }}>
+                We are always seeking exceptional talent in AI, cloud platforms, full-stack development, and UI/UX engineering. Drop your resume directly into our pipeline and our leadership team will review it within 48 hours.
+              </p>
+            </div>
+
+            <button
+              type="button"
+              onClick={handleShareResume}
+              className="btn-primary"
+              style={{
+                padding: '0.9rem 2rem',
+                fontSize: '0.95rem',
+                fontWeight: 700,
+                borderRadius: '12px',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                whiteSpace: 'nowrap',
+                background: 'linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%)',
+                boxShadow: '0 4px 18px rgba(14, 165, 233, 0.35)',
+              }}
+            >
+              <UploadCloud size={18} />
+              <span>Share Resume Now</span>
+            </button>
+          </div>
         </div>
       </section>
 
@@ -1235,7 +1357,7 @@ export default function CareerPageClient() {
                         </option>
                       ))}
                       <option value="General Engineering Consideration" style={{ background: isLight ? '#ffffff' : '#0a1222' }}>
-                        General Engineering Consideration (Future Openings)
+                        🚀 General Consideration — Share Resume Directly
                       </option>
                     </select>
                   </div>

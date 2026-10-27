@@ -1,92 +1,84 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import Image from "next/image";
-import { useTheme } from "./ThemeProvider";
-import { Trophy, Sparkles, ArrowUpRight, ShieldCheck, CheckCircle2 } from "lucide-react";
+import React, { useState } from 'react';
+import Image from 'next/image';
+import { useTheme } from './ThemeProvider';
+import {
+  Trophy,
+  Users,
+  Rocket,
+  Zap,
+  Award,
+  CheckCircle2,
+} from 'lucide-react';
 
 interface AchievementStat {
-  icon: string;
+  icon: React.ComponentType<{ size?: number; className?: string; strokeWidth?: number; color?: string }>;
   count: string;
   label: string;
   pillarNum: string;
   pillarTag: string;
   accentColor: string;
-  glowColor: string;
-  gradientTextLight: string;
-  gradientTextDark: string;
-  accentGradient: string;
   accentRgb: string;
+  gradientText: string;
   specPill: string;
   detail: string;
 }
 
 const STATS_DATA: AchievementStat[] = [
   {
-    icon: "/images/achievements/it-professionals.svg",
-    count: "100%",
-    label: "In-House Software Developers",
-    pillarNum: "01",
-    pillarTag: "ENGINEERING TEAM",
-    accentColor: "#FF3366",
-    glowColor: "rgba(255, 51, 102, 0.32)",
-    gradientTextLight: "linear-gradient(135deg, #E11D48 0%, #FF3366 50%, #FF6B8B 100%)",
-    gradientTextDark: "linear-gradient(135deg, #FFFFFF 15%, #FDA4AF 60%, #FF4D79 100%)",
-    accentGradient: "linear-gradient(90deg, #E11D48 0%, #FF3366 50%, #FF6B8B 100%)",
-    accentRgb: "255, 51, 102",
-    specPill: "Vetted Top 1% Engineers",
-    detail: "Full-Stack, Mobile & AI Solutions Specialists",
+    icon: Users,
+    count: '100%',
+    label: 'In-House Software Developers',
+    pillarNum: '01',
+    pillarTag: 'ENGINEERING TEAM',
+    accentColor: '#00A88F',
+    accentRgb: '0, 168, 143',
+    gradientText: 'linear-gradient(135deg, #00ffd1 0%, #00A88F 100%)',
+    specPill: 'Vetted Top 1% Engineers',
+    detail: 'Full-Stack, Mobile & AI Solutions Specialists',
   },
   {
-    icon: "/images/achievements/projects-completed.svg",
-    count: "70+",
-    label: "Custom Software Projects Delivered",
-    pillarNum: "02",
-    pillarTag: "PRODUCTION PLATFORMS",
-    accentColor: "#0088FF",
-    glowColor: "rgba(0, 136, 255, 0.32)",
-    gradientTextLight: "linear-gradient(135deg, #0284C7 0%, #0088FF 50%, #38BDF8 100%)",
-    gradientTextDark: "linear-gradient(135deg, #FFFFFF 15%, #7DD3FC 60%, #00A3FF 100%)",
-    accentGradient: "linear-gradient(90deg, #0284C7 0%, #0088FF 50%, #38BDF8 100%)",
-    accentRgb: "0, 136, 255",
-    specPill: "100% On-Time Sprints",
-    detail: "Global Startups, Scale-ups & Enterprises",
+    icon: Rocket,
+    count: '70+',
+    label: 'Custom Software Projects Delivered',
+    pillarNum: '02',
+    pillarTag: 'PRODUCTION PLATFORMS',
+    accentColor: '#2563EB',
+    accentRgb: '37, 99, 235',
+    gradientText: 'linear-gradient(135deg, #38bdf8 0%, #2563EB 100%)',
+    specPill: '100% On-Time Sprints',
+    detail: 'Global Startups, Scale-ups & Enterprises',
   },
   {
-    icon: "/images/achievements/freelance-hours.svg",
-    count: "12,000+",
-    label: "Hours of Project Execution",
-    pillarNum: "03",
-    pillarTag: "SPRINT VELOCITY",
-    accentColor: "#9333EA",
-    glowColor: "rgba(147, 51, 234, 0.32)",
-    gradientTextLight: "linear-gradient(135deg, #7E22CE 0%, #9333EA 50%, #C084FC 100%)",
-    gradientTextDark: "linear-gradient(135deg, #FFFFFF 15%, #E9D5FF 60%, #A855F7 100%)",
-    accentGradient: "linear-gradient(90deg, #7E22CE 0%, #9333EA 50%, #C084FC 100%)",
-    accentRgb: "147, 51, 234",
-    specPill: "Agile CI/CD Cadence",
-    detail: "Zero-Downtime Deployment Lifecycle",
+    icon: Zap,
+    count: '12,000+',
+    label: 'Hours of Project Execution',
+    pillarNum: '03',
+    pillarTag: 'SPRINT VELOCITY',
+    accentColor: '#8B5CF6',
+    accentRgb: '139, 92, 246',
+    gradientText: 'linear-gradient(135deg, #c084fc 0%, #8B5CF6 100%)',
+    specPill: 'Agile CI/CD Cadence',
+    detail: 'Zero-Downtime Deployment Lifecycle',
   },
   {
-    icon: "/images/achievements/years-experience.svg",
-    count: "8+",
-    label: "Years of Industry Experience in IT",
-    pillarNum: "04",
-    pillarTag: "ENTERPRISE MATURITY",
-    accentColor: "#059669",
-    glowColor: "rgba(5, 150, 105, 0.32)",
-    gradientTextLight: "linear-gradient(135deg, #047857 0%, #059669 50%, #34D399 100%)",
-    gradientTextDark: "linear-gradient(135deg, #FFFFFF 15%, #A7F3D0 60%, #10B981 100%)",
-    accentGradient: "linear-gradient(90deg, #047857 0%, #059669 50%, #34D399 100%)",
-    accentRgb: "5, 150, 105",
-    specPill: "ISO-Grade Reliability",
-    detail: "Established Global Technology Partner",
+    icon: Award,
+    count: '8+',
+    label: 'Years of Industry Experience in IT',
+    pillarNum: '04',
+    pillarTag: 'ENTERPRISE MATURITY',
+    accentColor: '#F59E0B',
+    accentRgb: '245, 158, 11',
+    gradientText: 'linear-gradient(135deg, #fde047 0%, #F59E0B 100%)',
+    specPill: 'ISO-Grade Reliability',
+    detail: 'Established Global Technology Partner',
   },
 ];
 
 export default function OurAchievementsSection() {
   const { theme } = useTheme();
-  const isLight = theme === "light";
+  const isLight = theme === 'light';
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
@@ -94,55 +86,47 @@ export default function OurAchievementsSection() {
       id="our-achievements"
       aria-label="Our Achievements"
       style={{
-        position: "relative",
-        padding: "7rem 0 7.5rem 0",
+        position: 'relative',
+        padding: '6.5rem 0 7rem 0',
         background: isLight
-          ? "linear-gradient(180deg, rgba(241, 245, 249, 0.6) 0%, rgba(255, 255, 255, 0.98) 25%, rgba(248, 250, 252, 0.98) 75%, rgba(241, 245, 249, 0.6) 100%)"
-          : "linear-gradient(180deg, rgba(10, 18, 34, 0.6) 0%, rgba(6, 14, 30, 0.9) 25%, rgba(8, 17, 36, 0.9) 75%, rgba(10, 18, 34, 0.6) 100%)",
-        overflow: "hidden",
-        borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
-        borderBottom: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
+          ? 'linear-gradient(180deg, rgba(248, 250, 252, 0.7) 0%, #ffffff 30%, #ffffff 70%, rgba(248, 250, 252, 0.7) 100%)'
+          : 'linear-gradient(180deg, rgba(10, 18, 34, 0.6) 0%, rgba(6, 14, 30, 0.95) 30%, rgba(8, 17, 36, 0.95) 70%, rgba(10, 18, 34, 0.6) 100%)',
+        overflow: 'hidden',
+        borderTop: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.08)',
+        borderBottom: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.08)',
       }}
     >
-      {/* 1. Luminous Horizon Accent Beam across the top */}
+      {/* Horizon Accent Line */}
       <div
         aria-hidden="true"
         style={{
-          position: "absolute",
+          position: 'absolute',
           top: 0,
-          left: "50%",
-          transform: "translateX(-50%)",
-          width: "90%",
-          maxWidth: "1320px",
-          height: "1px",
+          left: '50%',
+          transform: 'translateX(-50%)',
+          width: '85%',
+          maxWidth: '1200px',
+          height: '1px',
           background: isLight
-            ? "linear-gradient(90deg, transparent 0%, rgba(71, 109, 154, 0.25) 20%, rgba(0, 168, 143, 0.85) 50%, rgba(71, 109, 154, 0.25) 80%, transparent 100%)"
-            : "linear-gradient(90deg, transparent 0%, rgba(71, 109, 154, 0.35) 20%, rgba(94, 192, 152, 0.95) 50%, rgba(98, 137, 184, 0.4) 80%, transparent 100%)",
+            ? 'linear-gradient(90deg, transparent 0%, rgba(0, 168, 143, 0.6) 50%, transparent 100%)'
+            : 'linear-gradient(90deg, transparent 0%, rgba(94, 192, 152, 0.8) 50%, transparent 100%)',
           boxShadow: isLight
-            ? "0 0 16px rgba(0, 168, 143, 0.3)"
-            : "0 0 25px rgba(94, 192, 152, 0.5), 0 0 10px rgba(71, 109, 154, 0.35)",
+            ? '0 0 12px rgba(0, 168, 143, 0.25)'
+            : '0 0 20px rgba(94, 192, 152, 0.4)',
           zIndex: 1,
         }}
       />
 
-      {/* 2. Full Edge-to-Edge Ambient Radiant Lighting */}
+      {/* Ambient Radial Backdrop Glow */}
       <div
         aria-hidden="true"
         style={{
-          position: "absolute",
+          position: 'absolute',
           inset: 0,
           background: isLight
-            ? `
-              radial-gradient(ellipse 90% 60% at 50% 0%, rgba(71, 109, 154, 0.08) 0%, transparent 75%),
-              radial-gradient(ellipse 70% 50% at 5% 45%, rgba(0, 168, 143, 0.07) 0%, transparent 65%),
-              radial-gradient(ellipse 70% 50% at 95% 45%, rgba(71, 109, 154, 0.07) 0%, transparent 65%)
-            `
-            : `
-              radial-gradient(ellipse 100% 65% at 50% 0%, rgba(71, 109, 154, 0.22) 0%, rgba(94, 192, 152, 0.16) 40%, transparent 75%),
-              radial-gradient(ellipse 75% 55% at 0% 45%, rgba(94, 192, 152, 0.18) 0%, transparent 65%),
-              radial-gradient(ellipse 75% 55% at 100% 45%, rgba(71, 109, 154, 0.20) 0%, transparent 65%)
-            `,
-          pointerEvents: "none",
+            ? 'radial-gradient(ellipse 80% 50% at 50% 0%, rgba(0, 168, 143, 0.05) 0%, transparent 70%)'
+            : 'radial-gradient(ellipse 90% 55% at 50% 0%, rgba(0, 168, 143, 0.12) 0%, transparent 75%)',
+          pointerEvents: 'none',
           zIndex: 0,
         }}
       />
@@ -151,13 +135,13 @@ export default function OurAchievementsSection() {
       <div
         aria-hidden="true"
         style={{
-          position: "absolute",
+          position: 'absolute',
           top: 0,
           left: 0,
-          width: "440px",
-          height: "440px",
-          opacity: isLight ? 0.35 : 0.2,
-          pointerEvents: "none",
+          width: '420px',
+          height: '420px',
+          opacity: isLight ? 0.25 : 0.15,
+          pointerEvents: 'none',
           zIndex: 0,
         }}
       >
@@ -165,21 +149,21 @@ export default function OurAchievementsSection() {
           src="/images/achievements/achievement-bg1.png"
           alt=""
           fill
-          sizes="440px"
-          style={{ objectFit: "contain", objectPosition: "top left" }}
+          sizes="420px"
+          style={{ objectFit: 'contain', objectPosition: 'top left' }}
         />
       </div>
 
       <div
         aria-hidden="true"
         style={{
-          position: "absolute",
+          position: 'absolute',
           bottom: 0,
           right: 0,
-          width: "460px",
-          height: "460px",
-          opacity: isLight ? 0.35 : 0.2,
-          pointerEvents: "none",
+          width: '420px',
+          height: '420px',
+          opacity: isLight ? 0.25 : 0.15,
+          pointerEvents: 'none',
           zIndex: 0,
         }}
       >
@@ -187,31 +171,34 @@ export default function OurAchievementsSection() {
           src="/images/achievements/achievement-bg2.png"
           alt=""
           fill
-          sizes="460px"
-          style={{ objectFit: "contain", objectPosition: "bottom right" }}
+          sizes="420px"
+          style={{ objectFit: 'contain', objectPosition: 'bottom right' }}
         />
       </div>
 
-      <div className="container-custom" style={{ position: "relative", zIndex: 1 }}>
+      <div className="container-custom" style={{ position: 'relative', zIndex: 1 }}>
         {/* Section Heading */}
-        <div style={{ textAlign: "center", maxWidth: "800px", margin: "0 auto 3.75rem auto" }}>
-          {/* Eyebrow badge */}
+        <div style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 3.75rem auto' }}>
           <div
             style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "8px",
-              marginBottom: "1rem",
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '6px 14px',
+              borderRadius: '9999px',
+              background: isLight ? 'rgba(0, 168, 143, 0.08)' : 'rgba(0, 168, 143, 0.15)',
+              border: isLight ? '1px solid rgba(0, 168, 143, 0.2)' : '1px solid rgba(0, 168, 143, 0.35)',
+              marginBottom: '1rem',
             }}
           >
-            <Trophy size={16} color={isLight ? "#00a88f" : "#5EC098"} />
+            <Trophy size={15} color={isLight ? '#008a75' : '#5EC098'} />
             <span
               style={{
-                fontSize: "0.85rem",
-                fontWeight: 700,
-                letterSpacing: "0.08em",
-                textTransform: "uppercase",
-                color: isLight ? "#008a75" : "#5EC098",
+                fontSize: '0.78rem',
+                fontWeight: 750,
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                color: isLight ? '#008a75' : '#5EC098',
               }}
             >
               Enterprise Engineering Impact
@@ -220,15 +207,15 @@ export default function OurAchievementsSection() {
 
           <h2
             style={{
-              fontSize: "clamp(2.1rem, 4vw, 3.2rem)",
+              fontSize: 'clamp(2.1rem, 4vw, 3.1rem)',
               fontWeight: 850,
-              letterSpacing: "-0.025em",
-              color: isLight ? "#03173C" : "#f8fafc",
-              marginBottom: "1rem",
-              lineHeight: 1.15,
+              letterSpacing: '-0.025em',
+              color: isLight ? '#0f172a' : '#f8fafc',
+              marginBottom: '0.9rem',
+              lineHeight: 1.18,
             }}
           >
-            Our{" "}
+            Our{' '}
             <span className="opash-brand-gradient-text">
               Achievements
             </span>
@@ -236,29 +223,30 @@ export default function OurAchievementsSection() {
 
           <p
             style={{
-              fontSize: "clamp(1.02rem, 1.3vw, 1.18rem)",
-              lineHeight: 1.7,
-              color: isLight ? "#535D6D" : "#94a3b8",
-              margin: "0 auto",
-              maxWidth: "700px",
+              fontSize: 'clamp(1rem, 1.25vw, 1.12rem)',
+              lineHeight: 1.65,
+              color: isLight ? '#64748b' : '#94a3b8',
+              margin: '0 auto',
+              maxWidth: '680px',
             }}
           >
-            Verifiable milestones that reflect our passion for scalable software architecture and long-term client success.
+            Verifiable milestones that reflect our passion for scalable software architecture, engineering discipline, and long-term client success.
           </p>
         </div>
 
-        {/* 4 Redesigned Attractive High-Tech Metric Cards */}
+        {/* 4 Modern Studio Bento Metric Cards */}
         <div
           style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(270px, 1fr))",
-            gap: "1.75rem",
-            maxWidth: "1280px",
-            margin: "0 auto 4rem auto",
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(270px, 1fr))',
+            gap: '1.5rem',
+            maxWidth: '1240px',
+            margin: '0 auto 3.75rem auto',
           }}
         >
           {STATS_DATA.map((stat, idx) => {
             const isHovered = hoveredIndex === idx;
+            const IconComponent = stat.icon;
 
             return (
               <div
@@ -266,285 +254,247 @@ export default function OurAchievementsSection() {
                 onMouseEnter={() => setHoveredIndex(idx)}
                 onMouseLeave={() => setHoveredIndex(null)}
                 style={{
-                  position: "relative",
-                  borderRadius: "26px",
-                  padding: "2.35rem 1.6rem 2rem 1.6rem",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  textAlign: "center",
+                  position: 'relative',
+                  borderRadius: '24px',
+                  padding: '2.25rem 1.85rem 1.85rem 1.85rem',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  textAlign: 'left',
                   background: isLight
-                    ? isHovered
-                      ? "linear-gradient(180deg, #ffffff 0%, #f8faff 100%)"
-                      : "linear-gradient(180deg, #ffffff 0%, #f4f8fd 100%)"
+                    ? '#ffffff'
                     : isHovered
-                      ? "linear-gradient(180deg, rgba(16, 26, 48, 0.95) 0%, rgba(10, 18, 36, 0.98) 100%)"
-                      : "linear-gradient(180deg, rgba(13, 21, 38, 0.85) 0%, rgba(8, 14, 28, 0.92) 100%)",
+                      ? 'linear-gradient(180deg, rgba(20, 32, 58, 0.92) 0%, rgba(11, 20, 40, 0.98) 100%)'
+                      : 'linear-gradient(180deg, rgba(14, 23, 44, 0.8) 0%, rgba(9, 16, 32, 0.9) 100%)',
                   border: isLight
                     ? isHovered
                       ? `1.5px solid ${stat.accentColor}`
-                      : "1px solid rgba(226, 232, 240, 0.9)"
+                      : '1px solid #e2e8f0'
                     : isHovered
                       ? `1.5px solid ${stat.accentColor}`
-                      : "1px solid rgba(255, 255, 255, 0.08)",
+                      : '1px solid rgba(255, 255, 255, 0.08)',
                   boxShadow: isLight
                     ? isHovered
-                      ? `0 24px 50px -12px ${stat.glowColor}, 0 4px 16px rgba(0,0,0,0.04)`
-                      : "0 10px 30px -4px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0,0,0,0.02)"
+                      ? `0 20px 40px -12px rgba(${stat.accentRgb}, 0.2), 0 4px 16px rgba(0, 0, 0, 0.04)`
+                      : '0 6px 24px -4px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.02)'
                     : isHovered
-                      ? `0 24px 60px -10px ${stat.glowColor}, inset 0 1px 1px rgba(255, 255, 255, 0.15)`
-                      : "0 14px 40px -8px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.05)",
-                  transform: isHovered ? "translateY(-10px) scale(1.02)" : "translateY(0) scale(1)",
-                  transition: "all 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
-                  overflow: "hidden",
-                  cursor: "default",
+                      ? `0 20px 50px -10px rgba(${stat.accentRgb}, 0.32), inset 0 1px 1px rgba(255, 255, 255, 0.15)`
+                      : '0 12px 35px -6px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.04)',
+                  transform: isHovered ? 'translateY(-8px)' : 'translateY(0)',
+                  transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
+                  overflow: 'hidden',
+                  cursor: 'default',
                 }}
               >
-                {/* Top Glowing Laser Accent Beam */}
+                {/* Top Subtle Glowing Accent Beam */}
                 <div
                   style={{
-                    position: "absolute",
+                    position: 'absolute',
                     top: 0,
                     left: 0,
                     right: 0,
-                    height: isHovered ? "3px" : "2px",
-                    background: stat.accentGradient,
-                    boxShadow: isHovered ? `0 0 16px ${stat.accentColor}, 0 0 6px ${stat.accentColor}` : "none",
-                    transition: "all 0.35s ease",
+                    height: isHovered ? '3px' : '2px',
+                    background: `linear-gradient(90deg, transparent 0%, ${stat.accentColor} 50%, transparent 100%)`,
+                    opacity: isHovered ? 1 : 0.6,
+                    boxShadow: isHovered ? `0 0 16px ${stat.accentColor}` : 'none',
+                    transition: 'all 0.35s ease',
                     zIndex: 3,
                   }}
                 />
 
-                {/* 1. Ambient Spotlight Glow within Card */}
+                {/* Ambient Soft Glow on Hover */}
                 <div
                   aria-hidden="true"
                   style={{
-                    position: "absolute",
-                    top: "-20%",
-                    left: "50%",
-                    transform: "translateX(-50%)",
-                    width: "250px",
-                    height: "230px",
-                    background: `radial-gradient(circle, rgba(${stat.accentRgb}, ${isHovered ? 0.22 : 0.1}) 0%, transparent 70%)`,
-                    pointerEvents: "none",
-                    transition: "background 0.35s ease",
+                    position: 'absolute',
+                    top: '-20%',
+                    left: '10%',
+                    width: '180px',
+                    height: '180px',
+                    background: `radial-gradient(circle, rgba(${stat.accentRgb}, ${isHovered ? (isLight ? 0.14 : 0.22) : 0}) 0%, transparent 70%)`,
+                    pointerEvents: 'none',
+                    transition: 'background 0.35s ease',
                   }}
                 />
 
-                {/* 2. Top Precision Header Pill */}
+                {/* 1. Top Row: Icon Capsule + Monospace Index */}
                 <div
                   style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    width: "100%",
-                    marginBottom: "1.75rem",
-                    position: "relative",
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    width: '100%',
+                    marginBottom: '1.5rem',
+                    position: 'relative',
                     zIndex: 2,
                   }}
                 >
-                  <span
-                    style={{
-                      fontSize: "0.85rem",
-                      fontWeight: 700,
-                      color: isLight ? "#64748b" : "rgba(255, 255, 255, 0.6)",
-                    }}
-                  >
-                    {idx + 1}
-                  </span>
-
-                  <span
-                    style={{
-                      fontSize: "0.68rem",
-                      fontWeight: 750,
-                      letterSpacing: "0.08em",
-                      color: stat.accentColor,
-                      padding: "4px 11px",
-                      borderRadius: "9999px",
-                      background: `rgba(${stat.accentRgb}, ${isLight ? 0.08 : 0.16})`,
-                      border: `1px solid rgba(${stat.accentRgb}, 0.28)`,
-                    }}
-                  >
-                    {stat.pillarTag}
-                  </span>
-                </div>
-
-                {/* 3. Modern Glassmorphic Icon Pod */}
-                <div
-                  style={{
-                    position: "relative",
-                    width: "84px",
-                    height: "84px",
-                    marginTop: "0.25rem",
-                    marginBottom: "1.75rem",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    zIndex: 2,
-                  }}
-                >
-                  {/* Soft Ambient Radial Backlight Glow */}
-                  <div
-                    aria-hidden="true"
-                    style={{
-                      position: "absolute",
-                      inset: "-16px",
-                      borderRadius: "50%",
-                      background: `radial-gradient(circle, rgba(${stat.accentRgb}, ${isHovered ? 0.35 : (isLight ? 0.14 : 0.22)}) 0%, transparent 70%)`,
-                      filter: "blur(14px)",
-                      opacity: isHovered ? 1 : 0.7,
-                      transition: "opacity 0.4s ease, transform 0.4s ease",
-                      transform: isHovered ? "scale(1.2)" : "scale(1)",
-                      pointerEvents: "none",
-                    }}
-                  />
-
-                  {/* Frosted Glass Squircle Pod */}
+                  {/* Modern Sleek Squircle Icon Badge */}
                   <div
                     style={{
-                      position: "relative",
-                      width: "80px",
-                      height: "80px",
-                      borderRadius: "22px",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
+                      width: '48px',
+                      height: '48px',
+                      borderRadius: '14px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
                       background: isLight
                         ? isHovered
-                          ? `linear-gradient(145deg, #ffffff 0%, rgba(${stat.accentRgb}, 0.08) 100%)`
-                          : "linear-gradient(145deg, #ffffff 0%, #f8fafc 100%)"
+                          ? `linear-gradient(135deg, rgba(${stat.accentRgb}, 0.16) 0%, rgba(${stat.accentRgb}, 0.06) 100%)`
+                          : `linear-gradient(135deg, rgba(${stat.accentRgb}, 0.1) 0%, rgba(${stat.accentRgb}, 0.03) 100%)`
                         : isHovered
-                          ? `linear-gradient(145deg, rgba(30, 41, 59, 0.9) 0%, rgba(${stat.accentRgb}, 0.18) 100%)`
-                          : "linear-gradient(145deg, rgba(15, 23, 42, 0.85) 0%, rgba(10, 18, 34, 0.95) 100%)",
-                      border: `1.5px solid rgba(${stat.accentRgb}, ${isHovered ? (isLight ? 0.45 : 0.55) : (isLight ? 0.2 : 0.18)})`,
+                          ? `linear-gradient(135deg, rgba(${stat.accentRgb}, 0.28) 0%, rgba(${stat.accentRgb}, 0.12) 100%)`
+                          : `linear-gradient(135deg, rgba(${stat.accentRgb}, 0.18) 0%, rgba(${stat.accentRgb}, 0.06) 100%)`,
+                      border: `1.5px solid rgba(${stat.accentRgb}, ${isHovered ? 0.5 : (isLight ? 0.25 : 0.28)})`,
                       boxShadow: isHovered
-                        ? `0 14px 28px -4px rgba(${stat.accentRgb}, ${isLight ? 0.22 : 0.35}), 0 4px 12px rgba(0, 0, 0, ${isLight ? 0.04 : 0.4}), inset 0 1px 1px rgba(255, 255, 255, ${isLight ? 0.8 : 0.15})`
-                        : `0 6px 18px -2px rgba(0, 0, 0, ${isLight ? 0.05 : 0.3}), inset 0 1px 1px rgba(255, 255, 255, ${isLight ? 0.6 : 0.08})`,
-                      transform: isHovered ? "translateY(-4px) scale(1.05)" : "translateY(0) scale(1)",
-                      transition: "all 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
+                        ? `0 10px 22px -4px rgba(${stat.accentRgb}, 0.35)`
+                        : 'none',
+                      transform: isHovered ? 'scale(1.06)' : 'scale(1)',
+                      transition: 'all 0.32s cubic-bezier(0.16, 1, 0.3, 1)',
                     }}
                   >
-                    {/* SVG Icon */}
-                    <div
-                      style={{
-                        position: "relative",
-                        width: "44px",
-                        height: "44px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        transition: "transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), filter 0.35s ease",
-                        transform: isHovered ? "scale(1.1)" : "scale(1)",
-                        filter: isHovered
-                          ? `drop-shadow(0 4px 10px rgba(${stat.accentRgb}, 0.4))`
-                          : "none",
-                      }}
-                    >
-                      <Image
-                        src={stat.icon}
-                        alt=""
-                        width={44}
-                        height={44}
-                        style={{ objectFit: "contain" }}
-                      />
-                    </div>
+                    <IconComponent
+                      size={24}
+                      color={stat.accentColor}
+                      strokeWidth={2.2}
+                    />
+                  </div>
+
+                  {/* Sleek Monospace Numerical Badge */}
+                  <div
+                    style={{
+                      fontSize: '0.72rem',
+                      fontWeight: 800,
+                      letterSpacing: '0.08em',
+                      fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+                      color: isLight ? '#64748b' : 'rgba(255, 255, 255, 0.45)',
+                      padding: '4px 9px',
+                      borderRadius: '8px',
+                      background: isLight ? '#f1f5f9' : 'rgba(255, 255, 255, 0.05)',
+                      border: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.08)',
+                    }}
+                  >
+                    {stat.pillarNum}
                   </div>
                 </div>
 
-                {/* 4. Display Counter Number */}
+                {/* 2. Unwrapped Clean Pillar Eyebrow */}
                 <div
                   style={{
-                    fontSize: "clamp(2.5rem, 3.4vw, 3.1rem)",
-                    fontWeight: 900,
-                    letterSpacing: "-0.03em",
-                    lineHeight: 1.05,
-                    marginBottom: "0.55rem",
-                    color: isLight ? "#0f172a" : "#ffffff",
-                    position: "relative",
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '7px',
+                    fontSize: '0.74rem',
+                    fontWeight: 800,
+                    letterSpacing: '0.08em',
+                    textTransform: 'uppercase',
+                    color: stat.accentColor,
+                    marginBottom: '0.65rem',
+                    position: 'relative',
                     zIndex: 2,
-                    transition: "color 0.3s ease",
+                  }}
+                >
+                  <span
+                    style={{
+                      width: '6px',
+                      height: '6px',
+                      borderRadius: '50%',
+                      backgroundColor: stat.accentColor,
+                      boxShadow: `0 0 8px ${stat.accentColor}`,
+                      display: 'inline-block',
+                      flexShrink: 0,
+                    }}
+                  />
+                  <span>{stat.pillarTag}</span>
+                </div>
+
+                {/* 3. Hero Counter Number with Gradient */}
+                <div
+                  style={{
+                    fontSize: 'clamp(2.7rem, 3.6vw, 3.3rem)',
+                    fontWeight: 900,
+                    letterSpacing: '-0.035em',
+                    lineHeight: 1.05,
+                    marginBottom: '0.75rem',
+                    position: 'relative',
+                    zIndex: 2,
+                    transition: 'all 0.3s ease',
+                    ...(isLight
+                      ? {
+                          color: isHovered ? stat.accentColor : '#0f172a',
+                          background: 'none',
+                          WebkitBackgroundClip: 'unset',
+                          backgroundClip: 'unset',
+                          WebkitTextFillColor: isHovered ? stat.accentColor : '#0f172a',
+                        }
+                      : {
+                          background: stat.gradientText,
+                          WebkitBackgroundClip: 'text',
+                          backgroundClip: 'text',
+                          WebkitTextFillColor: 'transparent',
+                          color: stat.accentColor,
+                        }),
                   }}
                 >
                   {stat.count}
                 </div>
 
-                {/* 5. Stat Title Label */}
+                {/* 4. Stat Title Label */}
                 <div
                   style={{
-                    fontSize: "1.05rem",
+                    fontSize: '1.12rem',
                     fontWeight: 750,
-                    color: isLight ? "#0f172a" : "#f1f5f9",
+                    color: isLight ? '#0f172a' : '#f8fafc',
                     lineHeight: 1.35,
-                    marginBottom: "0.5rem",
-                    position: "relative",
+                    marginBottom: '0.45rem',
+                    position: 'relative',
                     zIndex: 2,
                   }}
                 >
                   {stat.label}
                 </div>
 
-                {/* 6. Context Description */}
+                {/* 5. Context Detail Description */}
                 <div
                   style={{
-                    fontSize: "0.85rem",
+                    fontSize: '0.86rem',
                     fontWeight: 450,
-                    color: isLight ? "#64748b" : "#94a3b8",
-                    lineHeight: 1.5,
-                    marginBottom: "1.5rem",
-                    position: "relative",
+                    color: isLight ? '#64748b' : '#94a3b8',
+                    lineHeight: 1.55,
+                    marginBottom: '1.75rem',
+                    position: 'relative',
                     zIndex: 2,
                   }}
                 >
                   {stat.detail}
                 </div>
 
-                {/* 7. Bottom Verification Telemetry Chip */}
+                {/* 6. Clean Bottom Verification Row */}
                 <div
                   style={{
-                    marginTop: "auto",
-                    width: "100%",
-                    padding: "0.55rem 0.85rem",
-                    borderRadius: "12px",
-                    background: isLight
-                      ? isHovered
-                        ? `rgba(${stat.accentRgb}, 0.08)`
-                        : "rgba(241, 245, 249, 0.85)"
-                      : isHovered
-                        ? `rgba(${stat.accentRgb}, 0.16)`
-                        : "rgba(10, 18, 34, 0.6)",
-                    border: `1px solid rgba(${stat.accentRgb}, ${isHovered ? 0.35 : (isLight ? 0.14 : 0.08)})`,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: "7px",
-                    position: "relative",
+                    marginTop: 'auto',
+                    paddingTop: '1rem',
+                    borderTop: isLight
+                      ? '1px solid #f1f5f9'
+                      : '1px solid rgba(255, 255, 255, 0.08)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    position: 'relative',
                     zIndex: 2,
-                    transition: "all 0.3s ease",
                   }}
                 >
-                  <span
-                    style={{
-                      width: "7px",
-                      height: "7px",
-                      borderRadius: "50%",
-                      backgroundColor: stat.accentColor,
-                      boxShadow: `0 0 8px ${stat.accentColor}`,
-                      display: "inline-block",
-                    }}
+                  <CheckCircle2
+                    size={14}
+                    color={stat.accentColor}
+                    strokeWidth={2.5}
+                    style={{ flexShrink: 0 }}
                   />
                   <span
                     style={{
-                      fontSize: "0.76rem",
-                      fontWeight: 700,
-                      color: isLight
-                        ? isHovered
-                          ? stat.accentColor
-                          : "#334155"
-                        : isHovered
-                          ? "#ffffff"
-                          : "#cbd5e1",
-                      letterSpacing: "0.02em",
-                      transition: "color 0.25s ease",
+                      fontSize: '0.78rem',
+                      fontWeight: 650,
+                      color: isLight ? '#475569' : '#cbd5e1',
+                      letterSpacing: '0.01em',
                     }}
                   >
                     {stat.specPill}
@@ -558,44 +508,43 @@ export default function OurAchievementsSection() {
         {/* Executive Methodology Card Below */}
         <div
           style={{
-            maxWidth: "980px",
-            margin: "0 auto",
-            textAlign: "center",
-            padding: "2rem 2.5rem",
-            borderRadius: "22px",
+            maxWidth: '980px',
+            margin: '0 auto',
+            textAlign: 'center',
+            padding: '2rem 2.5rem',
+            borderRadius: '22px',
             background: isLight
-              ? "#ffffff"
-              : "rgba(13, 21, 38, 0.7)",
+              ? '#ffffff'
+              : 'rgba(13, 21, 38, 0.7)',
             border: isLight
-              ? "1px solid #e2e8f0"
-              : "1px solid rgba(255, 255, 255, 0.08)",
+              ? '1px solid #e2e8f0'
+              : '1px solid rgba(255, 255, 255, 0.08)',
             boxShadow: isLight
-              ? "0 10px 30px -4px rgba(0, 0, 0, 0.05)"
-              : "0 14px 40px -8px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.05)",
-            position: "relative",
-            overflow: "hidden",
+              ? '0 10px 30px -4px rgba(0, 0, 0, 0.04)'
+              : '0 14px 40px -8px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.05)',
+            position: 'relative',
+            overflow: 'hidden',
           }}
         >
-          {/* Top glowing laser line inside the card */}
           <div
             style={{
-              position: "absolute",
+              position: 'absolute',
               top: 0,
-              left: "20%",
-              right: "20%",
-              height: "2px",
+              left: '20%',
+              right: '20%',
+              height: '2px',
               background: isLight
-                ? "linear-gradient(90deg, transparent 0%, #00A88F 50%, transparent 100%)"
-                : "linear-gradient(90deg, transparent 0%, #5EC098 50%, transparent 100%)",
+                ? 'linear-gradient(90deg, transparent 0%, #00A88F 50%, transparent 100%)'
+                : 'linear-gradient(90deg, transparent 0%, #5EC098 50%, transparent 100%)',
               opacity: 0.85,
             }}
           />
 
           <p
             style={{
-              fontSize: "clamp(1rem, 1.25vw, 1.12rem)",
+              fontSize: 'clamp(1rem, 1.25vw, 1.12rem)',
               lineHeight: 1.75,
-              color: isLight ? "#334155" : "#cbd5e1",
+              color: isLight ? '#334155' : '#cbd5e1',
               margin: 0,
             }}
           >

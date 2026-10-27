@@ -23,9 +23,13 @@ interface Props {
 async function fetchPost(slug: string): Promise<BlogPost | undefined> {
   try {
     const apiUrl = process.env.NEXT_PUBLIC_HRMS_API_URL || "http://localhost:3001";
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 1000);
     const res = await fetch(`${apiUrl}/api/blogs/public/${slug}`, {
+      signal: controller.signal,
       next: { revalidate: 30 },
     });
+    clearTimeout(timeoutId);
     if (res.ok) {
       const json = await res.json();
       if (json.success && json.data) {
