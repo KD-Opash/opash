@@ -43,8 +43,7 @@ export default function BlogsPageClient() {
     const fetchBlogs = async () => {
       try {
         setLoading(true);
-        const apiUrl = process.env.NEXT_PUBLIC_HRMS_API_URL || 'http://localhost:3001';
-        const res = await fetch(`${apiUrl}/api/blogs/public`);
+        const res = await fetch('/api/blogs/public');
         if (res.ok) {
           const json = await res.json();
           if (json.success && Array.isArray(json.data) && json.data.length > 0) {

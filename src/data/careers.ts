@@ -9,6 +9,7 @@ export interface JobOpening {
   description: string;
   responsibilities: string[];
   requirements: string[];
+  positions?: number;
 }
 
 export const careersData = {
