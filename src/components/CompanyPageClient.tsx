@@ -201,17 +201,76 @@ export default function CompanyPageClient() {
           overflow: "hidden",
         }}
       >
-        {/* Bespoke Creative Architectural Studio Backdrop */}
+        {/* Background Layer with 3D Sculpture & Gradient Aura */}
+        <div
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            inset: 0,
+            overflow: "hidden",
+            pointerEvents: "none",
+            zIndex: 0,
+          }}
+        >
+          <img
+            src="/images/hero-sculpture-main.jpg"
+            alt=""
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              objectPosition: "center 25%",
+              opacity: isLight ? 0.10 : 0.28,
+              filter: isLight ? "saturate(1.1) contrast(1.05)" : "saturate(1.25) brightness(0.9)",
+              transform: "scale(1.04)",
+              maskImage: "linear-gradient(to bottom, black 0%, black 55%, rgba(0, 0, 0, 0.3) 85%, transparent 100%)",
+              WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 55%, rgba(0, 0, 0, 0.3) 85%, transparent 100%)",
+            }}
+          />
+
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background: isLight
+                ? `
+                  radial-gradient(ellipse 80% 65% at 50% 30%, rgba(248, 250, 252, 0.45) 0%, rgba(248, 250, 252, 0.88) 60%, #f8fafc 100%),
+                  linear-gradient(to bottom, rgba(248, 250, 252, 0.15) 0%, rgba(248, 250, 252, 0.95) 85%, #f8fafc 100%)
+                `
+                : `
+                  radial-gradient(ellipse 80% 65% at 50% 30%, rgba(4, 10, 23, 0.35) 0%, rgba(4, 10, 23, 0.88) 60%, #020712 100%),
+                  linear-gradient(to bottom, rgba(2, 7, 18, 0.15) 0%, rgba(2, 7, 18, 0.95) 85%, #020712 100%)
+                `,
+              pointerEvents: "none",
+            }}
+          />
+
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background: isLight
+                ? `radial-gradient(ellipse 70% 50% at 50% 15%, rgba(0, 168, 143, 0.14) 0%, transparent 65%)`
+                : `radial-gradient(ellipse 70% 50% at 50% 15%, rgba(94, 192, 152, 0.20) 0%, transparent 65%)`,
+              pointerEvents: "none",
+            }}
+          />
+        </div>
+
+        {/* Ambient Studio Laser & Dot Grid */}
         <AboutCreativeBackdrop isLightMode={isLight} />
 
         <div className="container-custom" style={{ position: "relative", zIndex: 2, maxWidth: "1320px", margin: "0 auto" }}>
-          {/* Eyebrow Location & Credential */}
+          {/* Top Pill Badge matching screenshot */}
           <div
             style={{
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              marginBottom: "1.25rem",
+              marginBottom: "1.5rem",
             }}
           >
             <div
@@ -219,113 +278,121 @@ export default function CompanyPageClient() {
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "0.55rem",
-                fontSize: "0.92rem",
-                fontWeight: 500,
-                color: isLight ? "#64748b" : "#94a3b8",
+                fontSize: "0.85rem",
+                fontWeight: 700,
+                letterSpacing: "0.07em",
+                textTransform: "uppercase",
+                color: isLight ? "#008a75" : "#2dd4bf",
+                padding: "0.45rem 1.25rem",
+                borderRadius: "9999px",
+                background: isLight ? "rgba(0, 168, 143, 0.08)" : "rgba(45, 212, 191, 0.1)",
+                border: isLight ? "1px solid rgba(0, 168, 143, 0.25)" : "1px solid rgba(45, 212, 191, 0.25)",
               }}
             >
-              <MapPin size={15} style={{ color: isLight ? "#008a75" : "#2dd4bf" }} />
-              <span style={{ color: isLight ? "#0f172a" : "#f8fafc", fontWeight: 600 }}>Surat, Gujarat, India</span>
-              <span style={{ opacity: 0.35 }}>•</span>
-              <span>Established 2021</span>
-              <span style={{ opacity: 0.35 }}>•</span>
-              <span style={{ color: isLight ? "#008a75" : "#2dd4bf", fontWeight: 600 }}>Serving Clients Globally</span>
+              <Sparkles size={15} />
+              <span>SURAT HQ • 8+ YEARS EXPERTISE • 100% IP OWNERSHIP</span>
             </div>
           </div>
 
           {/* Centered Majestic Headline & Narrative */}
-          <div style={{ textAlign: "center", maxWidth: "1050px", margin: "0 auto 2.5rem auto" }}>
+          <div style={{ textAlign: "center", maxWidth: "980px", margin: "0 auto" }}>
             <h1
               style={{
-                fontSize: "clamp(2.5rem, 5.2vw, 4.3rem)",
+                fontSize: "clamp(2.4rem, 5vw, 4.2rem)",
                 fontWeight: 800,
-                lineHeight: 1.14,
-                letterSpacing: "-0.035em",
-                marginBottom: "1.25rem",
+                lineHeight: 1.12,
+                letterSpacing: "-0.03em",
+                marginBottom: "1.5rem",
+                color: isLight ? "#0f172a" : "#ffffff",
               }}
             >
               Not Just Another IT Company.{" "}
-              <span className="opash-hero-gradient-text" style={{ display: "block", marginTop: "0.35rem" }}>
+              <span style={{ display: "block", marginTop: "0.35rem", color: isLight ? "#0f172a" : "#ffffff" }}>
                 We Are A Dedicated Team Of Tech Experts.
               </span>
             </h1>
 
             <p
               style={{
-                fontSize: "clamp(1.05rem, 1.6vw, 1.22rem)",
-                lineHeight: 1.7,
-                color: isLight ? "#475569" : "#94a3b8",
+                fontSize: "clamp(1.05rem, 1.7vw, 1.22rem)",
+                lineHeight: 1.68,
+                color: isLight ? "#334155" : "#cbd5e1",
                 maxWidth: "880px",
-                margin: "0 auto 2rem auto",
+                margin: "0 auto 1.25rem auto",
+                fontWeight: 450,
               }}
             >
-              Founded with the ambition to bridge the gap between ideas and digital realities, Opash Software is a Surat-based IT solutions provider delivering cutting-edge software development services to businesses worldwide. From high-growth startups to enterprise leaders across the US, Europe, Middle East, and Asia, we engineer custom software, scalable SaaS, and AI-driven platforms that deliver enduring market dominance.
+              Founded with the ambition to bridge the gap between ideas and digital realities, Opash Software is a Surat-based IT solutions provider delivering cutting-edge software development services to businesses worldwide.
             </p>
 
-            {/* Quick CTAs */}
-            <div style={{ display: "flex", justifyContent: "center", gap: "1rem", flexWrap: "wrap", marginBottom: "1.75rem" }}>
-              <a
-                href="#pillars"
+            <p
+              style={{
+                fontSize: "clamp(0.96rem, 1.45vw, 1.1rem)",
+                lineHeight: 1.68,
+                color: isLight ? "#64748b" : "#94a3b8",
+                maxWidth: "860px",
+                margin: "0 auto 2.5rem auto",
+              }}
+            >
+              From high-growth startups to enterprise leaders across the US, Europe, Middle East, and Asia, we engineer custom software, scalable SaaS, and AI-driven platforms that deliver enduring market dominance.
+            </p>
+
+            {/* Redesigned CTAs matching the screenshot */}
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: "1rem",
+                justifyContent: "center",
+                alignItems: "center",
+                marginBottom: "3.25rem",
+              }}
+            >
+              <Link
+                href="/get-a-quote"
+                className="btn-shimmer"
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
-                  gap: "0.55rem",
-                  padding: "0.9rem 1.85rem",
-                  borderRadius: "14px",
-                  backgroundImage: isLight
-                    ? "linear-gradient(135deg, #008a75 0%, #00a88f 100%)"
-                    : "linear-gradient(135deg, #00a88f 0%, #2dd4bf 100%)",
-                  color: "#ffffff",
+                  gap: "0.6rem",
+                  padding: "0.95rem 2rem",
+                  borderRadius: "12px",
                   fontWeight: 700,
-                  fontSize: "0.95rem",
-                  boxShadow: "0 6px 25px rgba(0, 168, 143, 0.35)",
+                  fontSize: "1rem",
+                  color: "#ffffff",
+                  background: "linear-gradient(135deg, #00a88f 0%, #0284c7 100%)",
+                  boxShadow: isLight
+                    ? "0 10px 25px -5px rgba(0, 168, 143, 0.45)"
+                    : "0 10px 25px -5px rgba(94, 192, 152, 0.35)",
                   textDecoration: "none",
+                  transition: "all 0.25s ease",
                 }}
               >
-                <Sparkles size={16} />
-                <span>Our Engineering DNA</span>
-                <ArrowRight size={16} />
-              </a>
+                <span>Get Free Consultation</span>
+                <ArrowRight size={18} />
+              </Link>
 
               <a
                 href="#leadership"
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
-                  gap: "0.55rem",
-                  padding: "0.9rem 1.75rem",
-                  borderRadius: "14px",
-                  backgroundColor: isLight ? "#ffffff" : "rgba(15, 23, 42, 0.7)",
+                  gap: "0.6rem",
+                  padding: "0.95rem 1.85rem",
+                  borderRadius: "12px",
+                  fontWeight: 600,
+                  fontSize: "1rem",
+                  color: isLight ? "#0f172a" : "#ffffff",
+                  background: isLight ? "rgba(255, 255, 255, 0.9)" : "rgba(255, 255, 255, 0.05)",
                   border: isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.12)",
-                  color: isLight ? "#0f172a" : "#f8fafc",
-                  fontWeight: 600,
-                  fontSize: "0.95rem",
+                  backdropFilter: "blur(10px)",
                   textDecoration: "none",
+                  transition: "all 0.25s ease",
                 }}
               >
-                <Users size={16} />
-                <span>Meet Leadership & Team</span>
+                <span>Explore Technologies</span>
+                <Terminal size={17} />
               </a>
-
-              <Link
-                href="/get-a-quote"
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "0.5rem",
-                  padding: "0.9rem 1.75rem",
-                  borderRadius: "14px",
-                  backgroundColor: isLight ? "rgba(2, 132, 199, 0.08)" : "rgba(56, 189, 248, 0.1)",
-                  border: isLight ? "1px solid rgba(2, 132, 199, 0.25)" : "1px solid rgba(56, 189, 248, 0.3)",
-                  color: isLight ? "#0284c7" : "#38bdf8",
-                  fontWeight: 600,
-                  fontSize: "0.95rem",
-                  textDecoration: "none",
-                }}
-              >
-                <span>Request Project Estimate</span>
-                <ArrowUpRight size={16} />
-              </Link>
             </div>
 
             {/* Trust Signals Strip */}

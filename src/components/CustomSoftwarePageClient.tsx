@@ -53,6 +53,7 @@ import {
 import { useTheme } from "./ThemeProvider";
 import { ServiceDetail } from "@/data/services";
 import { companyData } from "@/data/company";
+import CustomSoftwareAeroHeroBackdrop from "@/components/CustomSoftwareAeroHeroBackdrop";
 
 interface CustomSoftwarePageClientProps {
   service: ServiceDetail;
@@ -284,31 +285,12 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
           overflow: "hidden",
         }}
       >
-        {/* Ambient Radial Mesh Background */}
-        <div
-          aria-hidden="true"
-          style={{
-            position: "absolute",
-            inset: 0,
-            pointerEvents: "none",
-            zIndex: 0,
-            background: isLight
-              ? `
-                radial-gradient(circle 600px at 50% 15%, rgba(0, 168, 143, 0.12) 0%, transparent 70%),
-                radial-gradient(circle 450px at 85% 35%, rgba(71, 109, 154, 0.08) 0%, transparent 65%),
-                linear-gradient(to bottom, #ffffff 0%, #f8fafc 100%)
-              `
-              : `
-                radial-gradient(circle 600px at 50% 15%, rgba(94, 192, 152, 0.18) 0%, transparent 70%),
-                radial-gradient(circle 450px at 85% 35%, rgba(71, 109, 154, 0.15) 0%, transparent 65%),
-                linear-gradient(to bottom, #020712 0%, #060c18 100%)
-              `,
-          }}
-        />
+        {/* React Bits <AeroShards /> Glass Ribbons with Opash Palette & Low GPU/CPU Optimization */}
+        <CustomSoftwareAeroHeroBackdrop isLightMode={isLight} />
 
         <div className="container-custom" style={{ position: "relative", zIndex: 1, maxWidth: "1200px", margin: "0 auto" }}>
           {/* Eyebrow Pill */}
-          <div style={{ display: "flex", justifyContent: "center", marginBottom: "1.5rem" }}>
+          <div style={{ display: "flex", justifyContent: "center", marginBottom: "1.25rem" }}>
             <div
               style={{
                 display: "inline-flex",
@@ -322,33 +304,33 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
               }}
             >
               <Sparkles size={16} />
-              <span>Opash Software · Custom Engineering</span>
+              <span>Enterprise Grade &bull; 8+ Years Expertise &bull; 100% IP Ownership</span>
             </div>
           </div>
 
-          {/* Heading (Exact title from live page) */}
+          {/* Heading */}
           <div style={{ textAlign: "center", maxWidth: "980px", margin: "0 auto" }}>
             <h1
               style={{
-                fontSize: "clamp(2.5rem, 5.5vw, 4.4rem)",
+                fontSize: "clamp(2.4rem, 5vw, 4.2rem)",
                 fontWeight: 800,
-                lineHeight: 1.1,
+                lineHeight: 1.12,
                 letterSpacing: "-0.03em",
-                marginBottom: "1.75rem",
+                marginBottom: "1.5rem",
               }}
             >
               Custom Software <span style={{ color: mintColor }}>Development</span>
             </h1>
 
-            {/* Exact Copy Paragraph 1 & 2 from Live Page */}
+            {/* Lead Paragraph 1 */}
             <p
               style={{
                 fontSize: "clamp(1.05rem, 1.8vw, 1.25rem)",
-                color: isLight ? "#334155" : "#e2e8f0",
                 lineHeight: 1.65,
-                maxWidth: "880px",
-                margin: "0 auto 1.5rem auto",
-                fontWeight: 500,
+                color: isLight ? "#334155" : "#cbd5e1",
+                maxWidth: "860px",
+                margin: "0 auto 1.25rem auto",
+                fontWeight: 450,
               }}
             >
               We offer custom software development services tailored precisely to your business needs, industry workflows, and growth goals.
@@ -356,102 +338,74 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
               secure, and fully personalized solutions—built from the ground up.
             </p>
 
-            {/* Exact Copy Paragraph 3 & 4 from Live Page */}
-            <div
+            {/* Lead Paragraph 2 */}
+            <p
               style={{
+                fontSize: "clamp(0.95rem, 1.5vw, 1.1rem)",
+                lineHeight: 1.65,
+                color: isLight ? "#64748b" : "#94a3b8",
                 maxWidth: "840px",
                 margin: "0 auto 2.5rem auto",
-                padding: "1.25rem 1.5rem",
-                borderRadius: "16px",
-                background: isLight ? "#ffffff" : "rgba(10, 20, 36, 0.65)",
-                border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
-                boxShadow: isLight ? "0 4px 14px rgba(0,0,0,0.03)" : "none",
               }}
             >
-              <p
-                style={{
-                  fontSize: "0.98rem",
-                  color: isLight ? "#64748b" : "#94a3b8",
-                  lineHeight: 1.65,
-                  margin: 0,
-                }}
-              >
-                Unlike off-the-shelf products, custom software is designed around your processes, not the other way around.
-                We craft intelligent, performance-optimized applications that integrate with your existing infrastructure,
-                deliver superior UX, and scale effortlessly as your business evolves.
-              </p>
-            </div>
+              Unlike off-the-shelf products, custom software is designed around your processes, not the other way around.
+              We craft intelligent, performance-optimized applications that integrate with your existing infrastructure,
+              deliver superior UX, and scale effortlessly as your business evolves.
+            </p>
 
-            {/* CTAs */}
+            {/* Dual CTAs */}
             <div
               style={{
                 display: "flex",
                 flexWrap: "wrap",
-                alignItems: "center",
-                justifyContent: "center",
                 gap: "1rem",
+                justifyContent: "center",
+                alignItems: "center",
                 marginBottom: "3.5rem",
               }}
             >
               <a
                 href="#quote-section"
+                className="btn-shimmer"
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
                   gap: "0.6rem",
                   padding: "0.95rem 2rem",
                   borderRadius: "12px",
-                  background: `linear-gradient(135deg, ${mintColor} 0%, #0284c7 100%)`,
-                  color: "#ffffff",
                   fontWeight: 700,
                   fontSize: "1rem",
-                  boxShadow: `0 8px 24px -4px ${isLight ? "rgba(0, 168, 143, 0.4)" : "rgba(94, 192, 152, 0.4)"}`,
+                  color: "#ffffff",
+                  background: `linear-gradient(135deg, ${mintColor} 0%, #0284c7 100%)`,
+                  boxShadow: isLight
+                    ? "0 10px 25px -5px rgba(0, 168, 143, 0.4)"
+                    : "0 10px 25px -5px rgba(94, 192, 152, 0.3)",
                   textDecoration: "none",
-                  transition: "transform 0.2s ease, box-shadow 0.2s ease",
                 }}
               >
-                <span>Get Your Free Quote Today</span>
-                <ArrowRight size={17} />
+                <span>Get Free Consultation</span>
+                <ArrowRight size={18} />
               </a>
 
               <a
-                href="#what-includes"
+                href="#technologies"
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
                   gap: "0.6rem",
-                  padding: "0.95rem 1.85rem",
+                  padding: "0.95rem 1.8rem",
                   borderRadius: "12px",
-                  background: isLight ? "#ffffff" : "rgba(255, 255, 255, 0.05)",
-                  color: isLight ? "#0f172a" : "#f8fafc",
-                  border: isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.12)",
                   fontWeight: 600,
                   fontSize: "1rem",
+                  color: isLight ? "#0f172a" : "#ffffff",
+                  background: isLight ? "rgba(255, 255, 255, 0.9)" : "rgba(255, 255, 255, 0.05)",
+                  border: isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.12)",
+                  backdropFilter: "blur(10px)",
                   textDecoration: "none",
                 }}
               >
-                <Code2 size={17} style={{ color: mintColor }} />
-                <span>What It Includes</span>
-              </a>
-
-              <a
-                href="#process"
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "0.6rem",
-                  padding: "0.95rem 1.85rem",
-                  borderRadius: "12px",
-                  background: isLight ? "#ffffff" : "rgba(255, 255, 255, 0.05)",
-                  color: isLight ? "#0f172a" : "#f8fafc",
-                  border: isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.12)",
-                  fontWeight: 600,
-                  fontSize: "1rem",
-                  textDecoration: "none",
-                }}
-              >
-                <Workflow size={17} style={{ color: mintColor }} />
-                <span>Development Process</span>
+                <span>Explore Technologies</span>
+                <Terminal size={17} />
               </a>
             </div>
 

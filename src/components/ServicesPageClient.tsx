@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useTheme } from '@/components/ThemeProvider';
-import ServicesCreativeBackdrop from '@/components/ServicesCreativeBackdrop';
 import {
   Code2,
   Globe2,
@@ -27,6 +26,8 @@ import {
   Calendar
 } from 'lucide-react';
 import { companyData } from '@/data/company';
+import WhyChooseUsCards from '@/components/WhyChooseUsCards';
+import RecognisedBy from '@/components/RecognisedBy';
 
 interface ServiceCard {
   id: string;
@@ -163,6 +164,8 @@ export default function ServicesPageClient() {
     },
   ];
 
+  const mintColor = isLight ? '#00a88f' : '#2dd4bf';
+
   const displayedServices =
     activeCategory === 'all'
       ? servicesList
@@ -188,7 +191,86 @@ export default function ServicesPageClient() {
           overflow: 'hidden',
         }}
       >
-        <ServicesCreativeBackdrop isLightMode={isLight} />
+        {/* Ambient 3D Sculpture Layer with High Performance Blend */}
+        <div
+          aria-hidden="true"
+          style={{
+            position: 'absolute',
+            inset: 0,
+            overflow: 'hidden',
+            pointerEvents: 'none',
+            zIndex: 0,
+          }}
+        >
+          <img
+            src="/images/hero-sculpture-main.jpg"
+            alt=""
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              objectPosition: 'center 25%',
+              opacity: isLight ? 0.12 : 0.28,
+              filter: isLight ? 'saturate(1.15) contrast(1.05)' : 'saturate(1.3) brightness(0.9)',
+              transform: 'scale(1.04)',
+              maskImage: 'linear-gradient(to bottom, black 0%, black 55%, rgba(0, 0, 0, 0.3) 85%, transparent 100%)',
+              WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 55%, rgba(0, 0, 0, 0.3) 85%, transparent 100%)',
+            }}
+          />
+
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              background: isLight
+                ? `
+                  radial-gradient(ellipse 80% 65% at 50% 30%, rgba(248, 250, 252, 0.45) 0%, rgba(248, 250, 252, 0.88) 60%, #f8fafc 100%),
+                  linear-gradient(to bottom, rgba(248, 250, 252, 0.15) 0%, rgba(248, 250, 252, 0.95) 85%, #f8fafc 100%)
+                `
+                : `
+                  radial-gradient(ellipse 80% 65% at 50% 30%, rgba(4, 10, 23, 0.35) 0%, rgba(4, 10, 23, 0.88) 60%, #020712 100%),
+                  linear-gradient(to bottom, rgba(2, 7, 18, 0.15) 0%, rgba(2, 7, 18, 0.95) 85%, #020712 100%)
+                `,
+            }}
+          />
+
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              background: isLight
+                ? `
+                  radial-gradient(ellipse 70% 50% at 50% 15%, rgba(0, 168, 143, 0.14) 0%, transparent 65%),
+                  radial-gradient(circle 450px at 85% 30%, rgba(71, 109, 154, 0.10) 0%, transparent 70%)
+                `
+                : `
+                  radial-gradient(ellipse 70% 50% at 50% 15%, rgba(94, 192, 152, 0.20) 0%, transparent 65%),
+                  radial-gradient(circle 450px at 85% 30%, rgba(71, 109, 154, 0.15) 0%, transparent 70%)
+                `,
+              pointerEvents: 'none',
+            }}
+          />
+        </div>
+
+        {/* Seamless Hero Bottom Feather Blender */}
+        <div
+          aria-hidden="true"
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: '180px',
+            background: isLight
+              ? 'linear-gradient(to bottom, transparent 0%, rgba(248, 250, 252, 0.85) 60%, #f8fafc 100%)'
+              : 'linear-gradient(to bottom, transparent 0%, rgba(2, 7, 18, 0.85) 60%, #020712 100%)',
+            pointerEvents: 'none',
+            zIndex: 1,
+          }}
+        />
 
         <div className="container-custom" style={{ position: 'relative', zIndex: 2, maxWidth: '1240px', margin: '0 auto' }}>
           {/* Eyebrow Status Badge */}
@@ -197,28 +279,28 @@ export default function ServicesPageClient() {
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '0.6rem',
-                fontSize: '0.86rem',
+                gap: '0.55rem',
+                fontSize: '0.85rem',
                 fontWeight: 700,
                 letterSpacing: '0.06em',
                 textTransform: 'uppercase',
-                color: isLight ? '#008a75' : '#2dd4bf',
+                color: mintColor,
               }}
             >
               <Sparkles size={16} />
-              <span>Full-Spectrum Capabilities &bull; Bespoke Architecture &bull; Global Delivery</span>
+              <span>Full-Spectrum Capabilities &bull; 8+ Years Expertise &bull; 100% IP Ownership</span>
             </div>
           </div>
 
           {/* Main Headline */}
-          <div style={{ textAlign: 'center', maxWidth: '980px', margin: '0 auto 2rem auto' }}>
+          <div style={{ textAlign: 'center', maxWidth: '980px', margin: '0 auto 2.5rem auto' }}>
             <h1
               style={{
-                fontSize: 'clamp(2.35rem, 5.2vw, 3.85rem)',
+                fontSize: 'clamp(2.4rem, 5vw, 4.2rem)',
                 fontWeight: 800,
-                lineHeight: 1.15,
-                letterSpacing: '-0.025em',
-                marginBottom: '1rem',
+                lineHeight: 1.12,
+                letterSpacing: '-0.03em',
+                marginBottom: '1.5rem',
               }}
             >
               Engineered For Unlimited Scale, <br />
@@ -227,22 +309,95 @@ export default function ServicesPageClient() {
               </span>
             </h1>
 
+            {/* Lead Paragraph 1 */}
             <p
               style={{
-                fontSize: 'clamp(1rem, 1.8vw, 1.18rem)',
+                fontSize: 'clamp(1.05rem, 1.8vw, 1.25rem)',
                 lineHeight: 1.65,
-                color: isLight ? '#475569' : '#94a3b8',
-                maxWidth: '820px',
-                margin: '0 auto',
+                color: isLight ? '#334155' : '#cbd5e1',
+                maxWidth: '860px',
+                margin: '0 auto 1.25rem auto',
+                fontWeight: 450,
               }}
             >
               From distributed cloud platforms and autonomous AI orchestrations to bespoke enterprise backends 
               and cross-platform mobile apps, we turn complex technical roadmaps into resilient production deliverables.
             </p>
+
+            {/* Lead Paragraph 2 */}
+            <p
+              style={{
+                fontSize: 'clamp(0.95rem, 1.5vw, 1.1rem)',
+                lineHeight: 1.65,
+                color: isLight ? '#64748b' : '#94a3b8',
+                maxWidth: '840px',
+                margin: '0 auto 2.5rem auto',
+              }}
+            >
+              Our senior engineering squads partner with fast-growing startups and global enterprises to design, build, 
+              and scale mission-critical software with zero technical debt and 100% IP ownership.
+            </p>
+
+            {/* Dual CTAs */}
+            <div
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '1rem',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginBottom: '3rem',
+              }}
+            >
+              <Link
+                href="/get-a-quote"
+                className="btn-shimmer"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.6rem',
+                  padding: '0.95rem 2rem',
+                  borderRadius: '12px',
+                  fontWeight: 700,
+                  fontSize: '1rem',
+                  color: '#ffffff',
+                  background: `linear-gradient(135deg, ${mintColor} 0%, #0284c7 100%)`,
+                  boxShadow: isLight
+                    ? '0 10px 25px -5px rgba(0, 168, 143, 0.4)'
+                    : '0 10px 25px -5px rgba(94, 192, 152, 0.3)',
+                  textDecoration: 'none',
+                }}
+              >
+                <span>Get Free Consultation</span>
+                <ArrowRight size={18} />
+              </Link>
+
+              <a
+                href="#services-grid"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.6rem',
+                  padding: '0.95rem 1.8rem',
+                  borderRadius: '12px',
+                  fontWeight: 600,
+                  fontSize: '1rem',
+                  color: isLight ? '#0f172a' : '#ffffff',
+                  background: isLight ? 'rgba(255, 255, 255, 0.9)' : 'rgba(255, 255, 255, 0.05)',
+                  border: isLight ? '1px solid #cbd5e1' : '1px solid rgba(255, 255, 255, 0.12)',
+                  backdropFilter: 'blur(10px)',
+                  textDecoration: 'none',
+                }}
+              >
+                <span>Explore Technologies</span>
+                <Terminal size={17} />
+              </a>
+            </div>
           </div>
 
           {/* Quick-Jump Category / Service Pills */}
           <div
+            id="services-grid"
             style={{
               display: 'flex',
               flexWrap: 'wrap',
@@ -528,6 +683,12 @@ export default function ServicesPageClient() {
 
         </div>
       </section>
+
+      {/* ===================================================================== */}
+      {/* 2.5 WHY CHOOSE US & INDUSTRY RECOGNITION                              */}
+      {/* ===================================================================== */}
+      <WhyChooseUsCards />
+      <RecognisedBy />
 
       {/* ===================================================================== */}
       {/* 3. ENTERPRISE ENGINEERING PILLARS & TRUST GUARANTEES                  */}

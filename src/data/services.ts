@@ -384,6 +384,14 @@ export const servicesData: ServiceDetail[] = [
         desc: "Building core features with future scaling in mind."
       },
       {
+        title: "Real-Time Features",
+        desc: "Live chat, notifications, collaboration tools"
+      },
+      {
+        title: "Analytics & Admin Dashboard",
+        desc: "Reporting tools for both users and internal monitoring"
+      },
+      {
         title: "Multi-Tenant Architecture & Cloud Scaling",
         desc: "Isolated tenant schemas, high-availability clusters, and automated load balancing."
       },
@@ -392,16 +400,8 @@ export const servicesData: ServiceDetail[] = [
         desc: "Recurring payments, automated invoicing, coupon systems, and PCI-DSS compliance."
       },
       {
-        title: "Real-Time Features",
-        desc: "Live chat, notifications, collaboration tools."
-      },
-      {
         title: "API & Third-Party Integrations",
         desc: "Webhooks, REST/GraphQL endpoints, CRM/ERP bridges, and external service connectors."
-      },
-      {
-        title: "Analytics & Admin Dashboard",
-        desc: "Reporting tools for both users and internal monitoring."
       }
     ],
     technologies: [
@@ -617,31 +617,31 @@ export const servicesData: ServiceDetail[] = [
     features: [
       {
         title: "Frontend Developers",
-        desc: "Angular, React, Next, Svelte, JavaScript, HTML, CSS, TailwindCSS, Bootstrap."
+        desc: "Angular, React, Next, Svelte, JavaScript, HTML, CSS, TailwindCSS, Bootstrap"
       },
       {
         title: "Backend Developers",
-        desc: "Node, Express, Python, Django, FastAPI."
+        desc: "Node, Express, Python, Django, FastAPI"
       },
       {
         title: "Full Stack Developers",
-        desc: "MERN Stack, MEAN stack, Next.js full-stack."
+        desc: "MERN Stack, MEAN stack"
       },
       {
         title: "Mobile App Developers",
-        desc: "Flutter, React Native, Swift, Kotlin."
+        desc: "Flutter, React Native, Swift, Kotlin"
       },
       {
-        title: "DevOps Engineers",
-        desc: "AWS, Azure, CI/CD, Docker, Kubernetes."
+        title: "DevOps Engineers –",
+        desc: "AWS, Azure, CI/CD, Docker, Kubernetes"
       },
       {
-        title: "QA Engineers",
-        desc: "Manual/Automation Testing, Selenium, Cypress."
+        title: "QA Engineers –",
+        desc: "Manual/Automation Testing, Selenium, Cypress"
       },
       {
-        title: "AI/ML Engineers",
-        desc: "Python, TensorFlow, model training, MLOps."
+        title: "AI/ML Engineers – Python, TensorFlow, model training, MLOps",
+        desc: "Python, TensorFlow, model training, MLOps"
       }
     ],
     technologies: [

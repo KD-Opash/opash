@@ -87,6 +87,8 @@ import { ClockServicesShowcase } from "@/components/ClockServicesShowcase";
 import { AnimatedIndustriesCarousel } from "@/components/AnimatedIndustriesCarousel";
 import { TechStackShowcase } from "@/components/TechStackShowcase";
 import { FeaturedSuccessStories } from "@/components/FeaturedSuccessStories";
+import { WhyChooseUsCards } from "@/components/WhyChooseUsCards";
+import { RecognisedBy } from "@/components/RecognisedBy";
 import { WhyChooseUsComparison } from "@/components/WhyChooseUsComparison";
 import { GlobalDeliveryMesh } from "@/components/GlobalDeliveryMesh";
 import { FounderShowcase } from "@/components/FounderShowcase";
@@ -156,8 +158,15 @@ export default function HomePage() {
 
 
       {/* ========================================================= */}
-      {/* SECTION 7: WHY CHOOSE OPASH - COMPARISON MATRIX */}
+      {/* SECTION 7: WHY CHOOSE US (7 CARDS ROW)                     */}
       {/* ========================================================= */}
+      <WhyChooseUsCards />
+
+      {/* ========================================================= */}
+      {/* SECTION 7.5: WE ARE RECOGNISED BY (INDUSTRY BADGES)        */}
+      {/* ========================================================= */}
+      <RecognisedBy />
+
       {/* ========================================================= */}
       {/* SECTION 8: WHY GLOBAL BRANDS CHOOSE US (COMPARISON MATRIX) */}
       {/* ========================================================= */}
