@@ -14,7 +14,6 @@ import {
   ShieldCheck,
   ArrowRight,
   ArrowUpRight,
-  Sparkles,
   Layers,
   CheckCircle2,
   Clock,
@@ -287,7 +286,7 @@ export default function ServicesPageClient() {
                 color: mintColor,
               }}
             >
-              <Sparkles size={16} />
+              <Layers size={16} />
               <span>Full-Spectrum Capabilities &bull; 8+ Years Expertise &bull; 100% IP Ownership</span>
             </div>
           </div>

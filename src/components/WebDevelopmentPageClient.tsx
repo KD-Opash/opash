@@ -14,7 +14,6 @@ import {
   ArrowRight,
   CheckCircle2,
   Clock,
-  Sparkles,
   Terminal,
   RefreshCw,
   Lock,
@@ -22,6 +21,8 @@ import {
   Activity,
   Award,
   ChevronDown,
+  ChevronRight,
+  Cpu,
   Workflow,
   Search,
   Compass,
@@ -41,6 +42,7 @@ import {
   Sliders,
   ExternalLink,
   Laptop,
+  Smartphone,
   Check,
   Radio,
 } from "lucide-react";
@@ -216,7 +218,9 @@ const COUNTRIES_LIST = [
   "Other",
 ];
 
-export default function WebDevelopmentPageClient({ service }: WebDevelopmentPageClientProps) {
+export default function WebDevelopmentPageClient({
+  service,
+}: WebDevelopmentPageClientProps) {
   const { theme } = useTheme();
   const isLight = theme === "light";
 
@@ -241,6 +245,8 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
   });
   const [formSubmitted, setFormSubmitted] = useState<boolean>(false);
   const [formLoading, setFormLoading] = useState<boolean>(false);
+  const [heroConsoleTab, setHeroConsoleTab] = useState<"architecture" | "telemetry" | "devops">("architecture");
+  const [activeTier, setActiveTier] = useState<number>(0);
 
   // Filtered Techs
   const displayedTechs = useMemo(() => {
@@ -274,11 +280,34 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
       <section
         style={{
           position: "relative",
-          padding: "7.5rem 1.5rem 5rem 1.5rem",
+          padding: "8.5rem 1.5rem 4.75rem 1.5rem",
           overflow: "hidden",
+          minHeight: "88vh",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
         }}
       >
-        {/* Ambient 3D Sculpture Layer with High Performance Blend */}
+        {/* Static Ultra-Lightweight CSS Ambient Grid (Zero CPU/GPU Overhead) */}
+        <div
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            inset: 0,
+            backgroundImage: isLight
+              ? "radial-gradient(rgba(0, 168, 143, 0.12) 1px, transparent 1px)"
+              : "radial-gradient(rgba(94, 192, 152, 0.12) 1px, transparent 1px)",
+            backgroundSize: "36px 36px",
+            maskImage:
+              "radial-gradient(ellipse 80% 65% at 50% 35%, black 40%, transparent 85%)",
+            WebkitMaskImage:
+              "radial-gradient(ellipse 80% 65% at 50% 35%, black 40%, transparent 85%)",
+            pointerEvents: "none",
+            zIndex: 0,
+          }}
+        />
+
+        {/* Cinematic Hero Video Background */}
         <div
           aria-hidden="true"
           style={{
@@ -289,248 +318,854 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
             zIndex: 0,
           }}
         >
-          <img
-            src="/images/services/web_dev_3d.jpg"
-            alt=""
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="auto"
             style={{
               position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              minWidth: "100%",
+              minHeight: "100%",
+              width: "auto",
+              height: "auto",
               objectFit: "cover",
-              objectPosition: "center 25%",
-              opacity: isLight ? 0.12 : 0.28,
-              filter: isLight ? "saturate(1.15) contrast(1.05)" : "saturate(1.3) brightness(0.9)",
-              transform: "scale(1.04)",
-              maskImage: "linear-gradient(to bottom, black 0%, black 55%, rgba(0, 0, 0, 0.3) 85%, transparent 100%)",
-              WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 55%, rgba(0, 0, 0, 0.3) 85%, transparent 100%)",
+              opacity: isLight ? 0.35 : 0.45,
             }}
-          />
-
+          >
+            <source src="/videos/video2.mp4" type="video/mp4" />
+          </video>
+          {/* Subtle gradient overlay to ensure text contrast and bottom fade */}
           <div
             style={{
               position: "absolute",
               inset: 0,
               background: isLight
-                ? `
-                  radial-gradient(ellipse 80% 65% at 50% 30%, rgba(248, 250, 252, 0.45) 0%, rgba(248, 250, 252, 0.88) 60%, #f8fafc 100%),
-                  linear-gradient(to bottom, rgba(248, 250, 252, 0.15) 0%, rgba(248, 250, 252, 0.95) 85%, #f8fafc 100%)
-                `
-                : `
-                  radial-gradient(ellipse 80% 65% at 50% 30%, rgba(4, 10, 23, 0.35) 0%, rgba(4, 10, 23, 0.88) 60%, #020712 100%),
-                  linear-gradient(to bottom, rgba(2, 7, 18, 0.15) 0%, rgba(2, 7, 18, 0.95) 85%, #020712 100%)
-                `,
-            }}
-          />
-
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              background: isLight
-                ? `
-                  radial-gradient(ellipse 70% 50% at 50% 15%, rgba(0, 168, 143, 0.14) 0%, transparent 65%),
-                  radial-gradient(circle 450px at 85% 30%, rgba(71, 109, 154, 0.10) 0%, transparent 70%)
-                `
-                : `
-                  radial-gradient(ellipse 70% 50% at 50% 15%, rgba(94, 192, 152, 0.20) 0%, transparent 65%),
-                  radial-gradient(circle 450px at 85% 30%, rgba(71, 109, 154, 0.15) 0%, transparent 70%)
-                `,
-              pointerEvents: "none",
+                ? "linear-gradient(180deg, rgba(255, 255, 255, 0.72) 0%, rgba(255, 255, 255, 0.85) 60%, #ffffff 100%)"
+                : "linear-gradient(180deg, rgba(2, 7, 18, 0.65) 0%, rgba(2, 7, 18, 0.85) 60%, #020712 100%)",
             }}
           />
         </div>
 
-        {/* Seamless Hero Bottom Feather Blender */}
+        {/* Soft Ambient Radial Bloom (Pure Static CSS) */}
         <div
           aria-hidden="true"
           style={{
             position: "absolute",
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: "180px",
+            top: 0,
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: "100%",
+            maxWidth: "1100px",
+            height: "460px",
             background: isLight
-              ? "linear-gradient(to bottom, transparent 0%, rgba(248, 250, 252, 0.85) 60%, #f8fafc 100%)"
-              : "linear-gradient(to bottom, transparent 0%, rgba(2, 7, 18, 0.85) 60%, #020712 100%)",
+              ? "radial-gradient(ellipse 70% 60% at 50% 0%, rgba(0, 168, 143, 0.12) 0%, rgba(2, 132, 199, 0.05) 45%, transparent 75%)"
+              : "radial-gradient(ellipse 70% 60% at 50% 0%, rgba(94, 192, 152, 0.15) 0%, rgba(56, 189, 248, 0.06) 45%, transparent 75%)",
+            filter: "blur(60px)",
             pointerEvents: "none",
+            zIndex: 0,
+          }}
+        />
+
+        {/* Top Subtle Horizon Border Highlight */}
+        <div
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            top: 0,
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: "80%",
+            maxWidth: "1000px",
+            height: "1px",
+            background: isLight
+              ? "linear-gradient(90deg, transparent 0%, rgba(0, 168, 143, 0.6) 50%, transparent 100%)"
+              : "linear-gradient(90deg, transparent 0%, rgba(94, 192, 152, 0.7) 50%, transparent 100%)",
+            boxShadow: isLight
+              ? "0 0 15px rgba(0, 168, 143, 0.3)"
+              : "0 0 20px rgba(94, 192, 152, 0.4)",
             zIndex: 1,
           }}
         />
 
-        <div className="container-custom" style={{ position: "relative", zIndex: 1, maxWidth: "1200px", margin: "0 auto" }}>
-          {/* Eyebrow Pill */}
-          <div style={{ display: "flex", justifyContent: "center", marginBottom: "1.25rem" }}>
-            <div
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.55rem",
-                fontSize: "0.85rem",
-                fontWeight: 700,
-                letterSpacing: "0.06em",
-                textTransform: "uppercase",
-                color: mintColor,
-              }}
-            >
-              <Sparkles size={16} />
-              <span>Fast & Scalable &bull; 8+ Years Expertise &bull; 100% IP Ownership</span>
+        {/* Responsive CSS for Split Hero */}
+        <style jsx>{`
+          .web-dev-hero-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2.75rem;
+            align-items: center;
+            margin-bottom: 4rem;
+          }
+          @media (min-width: 1024px) {
+            .web-dev-hero-grid {
+              grid-template-columns: 1.15fr 0.85fr;
+              gap: 3.5rem;
+            }
+          }
+        `}</style>
+
+        <div
+          className="container-custom"
+          style={{
+            position: "relative",
+            zIndex: 2,
+            maxWidth: "1320px",
+            margin: "0 auto",
+            width: "100%",
+          }}
+        >
+          {/* ================================================================= */}
+          {/* NEW HERO SPLIT-COLUMN LAYOUT (Not Centered)                       */}
+          {/* ================================================================= */}
+          <div className="web-dev-hero-grid">
+            {/* ── LEFT COLUMN: Headline, Positioning, CTAs & Trust Badges ─── */}
+            <div style={{ textAlign: "left" }}>
+              {/* Monumental Headline */}
+              <div style={{ margin: "0 0 1.35rem 0" }}>
+                <h1
+                  style={{
+                    fontFamily: "var(--font-acthirey), 'Acthirey', 'Playfair Display', serif",
+                    fontSize: "clamp(2.75rem, 5vw, 4.65rem)",
+                    fontWeight: 400,
+                    lineHeight: 1.08,
+                    letterSpacing: "-0.015em",
+                    margin: 0,
+                    color: isLight ? "#0f172a" : "#ffffff",
+                    textAlign: "left",
+                  }}
+                >
+                  <span>Web</span><br />
+                  <span
+                    style={{
+                      display: "inline-block",
+                      background: isLight
+                        ? "linear-gradient(135deg, #00A88F 0%, #0284c7 100%)"
+                        : "linear-gradient(135deg, #5EC098 0%, #38bdf8 100%)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      textShadow: isLight
+                        ? "none"
+                        : "0 0 45px rgba(94, 192, 152, 0.35)",
+                    }}
+                  >
+                    Development
+                  </span>
+                </h1>
+              </div>
+
+              {/* Lead Paragraph 1 (Exact Content Preserved) */}
+              <p
+                style={{
+                  fontSize: "clamp(1rem, 1.15vw, 1.125rem)",
+                  lineHeight: 1.68,
+                  color: isLight ? "#334155" : "#cbd5e1",
+                  maxWidth: "640px",
+                  margin: "0 0 1rem 0",
+                  fontWeight: 400,
+                  textAlign: "left",
+                }}
+              >
+                We offer end-to-end web development services that turn your ideas
+                into high-performing, secure, and scalable web solutions. Whether
+                you’re launching a marketing website, a custom business portal, or
+                a full-fledged web application, our team focuses on building
+                intuitive, visually compelling, and highly functional websites
+                tailored to your business goals.
+              </p>
+
+              {/* Lead Paragraph 2 (Exact Content Preserved) */}
+              <p
+                style={{
+                  fontSize: "clamp(0.9rem, 1vw, 0.98rem)",
+                  lineHeight: 1.62,
+                  color: isLight ? "#64748b" : "#94a3b8",
+                  maxWidth: "600px",
+                  margin: "0 0 2rem 0",
+                  fontWeight: 400,
+                  textAlign: "left",
+                }}
+              >
+                From startups to large enterprises, we craft digital experiences
+                that are fast, mobile-responsive, and SEO-optimized. With an agile
+                and client-centric approach, we ensure seamless integration of the
+                front-end and back-end, resulting in efficient workflows and
+                superior user experiences.
+              </p>
+
+              {/* Action Buttons (Left-Aligned) */}
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  gap: "1.1rem",
+                  flexWrap: "wrap",
+                  marginBottom: "2.25rem",
+                }}
+              >
+                {/* Primary Button */}
+                <a
+                  href="#quote-section"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    whiteSpace: "nowrap",
+                    gap: "0.6rem",
+                    padding: "0.95rem 2.1rem",
+                    borderRadius: "12px",
+                    fontWeight: 700,
+                    fontSize: "0.95rem",
+                    letterSpacing: "0.03em",
+                    textTransform: "uppercase",
+                    color: "#ffffff",
+                    background: isLight
+                      ? "linear-gradient(135deg, #00A88F 0%, #0284c7 100%)"
+                      : "linear-gradient(135deg, #5EC098 0%, #00A88F 100%)",
+                    border: "none",
+                    boxShadow: isLight
+                      ? "0 10px 24px -4px rgba(0, 168, 143, 0.38)"
+                      : "0 10px 28px -4px rgba(94, 192, 152, 0.45)",
+                    textDecoration: "none",
+                    transition: "transform 0.2s ease, box-shadow 0.2s ease",
+                    cursor: "pointer",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "translateY(-3px)";
+                    e.currentTarget.style.boxShadow = isLight
+                      ? "0 14px 32px -4px rgba(0, 168, 143, 0.5)"
+                      : "0 14px 35px -4px rgba(94, 192, 152, 0.6)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "translateY(0)";
+                    e.currentTarget.style.boxShadow = isLight
+                      ? "0 10px 24px -4px rgba(0, 168, 143, 0.38)"
+                      : "0 10px 28px -4px rgba(94, 192, 152, 0.45)";
+                  }}
+                >
+                  <span>Get Free Consultation</span>
+                  <ArrowRight size={18} />
+                </a>
+
+                {/* Secondary Button */}
+                <a
+                  href="#technologies"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    whiteSpace: "nowrap",
+                    gap: "0.6rem",
+                    padding: "0.95rem 1.9rem",
+                    borderRadius: "12px",
+                    fontWeight: 600,
+                    fontSize: "0.95rem",
+                    letterSpacing: "0.02em",
+                    color: isLight ? "#0f172a" : "#f1f5f9",
+                    background: isLight ? "rgba(255, 255, 255, 0.95)" : "rgba(255, 255, 255, 0.05)",
+                    border: isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.16)",
+                    backdropFilter: "blur(12px)",
+                    WebkitBackdropFilter: "blur(12px)",
+                    textDecoration: "none",
+                    transition: "all 0.2s ease",
+                    cursor: "pointer",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "translateY(-3px)";
+                    e.currentTarget.style.borderColor = isLight ? "#00A88F" : "#5EC098";
+                    e.currentTarget.style.background = isLight ? "#ffffff" : "rgba(255, 255, 255, 0.1)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "translateY(0)";
+                    e.currentTarget.style.borderColor = isLight ? "#cbd5e1" : "rgba(255, 255, 255, 0.16)";
+                    e.currentTarget.style.background = isLight ? "rgba(255, 255, 255, 0.95)" : "rgba(255, 255, 255, 0.05)";
+                  }}
+                >
+                  <span>Explore Technologies</span>
+                  <Terminal size={17} />
+                </a>
+              </div>
+
+              {/* Trust Highlights Inline Strip */}
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  alignItems: "center",
+                  gap: "1.35rem",
+                  color: isLight ? "#475569" : "#94a3b8",
+                  fontSize: "0.86rem",
+                  fontWeight: 500,
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: "0.45rem" }}>
+                  <CheckCircle2 size={16} color={mintColor} />
+                  <span>100% Code & IP Ownership</span>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: "0.45rem" }}>
+                  <CheckCircle2 size={16} color={mintColor} />
+                  <span>Zero Vendor Lock-In</span>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: "0.45rem" }}>
+                  <CheckCircle2 size={16} color={mintColor} />
+                  <span>Agile Sprints & Bi-Weekly Releases</span>
+                </div>
+              </div>
+            </div>
+
+            {/* ── RIGHT COLUMN: Interactive Live Architecture & Engine Console ── */}
+            <div style={{ position: "relative" }}>
+              {/* Main Interactive Glass Console Box */}
+              <div
+                style={{
+                  position: "relative",
+                  borderRadius: "24px",
+                  background: isLight
+                    ? "linear-gradient(155deg, rgba(255, 255, 255, 0.94) 0%, rgba(248, 250, 252, 0.90) 100%)"
+                    : "linear-gradient(155deg, rgba(15, 23, 42, 0.85) 0%, rgba(8, 14, 28, 0.92) 100%)",
+                  border: isLight
+                    ? "1px solid rgba(0, 168, 143, 0.22)"
+                    : "1px solid rgba(94, 192, 152, 0.25)",
+                  backdropFilter: "blur(20px)",
+                  WebkitBackdropFilter: "blur(20px)",
+                  boxShadow: isLight
+                    ? "0 25px 60px -15px rgba(0, 168, 143, 0.16), 0 0 1px 1px rgba(255, 255, 255, 0.9)"
+                    : "0 30px 70px -15px rgba(0, 0, 0, 0.8), 0 0 40px rgba(94, 192, 152, 0.12)",
+                  overflow: "hidden",
+                  padding: "1.5rem",
+                }}
+              >
+                {/* Console Top Header Bar */}
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    paddingBottom: "1.1rem",
+                    borderBottom: isLight
+                      ? "1px solid rgba(0, 0, 0, 0.08)"
+                      : "1px solid rgba(255, 255, 255, 0.08)",
+                    marginBottom: "1.25rem",
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.45rem" }}>
+                    <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#ef4444" }} />
+                    <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#f59e0b" }} />
+                    <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#10b981" }} />
+                    <span
+                      style={{
+                        marginLeft: "0.5rem",
+                        fontFamily: "monospace",
+                        fontSize: "0.78rem",
+                        color: isLight ? "#64748b" : "#94a3b8",
+                        fontWeight: 600,
+                      }}
+                    >
+                      opash.engine // web-core.v3
+                    </span>
+                  </div>
+
+                  {/* Active Cluster Status */}
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "0.4rem",
+                      padding: "0.25rem 0.65rem",
+                      borderRadius: "9999px",
+                      background: isLight ? "rgba(16, 185, 129, 0.1)" : "rgba(16, 185, 129, 0.16)",
+                      border: "1px solid rgba(16, 185, 129, 0.3)",
+                      fontSize: "0.72rem",
+                      fontWeight: 700,
+                      color: isLight ? "#059669" : "#34d399",
+                      letterSpacing: "0.04em",
+                    }}
+                  >
+                    <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#10b981" }} className="animate-pulse" />
+                    <span>SYSTEM OPTIMAL</span>
+                  </div>
+                </div>
+
+                {/* Interactive Console Tabs */}
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(3, 1fr)",
+                    gap: "0.5rem",
+                    background: isLight ? "rgba(0, 0, 0, 0.04)" : "rgba(255, 255, 255, 0.04)",
+                    padding: "0.3rem",
+                    borderRadius: "12px",
+                    marginBottom: "1.25rem",
+                  }}
+                >
+                  {[
+                    { id: "architecture", label: "Architecture", icon: Layers },
+                    { id: "telemetry", label: "Live Telemetry", icon: Activity },
+                    { id: "devops", label: "Delivery Pipeline", icon: Workflow },
+                  ].map((tab) => {
+                    const isActive = heroConsoleTab === tab.id;
+                    const TabIcon = tab.icon;
+                    return (
+                      <button
+                        key={tab.id}
+                        type="button"
+                        onClick={() => setHeroConsoleTab(tab.id as any)}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          gap: "0.4rem",
+                          padding: "0.55rem 0.5rem",
+                          borderRadius: "9px",
+                          border: "none",
+                          background: isActive
+                            ? isLight
+                              ? "#ffffff"
+                              : "rgba(255, 255, 255, 0.12)"
+                            : "transparent",
+                          color: isActive
+                            ? isLight
+                              ? "#00A88F"
+                              : "#5EC098"
+                            : isLight
+                            ? "#64748b"
+                            : "#94a3b8",
+                          fontWeight: isActive ? 700 : 500,
+                          fontSize: "0.76rem",
+                          boxShadow: isActive
+                            ? isLight
+                              ? "0 2px 8px rgba(0, 0, 0, 0.06)"
+                              : "0 2px 10px rgba(0, 0, 0, 0.4)"
+                            : "none",
+                          cursor: "pointer",
+                          transition: "all 0.2s ease",
+                        }}
+                      >
+                        <TabIcon size={13} />
+                        <span>{tab.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Tab 1: Architecture Stack (Default) */}
+                {heroConsoleTab === "architecture" && (
+                  <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+                    {[
+                      {
+                        tier: "01",
+                        name: "Modern Frontend & Jamstack",
+                        stack: "Next.js 15, React 19, TypeScript, Tailwind CSS",
+                        metric: "99+ Core Vitals",
+                        desc: "Server-side rendering (SSR), static generation (SSG), fluid responsive UI",
+                        icon: Globe2,
+                        color: mintColor,
+                      },
+                      {
+                        tier: "02",
+                        name: "Headless CMS & High-Speed APIs",
+                        stack: "Strapi, Sanity, GraphQL, REST Microservices",
+                        metric: "< 18ms Edge API",
+                        desc: "Decoupled content management, high-throughput webhook pipelines",
+                        icon: Cpu,
+                        color: isLight ? "#0284c7" : "#38bdf8",
+                      },
+                      {
+                        tier: "03",
+                        name: "Global CDN & Edge Deployment",
+                        stack: "Vercel Edge, AWS CloudFront, Docker, Redis",
+                        metric: "100% Global Edge",
+                        desc: "Global low-latency CDN caching, SSL auto-renew, automated CI/CD",
+                        icon: Database,
+                        color: isLight ? "#7c3aed" : "#a78bfa",
+                      },
+                    ].map((layer, idx) => {
+                      const LayerIcon = layer.icon;
+                      const isSelected = activeTier === idx;
+                      return (
+                        <div
+                          key={idx}
+                          onClick={() => setActiveTier(idx)}
+                          style={{
+                            padding: "0.95rem 1.1rem",
+                            borderRadius: "14px",
+                            background: isSelected
+                              ? isLight
+                                ? "rgba(0, 168, 143, 0.08)"
+                                : "rgba(94, 192, 152, 0.12)"
+                              : isLight
+                              ? "rgba(0, 0, 0, 0.02)"
+                              : "rgba(255, 255, 255, 0.03)",
+                            border: isSelected
+                              ? isLight
+                                ? "1px solid rgba(0, 168, 143, 0.35)"
+                                : "1px solid rgba(94, 192, 152, 0.45)"
+                              : isLight
+                              ? "1px solid rgba(0, 0, 0, 0.05)"
+                              : "1px solid rgba(255, 255, 255, 0.06)",
+                            transition: "all 0.2s ease",
+                            cursor: "pointer",
+                          }}
+                        >
+                          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.35rem" }}>
+                            <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
+                              <div
+                                style={{
+                                  width: "28px",
+                                  height: "28px",
+                                  borderRadius: "8px",
+                                  background: `${layer.color}20`,
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  color: layer.color,
+                                }}
+                              >
+                                <LayerIcon size={15} />
+                              </div>
+                              <span style={{ fontSize: "0.86rem", fontWeight: 700, color: isLight ? "#0f172a" : "#ffffff" }}>
+                                {layer.name}
+                              </span>
+                            </div>
+                            <span
+                              style={{
+                                fontSize: "0.7rem",
+                                fontWeight: 700,
+                                padding: "0.2rem 0.55rem",
+                                borderRadius: "9999px",
+                                background: `${layer.color}18`,
+                                color: layer.color,
+                                border: `1px solid ${layer.color}35`,
+                              }}
+                            >
+                              {layer.metric}
+                            </span>
+                          </div>
+
+                          <div style={{ fontSize: "0.75rem", color: isLight ? "#64748b" : "#94a3b8", marginLeft: "2.35rem" }}>
+                            <strong style={{ color: isLight ? "#334155" : "#cbd5e1" }}>Stack:</strong> {layer.stack}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {/* Tab 2: Live Telemetry */}
+                {heroConsoleTab === "telemetry" && (
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "1fr 1fr",
+                      gap: "0.85rem",
+                    }}
+                  >
+                    {[
+                      { label: "Lighthouse Performance", val: "99 / 100", sub: "Sub-Second FCP & LCP", color: mintColor, icon: Zap },
+                      { label: "Global Edge Uptime", val: "99.99%", sub: "Zero-Downtime Rolling Deploys", color: isLight ? "#0284c7" : "#38bdf8", icon: Server },
+                      { label: "Search Visibility", val: "100%", sub: "Technical SEO & OpenGraph Ready", color: isLight ? "#7c3aed" : "#a78bfa", icon: ShieldCheck },
+                      { label: "Multi-Device Fluidity", val: "100% Fluid", sub: "Mobile, Tablet & Desktop Responsive", color: isLight ? "#f59e0b" : "#fbbf24", icon: Clock },
+                    ].map((metric, idx) => {
+                      const MetricIcon = metric.icon;
+                      return (
+                        <div
+                          key={idx}
+                          style={{
+                            padding: "1rem",
+                            borderRadius: "14px",
+                            background: isLight ? "rgba(0, 0, 0, 0.02)" : "rgba(255, 255, 255, 0.03)",
+                            border: isLight ? "1px solid rgba(0, 0, 0, 0.06)" : "1px solid rgba(255, 255, 255, 0.08)",
+                          }}
+                        >
+                          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.35rem" }}>
+                            <span style={{ fontSize: "0.72rem", color: isLight ? "#64748b" : "#94a3b8", fontWeight: 600 }}>
+                              {metric.label}
+                            </span>
+                            <MetricIcon size={14} color={metric.color} />
+                          </div>
+                          <div style={{ fontSize: "1.35rem", fontWeight: 800, color: metric.color, letterSpacing: "-0.02em" }}>
+                            {metric.val}
+                          </div>
+                          <div style={{ fontSize: "0.7rem", color: isLight ? "#64748b" : "#94a3b8", marginTop: "0.2rem" }}>
+                            {metric.sub}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {/* Tab 3: DevOps & Delivery Pipeline */}
+                {heroConsoleTab === "devops" && (
+                  <div style={{ display: "flex", flexDirection: "column", gap: "0.65rem" }}>
+                    {[
+                      { step: "01", title: "Wireframing & UX Architecture Spec", status: "Completed", icon: FileCode },
+                      { step: "02", title: "Sprint Development & Component Library", status: "Active Sprint", icon: RefreshCw },
+                      { step: "03", title: "Cross-Browser & Performance Audits", status: "Continuous", icon: Shield },
+                      { step: "04", title: "Global CDN Edge Deployment & Go-Live", status: "Ready", icon: Rocket },
+                    ].map((item, idx) => {
+                      return (
+                        <div
+                          key={idx}
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            padding: "0.75rem 1rem",
+                            borderRadius: "12px",
+                            background: isLight ? "rgba(0, 0, 0, 0.02)" : "rgba(255, 255, 255, 0.03)",
+                            border: isLight ? "1px solid rgba(0, 0, 0, 0.06)" : "1px solid rgba(255, 255, 255, 0.07)",
+                          }}
+                        >
+                          <div style={{ display: "flex", alignItems: "center", gap: "0.65rem" }}>
+                            <span style={{ fontFamily: "monospace", fontSize: "0.72rem", color: mintColor, fontWeight: 700 }}>
+                              {item.step}
+                            </span>
+                            <span style={{ fontSize: "0.78rem", fontWeight: 600, color: isLight ? "#0f172a" : "#ffffff" }}>
+                              {item.title}
+                            </span>
+                          </div>
+                          <span
+                            style={{
+                              fontSize: "0.68rem",
+                              fontWeight: 700,
+                              padding: "0.18rem 0.55rem",
+                              borderRadius: "9999px",
+                              background: idx === 1 ? `${mintColor}20` : "rgba(255, 255, 255, 0.08)",
+                              color: idx === 1 ? mintColor : isLight ? "#64748b" : "#94a3b8",
+                            }}
+                          >
+                            {item.status}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {/* Console Bottom Action Bar */}
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    paddingTop: "1.1rem",
+                    borderTop: isLight
+                      ? "1px solid rgba(0, 0, 0, 0.08)"
+                      : "1px solid rgba(255, 255, 255, 0.08)",
+                    marginTop: "1.25rem",
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", fontSize: "0.72rem", color: isLight ? "#64748b" : "#94a3b8" }}>
+                    <span>Latency: <strong style={{ color: mintColor }}>9ms</strong></span>
+                    <span>•</span>
+                    <span>Core Web Vitals: <strong style={{ color: isLight ? "#0284c7" : "#38bdf8" }}>99/100</strong></span>
+                  </div>
+
+                  <a
+                    href="#technologies"
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "0.35rem",
+                      fontSize: "0.74rem",
+                      fontWeight: 700,
+                      color: mintColor,
+                      textDecoration: "none",
+                    }}
+                  >
+                    <span>Explore 30+ Techs</span>
+                    <ChevronRight size={13} />
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Heading */}
-          <div style={{ textAlign: "center", maxWidth: "1000px", margin: "0 auto" }}>
-            <h1
-              style={{
-                fontSize: "clamp(2.4rem, 5vw, 4.2rem)",
-                fontWeight: 800,
-                lineHeight: 1.12,
-                letterSpacing: "-0.03em",
-                marginBottom: "1.5rem",
-              }}
-            >
-              Web <span style={{ color: mintColor }}>Development</span>
-            </h1>
-
-            {/* Lead Paragraph 1 */}
-            <p
-              style={{
-                fontSize: "clamp(1.05rem, 1.8vw, 1.25rem)",
-                lineHeight: 1.65,
-                color: isLight ? "#334155" : "#cbd5e1",
-                maxWidth: "860px",
-                margin: "0 auto 1.25rem auto",
-                fontWeight: 450,
-              }}
-            >
-              We offer end-to-end web development services that turn your ideas into high-performing, secure, and scalable web solutions.
-              Whether you’re launching a marketing website, a custom business portal, or a full-fledged web application, our team focuses
-              on building intuitive, visually compelling, and highly functional websites tailored to your business goals.
-            </p>
-
-            {/* Lead Paragraph 2 */}
-            <p
-              style={{
-                fontSize: "clamp(0.95rem, 1.5vw, 1.1rem)",
-                lineHeight: 1.65,
-                color: isLight ? "#64748b" : "#94a3b8",
-                maxWidth: "840px",
-                margin: "0 auto 2.5rem auto",
-              }}
-            >
-              From startups to large enterprises, we craft digital experiences that are fast, mobile-responsive, and SEO-optimized.
-              With an agile and client-centric approach, we ensure seamless integration of the front-end and back-end, resulting in
-              efficient workflows and superior user experiences. Our websites are not only beautiful but also built for performance,
-              accessibility, and long-term maintainability.
-            </p>
-
-            {/* Dual CTAs */}
-            <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                gap: "1rem",
-                justifyContent: "center",
-                alignItems: "center",
-                marginBottom: "3.5rem",
-              }}
-            >
-              <a
-                href="#quote-section"
-                className="btn-shimmer"
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "0.6rem",
-                  padding: "0.95rem 2rem",
-                  borderRadius: "12px",
-                  fontWeight: 700,
-                  fontSize: "1rem",
-                  color: "#ffffff",
-                  background: `linear-gradient(135deg, ${mintColor} 0%, #0284c7 100%)`,
-                  boxShadow: isLight
-                    ? "0 10px 25px -5px rgba(0, 168, 143, 0.4)"
-                    : "0 10px 25px -5px rgba(94, 192, 152, 0.3)",
-                  textDecoration: "none",
-                }}
-              >
-                <span>Get Free Consultation</span>
-                <ArrowRight size={18} />
-              </a>
-
-              <a
-                href="#technologies"
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "0.6rem",
-                  padding: "0.95rem 1.8rem",
-                  borderRadius: "12px",
-                  fontWeight: 600,
-                  fontSize: "1rem",
-                  color: isLight ? "#0f172a" : "#ffffff",
-                  background: isLight ? "rgba(255, 255, 255, 0.9)" : "rgba(255, 255, 255, 0.05)",
-                  border: isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.12)",
-                  backdropFilter: "blur(10px)",
-                  textDecoration: "none",
-                }}
-              >
-                <span>Explore Technologies</span>
-                <Terminal size={17} />
-              </a>
-            </div>
-
-            {/* Metrics Strip */}
+          {/* ================================================================= */}
+          {/* LUXURY BENTO METRIC DECK (Exact 4 Metrics Preserved)             */}
+          {/* ================================================================= */}
+          <div
+            style={{
+              maxWidth: "1200px",
+              margin: "0 auto",
+              position: "relative",
+              zIndex: 2,
+            }}
+          >
             <div
               style={{
                 display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-                gap: "1.25rem",
-                maxWidth: "1080px",
-                margin: "0 auto",
+                gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+                gap: "1.5rem",
+                alignItems: "stretch",
               }}
             >
               {[
-                { value: "8+ Years", label: "Industry Expertise" },
-                { value: "100%", label: "Mobile-Responsive" },
-                { value: "<1.2s", label: "Average Page Load Time" },
-                { value: "SEO", label: "Optimized From Day 1" },
-              ].map((m, idx) => (
-                <div
-                  key={idx}
-                  style={{
-                    padding: "1.25rem 1rem",
-                    borderRadius: "14px",
-                    background: isLight ? "#ffffff" : "rgba(10, 20, 36, 0.65)",
-                    border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
-                    boxShadow: isLight ? "0 4px 12px rgba(0, 0, 0, 0.04)" : "none",
-                    textAlign: "center",
-                  }}
-                >
+                {
+                  value: "8+ Years",
+                  label: "Industry Expertise",
+                  sub: "75+ Web Platforms Delivered",
+                  icon: Award,
+                  delay: 0.1,
+                },
+                {
+                  value: "100%",
+                  label: "Mobile-Responsive",
+                  sub: "Fluid Across All Devices",
+                  icon: Smartphone,
+                  delay: 0.2,
+                },
+                {
+                  value: "<1.2s",
+                  label: "Average Load Time",
+                  sub: "Core Web Vitals Grade A",
+                  icon: Zap,
+                  delay: 0.3,
+                },
+                {
+                  value: "SEO",
+                  label: "Optimized From Day 1",
+                  sub: "Rank-Ready Architecture",
+                  icon: Search,
+                  delay: 0.4,
+                },
+              ].map((m, idx) => {
+                const IconComponent = m.icon;
+                return (
                   <div
+                    key={idx}
                     style={{
-                      fontSize: "2rem",
-                      fontWeight: 800,
-                      color: mintColor,
-                      letterSpacing: "-0.02em",
-                      lineHeight: 1.1,
-                      marginBottom: "0.35rem",
+                      position: "relative",
+                      borderRadius: "18px",
+                      padding: "1.75rem 1.5rem",
+                      background: isLight
+                        ? "linear-gradient(145deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)"
+                        : "linear-gradient(145deg, rgba(15, 23, 42, 0.75) 0%, rgba(7, 16, 30, 0.85) 100%)",
+                      backdropFilter: "blur(16px)",
+                      WebkitBackdropFilter: "blur(16px)",
+                      border: isLight
+                        ? "1px solid rgba(0, 168, 143, 0.18)"
+                        : "1px solid rgba(94, 192, 152, 0.18)",
+                      boxShadow: isLight
+                        ? "0 10px 30px -8px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.9)"
+                        : "0 14px 35px -8px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08)",
+                      transition:
+                        "transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "space-between",
+                      overflow: "hidden",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = "translateY(-5px)";
+                      e.currentTarget.style.borderColor = isLight
+                        ? "rgba(0, 168, 143, 0.45)"
+                        : "rgba(94, 192, 152, 0.45)";
+                      e.currentTarget.style.boxShadow = isLight
+                        ? "0 20px 40px -10px rgba(0, 168, 143, 0.18), inset 0 1px 0 rgba(255, 255, 255, 1)"
+                        : "0 22px 45px -10px rgba(0, 0, 0, 0.7), 0 0 25px -5px rgba(94, 192, 152, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = "translateY(0)";
+                      e.currentTarget.style.borderColor = isLight
+                        ? "rgba(0, 168, 143, 0.18)"
+                        : "rgba(94, 192, 152, 0.18)";
+                      e.currentTarget.style.boxShadow = isLight
+                        ? "0 10px 30px -8px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.9)"
+                        : "0 14px 35px -8px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08)";
                     }}
                   >
-                    {m.value}
+                    {/* Top Subtle Card Highlight Line */}
+                    <div
+                      aria-hidden="true"
+                      style={{
+                        position: "absolute",
+                        top: 0,
+                        left: "15%",
+                        right: "15%",
+                        height: "1px",
+                        background: isLight
+                          ? "linear-gradient(90deg, transparent 0%, rgba(0, 168, 143, 0.5) 50%, transparent 100%)"
+                          : "linear-gradient(90deg, transparent 0%, rgba(94, 192, 152, 0.6) 50%, transparent 100%)",
+                      }}
+                    />
+
+                    {/* Header Row: Metric Value + Icon */}
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        marginBottom: "0.85rem",
+                      }}
+                    >
+                      <div
+                        style={{
+                          fontSize: "clamp(2.1rem, 2.5vw, 2.6rem)",
+                          fontWeight: 800,
+                          lineHeight: 1,
+                          letterSpacing: "-0.03em",
+                          color: mintColor,
+                          textShadow: isLight
+                            ? "none"
+                            : "0 0 24px rgba(94, 192, 152, 0.25)",
+                        }}
+                      >
+                        {m.value}
+                      </div>
+
+                      <div
+                        style={{
+                          width: "42px",
+                          height: "42px",
+                          borderRadius: "12px",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          backgroundColor: isLight
+                            ? "rgba(0, 168, 143, 0.08)"
+                            : "rgba(94, 192, 152, 0.1)",
+                          border: `1px solid ${isLight ? "rgba(0, 168, 143, 0.2)" : "rgba(94, 192, 152, 0.2)"}`,
+                          color: mintColor,
+                        }}
+                      >
+                        <IconComponent size={20} />
+                      </div>
+                    </div>
+
+                    {/* Content: Label & Subtitle */}
+                    <div>
+                      <div
+                        style={{
+                          fontSize: "1.02rem",
+                          fontWeight: 700,
+                          color: isLight ? "#0f172a" : "#ffffff",
+                          marginBottom: "0.35rem",
+                          lineHeight: 1.3,
+                        }}
+                      >
+                        {m.label}
+                      </div>
+                      <div
+                        style={{
+                          fontSize: "0.84rem",
+                          fontWeight: 500,
+                          color: isLight ? "#64748b" : "#94a3b8",
+                          lineHeight: 1.4,
+                        }}
+                      >
+                        {m.sub}
+                      </div>
+                    </div>
                   </div>
-                  <div
-                    style={{
-                      fontSize: "0.85rem",
-                      fontWeight: 600,
-                      color: isLight ? "#64748b" : "#94a3b8",
-                    }}
-                  >
-                    {m.label}
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>
@@ -545,11 +1180,22 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
           padding: "5.5rem 1.5rem",
           position: "relative",
           background: isLight ? "#ffffff" : "rgba(4, 10, 22, 0.9)",
-          borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
+          borderTop: isLight
+            ? "1px solid #e2e8f0"
+            : "1px solid rgba(255, 255, 255, 0.06)",
         }}
       >
-        <div className="container-custom" style={{ maxWidth: "1200px", margin: "0 auto" }}>
-          <div style={{ textAlign: "center", maxWidth: "860px", margin: "0 auto 3.5rem auto" }}>
+        <div
+          className="container-custom"
+          style={{ maxWidth: "1200px", margin: "0 auto" }}
+        >
+          <div
+            style={{
+              textAlign: "center",
+              maxWidth: "860px",
+              margin: "0 auto 3.5rem auto",
+            }}
+          >
             <span
               style={{
                 display: "inline-block",
@@ -586,9 +1232,12 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
                 fontWeight: 500,
               }}
             >
-              Your website is often the first impression customers have of your business—it’s your digital storefront.
-              A well-designed and developed website builds trust, drives engagement, and converts visitors into loyal customers.
-              In today’s digital-first world, having a responsive, fast, and secure website is crucial for visibility, credibility, and business growth.
+              Your website is often the first impression customers have of your
+              business—it’s your digital storefront. A well-designed and
+              developed website builds trust, drives engagement, and converts
+              visitors into loyal customers. In today’s digital-first world,
+              having a responsive, fast, and secure website is crucial for
+              visibility, credibility, and business growth.
             </p>
 
             {/* Exact Paragraph 2 from live page */}
@@ -599,9 +1248,11 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
                 lineHeight: 1.7,
               }}
             >
-              Custom web development gives you flexibility and control that templates can’t match. It allows seamless integration
-              with CRMs, ERPs, APIs, payment gateways, and more. Plus, modern web technologies provide opportunities for automation,
-              analytics, personalization, and continuous optimization.
+              Custom web development gives you flexibility and control that
+              templates can’t match. It allows seamless integration with CRMs,
+              ERPs, APIs, payment gateways, and more. Plus, modern web
+              technologies provide opportunities for automation, analytics,
+              personalization, and continuous optimization.
             </p>
           </div>
 
@@ -647,7 +1298,9 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
                     padding: "2rem 1.75rem",
                     borderRadius: "18px",
                     background: isLight ? "#f8fafc" : "rgba(10, 20, 36, 0.7)",
-                    border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
+                    border: isLight
+                      ? "1px solid #e2e8f0"
+                      : "1px solid rgba(255, 255, 255, 0.08)",
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "space-between",
@@ -659,8 +1312,12 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
                         width: 48,
                         height: 48,
                         borderRadius: "14px",
-                        background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.15)",
-                        border: isLight ? "1px solid rgba(0, 168, 143, 0.25)" : "1px solid rgba(94, 192, 152, 0.35)",
+                        background: isLight
+                          ? "rgba(0, 168, 143, 0.1)"
+                          : "rgba(94, 192, 152, 0.15)",
+                        border: isLight
+                          ? "1px solid rgba(0, 168, 143, 0.25)"
+                          : "1px solid rgba(94, 192, 152, 0.35)",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
@@ -670,13 +1327,34 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
                     >
                       <IconComp size={24} />
                     </div>
-                    <div style={{ fontSize: "0.78rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em", color: mintColor, marginBottom: "0.35rem" }}>
+                    <div
+                      style={{
+                        fontSize: "0.78rem",
+                        fontWeight: 700,
+                        textTransform: "uppercase",
+                        letterSpacing: "0.04em",
+                        color: mintColor,
+                        marginBottom: "0.35rem",
+                      }}
+                    >
                       {item.tagline}
                     </div>
-                    <h3 style={{ fontSize: "1.25rem", fontWeight: 700, marginBottom: "0.75rem" }}>
+                    <h3
+                      style={{
+                        fontSize: "1.25rem",
+                        fontWeight: 700,
+                        marginBottom: "0.75rem",
+                      }}
+                    >
                       {item.title}
                     </h3>
-                    <p style={{ color: isLight ? "#64748b" : "#94a3b8", fontSize: "0.92rem", lineHeight: 1.6 }}>
+                    <p
+                      style={{
+                        color: isLight ? "#64748b" : "#94a3b8",
+                        fontSize: "0.92rem",
+                        lineHeight: 1.6,
+                      }}
+                    >
                       {item.desc}
                     </p>
                   </div>
@@ -696,11 +1374,22 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
           padding: "5.5rem 1.5rem",
           position: "relative",
           background: isLight ? "#f8fafc" : "#020712",
-          borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
+          borderTop: isLight
+            ? "1px solid #e2e8f0"
+            : "1px solid rgba(255, 255, 255, 0.06)",
         }}
       >
-        <div className="container-custom" style={{ maxWidth: "1200px", margin: "0 auto" }}>
-          <div style={{ textAlign: "center", maxWidth: "820px", margin: "0 auto 3.5rem auto" }}>
+        <div
+          className="container-custom"
+          style={{ maxWidth: "1200px", margin: "0 auto" }}
+        >
+          <div
+            style={{
+              textAlign: "center",
+              maxWidth: "820px",
+              margin: "0 auto 3.5rem auto",
+            }}
+          >
             <span
               style={{
                 display: "inline-block",
@@ -728,8 +1417,15 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
             </h2>
 
             {/* Exact Conclusion / Subhead from live page */}
-            <p style={{ color: isLight ? "#475569" : "#94a3b8", fontSize: "1.05rem", lineHeight: 1.6 }}>
-              We align each deliverable with your business objectives to make your website a strategic growth asset—not just an online presence.
+            <p
+              style={{
+                color: isLight ? "#475569" : "#94a3b8",
+                fontSize: "1.05rem",
+                lineHeight: 1.6,
+              }}
+            >
+              We align each deliverable with your business objectives to make
+              your website a strategic growth asset—not just an online presence.
             </p>
           </div>
 
@@ -750,7 +1446,9 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
                     padding: "2.25rem 2rem",
                     borderRadius: "18px",
                     background: isLight ? "#ffffff" : "rgba(10, 20, 36, 0.65)",
-                    border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
+                    border: isLight
+                      ? "1px solid #e2e8f0"
+                      : "1px solid rgba(255, 255, 255, 0.08)",
                     boxShadow: isLight ? "0 4px 16px rgba(0,0,0,0.03)" : "none",
                     display: "flex",
                     flexDirection: "column",
@@ -758,14 +1456,25 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
                   }}
                 >
                   <div>
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.25rem" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        marginBottom: "1.25rem",
+                      }}
+                    >
                       <div
                         style={{
                           width: 48,
                           height: 48,
                           borderRadius: "12px",
-                          background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.15)",
-                          border: isLight ? "1px solid rgba(0, 168, 143, 0.25)" : "1px solid rgba(94, 192, 152, 0.35)",
+                          background: isLight
+                            ? "rgba(0, 168, 143, 0.1)"
+                            : "rgba(94, 192, 152, 0.15)",
+                          border: isLight
+                            ? "1px solid rgba(0, 168, 143, 0.25)"
+                            : "1px solid rgba(94, 192, 152, 0.35)",
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
@@ -781,7 +1490,9 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
                           fontWeight: 700,
                           padding: "0.25rem 0.65rem",
                           borderRadius: "6px",
-                          background: isLight ? "#f1f5f9" : "rgba(255, 255, 255, 0.05)",
+                          background: isLight
+                            ? "#f1f5f9"
+                            : "rgba(255, 255, 255, 0.05)",
                           color: mintColor,
                         }}
                       >
@@ -789,17 +1500,47 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
                       </span>
                     </div>
 
-                    <h3 style={{ fontSize: "1.28rem", fontWeight: 700, marginBottom: "0.75rem" }}>
+                    <h3
+                      style={{
+                        fontSize: "1.28rem",
+                        fontWeight: 700,
+                        marginBottom: "0.75rem",
+                      }}
+                    >
                       {item.title}
                     </h3>
 
-                    <p style={{ color: isLight ? "#475569" : "#cbd5e1", fontSize: "0.98rem", lineHeight: 1.65, fontWeight: 500 }}>
+                    <p
+                      style={{
+                        color: isLight ? "#475569" : "#cbd5e1",
+                        fontSize: "0.98rem",
+                        lineHeight: 1.65,
+                        fontWeight: 500,
+                      }}
+                    >
                       {item.desc}
                     </p>
                   </div>
 
-                  <div style={{ marginTop: "1.5rem", paddingTop: "1rem", borderTop: isLight ? "1px solid #f1f5f9" : "1px solid rgba(255, 255, 255, 0.06)" }}>
-                    <span style={{ fontSize: "0.82rem", fontWeight: 700, color: mintColor, display: "inline-flex", alignItems: "center", gap: "0.4rem" }}>
+                  <div
+                    style={{
+                      marginTop: "1.5rem",
+                      paddingTop: "1rem",
+                      borderTop: isLight
+                        ? "1px solid #f1f5f9"
+                        : "1px solid rgba(255, 255, 255, 0.06)",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontSize: "0.82rem",
+                        fontWeight: 700,
+                        color: mintColor,
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "0.4rem",
+                      }}
+                    >
                       <span>Production Ready</span>
                       <ArrowRight size={14} />
                     </span>
@@ -820,11 +1561,22 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
           padding: "5.5rem 1.5rem",
           position: "relative",
           background: isLight ? "#ffffff" : "rgba(4, 10, 22, 0.95)",
-          borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
+          borderTop: isLight
+            ? "1px solid #e2e8f0"
+            : "1px solid rgba(255, 255, 255, 0.06)",
         }}
       >
-        <div className="container-custom" style={{ maxWidth: "1200px", margin: "0 auto" }}>
-          <div style={{ textAlign: "center", maxWidth: "800px", margin: "0 auto 3rem auto" }}>
+        <div
+          className="container-custom"
+          style={{ maxWidth: "1200px", margin: "0 auto" }}
+        >
+          <div
+            style={{
+              textAlign: "center",
+              maxWidth: "800px",
+              margin: "0 auto 3rem auto",
+            }}
+          >
             <span
               style={{
                 display: "inline-block",
@@ -850,8 +1602,15 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
               Technologies We Deploy
             </h2>
 
-            <p style={{ color: isLight ? "#475569" : "#94a3b8", fontSize: "1.05rem", lineHeight: 1.6 }}>
-              The exact technologies powering our web engineering projects—optimized for responsiveness, SEO, and lightning speed.
+            <p
+              style={{
+                color: isLight ? "#475569" : "#94a3b8",
+                fontSize: "1.05rem",
+                lineHeight: 1.6,
+              }}
+            >
+              The exact technologies powering our web engineering
+              projects—optimized for responsiveness, SEO, and lightning speed.
             </p>
 
             {/* Category Filter Tabs */}
@@ -864,7 +1623,14 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
                 marginTop: "2rem",
               }}
             >
-              {["All", "Frontend", "Backend", "Databases", "CMS", "Cloud & DevOps"].map((cat) => {
+              {[
+                "All",
+                "Frontend",
+                "Backend",
+                "Databases",
+                "CMS",
+                "Cloud & DevOps",
+              ].map((cat) => {
                 const isActive = selectedTechCat === cat;
                 return (
                   <button
@@ -879,11 +1645,19 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
                       fontWeight: isActive ? 700 : 500,
                       background: isActive
                         ? mintColor
-                        : isLight ? "#f1f5f9" : "rgba(255, 255, 255, 0.05)",
-                      color: isActive ? "#ffffff" : isLight ? "#475569" : "#94a3b8",
+                        : isLight
+                          ? "#f1f5f9"
+                          : "rgba(255, 255, 255, 0.05)",
+                      color: isActive
+                        ? "#ffffff"
+                        : isLight
+                          ? "#475569"
+                          : "#94a3b8",
                       border: isActive
                         ? `1px solid ${mintColor}`
-                        : isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
+                        : isLight
+                          ? "1px solid #e2e8f0"
+                          : "1px solid rgba(255, 255, 255, 0.08)",
                       transition: "all 0.2s ease",
                     }}
                   >
@@ -909,7 +1683,9 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
                   padding: "1.25rem 1rem",
                   borderRadius: "14px",
                   background: isLight ? "#f8fafc" : "rgba(10, 20, 36, 0.7)",
-                  border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
+                  border: isLight
+                    ? "1px solid #e2e8f0"
+                    : "1px solid rgba(255, 255, 255, 0.08)",
                   textAlign: "center",
                   transition: "transform 0.2s ease, border-color 0.2s ease",
                   display: "flex",
@@ -918,7 +1694,13 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
                   justifyContent: "center",
                 }}
               >
-                <div style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: "0.25rem" }}>
+                <div
+                  style={{
+                    fontSize: "1.1rem",
+                    fontWeight: 700,
+                    marginBottom: "0.25rem",
+                  }}
+                >
                   {tech.name}
                 </div>
                 <div
@@ -947,11 +1729,22 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
           padding: "5.5rem 1.5rem",
           position: "relative",
           background: isLight ? "#f8fafc" : "#020712",
-          borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
+          borderTop: isLight
+            ? "1px solid #e2e8f0"
+            : "1px solid rgba(255, 255, 255, 0.06)",
         }}
       >
-        <div className="container-custom" style={{ maxWidth: "1200px", margin: "0 auto" }}>
-          <div style={{ textAlign: "center", maxWidth: "860px", margin: "0 auto 3.5rem auto" }}>
+        <div
+          className="container-custom"
+          style={{ maxWidth: "1200px", margin: "0 auto" }}
+        >
+          <div
+            style={{
+              textAlign: "center",
+              maxWidth: "860px",
+              margin: "0 auto 3.5rem auto",
+            }}
+          >
             <span
               style={{
                 display: "inline-block",
@@ -988,8 +1781,11 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
                 fontWeight: 500,
               }}
             >
-              We start with a thorough discovery and planning phase to understand your business goals, target users, and content needs.
-              Based on this, we create a sitemap, wireframes, and high-fidelity UI/UX designs that bring clarity to the user journey and functionality.
+              We start with a thorough discovery and planning phase to
+              understand your business goals, target users, and content needs.
+              Based on this, we create a sitemap, wireframes, and high-fidelity
+              UI/UX designs that bring clarity to the user journey and
+              functionality.
             </p>
           </div>
 
@@ -1011,7 +1807,9 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
                     padding: "2.25rem 2rem",
                     borderRadius: "18px",
                     background: isLight ? "#ffffff" : "rgba(10, 20, 36, 0.65)",
-                    border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
+                    border: isLight
+                      ? "1px solid #e2e8f0"
+                      : "1px solid rgba(255, 255, 255, 0.08)",
                     position: "relative",
                     overflow: "hidden",
                     display: "flex",
@@ -1026,7 +1824,9 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
                       right: "1.25rem",
                       fontSize: "2.5rem",
                       fontWeight: 900,
-                      color: isLight ? "rgba(0,0,0,0.04)" : "rgba(255,255,255,0.04)",
+                      color: isLight
+                        ? "rgba(0,0,0,0.04)"
+                        : "rgba(255,255,255,0.04)",
                       lineHeight: 1,
                     }}
                   >
@@ -1039,8 +1839,12 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
                         width: 44,
                         height: 44,
                         borderRadius: "12px",
-                        background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.15)",
-                        border: isLight ? "1px solid rgba(0, 168, 143, 0.25)" : "1px solid rgba(94, 192, 152, 0.35)",
+                        background: isLight
+                          ? "rgba(0, 168, 143, 0.1)"
+                          : "rgba(94, 192, 152, 0.15)",
+                        border: isLight
+                          ? "1px solid rgba(0, 168, 143, 0.25)"
+                          : "1px solid rgba(94, 192, 152, 0.35)",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
@@ -1051,15 +1855,36 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
                       <StepIcon size={22} />
                     </div>
 
-                    <div style={{ fontSize: "0.78rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em", color: mintColor, marginBottom: "0.35rem" }}>
+                    <div
+                      style={{
+                        fontSize: "0.78rem",
+                        fontWeight: 700,
+                        textTransform: "uppercase",
+                        letterSpacing: "0.04em",
+                        color: mintColor,
+                        marginBottom: "0.35rem",
+                      }}
+                    >
                       Phase {step.step}
                     </div>
 
-                    <h3 style={{ fontSize: "1.28rem", fontWeight: 700, marginBottom: "0.75rem" }}>
+                    <h3
+                      style={{
+                        fontSize: "1.28rem",
+                        fontWeight: 700,
+                        marginBottom: "0.75rem",
+                      }}
+                    >
                       {step.phase}
                     </h3>
 
-                    <p style={{ color: isLight ? "#64748b" : "#94a3b8", fontSize: "0.95rem", lineHeight: 1.65 }}>
+                    <p
+                      style={{
+                        color: isLight ? "#64748b" : "#94a3b8",
+                        fontSize: "0.95rem",
+                        lineHeight: 1.65,
+                      }}
+                    >
                       {step.desc}
                     </p>
                   </div>
@@ -1073,8 +1898,12 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
             style={{
               padding: "1.75rem 2rem",
               borderRadius: "16px",
-              background: isLight ? "rgba(0, 168, 143, 0.05)" : "rgba(94, 192, 152, 0.08)",
-              border: isLight ? "1px solid rgba(0, 168, 143, 0.2)" : "1px solid rgba(94, 192, 152, 0.25)",
+              background: isLight
+                ? "rgba(0, 168, 143, 0.05)"
+                : "rgba(94, 192, 152, 0.08)",
+              border: isLight
+                ? "1px solid rgba(0, 168, 143, 0.2)"
+                : "1px solid rgba(94, 192, 152, 0.25)",
               textAlign: "center",
               maxWidth: "960px",
               margin: "0 auto",
@@ -1089,7 +1918,8 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
                 margin: 0,
               }}
             >
-              Post-launch, we offer continuous monitoring, maintenance, and performance enhancements to ensure long-term value and growth.
+              Post-launch, we offer continuous monitoring, maintenance, and
+              performance enhancements to ensure long-term value and growth.
             </p>
           </div>
         </div>
@@ -1104,11 +1934,22 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
           padding: "5.5rem 1.5rem",
           position: "relative",
           background: isLight ? "#ffffff" : "rgba(4, 10, 22, 0.95)",
-          borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
+          borderTop: isLight
+            ? "1px solid #e2e8f0"
+            : "1px solid rgba(255, 255, 255, 0.06)",
         }}
       >
-        <div className="container-custom" style={{ maxWidth: "1200px", margin: "0 auto" }}>
-          <div style={{ textAlign: "center", maxWidth: "860px", margin: "0 auto 3.5rem auto" }}>
+        <div
+          className="container-custom"
+          style={{ maxWidth: "1200px", margin: "0 auto" }}
+        >
+          <div
+            style={{
+              textAlign: "center",
+              maxWidth: "860px",
+              margin: "0 auto 3.5rem auto",
+            }}
+          >
             <span
               style={{
                 display: "inline-block",
@@ -1136,9 +1977,17 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
             </h2>
 
             {/* Exact Lead from live page */}
-            <p style={{ color: isLight ? "#475569" : "#94a3b8", fontSize: "1.06rem", lineHeight: 1.7 }}>
-              Opash Software brings over 8 years of expertise in delivering tailored digital solutions for Insurance, Fintech, eCommerce,
-              Education, and Real Estate — helping businesses overcome industry challenges and scale confidently.
+            <p
+              style={{
+                color: isLight ? "#475569" : "#94a3b8",
+                fontSize: "1.06rem",
+                lineHeight: 1.7,
+              }}
+            >
+              Opash Software brings over 8 years of expertise in delivering
+              tailored digital solutions for Insurance, Fintech, eCommerce,
+              Education, and Real Estate — helping businesses overcome industry
+              challenges and scale confidently.
             </p>
           </div>
 
@@ -1161,11 +2010,17 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
                     padding: "1.6rem 1.4rem",
                     borderRadius: "16px",
                     background: isSelected
-                      ? isLight ? "rgba(0, 168, 143, 0.08)" : "rgba(94, 192, 152, 0.14)"
-                      : isLight ? "#f8fafc" : "rgba(10, 20, 36, 0.7)",
+                      ? isLight
+                        ? "rgba(0, 168, 143, 0.08)"
+                        : "rgba(94, 192, 152, 0.14)"
+                      : isLight
+                        ? "#f8fafc"
+                        : "rgba(10, 20, 36, 0.7)",
                     border: isSelected
                       ? `1.5px solid ${mintColor}`
-                      : isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
+                      : isLight
+                        ? "1px solid #e2e8f0"
+                        : "1px solid rgba(255, 255, 255, 0.08)",
                     cursor: "pointer",
                     transition: "all 0.2s ease",
                     display: "flex",
@@ -1178,7 +2033,9 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
                       width: 42,
                       height: 42,
                       borderRadius: "12px",
-                      background: isLight ? "rgba(0, 168, 143, 0.12)" : "rgba(94, 192, 152, 0.16)",
+                      background: isLight
+                        ? "rgba(0, 168, 143, 0.12)"
+                        : "rgba(94, 192, 152, 0.16)",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -1189,7 +2046,13 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
                     <IndIcon size={20} />
                   </div>
                   <div>
-                    <h3 style={{ fontSize: "1.05rem", fontWeight: 700, margin: 0 }}>
+                    <h3
+                      style={{
+                        fontSize: "1.05rem",
+                        fontWeight: 700,
+                        margin: 0,
+                      }}
+                    >
                       {ind.name}
                     </h3>
                   </div>
@@ -1216,10 +2079,20 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
           position: "relative",
           overflow: "hidden",
           background: isLight ? "#f8fafc" : "#020712",
-          borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
+          borderTop: isLight
+            ? "1px solid #e2e8f0"
+            : "1px solid rgba(255, 255, 255, 0.06)",
         }}
       >
-        <div className="container-custom" style={{ position: "relative", zIndex: 1, maxWidth: "980px", margin: "0 auto" }}>
+        <div
+          className="container-custom"
+          style={{
+            position: "relative",
+            zIndex: 1,
+            maxWidth: "980px",
+            margin: "0 auto",
+          }}
+        >
           {/* Exact Tagline from Live Page */}
           <div style={{ textAlign: "center", marginBottom: "3rem" }}>
             <span
@@ -1245,7 +2118,9 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
                 marginBottom: "1rem",
               }}
             >
-              Connect with <span style={{ color: mintColor }}>Opash Software</span>’s Expert Development Team Today.
+              Connect with{" "}
+              <span style={{ color: mintColor }}>Opash Software</span>’s Expert
+              Development Team Today.
             </h2>
           </div>
 
@@ -1255,16 +2130,32 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
               borderRadius: "24px",
               padding: "clamp(2rem, 4vw, 3.25rem)",
               background: isLight ? "#ffffff" : "rgba(10, 20, 36, 0.8)",
-              border: isLight ? "1px solid #e2e8f0" : `1px solid rgba(94, 192, 152, 0.25)`,
-              boxShadow: isLight ? "0 10px 40px rgba(0,0,0,0.04)" : "0 20px 60px rgba(0, 0, 0, 0.5)",
+              border: isLight
+                ? "1px solid #e2e8f0"
+                : `1px solid rgba(94, 192, 152, 0.25)`,
+              boxShadow: isLight
+                ? "0 10px 40px rgba(0,0,0,0.04)"
+                : "0 20px 60px rgba(0, 0, 0, 0.5)",
             }}
           >
             <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
-              <h3 style={{ fontSize: "1.75rem", fontWeight: 800, marginBottom: "0.5rem" }}>
+              <h3
+                style={{
+                  fontSize: "1.75rem",
+                  fontWeight: 800,
+                  marginBottom: "0.5rem",
+                }}
+              >
                 Get Your Free Quote Today
               </h3>
-              <p style={{ color: isLight ? "#64748b" : "#94a3b8", fontSize: "0.95rem" }}>
-                Fill out the details below and our team will get back to you with a tailored technical estimate within 24 hours.
+              <p
+                style={{
+                  color: isLight ? "#64748b" : "#94a3b8",
+                  fontSize: "0.95rem",
+                }}
+              >
+                Fill out the details below and our team will get back to you
+                with a tailored technical estimate within 24 hours.
               </p>
             </div>
 
@@ -1285,17 +2176,39 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
                 >
                   <CheckCircle2 size={36} />
                 </div>
-                <h4 style={{ fontSize: "1.5rem", fontWeight: 800, marginBottom: "0.75rem" }}>
+                <h4
+                  style={{
+                    fontSize: "1.5rem",
+                    fontWeight: 800,
+                    marginBottom: "0.75rem",
+                  }}
+                >
                   Quote Request Received!
                 </h4>
-                <p style={{ color: isLight ? "#64748b" : "#94a3b8", fontSize: "0.98rem", maxWidth: "520px", margin: "0 auto 2rem auto" }}>
-                  Thank you, <strong>{formData.name}</strong>. Our web development engineering team will review your specifications and get in touch shortly.
+                <p
+                  style={{
+                    color: isLight ? "#64748b" : "#94a3b8",
+                    fontSize: "0.98rem",
+                    maxWidth: "520px",
+                    margin: "0 auto 2rem auto",
+                  }}
+                >
+                  Thank you, <strong>{formData.name}</strong>. Our web
+                  development engineering team will review your specifications
+                  and get in touch shortly.
                 </p>
                 <button
                   type="button"
                   onClick={() => {
                     setFormSubmitted(false);
-                    setFormData({ name: "", phone: "", email: "", projectType: "Full Time", country: "United States", message: "" });
+                    setFormData({
+                      name: "",
+                      phone: "",
+                      email: "",
+                      projectType: "Full Time",
+                      country: "United States",
+                      message: "",
+                    });
                   }}
                   style={{
                     padding: "0.75rem 1.5rem",
@@ -1312,10 +2225,24 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
               </div>
             ) : (
               <form onSubmit={handleFormSubmit}>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "1.5rem", marginBottom: "1.5rem" }}>
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+                    gap: "1.5rem",
+                    marginBottom: "1.5rem",
+                  }}
+                >
                   {/* Name */}
                   <div>
-                    <label style={{ display: "block", fontSize: "0.85rem", fontWeight: 700, marginBottom: "0.5rem" }}>
+                    <label
+                      style={{
+                        display: "block",
+                        fontSize: "0.85rem",
+                        fontWeight: 700,
+                        marginBottom: "0.5rem",
+                      }}
+                    >
                       Name *
                     </label>
                     <input
@@ -1323,13 +2250,19 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
                       required
                       placeholder="Your Full Name"
                       value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, name: e.target.value })
+                      }
                       style={{
                         width: "100%",
                         padding: "0.85rem 1rem",
                         borderRadius: "10px",
-                        background: isLight ? "#f8fafc" : "rgba(255, 255, 255, 0.04)",
-                        border: isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.1)",
+                        background: isLight
+                          ? "#f8fafc"
+                          : "rgba(255, 255, 255, 0.04)",
+                        border: isLight
+                          ? "1px solid #cbd5e1"
+                          : "1px solid rgba(255, 255, 255, 0.1)",
                         color: isLight ? "#0f172a" : "#ffffff",
                         fontSize: "0.95rem",
                         outline: "none",
@@ -1339,7 +2272,14 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
 
                   {/* Phone */}
                   <div>
-                    <label style={{ display: "block", fontSize: "0.85rem", fontWeight: 700, marginBottom: "0.5rem" }}>
+                    <label
+                      style={{
+                        display: "block",
+                        fontSize: "0.85rem",
+                        fontWeight: 700,
+                        marginBottom: "0.5rem",
+                      }}
+                    >
                       Phone *
                     </label>
                     <input
@@ -1347,13 +2287,19 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
                       required
                       placeholder="+1 (555) 000-0000"
                       value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, phone: e.target.value })
+                      }
                       style={{
                         width: "100%",
                         padding: "0.85rem 1rem",
                         borderRadius: "10px",
-                        background: isLight ? "#f8fafc" : "rgba(255, 255, 255, 0.04)",
-                        border: isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.1)",
+                        background: isLight
+                          ? "#f8fafc"
+                          : "rgba(255, 255, 255, 0.04)",
+                        border: isLight
+                          ? "1px solid #cbd5e1"
+                          : "1px solid rgba(255, 255, 255, 0.1)",
                         color: isLight ? "#0f172a" : "#ffffff",
                         fontSize: "0.95rem",
                         outline: "none",
@@ -1363,7 +2309,14 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
 
                   {/* Email */}
                   <div>
-                    <label style={{ display: "block", fontSize: "0.85rem", fontWeight: 700, marginBottom: "0.5rem" }}>
+                    <label
+                      style={{
+                        display: "block",
+                        fontSize: "0.85rem",
+                        fontWeight: 700,
+                        marginBottom: "0.5rem",
+                      }}
+                    >
                       Email *
                     </label>
                     <input
@@ -1371,13 +2324,19 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
                       required
                       placeholder="name@company.com"
                       value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, email: e.target.value })
+                      }
                       style={{
                         width: "100%",
                         padding: "0.85rem 1rem",
                         borderRadius: "10px",
-                        background: isLight ? "#f8fafc" : "rgba(255, 255, 255, 0.04)",
-                        border: isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.1)",
+                        background: isLight
+                          ? "#f8fafc"
+                          : "rgba(255, 255, 255, 0.04)",
+                        border: isLight
+                          ? "1px solid #cbd5e1"
+                          : "1px solid rgba(255, 255, 255, 0.1)",
                         color: isLight ? "#0f172a" : "#ffffff",
                         fontSize: "0.95rem",
                         outline: "none",
@@ -1387,18 +2346,31 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
 
                   {/* Your Country */}
                   <div>
-                    <label style={{ display: "block", fontSize: "0.85rem", fontWeight: 700, marginBottom: "0.5rem" }}>
+                    <label
+                      style={{
+                        display: "block",
+                        fontSize: "0.85rem",
+                        fontWeight: 700,
+                        marginBottom: "0.5rem",
+                      }}
+                    >
                       Your Country *
                     </label>
                     <select
                       value={formData.country}
-                      onChange={(e) => setFormData({ ...formData, country: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, country: e.target.value })
+                      }
                       style={{
                         width: "100%",
                         padding: "0.85rem 1rem",
                         borderRadius: "10px",
-                        background: isLight ? "#f8fafc" : "rgba(10, 20, 36, 0.95)",
-                        border: isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.1)",
+                        background: isLight
+                          ? "#f8fafc"
+                          : "rgba(10, 20, 36, 0.95)",
+                        border: isLight
+                          ? "1px solid #cbd5e1"
+                          : "1px solid rgba(255, 255, 255, 0.1)",
                         color: isLight ? "#0f172a" : "#ffffff",
                         fontSize: "0.95rem",
                         outline: "none",
@@ -1406,7 +2378,14 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
                       }}
                     >
                       {COUNTRIES_LIST.map((c) => (
-                        <option key={c} value={c} style={{ background: isLight ? "#ffffff" : "#0a1424", color: isLight ? "#0f172a" : "#ffffff" }}>
+                        <option
+                          key={c}
+                          value={c}
+                          style={{
+                            background: isLight ? "#ffffff" : "#0a1424",
+                            color: isLight ? "#0f172a" : "#ffffff",
+                          }}
+                        >
                           {c}
                         </option>
                       ))}
@@ -1416,17 +2395,32 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
 
                 {/* Project Type */}
                 <div style={{ marginBottom: "1.5rem" }}>
-                  <label style={{ display: "block", fontSize: "0.85rem", fontWeight: 700, marginBottom: "0.6rem" }}>
+                  <label
+                    style={{
+                      display: "block",
+                      fontSize: "0.85rem",
+                      fontWeight: 700,
+                      marginBottom: "0.6rem",
+                    }}
+                  >
                     Project Type *
                   </label>
-                  <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "0.75rem",
+                      flexWrap: "wrap",
+                    }}
+                  >
                     {["Hourly", "Part Time", "Full Time"].map((pType) => {
                       const isSelected = formData.projectType === pType;
                       return (
                         <button
                           key={pType}
                           type="button"
-                          onClick={() => setFormData({ ...formData, projectType: pType })}
+                          onClick={() =>
+                            setFormData({ ...formData, projectType: pType })
+                          }
                           style={{
                             padding: "0.65rem 1.4rem",
                             borderRadius: "10px",
@@ -1435,11 +2429,19 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
                             cursor: "pointer",
                             background: isSelected
                               ? mintColor
-                              : isLight ? "#f1f5f9" : "rgba(255, 255, 255, 0.05)",
-                            color: isSelected ? "#ffffff" : isLight ? "#475569" : "#94a3b8",
+                              : isLight
+                                ? "#f1f5f9"
+                                : "rgba(255, 255, 255, 0.05)",
+                            color: isSelected
+                              ? "#ffffff"
+                              : isLight
+                                ? "#475569"
+                                : "#94a3b8",
                             border: isSelected
                               ? `1px solid ${mintColor}`
-                              : isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.1)",
+                              : isLight
+                                ? "1px solid #cbd5e1"
+                                : "1px solid rgba(255, 255, 255, 0.1)",
                             transition: "all 0.2s ease",
                           }}
                         >
@@ -1452,7 +2454,14 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
 
                 {/* Message */}
                 <div style={{ marginBottom: "2rem" }}>
-                  <label style={{ display: "block", fontSize: "0.85rem", fontWeight: 700, marginBottom: "0.5rem" }}>
+                  <label
+                    style={{
+                      display: "block",
+                      fontSize: "0.85rem",
+                      fontWeight: 700,
+                      marginBottom: "0.5rem",
+                    }}
+                  >
                     Message *
                   </label>
                   <textarea
@@ -1460,13 +2469,19 @@ export default function WebDevelopmentPageClient({ service }: WebDevelopmentPage
                     rows={4}
                     placeholder="Tell us about your web project, requirements, target goals, or timeline..."
                     value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, message: e.target.value })
+                    }
                     style={{
                       width: "100%",
                       padding: "0.85rem 1rem",
                       borderRadius: "10px",
-                      background: isLight ? "#f8fafc" : "rgba(255, 255, 255, 0.04)",
-                      border: isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.1)",
+                      background: isLight
+                        ? "#f8fafc"
+                        : "rgba(255, 255, 255, 0.04)",
+                      border: isLight
+                        ? "1px solid #cbd5e1"
+                        : "1px solid rgba(255, 255, 255, 0.1)",
                       color: isLight ? "#0f172a" : "#ffffff",
                       fontSize: "0.95rem",
                       outline: "none",

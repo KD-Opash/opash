@@ -5,7 +5,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { BlogPost, blogsData } from '@/data/blogs';
 import { 
-  Sparkles, 
   ArrowRight, 
   Search, 
   Clock, 
@@ -158,7 +157,7 @@ export default function BlogsPageClient() {
                 color: isLight ? '#008a75' : '#2dd4bf',
               }}
             >
-              <Sparkles size={16} />
+              <BookOpen size={16} />
               <span>Engineering Insights &bull; Technical Guides &bull; Production Architectures</span>
             </div>
           </div>

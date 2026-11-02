@@ -31,5 +31,5 @@ export const metadata: Metadata = {
 
 export default function ApiIntegrationPage() {
   const service = servicesData.find((s) => s.slug === "api-integration")!;
-  return <ServiceDetailTemplate service={service} />;
+  return <ServiceDetailTemplate service={service} heroVideoSrc="/videos/video6.mp4" />;
 }

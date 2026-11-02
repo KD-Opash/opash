@@ -50,7 +50,6 @@ function StatCounter({
 
 import {
   ArrowRight,
-  Sparkles,
   CheckCircle2,
   ShieldCheck,
   Star,
@@ -216,7 +215,7 @@ export default function HomePage() {
                 marginBottom: "1rem",
               }}
             >
-              <Sparkles size={15} />
+              <Award size={15} />
               <span>Real World Client Proof</span>
             </div>
 

@@ -10,7 +10,6 @@ import {
   Clock, 
   Lock, 
   Headphones, 
-  Sparkles, 
   ArrowRight, 
   CheckCircle2, 
   Building2, 
@@ -131,7 +130,7 @@ const PROGRESS_MILESTONES: ProgressMilestone[] = [
     description:
       "Focusing on AI-driven applications, DevOps automation, and enterprise-grade security. Positioned as a trusted digital partner for global innovation, LLM orchestration, and cloud-first scale.",
     category: "Achievement",
-    icon: Sparkles,
+    icon: Zap,
     accentColor: "#F59E0B",
     glowColor: "rgba(245, 158, 11, 0.45)",
     accentRgb: "245, 158, 11",
@@ -289,7 +288,7 @@ export default function CompanyPageClient() {
                 border: isLight ? "1px solid rgba(0, 168, 143, 0.25)" : "1px solid rgba(45, 212, 191, 0.25)",
               }}
             >
-              <Sparkles size={15} />
+              <ShieldCheck size={15} />
               <span>SURAT HQ • 8+ YEARS EXPERTISE • 100% IP OWNERSHIP</span>
             </div>
           </div>
@@ -612,7 +611,7 @@ export default function CompanyPageClient() {
                 marginBottom: "0.85rem",
               }}
             >
-              <Sparkles size={15} />
+              <Award size={15} />
               <span>Why Choose Opash Software</span>
             </div>
 

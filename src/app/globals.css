@@ -1,4 +1,12 @@
 @font-face {
+  font-family: 'Acthirey';
+  src: url('/fonts/Acthirey.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
   font-family: 'Prime Serif';
   src: url('/fonts/prime-serif/PrimeSerif.ttf') format('truetype');
   font-weight: 100 900;
@@ -6,8 +14,95 @@
   font-display: swap;
 }
 
+/* Acthirey Modern Editorial Serif Animations */
+@keyframes acthireyShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes acthireyPulseGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 16px rgba(94, 192, 152, 0.35));
+  }
+  50% {
+    filter: drop-shadow(0 0 34px rgba(94, 192, 152, 0.75)) drop-shadow(0 0 50px rgba(45, 212, 191, 0.45));
+  }
+}
+
+@keyframes acthireyGhostFloat {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.42;
+  }
+  50% {
+    transform: translate(-50%, -50.8%) scale(1.02);
+    opacity: 0.65;
+  }
+}
+
+.acthirey-font {
+  font-family: var(--font-acthirey), 'Acthirey', 'Playfair Display', serif;
+}
+
+.hero-gradient-development {
+  display: inline-block;
+  background-image: linear-gradient(90deg, #5EC098 0%, #2dd4bf 50%, #5EC098 100%);
+  background-size: 100% auto;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+}
+
+[data-theme="light"] .hero-gradient-development {
+  background-image: linear-gradient(90deg, #00A88F 0%, #0284c7 50%, #00A88F 100%) !important;
+  background-size: 100% auto !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  filter: drop-shadow(0 0 16px rgba(0, 168, 143, 0.28)) !important;
+}
+
+/* Hanging Metric Glass Cards (Reference Image 1) */
+@keyframes hangGlowPulse {
+  0%, 100% {
+    box-shadow: 0 0 10px #5EC098, 0 0 22px rgba(45, 212, 191, 0.75);
+  }
+  50% {
+    box-shadow: 0 0 14px #ffffff, 0 0 28px rgba(94, 192, 152, 0.95), 0 0 38px rgba(45, 212, 191, 0.6);
+  }
+}
+
+.hanging-card-node {
+  animation: hangGlowPulse 3s ease-in-out infinite;
+}
+
+.hanging-metric-card {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease !important;
+}
+
+.hanging-metric-card:hover {
+  transform: translateY(-8px) scale(1.025) !important;
+}
+
+[data-theme="dark"] .hanging-metric-card:hover {
+  box-shadow: 0 30px 65px -10px rgba(0, 0, 0, 0.85), 0 0 35px -5px rgba(94, 192, 152, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.25) !important;
+  border-color: rgba(94, 192, 152, 0.6) !important;
+}
+
+[data-theme="light"] .hanging-metric-card:hover {
+  box-shadow: 0 26px 55px -10px rgba(0, 168, 143, 0.25), 0 6px 18px rgba(0, 0, 0, 0.06), inset 0 1px 2px #ffffff !important;
+  border-color: rgba(0, 168, 143, 0.5) !important;
+}
+
 :root,
 [data-theme="dark"] {
+  --font-acthirey: 'Acthirey', 'Playfair Display', Georgia, serif;
   --font-prime-serif: 'Prime Serif', Georgia, serif;
   --bg-primary: #060b13;
   --bg-secondary: #0a121e;

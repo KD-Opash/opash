@@ -14,7 +14,7 @@ import {
   Clock,
   Send,
   CheckCircle2,
-  Sparkles,
+  Zap,
   ArrowRight,
   UploadCloud,
   HeartHandshake,
@@ -29,7 +29,6 @@ import {
   Cpu,
   Layers,
   Terminal,
-  Zap,
   Target,
   Users2,
   Check,
@@ -643,7 +642,7 @@ export default function CareerPageClient() {
                     marginBottom: '1.25rem',
                   }}
                 >
-                  {perkIcons[perk.icon] || <Sparkles size={20} className="text-cyan-400" />}
+                  {perkIcons[perk.icon] || <Zap size={20} className="text-cyan-400" />}
                 </div>
 
                 <h3

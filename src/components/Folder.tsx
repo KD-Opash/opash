@@ -5,7 +5,6 @@ import {
   Folder as FolderIcon, 
   FileText, 
   ChevronRight, 
-  Sparkles, 
   Layers, 
   ArrowUpRight, 
   Zap, 

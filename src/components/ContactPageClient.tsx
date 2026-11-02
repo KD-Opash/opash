@@ -15,7 +15,6 @@ import {
   Globe,
   ShieldCheck,
   MessageSquare,
-  Sparkles,
   CheckCircle2,
   Send,
   Building2,

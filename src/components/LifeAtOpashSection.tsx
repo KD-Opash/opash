@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useTheme } from "./ThemeProvider";
-import { ChevronLeft, ChevronRight, X, Maximize2, Sparkles, HeartHandshake } from "lucide-react";
+import { ChevronLeft, ChevronRight, X, Maximize2, HeartHandshake } from "lucide-react";
 
 interface CulturePhoto {
   src: string;

@@ -1,7 +1,7 @@
 import React from "react";
 import { Metadata } from "next";
 import { servicesData } from "@/data/services";
-import ServiceDetailTemplate from "@/components/ServiceDetailTemplate";
+import MobileDevelopmentPageClient from "@/components/MobileDevelopmentPageClient";
 
 export const metadata: Metadata = {
   title: "Mobile App Dev | Opash Software",
@@ -31,5 +31,6 @@ export const metadata: Metadata = {
 
 export default function MobileDevelopmentPage() {
   const service = servicesData.find((s) => s.slug === "mobile-development")!;
-  return <ServiceDetailTemplate service={service} />;
+  return <MobileDevelopmentPageClient service={service} />;
 }
+

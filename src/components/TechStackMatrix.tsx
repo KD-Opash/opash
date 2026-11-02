@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { techStackData } from "@/data/technologies";
-import { CheckCircle2, Sparkles, Terminal } from "lucide-react";
+import { CheckCircle2, Cpu, Terminal } from "lucide-react";
 
 export default function TechStackMatrix() {
   const [activeTab, setActiveTab] = useState(techStackData[0].id);
@@ -51,7 +51,7 @@ export default function TechStackMatrix() {
       {/* Category Header */}
       <div style={{ marginBottom: "2rem" }}>
         <div className="flex items-center gap-2" style={{ color: "var(--color-cyan)", fontSize: "0.85rem", fontWeight: 700, textTransform: "uppercase" }}>
-          <Sparkles size={16} />
+          <Cpu size={16} />
           <span>{activeCategory.name} Capabilities</span>
         </div>
         <p style={{ color: "var(--text-secondary)", fontSize: "1.05rem", marginTop: "0.4rem" }}>

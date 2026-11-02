@@ -9,7 +9,6 @@ import {
   Clock, 
   Calendar, 
   User, 
-  Sparkles, 
   ArrowRight, 
   Share2, 
   CheckCircle2 

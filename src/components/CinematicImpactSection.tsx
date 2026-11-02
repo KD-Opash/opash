@@ -8,7 +8,6 @@ import {
   Briefcase,
   Clock,
   Award,
-  Sparkles,
   Zap,
   Activity,
   ShieldCheck,

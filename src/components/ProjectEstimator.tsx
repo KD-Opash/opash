@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import { 
   Calculator, 
-  Sparkles, 
   Check, 
   ArrowRight, 
   Layers, 

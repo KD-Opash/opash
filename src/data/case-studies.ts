@@ -1,23 +1,28 @@
-                export interface CaseStudy {
-                  id: string;
-                  slug: string;
-                  client: string;
-                  domain: string;
-                  website: string;
-                  headline: string;
-                  summary: string;
-                  challenge: string;
-                  solution: string;
-                  results: { metric: string; label: string }[];
-                  technologies: string[];
-                  testimonial: {
-                    quote: string;
-                    author: string;
-                    role: string;
-                    company: string;
-                  };
-                  accentColor: string;
-                }
+export interface CaseStudy {
+  id: string;
+  slug: string;
+  client: string;
+  domain: string;
+  website: string;
+  headline: string;
+  summary: string;
+  challenge: string;
+  solution: string;
+  results: { metric: string; label: string }[];
+  technologies: string[];
+  testimonial: {
+    quote: string;
+    author: string;
+    role: string;
+    company: string;
+  };
+  accentColor: string;
+  image?: string;
+  featured?: boolean;
+  category?: string;
+  description?: string;
+  completedYear?: string;
+}
 
                 export const caseStudiesData: CaseStudy[] = [
                   {

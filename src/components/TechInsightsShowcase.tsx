@@ -6,7 +6,6 @@ import Link from "next/link";
 import {
   ArrowRight,
   ArrowUpRight,
-  Sparkles,
   BookOpen,
   Clock,
   Layers,
@@ -391,7 +390,7 @@ export function TechInsightsShowcase() {
                         boxShadow: "0 2px 8px rgba(0, 255, 209, 0.3)",
                       }}
                     >
-                      <Sparkles size={11} />
+                      <BookOpen size={11} />
                       <span>Featured Paper</span>
                     </span>
                   </div>

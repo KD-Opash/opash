@@ -10,7 +10,6 @@ import {
   CheckCircle2, 
   ChevronRight, 
   ArrowRight,
-  Sparkles,
   Lock,
   FileCheck2,
   Users2,
@@ -226,7 +225,7 @@ export default function EnterpriseDeliveryLifecycle({ isLightMode = false }: Ent
               marginBottom: '0.85rem',
             }}
           >
-            <Sparkles size={16} />
+            <ShieldCheck size={16} />
             <span>Verified Production Governance &bull; Fixed-Sprint Deliverables</span>
           </div>
 

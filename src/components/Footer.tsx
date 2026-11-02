@@ -11,7 +11,6 @@ import {
   Award, 
   Star,
   Send,
-  Sparkles,
   ChevronRight,
   Globe,
   Clock,
@@ -157,7 +156,6 @@ export default function Footer() {
                   }}
                 />
                 <span>Ready To Build Something Great?</span>
-                <Sparkles size={13} />
               </div>
 
               <h3
@@ -449,7 +447,7 @@ export default function Footer() {
             <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "0.85rem" }}>
               {[
                 { href: "/company", label: "About Opash Software" },
-                { href: "/portfolio", label: "Verified Case Studies" },
+                { href: "/portfolio", label: "Portfolio & Case Studies" },
                 { href: "/blogs", label: "Tech Insights & Architecture Guides" },
                 { href: "/career", label: "Careers & Open Positions" },
                 { href: "/get-a-quote", label: "Interactive Cost Estimator" },

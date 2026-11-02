@@ -135,7 +135,7 @@ export const companyData = {
       badge: "Next-Gen AI",
       title: "AI/ML Solutions & Cloud-First Future",
       description: "Integrated Generative AI, LLM orchestration, predictive analytics, and automated DevOps CI/CD into core deliverables, empowering clients to lead their industries.",
-      iconName: "Sparkles",
+      iconName: "Zap",
     },
   ] as Milestone[],
 

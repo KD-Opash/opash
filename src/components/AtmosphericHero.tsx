@@ -3,7 +3,6 @@
 import React from "react";
 import Link from "next/link";
 import { 
-  Sparkles, 
   Star, 
   MessageSquare, 
   ShieldCheck, 
@@ -145,7 +144,6 @@ export default function AtmosphericHero({
             href={primaryCta?.href || "/get-a-quote"}
             className="hero-valerio-primary-btn"
           >
-            <Sparkles size={18} />
             <span>{primaryCta?.label || "Start Project Now"}</span>
             <ArrowRight size={16} />
           </Link>

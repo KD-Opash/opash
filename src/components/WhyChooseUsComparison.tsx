@@ -12,7 +12,6 @@ import {
   XCircle,
   AlertTriangle,
   ArrowRight,
-  Sparkles,
   ChevronRight,
   TrendingUp,
   Layers,
@@ -298,7 +297,6 @@ export function WhyChooseUsComparison() {
               }}
             />
             <span>2026 Engineering Architecture Audit</span>
-            <Sparkles size={14} style={{ color: "#ff5c7a" }} />
           </div>
 
           <h2

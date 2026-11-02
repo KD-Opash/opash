@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, Sparkles, Layers, Cpu, Cloud, Smartphone, Network } from "lucide-react";
+import { ArrowRight, Layers, Cpu, Cloud, Smartphone, Network } from "lucide-react";
 import { ActivePhraseState } from "./LettersInMotionVisual";
 
 export interface ServicePhraseDefinition {

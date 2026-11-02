@@ -87,7 +87,7 @@ const RING_SIZES = [
 ];
 const TAU = Math.PI * 2;
 
-const SHARD_SHADER = `
+const SHARD_SHADER: any = `
 struct Frame {
   view: vec4f,
   eye: vec4f,
@@ -529,7 +529,7 @@ fn fs_edge(in: VertexOut) -> FragmentOut {
 }
 `;
 
-const LAYER_BLUR_SHADER = `
+const LAYER_BLUR_SHADER: any = `
 struct Spread { texel: vec4f }
 @group(0) @binding(0) var source: texture_2d<f32>;
 @group(0) @binding(1) var linearSampler: sampler;
@@ -551,7 +551,7 @@ fn fs_main(@location(0) uv: vec2f) -> @location(0) vec4f {
 }
 `;
 
-const SHADOW_SHADER = `
+const SHADOW_SHADER: any = `
 struct Shade {
   info: vec4f,
   more: vec4f,
@@ -588,7 +588,7 @@ fn fs_main(@builtin(position) pixel: vec4f) -> @location(0) vec4f {
 }
 `;
 
-const COMPOSITE_SHADER = `
+const COMPOSITE_SHADER: any = `
 struct Blend { info: vec4f }
 @group(0) @binding(0) var source: texture_2d<f32>;
 @group(0) @binding(1) var linearSampler: sampler;
@@ -600,7 +600,7 @@ fn fs_main(@location(0) uv: vec2f) -> @location(0) vec4f {
 }
 `;
 
-const MARKER_SHADER = `
+const MARKER_SHADER: any = `
 struct Frame {
   view: vec4f,
   eye: vec4f,
@@ -696,7 +696,7 @@ fn fs_main(in: MarkerOut) -> @location(0) vec4f {
 }
 `;
 
-const PREFILTER_SHADER = `
+const PREFILTER_SHADER: any = `
 struct Bloom { texel: vec4f }
 @group(0) @binding(0) var source: texture_2d<f32>;
 @group(0) @binding(1) var linearSampler: sampler;
@@ -716,7 +716,7 @@ fn fs_main(@location(0) uv: vec2f) -> @location(0) vec4f {
 }
 `;
 
-const DOWNSAMPLE_SHADER = `
+const DOWNSAMPLE_SHADER: any = `
 struct Bloom { texel: vec4f }
 @group(0) @binding(0) var source: texture_2d<f32>;
 @group(0) @binding(1) var linearSampler: sampler;
@@ -734,7 +734,7 @@ fn fs_main(@location(0) uv: vec2f) -> @location(0) vec4f {
 }
 `;
 
-const BLUR_SHADER = `
+const BLUR_SHADER: any = `
 struct Bloom { texel: vec4f }
 @group(0) @binding(0) var source: texture_2d<f32>;
 @group(0) @binding(1) var linearSampler: sampler;
@@ -751,7 +751,7 @@ fn fs_main(@location(0) uv: vec2f) -> @location(0) vec4f {
 }
 `;
 
-const FINISH_SHADER = `
+const FINISH_SHADER: any = `
 struct Finish {
   info: vec4f,
   paper: vec4f,

@@ -32,5 +32,5 @@ export const metadata: Metadata = {
 
 export default function QaTestingPage() {
   const service = servicesData.find((s) => s.slug === "qa-testing")!;
-  return <ServiceDetailTemplate service={service} />;
+  return <ServiceDetailTemplate service={service} heroVideoSrc="/videos/video7.mp4" />;
 }

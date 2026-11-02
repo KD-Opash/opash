@@ -297,7 +297,7 @@ export function FeaturedSuccessStories() {
                 transition: "all 0.25s ease",
               }}
             >
-              <span>Explore All Case Studies</span>
+              <span>Explore All Portfolio Projects</span>
               <ArrowRight size={15} />
             </Link>
           </div>

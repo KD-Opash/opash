@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import { caseStudiesData, CaseStudy } from "@/data/case-studies";
 import { 
-  Sparkles, 
   ExternalLink, 
   ArrowRight, 
   CheckCircle2, 
@@ -22,7 +21,8 @@ import {
   Globe,
   SlidersHorizontal,
   ChevronRight,
-  Award
+  Award,
+  RefreshCw
 } from "lucide-react";
 import Folder, { FolderItem } from "@/components/Folder";
 import { useTheme } from "./ThemeProvider";
@@ -32,10 +32,44 @@ export default function PortfolioPageClient() {
   const { theme } = useTheme();
   const isLight = theme === "light";
 
+  // Dynamic portfolio items from Admin Panel / NextHRMS API
+  const [portfolioList, setPortfolioList] = useState<CaseStudy[]>(caseStudiesData);
+  const [loading, setLoading] = useState(false);
+  const [dataSource, setDataSource] = useState<"admin" | "fallback">("fallback");
+
   // Filter & Search states
   const [selectedDomain, setSelectedDomain] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTabs, setActiveTabs] = useState<Record<string, "impact" | "solution" | "stack" | "testimonial">>({});
+
+  // Fetch dynamic portfolio data from Admin API on mount
+  useEffect(() => {
+    let isSubscribed = true;
+    const fetchPortfolio = async () => {
+      try {
+        setLoading(true);
+        const res = await fetch("/api/portfolio/public");
+        if (res.ok) {
+          const json = await res.json();
+          if (json.success && Array.isArray(json.data) && json.data.length > 0 && isSubscribed) {
+            setPortfolioList(json.data);
+            if (json.source === "admin") {
+              setDataSource("admin");
+            }
+          }
+        }
+      } catch {
+        // Keeps high-fidelity fallback dataset cleanly
+      } finally {
+        if (isSubscribed) setLoading(false);
+      }
+    };
+
+    fetchPortfolio();
+    return () => {
+      isSubscribed = false;
+    };
+  }, []);
 
   // 4 Core Production Domain Folders with verified deliverable KPIs
   const domainFolders = [
@@ -153,16 +187,30 @@ export default function PortfolioPageClient() {
     },
   ];
 
-  const domains = [
-    { label: "All Projects", count: caseStudiesData.length, value: "All" },
-    { label: "HealthTech & Care", count: 1, value: "HealthTech" },
-    { label: "Industrial & Supply Chain", count: 1, value: "Industrial" },
-    { label: "FinTech & Legal", count: 2, value: "FinTech" },
-    { label: "Creative Media", count: 1, value: "Creative" },
-  ];
+  const domains = useMemo(() => {
+    // Collect all primary domains
+    const baseCats = [
+      { label: "All Projects", value: "All" },
+      { label: "HealthTech & Care", value: "HealthTech" },
+      { label: "Industrial & Supply Chain", value: "Industrial" },
+      { label: "FinTech & Legal", value: "FinTech" },
+      { label: "Creative Media", value: "Creative" },
+      { label: "Civic & WebTech", value: "Civic" },
+    ];
+
+    return baseCats.map((cat) => {
+      if (cat.value === "All") {
+        return { ...cat, count: portfolioList.length };
+      }
+      const count = portfolioList.filter((item) =>
+        item.domain.toLowerCase().includes(cat.value.toLowerCase())
+      ).length;
+      return { ...cat, count };
+    });
+  }, [portfolioList]);
 
   const filteredCaseStudies = useMemo(() => {
-    return caseStudiesData.filter((cs) => {
+    return portfolioList.filter((cs) => {
       const matchesDomain =
         selectedDomain === "All" ||
         cs.domain.toLowerCase().includes(selectedDomain.toLowerCase());
@@ -179,7 +227,7 @@ export default function PortfolioPageClient() {
 
       return matchesDomain && matchesSearch;
     });
-  }, [selectedDomain, searchQuery]);
+  }, [portfolioList, selectedDomain, searchQuery]);
 
   const setCardTab = (cardId: string, tab: "impact" | "solution" | "stack" | "testimonial") => {
     setActiveTabs((prev) => ({ ...prev, [cardId]: tab }));
@@ -227,7 +275,7 @@ export default function PortfolioPageClient() {
                 color: isLight ? "#008a75" : "#2dd4bf",
               }}
             >
-              <Sparkles size={16} />
+              <ShieldCheck size={16} />
               <span>Verified Enterprise Deliverables &bull; 75+ Production Platforms</span>
             </div>
           </div>
@@ -710,29 +758,77 @@ export default function PortfolioPageClient() {
                       </h3>
                     </div>
 
-                    <a
-                      href={cs.website}
-                      target="_blank"
-                      rel="noreferrer"
+                    <div style={{ display: "flex", alignItems: "center", gap: "0.65rem", flexWrap: "wrap" }}>
+                      <Link
+                        href={`/portfolio/${cs.slug}`}
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "0.45rem",
+                          padding: "0.6rem 1.2rem",
+                          borderRadius: "10px",
+                          background: isLight
+                            ? "linear-gradient(135deg, rgba(0, 168, 143, 0.12) 0%, rgba(0, 187, 171, 0.18) 100%)"
+                            : "linear-gradient(135deg, rgba(0, 187, 171, 0.18) 0%, rgba(45, 212, 191, 0.22) 100%)",
+                          border: `1px solid ${isLight ? "rgba(0, 168, 143, 0.3)" : "rgba(45, 212, 191, 0.35)"}`,
+                          color: isLight ? "#008a75" : "#2dd4bf",
+                          fontWeight: 700,
+                          fontSize: "0.88rem",
+                          textDecoration: "none",
+                          flexShrink: 0,
+                          transition: "all 0.2s ease",
+                        }}
+                      >
+                        <span>Deep-Dive Case Study</span>
+                        <ArrowRight size={14} />
+                      </Link>
+
+                      <a
+                        href={cs.website}
+                        target="_blank"
+                        rel="noreferrer"
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "0.45rem",
+                          padding: "0.6rem 1.1rem",
+                          borderRadius: "10px",
+                          background: isLight ? "#f1f5f9" : "rgba(255, 255, 255, 0.06)",
+                          border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.1)",
+                          color: isLight ? "#475569" : "#cbd5e1",
+                          fontWeight: 600,
+                          fontSize: "0.88rem",
+                          textDecoration: "none",
+                          flexShrink: 0,
+                        }}
+                      >
+                        <span>Live Site</span>
+                        <ExternalLink size={14} />
+                      </a>
+                    </div>
+                  </div>
+
+                  {/* Optional Featured Image from Admin */}
+                  {cs.image && (
+                    <div
                       style={{
-                        display: "inline-flex",
-                        alignItems: "center",
-                        gap: "0.45rem",
-                        padding: "0.6rem 1.2rem",
-                        borderRadius: "10px",
-                        background: isLight ? "#f1f5f9" : "rgba(255, 255, 255, 0.06)",
-                        border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.1)",
-                        color: isLight ? "#008a75" : "#2dd4bf",
-                        fontWeight: 700,
-                        fontSize: "0.88rem",
-                        textDecoration: "none",
-                        flexShrink: 0,
+                        position: "relative",
+                        width: "100%",
+                        height: "260px",
+                        borderRadius: "16px",
+                        overflow: "hidden",
+                        marginBottom: "1.75rem",
+                        border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
+                        backgroundColor: isLight ? "#f8fafc" : "#020712",
                       }}
                     >
-                      <span>Visit Live Platform</span>
-                      <ExternalLink size={14} />
-                    </a>
-                  </div>
+                      <img
+                        src={cs.image.startsWith("/uploads/") ? `${process.env.NEXT_PUBLIC_HRMS_API_URL || 'http://localhost:3001'}${cs.image}` : cs.image}
+                        alt={cs.headline}
+                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                      />
+                    </div>
+                  )}
 
                   {/* Quantitative Telemetry Metrics Bar */}
                   <div

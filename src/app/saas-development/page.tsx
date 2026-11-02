@@ -1,7 +1,7 @@
 import React from "react";
 import { Metadata } from "next";
 import { servicesData } from "@/data/services";
-import ServiceDetailTemplate from "@/components/ServiceDetailTemplate";
+import SaasDevelopmentPageClient from "@/components/SaasDevelopmentPageClient";
 
 export const metadata: Metadata = {
   title: "SaaS Development Services | Opash Software",
@@ -30,5 +30,6 @@ export const metadata: Metadata = {
 
 export default function SaasDevelopmentPage() {
   const service = servicesData.find((s) => s.slug === "saas-development")!;
-  return <ServiceDetailTemplate service={service} />;
+  return <SaasDevelopmentPageClient service={service} />;
 }
+

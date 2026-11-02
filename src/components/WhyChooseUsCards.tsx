@@ -8,7 +8,6 @@ import {
   Clock,
   Headphones,
   CheckCircle2,
-  Sparkles,
   ArrowUpRight,
   Code2,
   GitBranch,
@@ -75,7 +74,7 @@ export function WhyChooseUsCards() {
               marginBottom: "1rem",
             }}
           >
-            <Sparkles size={14} />
+            <Award size={14} />
             <span>Why Leading Founders Partner With Us</span>
           </div>
 

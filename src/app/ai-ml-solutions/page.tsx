@@ -1,7 +1,7 @@
 import React from "react";
 import { Metadata } from "next";
 import { servicesData } from "@/data/services";
-import ServiceDetailTemplate from "@/components/ServiceDetailTemplate";
+import AiMlPageClient from "@/components/AiMlPageClient";
 
 export const metadata: Metadata = {
   title: "AI/ML Solution Dev | Opash Software",
@@ -31,5 +31,6 @@ export const metadata: Metadata = {
 
 export default function AiMlSolutionsPage() {
   const service = servicesData.find((s) => s.slug === "ai-ml-solutions")!;
-  return <ServiceDetailTemplate service={service} />;
+  return <AiMlPageClient service={service} />;
 }
+

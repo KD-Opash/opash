@@ -10,7 +10,6 @@ import {
   ShieldCheck,
   Building,
   CheckCircle2,
-  Sparkles,
   Award,
   TrendingUp,
   MapPin,
@@ -31,6 +30,7 @@ export interface TestimonialItem {
   rating: number;
   quote: string;
   avatarText: string;
+  avatarImage?: string;
   metric: string;
   metricLabel: string;
   industry: string;
@@ -167,13 +167,35 @@ export const TESTIMONIALS_DATA: TestimonialItem[] = [
 export default function TestimonialsSlider() {
   const { theme } = useTheme();
   const isLight = theme === "light";
+  const [items, setItems] = useState<TestimonialItem[]>(TESTIMONIALS_DATA);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [viewMode, setViewMode] = useState<"spotlight" | "grid">("spotlight");
   const [isPaused, setIsPaused] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  const total = TESTIMONIALS_DATA.length;
-  const current = TESTIMONIALS_DATA[currentIndex];
+  useEffect(() => {
+    let isMounted = true;
+    const fetchLiveTestimonials = async () => {
+      try {
+        const res = await fetch("/api/testimonials/public");
+        if (res.ok) {
+          const json = await res.json();
+          if (isMounted && json && json.success && Array.isArray(json.data) && json.data.length > 0) {
+            setItems(json.data);
+          }
+        }
+      } catch (err) {
+        console.warn("Could not load dynamic testimonials, using fallback:", err);
+      }
+    };
+    fetchLiveTestimonials();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const total = items.length;
+  const current = items[currentIndex] || items[0] || TESTIMONIALS_DATA[0];
 
   const prevSlide = () => {
     setCurrentIndex((prev) => (prev === 0 ? total - 1 : prev - 1));
@@ -220,7 +242,7 @@ export default function TestimonialsSlider() {
           }}
           role="tablist"
         >
-          {TESTIMONIALS_DATA.map((item, idx) => {
+          {items.map((item, idx) => {
             const isActive = idx === currentIndex && viewMode === "spotlight";
             return (
               <button
@@ -583,7 +605,7 @@ export default function TestimonialsSlider() {
                         width: "54px",
                         height: "54px",
                         borderRadius: "16px",
-                        background: `linear-gradient(135deg, ${current.accent}, #0284c7)`,
+                        background: current.avatarImage ? "transparent" : `linear-gradient(135deg, ${current.accent}, #0284c7)`,
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
@@ -592,9 +614,18 @@ export default function TestimonialsSlider() {
                         fontSize: "1.25rem",
                         boxShadow: `0 4px 18px rgba(${current.accentRgb}, 0.4)`,
                         flexShrink: 0,
+                        overflow: "hidden",
                       }}
                     >
-                      {current.avatarText}
+                      {current.avatarImage ? (
+                        <img
+                          src={current.avatarImage}
+                          alt={current.author}
+                          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                        />
+                      ) : (
+                        current.avatarText
+                      )}
                     </div>
 
                     <div>
@@ -811,7 +842,7 @@ export default function TestimonialsSlider() {
             gap: "1.5rem",
           }}
         >
-          {TESTIMONIALS_DATA.map((item, idx) => (
+          {items.map((item, idx) => (
             <div
               key={item.id}
               style={{
@@ -897,16 +928,26 @@ export default function TestimonialsSlider() {
                       width: "40px",
                       height: "40px",
                       borderRadius: "12px",
-                      background: `linear-gradient(135deg, ${item.accent}, #0284c7)`,
+                      background: item.avatarImage ? "transparent" : `linear-gradient(135deg, ${item.accent}, #0284c7)`,
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
                       color: "#ffffff",
                       fontWeight: 800,
                       fontSize: "0.95rem",
+                      flexShrink: 0,
+                      overflow: "hidden",
                     }}
                   >
-                    {item.avatarText}
+                    {item.avatarImage ? (
+                      <img
+                        src={item.avatarImage}
+                        alt={item.author}
+                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                      />
+                    ) : (
+                      item.avatarText
+                    )}
                   </div>
                   <div>
                     <div style={{ fontSize: "0.95rem", fontWeight: 700 }}>{item.author}</div>
@@ -949,7 +990,7 @@ export default function TestimonialsSlider() {
             marginTop: "1.75rem",
           }}
         >
-          {TESTIMONIALS_DATA.map((item, idx) => {
+          {items.map((item, idx) => {
             const isActive = idx === currentIndex;
             return (
               <button

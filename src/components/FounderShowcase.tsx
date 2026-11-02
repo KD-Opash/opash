@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
-  Sparkles,
   ArrowRight,
   ShieldCheck,
   CheckCircle2,
@@ -187,7 +186,6 @@ export function FounderShowcase() {
               }}
             />
             <span>Executive Leadership & Vision</span>
-            <Sparkles size={14} style={{ color: "#10b981" }} />
           </div>
 
           <h2

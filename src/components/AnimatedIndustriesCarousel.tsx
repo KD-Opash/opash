@@ -7,7 +7,6 @@ import {
   Pause,
   ChevronLeft,
   ChevronRight,
-  Sparkles,
   ArrowUpRight,
   ShieldCheck,
   CheckCircle2,
@@ -531,7 +530,7 @@ export function AnimatedIndustriesCarousel() {
               marginBottom: "1rem",
             }}
           >
-            <Sparkles size={15} />
+            <Cpu size={15} />
             <span>Interactive Domain Architecture</span>
           </div>
 

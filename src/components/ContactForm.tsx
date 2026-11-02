@@ -8,7 +8,6 @@ import {
   Clock,
   Phone,
   Mail,
-  Sparkles,
   MessageSquare,
   ArrowRight,
   User,
@@ -204,7 +203,6 @@ export default function ContactForm() {
                 }}
               />
               <span>Direct Engineering Channel</span>
-              <Sparkles size={13} />
             </div>
 
             <h3

@@ -6,7 +6,6 @@ import { useTheme } from '@/components/ThemeProvider';
 import QuoteCreativeBackdrop from '@/components/QuoteCreativeBackdrop';
 import { 
   Calculator, 
-  Sparkles, 
   Check, 
   CheckCircle2, 
   Clock, 
@@ -313,7 +312,7 @@ export default function GetAQuotePageClient() {
                 color: isLight ? '#008a75' : '#2dd4bf',
               }}
             >
-              <Sparkles size={16} />
+              <ShieldCheck size={16} />
               <span>Transparent Sprint Pricing &bull; 0% Surprise Fees &bull; 100% IP Ownership</span>
             </div>
           </div>

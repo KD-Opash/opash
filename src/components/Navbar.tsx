@@ -8,7 +8,6 @@ import {
   Menu, 
   X, 
   ArrowRight, 
-  Sparkles, 
   Code2, 
   Globe, 
   Smartphone, 
@@ -278,7 +277,7 @@ export default function Navbar() {
             href="/portfolio"
             className={`corporate-link ${pathname === "/portfolio" ? "active" : ""}`}
           >
-            Case Studies
+            Portfolio
           </Link>
 
           <Link
@@ -311,8 +310,8 @@ export default function Navbar() {
           <ThemeToggle />
 
           <Link href="/get-a-quote" className="corporate-cta-btn">
-            <Sparkles size={15} />
             <span>Get a Quote</span>
+            <ArrowRight size={14} />
           </Link>
 
           {/* Mobile Hamburger Toggle */}
@@ -430,7 +429,7 @@ export default function Navbar() {
               onClick={() => setMobileMenuOpen(false)}
               className="corporate-mobile-link"
             >
-              Case Studies
+              Portfolio
             </Link>
 
             <Link
@@ -466,8 +465,8 @@ export default function Navbar() {
                 className="corporate-cta-btn"
                 style={{ width: "100%", justifyContent: "center", padding: "0.85rem" }}
               >
-                <Sparkles size={16} />
-                <span>Estimate Project Cost</span>
+                <span style={{ marginRight: "0.4rem" }}>Estimate Project Cost</span>
+                <ArrowRight size={15} />
               </Link>
             </div>
           </div>

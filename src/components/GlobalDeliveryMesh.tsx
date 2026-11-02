@@ -11,7 +11,6 @@ import {
   Clock,
   Activity,
   Layers,
-  Sparkles,
   Server,
   Lock,
   ChevronRight,

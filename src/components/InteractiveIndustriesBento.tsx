@@ -3,7 +3,6 @@
 import React, { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Sparkles,
   Search,
   X,
   ArrowUpRight,
@@ -224,7 +223,7 @@ export function InteractiveIndustriesBento() {
         {/* ========================================================================= */}
         <div className="industries-bento-header text-center">
           <div className="industries-bento-badge">
-            <Sparkles size={13} />
+            <Layers size={13} />
             <span>INDUSTRY SPECIALIZATIONS</span>
           </div>
 

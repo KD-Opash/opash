@@ -17,7 +17,6 @@ import {
   Check,
   Clock,
   Users,
-  Sparkles,
   RefreshCw,
   FileCode,
   Lock,
@@ -25,6 +24,7 @@ import {
   Activity,
   Award,
   ChevronDown,
+  ChevronRight,
   Globe2,
   Radio,
   Workflow,
@@ -54,6 +54,7 @@ import { useTheme } from "./ThemeProvider";
 import { ServiceDetail } from "@/data/services";
 import WhyChooseUsCards from "@/components/WhyChooseUsCards";
 import RecognisedBy from "@/components/RecognisedBy";
+import { motion } from "framer-motion";
 
 function AiMlDeviceIllustration() {
   return (
@@ -540,7 +541,19 @@ function getHireDevTechStack(isLight: boolean) {
 
 interface ServiceDetailTemplateProps {
   service: ServiceDetail;
+  heroVideoSrc?: string;
 }
+
+const SERVICE_HERO_VIDEOS: Record<string, string> = {
+  "custom-software-development": "/videos/herovideo.mp4",
+  "web-development": "/videos/video2.mp4",
+  "mobile-development": "/videos/video3.mp4",
+  "ai-ml-solutions": "/videos/video4.mp4",
+  "saas-development": "/videos/video5.mp4",
+  "api-integration": "/videos/video6.mp4",
+  "qa-testing": "/videos/video7.mp4",
+  "hire-developers": "/videos/herovideo.mp4",
+};
 
 // -----------------------------------------------------------------------------
 // Service Hero Background Images Map
@@ -832,9 +845,199 @@ function categorizeTech(name: string): string {
   return "Engineering Tools";
 }
 
-export default function ServiceDetailTemplate({ service }: ServiceDetailTemplateProps) {
+function getServiceFeatureMeta(serviceSlug: string, item: { title: string; desc: string }, index: number) {
+  const titleLower = item.title.toLowerCase();
+
+  // 1. API Integration Mapping
+  if (serviceSlug === "api-integration") {
+    if (titleLower.includes("third-party") || titleLower.includes("payment")) {
+      return {
+        icon: CreditCard,
+        badge: "PAYMENTS & GATEWAYS",
+        chips: ["Stripe", "PayPal", "Twilio", "SendGrid", "Razorpay", "Zoom APIs"],
+        metric: "Idempotent Webhooks & Retries",
+      };
+    }
+    if (titleLower.includes("crm") || titleLower.includes("erp")) {
+      return {
+        icon: Database,
+        badge: "ENTERPRISE SYNC",
+        chips: ["Salesforce", "Zoho CRM", "HubSpot", "SAP ERP", "Odoo Suite"],
+        metric: "Bi-Directional Real-Time Sync",
+      };
+    }
+    if (titleLower.includes("cloud")) {
+      return {
+        icon: Cloud,
+        badge: "MULTI-CLOUD PIPELINES",
+        chips: ["AWS Lambda", "Google Cloud", "Firebase", "Azure Event Grid"],
+        metric: "Event-Driven Serverless Flow",
+      };
+    }
+    if (titleLower.includes("social") || titleLower.includes("marketing")) {
+      return {
+        icon: Globe2,
+        badge: "OMNICHANNEL FEEDS",
+        chips: ["Facebook Graph", "Instagram API", "LinkedIn", "Mailchimp", "Google Ads"],
+        metric: "Real-Time Audience & Ad Sync",
+      };
+    }
+    if (titleLower.includes("custom api")) {
+      return {
+        icon: Cpu,
+        badge: "CORE ARCHITECTURE",
+        chips: ["RESTful APIs", "GraphQL", "FastAPI / Node", "OpenAPI 3.1", "gRPC"],
+        metric: "Sub-45ms Median Latency",
+      };
+    }
+    if (titleLower.includes("authentication") || titleLower.includes("security") || titleLower.includes("webhook")) {
+      return {
+        icon: Lock,
+        badge: "ZERO-TRUST SECURITY",
+        chips: ["OAuth 2.0", "JWT Tokens", "Rate Limiting", "HMAC Signatures", "mTLS"],
+        metric: "OWASP API Security Top 10",
+      };
+    }
+  }
+
+  // 2. QA & Testing Mapping
+  if (serviceSlug === "qa-testing") {
+    if (titleLower.includes("manual")) {
+      return {
+        icon: Search,
+        badge: "EXPLORATORY & UI",
+        chips: ["Functional QA", "Regression Runs", "Exploratory", "Usability", "Pixel Audit"],
+        metric: "100% User Journey Verification",
+      };
+    }
+    if (titleLower.includes("automated")) {
+      return {
+        icon: Bot,
+        badge: "CI/CD AUTOMATION",
+        chips: ["Playwright", "Cypress", "Selenium", "GitHub Actions", "Parallel Suites"],
+        metric: "85%+ Automated Test Coverage",
+      };
+    }
+    if (titleLower.includes("performance")) {
+      return {
+        icon: Activity,
+        badge: "HIGH LOAD & STRESS",
+        chips: ["Apache JMeter", "k6 Load Testing", "Gatling", "Stress Profiling", "Spike Tests"],
+        metric: "10,000+ Concurrent Virtual Users",
+      };
+    }
+    if (titleLower.includes("security")) {
+      return {
+        icon: ShieldCheck,
+        badge: "VULNERABILITY DEFENSE",
+        chips: ["OWASP Top 10", "Penetration Testing", "Vulnerability Scan", "SQLi / XSS Defense"],
+        metric: "Zero-Defect Security Sign-Off",
+      };
+    }
+    if (titleLower.includes("cross-browser") || titleLower.includes("device")) {
+      return {
+        icon: Laptop,
+        badge: "MULTI-PLATFORM LAB",
+        chips: ["Chrome / Safari / Firefox", "iOS Real Devices", "Android Lab", "Responsive Breakpoints"],
+        metric: "500+ Device & Viewport Matrix",
+      };
+    }
+    if (titleLower.includes("api")) {
+      return {
+        icon: Network,
+        badge: "CONTRACT & SCHEMA",
+        chips: ["Postman Collections", "Swagger Specs", "Payload Schema", "Edge Case Chaos", "REST/GraphQL"],
+        metric: "100% API Schema Reliability",
+      };
+    }
+  }
+
+  // 3. Hire Developers Mapping
+  if (serviceSlug === "hire-developers") {
+    if (titleLower.includes("frontend")) {
+      return {
+        icon: Code2,
+        badge: "UI / UX ARCHITECTS",
+        chips: ["React.js", "Next.js 15", "Angular", "Svelte", "TailwindCSS", "TypeScript"],
+        metric: "Pixel-Perfect Responsive UIs",
+      };
+    }
+    if (titleLower.includes("backend")) {
+      return {
+        icon: Server,
+        badge: "CORE ARCHITECTURE",
+        chips: ["Node.js", "Python / Django", "FastAPI", "Go", "Express", "Postgres"],
+        metric: "High-Throughput Concurrency",
+      };
+    }
+    if (titleLower.includes("full stack")) {
+      return {
+        icon: Layers,
+        badge: "END-TO-END SQUADS",
+        chips: ["MERN Stack", "MEAN Stack", "Next.js + Postgres", "GraphQL APIs", "Prisma"],
+        metric: "Rapid MVP-to-Scale Delivery",
+      };
+    }
+    if (titleLower.includes("mobile")) {
+      return {
+        icon: Smartphone,
+        badge: "NATIVE & CROSS-PLATFORM",
+        chips: ["Flutter", "React Native", "iOS Swift", "Android Kotlin", "Offline-First"],
+        metric: "60-120 FPS Fluid Experiences",
+      };
+    }
+    if (titleLower.includes("devops")) {
+      return {
+        icon: Cloud,
+        badge: "CLOUD & INFRASTRUCTURE",
+        chips: ["Kubernetes", "Docker", "AWS / Azure", "Terraform", "CI/CD Pipelines"],
+        metric: "99.99% Availability & Auto-Scale",
+      };
+    }
+    if (titleLower.includes("qa") || titleLower.includes("testing")) {
+      return {
+        icon: TestTube2,
+        badge: "TEST AUTOMATION",
+        chips: ["Playwright", "Cypress", "Selenium", "JMeter", "Test Strategy", "k6"],
+        metric: "Defect-Free Sprint Cycles",
+      };
+    }
+    if (titleLower.includes("ai") || titleLower.includes("ml")) {
+      return {
+        icon: BrainCircuit,
+        badge: "APPLIED AI & MLOPS",
+        chips: ["Python", "PyTorch", "TensorFlow", "RAG & LLMs", "Vector DBs", "MLOps"],
+        metric: "Enterprise GenAI Integration",
+      };
+    }
+  }
+
+  // Generic fallback
+  const iconList = [Code2, Server, Database, Cloud, ShieldCheck, Zap, Workflow, Terminal];
+  const SelectedIcon = iconList[index % iconList.length];
+  const derivedChips = item.desc
+    .split(/[,–-]/)
+    .map((s) => s.trim())
+    .filter((s) => s.length > 1 && s.length < 24)
+    .slice(0, 5);
+
+  return {
+    icon: SelectedIcon,
+    badge: `CAPABILITY 0${index + 1}`,
+    chips: derivedChips.length > 0 ? derivedChips : ["Enterprise Ready", "High Availability", "Production Grade"],
+    metric: "100% Production Ready Quality",
+  };
+}
+
+export default function ServiceDetailTemplate({
+  service,
+  heroVideoSrc,
+}: ServiceDetailTemplateProps) {
   const { theme } = useTheme();
   const isLight = theme === "light";
+
+  const activeVideoSrc =
+    heroVideoSrc || SERVICE_HERO_VIDEOS[service.slug] || "/videos/herovideo.mp4";
 
   // Brand Color Tokens
   const mintColor = isLight ? "#00A88F" : "#5EC098";
@@ -874,8 +1077,6 @@ export default function ServiceDetailTemplate({ service }: ServiceDetailTemplate
     ],
   };
 
-  const heroBgImage = SERVICE_HERO_IMAGES[service.slug] || "/images/services/custom_software_3d.jpg";
-
   // Categorize technologies
   const techCategories = useMemo(() => {
     const cats = new Set<string>();
@@ -903,6 +1104,8 @@ export default function ServiceDetailTemplate({ service }: ServiceDetailTemplate
   });
   const [formSubmitted, setFormSubmitted] = useState<boolean>(false);
   const [formLoading, setFormLoading] = useState<boolean>(false);
+  const [heroConsoleTab, setHeroConsoleTab] = useState<"architecture" | "telemetry" | "devops">("architecture");
+  const [activeTier, setActiveTier] = useState<number>(0);
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -912,6 +1115,211 @@ export default function ServiceDetailTemplate({ service }: ServiceDetailTemplate
       setFormSubmitted(true);
     }, 700);
   };
+
+  const titleConfig = useMemo(() => {
+    if (service.slug === "api-integration") {
+      return { main: "API Integration", accent: "Services", ghost: "APIS" };
+    }
+    if (service.slug === "qa-testing") {
+      return { main: "QA & Testing", accent: "Services", ghost: "QA" };
+    }
+    if (service.slug === "hire-developers") {
+      return { main: "Hire Dedicated", accent: "Developers", ghost: "TALENT" };
+    }
+    const words = (service.heroHeadline || service.title || "").trim().split(/\s+/);
+    if (words.length <= 1) {
+      return { main: words[0] || "", accent: "", ghost: (words[0] || "SERVICES").toUpperCase() };
+    }
+    const accent = words.pop() || "";
+    const main = words.join(" ");
+    return { main, accent, ghost: (words[0] || "OPASH").toUpperCase() };
+  }, [service.slug, service.heroHeadline, service.title]);
+
+  // Alternating hero background images (Image 1 vs Image 2) across service pages:
+  // 6. api-integration -> Image 2 (web-development-hero-bg.png)
+  // 7. qa-testing -> Image 1 (custom-software-hero-bg.png)
+  // 8. hire-developers -> Image 2 (web-development-hero-bg.png)
+  const isImage2 = service.slug === "api-integration" || service.slug === "hire-developers";
+  const heroBgImage = isImage2
+    ? "/images/web-development-hero-bg.png"
+    : "/images/custom-software-hero-bg.png";
+
+  const consoleConfig = useMemo(() => {
+    if (service.slug === "api-integration") {
+      return {
+        tag: "opash.engine // api-gateway.v3",
+        status: "GATEWAY OPTIMAL",
+        layers: [
+          {
+            name: "API Gateway & Edge Routing",
+            stack: "Kong, Envoy, Apigee, Express Gateway, NGINX",
+            metric: "< 8ms Routing",
+            icon: Network,
+            color: mintColor,
+          },
+          {
+            name: "Microservices Mesh & Event Bus",
+            stack: "Node.js, Go, Apache Kafka, RabbitMQ, Redis Pub/Sub",
+            metric: "35k req/s",
+            icon: Cpu,
+            color: isLight ? "#0284c7" : "#38bdf8",
+          },
+          {
+            name: "Protocol Adapters & Legacy Connectors",
+            stack: "REST, GraphQL, gRPC, Webhooks, SOAP Bridges",
+            metric: "100% Zero-Loss",
+            icon: Database,
+            color: isLight ? "#7c3aed" : "#a78bfa",
+          },
+        ],
+        telemetry: [
+          { label: "Request Throughput", val: "35,000 req/s", sub: "Distributed Edge Cluster", color: mintColor, icon: Zap },
+          { label: "Gateway Routing Latency", val: "< 8ms", sub: "Global Edge Micro-Proxies", color: isLight ? "#0284c7" : "#38bdf8", icon: Server },
+          { label: "Protocol Security", val: "mTLS + OAuth2", sub: "Zero-Trust Perimeter", color: isLight ? "#7c3aed" : "#a78bfa", icon: ShieldCheck },
+          { label: "Error Budget SLA", val: "99.99%", sub: "Automated Circuit Breaking", color: isLight ? "#f59e0b" : "#fbbf24", icon: Clock },
+        ],
+        pipeline: [
+          { step: "01", title: "OpenAPI 3.0 & Swagger Spec Mapping", status: "Completed", icon: FileCode },
+          { step: "02", title: "Microservices Gateway & Proxy Sprints", status: "Active Sprint", icon: RefreshCw },
+          { step: "03", title: "Distributed Stress & Chaos Testing", status: "Continuous", icon: Shield },
+          { step: "04", title: "Production Traffic Migration & Canary", status: "Ready", icon: Rocket },
+        ],
+        footerLeft: "Routing: 8ms • Success Rate: 99.99%",
+        footerTechCount: "25+ Techs",
+      };
+    }
+
+    if (service.slug === "qa-testing") {
+      return {
+        tag: "opash.engine // testops-core.v3",
+        status: "TEST SUITE GREEN",
+        layers: [
+          {
+            name: "End-to-End Test Automation",
+            stack: "Playwright, Cypress, Selenium, Appium, WebdriverIO",
+            metric: "100% Headless",
+            icon: TestTube2,
+            color: mintColor,
+          },
+          {
+            name: "API & Contract Verification",
+            stack: "Postman, REST-Assured, Newman, Pact, Swagger",
+            metric: "0ms Regression",
+            icon: CheckSquare,
+            color: isLight ? "#0284c7" : "#38bdf8",
+          },
+          {
+            name: "Security, SAST & Load Performance",
+            stack: "JMeter, k6, OWASP ZAP, SonarQube, Burp Suite",
+            metric: "Zero Vulns",
+            icon: ShieldCheck,
+            color: isLight ? "#7c3aed" : "#a78bfa",
+          },
+        ],
+        telemetry: [
+          { label: "Automated Pass Rate", val: "99.8%", sub: "5,400+ Automated Test Cases", color: mintColor, icon: Zap },
+          { label: "Regression Run Time", val: "< 12 mins", sub: "Parallel Distributed Workers", color: isLight ? "#0284c7" : "#38bdf8", icon: Server },
+          { label: "Production Defect Leak", val: "< 0.1%", sub: "Strict Deployment Gates", color: isLight ? "#7c3aed" : "#a78bfa", icon: ShieldCheck },
+          { label: "Test Coverage SLA", val: "95%+", sub: "Unit, Integration & E2E", color: isLight ? "#f59e0b" : "#fbbf24", icon: Clock },
+        ],
+        pipeline: [
+          { step: "01", title: "Test Strategy & Coverage Matrix", status: "Completed", icon: FileCode },
+          { step: "02", title: "Automation Framework Scripting", status: "Active Sprint", icon: RefreshCw },
+          { step: "03", title: "CI/CD Quality Gate Integration", status: "Continuous", icon: Shield },
+          { step: "04", title: "Release Sign-Off & Performance Report", status: "Ready", icon: Rocket },
+        ],
+        footerLeft: "Coverage: 95%+ • Regression: < 12m",
+        footerTechCount: "20+ Techs",
+      };
+    }
+
+    if (service.slug === "hire-developers") {
+      return {
+        tag: "opash.engine // talent-core.v3",
+        status: "ENGINEERS ACTIVE",
+        layers: [
+          {
+            name: "Top 3% Vetted Senior Engineers",
+            stack: "React, Next.js, Node.js, Python, Flutter, Go, Cloud",
+            metric: "Top 3% Vetted",
+            icon: UserCheck,
+            color: mintColor,
+          },
+          {
+            name: "Seamless Agile Team Integration",
+            stack: "Jira, GitHub, Slack, Daily Standups, CI/CD Workflows",
+            metric: "48h Onboard",
+            icon: Users,
+            color: isLight ? "#0284c7" : "#38bdf8",
+          },
+          {
+            name: "Timezone-Aligned Dedicated Sprints",
+            stack: "Direct US/UK/EMEA/APAC working hour coverage",
+            metric: "4-8h Overlap",
+            icon: Clock,
+            color: isLight ? "#7c3aed" : "#a78bfa",
+          },
+        ],
+        telemetry: [
+          { label: "Vetting Acceptance", val: "Top 3%", sub: "Multi-Tier Technical Assessment", color: mintColor, icon: Zap },
+          { label: "Daily Timezone Overlap", val: "4-8 Hours", sub: "Live Real-Time Collaboration", color: isLight ? "#0284c7" : "#38bdf8", icon: Server },
+          { label: "Client Retention Rate", val: "98.4%", sub: "Long-Term Dedicated Partnerships", color: isLight ? "#7c3aed" : "#a78bfa", icon: ShieldCheck },
+          { label: "Deployment Ramp-Up", val: "< 48 Hours", sub: "Instant Sprint Day-1 Productivity", color: isLight ? "#f59e0b" : "#fbbf24", icon: Clock },
+        ],
+        pipeline: [
+          { step: "01", title: "Domain Scoping & Tech Stack Matching", status: "Completed", icon: FileCode },
+          { step: "02", title: "Handpicked Senior Candidate Interviews", status: "Active Sprint", icon: RefreshCw },
+          { step: "03", title: "NDA, Security Compliance & Setup", status: "Continuous", icon: Shield },
+          { step: "04", title: "Sprint Day-1 Kickoff & Daily Standups", status: "Ready", icon: Rocket },
+        ],
+        footerLeft: "Onboarding: < 48h • Retention: 98.4%",
+        footerTechCount: "30+ Techs",
+      };
+    }
+
+    // Generic fallback for any other service slug
+    return {
+      tag: `opash.engine // ${service.slug}.v3`,
+      status: "SYSTEM OPTIMAL",
+      layers: [
+        {
+          name: "High-Performance Modern Frontend",
+          stack: "Next.js 15, React 19, TypeScript, Tailwind CSS",
+          metric: "Sub-Second TTI",
+          icon: Globe2,
+          color: mintColor,
+        },
+        {
+          name: "Scalable Microservices & Business Logic",
+          stack: "Node.js, Python, PostgreSQL, Redis, REST APIs",
+          metric: "< 14ms Latency",
+          icon: Cpu,
+          color: isLight ? "#0284c7" : "#38bdf8",
+        },
+        {
+          name: "Cloud Infrastructure & Resilient Storage",
+          stack: "AWS, Docker, Kubernetes, CI/CD Pipeline",
+          metric: "99.99% Uptime",
+          icon: Database,
+          color: isLight ? "#7c3aed" : "#a78bfa",
+        },
+      ],
+      telemetry: [
+        { label: "System Availability", val: "99.99%", sub: "Automated Multi-Zone Failover", color: mintColor, icon: Zap },
+        { label: "Response Velocity", val: "< 14ms", sub: "Low-Latency Edge Proxy", color: isLight ? "#0284c7" : "#38bdf8", icon: Server },
+        { label: "Code & IP Rights", val: "100%", sub: "Exclusive Client Ownership", color: isLight ? "#7c3aed" : "#a78bfa", icon: ShieldCheck },
+        { label: "Sprint Shipping Cadence", val: "14-Day Delivery", sub: "Continuous Bi-Weekly Releases", color: isLight ? "#f59e0b" : "#fbbf24", icon: Clock },
+      ],
+      pipeline: [
+        { step: "01", title: "Architecture Blueprint & Requirements", status: "Completed", icon: FileCode },
+        { step: "02", title: "Agile Development Sprints", status: "Active Sprint", icon: RefreshCw },
+        { step: "03", title: "Quality Assurance & Security Audits", status: "Continuous", icon: Shield },
+        { step: "04", title: "High-Availability Production Launch", status: "Ready", icon: Rocket },
+      ],
+      footerLeft: "Latency: 12ms • Uptime: 99.99%",
+      footerTechCount: `${service.technologies.length}+ Techs`,
+    };
+  }, [service, isLight, mintColor]);
 
   return (
     <div
@@ -935,7 +1343,26 @@ export default function ServiceDetailTemplate({ service }: ServiceDetailTemplate
           overflow: "hidden",
         }}
       >
-        {/* Background Image Layer with Adaptive Gradient Masks */}
+        {/* Subtle Ambient Tech Dot Grid (Pure Static CSS) */}
+        <div
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            inset: 0,
+            backgroundImage: isLight
+              ? "radial-gradient(rgba(0, 168, 143, 0.12) 1px, transparent 1px)"
+              : "radial-gradient(rgba(94, 192, 152, 0.12) 1px, transparent 1px)",
+            backgroundSize: "36px 36px",
+            maskImage:
+              "radial-gradient(ellipse 80% 65% at 50% 35%, black 40%, transparent 85%)",
+            WebkitMaskImage:
+              "radial-gradient(ellipse 80% 65% at 50% 35%, black 40%, transparent 85%)",
+            pointerEvents: "none",
+            zIndex: 0,
+          }}
+        />
+
+        {/* Cinematic Hero Video Background */}
         <div
           aria-hidden="true"
           style={{
@@ -946,242 +1373,665 @@ export default function ServiceDetailTemplate({ service }: ServiceDetailTemplate
             zIndex: 0,
           }}
         >
-          <img
-            src={heroBgImage}
-            alt=""
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="auto"
             style={{
               position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              minWidth: "100%",
+              minHeight: "100%",
+              width: "auto",
+              height: "auto",
               objectFit: "cover",
-              objectPosition: "center 25%",
-              opacity: isLight ? 0.12 : 0.28,
-              filter: isLight ? "saturate(1.15) contrast(1.05)" : "saturate(1.3) brightness(0.9)",
-              transform: "scale(1.04)",
-              maskImage: "linear-gradient(to bottom, black 0%, black 55%, rgba(0, 0, 0, 0.3) 85%, transparent 100%)",
-              WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 55%, rgba(0, 0, 0, 0.3) 85%, transparent 100%)",
+              opacity: isLight ? 0.35 : 0.45,
             }}
-          />
-
+          >
+            <source src={activeVideoSrc} type="video/mp4" />
+          </video>
+          {/* Subtle gradient overlay to ensure text contrast and bottom fade */}
           <div
             style={{
               position: "absolute",
               inset: 0,
               background: isLight
-                ? `
-                  radial-gradient(ellipse 80% 65% at 50% 30%, rgba(248, 250, 252, 0.45) 0%, rgba(248, 250, 252, 0.88) 60%, #f8fafc 100%),
-                  linear-gradient(to bottom, rgba(248, 250, 252, 0.15) 0%, rgba(248, 250, 252, 0.95) 85%, #f8fafc 100%)
-                `
-                : `
-                  radial-gradient(ellipse 80% 65% at 50% 30%, rgba(4, 10, 23, 0.35) 0%, rgba(4, 10, 23, 0.88) 60%, #020712 100%),
-                  linear-gradient(to bottom, rgba(2, 7, 18, 0.15) 0%, rgba(2, 7, 18, 0.95) 85%, #020712 100%)
-                `,
-            }}
-          />
-
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              background: isLight
-                ? `
-                  radial-gradient(ellipse 70% 50% at 50% 15%, rgba(0, 168, 143, 0.14) 0%, transparent 65%),
-                  radial-gradient(circle 450px at 85% 30%, rgba(71, 109, 154, 0.10) 0%, transparent 70%)
-                `
-                : `
-                  radial-gradient(ellipse 70% 50% at 50% 15%, rgba(94, 192, 152, 0.20) 0%, transparent 65%),
-                  radial-gradient(circle 450px at 85% 30%, rgba(71, 109, 154, 0.15) 0%, transparent 70%)
-                `,
-              pointerEvents: "none",
+                ? "linear-gradient(180deg, rgba(255, 255, 255, 0.72) 0%, rgba(255, 255, 255, 0.85) 60%, #ffffff 100%)"
+                : "linear-gradient(180deg, rgba(2, 7, 18, 0.65) 0%, rgba(2, 7, 18, 0.85) 60%, #020712 100%)",
             }}
           />
         </div>
 
-        {/* Seamless Hero Bottom Feather Blender */}
+        {/* Soft Ambient Radial Bloom (Pure Static CSS) */}
         <div
           aria-hidden="true"
           style={{
             position: "absolute",
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: "180px",
+            top: 0,
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: "100%",
+            maxWidth: "1100px",
+            height: "460px",
             background: isLight
-              ? "linear-gradient(to bottom, transparent 0%, rgba(248, 250, 252, 0.85) 60%, #f8fafc 100%)"
-              : "linear-gradient(to bottom, transparent 0%, rgba(2, 7, 18, 0.85) 60%, #020712 100%)",
+              ? "radial-gradient(ellipse 70% 60% at 50% 0%, rgba(0, 168, 143, 0.12) 0%, rgba(2, 132, 199, 0.05) 45%, transparent 75%)"
+              : "radial-gradient(ellipse 70% 60% at 50% 0%, rgba(94, 192, 152, 0.15) 0%, rgba(56, 189, 248, 0.06) 45%, transparent 75%)",
+            filter: "blur(60px)",
+            pointerEvents: "none",
+            zIndex: 0,
+          }}
+        />
+
+        {/* Crisp Top Horizon Highlight Line */}
+        <div
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            top: 0,
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: "min(92%, 1000px)",
+            height: "1px",
+            background: isLight
+              ? "linear-gradient(90deg, transparent 0%, rgba(0, 168, 143, 0.3) 30%, rgba(45, 212, 191, 0.5) 50%, rgba(0, 168, 143, 0.3) 70%, transparent 100%)"
+              : "linear-gradient(90deg, transparent 0%, rgba(94, 192, 152, 0.35) 30%, rgba(45, 212, 191, 0.6) 50%, rgba(94, 192, 152, 0.35) 70%, transparent 100%)",
             pointerEvents: "none",
             zIndex: 1,
           }}
         />
 
-        <div className="container-custom" style={{ position: "relative", zIndex: 1, maxWidth: "1240px", margin: "0 auto" }}>
-          {/* Eyebrow Label */}
-          <div style={{ display: "flex", justifyContent: "center", marginBottom: "1.25rem" }}>
-            <div
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.55rem",
-                fontSize: "0.85rem",
-                fontWeight: 700,
-                letterSpacing: "0.06em",
-                textTransform: "uppercase",
-                color: mintColor,
-              }}
-            >
-              <Sparkles size={16} />
-              <span>{service.badge} &bull; 8+ Years Expertise &bull; 100% IP Ownership</span>
-            </div>
-          </div>
+        {/* Responsive CSS for Split Hero */}
+        <style jsx>{`
+          .service-hero-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2.75rem;
+            align-items: center;
+            margin-bottom: 3.5rem;
+          }
+          @media (min-width: 1024px) {
+            .service-hero-grid {
+              grid-template-columns: 1.15fr 0.85fr;
+              gap: 3.5rem;
+            }
+          }
+        `}</style>
 
-          {/* Main Headline */}
-          <div style={{ textAlign: "center", maxWidth: "980px", margin: "0 auto" }}>
-            <h1
-              style={{
-                fontSize: "clamp(2.4rem, 5vw, 4.2rem)",
-                fontWeight: 800,
-                lineHeight: 1.12,
-                letterSpacing: "-0.03em",
-                marginBottom: "1.5rem",
-              }}
-            >
-              {service.heroHeadline || service.title}
-            </h1>
-
-            {/* Verbatim Lead Paragraph 1 */}
-            <p
-              style={{
-                fontSize: "clamp(1.05rem, 1.8vw, 1.25rem)",
-                lineHeight: 1.65,
-                color: isLight ? "#334155" : "#cbd5e1",
-                maxWidth: "860px",
-                margin: "0 auto 1.25rem auto",
-                fontWeight: 450,
-              }}
-            >
-              {service.heroSubheadline || service.shortDesc}
-            </p>
-
-            {/* Verbatim Lead Paragraph 2 */}
-            {service.heroParagraph2 && (
-              <p
-                style={{
-                  fontSize: "clamp(0.95rem, 1.5vw, 1.1rem)",
-                  lineHeight: 1.65,
-                  color: isLight ? "#64748b" : "#94a3b8",
-                  maxWidth: "840px",
-                  margin: "0 auto 2.5rem auto",
-                }}
-              >
-                {service.heroParagraph2}
-              </p>
-            )}
-
-            {/* CTAs */}
-            <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                gap: "1rem",
-                justifyContent: "center",
-                alignItems: "center",
-                marginBottom: "3.5rem",
-              }}
-            >
-              <Link
-                href="#quote-section"
-                className="btn-shimmer"
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "0.6rem",
-                  padding: "0.95rem 2rem",
-                  borderRadius: "12px",
-                  fontWeight: 700,
-                  fontSize: "1rem",
-                  color: "#ffffff",
-                  background: `linear-gradient(135deg, ${mintColor} 0%, #0284c7 100%)`,
-                  boxShadow: isLight
-                    ? "0 10px 25px -5px rgba(0, 168, 143, 0.4)"
-                    : "0 10px 25px -5px rgba(94, 192, 152, 0.3)",
-                  textDecoration: "none",
-                }}
-              >
-                <span>Get Free Consultation</span>
-                <ArrowRight size={18} />
-              </Link>
-
-              <Link
-                href="#tech-stack"
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "0.6rem",
-                  padding: "0.95rem 1.8rem",
-                  borderRadius: "12px",
-                  fontWeight: 600,
-                  fontSize: "1rem",
-                  color: isLight ? "#0f172a" : "#ffffff",
-                  background: isLight ? "rgba(255, 255, 255, 0.9)" : "rgba(255, 255, 255, 0.05)",
-                  border: isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.12)",
-                  backdropFilter: "blur(10px)",
-                  textDecoration: "none",
-                }}
-              >
-                <span>Explore Technologies</span>
-                <Terminal size={17} />
-              </Link>
-            </div>
-
-            {/* 4 Telemetry Metrics Cards */}
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-                gap: "1rem",
-                maxWidth: "960px",
-                margin: "0 auto",
-              }}
-            >
-              {service.metrics.map((metric, idx) => (
-                <div
-                  key={idx}
+        <div className="container-custom" style={{ position: "relative", zIndex: 2, maxWidth: "1320px", margin: "0 auto", width: "100%" }}>
+          {/* ================================================================= */}
+          {/* NEW HERO SPLIT-COLUMN LAYOUT (Not Centered)                       */}
+          {/* ================================================================= */}
+          <div className="service-hero-grid">
+            {/* ── LEFT COLUMN: Headline, Positioning, CTAs & Trust Badges ─── */}
+            <div style={{ textAlign: "left" }}>
+              {/* Monumental Headline */}
+              <div style={{ margin: "0 0 1.35rem 0" }}>
+                <h1
                   style={{
-                    padding: "1.25rem 1rem",
-                    borderRadius: "14px",
-                    background: isLight ? "rgba(255, 255, 255, 0.85)" : "rgba(16, 32, 51, 0.45)",
-                    border: isLight ? "1px solid rgba(226, 232, 240, 0.8)" : "1px solid rgba(255, 255, 255, 0.08)",
-                    backdropFilter: "blur(8px)",
-                    textAlign: "center",
+                    fontFamily: "var(--font-acthirey), 'Acthirey', 'Playfair Display', serif",
+                    fontSize: "clamp(2.75rem, 5vw, 4.65rem)",
+                    fontWeight: 400,
+                    lineHeight: 1.08,
+                    letterSpacing: "-0.015em",
+                    margin: 0,
+                    color: isLight ? "#0f172a" : "#ffffff",
+                    textAlign: "left",
                   }}
                 >
-                  <div
-                    style={{
-                      fontSize: "clamp(1.5rem, 2.8vw, 2.1rem)",
-                      fontWeight: 800,
-                      color: mintColor,
-                      lineHeight: 1.1,
-                      marginBottom: "0.35rem",
-                    }}
-                  >
-                    {metric.value}
+                  <span>{titleConfig.main}</span><br />
+                  {titleConfig.accent && (
+                    <span
+                      style={{
+                        display: "inline-block",
+                        background: isLight
+                          ? "linear-gradient(135deg, #00A88F 0%, #0284c7 100%)"
+                          : "linear-gradient(135deg, #5EC098 0%, #38bdf8 100%)",
+                        WebkitBackgroundClip: "text",
+                        WebkitTextFillColor: "transparent",
+                        textShadow: isLight
+                          ? "none"
+                          : "0 0 45px rgba(94, 192, 152, 0.35)",
+                      }}
+                    >
+                      {titleConfig.accent}
+                    </span>
+                  )}
+                </h1>
+              </div>
+
+              {/* Lead Paragraph 1 (Exact Content Preserved) */}
+              <p
+                style={{
+                  fontSize: "clamp(1rem, 1.15vw, 1.125rem)",
+                  lineHeight: 1.68,
+                  color: isLight ? "#334155" : "#cbd5e1",
+                  maxWidth: "640px",
+                  margin: "0 0 1rem 0",
+                  fontWeight: 400,
+                  textAlign: "left",
+                }}
+              >
+                {service.heroSubheadline || service.shortDesc}
+              </p>
+
+              {/* Lead Paragraph 2 (Exact Content Preserved) */}
+              {service.heroParagraph2 && (
+                <p
+                  style={{
+                    fontSize: "clamp(0.9rem, 1vw, 0.98rem)",
+                    lineHeight: 1.62,
+                    color: isLight ? "#64748b" : "#94a3b8",
+                    maxWidth: "600px",
+                    margin: "0 0 2rem 0",
+                    fontWeight: 400,
+                    textAlign: "left",
+                  }}
+                >
+                  {service.heroParagraph2}
+                </p>
+              )}
+
+              {/* Action Buttons (Left-Aligned) */}
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  gap: "1.1rem",
+                  flexWrap: "wrap",
+                  marginBottom: "2.25rem",
+                }}
+              >
+                {/* Primary Button */}
+                <Link
+                  href="#quote-section"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    whiteSpace: "nowrap",
+                    gap: "0.6rem",
+                    padding: "0.95rem 2.1rem",
+                    borderRadius: "12px",
+                    fontWeight: 700,
+                    fontSize: "0.95rem",
+                    letterSpacing: "0.03em",
+                    textTransform: "uppercase",
+                    color: "#ffffff",
+                    background: isLight
+                      ? "linear-gradient(135deg, #00A88F 0%, #0284c7 100%)"
+                      : "linear-gradient(135deg, #5EC098 0%, #00A88F 100%)",
+                    border: "none",
+                    boxShadow: isLight
+                      ? "0 10px 24px -4px rgba(0, 168, 143, 0.38)"
+                      : "0 10px 28px -4px rgba(94, 192, 152, 0.45)",
+                    textDecoration: "none",
+                    transition: "transform 0.2s ease, box-shadow 0.2s ease",
+                    cursor: "pointer",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "translateY(-3px)";
+                    e.currentTarget.style.boxShadow = isLight
+                      ? "0 14px 32px -4px rgba(0, 168, 143, 0.5)"
+                      : "0 14px 35px -4px rgba(94, 192, 152, 0.6)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "translateY(0)";
+                    e.currentTarget.style.boxShadow = isLight
+                      ? "0 10px 24px -4px rgba(0, 168, 143, 0.38)"
+                      : "0 10px 28px -4px rgba(94, 192, 152, 0.45)";
+                  }}
+                >
+                  <span>Get Free Consultation</span>
+                  <ArrowRight size={18} />
+                </Link>
+
+                {/* Secondary Button */}
+                <Link
+                  href="#tech-stack"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    whiteSpace: "nowrap",
+                    gap: "0.6rem",
+                    padding: "0.95rem 1.9rem",
+                    borderRadius: "12px",
+                    fontWeight: 600,
+                    fontSize: "0.95rem",
+                    letterSpacing: "0.02em",
+                    color: isLight ? "#0f172a" : "#f1f5f9",
+                    background: isLight ? "rgba(255, 255, 255, 0.95)" : "rgba(255, 255, 255, 0.05)",
+                    border: isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.16)",
+                    backdropFilter: "blur(12px)",
+                    WebkitBackdropFilter: "blur(12px)",
+                    textDecoration: "none",
+                    transition: "all 0.2s ease",
+                    cursor: "pointer",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "translateY(-3px)";
+                    e.currentTarget.style.borderColor = isLight ? "#00A88F" : "#5EC098";
+                    e.currentTarget.style.background = isLight ? "#ffffff" : "rgba(255, 255, 255, 0.1)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "translateY(0)";
+                    e.currentTarget.style.borderColor = isLight ? "#cbd5e1" : "rgba(255, 255, 255, 0.16)";
+                    e.currentTarget.style.background = isLight ? "rgba(255, 255, 255, 0.95)" : "rgba(255, 255, 255, 0.05)";
+                  }}
+                >
+                  <span>Explore Technologies</span>
+                  <Terminal size={17} />
+                </Link>
+              </div>
+
+              {/* Trust Highlights Inline Strip */}
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  alignItems: "center",
+                  gap: "1.35rem",
+                  color: isLight ? "#475569" : "#94a3b8",
+                  fontSize: "0.86rem",
+                  fontWeight: 500,
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: "0.45rem" }}>
+                  <CheckCircle2 size={16} color={mintColor} />
+                  <span>100% Code & IP Ownership</span>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: "0.45rem" }}>
+                  <CheckCircle2 size={16} color={mintColor} />
+                  <span>Zero Vendor Lock-In</span>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: "0.45rem" }}>
+                  <CheckCircle2 size={16} color={mintColor} />
+                  <span>Agile Sprints & Bi-Weekly Releases</span>
+                </div>
+              </div>
+            </div>
+
+            {/* ── RIGHT COLUMN: Interactive Live Architecture & Engine Console ── */}
+            <div style={{ position: "relative" }}>
+              {/* Main Interactive Glass Console Box */}
+              <div
+                style={{
+                  position: "relative",
+                  borderRadius: "24px",
+                  background: isLight
+                    ? "linear-gradient(155deg, rgba(255, 255, 255, 0.94) 0%, rgba(248, 250, 252, 0.90) 100%)"
+                    : "linear-gradient(155deg, rgba(15, 23, 42, 0.85) 0%, rgba(8, 14, 28, 0.92) 100%)",
+                  border: isLight
+                    ? "1px solid rgba(0, 168, 143, 0.22)"
+                    : "1px solid rgba(94, 192, 152, 0.25)",
+                  backdropFilter: "blur(20px)",
+                  WebkitBackdropFilter: "blur(20px)",
+                  boxShadow: isLight
+                    ? "0 25px 60px -15px rgba(0, 168, 143, 0.16), 0 0 1px 1px rgba(255, 255, 255, 0.9)"
+                    : "0 30px 70px -15px rgba(0, 0, 0, 0.8), 0 0 40px rgba(94, 192, 152, 0.12)",
+                  overflow: "hidden",
+                  padding: "1.5rem",
+                }}
+              >
+                {/* Console Top Header Bar */}
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    paddingBottom: "1.1rem",
+                    borderBottom: isLight
+                      ? "1px solid rgba(0, 0, 0, 0.08)"
+                      : "1px solid rgba(255, 255, 255, 0.08)",
+                    marginBottom: "1.25rem",
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.45rem" }}>
+                    <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#ef4444" }} />
+                    <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#f59e0b" }} />
+                    <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#10b981" }} />
+                    <span
+                      style={{
+                        marginLeft: "0.5rem",
+                        fontFamily: "monospace",
+                        fontSize: "0.78rem",
+                        color: isLight ? "#64748b" : "#94a3b8",
+                        fontWeight: 600,
+                      }}
+                    >
+                      {consoleConfig.tag}
+                    </span>
                   </div>
+
+                  {/* Active Cluster Status */}
                   <div
                     style={{
-                      fontSize: "0.82rem",
-                      fontWeight: 600,
-                      color: isLight ? "#64748b" : "#94a3b8",
-                      textTransform: "uppercase",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "0.4rem",
+                      padding: "0.25rem 0.65rem",
+                      borderRadius: "9999px",
+                      background: isLight ? "rgba(16, 185, 129, 0.1)" : "rgba(16, 185, 129, 0.16)",
+                      border: "1px solid rgba(16, 185, 129, 0.3)",
+                      fontSize: "0.72rem",
+                      fontWeight: 700,
+                      color: isLight ? "#059669" : "#34d399",
                       letterSpacing: "0.04em",
                     }}
                   >
-                    {metric.label}
+                    <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#10b981" }} className="animate-pulse" />
+                    <span>{consoleConfig.status}</span>
                   </div>
                 </div>
-              ))}
+
+                {/* Interactive Console Tabs */}
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(3, 1fr)",
+                    gap: "0.5rem",
+                    background: isLight ? "rgba(0, 0, 0, 0.04)" : "rgba(255, 255, 255, 0.04)",
+                    padding: "0.3rem",
+                    borderRadius: "12px",
+                    marginBottom: "1.25rem",
+                  }}
+                >
+                  {[
+                    { id: "architecture", label: "Architecture", icon: Layers },
+                    { id: "telemetry", label: "Live Telemetry", icon: Activity },
+                    { id: "devops", label: "Delivery Pipeline", icon: Workflow },
+                  ].map((tab) => {
+                    const isActive = heroConsoleTab === tab.id;
+                    const TabIcon = tab.icon;
+                    return (
+                      <button
+                        key={tab.id}
+                        type="button"
+                        onClick={() => setHeroConsoleTab(tab.id as any)}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          gap: "0.4rem",
+                          padding: "0.55rem 0.5rem",
+                          borderRadius: "9px",
+                          border: "none",
+                          background: isActive
+                            ? isLight
+                              ? "#ffffff"
+                              : "rgba(255, 255, 255, 0.12)"
+                            : "transparent",
+                          color: isActive
+                            ? isLight
+                              ? "#00A88F"
+                              : "#5EC098"
+                            : isLight
+                            ? "#64748b"
+                            : "#94a3b8",
+                          fontWeight: isActive ? 700 : 500,
+                          fontSize: "0.76rem",
+                          boxShadow: isActive
+                            ? isLight
+                              ? "0 2px 8px rgba(0, 0, 0, 0.06)"
+                              : "0 2px 10px rgba(0, 0, 0, 0.4)"
+                            : "none",
+                          cursor: "pointer",
+                          transition: "all 0.2s ease",
+                        }}
+                      >
+                        <TabIcon size={13} />
+                        <span>{tab.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Tab 1: Architecture Stack (Default) */}
+                {heroConsoleTab === "architecture" && (
+                  <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+                    {consoleConfig.layers.map((layer, idx) => {
+                      const LayerIcon = layer.icon;
+                      const isSelected = activeTier === idx;
+                      return (
+                        <div
+                          key={idx}
+                          onClick={() => setActiveTier(idx)}
+                          style={{
+                            padding: "0.95rem 1.1rem",
+                            borderRadius: "14px",
+                            background: isSelected
+                              ? isLight
+                                ? "rgba(0, 168, 143, 0.08)"
+                                : "rgba(94, 192, 152, 0.12)"
+                              : isLight
+                              ? "rgba(0, 0, 0, 0.02)"
+                              : "rgba(255, 255, 255, 0.03)",
+                            border: isSelected
+                              ? isLight
+                                ? "1px solid rgba(0, 168, 143, 0.35)"
+                                : "1px solid rgba(94, 192, 152, 0.45)"
+                              : isLight
+                              ? "1px solid rgba(0, 0, 0, 0.05)"
+                              : "1px solid rgba(255, 255, 255, 0.06)",
+                            transition: "all 0.2s ease",
+                            cursor: "pointer",
+                          }}
+                        >
+                          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.35rem" }}>
+                            <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
+                              <div
+                                style={{
+                                  width: "28px",
+                                  height: "28px",
+                                  borderRadius: "8px",
+                                  background: `${layer.color}20`,
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  color: layer.color,
+                                }}
+                              >
+                                <LayerIcon size={15} />
+                              </div>
+                              <span style={{ fontSize: "0.86rem", fontWeight: 700, color: isLight ? "#0f172a" : "#ffffff" }}>
+                                {layer.name}
+                              </span>
+                            </div>
+                            <span
+                              style={{
+                                fontSize: "0.7rem",
+                                fontWeight: 700,
+                                padding: "0.2rem 0.55rem",
+                                borderRadius: "9999px",
+                                background: `${layer.color}18`,
+                                color: layer.color,
+                                border: `1px solid ${layer.color}35`,
+                              }}
+                            >
+                              {layer.metric}
+                            </span>
+                          </div>
+
+                          <div style={{ fontSize: "0.75rem", color: isLight ? "#64748b" : "#94a3b8", marginLeft: "2.35rem" }}>
+                            <strong style={{ color: isLight ? "#334155" : "#cbd5e1" }}>Stack:</strong> {layer.stack}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {/* Tab 2: Live Telemetry */}
+                {heroConsoleTab === "telemetry" && (
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "1fr 1fr",
+                      gap: "0.85rem",
+                    }}
+                  >
+                    {consoleConfig.telemetry.map((metric, idx) => {
+                      const MetricIcon = metric.icon;
+                      return (
+                        <div
+                          key={idx}
+                          style={{
+                            padding: "1rem",
+                            borderRadius: "14px",
+                            background: isLight ? "rgba(0, 0, 0, 0.02)" : "rgba(255, 255, 255, 0.03)",
+                            border: isLight ? "1px solid rgba(0, 0, 0, 0.06)" : "1px solid rgba(255, 255, 255, 0.08)",
+                          }}
+                        >
+                          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.35rem" }}>
+                            <span style={{ fontSize: "0.72rem", color: isLight ? "#64748b" : "#94a3b8", fontWeight: 600 }}>
+                              {metric.label}
+                            </span>
+                            <MetricIcon size={14} color={metric.color} />
+                          </div>
+                          <div style={{ fontSize: "1.35rem", fontWeight: 800, color: metric.color, letterSpacing: "-0.02em" }}>
+                            {metric.val}
+                          </div>
+                          <div style={{ fontSize: "0.7rem", color: isLight ? "#64748b" : "#94a3b8", marginTop: "0.2rem" }}>
+                            {metric.sub}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {/* Tab 3: DevOps & Delivery Pipeline */}
+                {heroConsoleTab === "devops" && (
+                  <div style={{ display: "flex", flexDirection: "column", gap: "0.65rem" }}>
+                    {consoleConfig.pipeline.map((item, idx) => {
+                      const StepIcon = item.icon;
+                      return (
+                        <div
+                          key={idx}
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            padding: "0.75rem 1rem",
+                            borderRadius: "12px",
+                            background: isLight ? "rgba(0, 0, 0, 0.02)" : "rgba(255, 255, 255, 0.03)",
+                            border: isLight ? "1px solid rgba(0, 0, 0, 0.06)" : "1px solid rgba(255, 255, 255, 0.07)",
+                          }}
+                        >
+                          <div style={{ display: "flex", alignItems: "center", gap: "0.65rem" }}>
+                            <span style={{ fontFamily: "monospace", fontSize: "0.72rem", color: mintColor, fontWeight: 700 }}>
+                              {item.step}
+                            </span>
+                            <span style={{ fontSize: "0.78rem", fontWeight: 600, color: isLight ? "#0f172a" : "#ffffff" }}>
+                              {item.title}
+                            </span>
+                          </div>
+                          <span
+                            style={{
+                              fontSize: "0.68rem",
+                              fontWeight: 700,
+                              padding: "0.18rem 0.55rem",
+                              borderRadius: "9999px",
+                              background: idx === 1 ? `${mintColor}20` : "rgba(255, 255, 255, 0.08)",
+                              color: idx === 1 ? mintColor : isLight ? "#64748b" : "#94a3b8",
+                            }}
+                          >
+                            {item.status}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {/* Console Bottom Action Bar */}
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    paddingTop: "1.1rem",
+                    borderTop: isLight
+                      ? "1px solid rgba(0, 0, 0, 0.08)"
+                      : "1px solid rgba(255, 255, 255, 0.08)",
+                    marginTop: "1.25rem",
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", fontSize: "0.72rem", color: isLight ? "#64748b" : "#94a3b8" }}>
+                    <span>{consoleConfig.footerLeft}</span>
+                  </div>
+
+                  <Link
+                    href="#tech-stack"
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "0.35rem",
+                      fontSize: "0.74rem",
+                      fontWeight: 700,
+                      color: mintColor,
+                      textDecoration: "none",
+                    }}
+                  >
+                    <span>Explore {consoleConfig.footerTechCount}</span>
+                    <ChevronRight size={13} />
+                  </Link>
+                </div>
+              </div>
             </div>
+          </div>
+
+          {/* 4 Telemetry Metrics Cards */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+              gap: "1.25rem",
+              maxWidth: "1200px",
+              margin: "0 auto",
+            }}
+          >
+            {service.metrics.map((metric, idx) => (
+              <div
+                key={idx}
+                style={{
+                  padding: "1.25rem 1rem",
+                  borderRadius: "14px",
+                  background: isLight ? "rgba(255, 255, 255, 0.85)" : "rgba(16, 32, 51, 0.45)",
+                  border: isLight ? "1px solid rgba(226, 232, 240, 0.8)" : "1px solid rgba(255, 255, 255, 0.08)",
+                  backdropFilter: "blur(8px)",
+                  textAlign: "center",
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: "clamp(1.5rem, 2.8vw, 2.1rem)",
+                    fontWeight: 800,
+                    color: mintColor,
+                    lineHeight: 1.1,
+                    marginBottom: "0.35rem",
+                  }}
+                >
+                  {metric.value}
+                </div>
+                <div
+                  style={{
+                    fontSize: "0.82rem",
+                    fontWeight: 600,
+                    color: isLight ? "#64748b" : "#94a3b8",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.04em",
+                  }}
+                >
+                  {metric.label}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -1340,389 +2190,526 @@ export default function ServiceDetailTemplate({ service }: ServiceDetailTemplate
       </section>
 
       {/* ===================================================================== */}
-      {/* 3. WHAT [SERVICE] INCLUDES / WHO YOU CAN HIRE (Exact 6-7 Live Items)  */}
+      {/* 3. WHAT [SERVICE] INCLUDES / WHO YOU CAN HIRE (Redesigned Engineering Suite) */}
       {/* ===================================================================== */}
       <section
+        id="what-includes"
         style={{
           position: "relative",
-          padding: "6rem 1.5rem",
+          padding: "6.5rem 1.5rem",
+          background: isLight
+            ? "linear-gradient(180deg, #f8fafc 0%, #ffffff 50%, #f8fafc 100%)"
+            : "linear-gradient(180deg, #020712 0%, #060e1d 50%, #020712 100%)",
+          borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.05)",
+          borderBottom: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.05)",
+          overflow: "hidden",
         }}
       >
-        <div className="container-custom" style={{ maxWidth: "1240px", margin: "0 auto" }}>
-          <div style={{ textAlign: "center", maxWidth: "860px", margin: "0 auto 3.5rem auto" }}>
+        {/* Ambient background bloom */}
+        <div
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            top: "20%",
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: "700px",
+            height: "400px",
+            background: isLight
+              ? "radial-gradient(circle, rgba(0, 168, 143, 0.06) 0%, transparent 70%)"
+              : "radial-gradient(circle, rgba(94, 192, 152, 0.08) 0%, rgba(56, 189, 248, 0.04) 50%, transparent 70%)",
+            pointerEvents: "none",
+            filter: "blur(60px)",
+          }}
+        />
+
+        <div className="container-custom" style={{ maxWidth: "1240px", margin: "0 auto", position: "relative", zIndex: 1 }}>
+          {/* Section Header */}
+          <div style={{ textAlign: "center", maxWidth: "860px", margin: "0 auto 4rem auto" }}>
             <div
               style={{
                 display: "inline-flex",
                 alignItems: "center",
-                gap: "0.5rem",
-                fontSize: "0.85rem",
+                gap: "0.55rem",
+                fontSize: "0.82rem",
                 fontWeight: 700,
                 color: mintColor,
                 textTransform: "uppercase",
-                letterSpacing: "0.06em",
-                marginBottom: "0.85rem",
+                letterSpacing: "0.08em",
+                padding: "0.35rem 0.95rem",
+                borderRadius: "9999px",
+                background: isLight ? "rgba(0, 168, 143, 0.08)" : "rgba(94, 192, 152, 0.12)",
+                border: isLight ? "1px solid rgba(0, 168, 143, 0.2)" : "1px solid rgba(94, 192, 152, 0.25)",
+                marginBottom: "1.25rem",
               }}
             >
-              <Layers size={16} />
-              <span>Full-Spectrum Capabilities</span>
+              <span
+                style={{
+                  width: 7,
+                  height: 7,
+                  borderRadius: "50%",
+                  background: mintColor,
+                  boxShadow: `0 0 10px ${mintColor}`,
+                }}
+              />
+              {service.slug === "api-integration" ? (
+                <>
+                  <Cpu size={14} />
+                  <span>Enterprise Integration Architecture</span>
+                </>
+              ) : service.slug === "qa-testing" ? (
+                <>
+                  <ShieldCheck size={14} />
+                  <span>Zero-Defect Quality Gates</span>
+                </>
+              ) : service.slug === "hire-developers" ? (
+                <>
+                  <Users size={14} />
+                  <span>Top 3% Technical Talent</span>
+                </>
+              ) : (
+                <>
+                  <Layers size={14} />
+                  <span>Full-Spectrum Capabilities</span>
+                </>
+              )}
             </div>
 
-            {service.slug === "saas-development" ? (
-              <h2
-                style={{
-                  fontSize: "clamp(2rem, 3.8vw, 3.2rem)",
-                  fontWeight: 850,
-                  letterSpacing: "-0.025em",
-                  marginBottom: "1rem",
-                  lineHeight: 1.2,
-                  textAlign: "center",
-                }}
-              >
-                <span style={{ color: isLight ? "#0f172a" : "#f8fafc" }}>What </span>
-                <span
-                  style={{
-                    background: isLight ? "#dbeafe" : "rgba(37, 99, 235, 0.2)",
-                    color: "#2563eb",
-                    padding: "0.15rem 0.65rem",
-                    borderRadius: "8px",
-                    display: "inline-block",
-                  }}
-                >
-                  SaaS Development
-                </span>
-                <span style={{ color: isLight ? "#0f172a" : "#f8fafc" }}> Includes</span>
-              </h2>
-            ) : service.slug === "api-integration" ? (
-              <h2
-                style={{
-                  fontSize: "clamp(2rem, 3.8vw, 3.2rem)",
-                  fontWeight: 850,
-                  letterSpacing: "-0.025em",
-                  marginBottom: "1rem",
-                  lineHeight: 1.2,
-                  textAlign: "center",
-                }}
-              >
-                <span style={{ color: isLight ? "#0f172a" : "#f8fafc" }}>Our </span>
-                <span
-                  style={{
-                    background: isLight ? "#dbeafe" : "rgba(37, 99, 235, 0.2)",
-                    color: "#2563eb",
-                    padding: "0.15rem 0.65rem",
-                    borderRadius: "8px",
-                    display: "inline-block",
-                  }}
-                >
-                  API Integration Service
-                </span>
-                <span style={{ color: isLight ? "#0f172a" : "#f8fafc" }}> Includes</span>
-              </h2>
-            ) : service.slug === "qa-testing" ? (
-              <h2
-                style={{
-                  fontSize: "clamp(2rem, 3.8vw, 3.2rem)",
-                  fontWeight: 850,
-                  letterSpacing: "-0.025em",
-                  marginBottom: "1rem",
-                  lineHeight: 1.2,
-                  textAlign: "center",
-                }}
-              >
-                <span style={{ color: isLight ? "#0f172a" : "#f8fafc" }}>What Our </span>
-                <span
-                  style={{
-                    background: isLight ? "#dbeafe" : "rgba(37, 99, 235, 0.2)",
-                    color: "#2563eb",
-                    padding: "0.15rem 0.65rem",
-                    borderRadius: "8px",
-                    display: "inline-block",
-                  }}
-                >
-                  QA & Testing
-                </span>
-                <span style={{ color: isLight ? "#0f172a" : "#f8fafc" }}> Services Include</span>
-              </h2>
-            ) : service.slug === "hire-developers" ? (
-              <h2
-                style={{
-                  fontSize: "clamp(2rem, 3.8vw, 3.2rem)",
-                  fontWeight: 850,
-                  letterSpacing: "-0.025em",
-                  marginBottom: "1rem",
-                  lineHeight: 1.2,
-                  textAlign: "center",
-                }}
-              >
-                <span style={{ color: isLight ? "#0f172a" : "#f8fafc" }}>Who You Can </span>
-                <span style={{ color: "#2563eb" }}>Hire</span>
-              </h2>
-            ) : service.slug === "mobile-development" ? (
-              <h2
-                style={{
-                  fontSize: "clamp(2rem, 3.8vw, 3.2rem)",
-                  fontWeight: 850,
-                  letterSpacing: "-0.025em",
-                  marginBottom: "1rem",
-                  lineHeight: 1.2,
-                  textAlign: "center",
-                }}
-              >
-                <span style={{ color: isLight ? "#0f172a" : "#f8fafc" }}>Our </span>
-                <span
-                  style={{
-                    background: isLight ? "#dbeafe" : "rgba(37, 99, 235, 0.2)",
-                    color: "#2563eb",
-                    padding: "0.15rem 0.65rem",
-                    borderRadius: "8px",
-                    display: "inline-block",
-                  }}
-                >
-                  Mobile App Development
-                </span>
-                <span style={{ color: isLight ? "#0f172a" : "#f8fafc" }}> Services Include</span>
-              </h2>
-            ) : service.slug === "ai-ml-solutions" ? (
-              <h2
-                style={{
-                  fontSize: "clamp(2rem, 3.8vw, 3.2rem)",
-                  fontWeight: 850,
-                  letterSpacing: "-0.025em",
-                  marginBottom: "1rem",
-                  lineHeight: 1.2,
-                  textAlign: "center",
-                }}
-              >
-                <span style={{ color: isLight ? "#0f172a" : "#f8fafc" }}>What </span>
-                <span
-                  style={{
-                    background: isLight ? "#dbeafe" : "rgba(37, 99, 235, 0.2)",
-                    color: "#2563eb",
-                    padding: "0.15rem 0.65rem",
-                    borderRadius: "8px",
-                    display: "inline-block",
-                  }}
-                >
-                  AI/ML Development
-                </span>
-                <span style={{ color: isLight ? "#0f172a" : "#f8fafc" }}> Includes</span>
-              </h2>
-            ) : (
-              <h2
-                style={{
-                  fontSize: "clamp(2rem, 3.6vw, 3rem)",
-                  fontWeight: 800,
-                  letterSpacing: "-0.025em",
-                  marginBottom: "1rem",
-                  lineHeight: 1.2,
-                }}
-              >
-                {`What ${service.title} Includes`}
-              </h2>
-            )}
+            {/* Title with Acthirey Serif font & Dual-Tone Gradient */}
+            <h2
+              className="font-acthirey"
+              style={{
+                fontSize: "clamp(2.2rem, 3.8vw, 3.4rem)",
+                fontWeight: 800,
+                letterSpacing: "-0.025em",
+                marginBottom: "1.25rem",
+                lineHeight: 1.18,
+                textAlign: "center",
+              }}
+            >
+              {service.slug === "api-integration" ? (
+                <>
+                  <span style={{ color: isLight ? "#0f172a" : "#f8fafc" }}>Our </span>
+                  <span
+                    style={{
+                      background: "linear-gradient(135deg, #00A88F 0%, #38bdf8 100%)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                    }}
+                  >
+                    API Integration Service
+                  </span>
+                  <span style={{ color: isLight ? "#0f172a" : "#f8fafc" }}> Includes</span>
+                </>
+              ) : service.slug === "qa-testing" ? (
+                <>
+                  <span style={{ color: isLight ? "#0f172a" : "#f8fafc" }}>What Our </span>
+                  <span
+                    style={{
+                      background: "linear-gradient(135deg, #00A88F 0%, #38bdf8 100%)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                    }}
+                  >
+                    QA & Testing
+                  </span>
+                  <span style={{ color: isLight ? "#0f172a" : "#f8fafc" }}> Services Include</span>
+                </>
+              ) : service.slug === "hire-developers" ? (
+                <>
+                  <span style={{ color: isLight ? "#0f172a" : "#f8fafc" }}>Who You Can </span>
+                  <span
+                    style={{
+                      background: "linear-gradient(135deg, #00A88F 0%, #38bdf8 100%)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                    }}
+                  >
+                    Hire
+                  </span>
+                </>
+              ) : service.slug === "saas-development" ? (
+                <>
+                  <span style={{ color: isLight ? "#0f172a" : "#f8fafc" }}>What </span>
+                  <span
+                    style={{
+                      background: "linear-gradient(135deg, #00A88F 0%, #38bdf8 100%)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                    }}
+                  >
+                    SaaS Development
+                  </span>
+                  <span style={{ color: isLight ? "#0f172a" : "#f8fafc" }}> Includes</span>
+                </>
+              ) : (
+                <>
+                  <span style={{ color: isLight ? "#0f172a" : "#f8fafc" }}>What </span>
+                  <span
+                    style={{
+                      background: "linear-gradient(135deg, #00A88F 0%, #38bdf8 100%)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                    }}
+                  >
+                    {service.title}
+                  </span>
+                  <span style={{ color: isLight ? "#0f172a" : "#f8fafc" }}> Includes</span>
+                </>
+              )}
+            </h2>
 
             <p
               style={{
-                fontSize: "clamp(1.02rem, 1.6vw, 1.15rem)",
-                lineHeight: 1.65,
+                fontSize: "clamp(1.02rem, 1.5vw, 1.15rem)",
+                lineHeight: 1.68,
                 color: isLight ? "#64748b" : "#94a3b8",
                 maxWidth: "780px",
                 margin: "0 auto",
               }}
             >
-              {service.slug === "hire-developers"
-                ? "Access dedicated senior developers and engineering squads specialized across every tier of the modern technology stack."
-                : `Comprehensive end-to-end capabilities tailored to meet your unique business objectives, user expectations, and compliance standards.`}
+              {service.slug === "api-integration"
+                ? "Connect disparate cloud software, automate mission-critical workflows, and orchestrate ultra-fast data pipelines with enterprise-grade encryption and 99.99% availability."
+                : service.slug === "qa-testing"
+                ? "Comprehensive manual and automated quality engineering embedded across every sprint to eliminate regressions, harden security, and ensure flawless multi-device reliability."
+                : service.slug === "hire-developers"
+                ? "Access dedicated senior engineers and full-stack squads vetted through rigorous technical benchmarks—ready to onboard directly into your workflow in less than 48 hours."
+                : "Comprehensive end-to-end capabilities tailored to meet your unique business objectives, user expectations, and compliance standards."}
             </p>
           </div>
 
-          {/* Features Grid */}
-          {[
-            "ai-ml-solutions",
-            "mobile-development",
-            "saas-development",
-            "api-integration",
-            "qa-testing",
-            "hire-developers",
-          ].includes(service.slug) ? (
-            <div>
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-                  gap: "2.75rem 2.25rem",
-                  marginTop: "3.5rem",
-                }}
-                className="ai-ml-includes-grid"
-              >
-                {service.features.map((item, idx) => (
-                  <div
-                    key={idx}
-                    style={{
-                      display: "flex",
-                      alignItems: "flex-start",
-                      gap: "1.1rem",
-                    }}
-                  >
-                    <AiMlDeviceIllustration />
-                    <div style={{ flex: 1 }}>
-                      <h3
-                        style={{
-                          fontSize: "1.08rem",
-                          fontWeight: 750,
-                          color: "#2563eb",
-                          marginBottom: "0.45rem",
-                          lineHeight: 1.35,
-                        }}
-                      >
-                        {service.slug === "hire-developers"
-                          ? item.title
-                          : item.title.endsWith(":") || item.title.endsWith("–") || item.title.endsWith("-")
-                          ? item.title
-                          : `${item.title}:`}
-                      </h3>
-                      <p
-                        style={{
-                          fontSize: "0.92rem",
-                          color: isLight ? "#475569" : "#94a3b8",
-                          lineHeight: 1.55,
-                          margin: 0,
-                        }}
-                      >
-                        {item.desc}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+          {/* Redesigned Features Grid (Bento Glass Cards) */}
+          <div
+            className="service-features-grid"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))",
+              gap: "1.75rem",
+              marginBottom: "3.5rem",
+            }}
+          >
+            {service.features.map((item, idx) => {
+              const meta = getServiceFeatureMeta(service.slug, item, idx);
+              const IconComp = meta.icon;
+              const cleanTitle = item.title.replace(/[:–-].*$/, "").trim() || item.title;
 
-              {service.slug === "mobile-development" && (
-                <div
-                  style={{
-                    textAlign: "center",
-                    marginTop: "3.5rem",
-                    paddingTop: "2rem",
-                  }}
-                >
-                  <p
-                    style={{
-                      fontSize: "clamp(1.02rem, 1.8vw, 1.15rem)",
-                      fontWeight: 700,
-                      color: isLight ? "#0f172a" : "#f1f5f9",
-                      lineHeight: 1.6,
-                      maxWidth: "960px",
-                      margin: "0 auto",
-                    }}
-                  >
-                    Whether you&apos;re building an MVP for a startup or a robust enterprise-grade app, we tailor our services to align with your goals.
-                  </p>
-                </div>
-              )}
-            </div>
-          ) : (
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-                gap: "1.75rem",
-              }}
-            >
-              {service.features.map((item, idx) => (
+              return (
                 <div
                   key={idx}
+                  className="service-feature-card"
                   style={{
-                    padding: "2rem",
-                    borderRadius: "18px",
-                    background: isLight ? "#ffffff" : "rgba(16, 32, 51, 0.4)",
+                    position: "relative",
+                    padding: "2.25rem 2rem",
+                    borderRadius: "20px",
+                    background: isLight
+                      ? "linear-gradient(180deg, #ffffff 0%, #f8fafc 100%)"
+                      : "linear-gradient(180deg, rgba(13, 24, 42, 0.75) 0%, rgba(9, 17, 30, 0.9) 100%)",
                     border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
-                    boxShadow: isLight ? "0 4px 15px rgba(0, 0, 0, 0.03)" : "none",
+                    boxShadow: isLight
+                      ? "0 10px 30px -10px rgba(0, 0, 0, 0.05)"
+                      : "0 14px 40px -15px rgba(0, 0, 0, 0.6)",
+                    backdropFilter: "blur(16px)",
                     display: "flex",
                     flexDirection: "column",
-                    transition: "transform 0.25s ease, border-color 0.25s ease",
+                    justifyContent: "space-between",
+                    overflow: "hidden",
                   }}
                 >
+                  {/* Subtle Top Accent Glow Line */}
                   <div
                     style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      marginBottom: "1.25rem",
+                      position: "absolute",
+                      top: 0,
+                      left: "15%",
+                      right: "15%",
+                      height: "2px",
+                      background: "linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.5), transparent)",
                     }}
-                  >
+                  />
+
+                  <div>
+                    {/* Top Meta Bar */}
                     <div
                       style={{
-                        width: "44px",
-                        height: "44px",
-                        borderRadius: "12px",
-                        background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.14)",
                         display: "flex",
                         alignItems: "center",
-                        justifyContent: "center",
-                        color: mintColor,
-                        fontWeight: 800,
-                        fontSize: "0.95rem",
+                        justifyContent: "space-between",
+                        marginBottom: "1.5rem",
                       }}
                     >
-                      0{idx + 1}
+                      {/* Icon container */}
+                      <div
+                        style={{
+                          width: 50,
+                          height: 50,
+                          borderRadius: "14px",
+                          background: isLight ? "rgba(0, 168, 143, 0.08)" : "rgba(94, 192, 152, 0.12)",
+                          border: isLight
+                            ? "1px solid rgba(0, 168, 143, 0.25)"
+                            : "1px solid rgba(94, 192, 152, 0.35)",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          color: mintColor,
+                          boxShadow: isLight
+                            ? "0 4px 12px rgba(0, 168, 143, 0.1)"
+                            : "0 4px 16px rgba(94, 192, 152, 0.15)",
+                        }}
+                      >
+                        <IconComp size={24} />
+                      </div>
+
+                      {/* Monospace Step & Badge */}
+                      <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
+                        <span
+                          style={{
+                            fontFamily: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
+                            fontSize: "0.82rem",
+                            fontWeight: 700,
+                            color: isLight ? "#94a3b8" : "#475569",
+                          }}
+                        >
+                          0{idx + 1}
+                        </span>
+                        <span
+                          style={{
+                            fontSize: "0.72rem",
+                            fontWeight: 700,
+                            padding: "0.22rem 0.65rem",
+                            borderRadius: "9999px",
+                            background: isLight ? "rgba(37, 99, 235, 0.08)" : "rgba(56, 189, 248, 0.1)",
+                            color: isLight ? "#2563eb" : "#38bdf8",
+                            border: isLight
+                              ? "1px solid rgba(37, 99, 235, 0.2)"
+                              : "1px solid rgba(56, 189, 248, 0.25)",
+                            letterSpacing: "0.04em",
+                          }}
+                        >
+                          {meta.badge}
+                        </span>
+                      </div>
                     </div>
 
-                    <span
+                    {/* Title */}
+                    <h3
                       style={{
-                        fontSize: "0.75rem",
-                        fontWeight: 700,
-                        padding: "0.25rem 0.75rem",
-                        borderRadius: "9999px",
-                        background: isLight ? "rgba(71, 109, 154, 0.1)" : "rgba(71, 109, 154, 0.25)",
-                        color: slateColor,
-                        textTransform: "uppercase",
-                        letterSpacing: "0.05em",
+                        fontSize: "1.24rem",
+                        fontWeight: 750,
+                        color: isLight ? "#0f172a" : "#f8fafc",
+                        marginBottom: "0.65rem",
+                        lineHeight: 1.3,
+                        letterSpacing: "-0.015em",
                       }}
                     >
-                      {item.badge || "Production Ready"}
-                    </span>
+                      {cleanTitle}
+                    </h3>
+
+                    {/* Description */}
+                    <p
+                      style={{
+                        fontSize: "0.93rem",
+                        color: isLight ? "#475569" : "#94a3b8",
+                        lineHeight: 1.6,
+                        margin: 0,
+                        marginBottom: "1.25rem",
+                      }}
+                    >
+                      {item.desc}
+                    </p>
                   </div>
 
-                  <h3
-                    style={{
-                      fontSize: "1.25rem",
-                      fontWeight: 700,
-                      marginBottom: "0.75rem",
-                      color: isLight ? "#0f172a" : "#f8fafc",
-                    }}
-                  >
-                    {item.title}
-                  </h3>
+                  <div>
+                    {/* Technology / Capability Chips */}
+                    <div
+                      style={{
+                        display: "flex",
+                        flexWrap: "wrap",
+                        gap: "0.45rem",
+                        marginBottom: "1.35rem",
+                      }}
+                    >
+                      {meta.chips.map((chip, cIdx) => (
+                        <span
+                          key={cIdx}
+                          style={{
+                            fontSize: "0.75rem",
+                            fontWeight: 600,
+                            padding: "0.22rem 0.6rem",
+                            borderRadius: "7px",
+                            background: isLight ? "#f1f5f9" : "rgba(255, 255, 255, 0.05)",
+                            border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
+                            color: isLight ? "#334155" : "#cbd5e1",
+                          }}
+                        >
+                          {chip}
+                        </span>
+                      ))}
+                    </div>
 
-                  <p
-                    style={{
-                      fontSize: "0.95rem",
-                      lineHeight: 1.65,
-                      color: isLight ? "#64748b" : "#94a3b8",
-                      flex: 1,
-                    }}
-                  >
-                    {item.desc}
-                  </p>
-
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "0.4rem",
-                      marginTop: "1.5rem",
-                      paddingTop: "1rem",
-                      borderTop: isLight ? "1px solid #f1f5f9" : "1px solid rgba(255, 255, 255, 0.05)",
-                      fontSize: "0.85rem",
-                      fontWeight: 600,
-                      color: mintColor,
-                    }}
-                  >
-                    <CheckCircle2 size={16} />
-                    <span>100% Quality Assurance Guarantee</span>
+                    {/* Deliverable Guarantee / SLA Strip */}
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "0.5rem",
+                        paddingTop: "0.95rem",
+                        borderTop: isLight ? "1px solid #f1f5f9" : "1px solid rgba(255, 255, 255, 0.06)",
+                        fontSize: "0.82rem",
+                        fontWeight: 650,
+                        color: isLight ? "#0f172a" : "#e2e8f0",
+                      }}
+                    >
+                      <CheckCircle2 size={15} color={mintColor} style={{ flexShrink: 0 }} />
+                      <span style={{ flex: 1 }}>{meta.metric}</span>
+                      <ChevronRight size={14} style={{ opacity: 0.45 }} />
+                    </div>
                   </div>
                 </div>
-              ))}
+              );
+            })}
+          </div>
+
+          {/* Bottom High-Impact Engineering Assurance Banner */}
+          <div
+            style={{
+              position: "relative",
+              padding: "2.5rem 2.25rem",
+              borderRadius: "22px",
+              background: isLight
+                ? "linear-gradient(135deg, rgba(0, 168, 143, 0.06) 0%, rgba(56, 189, 248, 0.06) 100%)"
+                : "linear-gradient(135deg, rgba(15, 29, 52, 0.7) 0%, rgba(9, 18, 33, 0.85) 100%)",
+              border: isLight
+                ? "1px solid rgba(0, 168, 143, 0.25)"
+                : "1px solid rgba(94, 192, 152, 0.25)",
+              boxShadow: isLight
+                ? "0 10px 30px -10px rgba(0, 168, 143, 0.08)"
+                : "0 16px 48px -12px rgba(0, 0, 0, 0.5)",
+              display: "flex",
+              flexWrap: "wrap",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: "2rem",
+              overflow: "hidden",
+            }}
+          >
+            <div style={{ maxWidth: "720px" }}>
+              <div
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "0.45rem",
+                  fontSize: "0.78rem",
+                  fontWeight: 700,
+                  color: mintColor,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.06em",
+                  marginBottom: "0.6rem",
+                }}
+              >
+                <ShieldCheck size={14} />
+                <span>Enterprise Guarantee & Velocity</span>
+              </div>
+
+              <h3
+                style={{
+                  fontSize: "clamp(1.25rem, 2.2vw, 1.65rem)",
+                  fontWeight: 800,
+                  color: isLight ? "#0f172a" : "#ffffff",
+                  lineHeight: 1.3,
+                  marginBottom: "0.65rem",
+                  letterSpacing: "-0.015em",
+                }}
+              >
+                {service.slug === "api-integration"
+                  ? "Architecting Custom APIs or High-Volume Microservices?"
+                  : service.slug === "qa-testing"
+                  ? "Deploy Every Sprint With Zero Regressions & Certified Quality Gates"
+                  : service.slug === "hire-developers"
+                  ? "Pre-Vetted Senior Engineers Ready to Deploy in 48 Hours"
+                  : `Accelerate Your ${service.title} Delivery with Opash Engineers`}
+              </h3>
+
+              <p
+                style={{
+                  fontSize: "0.94rem",
+                  color: isLight ? "#475569" : "#94a3b8",
+                  lineHeight: 1.6,
+                  margin: 0,
+                  marginBottom: "1rem",
+                }}
+              >
+                {service.slug === "api-integration"
+                  ? "From OAuth 2.0 / mTLS zero-trust auth to distributed Kafka event streaming, our principal architects ensure sub-45ms responses and 99.99% system availability."
+                  : service.slug === "qa-testing"
+                  ? "Our embedded QA specialists execute end-to-end regression suites, test up to 10,000+ concurrent virtual users, and audit OWASP Top 10 security standards."
+                  : service.slug === "hire-developers"
+                  ? "Skip traditional recruiting overhead. Interview hand-picked senior tech talent aligned with your time zone, backed by direct communication and a 2-week risk-free trial."
+                  : "Collaborate directly with our engineering teams to build resilient, enterprise-scale software built for rapid market adoption."}
+              </p>
+
+              {/* Metrics pills */}
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem" }}>
+                {(service.slug === "api-integration"
+                  ? ["35k+ req/s Throughput", "<45ms Median Latency", "99.99% Availability SLA"]
+                  : service.slug === "qa-testing"
+                  ? ["99.4% Defect Detection", "85%+ Test Coverage", "OWASP Top 10 Hardened"]
+                  : service.slug === "hire-developers"
+                  ? ["Top 3% Vetted Talent", "4-8h Timezone Overlap", "2-Week Risk-Free Trial"]
+                  : ["100% Tailored", "Zero Vendor Lock-in", "Enterprise SLA"]
+                ).map((pill, pIdx) => (
+                  <span
+                    key={pIdx}
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "0.35rem",
+                      fontSize: "0.78rem",
+                      fontWeight: 700,
+                      color: isLight ? "#0f172a" : "#f1f5f9",
+                    }}
+                  >
+                    <CheckCircle2 size={13} color={mintColor} />
+                    {pill}
+                  </span>
+                ))}
+              </div>
             </div>
-          )}
+
+            {/* Action CTA */}
+            <div>
+              <Link
+                href="#quote-section"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "0.65rem",
+                  padding: "0.95rem 1.85rem",
+                  borderRadius: "14px",
+                  background: `linear-gradient(135deg, ${mintColor} 0%, #0284c7 100%)`,
+                  color: "#ffffff",
+                  fontSize: "0.95rem",
+                  fontWeight: 700,
+                  textDecoration: "none",
+                  boxShadow: isLight
+                    ? "0 10px 24px -6px rgba(0, 168, 143, 0.4)"
+                    : "0 12px 28px -6px rgba(94, 192, 152, 0.35)",
+                  transition: "transform 0.2s ease, box-shadow 0.2s ease",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                <span>
+                  {service.slug === "api-integration"
+                    ? "Consult Integration Architect"
+                    : service.slug === "qa-testing"
+                    ? "Request Free QA Audit"
+                    : service.slug === "hire-developers"
+                    ? "Interview Developers Now"
+                    : "Get Free Consultation"}
+                </span>
+                <ArrowRight size={17} />
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -2035,11 +3022,26 @@ export default function ServiceDetailTemplate({ service }: ServiceDetailTemplate
         </div>
 
         <style jsx>{`
+          :global(.service-feature-card) {
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease !important;
+          }
+          :global(.service-feature-card:hover) {
+            transform: translateY(-6px) !important;
+            border-color: rgba(0, 168, 143, 0.45) !important;
+            box-shadow: 0 20px 40px -15px rgba(0, 168, 143, 0.25) !important;
+          }
+          :global(.dark .service-feature-card:hover) {
+            border-color: rgba(94, 192, 152, 0.5) !important;
+            box-shadow: 0 20px 40px -15px rgba(94, 192, 152, 0.25) !important;
+          }
           @media (min-width: 1024px) {
             :global(.ai-ml-tech-grid) {
               grid-template-columns: repeat(4, 1fr) !important;
             }
             :global(.ai-ml-includes-grid) {
+              grid-template-columns: repeat(3, 1fr) !important;
+            }
+            :global(.service-features-grid) {
               grid-template-columns: repeat(3, 1fr) !important;
             }
           }

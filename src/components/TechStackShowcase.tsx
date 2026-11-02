@@ -14,7 +14,7 @@ import {
   FolderKanban,
   ShieldCheck,
   ChevronRight,
-  Sparkles,
+  Layers,
   Search,
   X,
   Zap,
@@ -488,7 +488,7 @@ export const TECH_CATEGORIES: CategoryGroup[] = [
 ];
 
 const CATEGORY_TABS = [
-  { id: "all", name: "All Stack", icon: Sparkles, count: 43 },
+  { id: "all", name: "All Stack", icon: Layers, count: 43 },
   { id: "frontend", name: "Front End", icon: Code2, count: 9 },
   { id: "backend", name: "Back End", icon: Server, count: 5 },
   { id: "mobile", name: "Mobile", icon: Smartphone, count: 4 },
@@ -568,7 +568,7 @@ export function TechStackShowcase() {
         {/* ========================================================================= */}
         <div className="tech-showcase-header">
           <div className="tech-showcase-badge">
-            <Sparkles size={13} />
+            <Cpu size={13} />
             <span>ENTERPRISE TECH STACK</span>
           </div>
 
