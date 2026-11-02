@@ -12,7 +12,7 @@ export async function GET(request: Request) {
   const apiUrl =
     process.env.NEXT_PUBLIC_HRMS_API_URL ||
     process.env.HRMS_API_URL ||
-    'http://localhost:3000';
+    'https://hrms.opash.in';
 
   let isSelfCalling = false;
   try {

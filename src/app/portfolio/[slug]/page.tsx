@@ -24,25 +24,27 @@ interface Props {
 }
 
 async function fetchProject(slug: string): Promise<CaseStudy | undefined> {
-  try {
-    const apiUrl = process.env.NEXT_PUBLIC_HRMS_API_URL || process.env.HRMS_API_URL || "http://localhost:3001";
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 1200);
+  const apiUrl = process.env.NEXT_PUBLIC_HRMS_API_URL || process.env.HRMS_API_URL;
+  if (apiUrl) {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 1200);
 
-    const res = await fetch(`${apiUrl}/api/portfolio/public/${slug}`, {
-      signal: controller.signal,
-      next: { revalidate: 30 },
-    });
-    clearTimeout(timeoutId);
+      const res = await fetch(`${apiUrl}/api/portfolio/public/${slug}`, {
+        signal: controller.signal,
+        next: { revalidate: 30 },
+      });
+      clearTimeout(timeoutId);
 
-    if (res.ok) {
-      const json = await res.json();
-      if (json && json.success && json.data) {
-        return json.data;
+      if (res.ok) {
+        const json = await res.json();
+        if (json && json.success && json.data) {
+          return json.data;
+        }
       }
+    } catch {
+      // Admin backend offline - fallback to local case study
     }
-  } catch {
-    // Admin backend offline - fallback to local case study
   }
 
   return caseStudiesData.find((p) => p.slug === slug || p.id === slug);
@@ -77,7 +79,37 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function ProjectDetailPage({ params }: Props) {
+function PortfolioLoadingFallback() {
+  return (
+    <div
+      style={{
+        position: "relative",
+        minHeight: "100vh",
+        backgroundColor: "var(--bg-main, #020712)",
+        color: "var(--text-primary, #f8fafc)",
+        paddingTop: "7.5rem",
+        paddingBottom: "5rem",
+      }}
+    >
+      <div className="container-custom" style={{ maxWidth: "1200px" }}>
+        <div style={{ height: "24px", width: "160px", background: "rgba(255, 255, 255, 0.08)", borderRadius: "8px", marginBottom: "2rem" }} />
+        <div style={{ height: "48px", width: "70%", background: "rgba(255, 255, 255, 0.08)", borderRadius: "12px", marginBottom: "1.5rem" }} />
+        <div style={{ height: "20px", width: "45%", background: "rgba(255, 255, 255, 0.06)", borderRadius: "6px", marginBottom: "3rem" }} />
+        <div style={{ height: "360px", width: "100%", background: "rgba(255, 255, 255, 0.04)", borderRadius: "16px" }} />
+      </div>
+    </div>
+  );
+}
+
+export default function ProjectDetailPage({ params }: Props) {
+  return (
+    <React.Suspense fallback={<PortfolioLoadingFallback />}>
+      <ProjectDetailContent params={params} />
+    </React.Suspense>
+  );
+}
+
+async function ProjectDetailContent({ params }: Props) {
   const { slug } = await params;
   const project = await fetchProject(slug);
 

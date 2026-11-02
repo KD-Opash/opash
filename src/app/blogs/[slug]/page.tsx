@@ -20,42 +20,46 @@ interface Props {
 }
 
 async function fetchPost(slug: string): Promise<BlogPost | undefined> {
-  try {
-    const apiUrl = process.env.NEXT_PUBLIC_HRMS_API_URL || "http://localhost:3001";
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 1000);
-    const res = await fetch(`${apiUrl}/api/blogs/public/${slug}`, {
-      signal: controller.signal,
-      next: { revalidate: 30 },
-    });
-    clearTimeout(timeoutId);
-    if (res.ok) {
-      const json = await res.json();
-      if (json.success && json.data) {
-        const item = json.data;
-        return {
-          slug: item.slug,
-          title: item.title,
-          excerpt: item.excerpt,
-          category: item.category || "Full-Stack Architecture",
-          readTime: item.readTime || "5 min read",
-          date: item.publishedAt
-            ? new Date(item.publishedAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
-            : "Recent",
-          author: {
-            name: item.author?.name || "Hiren Danecha",
-            role: item.author?.role || "CEO & Tech Strategist",
-            avatar: item.author?.avatar || "/images/image.webp",
-          },
-          tags: Array.isArray(item.tags) ? item.tags : ["Engineering", "Technology"],
-          content: Array.isArray(item.content) ? item.content : [],
-          coverImage: item.coverImage || "",
-        };
+  const apiUrl = process.env.NEXT_PUBLIC_HRMS_API_URL || process.env.HRMS_API_URL;
+  if (apiUrl) {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 1000);
+      const res = await fetch(`${apiUrl}/api/blogs/public/${slug}`, {
+        signal: controller.signal,
+        next: { revalidate: 30 },
+      });
+      clearTimeout(timeoutId);
+
+      if (res.ok) {
+        const json = await res.json();
+        if (json.success && json.data) {
+          const item = json.data;
+          return {
+            slug: item.slug,
+            title: item.title,
+            excerpt: item.excerpt,
+            category: item.category || "Full-Stack Architecture",
+            readTime: item.readTime || "5 min read",
+            date: item.publishedAt
+              ? new Date(item.publishedAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
+              : "Recent",
+            author: {
+              name: item.author?.name || "Hiren Danecha",
+              role: item.author?.role || "CEO & Tech Strategist",
+              avatar: item.author?.avatar || "/images/image.webp",
+            },
+            tags: Array.isArray(item.tags) ? item.tags : ["Engineering", "Technology"],
+            content: Array.isArray(item.content) ? item.content : [],
+            coverImage: item.coverImage || "",
+          };
+        }
       }
+    } catch (err) {
+      console.warn("NextHRMS blog detail fetch error, using fallback:", err);
     }
-  } catch (err) {
-    console.warn("NextHRMS blog detail fetch error, using fallback:", err);
   }
+
   return blogsData.find((p) => p.slug === slug);
 }
 
