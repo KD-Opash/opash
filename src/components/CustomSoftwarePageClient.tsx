@@ -3,56 +3,14 @@
 import React, { useState, useMemo } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  Code2,
-  Layers,
-  ShieldCheck,
-  Zap,
-  Cpu,
-  Server,
-  Database,
-  Cloud,
-  Terminal,
-  ArrowRight,
-  CheckCircle2,
-  Check,
-  X,
-  Clock,
-  Users,
-  RefreshCw,
-  Lock,
-  Network,
-  Activity,
-  Award,
-  ChevronDown,
-  Globe2,
-  Radio,
-  Workflow,
-  Search,
-  CheckSquare,
-  ChevronRight,
-  Calculator,
-  Rocket,
-  FileText,
-  Compass,
-  Shield,
-  CreditCard,
-  ShoppingBag,
-  GraduationCap,
-  Building2,
-  HeartPulse,
-  Plane,
-  Factory,
-  Settings,
-  Smartphone,
-  SlidersHorizontal,
-  Send,
-  MessageCircle,
-  Play,
-} from "lucide-react";
+import { Code2, Layers, ShieldCheck, Zap, Cpu, Server, Database, Cloud, Terminal, ArrowRight, CheckCircle2, Check, X, Clock, Users, RefreshCw, Lock, Network, Activity, Award, ChevronDown, Globe2, Radio, Workflow, Search, CheckSquare, ChevronRight, Calculator, Rocket, FileText, Compass, Shield, CreditCard, ShoppingBag, GraduationCap, Building2, HeartPulse, Plane, Factory, Settings, Smartphone, SlidersHorizontal, Send, MessageCircle, Play, } from "lucide-react";
 import { useTheme } from "./ThemeProvider";
 import { ServiceDetail } from "@/data/services";
 import { companyData } from "@/data/company";
+import OuiWillHeadline, { OuiWillWord, OuiWillDot } from "@/components/OuiWillHeadline";
+import { TechStackShowcase } from "@/components/TechStackShowcase";
+import { AnimatedIndustriesCarousel } from "@/components/AnimatedIndustriesCarousel";
+import AnimatedRollingMetric from "@/components/AnimatedRollingMetric";
 
 interface CustomSoftwarePageClientProps {
   service: ServiceDetail;
@@ -63,31 +21,43 @@ interface CustomSoftwarePageClientProps {
 // -----------------------------------------------------------------------------
 const INCLUDES_DATA = [
   {
+    code: "01",
+    tag: "APPLICATIONS",
     icon: Code2,
     title: "Custom Web & Mobile Applications",
     desc: "Frontend, backend, APIs—built just for your use case",
   },
   {
+    code: "02",
+    tag: "INTEGRATION",
     icon: Network,
     title: "Third-party Integrations",
     desc: "CRM, ERP, payment gateways, AI tools, and more",
   },
   {
+    code: "03",
+    tag: "REALTIME_OPS",
     icon: Activity,
     title: "Real-time Features",
     desc: "Live data updates, dashboards, notifications, chat, tracking",
   },
   {
+    code: "04",
+    tag: "AUTOMATION",
     icon: Workflow,
     title: "Automation Tools",
     desc: "Task automation, report generation, workflow management",
   },
   {
+    code: "05",
+    tag: "GOVERNANCE",
     icon: ShieldCheck,
     title: "Security & Compliance",
     desc: "Custom data protection, audit logs, compliance with GDPR/HIPAA/etc.",
   },
   {
+    code: "06",
+    tag: "MODERNIZATION",
     icon: RefreshCw,
     title: "Legacy System Modernization",
     desc: "Upgrade or rebuild old systems with new technology",
@@ -151,36 +121,48 @@ const PROCESS_STEPS_LIVE = [
     phase: "Discovery & Requirement Analysis",
     desc: "Where we dive deep into your goals, user journeys, and workflows to define clear success metrics.",
     icon: Search,
+    tags: ["User Journeys", "SRS Spec & KPIs"],
+    sla: "Sprint Zero",
   },
   {
     step: "02",
     phase: "Planning & Design",
     desc: "We create wireframes, system architecture, and intuitive UI/UX prototypes, laying out a strategic tech roadmap.",
     icon: Compass,
+    tags: ["System Architecture", "Interactive UI/UX"],
+    sla: "Design Approved",
   },
   {
     step: "03",
     phase: "Development in Agile Sprints",
     desc: "Executed in Agile sprints, using clean, modular code and an API-first approach to ensure flexibility and fast iterations.",
     icon: Code2,
+    tags: ["2-Week Agile Sprints", "API-First Codebase"],
+    sla: "Bi-Weekly Demos",
   },
   {
     step: "04",
     phase: "Testing & QA",
     desc: "Involves both manual and automated methods to guarantee security, speed, and performance.",
     icon: ShieldCheck,
+    tags: ["Automated E2E", "Security Audits"],
+    sla: "Zero Critical Bugs",
   },
   {
     step: "05",
     phase: "CI/CD-Driven Deployment",
     desc: "Your software is seamlessly launched on cloud or on-premise environments with automated pipelines.",
     icon: Rocket,
+    tags: ["Automated CI/CD", "Zero-Downtime Rollout"],
+    sla: "Production Ready",
   },
   {
     step: "06",
     phase: "Support & Maintenance",
     desc: "Includes performance optimization, bug fixes, upgrades, and continuous feature enhancement.",
     icon: RefreshCw,
+    tags: ["24/7 Monitoring", "Continuous Optimization"],
+    sla: "99.99% Uptime SLA",
   },
 ];
 
@@ -230,12 +212,6 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
   const mintColor = isLight ? "#00A88F" : "#5EC098";
   const slateColor = isLight ? "#102033" : "#476D9A";
 
-  // State: Tech Stack Category Filter
-  const [selectedTechCat, setSelectedTechCat] = useState<string>("All");
-
-  // State: Active Industry
-  const [activeIndustryIdx, setActiveIndustryIdx] = useState<number>(4); // InsureTech default
-
   // State: Quote Form
   const [formData, setFormData] = useState({
     name: "",
@@ -249,12 +225,6 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
   const [formLoading, setFormLoading] = useState<boolean>(false);
   const [heroConsoleTab, setHeroConsoleTab] = useState<"architecture" | "telemetry" | "devops">("architecture");
   const [activeTier, setActiveTier] = useState<number>(0);
-
-  // Filtered Techs
-  const displayedTechs = useMemo(() => {
-    if (selectedTechCat === "All") return ALL_TECHNOLOGIES;
-    return ALL_TECHNOLOGIES.filter((t) => t.category === selectedTechCat);
-  }, [selectedTechCat]);
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -283,9 +253,9 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
       <section
         style={{
           position: "relative",
-          padding: "8.5rem 1.5rem 5.5rem 1.5rem",
+          padding: "7.5rem 1.5rem 3.5rem 1.5rem",
           overflow: "hidden",
-          minHeight: "85vh",
+          minHeight: "100vh",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
@@ -299,7 +269,7 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
             grid-template-columns: 1fr;
             gap: 2.75rem;
             align-items: center;
-            margin-bottom: 4rem;
+            margin-bottom: 0;
           }
           @media (min-width: 1024px) {
             .custom-software-hero-grid {
@@ -428,36 +398,28 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
             {/* ── LEFT COLUMN: Headline, Positioning, CTAs & Trust Badges ─── */}
             <div style={{ textAlign: "left" }}>
               {/* Monumental Headline */}
-              <div style={{ margin: "0 0 1.35rem 0" }}>
-                <h1
+              <div style={{ margin: "0 0 1.25rem 0" }}>
+                <OuiWillHeadline
                   style={{
                     fontFamily: "var(--font-acthirey), 'Acthirey', 'Playfair Display', serif",
-                    fontSize: "clamp(2.75rem, 5vw, 4.65rem)",
+                    fontSize: "clamp(2rem, 3.4vw, 3.1rem)",
                     fontWeight: 400,
-                    lineHeight: 1.08,
+                    lineHeight: 1.14,
                     letterSpacing: "-0.015em",
                     margin: 0,
-                    color: isLight ? "#0f172a" : "#ffffff",
                     textAlign: "left",
+                    display: "block",
                   }}
                 >
-                  <span>Custom Software</span><br />
-                  <span
-                    style={{
-                      display: "inline-block",
-                      background: isLight
-                        ? "linear-gradient(135deg, #00A88F 0%, #0284c7 100%)"
-                        : "linear-gradient(135deg, #5EC098 0%, #38bdf8 100%)",
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                      textShadow: isLight
-                        ? "none"
-                        : "0 0 45px rgba(94, 192, 152, 0.35)",
-                    }}
-                  >
-                    Development
+                  <OuiWillWord index={1}>Custom</OuiWillWord>
+                  <OuiWillWord index={2}>Software</OuiWillWord>
+                  <OuiWillDot />
+                  <span style={{ display: "block", width: "100%", marginTop: "0.2rem" }}>
+                    <OuiWillWord index={3} isGradient>
+                      Development
+                    </OuiWillWord>
                   </span>
-                </h1>
+                </OuiWillHeadline>
               </div>
 
               {/* Lead Paragraph 1 (Exact Content Preserved) */}
@@ -509,83 +471,54 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
                 {/* Primary Button */}
                 <a
                   href="#quote-section"
+                  className="hero-brand-primary-btn opash-roll-btn"
                   style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    whiteSpace: "nowrap",
-                    gap: "0.6rem",
                     padding: "0.95rem 2.1rem",
                     borderRadius: "12px",
                     fontWeight: 700,
                     fontSize: "0.95rem",
                     letterSpacing: "0.03em",
                     textTransform: "uppercase",
-                    color: "#ffffff",
-                    background: isLight
-                      ? "linear-gradient(135deg, #00A88F 0%, #0284c7 100%)"
-                      : "linear-gradient(135deg, #5EC098 0%, #00A88F 100%)",
-                    border: "none",
-                    boxShadow: isLight
-                      ? "0 10px 24px -4px rgba(0, 168, 143, 0.38)"
-                      : "0 10px 28px -4px rgba(94, 192, 152, 0.45)",
                     textDecoration: "none",
-                    transition: "transform 0.2s ease, box-shadow 0.2s ease",
                     cursor: "pointer",
                   }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = "translateY(-3px)";
-                    e.currentTarget.style.boxShadow = isLight
-                      ? "0 14px 32px -4px rgba(0, 168, 143, 0.5)"
-                      : "0 14px 35px -4px rgba(94, 192, 152, 0.6)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = "translateY(0)";
-                    e.currentTarget.style.boxShadow = isLight
-                      ? "0 10px 24px -4px rgba(0, 168, 143, 0.38)"
-                      : "0 10px 28px -4px rgba(94, 192, 152, 0.45)";
-                  }}
                 >
-                  <span>Estimate Project</span>
-                  <ArrowRight size={18} />
+                  <span className="opash-roll-track">
+                    <span className="opash-roll-item">
+                      <span>ESTIMATE PROJECT</span>
+                      <ArrowRight size={18} className="hero-btn-arrow" />
+                    </span>
+                    <span className="opash-roll-item" aria-hidden="true">
+                      <span>ESTIMATE PROJECT</span>
+                      <ArrowRight size={18} className="hero-btn-arrow" />
+                    </span>
+                  </span>
                 </a>
 
                 {/* Secondary Button */}
                 <a
-                  href="#technologies"
+                  href="#tech-stack"
+                  className="hero-brand-secondary-btn opash-roll-btn"
                   style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    whiteSpace: "nowrap",
-                    gap: "0.6rem",
                     padding: "0.95rem 1.9rem",
                     borderRadius: "12px",
                     fontWeight: 600,
                     fontSize: "0.95rem",
                     letterSpacing: "0.02em",
-                    color: isLight ? "#0f172a" : "#f1f5f9",
-                    background: isLight ? "rgba(255, 255, 255, 0.95)" : "rgba(255, 255, 255, 0.05)",
-                    border: isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.16)",
-                    backdropFilter: "blur(12px)",
-                    WebkitBackdropFilter: "blur(12px)",
                     textDecoration: "none",
-                    transition: "all 0.2s ease",
                     cursor: "pointer",
                   }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = "translateY(-3px)";
-                    e.currentTarget.style.borderColor = isLight ? "#00A88F" : "#5EC098";
-                    e.currentTarget.style.background = isLight ? "#ffffff" : "rgba(255, 255, 255, 0.1)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = "translateY(0)";
-                    e.currentTarget.style.borderColor = isLight ? "#cbd5e1" : "rgba(255, 255, 255, 0.16)";
-                    e.currentTarget.style.background = isLight ? "rgba(255, 255, 255, 0.95)" : "rgba(255, 255, 255, 0.05)";
-                  }}
                 >
-                  <span>Explore Technologies</span>
-                  <Terminal size={17} />
+                  <span className="opash-roll-track">
+                    <span className="opash-roll-item">
+                      <span>Explore Technologies</span>
+                      <Terminal size={17} className="hero-btn-arrow" />
+                    </span>
+                    <span className="opash-roll-item" aria-hidden="true">
+                      <span>Explore Technologies</span>
+                      <Terminal size={17} className="hero-btn-arrow" />
+                    </span>
+                  </span>
                 </a>
               </div>
 
@@ -985,26 +918,37 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
               </div>
             </div>
           </div>
+        </div>
+      </section>
 
-          {/* ================================================================= */}
-          {/* 6. REDESIGNED LUXURY BENTO METRIC DECK (Exact 4 Metrics Preserved)*/}
-          {/* ================================================================= */}
+      {/* ===================================================================== */}
+      {/* 1.5 PROVEN TRACK RECORD & ENTERPRISE METRICS                          */}
+      {/* ===================================================================== */}
+      <section
+        style={{
+          position: "relative",
+          padding: "3.5rem 1.5rem 3.75rem 1.5rem",
+          background: isLight ? "#ffffff" : "#020712",
+          borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
+        }}
+      >
+        <div
+          className="container-custom"
+          style={{
+            maxWidth: "1240px",
+            margin: "0 auto",
+            position: "relative",
+            zIndex: 2,
+          }}
+        >
           <div
             style={{
-              maxWidth: "1200px",
-              margin: "0 auto",
-              position: "relative",
-              zIndex: 2,
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+              gap: "1.5rem",
+              alignItems: "stretch",
             }}
           >
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-                gap: "1.5rem",
-                alignItems: "stretch",
-              }}
-            >
               {[
                 {
                   value: "8+ Years",
@@ -1095,18 +1039,11 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
                         marginBottom: "0.85rem",
                       }}
                     >
-                      <div
-                        style={{
-                          fontSize: "clamp(2.1rem, 2.5vw, 2.6rem)",
-                          fontWeight: 800,
-                          lineHeight: 1,
-                          letterSpacing: "-0.03em",
-                          color: mintColor,
-                          textShadow: isLight ? "none" : "0 0 24px rgba(94, 192, 152, 0.25)",
-                        }}
-                      >
-                        {m.value}
-                      </div>
+                      <AnimatedRollingMetric
+                        value={m.value}
+                        color={mintColor}
+                        isLight={isLight}
+                      />
 
                       <div
                         style={{
@@ -1154,8 +1091,7 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
               })}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
       {/* ===================================================================== */}
       {/* 2. WHY CUSTOM SOFTWARE DEVELOPMENT? (SAME TO SAME DATA)              */}
@@ -1187,14 +1123,16 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
 
             {/* Exact Heading from live page */}
             <h2
+              className="heading-section"
               style={{
-                fontSize: "clamp(2rem, 3.8vw, 3rem)",
-                fontWeight: 800,
-                letterSpacing: "-0.02em",
+                fontSize: "clamp(1.45rem, 2.1vw, 1.95rem)",
+                fontWeight: 850,
+                letterSpacing: "-0.025em",
+                lineHeight: 1.2,
                 marginBottom: "1.25rem",
               }}
             >
-              Why Custom Software Development?
+              Why Custom Software <span className="opash-hero-gradient-text">Development?</span>
             </h2>
 
             {/* Exact Paragraph 1 from live page */}
@@ -1224,7 +1162,94 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
             </p>
           </div>
 
-          {/* Dynamic 4-Pillar Modern Glass Bento Cards */}
+          {/* Scoped CSS for 4-Pillar Modern Bento Cards (100% GPU Composited, Zero CPU Cost) */}
+          <style>{`
+            .benefit-pillar-card {
+              position: relative;
+              overflow: hidden;
+              border-radius: 20px;
+              transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                          box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                          border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                          background 0.35s ease;
+              will-change: transform;
+              cursor: pointer;
+              backdrop-filter: blur(12px);
+              -webkit-backdrop-filter: blur(12px);
+            }
+            .benefit-pillar-card:hover {
+              transform: translateY(-8px);
+            }
+            .benefit-pillar-card .pillar-spotlight {
+              position: absolute;
+              inset: 0;
+              pointer-events: none;
+              opacity: 0;
+              transition: opacity 0.35s ease;
+              border-radius: inherit;
+              z-index: 1;
+            }
+            .benefit-pillar-card:hover .pillar-spotlight {
+              opacity: 1;
+            }
+            .benefit-pillar-card .pillar-laser-beam {
+              position: absolute;
+              top: 0;
+              left: 12%;
+              right: 12%;
+              height: 2px;
+              background: linear-gradient(90deg, transparent, #5EC098, #38bdf8, transparent);
+              opacity: 0;
+              transform: scaleX(0.2);
+              transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+              pointer-events: none;
+              z-index: 3;
+            }
+            .benefit-pillar-card:hover .pillar-laser-beam {
+              opacity: 1;
+              transform: scaleX(1);
+            }
+            .benefit-pillar-card .pillar-icon-box {
+              transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                          background 0.3s ease,
+                          box-shadow 0.3s ease,
+                          border-color 0.3s ease;
+            }
+            .benefit-pillar-card:hover .pillar-icon-box {
+              transform: translateY(-3px) scale(1.1) rotate(4deg);
+              background: rgba(94, 192, 152, 0.25) !important;
+              box-shadow: 0 0 24px rgba(94, 192, 152, 0.45) !important;
+              border-color: rgba(94, 192, 152, 0.6) !important;
+            }
+            .benefit-pillar-card .pillar-title {
+              transition: color 0.25s ease;
+            }
+            .benefit-pillar-card:hover .pillar-title {
+              color: #5EC098 !important;
+            }
+            .benefit-pillar-card .pillar-arrow-btn {
+              transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            }
+            .benefit-pillar-card:hover .pillar-arrow-btn {
+              background: rgba(94, 192, 152, 0.25) !important;
+              border-color: rgba(94, 192, 152, 0.55) !important;
+              box-shadow: 0 0 16px rgba(94, 192, 152, 0.35);
+            }
+            .benefit-pillar-card .pillar-arrow {
+              transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            }
+            .benefit-pillar-card:hover .pillar-arrow {
+              transform: translateX(3px);
+            }
+            .benefit-pillar-card .pillar-divider {
+              transition: border-color 0.3s ease;
+            }
+            .benefit-pillar-card:hover .pillar-divider {
+              border-color: rgba(94, 192, 152, 0.35) !important;
+            }
+          `}</style>
+
+          {/* Dynamic 4-Pillar Modern Glass Bento Cards with Interactive Animations */}
           <div
             style={{
               display: "grid",
@@ -1234,24 +1259,32 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
           >
             {[
               {
+                code: "01",
+                tag: "BESPOKE",
                 icon: Settings,
                 title: "Tailored to Your Operations",
                 sub: "No generic constraints",
                 desc: "Designed around your processes, not the other way around. Zero unused features or forced workflows.",
               },
               {
+                code: "02",
+                tag: "ELASTIC",
                 icon: RefreshCw,
                 title: "Future-Proof & Flexible",
                 sub: "Scales as you grow",
                 desc: "Adapts effortlessly as your organization evolves, user traffic surges, and new integrations emerge.",
               },
               {
+                code: "03",
+                tag: "ZERO_TAX",
                 icon: ShieldCheck,
                 title: "Cost-Efficient in Long Run",
                 sub: "Zero recurring SaaS tax",
                 desc: "Eliminates escalating per-user subscription fees and licensing inflation with total code ownership.",
               },
               {
+                code: "04",
+                tag: "PROPRIETARY",
                 icon: Zap,
                 title: "Competitive Edge & Ownership",
                 sub: "Higher productivity & satisfaction",
@@ -1262,43 +1295,151 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
               return (
                 <div
                   key={cIdx}
+                  className="benefit-pillar-card"
+                  onMouseMove={(e) => {
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    e.currentTarget.style.setProperty("--mouse-x", `${e.clientX - rect.left}px`);
+                    e.currentTarget.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`);
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.removeProperty("--mouse-x");
+                    e.currentTarget.style.removeProperty("--mouse-y");
+                  }}
                   style={{
-                    padding: "2rem 1.75rem",
-                    borderRadius: "18px",
-                    background: isLight ? "#f8fafc" : "rgba(10, 20, 36, 0.7)",
+                    padding: "2.25rem 1.85rem",
+                    background: isLight
+                      ? "linear-gradient(165deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.94) 100%)"
+                      : "linear-gradient(165deg, rgba(13, 23, 42, 0.72) 0%, rgba(7, 13, 27, 0.82) 100%)",
                     border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
+                    boxShadow: isLight
+                      ? "0 4px 16px rgba(0,0,0,0.03)"
+                      : "0 10px 30px -10px rgba(0,0,0,0.5)",
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "space-between",
-                    transition: "transform 0.2s ease, border-color 0.2s ease",
                   }}
                 >
-                  <div>
+                  {/* Top Glowing Laser Accent Beam */}
+                  <div className="pillar-laser-beam" />
+
+                  {/* GPU-Accelerated Dynamic Torchlight Spotlight */}
+                  <div
+                    className="pillar-spotlight"
+                    style={{
+                      background: isLight
+                        ? "radial-gradient(380px circle at var(--mouse-x, -999px) var(--mouse-y, -999px), rgba(0, 168, 143, 0.09), transparent 65%)"
+                        : "radial-gradient(380px circle at var(--mouse-x, -999px) var(--mouse-y, -999px), rgba(94, 192, 152, 0.14), transparent 65%)",
+                    }}
+                  />
+
+                  {/* Main Card Content */}
+                  <div style={{ position: "relative", zIndex: 2 }}>
+                    {/* Top Header Row with Animated Icon */}
                     <div
                       style={{
-                        width: 48,
-                        height: 48,
-                        borderRadius: "14px",
-                        background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.15)",
-                        border: isLight ? "1px solid rgba(0, 168, 143, 0.25)" : "1px solid rgba(94, 192, 152, 0.35)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        marginBottom: "1.35rem",
+                      }}
+                    >
+                      <div
+                        className="pillar-icon-box"
+                        style={{
+                          width: 50,
+                          height: 50,
+                          borderRadius: "14px",
+                          background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.14)",
+                          border: isLight ? "1px solid rgba(0, 168, 143, 0.28)" : "1px solid rgba(94, 192, 152, 0.35)",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          color: mintColor,
+                        }}
+                      >
+                        <IconComponent size={24} />
+                      </div>
+                    </div>
+
+                    <div
+                      style={{
+                        fontSize: "0.78rem",
+                        fontWeight: 800,
+                        textTransform: "uppercase",
+                        letterSpacing: "0.05em",
+                        color: mintColor,
+                        marginBottom: "0.45rem",
+                      }}
+                    >
+                      {card.sub}
+                    </div>
+
+                    <h3
+                      className="pillar-title"
+                      style={{
+                        fontSize: "1.25rem",
+                        fontWeight: 700,
+                        marginBottom: "0.75rem",
+                        color: isLight ? "#0f172a" : "#ffffff",
+                        letterSpacing: "-0.015em",
+                      }}
+                    >
+                      {card.title}
+                    </h3>
+
+                    <p
+                      style={{
+                        color: isLight ? "#475569" : "#cbd5e1",
+                        fontSize: "0.94rem",
+                        lineHeight: 1.65,
+                        fontWeight: 500,
+                      }}
+                    >
+                      {card.desc}
+                    </p>
+                  </div>
+
+                  {/* Interactive Action Bar with Animated Sliding Arrow Button */}
+                  <div
+                    className="pillar-divider"
+                    style={{
+                      position: "relative",
+                      zIndex: 2,
+                      marginTop: "1.75rem",
+                      paddingTop: "1.1rem",
+                      borderTop: isLight ? "1px solid #f1f5f9" : "1px solid rgba(255, 255, 255, 0.07)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontSize: "0.85rem",
+                        fontWeight: 700,
+                        color: mintColor,
+                        letterSpacing: "0.01em",
+                      }}
+                    >
+                      Architectural Advantage
+                    </span>
+
+                    <div
+                      className="pillar-arrow-btn"
+                      style={{
+                        width: 32,
+                        height: 32,
+                        borderRadius: "50%",
+                        background: isLight ? "rgba(0, 168, 143, 0.08)" : "rgba(94, 192, 152, 0.1)",
+                        border: isLight ? "1px solid rgba(0, 168, 143, 0.2)" : "1px solid rgba(94, 192, 152, 0.25)",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
                         color: mintColor,
-                        marginBottom: "1.25rem",
                       }}
                     >
-                      <IconComponent size={24} />
+                      <ArrowRight size={14} className="pillar-arrow" />
                     </div>
-                    <div style={{ fontSize: "0.78rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em", color: mintColor, marginBottom: "0.35rem" }}>
-                      {card.sub}
-                    </div>
-                    <h3 style={{ fontSize: "1.25rem", fontWeight: 700, marginBottom: "0.75rem" }}>
-                      {card.title}
-                    </h3>
-                    <p style={{ color: isLight ? "#64748b" : "#94a3b8", fontSize: "0.92rem", lineHeight: 1.6 }}>
-                      {card.desc}
-                    </p>
                   </div>
                 </div>
               );
@@ -1317,9 +1458,111 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
           position: "relative",
           background: isLight ? "#f8fafc" : "#020712",
           borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
+          overflow: "hidden",
         }}
       >
-        <div className="container-custom" style={{ maxWidth: "1200px", margin: "0 auto" }}>
+        {/* Scoped CSS for Ultra-Lightweight 60/120fps GPU Animations (Zero CPU Overhead) */}
+        <style>{`
+          .custom-scope-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                        box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                        border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                        background 0.35s ease;
+            will-change: transform;
+            cursor: pointer;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+          }
+          .custom-scope-card:hover {
+            transform: translateY(-8px);
+          }
+          .custom-scope-card .card-spotlight {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.35s ease;
+            border-radius: inherit;
+            z-index: 1;
+          }
+          .custom-scope-card:hover .card-spotlight {
+            opacity: 1;
+          }
+          .custom-scope-card .card-laser-beam {
+            position: absolute;
+            top: 0;
+            left: 12%;
+            right: 12%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #5EC098, #38bdf8, transparent);
+            opacity: 0;
+            transform: scaleX(0.2);
+            transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+            pointer-events: none;
+            z-index: 3;
+          }
+          .custom-scope-card:hover .card-laser-beam {
+            opacity: 1;
+            transform: scaleX(1);
+          }
+          .custom-scope-card .card-icon-wrapper {
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        background 0.3s ease,
+                        box-shadow 0.3s ease,
+                        border-color 0.3s ease;
+          }
+          .custom-scope-card:hover .card-icon-wrapper {
+            transform: translateY(-3px) scale(1.1) rotate(4deg);
+          }
+          .custom-scope-card .card-badge {
+            transition: all 0.3s ease;
+          }
+          .custom-scope-card:hover .card-badge {
+            border-color: rgba(94, 192, 152, 0.45) !important;
+            background: rgba(94, 192, 152, 0.12) !important;
+            color: #5EC098 !important;
+          }
+          .custom-scope-card .card-title {
+            transition: color 0.25s ease;
+          }
+          .custom-scope-card:hover .card-title {
+            color: #5EC098 !important;
+          }
+          .custom-scope-card .card-arrow-icon {
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease;
+          }
+          .custom-scope-card:hover .card-arrow-icon {
+            transform: translateX(6px);
+          }
+          .custom-scope-card .card-bottom-divider {
+            transition: border-color 0.3s ease;
+          }
+          .custom-scope-card:hover .card-bottom-divider {
+            border-color: rgba(94, 192, 152, 0.35) !important;
+          }
+        `}</style>
+
+        {/* Static Background Ambient Grid (0 CPU Cost) */}
+        <div
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            inset: 0,
+            backgroundImage: isLight
+              ? "radial-gradient(rgba(0, 168, 143, 0.08) 1px, transparent 1px)"
+              : "radial-gradient(rgba(94, 192, 152, 0.07) 1px, transparent 1px)",
+            backgroundSize: "36px 36px",
+            maskImage: "radial-gradient(ellipse 70% 60% at 50% 50%, black 30%, transparent 80%)",
+            WebkitMaskImage: "radial-gradient(ellipse 70% 60% at 50% 50%, black 30%, transparent 80%)",
+            pointerEvents: "none",
+            zIndex: 0,
+          }}
+        />
+
+        <div className="container-custom" style={{ maxWidth: "1200px", margin: "0 auto", position: "relative", zIndex: 1 }}>
           <div style={{ textAlign: "center", maxWidth: "800px", margin: "0 auto 3.5rem auto" }}>
             <span
               style={{
@@ -1337,21 +1580,23 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
 
             {/* Exact Heading from live page */}
             <h2
+              className="heading-section"
               style={{
-                fontSize: "clamp(2rem, 3.8vw, 3rem)",
-                fontWeight: 800,
-                letterSpacing: "-0.02em",
+                fontSize: "clamp(1.45rem, 2.1vw, 1.95rem)",
+                fontWeight: 850,
+                letterSpacing: "-0.025em",
+                lineHeight: 1.2,
                 marginBottom: "1rem",
               }}
             >
-              What Custom Software Development Includes
+              What Custom Software Development <span className="opash-hero-gradient-text">Includes</span>
             </h2>
             <p style={{ color: isLight ? "#475569" : "#94a3b8", fontSize: "1.05rem", lineHeight: 1.6 }}>
               Explore the core modules and functional capabilities engineered from the ground up for your specific operational use case.
             </p>
           </div>
 
-          {/* 6 Exact Items from Live Site in a Sleek Interactive Grid */}
+          {/* 6 Exact Items in a High-Performance Interactive Grid */}
           <div
             style={{
               display: "grid",
@@ -1364,48 +1609,166 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
               return (
                 <div
                   key={idx}
+                  className="custom-scope-card"
+                  onMouseMove={(e) => {
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    e.currentTarget.style.setProperty("--mouse-x", `${e.clientX - rect.left}px`);
+                    e.currentTarget.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`);
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.removeProperty("--mouse-x");
+                    e.currentTarget.style.removeProperty("--mouse-y");
+                  }}
                   style={{
                     padding: "2.25rem 2rem",
-                    borderRadius: "18px",
-                    background: isLight ? "#ffffff" : "rgba(10, 20, 36, 0.65)",
+                    background: isLight
+                      ? "linear-gradient(165deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.94) 100%)"
+                      : "linear-gradient(165deg, rgba(13, 23, 42, 0.72) 0%, rgba(7, 13, 27, 0.82) 100%)",
                     border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
-                    boxShadow: isLight ? "0 4px 16px rgba(0,0,0,0.03)" : "none",
+                    boxShadow: isLight
+                      ? "0 4px 16px rgba(0,0,0,0.03)"
+                      : "0 10px 30px -10px rgba(0,0,0,0.5)",
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "space-between",
                   }}
                 >
-                  <div>
+                  {/* Top Glowing Laser Accent Beam */}
+                  <div className="card-laser-beam" />
+
+                  {/* GPU-Accelerated Dynamic Torchlight Spotlight */}
+                  <div
+                    className="card-spotlight"
+                    style={{
+                      background: isLight
+                        ? "radial-gradient(420px circle at var(--mouse-x, -999px) var(--mouse-y, -999px), rgba(0, 168, 143, 0.09), transparent 65%)"
+                        : "radial-gradient(420px circle at var(--mouse-x, -999px) var(--mouse-y, -999px), rgba(94, 192, 152, 0.14), transparent 65%)",
+                    }}
+                  />
+
+                  {/* Card Content */}
+                  <div style={{ position: "relative", zIndex: 2 }}>
+                    {/* Top Header Row with Animated Icon & Tech Spec Pill */}
                     <div
                       style={{
-                        width: 48,
-                        height: 48,
-                        borderRadius: "12px",
-                        background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.15)",
-                        border: isLight ? "1px solid rgba(0, 168, 143, 0.25)" : "1px solid rgba(94, 192, 152, 0.35)",
                         display: "flex",
                         alignItems: "center",
-                        justifyContent: "center",
-                        color: mintColor,
-                        marginBottom: "1.25rem",
+                        justifyContent: "space-between",
+                        marginBottom: "1.35rem",
                       }}
                     >
-                      <IconComp size={24} />
+                      {/* Icon Box with Spring Hover Transformation */}
+                      <div
+                        className="card-icon-wrapper"
+                        style={{
+                          width: 50,
+                          height: 50,
+                          borderRadius: "14px",
+                          background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.14)",
+                          border: isLight ? "1px solid rgba(0, 168, 143, 0.28)" : "1px solid rgba(94, 192, 152, 0.35)",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          color: mintColor,
+                        }}
+                      >
+                        <IconComp size={24} />
+                      </div>
+
+                      {/* Micro-Architectural Code Pill with Live Indicator */}
+                      <div
+                        className="card-badge"
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "0.45rem",
+                          padding: "0.28rem 0.65rem",
+                          borderRadius: "9999px",
+                          fontFamily: "monospace",
+                          fontSize: "0.72rem",
+                          fontWeight: 700,
+                          letterSpacing: "0.05em",
+                          color: isLight ? "#64748b" : "#94a3b8",
+                          background: isLight ? "rgba(0, 0, 0, 0.04)" : "rgba(255, 255, 255, 0.04)",
+                          border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
+                        }}
+                      >
+                        <span
+                          style={{
+                            width: 6,
+                            height: 6,
+                            borderRadius: "50%",
+                            background: "#10b981",
+                            boxShadow: "0 0 8px #10b981",
+                          }}
+                        />
+                        <span>{item.code} // {item.tag}</span>
+                      </div>
                     </div>
 
-                    <h3 style={{ fontSize: "1.28rem", fontWeight: 700, marginBottom: "0.65rem" }}>
+                    <h3
+                      className="card-title"
+                      style={{
+                        fontSize: "1.28rem",
+                        fontWeight: 700,
+                        marginBottom: "0.75rem",
+                        color: isLight ? "#0f172a" : "#ffffff",
+                        letterSpacing: "-0.015em",
+                      }}
+                    >
                       {item.title}
                     </h3>
 
-                    <p style={{ color: isLight ? "#475569" : "#cbd5e1", fontSize: "0.98rem", lineHeight: 1.65, fontWeight: 500 }}>
+                    <p
+                      style={{
+                        color: isLight ? "#475569" : "#cbd5e1",
+                        fontSize: "0.98rem",
+                        lineHeight: 1.65,
+                        fontWeight: 500,
+                      }}
+                    >
                       {item.desc}
                     </p>
                   </div>
 
-                  <div style={{ marginTop: "1.5rem", paddingTop: "1rem", borderTop: isLight ? "1px solid #f1f5f9" : "1px solid rgba(255, 255, 255, 0.06)" }}>
-                    <span style={{ fontSize: "0.82rem", fontWeight: 700, color: mintColor, display: "inline-flex", alignItems: "center", gap: "0.4rem" }}>
+                  {/* Interactive Action Bar with Animated Sliding Arrow */}
+                  <div
+                    className="card-bottom-divider"
+                    style={{
+                      position: "relative",
+                      zIndex: 2,
+                      marginTop: "1.75rem",
+                      paddingTop: "1.1rem",
+                      borderTop: isLight ? "1px solid #f1f5f9" : "1px solid rgba(255, 255, 255, 0.07)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontSize: "0.84rem",
+                        fontWeight: 700,
+                        color: mintColor,
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "0.45rem",
+                      }}
+                    >
                       <span>Engineered For Scale</span>
-                      <ArrowRight size={14} />
+                      <ArrowRight size={14} className="card-arrow-icon" />
+                    </span>
+
+                    <span
+                      style={{
+                        fontSize: "0.72rem",
+                        fontWeight: 600,
+                        fontFamily: "monospace",
+                        color: isLight ? "#94a3b8" : "#64748b",
+                        letterSpacing: "0.04em",
+                      }}
+                    >
+                      ENTERPRISE SLA
                     </span>
                   </div>
                 </div>
@@ -1416,131 +1779,9 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
       </section>
 
       {/* ===================================================================== */}
-      {/* 4. TECHNOLOGIES (EXACT 31 TECHNOLOGIES FROM LIVE SITE)                */}
+      {/* 4. TECHNOLOGIES & PLATFORMS SHOWCASE (SAME TO SAME AS HOME PAGE)       */}
       {/* ===================================================================== */}
-      <section
-        id="technologies"
-        style={{
-          padding: "5.5rem 1.5rem",
-          position: "relative",
-          background: isLight ? "#ffffff" : "rgba(4, 10, 22, 0.95)",
-          borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
-        }}
-      >
-        <div className="container-custom" style={{ maxWidth: "1200px", margin: "0 auto" }}>
-          <div style={{ textAlign: "center", maxWidth: "800px", margin: "0 auto 3rem auto" }}>
-            <span
-              style={{
-                display: "inline-block",
-                color: mintColor,
-                fontSize: "0.85rem",
-                fontWeight: 700,
-                letterSpacing: "0.06em",
-                textTransform: "uppercase",
-                marginBottom: "0.75rem",
-              }}
-            >
-              Technology Stack
-            </span>
-
-            <h2
-              style={{
-                fontSize: "clamp(2rem, 3.8vw, 3rem)",
-                fontWeight: 800,
-                letterSpacing: "-0.02em",
-                marginBottom: "1rem",
-              }}
-            >
-              Technologies We Deploy
-            </h2>
-
-            <p style={{ color: isLight ? "#475569" : "#94a3b8", fontSize: "1.05rem", lineHeight: 1.6 }}>
-              All 31 technologies featured on our live platform—tested for security, concurrency, and rapid iteration.
-            </p>
-
-            {/* Category Filter Tabs */}
-            <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                justifyContent: "center",
-                gap: "0.5rem",
-                marginTop: "2rem",
-              }}
-            >
-              {["All", "Frontend", "Backend", "Mobile", "Databases", "Cloud & DevOps", "QA & Testing"].map((cat) => {
-                const isActive = selectedTechCat === cat;
-                return (
-                  <button
-                    key={cat}
-                    type="button"
-                    onClick={() => setSelectedTechCat(cat)}
-                    style={{
-                      padding: "0.55rem 1.15rem",
-                      borderRadius: "10px",
-                      cursor: "pointer",
-                      fontSize: "0.88rem",
-                      fontWeight: isActive ? 700 : 500,
-                      background: isActive
-                        ? mintColor
-                        : isLight ? "#f1f5f9" : "rgba(255, 255, 255, 0.05)",
-                      color: isActive ? "#ffffff" : isLight ? "#475569" : "#94a3b8",
-                      border: isActive
-                        ? `1px solid ${mintColor}`
-                        : isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
-                      transition: "all 0.2s ease",
-                    }}
-                  >
-                    {cat}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Interactive Tech Badge Grid */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
-              gap: "1rem",
-            }}
-          >
-            {displayedTechs.map((tech, idx) => (
-              <div
-                key={idx}
-                style={{
-                  padding: "1.25rem 1rem",
-                  borderRadius: "14px",
-                  background: isLight ? "#f8fafc" : "rgba(10, 20, 36, 0.7)",
-                  border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
-                  textAlign: "center",
-                  transition: "transform 0.2s ease, border-color 0.2s ease",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <div style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: "0.25rem" }}>
-                  {tech.name}
-                </div>
-                <div
-                  style={{
-                    fontSize: "0.75rem",
-                    color: mintColor,
-                    fontWeight: 600,
-                    textTransform: "uppercase",
-                    letterSpacing: "0.04em",
-                  }}
-                >
-                  {tech.category}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <TechStackShowcase />
 
       {/* ===================================================================== */}
       {/* 5. CUSTOM SOFTWARE DEVELOPMENT PROCESS (SAME TO SAME DATA)            */}
@@ -1572,14 +1813,16 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
 
             {/* Exact Heading from live page */}
             <h2
+              className="heading-section"
               style={{
-                fontSize: "clamp(2rem, 3.8vw, 3rem)",
-                fontWeight: 800,
-                letterSpacing: "-0.02em",
+                fontSize: "clamp(1.45rem, 2.1vw, 1.95rem)",
+                fontWeight: 850,
+                letterSpacing: "-0.025em",
+                lineHeight: 1.2,
                 marginBottom: "1.25rem",
               }}
             >
-              Custom Software Development Process
+              Custom Software Development <span className="opash-hero-gradient-text">Process</span>
             </h2>
 
             {/* Exact Lead from live page */}
@@ -1596,7 +1839,160 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
             </p>
           </div>
 
-          {/* 6 Process Steps (Exact data from live site in a modern numbered roadmap UI) */}
+          {/* Scoped CSS for Process Roadmap Animation (Zero CPU Overhead, Pure GPU Composited) */}
+          <style>{`
+            .process-phase-card {
+              position: relative;
+              overflow: hidden;
+              border-radius: 20px;
+              transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+                          box-shadow 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+                          border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                          background 0.35s ease;
+              will-change: transform;
+              cursor: pointer;
+              backdrop-filter: blur(12px);
+              -webkit-backdrop-filter: blur(12px);
+            }
+            .process-phase-card:hover {
+              transform: translateY(-8px);
+            }
+            .process-phase-card .phase-watermark-num {
+              position: absolute;
+              top: 0.75rem;
+              right: 1.25rem;
+              font-size: 3.75rem;
+              font-weight: 900;
+              font-family: var(--font-space-grotesk), monospace, sans-serif;
+              line-height: 1;
+              pointer-events: none;
+              transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease, color 0.35s ease;
+              user-select: none;
+            }
+            .process-phase-card:hover .phase-watermark-num {
+              transform: scale(1.12) translate(-4px, -2px);
+              opacity: 0.28 !important;
+              color: #5EC098 !important;
+            }
+            .process-phase-card .phase-bottom-progress {
+              position: absolute;
+              bottom: 0;
+              left: 0;
+              right: 0;
+              height: 3px;
+              background: linear-gradient(90deg, #00A88F, #5EC098, #38bdf8);
+              transform: scaleX(0);
+              transform-origin: left;
+              transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+              pointer-events: none;
+              z-index: 4;
+            }
+            .process-phase-card:hover .phase-bottom-progress {
+              transform: scaleX(1);
+            }
+            .process-phase-card .phase-icon-box {
+              position: relative;
+              transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                          background 0.3s ease,
+                          box-shadow 0.3s ease,
+                          border-color 0.3s ease;
+            }
+            .process-phase-card:hover .phase-icon-box {
+              transform: translateY(-3px) scale(1.1) rotate(4deg);
+              background: rgba(94, 192, 152, 0.25) !important;
+              box-shadow: 0 0 24px rgba(94, 192, 152, 0.45) !important;
+              border-color: rgba(94, 192, 152, 0.6) !important;
+            }
+            .process-phase-card .phase-tag-chip {
+              transition: all 0.3s ease;
+            }
+            .process-phase-card:hover .phase-tag-chip {
+              border-color: rgba(94, 192, 152, 0.4) !important;
+              background: rgba(94, 192, 152, 0.12) !important;
+              color: #5EC098 !important;
+            }
+            .process-phase-card .phase-title {
+              transition: color 0.25s ease;
+            }
+            .process-phase-card:hover .phase-title {
+              color: #5EC098 !important;
+            }
+            .process-pipeline-strip {
+              display: none;
+            }
+            @media (min-width: 900px) {
+              .process-pipeline-strip {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                position: relative;
+                max-width: 1040px;
+                margin: 0 auto 3.25rem auto;
+                padding: 1rem 1.5rem;
+                border-radius: 16px;
+              }
+            }
+          `}</style>
+
+          {/* Interactive Horizontal Pipeline Tracker (Desktop) */}
+          <div
+            className="process-pipeline-strip"
+            style={{
+              background: isLight ? "rgba(0, 0, 0, 0.02)" : "rgba(255, 255, 255, 0.02)",
+              border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
+            }}
+          >
+            {PROCESS_STEPS_LIVE.map((step, idx) => (
+              <React.Fragment key={idx}>
+                <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
+                  <div
+                    style={{
+                      width: 26,
+                      height: 26,
+                      borderRadius: "50%",
+                      background: isLight ? "rgba(0, 168, 143, 0.12)" : "rgba(94, 192, 152, 0.15)",
+                      border: isLight ? "1px solid rgba(0, 168, 143, 0.4)" : "1px solid rgba(94, 192, 152, 0.5)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: "0.72rem",
+                      fontWeight: 800,
+                      fontFamily: "monospace",
+                      color: mintColor,
+                    }}
+                  >
+                    {step.step}
+                  </div>
+                  <span
+                    style={{
+                      fontSize: "0.78rem",
+                      fontWeight: 700,
+                      color: isLight ? "#475569" : "#cbd5e1",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {step.phase.split(" ")[0]}
+                  </span>
+                </div>
+                {idx < PROCESS_STEPS_LIVE.length - 1 && (
+                  <div
+                    style={{
+                      flex: 1,
+                      height: "2px",
+                      margin: "0 0.85rem",
+                      background: isLight
+                        ? "linear-gradient(90deg, rgba(0, 168, 143, 0.2), rgba(0, 168, 143, 0.5))"
+                        : "linear-gradient(90deg, rgba(94, 192, 152, 0.2), rgba(94, 192, 152, 0.6))",
+                      position: "relative",
+                      borderRadius: "9999px",
+                    }}
+                  />
+                )}
+              </React.Fragment>
+            ))}
+          </div>
+
+          {/* 6 Process Steps in Interactive Animated Grid */}
           <div
             style={{
               display: "grid",
@@ -1610,61 +2006,138 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
               return (
                 <div
                   key={sIdx}
+                  className="process-phase-card"
                   style={{
                     padding: "2.25rem 2rem",
-                    borderRadius: "18px",
-                    background: isLight ? "#ffffff" : "rgba(10, 20, 36, 0.65)",
+                    background: isLight
+                      ? "linear-gradient(165deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.94) 100%)"
+                      : "linear-gradient(165deg, rgba(13, 23, 42, 0.72) 0%, rgba(7, 13, 27, 0.82) 100%)",
                     border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
-                    position: "relative",
-                    overflow: "hidden",
+                    boxShadow: isLight
+                      ? "0 4px 16px rgba(0,0,0,0.03)"
+                      : "0 10px 30px -10px rgba(0,0,0,0.5)",
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "space-between",
                   }}
                 >
+                  {/* Giant Watermark Step Number that glows on hover */}
                   <div
+                    className="phase-watermark-num"
                     style={{
-                      position: "absolute",
-                      top: "1rem",
-                      right: "1.25rem",
-                      fontSize: "2.5rem",
-                      fontWeight: 900,
-                      color: isLight ? "rgba(0,0,0,0.04)" : "rgba(255,255,255,0.04)",
-                      lineHeight: 1,
+                      color: isLight ? "rgba(0,0,0,0.06)" : "rgba(255,255,255,0.06)",
                     }}
                   >
                     {step.step}
                   </div>
 
-                  <div>
+                  {/* Progressive Bottom Milestone Charging Line */}
+                  <div className="phase-bottom-progress" />
+
+                  {/* Main Content */}
+                  <div style={{ position: "relative", zIndex: 2 }}>
+                    {/* Top Header Row with Icon */}
                     <div
                       style={{
-                        width: 44,
-                        height: 44,
-                        borderRadius: "12px",
-                        background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.15)",
-                        border: isLight ? "1px solid rgba(0, 168, 143, 0.25)" : "1px solid rgba(94, 192, 152, 0.35)",
                         display: "flex",
                         alignItems: "center",
-                        justifyContent: "center",
-                        color: mintColor,
-                        marginBottom: "1.25rem",
+                        justifyContent: "space-between",
+                        marginBottom: "1.35rem",
                       }}
                     >
-                      <StepIcon size={22} />
+                      {/* Icon Box with Spring Hover Transformation */}
+                      <div
+                        className="phase-icon-box"
+                        style={{
+                          width: 48,
+                          height: 48,
+                          borderRadius: "14px",
+                          background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.14)",
+                          border: isLight ? "1px solid rgba(0, 168, 143, 0.28)" : "1px solid rgba(94, 192, 152, 0.35)",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          color: mintColor,
+                        }}
+                      >
+                        <StepIcon size={24} />
+                      </div>
                     </div>
 
-                    <div style={{ fontSize: "0.78rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em", color: mintColor, marginBottom: "0.35rem" }}>
+                    <div
+                      style={{
+                        fontSize: "0.78rem",
+                        fontWeight: 800,
+                        textTransform: "uppercase",
+                        letterSpacing: "0.06em",
+                        color: mintColor,
+                        marginBottom: "0.45rem",
+                      }}
+                    >
                       Phase {step.step}
                     </div>
 
-                    <h3 style={{ fontSize: "1.28rem", fontWeight: 700, marginBottom: "0.75rem" }}>
+                    <h3
+                      className="phase-title"
+                      style={{
+                        fontSize: "1.28rem",
+                        fontWeight: 700,
+                        marginBottom: "0.75rem",
+                        color: isLight ? "#0f172a" : "#ffffff",
+                        letterSpacing: "-0.015em",
+                      }}
+                    >
                       {step.phase}
                     </h3>
 
-                    <p style={{ color: isLight ? "#64748b" : "#94a3b8", fontSize: "0.95rem", lineHeight: 1.65 }}>
+                    <p
+                      style={{
+                        color: isLight ? "#475569" : "#cbd5e1",
+                        fontSize: "0.96rem",
+                        lineHeight: 1.65,
+                        fontWeight: 500,
+                        marginBottom: "1.35rem",
+                      }}
+                    >
                       {step.desc}
                     </p>
+                  </div>
+
+                  {/* Deliverable Micro-Checklist Chips */}
+                  <div
+                    style={{
+                      position: "relative",
+                      zIndex: 2,
+                      marginTop: "auto",
+                      paddingTop: "1.1rem",
+                      borderTop: isLight ? "1px solid #f1f5f9" : "1px solid rgba(255, 255, 255, 0.07)",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "0.55rem",
+                      flexWrap: "wrap",
+                    }}
+                  >
+                    {step.tags.map((tag, tIdx) => (
+                      <span
+                        key={tIdx}
+                        className="phase-tag-chip"
+                        style={{
+                          fontSize: "0.74rem",
+                          fontWeight: 600,
+                          padding: "0.22rem 0.55rem",
+                          borderRadius: "7px",
+                          background: isLight ? "rgba(0, 0, 0, 0.03)" : "rgba(255, 255, 255, 0.04)",
+                          border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.07)",
+                          color: isLight ? "#64748b" : "#94a3b8",
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "0.35rem",
+                        }}
+                      >
+                        <CheckCircle2 size={12} color={mintColor} />
+                        <span>{tag}</span>
+                      </span>
+                    ))}
                   </div>
                 </div>
               );
@@ -1699,109 +2172,9 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
       </section>
 
       {/* ===================================================================== */}
-      {/* 6. INDUSTRIES WE SPECIALIZE IN (SAME TO SAME DATA)                    */}
+      {/* 6. INDUSTRIES WE SPECIALIZE IN (ANIMATED CAROUSEL AS ON HOME PAGE)    */}
       {/* ===================================================================== */}
-      <section
-        id="industries"
-        style={{
-          padding: "5.5rem 1.5rem",
-          position: "relative",
-          background: isLight ? "#ffffff" : "rgba(4, 10, 22, 0.95)",
-          borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
-        }}
-      >
-        <div className="container-custom" style={{ maxWidth: "1200px", margin: "0 auto" }}>
-          <div style={{ textAlign: "center", maxWidth: "860px", margin: "0 auto 3.5rem auto" }}>
-            <span
-              style={{
-                display: "inline-block",
-                color: mintColor,
-                fontSize: "0.85rem",
-                fontWeight: 700,
-                letterSpacing: "0.06em",
-                textTransform: "uppercase",
-                marginBottom: "0.75rem",
-              }}
-            >
-              Industry Specialization
-            </span>
-
-            {/* Exact Heading from live page */}
-            <h2
-              style={{
-                fontSize: "clamp(2rem, 3.8vw, 3rem)",
-                fontWeight: 800,
-                letterSpacing: "-0.02em",
-                marginBottom: "1rem",
-              }}
-            >
-              Industries We Specialize In
-            </h2>
-
-            {/* Exact Lead from live page */}
-            <p style={{ color: isLight ? "#475569" : "#94a3b8", fontSize: "1.06rem", lineHeight: 1.7 }}>
-              Opash Software brings over 8 years of expertise in delivering tailored digital solutions for Insurance, Fintech, eCommerce,
-              Education, and Real Estate — helping businesses overcome industry challenges and scale confidently.
-            </p>
-          </div>
-
-          {/* 10 Industries from live page presented in an attractive modern card deck */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
-              gap: "1.25rem",
-            }}
-          >
-            {INDUSTRIES_LIVE.map((ind, idx) => {
-              const IndIcon = ind.icon;
-              const isSelected = idx === activeIndustryIdx;
-              return (
-                <div
-                  key={ind.id}
-                  onClick={() => setActiveIndustryIdx(idx)}
-                  style={{
-                    padding: "1.6rem 1.4rem",
-                    borderRadius: "16px",
-                    background: isSelected
-                      ? isLight ? "rgba(0, 168, 143, 0.08)" : "rgba(94, 192, 152, 0.14)"
-                      : isLight ? "#f8fafc" : "rgba(10, 20, 36, 0.7)",
-                    border: isSelected
-                      ? `1.5px solid ${mintColor}`
-                      : isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
-                    cursor: "pointer",
-                    transition: "all 0.2s ease",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "1rem",
-                  }}
-                >
-                  <div
-                    style={{
-                      width: 42,
-                      height: 42,
-                      borderRadius: "12px",
-                      background: isLight ? "rgba(0, 168, 143, 0.12)" : "rgba(94, 192, 152, 0.16)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      color: mintColor,
-                      flexShrink: 0,
-                    }}
-                  >
-                    <IndIcon size={20} />
-                  </div>
-                  <div>
-                    <h3 style={{ fontSize: "1.05rem", fontWeight: 700, margin: 0 }}>
-                      {ind.name}
-                    </h3>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+      <AnimatedIndustriesCarousel />
 
       {/* ===================================================================== */}
       {/* 7. CONNECT WITH OPASH / GET YOUR FREE QUOTE TODAY (SAME TO SAME FORM) */}
@@ -1835,14 +2208,16 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
 
             {/* Exact Heading from Live Page */}
             <h2
+              className="heading-section"
               style={{
-                fontSize: "clamp(2rem, 3.8vw, 3rem)",
-                fontWeight: 800,
-                letterSpacing: "-0.02em",
+                fontSize: "clamp(1.45rem, 2.1vw, 1.95rem)",
+                fontWeight: 850,
+                letterSpacing: "-0.025em",
+                lineHeight: 1.2,
                 marginBottom: "1rem",
               }}
             >
-              Connect with <span style={{ color: mintColor }}>Opash Software</span>’s Expert Development Team Today.
+              Connect with <span className="opash-hero-gradient-text">Opash Software’s</span> Expert Development Team Today.
             </h2>
           </div>
 
@@ -1857,8 +2232,8 @@ export default function CustomSoftwarePageClient({ service }: CustomSoftwarePage
             }}
           >
             <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
-              <h3 style={{ fontSize: "1.75rem", fontWeight: 800, marginBottom: "0.5rem" }}>
-                Get Your Free Quote Today
+              <h3 style={{ fontSize: "1.45rem", fontWeight: 850, letterSpacing: "-0.025em", marginBottom: "0.5rem" }}>
+                Get Your Free <span className="opash-hero-gradient-text">Quote Today</span>
               </h3>
               <p style={{ color: isLight ? "#64748b" : "#94a3b8", fontSize: "0.95rem" }}>
                 Fill out the details below and our team will get back to you with a tailored technical estimate within 24 hours.

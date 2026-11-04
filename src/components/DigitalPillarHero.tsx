@@ -86,15 +86,6 @@ export default function DigitalPillarHero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
         >
-          {/* Eyebrow Label with Teal Pulse Indicator */}
-          <div className="hero-brand-eyebrow">
-            <span
-              className="hero-brand-eyebrow-indicator"
-              style={{ backgroundColor: activeDef.primaryColor, boxShadow: `0 0 10px ${activeDef.primaryColor}` }}
-            />
-            <span>OPASH SOFTWARE — ELEVATE YOUR DIGITAL PRESENCE</span>
-          </div>
-
           {/* Core Kinetic Letters-in-Motion Headline */}
           <LettersInMotionHeadline
             heroRef={heroRef}
@@ -104,7 +95,15 @@ export default function DigitalPillarHero() {
           />
 
           {/* Supporting Subtitle Paragraph */}
-          <p className="hero-brand-subtitle letters-hero-subtitle">
+          <p
+            className="hero-brand-subtitle letters-hero-subtitle"
+            style={{
+              textAlign: "center",
+              marginLeft: "auto",
+              marginRight: "auto",
+              marginBottom: "1.5rem",
+            }}
+          >
             With the help of Innovation and Technology, We give you the power to
             change the world with your ideas.
           </p>
@@ -114,19 +113,39 @@ export default function DigitalPillarHero() {
 
           {/* Refined Brand CTA Action Buttons */}
           <div className="hero-brand-cta-row">
-            <Link href="/get-a-quote" className="hero-brand-primary-btn">
-              <span>Build on Our Foundation</span>
-              <ArrowRight size={15} className="hero-btn-arrow" />
+            <Link href="/get-a-quote" className="hero-brand-primary-btn opash-roll-btn">
+              <span className="opash-roll-track">
+                {/* Primary Content (slides up out of view on hover) */}
+                <span className="opash-roll-item">
+                  <span>Build on Our Foundation</span>
+                  <ArrowRight size={15} className="hero-btn-arrow" />
+                </span>
+                {/* Clone Content (slides up from bottom into center on hover) */}
+                <span className="opash-roll-item" aria-hidden="true">
+                  <span>Build on Our Foundation</span>
+                  <ArrowRight size={15} className="hero-btn-arrow" />
+                </span>
+              </span>
             </Link>
 
             <a
               href={companyData.contact.whatsapp}
               target="_blank"
               rel="noreferrer"
-              className="hero-brand-secondary-btn"
+              className="hero-brand-secondary-btn opash-roll-btn"
             >
-              <MessageSquare size={15} className="hero-wa-icon" />
-              <span>WhatsApp Chief Architect</span>
+              <span className="opash-roll-track">
+                {/* Primary Content (slides up out of view on hover) */}
+                <span className="opash-roll-item">
+                  <MessageSquare size={15} className="hero-wa-icon" />
+                  <span>WhatsApp Chief Architect</span>
+                </span>
+                {/* Clone Content (slides up from bottom into center on hover) */}
+                <span className="opash-roll-item" aria-hidden="true">
+                  <MessageSquare size={15} className="hero-wa-icon" />
+                  <span>WhatsApp Chief Architect</span>
+                </span>
+              </span>
             </a>
           </div>
         </motion.div>
@@ -222,6 +241,82 @@ export default function DigitalPillarHero() {
           </div>
         </motion.div>
       </div>
+
+      {/* Animated "Scroll to explore" Indicator (Matching Portfolio Style) */}
+      <a
+        href="#achievements"
+        onClick={(e) => {
+          e.preventDefault();
+          const target = document.getElementById("achievements") || document.getElementById("services");
+          if (target) {
+            target.scrollIntoView({ behavior: "smooth" });
+          }
+        }}
+        className="hero-scroll-indicator"
+        style={{
+          position: "absolute",
+          bottom: "clamp(1.1rem, 2.6vh, 2.2rem)",
+          left: "50%",
+          transform: "translateX(-50%)",
+          display: "inline-flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "0.45rem",
+          textDecoration: "none",
+          zIndex: 30,
+          cursor: "pointer",
+          transition: "transform 0.25s ease, opacity 0.25s ease",
+        }}
+        aria-label="Scroll to explore"
+      >
+        {/* Minimalist mouse pill with animated glowing dot */}
+        <div
+          style={{
+            width: "20px",
+            height: "32px",
+            borderRadius: "9999px",
+            border: `1.5px solid ${isLight ? "rgba(0, 138, 117, 0.45)" : "rgba(0, 255, 209, 0.45)"}`,
+            background: isLight ? "rgba(255, 255, 255, 0.65)" : "rgba(10, 20, 36, 0.65)",
+            backdropFilter: "blur(10px)",
+            WebkitBackdropFilter: "blur(10px)",
+            display: "flex",
+            justifyContent: "center",
+            paddingTop: "5px",
+            boxShadow: isLight
+              ? "0 4px 14px rgba(0, 168, 143, 0.15)"
+              : "0 4px 18px rgba(0, 255, 209, 0.2)",
+          }}
+        >
+          <span
+            className="hero-scroll-dot"
+            style={{
+              width: "4px",
+              height: "6px",
+              borderRadius: "9999px",
+              background: isLight ? "#008a75" : "#00ffd1",
+              boxShadow: isLight ? "0 0 8px #008a75" : "0 0 10px #00ffd1",
+            }}
+          />
+        </div>
+
+        {/* Subtle helper text with animated bouncing arrow */}
+        <div
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "0.35rem",
+            fontSize: "0.75rem",
+            fontWeight: 750,
+            letterSpacing: "0.08em",
+            textTransform: "uppercase",
+            color: isLight ? "#008a75" : "#2dd4bf",
+            whiteSpace: "nowrap",
+          }}
+        >
+          <span>Scroll to explore</span>
+          <span className="hero-scroll-arrow">↓</span>
+        </div>
+      </a>
     </section>
   );
 }

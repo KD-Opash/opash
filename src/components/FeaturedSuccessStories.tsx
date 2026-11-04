@@ -271,7 +271,7 @@ export function FeaturedSuccessStories() {
               <span>Verified Enterprise Case Deployments</span>
             </div>
 
-            <h2 className="heading-section" style={{ fontSize: "clamp(1.9rem, 3.4vw, 2.9rem)" }}>
+            <h2 className="heading-section" style={{ fontSize: "clamp(1.65rem, 2.5vw, 2.25rem)" }}>
               Featured Client Success Stories
             </h2>
 

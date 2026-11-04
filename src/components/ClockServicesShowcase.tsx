@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -163,7 +164,7 @@ export function ClockServicesShowcase() {
       className="coverflow-services-section relative w-full"
       style={{
         position: "relative",
-        padding: "6rem 0 6.5rem 0",
+        padding: "5rem 0 6.5rem 0",
         overflow: "hidden",
       }}
       aria-label="Opash Software Services and Capabilities"
@@ -178,26 +179,17 @@ export function ClockServicesShowcase() {
         {/* ========================================================================= */}
         {/* 1. SECTION HEADER                                                         */}
         {/* ========================================================================= */}
-        <div className="coverflow-header-wrapper" style={{ textAlign: "center", marginBottom: "3rem" }}>
-          <div className="coverflow-eyebrow" style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem" }}>
-            <span
-              className="coverflow-eyebrow-dot"
-              style={{
-                width: 8,
-                height: 8,
-                borderRadius: "50%",
-                backgroundColor: "#00bbab",
-                display: "inline-block",
-              }}
-            />
-            <span style={{ fontSize: "0.82rem", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase" }}>
-              FULL-SPECTRUM CAPABILITIES &bull; BESPOKE ARCHITECTURE
-            </span>
-          </div>
-
+        <motion.div
+          className="coverflow-header-wrapper"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, amount: 0.2 }}
+          transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+          style={{ textAlign: "center", marginBottom: "3rem" }}
+        >
           <h2
             className="heading-section"
-            style={{ fontSize: "clamp(2rem, 4vw, 2.85rem)", fontWeight: 850, margin: "0.75rem 0 1rem 0" }}
+            style={{ fontSize: "clamp(1.45rem, 2.1vw, 1.95rem)", fontWeight: 850, margin: "0 0 1rem 0" }}
           >
             Our <span className="opash-hero-gradient-text">Services</span>
           </h2>
@@ -205,7 +197,7 @@ export function ClockServicesShowcase() {
           <p
             className="subhead-lead"
             style={{
-              margin: "0 auto 2rem auto",
+              margin: "0 auto",
               maxWidth: "680px",
               color: isLight ? "#475569" : "#94a3b8",
               fontSize: "1.05rem",
@@ -214,78 +206,7 @@ export function ClockServicesShowcase() {
           >
             We engineer high-performance digital platforms with remarkable aesthetics, delivering a full spectrum of result-oriented enterprise solutions.
           </p>
-
-          {/* Quick-Jump Category / Service Pills */}
-          <div
-            className="coverflow-pill-tabs"
-            role="tablist"
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "0.5rem",
-            }}
-          >
-            <button
-              onClick={() => setSelectedFilter("all")}
-              className={`coverflow-tab-btn ${selectedFilter === "all" ? "active" : ""}`}
-              role="tab"
-              aria-selected={selectedFilter === "all"}
-              style={{
-                padding: "0.45rem 1rem",
-                borderRadius: "9999px",
-                fontSize: "0.82rem",
-                fontWeight: 650,
-                border: selectedFilter === "all"
-                  ? "1px solid #00bbab"
-                  : `1px solid ${isLight ? "#e2e8f0" : "rgba(255, 255, 255, 0.08)"}`,
-                background: selectedFilter === "all"
-                  ? isLight ? "rgba(0, 187, 171, 0.12)" : "rgba(0, 187, 171, 0.2)"
-                  : isLight ? "#ffffff" : "rgba(15, 23, 42, 0.6)",
-                color: selectedFilter === "all" ? (isLight ? "#0f766e" : "#00ffd1") : isLight ? "#64748b" : "#94a3b8",
-                cursor: "pointer",
-                transition: "all 0.2s ease",
-              }}
-            >
-              All Services
-            </button>
-            {SERVICES_DATA.map((srv) => {
-              const isActive = selectedFilter === srv.id;
-              const Icon = srv.icon;
-              return (
-                <button
-                  key={srv.id}
-                  onClick={() => setSelectedFilter(srv.id)}
-                  className={`coverflow-tab-btn ${isActive ? "active" : ""}`}
-                  role="tab"
-                  aria-selected={isActive}
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: "0.45rem",
-                    padding: "0.45rem 1rem",
-                    borderRadius: "9999px",
-                    fontSize: "0.82rem",
-                    fontWeight: 650,
-                    border: isActive
-                      ? `1px solid ${srv.accent}`
-                      : `1px solid ${isLight ? "#e2e8f0" : "rgba(255, 255, 255, 0.08)"}`,
-                    background: isActive
-                      ? `rgba(${srv.accentRgb}, ${isLight ? 0.12 : 0.2})`
-                      : isLight ? "#ffffff" : "rgba(15, 23, 42, 0.6)",
-                    color: isActive ? srv.accent : isLight ? "#64748b" : "#94a3b8",
-                    cursor: "pointer",
-                    transition: "all 0.2s ease",
-                  }}
-                >
-                  <Icon size={14} />
-                  <span>{srv.shortLabel}</span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
+        </motion.div>
 
         {/* ========================================================================= */}
         {/* 2. HIGH-PERFORMANCE STATIC RESPONSIVE 6-CARD GRID (0% GPU/CPU OVERHEAD)   */}
@@ -302,8 +223,18 @@ export function ClockServicesShowcase() {
             const Icon = service.icon;
 
             return (
-              <div
+              <motion.div
                 key={service.id}
+                initial={{ opacity: 0, y: 35 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: false, amount: 0.12 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 110,
+                  damping: 18,
+                  mass: 0.8,
+                  delay: (index + 1) * 0.06,
+                }}
                 style={{
                   display: "flex",
                   flexDirection: "column",
@@ -312,6 +243,7 @@ export function ClockServicesShowcase() {
               >
                 <Link
                   href={service.url}
+                  className="opash-service-showcase-card group"
                   style={{
                     display: "flex",
                     flexDirection: "column",
@@ -327,23 +259,13 @@ export function ClockServicesShowcase() {
                     color: "inherit",
                     position: "relative",
                     overflow: "hidden",
-                    transition: "transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = "translateY(-4px)";
-                    e.currentTarget.style.borderColor = service.accent;
-                    e.currentTarget.style.boxShadow = isLight
-                      ? `0 14px 30px -10px rgba(${service.accentRgb}, 0.2)`
-                      : `0 16px 36px -12px rgba(${service.accentRgb}, 0.35)`;
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = "none";
-                    e.currentTarget.style.borderColor = isLight ? "#e2e8f0" : "rgba(255, 255, 255, 0.08)";
-                    e.currentTarget.style.boxShadow = "none";
+                    ["--card-accent" as string]: service.accent,
+                    ["--card-accent-rgb" as string]: service.accentRgb,
                   }}
                 >
                   {/* Subtle Top Accent Line */}
                   <div
+                    className="opash-service-top-line"
                     style={{
                       position: "absolute",
                       top: 0,
@@ -389,7 +311,9 @@ export function ClockServicesShowcase() {
                         {service.badge}
                       </span>
 
+                      {/* Top-Right Circle Arrow (Diagonally Micro-Jumps on Hover) */}
                       <div
+                        className="opash-service-arrow-circle"
                         style={{
                           width: "34px",
                           height: "34px",
@@ -406,8 +330,9 @@ export function ClockServicesShowcase() {
                       </div>
                     </div>
 
-                    {/* Service Icon Badge */}
+                    {/* Service Icon Badge (Smoothly Scales 1.08 & Glows on Hover) */}
                     <div
+                      className="opash-service-icon-box"
                       style={{
                         width: "56px",
                         height: "56px",
@@ -496,6 +421,7 @@ export function ClockServicesShowcase() {
                       Explore Service
                     </span>
                     <div
+                      className="opash-service-footer-arrow"
                       style={{
                         width: "28px",
                         height: "28px",
@@ -511,7 +437,7 @@ export function ClockServicesShowcase() {
                     </div>
                   </div>
                 </Link>
-              </div>
+              </motion.div>
             );
           })}
         </div>

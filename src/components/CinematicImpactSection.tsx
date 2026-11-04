@@ -148,27 +148,48 @@ function TelemetryCanvas({ mode, isLight, accentColor }: TelemetryCanvasProps) {
           <g>
             <rect width="500" height="340" fill={isLight ? "rgba(251, 191, 36, 0.03)" : "rgba(251, 191, 36, 0.02)"} />
             {/* Outer Track */}
-            <circle cx="250" cy="160" r="105" stroke={isLight ? "rgba(251, 191, 36, 0.2)" : "rgba(251, 191, 36, 0.15)"} strokeWidth="6" fill="none" />
-            {/* Active Arc (85% completed) */}
+            <circle cx="250" cy="150" r="115" stroke={isLight ? "rgba(251, 191, 36, 0.2)" : "rgba(251, 191, 36, 0.15)"} strokeWidth="5" fill="none" />
+            {/* Active Arc (80% completed) */}
             <circle
               cx="250"
-              cy="160"
-              r="105"
+              cy="150"
+              r="115"
               stroke="#fbbf24"
-              strokeWidth="6"
-              strokeDasharray="560"
-              strokeDashoffset="90"
+              strokeWidth="5"
+              strokeDasharray="723"
+              strokeDashoffset="145"
               strokeLinecap="round"
               fill="none"
             />
             {/* Satellite Node */}
-            <circle cx="250" cy="55" r="7" fill="#ffffff" stroke="#fbbf24" strokeWidth="3" />
+            <circle cx="250" cy="35" r="6" fill="#ffffff" stroke="#fbbf24" strokeWidth="2.5" />
 
-            {/* Center Typography */}
-            <text x="250" y="165" textAnchor="middle" fill={isLight ? "#0f172a" : "#f8fafc"} fontSize="28" fontWeight="800" fontFamily="var(--font-display), monospace">
+            {/* Subtle Inner Guide Ring */}
+            <circle cx="250" cy="150" r="92" stroke={isLight ? "rgba(251, 191, 36, 0.15)" : "rgba(251, 191, 36, 0.08)"} strokeWidth="1" strokeDasharray="3 4" fill="none" />
+
+            {/* Center Typography (Cleanly proportioned inside circle boundary) */}
+            <text
+              x="250"
+              y="142"
+              textAnchor="middle"
+              fill={isLight ? "#0f172a" : "#f8fafc"}
+              fontSize="21"
+              fontWeight="800"
+              fontFamily="var(--font-display), system-ui, sans-serif"
+              letterSpacing="-0.01em"
+            >
               2021 → Present
             </text>
-            <text x="250" y="190" textAnchor="middle" fill={isLight ? "#64748b" : "#94a3b8"} fontSize="11" fontWeight="600" fontFamily="ui-monospace, monospace">
+            <text
+              x="250"
+              y="168"
+              textAnchor="middle"
+              fill={isLight ? "#b45309" : "#fbbf24"}
+              fontSize="9.5"
+              fontWeight="700"
+              fontFamily="ui-monospace, monospace"
+              letterSpacing="0.08em"
+            >
               PROVEN ENGINEERING EXCELLENCE
             </text>
 
@@ -195,8 +216,11 @@ const METRIC_PILLARS = [
     label: "In-House Team",
     title: "Dedicated Engineering Force",
     icon: Users,
-    color: "#38bdf8", // Sky Cyan
+    color: "#38bdf8", // Sky Cyan (Dark theme)
     colorRgb: "56, 189, 248",
+    lightColor: "#0284c7", // Rich Azure (Light theme)
+    lightRgb: "2, 132, 199",
+    lightGradient: "linear-gradient(135deg, #0284c7 0%, #0369a1 100%)",
     telemetry: "100% In-House Engineers",
     desc: "Autonomous full-stack, distributed cloud-native, and AI engineers working under veteran tech leadership.",
     specs: ["Dedicated Squads", "Full-Stack + AI", "Zero Ramp-up Time"],
@@ -209,8 +233,11 @@ const METRIC_PILLARS = [
     label: "Deployments",
     title: "Global Enterprise Deployments",
     icon: Briefcase,
-    color: "#34d399", // Emerald Mint
+    color: "#34d399", // Emerald Mint (Dark theme)
     colorRgb: "52, 211, 153",
+    lightColor: "#059669", // Rich Emerald (Light theme)
+    lightRgb: "5, 150, 105",
+    lightGradient: "linear-gradient(135deg, #059669 0%, #047857 100%)",
     telemetry: "99.4% On-Time SLA Guarantee",
     desc: "High-concurrency web systems, real-time consumer mobile platforms, and compliant enterprise SaaS portals.",
     specs: ["HIPAA & SOC2", "Multi-Region Cloud", "Sub-Second Latency"],
@@ -223,8 +250,11 @@ const METRIC_PILLARS = [
     label: "Execution Hours",
     title: "Precision Execution Hours",
     icon: Clock,
-    color: "#c084fc", // Violet
+    color: "#c084fc", // Violet (Dark theme)
     colorRgb: "192, 132, 252",
+    lightColor: "#7c3aed", // Royal Violet (Light theme - High Contrast)
+    lightRgb: "124, 58, 237",
+    lightGradient: "linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%)",
     telemetry: "48.6 Sprints / Month Cadence",
     desc: "Battle-tested agile sprints with automated CI/CD deployment pipelines and continuous regression testing.",
     specs: ["Weekly Deploys", "Zero-Downtime Releases", "Automated QA"],
@@ -237,8 +267,11 @@ const METRIC_PILLARS = [
     label: "Years Authority",
     title: "Years of Industry Proven Longevity",
     icon: Award,
-    color: "#fbbf24", // Amber Gold
+    color: "#fbbf24", // Amber Gold (Dark theme)
     colorRgb: "251, 191, 36",
+    lightColor: "#d97706", // Deep Amber (Light theme)
+    lightRgb: "217, 119, 6",
+    lightGradient: "linear-gradient(135deg, #d97706 0%, #92400e 100%)",
     telemetry: "Established 2021 • Retained",
     desc: "Deep engineering authority sustained across 9 connected markets with over 90% multi-year client retention.",
     specs: ["9 Global Markets", "US, UK & MENA", "Full IP Ownership"],
@@ -262,7 +295,7 @@ export default function CinematicImpactSection() {
       id="achievements"
       style={{
         position: "relative",
-        padding: "5.5rem 0 6rem 0",
+        padding: "5.5rem 0 2rem 0",
         overflow: "hidden",
       }}
       aria-label="Opash Software Engineering Impact Engine"
@@ -282,40 +315,15 @@ export default function CinematicImpactSection() {
           }}
         >
           <div style={{ maxWidth: "680px" }}>
-            <div
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "8px",
-                padding: "5px 14px",
-                borderRadius: "999px",
-                backgroundColor: isLight
-                  ? "rgba(14, 165, 233, 0.09)"
-                  : "rgba(56, 189, 248, 0.12)",
-                border: `1px solid ${
-                  isLight ? "rgba(14, 165, 233, 0.25)" : "rgba(56, 189, 248, 0.3)"
-                }`,
-                color: isLight ? "#0284c7" : "#38bdf8",
-                fontSize: "0.8rem",
-                fontWeight: 600,
-                letterSpacing: "0.05em",
-                textTransform: "uppercase",
-                marginBottom: "0.85rem",
-              }}
-            >
-              <Terminal size={13} />
-              <span>Global Engineering Command Deck</span>
-            </div>
-
             <h2
               className="heading-section"
               style={{
-                fontSize: "clamp(2rem, 3.8vw, 3.2rem)",
+                fontSize: "clamp(1.65rem, 2.5vw, 2.25rem)",
                 lineHeight: 1.15,
                 margin: 0,
               }}
             >
-              Empowering your <span style={{ color: active.color }}>success</span> with engineering precision
+              Empowering your <span className="opash-hero-gradient-text">success</span> with engineering precision
             </h2>
           </div>
 
@@ -410,8 +418,10 @@ export default function CinematicImpactSection() {
                         left: 0,
                         right: 0,
                         height: "3px",
-                        backgroundColor: p.color,
-                        boxShadow: `0 0 12px ${p.color}`,
+                        backgroundColor: isLight ? p.lightColor : p.color,
+                        boxShadow: isLight
+                          ? `0 2px 10px rgba(${p.lightRgb}, 0.35)`
+                          : `0 0 12px ${p.color}`,
                       }}
                     />
                   )}
@@ -422,11 +432,13 @@ export default function CinematicImpactSection() {
                         width: "32px",
                         height: "32px",
                         borderRadius: "8px",
-                        backgroundColor: `rgba(${p.colorRgb}, 0.12)`,
+                        backgroundColor: isLight
+                          ? `rgba(${p.lightRgb}, 0.12)`
+                          : `rgba(${p.colorRgb}, 0.12)`,
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        color: p.color,
+                        color: isLight ? p.lightColor : p.color,
                       }}
                     >
                       <PIcon size={16} />
@@ -467,7 +479,13 @@ export default function CinematicImpactSection() {
                       fontSize: "1.25rem",
                       fontWeight: 800,
                       fontFamily: "var(--font-display), monospace",
-                      color: isSelected ? p.color : isLight ? "#94a3b8" : "#64748b",
+                      color: isSelected
+                        ? isLight
+                          ? p.lightColor
+                          : p.color
+                        : isLight
+                        ? "#64748b"
+                        : "#64748b",
                     }}
                   >
                     {p.val}
@@ -498,26 +516,6 @@ export default function CinematicImpactSection() {
                   exit={{ opacity: 0, x: 16 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "0.75rem" }}>
-                    <span
-                      style={{
-                        padding: "4px 12px",
-                        borderRadius: "999px",
-                        fontSize: "0.74rem",
-                        fontWeight: 700,
-                        backgroundColor: `rgba(${active.colorRgb}, 0.12)`,
-                        border: `1px solid rgba(${active.colorRgb}, 0.3)`,
-                        color: active.color,
-                        letterSpacing: "0.04em",
-                      }}
-                    >
-                      {active.telemetry}
-                    </span>
-                    <span style={{ fontSize: "0.76rem", color: isLight ? "#64748b" : "#94a3b8" }}>
-                      Verified Live Metric
-                    </span>
-                  </div>
-
                   {/* Giant Typography Counter */}
                   <div
                     style={{
@@ -531,7 +529,9 @@ export default function CinematicImpactSection() {
                   >
                     <span
                       style={{
-                        backgroundImage: `linear-gradient(135deg, ${active.color} 0%, #ffffff 80%)`,
+                        backgroundImage: isLight
+                          ? active.lightGradient
+                          : `linear-gradient(135deg, ${active.color} 0%, #ffffff 80%)`,
                         WebkitBackgroundClip: "text",
                         backgroundClip: "text",
                         WebkitTextFillColor: "transparent",
@@ -589,7 +589,7 @@ export default function CinematicImpactSection() {
                           color: isLight ? "#334155" : "#cbd5e1",
                         }}
                       >
-                        <CheckCircle2 size={13} color={active.color} />
+                        <CheckCircle2 size={13} color={isLight ? active.lightColor : active.color} />
                         <span>{spec}</span>
                       </span>
                     ))}
@@ -615,45 +615,8 @@ export default function CinematicImpactSection() {
               <TelemetryCanvas
                 mode={activePillar}
                 isLight={isLight}
-                accentColor={active.color}
+                accentColor={isLight ? active.lightColor : active.color}
               />
-            </div>
-          </div>
-
-          {/* Bottom Live System Ticker Bar */}
-          <div
-            style={{
-              padding: "1rem 2.5rem",
-              background: isLight ? "#f1f5f9" : "rgba(8, 13, 22, 0.85)",
-              borderTop: isLight
-                ? "1px solid #e2e8f0"
-                : "1px solid rgba(255, 255, 255, 0.06)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              flexWrap: "wrap",
-              gap: "1rem",
-              fontSize: "0.8rem",
-              color: isLight ? "#64748b" : "#94a3b8",
-            }}
-          >
-            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <span
-                style={{
-                  width: "7px",
-                  height: "7px",
-                  borderRadius: "50%",
-                  backgroundColor: "#10b981",
-                  boxShadow: "0 0 8px #10b981",
-                  display: "inline-block",
-                }}
-              />
-              <span>Live Engineering Health: <strong>100% Operational</strong></span>
-            </div>
-
-            <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
-              <span>Timecode: <strong style={{ color: isLight ? "#0f172a" : "#f1f5f9" }}>UTC+00:00 Synchronized</strong></span>
-              <span>Architecture: <strong style={{ color: active.color }}>Cloud-Native Enterprise Ready</strong></span>
             </div>
           </div>
         </div>

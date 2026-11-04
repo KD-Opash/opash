@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-type Theme = "dark" | "light";
+export type Theme = "dark" | "light";
 
 interface ThemeContextType {
   theme: Theme;
@@ -16,26 +16,31 @@ const ThemeContext = createContext<ThemeContextType>({
   setTheme: () => {},
 });
 
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
+export function ThemeProvider({ 
+  children,
+}: { 
+  children: React.ReactNode;
+}) {
   const [theme, setThemeState] = useState<Theme>("dark");
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // Check saved theme or system preference
-    const saved = localStorage.getItem("opash-theme") as Theme | null;
-    if (saved === "light" || saved === "dark") {
-      setThemeState(saved);
-      document.documentElement.setAttribute("data-theme", saved);
-    } else {
-      document.documentElement.setAttribute("data-theme", "dark");
-    }
-    setMounted(true);
+    try {
+      const saved = localStorage.getItem("opash-theme") as Theme | null;
+      if (saved && (saved === "light" || saved === "dark")) {
+        setThemeState(saved);
+        document.documentElement.setAttribute("data-theme", saved);
+      } else {
+        document.documentElement.setAttribute("data-theme", "dark");
+      }
+    } catch (e) {}
   }, []);
 
   const setTheme = (newTheme: Theme) => {
     setThemeState(newTheme);
-    localStorage.setItem("opash-theme", newTheme);
-    document.documentElement.setAttribute("data-theme", newTheme);
+    try {
+      localStorage.setItem("opash-theme", newTheme);
+      document.documentElement.setAttribute("data-theme", newTheme);
+    } catch (e) {}
   };
 
   const toggleTheme = () => {

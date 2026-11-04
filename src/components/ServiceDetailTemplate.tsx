@@ -55,6 +55,10 @@ import { ServiceDetail } from "@/data/services";
 import WhyChooseUsCards from "@/components/WhyChooseUsCards";
 import RecognisedBy from "@/components/RecognisedBy";
 import { motion } from "framer-motion";
+import OuiWillHeadline, { OuiWillWord, OuiWillDot } from "@/components/OuiWillHeadline";
+import { TechStackShowcase } from "@/components/TechStackShowcase";
+import { AnimatedIndustriesCarousel } from "@/components/AnimatedIndustriesCarousel";
+import AnimatedRollingMetric from "@/components/AnimatedRollingMetric";
 
 function AiMlDeviceIllustration() {
   return (
@@ -1029,6 +1033,121 @@ function getServiceFeatureMeta(serviceSlug: string, item: { title: string; desc:
   };
 }
 
+function getProcessStepIcon(index: number, title: string) {
+  const t = title.toLowerCase();
+  if (t.includes("analys") || t.includes("scope") || t.includes("profil") || t.includes("discover") || t.includes("require")) return Search;
+  if (t.includes("plan") || t.includes("design") || t.includes("shortlist") || t.includes("architect")) return Compass;
+  if (t.includes("environ") || t.includes("setup") || t.includes("interview") || t.includes("code") || t.includes("develop")) return Code2;
+  if (t.includes("test") || t.includes("execut") || t.includes("qa") || t.includes("onboard")) return TestTube2;
+  if (t.includes("regress") || t.includes("bug") || t.includes("deploy") || t.includes("sprint")) return Rocket;
+  if (t.includes("sign-off") || t.includes("monitor") || t.includes("scal") || t.includes("support") || t.includes("mainten")) return RefreshCw;
+  const icons = [Search, Compass, Code2, TestTube2, Rocket, RefreshCw];
+  return icons[index % icons.length];
+}
+
+function getProcessStepTags(index: number, serviceSlug: string, stepTitle: string): string[] {
+  if (serviceSlug === "api-integration") {
+    const apiTags: Record<number, string[]> = {
+      0: ["Data Contract Specs", "Schema Mapping"],
+      1: ["Auth & Rate Limits", "Latency Profiling"],
+      2: ["REST / GraphQL / gRPC", "mTLS Zero-Trust"],
+      3: ["Token Rotation", "Idempotent Listeners"],
+      4: ["Chaos Fault Mocking", "Synthetic Testing"],
+      5: ["Edge Gateway Ops", "99.99% SLA Tracking"],
+    };
+    return apiTags[index] || ["API Contract", "Zero-Loss Bridge"];
+  }
+  if (serviceSlug === "qa-testing") {
+    const qaTags: Record<number, string[]> = {
+      0: ["SRS Analysis", "Risk Assessment"],
+      1: ["Test Strategy", "Coverage Matrix"],
+      2: ["Staging Mirrors", "Mock Data"],
+      3: ["E2E Automation", "Defect Logging"],
+      4: ["Regression Suite", "Zero Critical Bugs"],
+      5: ["Smoke Testing", "Production Sign-Off"],
+    };
+    return qaTags[index] || ["Quality Gate", "Audit Passed"];
+  }
+  if (serviceSlug === "hire-developers") {
+    const hireTags: Record<number, string[]> = {
+      0: ["Tech Stack Mapping", "Role Definition"],
+      1: ["48h Matching", "Top 3% Talent"],
+      2: ["Live Coding", "Architecture Review"],
+      3: ["NDA & IP Signed", "GitHub / Jira Access"],
+      4: ["Daily Standups", "Bi-Weekly Demos"],
+      5: ["Elastic Scalability", "Dedicated PM"],
+    };
+    return hireTags[index] || ["Vetted Talent", "Agile Execution"];
+  }
+  const genericTags: Record<number, string[]> = {
+    0: ["Discovery & Scope", "KPI Alignment"],
+    1: ["Architecture Blueprint", "Design Specs"],
+    2: ["Agile Sprints", "Clean Codebase"],
+    3: ["Rigorous QA", "Security Validation"],
+    4: ["Automated CI/CD", "Zero-Downtime Rollout"],
+    5: ["24/7 Monitoring", "Continuous SLAs"],
+  };
+  return genericTags[index] || ["Milestone Verified", "Enterprise SLA"];
+}
+
+function getProcessPipelineLabel(title: string, index: number): string {
+  const t = title.toLowerCase();
+  if (t.includes("analys") || t.includes("scope") || t.includes("profil") || t.includes("require")) return "Requirement";
+  if (t.includes("evaluat") || t.includes("compatib") || t.includes("shortlist")) return "Evaluation";
+  if (t.includes("endpoint") || t.includes("config") || t.includes("environ") || t.includes("develop")) return "Endpoints";
+  if (t.includes("secur") || t.includes("rate limit") || t.includes("webhook")) return "Security";
+  if (t.includes("sandbox") || t.includes("regress") || t.includes("bug")) return "Sandbox";
+  if (t.includes("deploy") || t.includes("sign-off") || t.includes("monitor") || t.includes("support")) return "Deployment";
+  const words = title.split(/\s+/).filter(Boolean);
+  if (words[0].toLowerCase() === "test" && words.length > 1) {
+    return words[1];
+  }
+  return words[0] || `Phase ${index + 1}`;
+}
+
+function getServiceMetricIcon(index: number, label: string, serviceSlug: string) {
+  const l = label.toLowerCase();
+  if (l.includes("call") || l.includes("throughput") || l.includes("speed") || l.includes("saving") || l.includes("cost")) return Zap;
+  if (l.includes("time") || l.includes("hour") || l.includes("latency") || l.includes("cadence") || l.includes("cycle")) return Clock;
+  if (l.includes("uptime") || l.includes("sla") || l.includes("defect") || l.includes("secur") || l.includes("vetting")) return ShieldCheck;
+  if (l.includes("doc") || l.includes("cover") || l.includes("code") || l.includes("test")) return FileCode;
+  if (l.includes("user") || l.includes("team") || l.includes("talent") || l.includes("match")) return Users;
+  if (l.includes("overlap") || l.includes("global") || l.includes("project")) return Globe2;
+  const defaultIcons = [Zap, Clock, ShieldCheck, FileCode];
+  return defaultIcons[index % defaultIcons.length];
+}
+
+function getServiceMetricSub(index: number, label: string, serviceSlug: string): string {
+  if (serviceSlug === "api-integration") {
+    const apiSubs = [
+      "High-Throughput Gateways",
+      "Sub-50ms Global Edge Routing",
+      "Multi-Zone High Availability",
+      "Standardized OpenAPI 3.0 Specs",
+    ];
+    return apiSubs[index] || "Enterprise Telemetry";
+  }
+  if (serviceSlug === "qa-testing") {
+    const qaSubs = [
+      "Zero-Defect Quality Gates",
+      "Cypress & Playwright Suites",
+      "Distributed Load Benchmarks",
+      "Streamlined CI/CD Feedback",
+    ];
+    return qaSubs[index] || "Quality Assurance Metric";
+  }
+  if (serviceSlug === "hire-developers") {
+    const hireSubs = [
+      "Instant Bench Onboarding",
+      "Multi-Round Technical Screen",
+      "Zero Recruitment Overhead",
+      "Real-Time Collaboration",
+    ];
+    return hireSubs[index] || "Talent Guarantee";
+  }
+  return "Production-Grade Metric";
+}
+
 export default function ServiceDetailTemplate({
   service,
   heroVideoSrc,
@@ -1339,8 +1458,12 @@ export default function ServiceDetailTemplate({
         className="service-hero"
         style={{
           position: "relative",
-          padding: "7.5rem 1.5rem 5rem 1.5rem",
+          padding: "7.5rem 1.5rem 4.5rem 1.5rem",
           overflow: "hidden",
+          minHeight: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
         {/* Subtle Ambient Tech Dot Grid (Pure Static CSS) */}
@@ -1451,7 +1574,7 @@ export default function ServiceDetailTemplate({
             grid-template-columns: 1fr;
             gap: 2.75rem;
             align-items: center;
-            margin-bottom: 3.5rem;
+            margin-bottom: 0;
           }
           @media (min-width: 1024px) {
             .service-hero-grid {
@@ -1469,38 +1592,31 @@ export default function ServiceDetailTemplate({
             {/* ── LEFT COLUMN: Headline, Positioning, CTAs & Trust Badges ─── */}
             <div style={{ textAlign: "left" }}>
               {/* Monumental Headline */}
-              <div style={{ margin: "0 0 1.35rem 0" }}>
-                <h1
+              <div style={{ margin: "0 0 1.25rem 0" }}>
+                <OuiWillHeadline
                   style={{
                     fontFamily: "var(--font-acthirey), 'Acthirey', 'Playfair Display', serif",
-                    fontSize: "clamp(2.75rem, 5vw, 4.65rem)",
+                    fontSize: "clamp(2rem, 3.4vw, 3.1rem)",
                     fontWeight: 400,
-                    lineHeight: 1.08,
+                    lineHeight: 1.14,
                     letterSpacing: "-0.015em",
                     margin: 0,
-                    color: isLight ? "#0f172a" : "#ffffff",
                     textAlign: "left",
+                    display: "block",
                   }}
                 >
-                  <span>{titleConfig.main}</span><br />
+                  <OuiWillWord index={1}>{titleConfig.main}</OuiWillWord>
                   {titleConfig.accent && (
-                    <span
-                      style={{
-                        display: "inline-block",
-                        background: isLight
-                          ? "linear-gradient(135deg, #00A88F 0%, #0284c7 100%)"
-                          : "linear-gradient(135deg, #5EC098 0%, #38bdf8 100%)",
-                        WebkitBackgroundClip: "text",
-                        WebkitTextFillColor: "transparent",
-                        textShadow: isLight
-                          ? "none"
-                          : "0 0 45px rgba(94, 192, 152, 0.35)",
-                      }}
-                    >
-                      {titleConfig.accent}
-                    </span>
+                    <>
+                      <OuiWillDot />
+                      <span style={{ display: "block", width: "100%", marginTop: "0.2rem" }}>
+                        <OuiWillWord index={2} isGradient>
+                          {titleConfig.accent}
+                        </OuiWillWord>
+                      </span>
+                    </>
                   )}
-                </h1>
+                </OuiWillHeadline>
               </div>
 
               {/* Lead Paragraph 1 (Exact Content Preserved) */}
@@ -1549,83 +1665,54 @@ export default function ServiceDetailTemplate({
                 {/* Primary Button */}
                 <Link
                   href="#quote-section"
+                  className="hero-brand-primary-btn opash-roll-btn"
                   style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    whiteSpace: "nowrap",
-                    gap: "0.6rem",
                     padding: "0.95rem 2.1rem",
                     borderRadius: "12px",
                     fontWeight: 700,
                     fontSize: "0.95rem",
                     letterSpacing: "0.03em",
                     textTransform: "uppercase",
-                    color: "#ffffff",
-                    background: isLight
-                      ? "linear-gradient(135deg, #00A88F 0%, #0284c7 100%)"
-                      : "linear-gradient(135deg, #5EC098 0%, #00A88F 100%)",
-                    border: "none",
-                    boxShadow: isLight
-                      ? "0 10px 24px -4px rgba(0, 168, 143, 0.38)"
-                      : "0 10px 28px -4px rgba(94, 192, 152, 0.45)",
                     textDecoration: "none",
-                    transition: "transform 0.2s ease, box-shadow 0.2s ease",
                     cursor: "pointer",
                   }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = "translateY(-3px)";
-                    e.currentTarget.style.boxShadow = isLight
-                      ? "0 14px 32px -4px rgba(0, 168, 143, 0.5)"
-                      : "0 14px 35px -4px rgba(94, 192, 152, 0.6)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = "translateY(0)";
-                    e.currentTarget.style.boxShadow = isLight
-                      ? "0 10px 24px -4px rgba(0, 168, 143, 0.38)"
-                      : "0 10px 28px -4px rgba(94, 192, 152, 0.45)";
-                  }}
                 >
-                  <span>Get Free Consultation</span>
-                  <ArrowRight size={18} />
+                  <span className="opash-roll-track">
+                    <span className="opash-roll-item">
+                      <span>ESTIMATE PROJECT</span>
+                      <ArrowRight size={18} className="hero-btn-arrow" />
+                    </span>
+                    <span className="opash-roll-item" aria-hidden="true">
+                      <span>ESTIMATE PROJECT</span>
+                      <ArrowRight size={18} className="hero-btn-arrow" />
+                    </span>
+                  </span>
                 </Link>
 
                 {/* Secondary Button */}
                 <Link
                   href="#tech-stack"
+                  className="hero-brand-secondary-btn opash-roll-btn"
                   style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    whiteSpace: "nowrap",
-                    gap: "0.6rem",
                     padding: "0.95rem 1.9rem",
                     borderRadius: "12px",
                     fontWeight: 600,
                     fontSize: "0.95rem",
                     letterSpacing: "0.02em",
-                    color: isLight ? "#0f172a" : "#f1f5f9",
-                    background: isLight ? "rgba(255, 255, 255, 0.95)" : "rgba(255, 255, 255, 0.05)",
-                    border: isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.16)",
-                    backdropFilter: "blur(12px)",
-                    WebkitBackdropFilter: "blur(12px)",
                     textDecoration: "none",
-                    transition: "all 0.2s ease",
                     cursor: "pointer",
                   }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = "translateY(-3px)";
-                    e.currentTarget.style.borderColor = isLight ? "#00A88F" : "#5EC098";
-                    e.currentTarget.style.background = isLight ? "#ffffff" : "rgba(255, 255, 255, 0.1)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = "translateY(0)";
-                    e.currentTarget.style.borderColor = isLight ? "#cbd5e1" : "rgba(255, 255, 255, 0.16)";
-                    e.currentTarget.style.background = isLight ? "rgba(255, 255, 255, 0.95)" : "rgba(255, 255, 255, 0.05)";
-                  }}
                 >
-                  <span>Explore Technologies</span>
-                  <Terminal size={17} />
+                  <span className="opash-roll-track">
+                    <span className="opash-roll-item">
+                      <span>Explore Technologies</span>
+                      <Terminal size={17} className="hero-btn-arrow" />
+                    </span>
+                    <span className="opash-roll-item" aria-hidden="true">
+                      <span>Explore Technologies</span>
+                      <Terminal size={17} className="hero-btn-arrow" />
+                    </span>
+                  </span>
                 </Link>
               </div>
 
@@ -1985,53 +2072,166 @@ export default function ServiceDetailTemplate({
               </div>
             </div>
           </div>
+        </div>
+      </section>
 
-          {/* 4 Telemetry Metrics Cards */}
+      {/* ===================================================================== */}
+      {/* 1.5 PROVEN TRACK RECORD & ENTERPRISE METRICS (SEPARATE SCROLL SECTION)*/}
+      {/* ===================================================================== */}
+      <section
+        style={{
+          position: "relative",
+          padding: "3.75rem 1.5rem 4rem 1.5rem",
+          background: isLight ? "#ffffff" : "#020712",
+          borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
+        }}
+      >
+        <div
+          className="container-custom"
+          style={{
+            maxWidth: "1240px",
+            margin: "0 auto",
+            position: "relative",
+            zIndex: 2,
+          }}
+        >
+          {/* 4 Telemetry Metrics Cards with Vertical Rolling Number Animation */}
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+              gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
               gap: "1.25rem",
               maxWidth: "1200px",
               margin: "0 auto",
+              width: "100%",
             }}
           >
-            {service.metrics.map((metric, idx) => (
-              <div
-                key={idx}
-                style={{
-                  padding: "1.25rem 1rem",
-                  borderRadius: "14px",
-                  background: isLight ? "rgba(255, 255, 255, 0.85)" : "rgba(16, 32, 51, 0.45)",
-                  border: isLight ? "1px solid rgba(226, 232, 240, 0.8)" : "1px solid rgba(255, 255, 255, 0.08)",
-                  backdropFilter: "blur(8px)",
-                  textAlign: "center",
-                }}
-              >
+            {service.metrics.map((metric, idx) => {
+              const MetricIcon = getServiceMetricIcon(idx, metric.label, service.slug);
+              const subtitle = getServiceMetricSub(idx, metric.label, service.slug);
+
+              return (
                 <div
+                  key={idx}
                   style={{
-                    fontSize: "clamp(1.5rem, 2.8vw, 2.1rem)",
-                    fontWeight: 800,
-                    color: mintColor,
-                    lineHeight: 1.1,
-                    marginBottom: "0.35rem",
+                    padding: "1.6rem 1.6rem",
+                    borderRadius: "18px",
+                    position: "relative",
+                    background: isLight
+                      ? "linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(248, 250, 252, 0.92) 100%)"
+                      : "linear-gradient(135deg, rgba(16, 32, 51, 0.55) 0%, rgba(8, 18, 32, 0.7) 100%)",
+                    backdropFilter: "blur(16px)",
+                    WebkitBackdropFilter: "blur(16px)",
+                    border: isLight
+                      ? "1px solid rgba(0, 168, 143, 0.18)"
+                      : "1px solid rgba(94, 192, 152, 0.18)",
+                    boxShadow: isLight
+                      ? "0 10px 30px -8px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.9)"
+                      : "0 14px 35px -8px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08)",
+                    transition:
+                      "transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    overflow: "hidden",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "translateY(-5px)";
+                    e.currentTarget.style.borderColor = isLight
+                      ? "rgba(0, 168, 143, 0.45)"
+                      : "rgba(94, 192, 152, 0.45)";
+                    e.currentTarget.style.boxShadow = isLight
+                      ? "0 20px 40px -10px rgba(0, 168, 143, 0.18), inset 0 1px 0 rgba(255, 255, 255, 1)"
+                      : "0 22px 45px -10px rgba(0, 0, 0, 0.7), 0 0 25px -5px rgba(94, 192, 152, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "translateY(0)";
+                    e.currentTarget.style.borderColor = isLight
+                      ? "rgba(0, 168, 143, 0.18)"
+                      : "rgba(94, 192, 152, 0.18)";
+                    e.currentTarget.style.boxShadow = isLight
+                      ? "0 10px 30px -8px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.9)"
+                      : "0 14px 35px -8px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08)";
                   }}
                 >
-                  {metric.value}
+                  {/* Top Subtle Card Highlight Line */}
+                  <div
+                    aria-hidden="true"
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: "15%",
+                      right: "15%",
+                      height: "1px",
+                      background: isLight
+                        ? "linear-gradient(90deg, transparent 0%, rgba(0, 168, 143, 0.5) 50%, transparent 100%)"
+                        : "linear-gradient(90deg, transparent 0%, rgba(94, 192, 152, 0.6) 50%, transparent 100%)",
+                    }}
+                  />
+
+                  {/* Header Row: Metric Value + Icon */}
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      marginBottom: "0.85rem",
+                    }}
+                  >
+                    <AnimatedRollingMetric
+                      value={metric.value}
+                      color={mintColor}
+                      isLight={isLight}
+                    />
+
+                    <div
+                      style={{
+                        width: "42px",
+                        height: "42px",
+                        borderRadius: "12px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        backgroundColor: isLight
+                          ? "rgba(0, 168, 143, 0.08)"
+                          : "rgba(94, 192, 152, 0.1)",
+                        border: `1px solid ${isLight ? "rgba(0, 168, 143, 0.2)" : "rgba(94, 192, 152, 0.2)"}`,
+                        color: mintColor,
+                      }}
+                    >
+                      <MetricIcon size={20} />
+                    </div>
+                  </div>
+
+                  {/* Content: Label & Subtitle */}
+                  <div>
+                    <div
+                      style={{
+                        fontSize: "1.02rem",
+                        fontWeight: 700,
+                        color: isLight ? "#0f172a" : "#ffffff",
+                        marginBottom: "0.35rem",
+                        lineHeight: 1.3,
+                      }}
+                    >
+                      {metric.label}
+                    </div>
+                    {subtitle && (
+                      <div
+                        style={{
+                          fontSize: "0.84rem",
+                          fontWeight: 500,
+                          color: isLight ? "#64748b" : "#94a3b8",
+                          lineHeight: 1.4,
+                        }}
+                      >
+                        {subtitle}
+                      </div>
+                    )}
+                  </div>
                 </div>
-                <div
-                  style={{
-                    fontSize: "0.82rem",
-                    fontWeight: 600,
-                    color: isLight ? "#64748b" : "#94a3b8",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.04em",
-                  }}
-                >
-                  {metric.label}
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
@@ -2068,15 +2268,28 @@ export default function ServiceDetailTemplate({
             </div>
 
             <h2
+              className="heading-section"
               style={{
-                fontSize: "clamp(2rem, 3.6vw, 3rem)",
-                fontWeight: 800,
+                fontSize: "clamp(1.45rem, 2.1vw, 1.95rem)",
+                fontWeight: 850,
                 letterSpacing: "-0.025em",
                 marginBottom: "1.5rem",
                 lineHeight: 1.2,
               }}
             >
-              {service.whyTitle || `Why Choose ${service.title}?`}
+              {service.whyTitle ? (
+                service.whyTitle.includes("Why") ? (
+                  <>
+                    Why <span className="opash-hero-gradient-text">{service.whyTitle.replace(/^Why\s+/i, "")}</span>
+                  </>
+                ) : (
+                  <span>{service.whyTitle}</span>
+                )
+              ) : (
+                <>
+                  Why Choose <span className="opash-hero-gradient-text">{service.title}?</span>
+                </>
+              )}
             </h2>
 
             {/* Verbatim Why Paragraphs from Live Site */}
@@ -2107,7 +2320,93 @@ export default function ServiceDetailTemplate({
             )}
           </div>
 
-          {/* 4 Bento Architecture Highlights */}
+          {/* Scoped CSS for Why Choose Us / Advantage Cards */}
+          <style>{`
+            .benefit-pillar-card {
+              position: relative;
+              overflow: hidden;
+              border-radius: 20px;
+              transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+                          box-shadow 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+                          border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+              will-change: transform;
+              cursor: pointer;
+              backdrop-filter: blur(12px);
+              -webkit-backdrop-filter: blur(12px);
+            }
+            .benefit-pillar-card:hover {
+              transform: translateY(-8px);
+            }
+            .benefit-pillar-card .pillar-spotlight {
+              position: absolute;
+              inset: 0;
+              pointer-events: none;
+              opacity: 0;
+              transition: opacity 0.35s ease;
+              border-radius: inherit;
+              z-index: 1;
+            }
+            .benefit-pillar-card:hover .pillar-spotlight {
+              opacity: 1;
+            }
+            .benefit-pillar-card .pillar-laser-beam {
+              position: absolute;
+              top: 0;
+              left: 12%;
+              right: 12%;
+              height: 2px;
+              background: linear-gradient(90deg, transparent, #5EC098, #38bdf8, transparent);
+              opacity: 0;
+              transform: scaleX(0.2);
+              transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+              pointer-events: none;
+              z-index: 3;
+            }
+            .benefit-pillar-card:hover .pillar-laser-beam {
+              opacity: 1;
+              transform: scaleX(1);
+            }
+            .benefit-pillar-card .pillar-icon-box {
+              transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                          background 0.3s ease,
+                          box-shadow 0.3s ease,
+                          border-color 0.3s ease;
+            }
+            .benefit-pillar-card:hover .pillar-icon-box {
+              transform: translateY(-3px) scale(1.1) rotate(4deg);
+              background: rgba(94, 192, 152, 0.25) !important;
+              box-shadow: 0 0 24px rgba(94, 192, 152, 0.45) !important;
+              border-color: rgba(94, 192, 152, 0.6) !important;
+            }
+            .benefit-pillar-card .pillar-title {
+              transition: color 0.25s ease;
+            }
+            .benefit-pillar-card:hover .pillar-title {
+              color: #5EC098 !important;
+            }
+            .benefit-pillar-card .pillar-arrow-btn {
+              transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            }
+            .benefit-pillar-card:hover .pillar-arrow-btn {
+              background: rgba(94, 192, 152, 0.25) !important;
+              border-color: rgba(94, 192, 152, 0.55) !important;
+              box-shadow: 0 0 16px rgba(94, 192, 152, 0.35);
+            }
+            .benefit-pillar-card .pillar-arrow {
+              transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            }
+            .benefit-pillar-card:hover .pillar-arrow {
+              transform: translateX(3px);
+            }
+            .benefit-pillar-card .pillar-divider {
+              transition: border-color 0.3s ease;
+            }
+            .benefit-pillar-card:hover .pillar-divider {
+              border-color: rgba(94, 192, 152, 0.35) !important;
+            }
+          `}</style>
+
+          {/* 4 Bento Architecture Highlights with Interactive Animations */}
           <div
             style={{
               display: "grid",
@@ -2120,68 +2419,152 @@ export default function ServiceDetailTemplate({
               return (
                 <div
                   key={idx}
+                  className="benefit-pillar-card"
+                  onMouseMove={(e) => {
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const spotlight = e.currentTarget.querySelector(".pillar-spotlight") as HTMLElement;
+                    if (spotlight) {
+                      spotlight.style.background = isLight
+                        ? `radial-gradient(280px circle at ${x}px ${y}px, rgba(0, 168, 143, 0.08), transparent 70%)`
+                        : `radial-gradient(280px circle at ${x}px ${y}px, rgba(94, 192, 152, 0.12), transparent 70%)`;
+                    }
+                  }}
                   style={{
-                    padding: "2rem 1.75rem",
-                    borderRadius: "18px",
-                    background: isLight ? "rgba(248, 250, 252, 0.85)" : "rgba(16, 32, 51, 0.35)",
+                    padding: "2.25rem 2rem",
+                    borderRadius: "20px",
+                    background: isLight
+                      ? "linear-gradient(165deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.94) 100%)"
+                      : "linear-gradient(165deg, rgba(13, 23, 42, 0.75) 0%, rgba(7, 13, 27, 0.85) 100%)",
                     border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
-                    boxShadow: isLight ? "0 4px 12px rgba(0, 0, 0, 0.03)" : "none",
-                    position: "relative",
-                    overflow: "hidden",
+                    boxShadow: isLight
+                      ? "0 4px 16px rgba(0,0,0,0.03)"
+                      : "0 10px 30px -10px rgba(0,0,0,0.5)",
                     display: "flex",
                     flexDirection: "column",
+                    justifyContent: "space-between",
                   }}
                 >
+                  {/* Dynamic Cursor Spotlight Effect */}
+                  <div className="pillar-spotlight" />
+
+                  {/* Top Laser Charging Beam on Hover */}
+                  <div className="pillar-laser-beam" />
+
+                  {/* Main Content */}
+                  <div style={{ position: "relative", zIndex: 2 }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        marginBottom: "1.35rem",
+                      }}
+                    >
+                      {/* Icon Box with Spring Hover Transformation */}
+                      <div
+                        className="pillar-icon-box"
+                        style={{
+                          width: 48,
+                          height: 48,
+                          borderRadius: "14px",
+                          background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.14)",
+                          border: isLight ? "1px solid rgba(0, 168, 143, 0.28)" : "1px solid rgba(94, 192, 152, 0.35)",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          color: mintColor,
+                        }}
+                      >
+                        <PillarIcon size={24} />
+                      </div>
+                    </div>
+
+                    <div
+                      style={{
+                        fontSize: "0.78rem",
+                        fontWeight: 800,
+                        textTransform: "uppercase",
+                        letterSpacing: "0.06em",
+                        color: mintColor,
+                        marginBottom: "0.45rem",
+                      }}
+                    >
+                      {pillar.metric}
+                    </div>
+
+                    <h3
+                      className="pillar-title"
+                      style={{
+                        fontSize: "1.28rem",
+                        fontWeight: 700,
+                        marginBottom: "0.75rem",
+                        color: isLight ? "#0f172a" : "#ffffff",
+                        letterSpacing: "-0.015em",
+                        lineHeight: 1.35,
+                      }}
+                    >
+                      {pillar.title}
+                    </h3>
+
+                    <p
+                      style={{
+                        color: isLight ? "#475569" : "#cbd5e1",
+                        fontSize: "0.96rem",
+                        lineHeight: 1.65,
+                        fontWeight: 500,
+                        margin: 0,
+                      }}
+                    >
+                      {pillar.desc}
+                    </p>
+                  </div>
+
+                  {/* Clean Bottom Action Row */}
                   <div
+                    className="pillar-divider"
                     style={{
-                      width: "48px",
-                      height: "48px",
-                      borderRadius: "12px",
-                      background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.15)",
+                      position: "relative",
+                      zIndex: 2,
+                      marginTop: "1.5rem",
+                      paddingTop: "1rem",
+                      borderTop: isLight ? "1px solid #f1f5f9" : "1px solid rgba(255, 255, 255, 0.07)",
                       display: "flex",
                       alignItems: "center",
-                      justifyContent: "center",
-                      color: mintColor,
-                      marginBottom: "1.25rem",
+                      justifyContent: "space-between",
                     }}
                   >
-                    <PillarIcon size={24} />
+                    <span
+                      style={{
+                        fontSize: "0.76rem",
+                        fontWeight: 700,
+                        textTransform: "uppercase",
+                        letterSpacing: "0.08em",
+                        color: isLight ? "#94a3b8" : "#64748b",
+                      }}
+                    >
+                      Architectural Advantage
+                    </span>
+
+                    {/* Dedicated Circular Arrow Button */}
+                    <div
+                      className="pillar-arrow-btn"
+                      style={{
+                        width: 32,
+                        height: 32,
+                        borderRadius: "50%",
+                        background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.12)",
+                        border: isLight ? "1px solid rgba(0, 168, 143, 0.25)" : "1px solid rgba(94, 192, 152, 0.3)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        color: mintColor,
+                      }}
+                    >
+                      <ArrowRight size={14} className="pillar-arrow" />
+                    </div>
                   </div>
-
-                  <div
-                    style={{
-                      fontSize: "0.8rem",
-                      fontWeight: 700,
-                      color: mintColor,
-                      textTransform: "uppercase",
-                      letterSpacing: "0.06em",
-                      marginBottom: "0.4rem",
-                    }}
-                  >
-                    {pillar.metric}
-                  </div>
-
-                  <h3
-                    style={{
-                      fontSize: "1.2rem",
-                      fontWeight: 700,
-                      marginBottom: "0.75rem",
-                      color: isLight ? "#0f172a" : "#f8fafc",
-                    }}
-                  >
-                    {pillar.title}
-                  </h3>
-
-                  <p
-                    style={{
-                      fontSize: "0.95rem",
-                      lineHeight: 1.6,
-                      color: isLight ? "#64748b" : "#94a3b8",
-                      flex: 1,
-                    }}
-                  >
-                    {pillar.desc}
-                  </p>
                 </div>
               );
             })}
@@ -2279,7 +2662,7 @@ export default function ServiceDetailTemplate({
             <h2
               className="font-acthirey"
               style={{
-                fontSize: "clamp(2.2rem, 3.8vw, 3.4rem)",
+                fontSize: "clamp(1.45rem, 2.1vw, 1.95rem)",
                 fontWeight: 800,
                 letterSpacing: "-0.025em",
                 marginBottom: "1.25rem",
@@ -2714,339 +3097,9 @@ export default function ServiceDetailTemplate({
       </section>
 
       {/* ===================================================================== */}
-      {/* 4. TECHNOLOGIES WE DEPLOY (Tabbed Interactive Categories)              */}
+      {/* 4. TECHNOLOGIES & PLATFORMS SHOWCASE (SAME AS HOME PAGE)               */}
       {/* ===================================================================== */}
-      <section
-        id="tech-stack"
-        style={{
-          position: "relative",
-          padding: "5.5rem 1.5rem",
-          background: isLight ? "#ffffff" : "#040b17",
-          borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
-          borderBottom: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
-        }}
-      >
-        <div className="container-custom" style={{ maxWidth: "1240px", margin: "0 auto" }}>
-          <div style={{ textAlign: "center", maxWidth: "860px", margin: "0 auto 3rem auto" }}>
-            <div
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.5rem",
-                fontSize: "0.85rem",
-                fontWeight: 700,
-                color: mintColor,
-                textTransform: "uppercase",
-                letterSpacing: "0.06em",
-                marginBottom: "0.85rem",
-              }}
-            >
-              <Cpu size={16} />
-              <span>Technology Ecosystem</span>
-            </div>
-
-            {(() => {
-              const customTechStack =
-                service.slug === "ai-ml-solutions"
-                  ? getAiMlTechStack(isLight)
-                  : service.slug === "saas-development"
-                  ? getSaasTechStack(isLight)
-                  : service.slug === "api-integration"
-                  ? getApiIntegrationTechStack()
-                  : service.slug === "qa-testing"
-                  ? getQaTestingTechStack(isLight)
-                  : service.slug === "hire-developers"
-                  ? getHireDevTechStack(isLight)
-                  : null;
-
-              if (customTechStack) {
-                return (
-                  <h2
-                    style={{
-                      fontSize: "clamp(2rem, 3.8vw, 3.2rem)",
-                      fontWeight: 850,
-                      letterSpacing: "-0.025em",
-                      marginBottom: "3rem",
-                      lineHeight: 1.2,
-                      textAlign: "center",
-                    }}
-                  >
-                    <span
-                      style={{
-                        background: isLight ? "#dbeafe" : "rgba(37, 99, 235, 0.2)",
-                        color: "#2563eb",
-                        padding: "0.15rem 0.65rem",
-                        borderRadius: "8px",
-                        display: "inline-block",
-                        marginRight: "0.45rem",
-                      }}
-                    >
-                      Tech Stack
-                    </span>
-                    <span style={{ color: isLight ? "#0f172a" : "#f8fafc" }}>
-                      {service.slug === "ai-ml-solutions"
-                        ? "We Use For AI/ML"
-                        : service.slug === "saas-development"
-                        ? "We Use For SaaS"
-                        : service.slug === "api-integration"
-                        ? "We Use For Api Integration & Microservices"
-                        : service.slug === "qa-testing"
-                        ? "We Use For QA & Testing Services"
-                        : service.slug === "hire-developers"
-                        ? "Our Dedicated Developers Master"
-                        : `We Use For ${service.title}`}
-                    </span>
-                  </h2>
-                );
-              }
-
-              return (
-                <>
-                  <h2
-                    style={{
-                      fontSize: "clamp(2rem, 3.6vw, 3rem)",
-                      fontWeight: 800,
-                      letterSpacing: "-0.025em",
-                      marginBottom: "1rem",
-                      lineHeight: 1.2,
-                    }}
-                  >
-                    Technologies We Deploy
-                  </h2>
-
-                  <p
-                    style={{
-                      fontSize: "clamp(1.02rem, 1.6vw, 1.15rem)",
-                      lineHeight: 1.65,
-                      color: isLight ? "#64748b" : "#94a3b8",
-                    }}
-                  >
-                    Battle-tested frameworks, modern cloud infrastructure, and enterprise toolchains proven in high-concurrency production systems.
-                  </p>
-
-                  {/* Category Filter Tabs */}
-                  {techCategories.length > 2 && (
-                    <div
-                      style={{
-                        display: "flex",
-                        flexWrap: "wrap",
-                        justifyContent: "center",
-                        gap: "0.5rem",
-                        marginTop: "2rem",
-                      }}
-                    >
-                      {techCategories.map((cat) => (
-                        <button
-                          key={cat}
-                          onClick={() => setSelectedTechCat(cat)}
-                          style={{
-                            padding: "0.55rem 1.25rem",
-                            borderRadius: "9999px",
-                            fontSize: "0.85rem",
-                            fontWeight: 600,
-                            cursor: "pointer",
-                            transition: "all 0.2s ease",
-                            border: "none",
-                            background:
-                              selectedTechCat === cat
-                                ? mintColor
-                                : isLight
-                                ? "#f1f5f9"
-                                : "rgba(255, 255, 255, 0.08)",
-                            color:
-                              selectedTechCat === cat
-                                ? "#ffffff"
-                                : isLight
-                                ? "#475569"
-                                : "#cbd5e1",
-                          }}
-                        >
-                          {cat}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </>
-              );
-            })()}
-          </div>
-
-          {/* Technologies Grid */}
-          {(() => {
-            const customTechStack =
-              service.slug === "ai-ml-solutions"
-                ? getAiMlTechStack(isLight)
-                : service.slug === "saas-development"
-                ? getSaasTechStack(isLight)
-                : service.slug === "api-integration"
-                ? getApiIntegrationTechStack()
-                : service.slug === "qa-testing"
-                ? getQaTestingTechStack(isLight)
-                : service.slug === "hire-developers"
-                ? getHireDevTechStack(isLight)
-                : null;
-
-            if (customTechStack) {
-              return (
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-                    gap: "1.5rem",
-                    maxWidth: customTechStack.length <= 4 ? "1080px" : "1240px",
-                    margin: "0 auto",
-                  }}
-                  className="service-custom-tech-grid"
-                >
-                  {customTechStack.map((techItem, idx) => (
-                    <div
-                      key={idx}
-                      style={{
-                        background: isLight ? "#ffffff" : "rgba(15, 23, 42, 0.7)",
-                        borderRadius: "18px",
-                        border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
-                        boxShadow: isLight
-                          ? "0 4px 16px rgba(15, 23, 42, 0.04)"
-                          : "0 8px 24px rgba(0, 0, 0, 0.35)",
-                        padding: "1.75rem 1.25rem 1.35rem 1.25rem",
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        minHeight: "140px",
-                        transition: "transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, border-color 0.2s ease",
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.transform = "translateY(-4px)";
-                        e.currentTarget.style.borderColor = isLight ? "#93c5fd" : "rgba(56, 189, 248, 0.4)";
-                        e.currentTarget.style.boxShadow = isLight
-                          ? "0 12px 28px rgba(37, 99, 235, 0.12)"
-                          : "0 14px 32px rgba(37, 99, 235, 0.25)";
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.transform = "translateY(0)";
-                        e.currentTarget.style.borderColor = isLight ? "#e2e8f0" : "rgba(255, 255, 255, 0.08)";
-                        e.currentTarget.style.boxShadow = isLight
-                          ? "0 4px 16px rgba(15, 23, 42, 0.04)"
-                          : "0 8px 24px rgba(0, 0, 0, 0.35)";
-                      }}
-                    >
-                      <div
-                        style={{
-                          height: "60px",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          width: "100%",
-                        }}
-                      >
-                        {techItem.logo}
-                      </div>
-                      <div
-                        style={{
-                          fontSize: "0.95rem",
-                          fontWeight: 650,
-                          color: isLight ? "#1e293b" : "#f1f5f9",
-                          textAlign: "center",
-                          marginTop: "0.5rem",
-                        }}
-                      >
-                        {techItem.name}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              );
-            }
-
-            return null;
-          })() || (
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
-                gap: "1.25rem",
-              }}
-            >
-              {displayedTechs.map((tech, idx) => (
-                <div
-                  key={idx}
-                  style={{
-                    padding: "1.25rem 1.1rem",
-                    borderRadius: "14px",
-                    background: isLight ? "#f8fafc" : "rgba(16, 32, 51, 0.35)",
-                    border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "0.85rem",
-                    transition: "all 0.2s ease",
-                  }}
-                >
-                  <div
-                    style={{
-                      width: "36px",
-                      height: "36px",
-                      borderRadius: "10px",
-                      background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.15)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      color: mintColor,
-                    }}
-                  >
-                    <Code2 size={18} />
-                  </div>
-                  <div>
-                    <div
-                      style={{
-                        fontSize: "0.95rem",
-                        fontWeight: 700,
-                        color: isLight ? "#0f172a" : "#f8fafc",
-                      }}
-                    >
-                      {tech}
-                    </div>
-                    <div
-                      style={{
-                        fontSize: "0.75rem",
-                        color: isLight ? "#94a3b8" : "#64748b",
-                      }}
-                    >
-                      {categorizeTech(tech)}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-
-        <style jsx>{`
-          :global(.service-feature-card) {
-            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease !important;
-          }
-          :global(.service-feature-card:hover) {
-            transform: translateY(-6px) !important;
-            border-color: rgba(0, 168, 143, 0.45) !important;
-            box-shadow: 0 20px 40px -15px rgba(0, 168, 143, 0.25) !important;
-          }
-          :global(.dark .service-feature-card:hover) {
-            border-color: rgba(94, 192, 152, 0.5) !important;
-            box-shadow: 0 20px 40px -15px rgba(94, 192, 152, 0.25) !important;
-          }
-          @media (min-width: 1024px) {
-            :global(.ai-ml-tech-grid) {
-              grid-template-columns: repeat(4, 1fr) !important;
-            }
-            :global(.ai-ml-includes-grid) {
-              grid-template-columns: repeat(3, 1fr) !important;
-            }
-            :global(.service-features-grid) {
-              grid-template-columns: repeat(3, 1fr) !important;
-            }
-          }
-        `}</style>
-      </section>
+      <TechStackShowcase />
 
       {/* ===================================================================== */}
       {/* 5. [SERVICE] PROCESS (6 Chronological Sprints + Live SLA Note)        */}
@@ -3077,15 +3130,16 @@ export default function ServiceDetailTemplate({
             </div>
 
             <h2
+              className="heading-section"
               style={{
-                fontSize: "clamp(2rem, 3.6vw, 3rem)",
-                fontWeight: 800,
+                fontSize: "clamp(1.45rem, 2.1vw, 1.95rem)",
+                fontWeight: 850,
                 letterSpacing: "-0.025em",
                 marginBottom: "1rem",
                 lineHeight: 1.2,
               }}
             >
-              {service.title} Process
+              {service.title} <span className="opash-hero-gradient-text">Process</span>
             </h2>
 
             <p
@@ -3099,85 +3153,318 @@ export default function ServiceDetailTemplate({
             </p>
           </div>
 
+          {/* Scoped CSS for Process Roadmap Animation (Zero CPU Overhead, Pure GPU Composited) */}
+          <style>{`
+            .process-phase-card {
+              position: relative;
+              overflow: hidden;
+              border-radius: 20px;
+              transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+                          box-shadow 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+                          border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                          background 0.35s ease;
+              will-change: transform;
+              cursor: pointer;
+              backdrop-filter: blur(12px);
+              -webkit-backdrop-filter: blur(12px);
+            }
+            .process-phase-card:hover {
+              transform: translateY(-8px);
+            }
+            .process-phase-card .phase-watermark-num {
+              position: absolute;
+              top: 0.75rem;
+              right: 1.25rem;
+              font-size: 3.75rem;
+              font-weight: 900;
+              font-family: var(--font-space-grotesk), monospace, sans-serif;
+              line-height: 1;
+              pointer-events: none;
+              transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease, color 0.35s ease;
+              user-select: none;
+            }
+            .process-phase-card:hover .phase-watermark-num {
+              transform: scale(1.12) translate(-4px, -2px);
+              opacity: 0.28 !important;
+              color: #5EC098 !important;
+            }
+            .process-phase-card .phase-bottom-progress {
+              position: absolute;
+              bottom: 0;
+              left: 0;
+              right: 0;
+              height: 3px;
+              background: linear-gradient(90deg, #00A88F, #5EC098, #38bdf8);
+              transform: scaleX(0);
+              transform-origin: left;
+              transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+              pointer-events: none;
+              z-index: 4;
+            }
+            .process-phase-card:hover .phase-bottom-progress {
+              transform: scaleX(1);
+            }
+            .process-phase-card .phase-icon-box {
+              position: relative;
+              transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                          background 0.3s ease,
+                          box-shadow 0.3s ease,
+                          border-color 0.3s ease;
+            }
+            .process-phase-card:hover .phase-icon-box {
+              transform: translateY(-3px) scale(1.1) rotate(4deg);
+              background: rgba(94, 192, 152, 0.25) !important;
+              box-shadow: 0 0 24px rgba(94, 192, 152, 0.45) !important;
+              border-color: rgba(94, 192, 152, 0.6) !important;
+            }
+            .process-phase-card .phase-tag-chip {
+              transition: all 0.3s ease;
+            }
+            .process-phase-card:hover .phase-tag-chip {
+              border-color: rgba(94, 192, 152, 0.4) !important;
+              background: rgba(94, 192, 152, 0.12) !important;
+              color: #5EC098 !important;
+            }
+            .process-phase-card .phase-title {
+              transition: color 0.25s ease;
+            }
+            .process-phase-card:hover .phase-title {
+              color: #5EC098 !important;
+            }
+            .process-pipeline-strip {
+              display: none;
+            }
+            @media (min-width: 900px) {
+              .process-pipeline-strip {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                position: relative;
+                max-width: 1040px;
+                margin: 0 auto 3.25rem auto;
+                padding: 1rem 1.5rem;
+                border-radius: 16px;
+              }
+            }
+          `}</style>
+
+          {/* Interactive Horizontal Pipeline Tracker (Desktop) */}
+          {service.process && service.process.length > 0 && (
+            <div
+              className="process-pipeline-strip"
+              style={{
+                background: isLight ? "rgba(0, 0, 0, 0.02)" : "rgba(255, 255, 255, 0.02)",
+                border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
+              }}
+            >
+              {service.process.map((step, idx) => {
+                const stepNum = step.step.length === 1 ? `0${step.step}` : step.step;
+                const label = getProcessPipelineLabel(step.title, idx);
+                return (
+                  <React.Fragment key={idx}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
+                      <div
+                        style={{
+                          width: 26,
+                          height: 26,
+                          borderRadius: "50%",
+                          background: isLight ? "rgba(0, 168, 143, 0.12)" : "rgba(94, 192, 152, 0.15)",
+                          border: isLight ? "1px solid rgba(0, 168, 143, 0.4)" : "1px solid rgba(94, 192, 152, 0.5)",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          fontSize: "0.72rem",
+                          fontWeight: 800,
+                          fontFamily: "monospace",
+                          color: mintColor,
+                        }}
+                      >
+                        {stepNum}
+                      </div>
+                      <span
+                        style={{
+                          fontSize: "0.78rem",
+                          fontWeight: 700,
+                          color: isLight ? "#475569" : "#cbd5e1",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        {label}
+                      </span>
+                    </div>
+                    {idx < service.process.length - 1 && (
+                      <div
+                        style={{
+                          flex: 1,
+                          height: "2px",
+                          margin: "0 0.85rem",
+                          background: isLight
+                            ? "linear-gradient(90deg, rgba(0, 168, 143, 0.2), rgba(0, 168, 143, 0.5))"
+                            : "linear-gradient(90deg, rgba(94, 192, 152, 0.2), rgba(94, 192, 152, 0.6))",
+                          position: "relative",
+                          borderRadius: "9999px",
+                        }}
+                      />
+                    )}
+                  </React.Fragment>
+                );
+              })}
+            </div>
+          )}
+
           {/* Process Timeline Grid */}
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+              gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))",
               gap: "1.75rem",
               marginBottom: "3rem",
             }}
           >
-            {service.process.map((step, idx) => (
-              <div
-                key={idx}
-                style={{
-                  padding: "2rem",
-                  borderRadius: "18px",
-                  background: isLight ? "#ffffff" : "rgba(16, 32, 51, 0.4)",
-                  border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
-                  position: "relative",
-                  boxShadow: isLight ? "0 4px 12px rgba(0, 0, 0, 0.03)" : "none",
-                  display: "flex",
-                  flexDirection: "column",
-                }}
-              >
+            {service.process.map((step, idx) => {
+              const StepIcon = getProcessStepIcon(idx, step.title);
+              const tags = getProcessStepTags(idx, service.slug, step.title);
+              const stepNumber = step.step.length === 1 ? `0${step.step}` : step.step;
+
+              return (
                 <div
+                  key={idx}
+                  className="process-phase-card"
                   style={{
+                    padding: "2.25rem 2rem",
+                    background: isLight
+                      ? "linear-gradient(165deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.94) 100%)"
+                      : "linear-gradient(165deg, rgba(13, 23, 42, 0.72) 0%, rgba(7, 13, 27, 0.82) 100%)",
+                    border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
+                    boxShadow: isLight
+                      ? "0 4px 16px rgba(0,0,0,0.03)"
+                      : "0 10px 30px -10px rgba(0,0,0,0.5)",
                     display: "flex",
-                    alignItems: "center",
+                    flexDirection: "column",
                     justifyContent: "space-between",
-                    marginBottom: "1.25rem",
                   }}
                 >
-                  <span
+                  {/* Giant Watermark Step Number that glows on hover */}
+                  <div
+                    className="phase-watermark-num"
                     style={{
-                      fontSize: "1.5rem",
-                      fontWeight: 800,
-                      color: mintColor,
+                      color: isLight ? "rgba(0,0,0,0.06)" : "rgba(255,255,255,0.06)",
                     }}
                   >
-                    {step.step}
-                  </span>
+                    {stepNumber}
+                  </div>
 
-                  <span
+                  {/* Progressive Bottom Milestone Charging Line */}
+                  <div className="phase-bottom-progress" />
+
+                  {/* Top Content */}
+                  <div style={{ position: "relative", zIndex: 2 }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        marginBottom: "1.35rem",
+                      }}
+                    >
+                      {/* Icon Box with Spring Hover Transformation */}
+                      <div
+                        className="phase-icon-box"
+                        style={{
+                          width: 48,
+                          height: 48,
+                          borderRadius: "14px",
+                          background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.14)",
+                          border: isLight ? "1px solid rgba(0, 168, 143, 0.28)" : "1px solid rgba(94, 192, 152, 0.35)",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          color: mintColor,
+                        }}
+                      >
+                        <StepIcon size={24} />
+                      </div>
+                    </div>
+
+                    <div
+                      style={{
+                        fontSize: "0.78rem",
+                        fontWeight: 800,
+                        textTransform: "uppercase",
+                        letterSpacing: "0.06em",
+                        color: mintColor,
+                        marginBottom: "0.45rem",
+                      }}
+                    >
+                      Phase {stepNumber}
+                    </div>
+
+                    <h3
+                      className="phase-title"
+                      style={{
+                        fontSize: "1.28rem",
+                        fontWeight: 700,
+                        marginBottom: "0.75rem",
+                        color: isLight ? "#0f172a" : "#ffffff",
+                        letterSpacing: "-0.015em",
+                        lineHeight: 1.35,
+                      }}
+                    >
+                      {step.title}
+                    </h3>
+
+                    <p
+                      style={{
+                        color: isLight ? "#475569" : "#cbd5e1",
+                        fontSize: "0.96rem",
+                        lineHeight: 1.65,
+                        fontWeight: 500,
+                        marginBottom: "1.35rem",
+                      }}
+                    >
+                      {step.desc}
+                    </p>
+                  </div>
+
+                  {/* Deliverable Micro-Checklist Chips */}
+                  <div
                     style={{
-                      fontSize: "0.75rem",
-                      fontWeight: 700,
-                      padding: "0.25rem 0.65rem",
-                      borderRadius: "6px",
-                      background: isLight ? "#f1f5f9" : "rgba(255, 255, 255, 0.08)",
-                      color: isLight ? "#475569" : "#cbd5e1",
-                      textTransform: "uppercase",
+                      position: "relative",
+                      zIndex: 2,
+                      marginTop: "auto",
+                      paddingTop: "1.1rem",
+                      borderTop: isLight ? "1px solid #f1f5f9" : "1px solid rgba(255, 255, 255, 0.07)",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "0.55rem",
+                      flexWrap: "wrap",
                     }}
                   >
-                    Phase 0{idx + 1}
-                  </span>
+                    {tags.map((tag, tIdx) => (
+                      <span
+                        key={tIdx}
+                        className="phase-tag-chip"
+                        style={{
+                          fontSize: "0.74rem",
+                          fontWeight: 600,
+                          padding: "0.22rem 0.55rem",
+                          borderRadius: "7px",
+                          background: isLight ? "rgba(0, 0, 0, 0.03)" : "rgba(255, 255, 255, 0.04)",
+                          border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.07)",
+                          color: isLight ? "#64748b" : "#94a3b8",
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "0.35rem",
+                        }}
+                      >
+                        <CheckCircle2 size={12} color={mintColor} />
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-
-                <h3
-                  style={{
-                    fontSize: "1.2rem",
-                    fontWeight: 700,
-                    marginBottom: "0.75rem",
-                    color: isLight ? "#0f172a" : "#f8fafc",
-                  }}
-                >
-                  {step.title}
-                </h3>
-
-                <p
-                  style={{
-                    fontSize: "0.95rem",
-                    lineHeight: 1.65,
-                    color: isLight ? "#64748b" : "#94a3b8",
-                    flex: 1,
-                  }}
-                >
-                  {step.desc}
-                </p>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           {/* Verbatim SLA Note Card from Live Site */}
@@ -3241,138 +3528,9 @@ export default function ServiceDetailTemplate({
       </section>
 
       {/* ===================================================================== */}
-      {/* 6. INDUSTRIES WE SPECIALIZE IN (10 Exact Live Industries)              */}
+      {/* 6. INDUSTRIES WE SPECIALIZE IN (ANIMATED CAROUSEL AS ON HOME PAGE)    */}
       {/* ===================================================================== */}
-      <section
-        style={{
-          position: "relative",
-          padding: "5.5rem 1.5rem",
-          background: isLight ? "#ffffff" : "#040b17",
-          borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
-          borderBottom: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
-        }}
-      >
-        <div className="container-custom" style={{ maxWidth: "1240px", margin: "0 auto" }}>
-          <div style={{ textAlign: "center", maxWidth: "860px", margin: "0 auto 3.5rem auto" }}>
-            <div
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.5rem",
-                fontSize: "0.85rem",
-                fontWeight: 700,
-                color: mintColor,
-                textTransform: "uppercase",
-                letterSpacing: "0.06em",
-                marginBottom: "0.85rem",
-              }}
-            >
-              <Globe2 size={16} />
-              <span>Domain Expertise</span>
-            </div>
-
-            <h2
-              style={{
-                fontSize: "clamp(2rem, 3.6vw, 3rem)",
-                fontWeight: 800,
-                letterSpacing: "-0.025em",
-                marginBottom: "1.25rem",
-                lineHeight: 1.2,
-              }}
-            >
-              Industries We Specialize In
-            </h2>
-
-            {/* Verbatim Opash 8+ Years Paragraph */}
-            <p
-              style={{
-                fontSize: "clamp(1.02rem, 1.6vw, 1.15rem)",
-                lineHeight: 1.7,
-                color: isLight ? "#475569" : "#94a3b8",
-              }}
-            >
-              Opash Software brings over 8 years of expertise in delivering tailored digital solutions for Insurance, Fintech, eCommerce, Education, and Real Estate — helping businesses overcome industry challenges and scale confidently.
-            </p>
-          </div>
-
-          {/* 10 Industry Badges Grid */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-              gap: "1.25rem",
-            }}
-          >
-            {INDUSTRIES_LIVE.map((ind, idx) => {
-              const IndIcon = ind.icon;
-              const isActive = activeIndustryIdx === idx;
-              return (
-                <div
-                  key={ind.id}
-                  onClick={() => setActiveIndustryIdx(idx)}
-                  style={{
-                    padding: "1.5rem 1.25rem",
-                    borderRadius: "16px",
-                    background: isActive
-                      ? isLight
-                        ? "rgba(0, 168, 143, 0.1)"
-                        : "rgba(94, 192, 152, 0.15)"
-                      : isLight
-                      ? "#f8fafc"
-                      : "rgba(16, 32, 51, 0.35)",
-                    border: isActive
-                      ? `2px solid ${mintColor}`
-                      : isLight
-                      ? "1px solid #e2e8f0"
-                      : "1px solid rgba(255, 255, 255, 0.08)",
-                    cursor: "pointer",
-                    transition: "all 0.2s ease",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    textAlign: "center",
-                    gap: "0.85rem",
-                  }}
-                >
-                  <div
-                    style={{
-                      width: "48px",
-                      height: "48px",
-                      borderRadius: "12px",
-                      background: isActive
-                        ? mintColor
-                        : isLight
-                        ? "rgba(71, 109, 154, 0.1)"
-                        : "rgba(255, 255, 255, 0.06)",
-                      color: isActive ? "#ffffff" : mintColor,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      transition: "all 0.2s ease",
-                    }}
-                  >
-                    <IndIcon size={24} />
-                  </div>
-
-                  <span
-                    style={{
-                      fontSize: "0.95rem",
-                      fontWeight: 700,
-                      color: isActive
-                        ? mintColor
-                        : isLight
-                        ? "#0f172a"
-                        : "#f8fafc",
-                    }}
-                  >
-                    {ind.name}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+      <AnimatedIndustriesCarousel />
 
       {/* ===================================================================== */}
       {/* 6.5 WHY CHOOSE US BENTO & RECOGNITION MARQUEE                        */}
@@ -3432,16 +3590,17 @@ export default function ServiceDetailTemplate({
                 </span>
 
                 <h2
+                  className="heading-section"
                   style={{
-                    fontSize: "clamp(2rem, 3.5vw, 2.8rem)",
-                    fontWeight: 800,
-                    lineHeight: 1.15,
+                    fontSize: "clamp(1.45rem, 2.1vw, 1.95rem)",
+                    fontWeight: 850,
+                    lineHeight: 1.2,
+                    letterSpacing: "-0.025em",
                     marginBottom: "1.5rem",
-                    color: isLight ? "#0f172a" : "#ffffff",
                   }}
                 >
                   Connect with{" "}
-                  <span style={{ color: mintColor }}>Opash Software’s</span> Expert Development Team Today.
+                  <span className="opash-hero-gradient-text">Opash Software’s</span> Expert Development Team Today.
                 </h2>
 
                 <p

@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useTheme } from '@/components/ThemeProvider';
+import OuiWillHeadline, { OuiWillWord, OuiWillDot } from '@/components/OuiWillHeadline';
 import {
   Code2,
   Globe2,
@@ -293,20 +294,27 @@ export default function ServicesPageClient() {
 
           {/* Main Headline */}
           <div style={{ textAlign: 'center', maxWidth: '980px', margin: '0 auto 2.5rem auto' }}>
-            <h1
+            <OuiWillHeadline
               style={{
                 fontSize: 'clamp(2.4rem, 5vw, 4.2rem)',
                 fontWeight: 800,
-                lineHeight: 1.12,
+                lineHeight: 1.15,
                 letterSpacing: '-0.03em',
                 marginBottom: '1.5rem',
+                display: 'block',
               }}
             >
-              Engineered For Unlimited Scale, <br />
-              <span className="opash-brand-gradient-text">
-                Tailored To Your Business DNA
+              <OuiWillWord index={1}>Engineered</OuiWillWord>
+              <OuiWillWord index={2}>For</OuiWillWord>
+              <OuiWillWord index={3}>Unlimited</OuiWillWord>
+              <OuiWillWord index={4}>Scale,</OuiWillWord>
+              <OuiWillDot />
+              <span style={{ display: 'block', width: '100%', marginTop: '0.35rem' }}>
+                <OuiWillWord index={5} isGradient>
+                  Tailored To Your Business DNA
+                </OuiWillWord>
               </span>
-            </h1>
+            </OuiWillHeadline>
 
             {/* Lead Paragraph 1 */}
             <p

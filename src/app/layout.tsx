@@ -3,7 +3,9 @@ import { Geist, Geist_Mono, Playfair_Display, Space_Grotesk, Plus_Jakarta_Sans }
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import ScrollToTop from "@/components/ScrollToTop";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import SitePreloader from "@/components/SitePreloader";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -82,11 +84,28 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} ${spaceGrotesk.variable} ${plusJakartaSans.variable}`}
       suppressHydrationWarning
     >
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var saved = localStorage.getItem('opash-theme');
+                  var theme = (saved === 'light' || saved === 'dark') ? saved : 'dark';
+                  document.documentElement.setAttribute('data-theme', theme);
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+      </head>
       <body suppressHydrationWarning style={{ backgroundColor: "var(--bg-primary)", color: "var(--text-primary)" }}>
+        <SitePreloader />
         <ThemeProvider>
           <Navbar />
           <main>{children}</main>
           <Footer />
+          <ScrollToTop />
         </ThemeProvider>
       </body>
     </html>

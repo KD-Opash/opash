@@ -49,6 +49,7 @@ import { companyData } from "@/data/company";
 import ContactForm from "@/components/ContactForm";
 import { useTheme } from "./ThemeProvider";
 import AboutCreativeBackdrop from "./AboutCreativeBackdrop";
+import OuiWillHeadline, { OuiWillWord, OuiWillDot } from "@/components/OuiWillHeadline";
 
 
 
@@ -295,21 +296,28 @@ export default function CompanyPageClient() {
 
           {/* Centered Majestic Headline & Narrative */}
           <div style={{ textAlign: "center", maxWidth: "980px", margin: "0 auto" }}>
-            <h1
+            <OuiWillHeadline
               style={{
                 fontSize: "clamp(2.4rem, 5vw, 4.2rem)",
                 fontWeight: 800,
-                lineHeight: 1.12,
+                lineHeight: 1.15,
                 letterSpacing: "-0.03em",
                 marginBottom: "1.5rem",
-                color: isLight ? "#0f172a" : "#ffffff",
+                display: "block",
               }}
             >
-              Not Just Another IT Company.{" "}
-              <span style={{ display: "block", marginTop: "0.35rem", color: isLight ? "#0f172a" : "#ffffff" }}>
-                We Are A Dedicated Team Of Tech Experts.
+              <OuiWillWord index={1}>Not</OuiWillWord>
+              <OuiWillWord index={2}>Just</OuiWillWord>
+              <OuiWillWord index={3}>Another</OuiWillWord>
+              <OuiWillWord index={4}>IT</OuiWillWord>
+              <OuiWillWord index={5}>Company.</OuiWillWord>
+              <OuiWillDot />
+              <span style={{ display: "block", width: "100%", marginTop: "0.35rem" }}>
+                <OuiWillWord index={6} isGradient>
+                  We Are A Dedicated Team Of Tech Experts.
+                </OuiWillWord>
               </span>
-            </h1>
+            </OuiWillHeadline>
 
             <p
               style={{

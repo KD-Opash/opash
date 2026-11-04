@@ -55,8 +55,8 @@ async function fetchPost(slug: string): Promise<BlogPost | undefined> {
           };
         }
       }
-    } catch (err) {
-      console.warn("NextHRMS blog detail fetch error, using fallback:", err);
+    } catch {
+      // Admin backend offline or build time - fallback to local blog data
     }
   }
 

@@ -13,7 +13,6 @@ import {
   AlertTriangle,
   ArrowRight,
   ChevronRight,
-  TrendingUp,
   Layers,
   Crown,
   FileCode2,
@@ -302,7 +301,7 @@ export function WhyChooseUsComparison() {
           <h2
             className="heading-section"
             style={{
-              fontSize: "clamp(2.2rem, 4.2vw, 3.4rem)",
+              fontSize: "clamp(1.65rem, 2.5vw, 2.25rem)",
               fontWeight: 850,
               lineHeight: 1.15,
               letterSpacing: "-0.03em",
@@ -1374,126 +1373,6 @@ export function WhyChooseUsComparison() {
             </div>
           </div>
         )}
-
-        {/* ========================================================================= */}
-        {/* 5. BOTTOM TELEMETRY BAR & SQUAD DEPLOYMENT CTA                            */}
-        {/* ========================================================================= */}
-        <div
-          style={{
-            marginTop: "3.5rem",
-            padding: "1.75rem 2.25rem",
-            borderRadius: "22px",
-            background: isLight
-              ? "linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.95) 100%)"
-              : "linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(8, 14, 28, 0.92) 100%)",
-            border: `1px solid ${isLight ? "rgba(138, 92, 255, 0.25)" : "rgba(0, 255, 209, 0.25)"}`,
-            backdropFilter: "blur(20px)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            flexWrap: "wrap",
-            gap: "1.75rem",
-            boxShadow: isLight
-              ? "0 20px 45px -12px rgba(138, 92, 255, 0.12)"
-              : "0 20px 50px -15px rgba(0, 255, 209, 0.15)",
-          }}
-        >
-          {/* Telemetry Metrics */}
-          <div style={{ display: "flex", alignItems: "center", gap: "2.75rem", flexWrap: "wrap" }}>
-            
-            <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-              <div
-                style={{
-                  width: "40px",
-                  height: "40px",
-                  borderRadius: "12px",
-                  background: isLight ? "rgba(0, 255, 209, 0.15)" : "rgba(0, 255, 209, 0.18)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: isLight ? "#0f766e" : "#00ffd1",
-                }}
-              >
-                <TrendingUp size={20} />
-              </div>
-              <div>
-                <div style={{ fontSize: "1.05rem", fontWeight: 850 }}>48 Hours</div>
-                <div style={{ fontSize: "0.76rem", color: isLight ? "#64748b" : "#94a3b8" }}>
-                  Squad Matching to First Git Commit
-                </div>
-              </div>
-            </div>
-
-            <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-              <div
-                style={{
-                  width: "40px",
-                  height: "40px",
-                  borderRadius: "12px",
-                  background: isLight ? "rgba(138, 92, 255, 0.12)" : "rgba(138, 92, 255, 0.18)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: isLight ? "#7c3aed" : "#a78bfa",
-                }}
-              >
-                <ShieldCheck size={20} />
-              </div>
-              <div>
-                <div style={{ fontSize: "1.05rem", fontWeight: 850 }}>0% Lock-in</div>
-                <div style={{ fontSize: "0.76rem", color: isLight ? "#64748b" : "#94a3b8" }}>
-                  100% IP & Source Code Transfer
-                </div>
-              </div>
-            </div>
-
-            <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-              <div
-                style={{
-                  width: "40px",
-                  height: "40px",
-                  borderRadius: "12px",
-                  background: isLight ? "rgba(255, 92, 122, 0.12)" : "rgba(255, 92, 122, 0.18)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: isLight ? "#e11d48" : "#ff5c7a",
-                }}
-              >
-                <Clock size={20} />
-              </div>
-              <div>
-                <div style={{ fontSize: "1.05rem", fontWeight: 850 }}>4+ Hours</div>
-                <div style={{ fontSize: "0.76rem", color: isLight ? "#64748b" : "#94a3b8" }}>
-                  Live US & European Synchronous Overlap
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-          {/* Action CTA */}
-          <Link
-            href="/get-a-quote"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "0.65rem",
-              padding: "0.95rem 1.85rem",
-              borderRadius: "14px",
-              background: "linear-gradient(135deg, #00ffd1 0%, #8a5cff 50%, #ff5c7a 100%)",
-              color: "#ffffff",
-              fontWeight: 800,
-              fontSize: "0.95rem",
-              textDecoration: "none",
-              boxShadow: "0 4px 22px rgba(138, 92, 255, 0.4)",
-              transition: "all 0.25s ease",
-            }}
-          >
-            <span>Deploy Your Dedicated Squad</span>
-            <ArrowRight size={17} />
-          </Link>
-        </div>
 
       </div>
     </section>

@@ -14,13 +14,8 @@ import {
   FolderKanban,
   ShieldCheck,
   ChevronRight,
-  Layers,
   Search,
   X,
-  Zap,
-  Lock,
-  Cloud,
-  CheckCircle2,
 } from "lucide-react";
 
 export const CATEGORY_META: Record<
@@ -488,7 +483,6 @@ export const TECH_CATEGORIES: CategoryGroup[] = [
 ];
 
 const CATEGORY_TABS = [
-  { id: "all", name: "All Stack", icon: Layers, count: 43 },
   { id: "frontend", name: "Front End", icon: Code2, count: 9 },
   { id: "backend", name: "Back End", icon: Server, count: 5 },
   { id: "mobile", name: "Mobile", icon: Smartphone, count: 4 },
@@ -499,7 +493,7 @@ const CATEGORY_TABS = [
 ];
 
 export function TechStackShowcase() {
-  const [activeTab, setActiveTab] = useState<string>("all");
+  const [activeTab, setActiveTab] = useState<string>("frontend");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const { theme } = useTheme();
   const [domLight, setDomLight] = useState(false);
@@ -556,6 +550,7 @@ export function TechStackShowcase() {
     <section
       id="tech-stack"
       className="tech-showcase-section relative w-full overflow-hidden select-none"
+      style={{ paddingTop: "4.5rem" }}
       aria-label="Technologies & Platforms We Work With"
     >
       {/* Dynamic Cyber Tech Backdrop (Auroras, Dot Matrix, Radar Scan & Glyphs) */}
@@ -567,11 +562,6 @@ export function TechStackShowcase() {
         {/* 1. SECTION HEADER (TITLE & DESCRIPTION)                                   */}
         {/* ========================================================================= */}
         <div className="tech-showcase-header">
-          <div className="tech-showcase-badge">
-            <Cpu size={13} />
-            <span>ENTERPRISE TECH STACK</span>
-          </div>
-
           <h2 className="tech-showcase-title">
             Technologies & Platforms{" "}
             <span className="tech-showcase-gradient-text">That Power Scale</span>
@@ -649,7 +639,6 @@ export function TechStackShowcase() {
 
                 return {
                   title: tech.name,
-                  badge: tech.badge,
                   accent: brandColor,
                   icon: (
                     <div className="tech-showcase-card-iconpod" style={{ marginBottom: 0 }}>
@@ -688,7 +677,7 @@ export function TechStackShowcase() {
               type="button"
               onClick={() => {
                 setSearchQuery("");
-                setActiveTab("all");
+                setActiveTab("frontend");
               }}
               style={{
                 padding: "8px 18px",
@@ -704,28 +693,6 @@ export function TechStackShowcase() {
             </button>
           </div>
         )}
-
-        {/* ========================================================================= */}
-        {/* 4. ENTERPRISE CAPABILITIES HIGHLIGHTS STRIP                               */}
-        {/* ========================================================================= */}
-        <div className="tech-showcase-capabilities">
-          <div className="tech-showcase-cap-item">
-            <Zap size={16} className="tech-showcase-cap-icon" />
-            <span>Low-Latency High Throughput</span>
-          </div>
-          <div className="tech-showcase-cap-item">
-            <Lock size={16} className="tech-showcase-cap-icon" />
-            <span>Bank-Grade Architecture Security</span>
-          </div>
-          <div className="tech-showcase-cap-item">
-            <Cloud size={16} className="tech-showcase-cap-icon" />
-            <span>Multi-Cloud Auto-Scaling Ecosystems</span>
-          </div>
-          <div className="tech-showcase-cap-item">
-            <CheckCircle2 size={16} className="tech-showcase-cap-icon" />
-            <span>Continuous Automated Quality Gates</span>
-          </div>
-        </div>
       </div>
     </section>
   );

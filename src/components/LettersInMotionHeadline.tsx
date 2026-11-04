@@ -93,6 +93,15 @@ function CleanHeadlineHeading({ text, primaryColor, secondaryColor }: CleanHeadl
     <span
       className="letters-active-phrase"
       style={{
+        fontFamily: "var(--font-acthirey), 'Acthirey', 'Playfair Display', 'Prime Serif', serif",
+        fontSize: "clamp(1.875rem, 2.75vw, 2.875rem)",
+        fontWeight: 400,
+        lineHeight: 1.2,
+        letterSpacing: "-0.015em",
+        display: "inline-block",
+        textAlign: "center",
+        wordBreak: "keep-all",
+        maxWidth: "100%",
         ["--phrase-primary" as string]: primaryColor,
         ["--phrase-secondary" as string]: secondaryColor,
       }}
@@ -190,7 +199,16 @@ export default function LettersInMotionHeadline({
     [currentIndex, activeDef, heroRef, onPhraseChange]
   );
 
-  // Capability phrases switch on user dot selection or click, avoiding continuous idle CPU execution
+  // Auto-rotate capability phrases every 3.8s when visible and not hovered
+  useEffect(() => {
+    if (!isVisible || isPaused) return;
+
+    const timer = setInterval(() => {
+      onSelectIndex((currentIndex + 1) % OPASH_SERVICES_PHRASES.length);
+    }, 3800);
+
+    return () => clearInterval(timer);
+  }, [currentIndex, isVisible, isPaused, onSelectIndex]);
 
 
   // Measure whenever the active index changes or window resizes
@@ -214,17 +232,50 @@ export default function LettersInMotionHeadline({
       className="letters-headline-container"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        textAlign: "center",
+        width: "100%",
+      }}
     >
       {/* Line 1: Static Authority Lead-In */}
-      <div className="letters-headline-lead">
+      <div
+        className="letters-headline-lead"
+        style={{
+          fontFamily: "var(--font-acthirey), 'Acthirey', 'Playfair Display', 'Prime Serif', serif",
+          fontSize: "clamp(1.275rem, 1.7vw, 1.625rem)",
+          fontWeight: 400,
+          lineHeight: 1.25,
+          letterSpacing: "-0.01em",
+          textAlign: "center",
+          width: "100%",
+          marginBottom: "0.35rem",
+        }}
+      >
         <span>Top Global Partner for</span>
       </div>
 
       {/* Line 2: Crystal-Clear Cybernetic Kinetic Typography */}
-      <div className="letters-headline-phrase-row">
+      <div
+        className="letters-headline-phrase-row"
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          width: "100%",
+          position: "relative",
+        }}
+      >
         <div
           ref={phraseWrapRef}
           className="letters-headline-phrase-wrap"
+          style={{
+            display: "inline-block",
+            position: "relative",
+            maxWidth: "100%",
+            textAlign: "center",
+          }}
         >
           <AnimatePresence mode="wait">
             <motion.div
@@ -234,6 +285,12 @@ export default function LettersInMotionHeadline({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
+              style={{
+                display: "inline-block",
+                position: "relative",
+                maxWidth: "100%",
+                textAlign: "center",
+              }}
             >
               <CleanHeadlineHeading
                 text={activeDef.headlinePhrase}
@@ -273,53 +330,54 @@ export default function LettersInMotionHeadline({
         </div>
       </div>
 
-      {/* Contextual Interactive Capability Badge */}
-      <div className="letters-context-row">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeDef.id}
-            className="letters-context-badge"
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 10 }}
-            transition={{ duration: 0.32 }}
-          >
-            <div className="letters-context-icon-wrap" style={{ color: activeDef.primaryColor }}>
-              <IconComponent size={14} />
-            </div>
-            <div className="letters-context-info">
-              <span className="letters-context-title">{activeDef.subtitle}</span>
-              <span className="letters-context-tagline">{activeDef.tagline}</span>
-            </div>
-            <Link href={activeDef.slug} className="letters-context-link">
-              <span>Explore</span>
-              <ArrowRight size={11} />
-            </Link>
-          </motion.div>
-        </AnimatePresence>
-
-        {/* Quick Dot Selectors */}
-        <div className="letters-nav-dots" role="tablist" aria-label="Select OPASH Capability">
-          {OPASH_SERVICES_PHRASES.map((phrase, idx) => (
+      {/* Clean Minimal Capability Indicators (Shows Active Section & Total Sections) */}
+      <div
+        className="letters-nav-dots-row"
+        role="tablist"
+        aria-label="Capability Indicators"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "8px",
+          marginTop: "1.1rem",
+          marginBottom: "0.5rem",
+        }}
+      >
+        {OPASH_SERVICES_PHRASES.map((phrase, idx) => {
+          const isActive = idx === currentIndex;
+          return (
             <button
               key={phrase.id}
               type="button"
               role="tab"
-              aria-selected={idx === currentIndex}
-              className={`letters-nav-dot ${idx === currentIndex ? "active" : ""}`}
+              aria-selected={isActive}
               onClick={() => onSelectIndex(idx)}
               title={phrase.title}
+              className="letters-nav-dot-btn"
+              style={{
+                background: "transparent",
+                border: "none",
+                padding: "6px 3px",
+                cursor: "pointer",
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
             >
               <span
-                className="letters-nav-dot-inner"
+                className="letters-nav-dot-pill"
                 style={{
-                  backgroundColor: idx === currentIndex ? phrase.primaryColor : undefined,
-                  boxShadow: idx === currentIndex ? `0 0 8px ${phrase.primaryColor}` : undefined,
+                  width: isActive ? "22px" : "6px",
+                  height: "6px",
+                  borderRadius: "999px",
+                  backgroundColor: isActive ? phrase.primaryColor : undefined,
+                  boxShadow: isActive ? `0 0 10px ${phrase.primaryColor}` : undefined,
                 }}
               />
             </button>
-          ))}
-        </div>
+          );
+        })}
       </div>
     </div>
   );

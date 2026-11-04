@@ -1,164 +1,289 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 interface PortfolioCreativeBackdropProps {
   isLightMode?: boolean;
 }
 
 /**
- * Unique, 0% GPU High-Tech Enterprise Delivery & Infrastructure Runway Backdrop.
- * Distinct from Blogs and Careers: Features an infinite perspective architectural runway,
- * royal sapphire & cyber cyan ambient lighting, and enterprise delivery network vectors.
+ * Crafto-Inspired Precision Blueprint Grid with Interactive Gradient Spotlight & Giant Watermark.
+ * Features:
+ *  1. Ultra-Crisp Dark Engineering Graph Grid (28px × 28px)
+ *  2. Interactive Mouse-Tracking Gradient Spotlight (illuminates grid on hover)
+ *  3. Giant Ambient "75+" Architectural Ghost Watermark
+ *  4. Floating 3D Micro-Squiggle Accents (Mint & Lavender/Violet)
+ *  5. 0% CPU & GPU Storage Overhead (RAF-throttled pointer tracking + GPU transforms)
  */
 export default function PortfolioCreativeBackdrop({ isLightMode = false }: PortfolioCreativeBackdropProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [mousePos, setMousePos] = useState<{ x: string; y: string }>({ x: '50%', y: '40%' });
+  const [isHovered, setIsHovered] = useState(false);
+
+  useEffect(() => {
+    const parent = containerRef.current?.parentElement;
+    if (!parent) return;
+
+    let rafId: number | null = null;
+
+    const handlePointerMove = (e: PointerEvent) => {
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        const rect = parent.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        setMousePos({ x: `${Math.round(x)}px`, y: `${Math.round(y)}px` });
+        setIsHovered(true);
+      });
+    };
+
+    const handlePointerLeave = () => {
+      setIsHovered(false);
+      setMousePos({ x: '50%', y: '40%' });
+    };
+
+    parent.addEventListener('pointermove', handlePointerMove, { passive: true });
+    parent.addEventListener('pointerleave', handlePointerLeave, { passive: true });
+
+    return () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      parent.removeEventListener('pointermove', handlePointerMove);
+      parent.removeEventListener('pointerleave', handlePointerLeave);
+    };
+  }, []);
+
   return (
     <div
+      ref={containerRef}
       aria-hidden="true"
+      className="portfolio-creative-backdrop"
       style={{
         position: 'absolute',
         inset: 0,
         overflow: 'hidden',
         pointerEvents: 'none',
         zIndex: 0,
-        background: 'transparent',
       }}
     >
-      {/* 1. Opash Slate Blue & Mint Green Signature Ambient Aura (0% GPU Filter Passes) */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background: isLightMode
-            ? `
-              radial-gradient(ellipse 130% 90% at 50% -20%, rgba(0, 168, 143, 0.16) 0%, rgba(71, 109, 154, 0.12) 35%, rgba(98, 137, 184, 0.05) 65%, transparent 85%),
-              radial-gradient(ellipse 75% 65% at 0% 35%, rgba(71, 109, 154, 0.14) 0%, transparent 70%),
-              radial-gradient(ellipse 75% 65% at 100% 35%, rgba(0, 168, 143, 0.14) 0%, transparent 70%),
-              radial-gradient(ellipse 90% 50% at 50% 100%, rgba(71, 109, 154, 0.08) 0%, transparent 75%)
-            `
-            : `
-              radial-gradient(ellipse 140% 90% at 50% -20%, rgba(94, 192, 152, 0.22) 0%, rgba(71, 109, 154, 0.20) 35%, rgba(98, 137, 184, 0.08) 65%, transparent 85%),
-              radial-gradient(ellipse 75% 65% at 0% 35%, rgba(71, 109, 154, 0.22) 0%, transparent 70%),
-              radial-gradient(ellipse 75% 65% at 100% 35%, rgba(94, 192, 152, 0.18) 0%, transparent 70%),
-              radial-gradient(ellipse 90% 50% at 50% 100%, rgba(71, 109, 154, 0.12) 0%, transparent 75%)
-            `,
-          transition: 'background 0.5s ease',
-        }}
-      />
+      <style>{`
+        @keyframes craftoSquiggleFloat1 {
+          0%, 100% {
+            transform: translate3d(0, 0, 0) rotate(-12deg) scale(1);
+          }
+          50% {
+            transform: translate3d(0, -18px, 0) rotate(-4deg) scale(1.05);
+          }
+        }
 
-      {/* 2. Top Laser Horizon Accent Beam (Opash Mint & Slate) */}
-      <div
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: '50%',
-          transform: 'translateX(-50%)',
-          width: '90%',
-          maxWidth: '1360px',
-          height: '1px',
-          background: isLightMode
-            ? 'linear-gradient(90deg, transparent 0%, rgba(71, 109, 154, 0.3) 20%, rgba(0, 168, 143, 0.8) 50%, rgba(71, 109, 154, 0.3) 80%, transparent 100%)'
-            : 'linear-gradient(90deg, transparent 0%, rgba(71, 109, 154, 0.4) 15%, rgba(94, 192, 152, 0.95) 50%, rgba(98, 137, 184, 0.5) 85%, transparent 100%)',
-          boxShadow: isLightMode
-            ? '0 0 20px rgba(0, 168, 143, 0.35)'
-            : '0 0 24px rgba(94, 192, 152, 0.5), 0 0 10px rgba(71, 109, 154, 0.4)',
-        }}
-      />
+        @keyframes craftoSquiggleFloat2 {
+          0%, 100% {
+            transform: translate3d(0, 0, 0) rotate(15deg) scale(1);
+          }
+          50% {
+            transform: translate3d(0, 16px, 0) rotate(8deg) scale(0.96);
+          }
+        }
 
-      {/* 3. 3D Perspective Digital Infrastructure Runway (Opash Logo Palette) */}
-      <div
-        style={{
-          position: 'absolute',
-          bottom: '-15%',
-          left: '-20%',
-          right: '-20%',
-          height: '620px',
-          transform: 'perspective(750px) rotateX(66deg)',
-          transformOrigin: 'bottom center',
-          backgroundImage: isLightMode
-            ? `
-              linear-gradient(to right, rgba(71, 109, 154, 0.18) 1px, transparent 1px),
-              linear-gradient(to bottom, rgba(0, 168, 143, 0.18) 1px, transparent 1px)
-            `
-            : `
-              linear-gradient(to right, rgba(94, 192, 152, 0.22) 1px, transparent 1px),
-              linear-gradient(to bottom, rgba(71, 109, 154, 0.25) 1px, transparent 1px)
-            `,
-          backgroundSize: '48px 48px',
-          maskImage: 'linear-gradient(to top, black 25%, transparent 85%)',
-          WebkitMaskImage: 'linear-gradient(to top, black 25%, transparent 85%)',
-          opacity: isLightMode ? 0.45 : 0.55,
-        }}
-      />
+        @keyframes craftoSquiggleFloat3 {
+          0%, 100% {
+            transform: translate3d(0, 0, 0) rotate(0deg);
+          }
+          50% {
+            transform: translate3d(8px, -12px, 0) rotate(10deg);
+          }
+        }
+      `}</style>
 
-      {/* 4. Global Architecture Delivery Topology Vectors (Opash Brand Vectors) */}
-      <svg
+      {/* ================================================================= */}
+      {/* 1. GIANT AMBIENT ARCHITECTURAL GHOST WATERMARK ("75+")            */}
+      {/* Exactly like the 500+ watermark in Crafto reference              */}
+      {/* ================================================================= */}
+      <div
+        className="portfolio-watermark-75"
         style={{
           position: 'absolute',
-          top: '46%',
+          top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: '100%',
-          maxWidth: '1320px',
-          height: '750px',
-          opacity: isLightMode ? 0.38 : 0.48,
-          maskImage: 'linear-gradient(to bottom, black 0%, black 80%, transparent 100%)',
-          WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 80%, transparent 100%)',
+          fontSize: 'clamp(9rem, 26vw, 21rem)',
+          fontWeight: 900,
+          letterSpacing: '-0.06em',
+          lineHeight: 0.9,
+          userSelect: 'none',
+          pointerEvents: 'none',
+          zIndex: 0,
+          fontFamily: 'var(--font-space-grotesk), system-ui, -apple-system, sans-serif',
+          whiteSpace: 'nowrap',
+          transition: 'color 0.4s ease',
         }}
-        viewBox="0 0 1200 750"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
       >
-        <defs>
-          <linearGradient id="deliveryFlow" x1="0%" y1="100%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor={isLightMode ? "#476D9A" : "#476D9A"} stopOpacity="0.2" />
-            <stop offset="50%" stopColor={isLightMode ? "#00A88F" : "#5EC098"} stopOpacity="0.7" />
-            <stop offset="100%" stopColor={isLightMode ? "#1e3a5f" : "#6289B8"} stopOpacity="0.6" />
-          </linearGradient>
-        </defs>
+        75+
+      </div>
 
-        {/* Global Delivery Arcs connecting Enterprise Platforms */}
-        <path d="M 120 540 Q 600 380 1080 200" stroke="url(#deliveryFlow)" strokeWidth="1.8" strokeDasharray="6 6" />
-        <path d="M 180 240 Q 600 420 1020 560" stroke={isLightMode ? "rgba(71, 109, 154, 0.3)" : "rgba(98, 137, 184, 0.35)"} strokeWidth="1.2" strokeDasharray="4 8" />
-        <path d="M 300 620 Q 600 480 900 620" stroke={isLightMode ? "rgba(0, 168, 143, 0.25)" : "rgba(94, 192, 152, 0.3)"} strokeWidth="1" strokeDasharray="3 6" />
+      {/* ================================================================= */}
+      {/* 2. PRECISION ENGINEERING GRAPH GRID (Crafto Blueprint Pattern)   */}
+      {/* ================================================================= */}
+      <div
+        className="portfolio-hero-grid"
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundSize: '28px 28px',
+          maskImage: 'radial-gradient(ellipse 95% 85% at 50% 45%, black 40%, transparent 92%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 95% 85% at 50% 45%, black 40%, transparent 92%)',
+          zIndex: 1,
+        }}
+      />
 
-        {/* Concentric Infrastructure Radar Rings */}
-        <ellipse cx="600" cy="380" rx="340" ry="170" stroke={isLightMode ? "rgba(71, 109, 154, 0.18)" : "rgba(98, 137, 184, 0.22)"} strokeWidth="1.2" strokeDasharray="5 7" />
-        <ellipse cx="600" cy="380" rx="520" ry="260" stroke={isLightMode ? "rgba(0, 168, 143, 0.12)" : "rgba(94, 192, 152, 0.16)"} strokeWidth="1" strokeDasharray="3 9" />
-
-        {/* Architectural Server Prism Nodes */}
-        {/* Left Node */}
-        <g transform="translate(180, 240)">
-          <polygon points="0,-16 14,-8 14,8 0,16 -14,8 -14,-8" fill="none" stroke={isLightMode ? "#476D9A" : "#6289B8"} strokeWidth="1.5" />
-          <circle cx="0" cy="0" r="3.5" fill={isLightMode ? "#00A88F" : "#5EC098"} />
-        </g>
-        {/* Center Node */}
-        <g transform="translate(600, 380)">
-          <circle cx="0" cy="0" r="16" stroke={isLightMode ? "#00A88F" : "#5EC098"} strokeWidth="1.2" strokeDasharray="3 3" />
-          <circle cx="0" cy="0" r="6" fill={isLightMode ? "#00A88F" : "#5EC098"} />
-        </g>
-        {/* Right Node */}
-        <g transform="translate(1080, 200)">
-          <polygon points="0,-18 16,-9 16,9 0,18 -16,9 -16,-9" fill="none" stroke={isLightMode ? "#476D9A" : "#476D9A"} strokeWidth="1.5" />
-          <circle cx="0" cy="0" r="4" fill={isLightMode ? "#00A88F" : "#5EC098"} />
-        </g>
-      </svg>
-
-      {/* 5. Fine Architectural Dot Lattice (Edge-to-Edge Spread) */}
+      {/* ================================================================= */}
+      {/* 3. INTERACTIVE MOUSE-TRACKING GRADIENT SPOTLIGHT (HOVER LIGHT)    */}
+      {/* Illuminates the blueprint grid and watermark under cursor        */}
+      {/* ================================================================= */}
       <div
         style={{
           position: 'absolute',
           inset: 0,
-          opacity: isLightMode ? 0.32 : 0.2,
-          backgroundImage: isLightMode
-            ? 'radial-gradient(rgba(71, 109, 154, 0.4) 1px, transparent 1px)'
-            : 'radial-gradient(rgba(94, 192, 152, 0.45) 1px, transparent 1px)',
-          backgroundSize: '36px 36px',
-          maskImage: 'linear-gradient(to bottom, black 0%, black 75%, transparent 100%)',
-          WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 75%, transparent 100%)',
+          background: `radial-gradient(650px circle at ${mousePos.x} ${mousePos.y}, ${
+            isLightMode
+              ? 'rgba(0, 168, 143, 0.18) 0%, rgba(71, 109, 154, 0.10) 35%, rgba(98, 137, 184, 0.03) 60%, transparent 75%'
+              : 'rgba(94, 192, 152, 0.22) 0%, rgba(0, 255, 209, 0.12) 30%, rgba(71, 109, 154, 0.09) 55%, transparent 75%'
+          })`,
+          opacity: isHovered ? 1 : 0.7,
+          transition: isHovered ? 'opacity 0.25s ease' : 'all 0.5s ease',
+          pointerEvents: 'none',
+          zIndex: 2,
         }}
       />
 
+      {/* ================================================================= */}
+      {/* 4. SOFT CORNER AMBIENT LIGHTS (Crafto Edge Halos)                 */}
+      {/* ================================================================= */}
+      {/* Bottom Left Subtle Blue Halo */}
+      <div
+        className="portfolio-ambient-halo-1"
+        style={{
+          position: 'absolute',
+          bottom: '-10%',
+          left: '-5%',
+          width: '520px',
+          height: '420px',
+          borderRadius: '50%',
+          filter: 'blur(75px)',
+          pointerEvents: 'none',
+          zIndex: 1,
+        }}
+      />
+
+      {/* Top Right Subtle Mint/Cyan Glow */}
+      <div
+        className="portfolio-ambient-halo-2"
+        style={{
+          position: 'absolute',
+          top: '-8%',
+          right: '-5%',
+          width: '540px',
+          height: '440px',
+          borderRadius: '50%',
+          filter: 'blur(80px)',
+          pointerEvents: 'none',
+          zIndex: 1,
+        }}
+      />
+
+      {/* ================================================================= */}
+      {/* 5. PLAYFUL 3D FLOATING SQUIGGLE ACCENTS (Opash Brand Palette)     */}
+      {/* ================================================================= */}
+      {/* Mid-Left Opash Mint / Teal Wavy Squiggle */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '56%',
+          left: '6%',
+          width: '74px',
+          height: '74px',
+          overflow: 'visible',
+          zIndex: 3,
+          animation: 'craftoSquiggleFloat1 9s ease-in-out infinite',
+          willChange: 'transform',
+        }}
+      >
+        <svg viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ overflow: 'visible' }}>
+          <defs>
+            <linearGradient id="mintSquiggle" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#00FFD1" />
+              <stop offset="100%" stopColor="#5EC098" />
+            </linearGradient>
+          </defs>
+          <path
+            d="M 12 55 Q 22 25 35 48 T 58 18"
+            stroke="url(#mintSquiggle)"
+            strokeWidth="5"
+            strokeLinecap="round"
+            style={{
+              filter: isLightMode
+                ? 'drop-shadow(0 4px 10px rgba(0, 168, 143, 0.35))'
+                : 'drop-shadow(0 4px 16px rgba(0, 255, 209, 0.6))',
+            }}
+          />
+        </svg>
+      </div>
+
+      {/* Mid-Right Opash Cyan & Slate Blue Wavy Squiggle (Matched to Website Palette) */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '32%',
+          right: '8%',
+          width: '78px',
+          height: '78px',
+          overflow: 'visible',
+          zIndex: 3,
+          animation: 'craftoSquiggleFloat2 11s ease-in-out infinite',
+          willChange: 'transform',
+        }}
+      >
+        <svg viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ overflow: 'visible' }}>
+          <defs>
+            <linearGradient id="opashBrandSquiggle" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#38BDF8" />
+              <stop offset="50%" stopColor="#00FFD1" />
+              <stop offset="100%" stopColor="#5EC098" />
+            </linearGradient>
+          </defs>
+          <path
+            d="M 14 18 Q 28 52 42 24 T 58 50"
+            stroke="url(#opashBrandSquiggle)"
+            strokeWidth="5"
+            strokeLinecap="round"
+            style={{
+              filter: isLightMode
+                ? 'drop-shadow(0 4px 10px rgba(0, 168, 143, 0.35))'
+                : 'drop-shadow(0 4px 16px rgba(0, 255, 209, 0.6))',
+            }}
+          />
+        </svg>
+      </div>
+
+      {/* Top-Left Cyber Cyan Micro Spiral */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '18%',
+          left: '9%',
+          width: '46px',
+          height: '46px',
+          overflow: 'visible',
+          zIndex: 3,
+          animation: 'craftoSquiggleFloat3 8s ease-in-out infinite',
+          willChange: 'transform',
+          opacity: 0.85,
+        }}
+      >
+        <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ overflow: 'visible' }}>
+          <circle cx="25" cy="25" r="16" stroke="url(#mintSquiggle)" strokeWidth="3" strokeDasharray="5 7" />
+          <circle cx="25" cy="25" r="5" fill="#00FFD1" />
+        </svg>
+      </div>
     </div>
   );
 }

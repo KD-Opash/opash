@@ -183,7 +183,7 @@ export function TechInsightsShowcase() {
             <h2
               className="heading-section"
               style={{
-                fontSize: "clamp(2.1rem, 4vw, 3.2rem)",
+                fontSize: "clamp(1.65rem, 2.5vw, 2.25rem)",
                 fontWeight: 850,
                 lineHeight: 1.15,
                 letterSpacing: "-0.03em",

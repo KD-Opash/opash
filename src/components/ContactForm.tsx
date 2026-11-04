@@ -180,31 +180,6 @@ export default function ContactForm() {
           }}
         >
           <div>
-            <div
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.5rem",
-                color: isLight ? "#0284c7" : "#00ffd1",
-                fontSize: "0.82rem",
-                fontWeight: 700,
-                letterSpacing: "0.06em",
-                textTransform: "uppercase",
-                marginBottom: "0.6rem",
-              }}
-            >
-              <span
-                style={{
-                  width: "7px",
-                  height: "7px",
-                  borderRadius: "50%",
-                  background: "#10b981",
-                  boxShadow: "0 0 8px #10b981",
-                }}
-              />
-              <span>Direct Engineering Channel</span>
-            </div>
-
             <h3
               style={{
                 fontSize: "clamp(1.7rem, 2.5vw, 2.2rem)",

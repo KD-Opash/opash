@@ -78,14 +78,14 @@ export default function LifeAtOpashSection() {
 
   const maxIndex = Math.max(0, CULTURE_PHOTOS.length - visibleCount);
 
-  // Auto-slide
+  // Auto-slide after some seconds (continuous auto-scroll)
   useEffect(() => {
-    if (isPaused || lightboxIndex !== null) return;
+    if (lightboxIndex !== null) return;
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
-    }, 4500);
+    }, 3200);
     return () => clearInterval(interval);
-  }, [isPaused, maxIndex, lightboxIndex]);
+  }, [maxIndex, lightboxIndex]);
 
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev <= 0 ? maxIndex : prev - 1));
@@ -99,8 +99,6 @@ export default function LifeAtOpashSection() {
     <section
       id="life-at-opash"
       aria-label="Life At Opash"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
       style={{
         position: "relative",
         padding: "6.5rem 0",

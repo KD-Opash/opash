@@ -431,13 +431,20 @@ export function AnimatedIndustriesCarousel() {
   const isLight = theme === "light";
 
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [isHovered, setIsHovered] = useState(false);
   const CARD_DURATION_MS = 3800; // 3.8 seconds per card
 
   const activeIndustry = CAROUSEL_INDUSTRIES[activeIndex];
   const carouselTrackRef = useRef<HTMLDivElement>(null);
 
-  // Auto-scroll the carousel track so active card stays in view
+  // Drag-to-scroll variables
+  const isDraggingRef = useRef(false);
+  const startXRef = useRef(0);
+  const scrollLeftRef = useRef(0);
+  const hasMovedRef = useRef(false);
+
+  // Auto-scroll the carousel track so active card stays in center
   useEffect(() => {
     if (!carouselTrackRef.current) return;
     const track = carouselTrackRef.current;
@@ -453,40 +460,58 @@ export function AnimatedIndustriesCarousel() {
     }
   }, [activeIndex]);
 
-  // Main animation timer loop - advances card without constant re-renders
+  // Main animation timer loop - advances card automatically when playing and not hovered
   useEffect(() => {
-    if (!isPlaying) return;
+    if (!isPlaying || isHovered) return;
 
     const timer = setInterval(() => {
       setActiveIndex((idx) => (idx + 1) % CAROUSEL_INDUSTRIES.length);
     }, CARD_DURATION_MS);
 
     return () => clearInterval(timer);
-  }, [isPlaying, CARD_DURATION_MS]);
+  }, [isPlaying, isHovered, CARD_DURATION_MS]);
 
   const formattedTime = `00:${activeIndex < 9 ? "0" + (activeIndex + 1) : activeIndex + 1}.00`;
   const totalDurationStr = `00:${CAROUSEL_INDUSTRIES.length < 10 ? "0" + CAROUSEL_INDUSTRIES.length : CAROUSEL_INDUSTRIES.length}`;
 
   const handleSelectCard = useCallback((index: number) => {
+    if (hasMovedRef.current) return; // Prevent card selection if user was dragging
     setActiveIndex(index);
   }, []);
 
-  const handlePrev = useCallback(() => {
-    setActiveIndex((prev) =>
-      prev === 0 ? CAROUSEL_INDUSTRIES.length - 1 : prev - 1
-    );
-  }, []);
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!carouselTrackRef.current) return;
+    isDraggingRef.current = true;
+    hasMovedRef.current = false;
+    startXRef.current = e.pageX - carouselTrackRef.current.offsetLeft;
+    scrollLeftRef.current = carouselTrackRef.current.scrollLeft;
+    carouselTrackRef.current.style.cursor = "grabbing";
+  };
 
-  const handleNext = useCallback(() => {
-    setActiveIndex((prev) => (prev + 1) % CAROUSEL_INDUSTRIES.length);
-  }, []);
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDraggingRef.current || !carouselTrackRef.current) return;
+    const x = e.pageX - carouselTrackRef.current.offsetLeft;
+    const walk = (x - startXRef.current);
+    if (Math.abs(walk) > 4) {
+      hasMovedRef.current = true;
+      e.preventDefault();
+      carouselTrackRef.current.scrollLeft = scrollLeftRef.current - walk;
+    }
+  };
+
+  const handleMouseUp = () => {
+    isDraggingRef.current = false;
+    if (carouselTrackRef.current) {
+      carouselTrackRef.current.style.cursor = "grab";
+    }
+  };
 
   return (
     <section
       className="industries-carousel-section"
       style={{
         position: "relative",
-        padding: "5rem 0 6rem 0",
+        padding: "5rem 0 3.75rem 0",
         overflow: "hidden",
       }}
     >
@@ -514,28 +539,11 @@ export function AnimatedIndustriesCarousel() {
           style={{
             textAlign: "center",
             maxWidth: "760px",
-            margin: "0 auto 3.5rem auto",
+            margin: "0 auto 3rem auto",
           }}
         >
-          <div
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "8px",
-              color: isLight ? "#0284c7" : "#38bdf8",
-              fontSize: "0.85rem",
-              fontWeight: 700,
-              letterSpacing: "0.08em",
-              textTransform: "uppercase",
-              marginBottom: "1rem",
-            }}
-          >
-            <Cpu size={15} />
-            <span>Interactive Domain Architecture</span>
-          </div>
-
-          <h2 className="heading-section" style={{ fontSize: "clamp(2rem, 3.8vw, 3.2rem)" }}>
-            Industries We Specialize In
+          <h2 className="heading-section" style={{ fontSize: "clamp(1.45rem, 2.1vw, 1.95rem)" }}>
+            Industries We <span className="opash-hero-gradient-text">Specialize In</span>
           </h2>
           <p className="subhead-lead" style={{ marginTop: "1rem" }}>
             Over 8+ years delivering mission-critical, enterprise-grade software
@@ -561,7 +569,7 @@ export function AnimatedIndustriesCarousel() {
               ? "0 10px 25px -5px rgba(0, 0, 0, 0.05)"
               : "0 15px 35px -10px rgba(0, 0, 0, 0.4)",
             padding: "1.75rem 2rem 2.25rem 2rem",
-            marginBottom: "2.5rem",
+            marginBottom: "1rem",
           }}
         >
           {/* Top Video Scrubber Bar */}
@@ -669,63 +677,6 @@ export function AnimatedIndustriesCarousel() {
                 <span>sec</span>
               </div>
             </div>
-
-            {/* Right: Prev & Next Manual Navigation */}
-            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <span
-                style={{
-                  fontSize: "0.8rem",
-                  color: isLight ? "#64748b" : "#94a3b8",
-                  marginRight: "6px",
-                }}
-              >
-                Sector <strong style={{ color: isLight ? "#0f172a" : "#fff" }}>{activeIndex + 1}</strong> of {CAROUSEL_INDUSTRIES.length}
-              </span>
-              <button
-                type="button"
-                className="carousel-nav-btn"
-                onClick={handlePrev}
-                title="Previous industry"
-                style={{
-                  width: "32px",
-                  height: "32px",
-                  borderRadius: "8px",
-                  border: isLight
-                    ? "1px solid rgba(0, 0, 0, 0.1)"
-                    : "1px solid rgba(255, 255, 255, 0.12)",
-                  background: isLight ? "#fff" : "rgba(255, 255, 255, 0.05)",
-                  color: isLight ? "#1e293b" : "#f8fafc",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  cursor: "pointer",
-                }}
-              >
-                <ChevronLeft size={16} />
-              </button>
-              <button
-                type="button"
-                className="carousel-nav-btn"
-                onClick={handleNext}
-                title="Next industry"
-                style={{
-                  width: "32px",
-                  height: "32px",
-                  borderRadius: "8px",
-                  border: isLight
-                    ? "1px solid rgba(0, 0, 0, 0.1)"
-                    : "1px solid rgba(255, 255, 255, 0.12)",
-                  background: isLight ? "#fff" : "rgba(255, 255, 255, 0.05)",
-                  color: isLight ? "#1e293b" : "#f8fafc",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  cursor: "pointer",
-                }}
-              >
-                <ChevronRight size={16} />
-              </button>
-            </div>
           </div>
 
           {/* Timeline Marks Bar (0s | 1s | 2s | 3s ... exactly like screenshot) */}
@@ -831,6 +782,16 @@ export function AnimatedIndustriesCarousel() {
           <div
             ref={carouselTrackRef}
             className="carousel-track-container"
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={() => {
+              handleMouseUp();
+              setIsHovered(false);
+            }}
+            onMouseEnter={() => setIsHovered(true)}
+            onTouchStart={() => setIsHovered(true)}
+            onTouchEnd={() => setIsHovered(false)}
             style={{
               display: "flex",
               gap: "1.25rem",
@@ -840,6 +801,7 @@ export function AnimatedIndustriesCarousel() {
               scrollbarWidth: "none",
               msOverflowStyle: "none",
               cursor: "grab",
+              userSelect: "none",
             }}
           >
             {CAROUSEL_INDUSTRIES.map((industry, index) => {
@@ -956,203 +918,6 @@ export function AnimatedIndustriesCarousel() {
                 </button>
               );
             })}
-          </div>
-
-          {/* ============================================================== */}
-          {/* ANIMATED TYPEWRITER CONSOLE ("Typer" Component for Active Card) */}
-          {/* ============================================================== */}
-          <div
-            className="carousel-typer-console"
-            style={{
-              marginTop: "1.25rem",
-              borderRadius: "20px",
-              padding: "1.5rem 1.75rem",
-              background: isLight
-                ? "rgba(241, 245, 249, 0.75)"
-                : "rgba(15, 23, 42, 0.7)",
-              border: isLight
-                ? "1px solid rgba(203, 213, 225, 0.6)"
-                : "1px solid rgba(255, 255, 255, 0.08)",
-              display: "grid",
-              gridTemplateColumns: "minmax(0, 1.8fr) minmax(220px, 1fr)",
-              gap: "2rem",
-              alignItems: "center",
-            }}
-          >
-            {/* Left Column: Live Typewriter details */}
-            <div>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "8px",
-                  marginBottom: "0.6rem",
-                }}
-              >
-                <span
-                  style={{
-                    display: "inline-block",
-                    width: "8px",
-                    height: "8px",
-                    borderRadius: "50%",
-                    backgroundColor: activeIndustry.accent,
-                    boxShadow: `0 0 10px ${activeIndustry.accent}`,
-                  }}
-                />
-                <span
-                  style={{
-                    fontFamily: "monospace",
-                    fontSize: "0.76rem",
-                    fontWeight: 700,
-                    letterSpacing: "0.08em",
-                    textTransform: "uppercase",
-                    color: activeIndustry.accent,
-                  }}
-                >
-                  LIVE TELEMETRY // {activeIndustry.name}
-                </span>
-              </div>
-
-              {/* Headline with Typewriter */}
-              <h4
-                style={{
-                  fontSize: "1.25rem",
-                  fontWeight: 700,
-                  color: isLight ? "#0f172a" : "#f8fafc",
-                  marginBottom: "0.6rem",
-                  minHeight: "1.6em",
-                }}
-              >
-                <TypewriterConsole
-                  key={`headline-${activeIndustry.id}`}
-                  text={activeIndustry.headline}
-                  speed={22}
-                  accent={activeIndustry.accent}
-                />
-              </h4>
-
-              {/* Description */}
-              <p
-                style={{
-                  fontSize: "0.92rem",
-                  lineHeight: 1.6,
-                  color: isLight ? "#475569" : "#94a3b8",
-                  marginBottom: "1rem",
-                }}
-              >
-                {activeIndustry.description}
-              </p>
-
-              {/* Architecture Tags */}
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
-                {activeIndustry.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    style={{
-                      fontSize: "0.75rem",
-                      fontWeight: 600,
-                      padding: "3px 10px",
-                      borderRadius: "6px",
-                      background: isLight
-                        ? "rgba(255, 255, 255, 0.9)"
-                        : "rgba(255, 255, 255, 0.05)",
-                      border: isLight
-                        ? "1px solid rgba(203, 213, 225, 0.8)"
-                        : "1px solid rgba(255, 255, 255, 0.08)",
-                      color: isLight ? "#334155" : "#cbd5e1",
-                    }}
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* Right Column: Verified Stat Pod + Link */}
-            <div
-              className="carousel-stat-card"
-              style={{
-                borderRadius: "16px",
-                padding: "1.25rem 1.5rem",
-                background: isLight
-                  ? "rgba(255, 255, 255, 0.9)"
-                  : "rgba(2, 6, 23, 0.6)",
-                border: `1px solid rgba(${activeIndustry.accentRgb}, 0.25)`,
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-                gap: "1.25rem",
-              }}
-            >
-              <div>
-                <div
-                  className="stat-label"
-                  style={{
-                    fontSize: "0.72rem",
-                    fontWeight: 700,
-                    textTransform: "uppercase",
-                    letterSpacing: "0.05em",
-                    color: isLight ? "#64748b" : "#94a3b8",
-                    marginBottom: "4px",
-                  }}
-                >
-                  {activeIndustry.statLabel}
-                </div>
-                <div
-                  style={{
-                    fontSize: "1.75rem",
-                    fontWeight: 800,
-                    fontFamily: "monospace",
-                    letterSpacing: "-0.02em",
-                    color: activeIndustry.accent,
-                    textShadow: `0 0 15px rgba(${activeIndustry.accentRgb}, 0.4)`,
-                  }}
-                >
-                  {activeIndustry.stat}
-                </div>
-              </div>
-
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  paddingTop: "0.75rem",
-                  borderTop: isLight
-                    ? "1px solid rgba(0, 0, 0, 0.06)"
-                    : "1px solid rgba(255, 255, 255, 0.06)",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "6px",
-                    fontSize: "0.78rem",
-                    color: isLight ? "#475569" : "#cbd5e1",
-                  }}
-                >
-                  <ShieldCheck size={14} color={activeIndustry.accent} />
-                  <span>Production Tested</span>
-                </div>
-
-                <a
-                  href="#contact"
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: "4px",
-                    fontSize: "0.8rem",
-                    fontWeight: 700,
-                    color: activeIndustry.accent,
-                    textDecoration: "none",
-                  }}
-                >
-                  <span>Build Solution</span>
-                  <ArrowUpRight size={14} />
-                </a>
-              </div>
-            </div>
           </div>
         </div>
       </div>

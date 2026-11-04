@@ -4,34 +4,12 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useTheme } from '@/components/ThemeProvider';
 import QuoteCreativeBackdrop from '@/components/QuoteCreativeBackdrop';
+import OuiWillHeadline, { OuiWillWord, OuiWillDot } from '@/components/OuiWillHeadline';
 import { 
   Calculator, 
   Check, 
   CheckCircle2, 
-  Clock, 
-  ShieldCheck, 
-  Users, 
-  ArrowRight, 
-  Layers, 
-  Globe, 
-  Smartphone, 
-  Database, 
-  Bot, 
-  Workflow, 
-  FileText, 
-  ChevronDown, 
-  Star, 
-  Lock, 
-  Code2, 
-  Zap, 
-  Award, 
-  HelpCircle,
-  TrendingUp,
-  Cpu,
-  RefreshCw,
-  PhoneCall,
-  Calendar
-} from 'lucide-react';
+  Clock, ShieldCheck, Users, ArrowRight, Layers, Globe, Smartphone, Database, Bot, Workflow, FileText, ChevronDown, Star, Lock, Code2, Zap, Award, HelpCircle, TrendingUp, Cpu, RefreshCw, PhoneCall, Calendar } from 'lucide-react';
 import { companyData } from '@/data/company';
 
 interface ProjectType {
@@ -319,20 +297,27 @@ export default function GetAQuotePageClient() {
 
           {/* Main Headline */}
           <div style={{ textAlign: 'center', maxWidth: '980px', margin: '0 auto 1.5rem auto' }}>
-            <h1
+            <OuiWillHeadline
               style={{
                 fontSize: 'clamp(2.35rem, 5.2vw, 3.85rem)',
                 fontWeight: 800,
                 lineHeight: 1.15,
                 letterSpacing: '-0.025em',
                 marginBottom: '1rem',
+                display: 'block',
               }}
             >
-              Interactive Project Scope & <br />
-              <span className="opash-brand-gradient-text">
-                Guaranteed Investment Estimator
+              <OuiWillWord index={1}>Interactive</OuiWillWord>
+              <OuiWillWord index={2}>Project</OuiWillWord>
+              <OuiWillWord index={3}>Scope</OuiWillWord>
+              <OuiWillWord index={4}>&amp;</OuiWillWord>
+              <OuiWillDot />
+              <span style={{ display: 'block', width: '100%', marginTop: '0.35rem' }}>
+                <OuiWillWord index={5} isGradient>
+                  Guaranteed Investment Estimator
+                </OuiWillWord>
               </span>
-            </h1>
+            </OuiWillHeadline>
 
             <p
               style={{

@@ -51,6 +51,10 @@ import { companyData } from "@/data/company";
 import WhyChooseUsCards from "@/components/WhyChooseUsCards";
 import RecognisedBy from "@/components/RecognisedBy";
 import { motion } from "framer-motion";
+import OuiWillHeadline, { OuiWillWord, OuiWillDot } from "@/components/OuiWillHeadline";
+import { TechStackShowcase } from "@/components/TechStackShowcase";
+import { AnimatedIndustriesCarousel } from "@/components/AnimatedIndustriesCarousel";
+import AnimatedRollingMetric from "@/components/AnimatedRollingMetric";
 
 interface MobileDevelopmentPageClientProps {
   service: ServiceDetail;
@@ -160,36 +164,42 @@ const PROCESS_STEPS_LIVE = [
     phase: "Requirement Analysis & Scoping",
     desc: "Our mobile app development process begins with in-depth requirement analysis, where we define your app's goals, user personas, and functionality.",
     icon: Search,
+    tags: ["User Personas", "Technical Scoping"],
   },
   {
     step: "02",
     phase: "UI/UX Wireframing & Prototyping",
     desc: "Creating intuitive, responsive wireframes and interactive prototypes that ensure frictionless user navigation and brand alignment.",
     icon: Compass,
+    tags: ["Interactive Wireframes", "Figma Prototypes"],
   },
   {
     step: "03",
     phase: "Agile Iterative Development",
     desc: "Building native or cross-platform codebases in iterative Agile sprints with continuous client feedback loops and code reviews.",
     icon: Smartphone,
+    tags: ["2-Week Agile Sprints", "Native/Cross Codebase"],
   },
   {
     step: "04",
     phase: "Rigorous QA & Device Matrix Testing",
     desc: "Conducting rigorous functional, automated, and regression tests across a matrix of real iOS and Android devices for 60FPS fluid touch.",
     icon: ShieldCheck,
+    tags: ["Real Device Matrix", "60FPS Touch Benchmarks"],
   },
   {
     step: "05",
     phase: "App Store & Google Play Deployment",
     desc: "Full publishing support including compliance checks, privacy manifests, metadata optimization, and app store guideline approval.",
     icon: Rocket,
+    tags: ["App Store Approval", "Play Store Publishing"],
   },
   {
     step: "06",
     phase: "Ongoing Maintenance & Feature Updates",
     desc: "Continuous performance monitoring, OS compatibility updates, and feature upgrades to keep your app secure and competitive.",
     icon: RefreshCw,
+    tags: ["OS Updates & Patches", "SLA Monitoring"],
   },
 ];
 
@@ -293,9 +303,9 @@ export default function MobileDevelopmentPageClient({
       <section
         style={{
           position: "relative",
-          padding: "8.5rem 1.5rem 4.75rem 1.5rem",
+          padding: "7.5rem 1.5rem 3.5rem 1.5rem",
           overflow: "hidden",
-          minHeight: "88vh",
+          minHeight: "100vh",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
@@ -412,7 +422,7 @@ export default function MobileDevelopmentPageClient({
             grid-template-columns: 1fr;
             gap: 2.75rem;
             align-items: center;
-            margin-bottom: 4rem;
+            margin-bottom: 0;
           }
           @media (min-width: 1024px) {
             .mobile-dev-hero-grid {
@@ -439,36 +449,28 @@ export default function MobileDevelopmentPageClient({
             {/* ── LEFT COLUMN: Headline, Positioning, CTAs & Trust Badges ─── */}
             <div style={{ textAlign: "left" }}>
               {/* Monumental Headline */}
-              <div style={{ margin: "0 0 1.35rem 0" }}>
-                <h1
+              <div style={{ margin: "0 0 1.25rem 0" }}>
+                <OuiWillHeadline
                   style={{
                     fontFamily: "var(--font-acthirey), 'Acthirey', 'Playfair Display', serif",
-                    fontSize: "clamp(2.75rem, 5vw, 4.65rem)",
+                    fontSize: "clamp(2rem, 3.4vw, 3.1rem)",
                     fontWeight: 400,
-                    lineHeight: 1.08,
+                    lineHeight: 1.14,
                     letterSpacing: "-0.015em",
                     margin: 0,
-                    color: isLight ? "#0f172a" : "#ffffff",
                     textAlign: "left",
+                    display: "block",
                   }}
                 >
-                  <span>Mobile Apps</span><br />
-                  <span
-                    style={{
-                      display: "inline-block",
-                      background: isLight
-                        ? "linear-gradient(135deg, #00A88F 0%, #0284c7 100%)"
-                        : "linear-gradient(135deg, #5EC098 0%, #38bdf8 100%)",
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                      textShadow: isLight
-                        ? "none"
-                        : "0 0 45px rgba(94, 192, 152, 0.35)",
-                    }}
-                  >
-                    Development
+                  <OuiWillWord index={1}>Mobile</OuiWillWord>
+                  <OuiWillWord index={2}>Apps</OuiWillWord>
+                  <OuiWillDot />
+                  <span style={{ display: "block", width: "100%", marginTop: "0.2rem" }}>
+                    <OuiWillWord index={3} isGradient>
+                      Development
+                    </OuiWillWord>
                   </span>
-                </h1>
+                </OuiWillHeadline>
               </div>
 
               {/* Lead Paragraph 1 (Exact Content Preserved) */}
@@ -524,83 +526,54 @@ export default function MobileDevelopmentPageClient({
                 {/* Primary Button */}
                 <a
                   href="#quote-section"
+                  className="hero-brand-primary-btn opash-roll-btn"
                   style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    whiteSpace: "nowrap",
-                    gap: "0.6rem",
                     padding: "0.95rem 2.1rem",
                     borderRadius: "12px",
                     fontWeight: 700,
                     fontSize: "0.95rem",
                     letterSpacing: "0.03em",
                     textTransform: "uppercase",
-                    color: "#ffffff",
-                    background: isLight
-                      ? "linear-gradient(135deg, #00A88F 0%, #0284c7 100%)"
-                      : "linear-gradient(135deg, #5EC098 0%, #00A88F 100%)",
-                    border: "none",
-                    boxShadow: isLight
-                      ? "0 10px 24px -4px rgba(0, 168, 143, 0.38)"
-                      : "0 10px 28px -4px rgba(94, 192, 152, 0.45)",
                     textDecoration: "none",
-                    transition: "transform 0.2s ease, box-shadow 0.2s ease",
                     cursor: "pointer",
                   }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = "translateY(-3px)";
-                    e.currentTarget.style.boxShadow = isLight
-                      ? "0 14px 32px -4px rgba(0, 168, 143, 0.5)"
-                      : "0 14px 35px -4px rgba(94, 192, 152, 0.6)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = "translateY(0)";
-                    e.currentTarget.style.boxShadow = isLight
-                      ? "0 10px 24px -4px rgba(0, 168, 143, 0.38)"
-                      : "0 10px 28px -4px rgba(94, 192, 152, 0.45)";
-                  }}
                 >
-                  <span>Get Free Consultation</span>
-                  <ArrowRight size={18} />
+                  <span className="opash-roll-track">
+                    <span className="opash-roll-item">
+                      <span>ESTIMATE PROJECT</span>
+                      <ArrowRight size={18} className="hero-btn-arrow" />
+                    </span>
+                    <span className="opash-roll-item" aria-hidden="true">
+                      <span>ESTIMATE PROJECT</span>
+                      <ArrowRight size={18} className="hero-btn-arrow" />
+                    </span>
+                  </span>
                 </a>
 
                 {/* Secondary Button */}
                 <a
-                  href="#technologies"
+                  href="#tech-stack"
+                  className="hero-brand-secondary-btn opash-roll-btn"
                   style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    whiteSpace: "nowrap",
-                    gap: "0.6rem",
                     padding: "0.95rem 1.9rem",
                     borderRadius: "12px",
                     fontWeight: 600,
                     fontSize: "0.95rem",
                     letterSpacing: "0.02em",
-                    color: isLight ? "#0f172a" : "#f1f5f9",
-                    background: isLight ? "rgba(255, 255, 255, 0.95)" : "rgba(255, 255, 255, 0.05)",
-                    border: isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.16)",
-                    backdropFilter: "blur(12px)",
-                    WebkitBackdropFilter: "blur(12px)",
                     textDecoration: "none",
-                    transition: "all 0.2s ease",
                     cursor: "pointer",
                   }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = "translateY(-3px)";
-                    e.currentTarget.style.borderColor = isLight ? "#00A88F" : "#5EC098";
-                    e.currentTarget.style.background = isLight ? "#ffffff" : "rgba(255, 255, 255, 0.1)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = "translateY(0)";
-                    e.currentTarget.style.borderColor = isLight ? "#cbd5e1" : "rgba(255, 255, 255, 0.16)";
-                    e.currentTarget.style.background = isLight ? "rgba(255, 255, 255, 0.95)" : "rgba(255, 255, 255, 0.05)";
-                  }}
                 >
-                  <span>Explore Technologies</span>
-                  <Terminal size={17} />
+                  <span className="opash-roll-track">
+                    <span className="opash-roll-item">
+                      <span>Explore Technologies</span>
+                      <Terminal size={17} className="hero-btn-arrow" />
+                    </span>
+                    <span className="opash-roll-item" aria-hidden="true">
+                      <span>Explore Technologies</span>
+                      <Terminal size={17} className="hero-btn-arrow" />
+                    </span>
+                  </span>
                 </a>
               </div>
 
@@ -1000,26 +973,37 @@ export default function MobileDevelopmentPageClient({
               </div>
             </div>
           </div>
+        </div>
+      </section>
 
-          {/* ================================================================= */}
-          {/* LUXURY BENTO METRIC DECK (Image 3 Style - Replaces Hanging Cords) */}
-          {/* ================================================================= */}
+      {/* ===================================================================== */}
+      {/* 1.5 PROVEN TRACK RECORD & ENTERPRISE METRICS                          */}
+      {/* ===================================================================== */}
+      <section
+        style={{
+          position: "relative",
+          padding: "3.5rem 1.5rem 3.75rem 1.5rem",
+          background: isLight ? "#ffffff" : "#020712",
+          borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
+        }}
+      >
+        <div
+          className="container-custom"
+          style={{
+            maxWidth: "1240px",
+            margin: "0 auto",
+            position: "relative",
+            zIndex: 2,
+          }}
+        >
           <div
             style={{
-              maxWidth: "1200px",
-              margin: "0 auto",
-              position: "relative",
-              zIndex: 2,
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+              gap: "1.5rem",
+              alignItems: "stretch",
             }}
           >
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-                gap: "1.5rem",
-                alignItems: "stretch",
-              }}
-            >
               {[
                 {
                   value: "60 FPS",
@@ -1115,20 +1099,11 @@ export default function MobileDevelopmentPageClient({
                         marginBottom: "0.85rem",
                       }}
                     >
-                      <div
-                        style={{
-                          fontSize: "clamp(2.1rem, 2.5vw, 2.6rem)",
-                          fontWeight: 800,
-                          lineHeight: 1,
-                          letterSpacing: "-0.03em",
-                          color: mintColor,
-                          textShadow: isLight
-                            ? "none"
-                            : "0 0 24px rgba(94, 192, 152, 0.25)",
-                        }}
-                      >
-                        {m.value}
-                      </div>
+                      <AnimatedRollingMetric
+                        value={m.value}
+                        color={mintColor}
+                        isLight={isLight}
+                      />
 
                       <div
                         style={{
@@ -1182,8 +1157,7 @@ export default function MobileDevelopmentPageClient({
               })}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
       {/* ===================================================================== */}
       {/* 2. BENEFITS OF INVESTING IN MOBILE APP DEVELOPMENT (LIVE DATA)        */}
@@ -1225,14 +1199,16 @@ export default function MobileDevelopmentPageClient({
             </span>
 
             <h2
+              className="heading-section"
               style={{
-                fontSize: "clamp(2rem, 3.8vw, 3rem)",
-                fontWeight: 800,
-                letterSpacing: "-0.02em",
+                fontSize: "clamp(1.45rem, 2.1vw, 1.95rem)",
+                fontWeight: 850,
+                letterSpacing: "-0.025em",
+                lineHeight: 1.2,
                 marginBottom: "1.25rem",
               }}
             >
-              Benefits of Investing in Mobile App Development
+              Benefits of Investing in <span className="opash-hero-gradient-text">Mobile App Development</span>
             </h2>
 
             <p
@@ -1267,6 +1243,93 @@ export default function MobileDevelopmentPageClient({
               analytics to drive higher conversion rates and superior ROI.
             </p>
           </div>
+
+          {/* Scoped CSS for Benefit Pillar Cards (Zero CPU Overhead, Pure GPU Composited) */}
+          <style>{`
+            .benefit-pillar-card {
+              position: relative;
+              overflow: hidden;
+              border-radius: 20px;
+              transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                          box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                          border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                          background 0.35s ease;
+              will-change: transform;
+              cursor: pointer;
+              backdrop-filter: blur(12px);
+              -webkit-backdrop-filter: blur(12px);
+            }
+            .benefit-pillar-card:hover {
+              transform: translateY(-8px);
+            }
+            .benefit-pillar-card .pillar-spotlight {
+              position: absolute;
+              inset: 0;
+              pointer-events: none;
+              opacity: 0;
+              transition: opacity 0.35s ease;
+              border-radius: inherit;
+              z-index: 1;
+            }
+            .benefit-pillar-card:hover .pillar-spotlight {
+              opacity: 1;
+            }
+            .benefit-pillar-card .pillar-laser-beam {
+              position: absolute;
+              top: 0;
+              left: 12%;
+              right: 12%;
+              height: 2px;
+              background: linear-gradient(90deg, transparent, #5EC098, #38bdf8, transparent);
+              opacity: 0;
+              transform: scaleX(0.2);
+              transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+              pointer-events: none;
+              z-index: 3;
+            }
+            .benefit-pillar-card:hover .pillar-laser-beam {
+              opacity: 1;
+              transform: scaleX(1);
+            }
+            .benefit-pillar-card .pillar-icon-box {
+              transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                          background 0.3s ease,
+                          box-shadow 0.3s ease,
+                          border-color 0.3s ease;
+            }
+            .benefit-pillar-card:hover .pillar-icon-box {
+              transform: translateY(-3px) scale(1.1) rotate(4deg);
+              background: rgba(94, 192, 152, 0.25) !important;
+              box-shadow: 0 0 24px rgba(94, 192, 152, 0.45) !important;
+              border-color: rgba(94, 192, 152, 0.6) !important;
+            }
+            .benefit-pillar-card .pillar-title {
+              transition: color 0.25s ease;
+            }
+            .benefit-pillar-card:hover .pillar-title {
+              color: #5EC098 !important;
+            }
+            .benefit-pillar-card .pillar-arrow-btn {
+              transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            }
+            .benefit-pillar-card:hover .pillar-arrow-btn {
+              background: rgba(94, 192, 152, 0.25) !important;
+              border-color: rgba(94, 192, 152, 0.55) !important;
+              box-shadow: 0 0 16px rgba(94, 192, 152, 0.35);
+            }
+            .benefit-pillar-card .pillar-arrow {
+              transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            }
+            .benefit-pillar-card:hover .pillar-arrow {
+              transform: translateX(3px);
+            }
+            .benefit-pillar-card .pillar-divider {
+              transition: border-color 0.3s ease;
+            }
+            .benefit-pillar-card:hover .pillar-divider {
+              border-color: rgba(94, 192, 152, 0.35) !important;
+            }
+          `}</style>
 
           {/* 4 Benefit Feature Highlights */}
           <div
@@ -1306,69 +1369,151 @@ export default function MobileDevelopmentPageClient({
               return (
                 <div
                   key={idx}
+                  className="benefit-pillar-card"
+                  onMouseMove={(e) => {
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    e.currentTarget.style.setProperty("--mouse-x", `${e.clientX - rect.left}px`);
+                    e.currentTarget.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`);
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.removeProperty("--mouse-x");
+                    e.currentTarget.style.removeProperty("--mouse-y");
+                  }}
                   style={{
-                    padding: "2rem 1.75rem",
-                    borderRadius: "18px",
-                    background: isLight ? "#f8fafc" : "rgba(10, 20, 36, 0.7)",
-                    border: isLight
-                      ? "1px solid #e2e8f0"
-                      : "1px solid rgba(255, 255, 255, 0.08)",
+                    padding: "2.25rem 1.85rem",
+                    background: isLight
+                      ? "linear-gradient(165deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.94) 100%)"
+                      : "linear-gradient(165deg, rgba(13, 23, 42, 0.72) 0%, rgba(7, 13, 27, 0.82) 100%)",
+                    border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
+                    boxShadow: isLight
+                      ? "0 4px 16px rgba(0,0,0,0.03)"
+                      : "0 10px 30px -10px rgba(0,0,0,0.5)",
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "space-between",
                   }}
                 >
-                  <div>
+                  {/* Top Glowing Laser Accent Beam */}
+                  <div className="pillar-laser-beam" />
+
+                  {/* GPU-Accelerated Dynamic Torchlight Spotlight */}
+                  <div
+                    className="pillar-spotlight"
+                    style={{
+                      background: isLight
+                        ? "radial-gradient(380px circle at var(--mouse-x, -999px) var(--mouse-y, -999px), rgba(0, 168, 143, 0.09), transparent 65%)"
+                        : "radial-gradient(380px circle at var(--mouse-x, -999px) var(--mouse-y, -999px), rgba(94, 192, 152, 0.14), transparent 65%)",
+                    }}
+                  />
+
+                  {/* Main Card Content */}
+                  <div style={{ position: "relative", zIndex: 2 }}>
+                    {/* Top Header Row with Animated Icon */}
                     <div
                       style={{
-                        width: 48,
-                        height: 48,
-                        borderRadius: "14px",
-                        background: isLight
-                          ? "rgba(0, 168, 143, 0.1)"
-                          : "rgba(94, 192, 152, 0.15)",
-                        border: isLight
-                          ? "1px solid rgba(0, 168, 143, 0.25)"
-                          : "1px solid rgba(94, 192, 152, 0.35)",
                         display: "flex",
                         alignItems: "center",
-                        justifyContent: "center",
-                        color: mintColor,
-                        marginBottom: "1.25rem",
+                        justifyContent: "space-between",
+                        marginBottom: "1.35rem",
                       }}
                     >
-                      <IconComp size={24} />
+                      <div
+                        className="pillar-icon-box"
+                        style={{
+                          width: 50,
+                          height: 50,
+                          borderRadius: "14px",
+                          background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.14)",
+                          border: isLight ? "1px solid rgba(0, 168, 143, 0.28)" : "1px solid rgba(94, 192, 152, 0.35)",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          color: mintColor,
+                        }}
+                      >
+                        <IconComp size={24} />
+                      </div>
                     </div>
+
                     <div
                       style={{
                         fontSize: "0.78rem",
-                        fontWeight: 700,
+                        fontWeight: 800,
                         textTransform: "uppercase",
-                        letterSpacing: "0.04em",
+                        letterSpacing: "0.05em",
                         color: mintColor,
-                        marginBottom: "0.35rem",
+                        marginBottom: "0.45rem",
                       }}
                     >
                       {item.tagline}
                     </div>
+
                     <h3
+                      className="pillar-title"
                       style={{
                         fontSize: "1.25rem",
                         fontWeight: 700,
                         marginBottom: "0.75rem",
+                        color: isLight ? "#0f172a" : "#ffffff",
+                        letterSpacing: "-0.015em",
                       }}
                     >
                       {item.title}
                     </h3>
+
                     <p
                       style={{
-                        color: isLight ? "#64748b" : "#94a3b8",
-                        fontSize: "0.92rem",
-                        lineHeight: 1.6,
+                        color: isLight ? "#475569" : "#cbd5e1",
+                        fontSize: "0.94rem",
+                        lineHeight: 1.65,
+                        fontWeight: 500,
                       }}
                     >
                       {item.desc}
                     </p>
+                  </div>
+
+                  {/* Interactive Action Bar with Animated Sliding Arrow Button */}
+                  <div
+                    className="pillar-divider"
+                    style={{
+                      position: "relative",
+                      zIndex: 2,
+                      marginTop: "1.75rem",
+                      paddingTop: "1.1rem",
+                      borderTop: isLight ? "1px solid #f1f5f9" : "1px solid rgba(255, 255, 255, 0.07)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontSize: "0.85rem",
+                        fontWeight: 700,
+                        color: mintColor,
+                        letterSpacing: "0.01em",
+                      }}
+                    >
+                      Strategic Advantage
+                    </span>
+
+                    <div
+                      className="pillar-arrow-btn"
+                      style={{
+                        width: 32,
+                        height: 32,
+                        borderRadius: "50%",
+                        background: isLight ? "rgba(0, 168, 143, 0.08)" : "rgba(94, 192, 152, 0.1)",
+                        border: isLight ? "1px solid rgba(0, 168, 143, 0.2)" : "1px solid rgba(94, 192, 152, 0.25)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        color: mintColor,
+                      }}
+                    >
+                      <ArrowRight size={14} className="pillar-arrow" />
+                    </div>
                   </div>
                 </div>
               );
@@ -1389,11 +1534,122 @@ export default function MobileDevelopmentPageClient({
           borderTop: isLight
             ? "1px solid #e2e8f0"
             : "1px solid rgba(255, 255, 255, 0.06)",
+          overflow: "hidden",
         }}
       >
+        {/* Scoped CSS for Ultra-Lightweight 60/120fps GPU Animations (Zero CPU Overhead) */}
+        <style>{`
+          .custom-scope-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                        box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                        border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                        background 0.35s ease;
+            will-change: transform;
+            cursor: pointer;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+          }
+          .custom-scope-card:hover {
+            transform: translateY(-8px);
+          }
+          .custom-scope-card .card-spotlight {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.35s ease;
+            border-radius: inherit;
+            z-index: 1;
+          }
+          .custom-scope-card:hover .card-spotlight {
+            opacity: 1;
+          }
+          .custom-scope-card .card-laser-beam {
+            position: absolute;
+            top: 0;
+            left: 12%;
+            right: 12%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #5EC098, #38bdf8, transparent);
+            opacity: 0;
+            transform: scaleX(0.2);
+            transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+            pointer-events: none;
+            z-index: 3;
+          }
+          .custom-scope-card:hover .card-laser-beam {
+            opacity: 1;
+            transform: scaleX(1);
+          }
+          .custom-scope-card .card-icon-wrapper {
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        background 0.3s ease,
+                        box-shadow 0.3s ease,
+                        border-color 0.3s ease;
+          }
+          .custom-scope-card:hover .card-icon-wrapper {
+            transform: translateY(-3px) scale(1.1) rotate(4deg);
+          }
+          .custom-scope-card .card-badge {
+            transition: all 0.3s ease;
+          }
+          .custom-scope-card:hover .card-badge {
+            border-color: rgba(94, 192, 152, 0.45) !important;
+            background: rgba(94, 192, 152, 0.12) !important;
+            color: #5EC098 !important;
+          }
+          .custom-scope-card .card-title {
+            transition: color 0.25s ease;
+          }
+          .custom-scope-card:hover .card-title {
+            color: #5EC098 !important;
+          }
+          .custom-scope-card .card-arrow-icon {
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease;
+          }
+          .custom-scope-card:hover .card-arrow-icon {
+            transform: translateX(4px);
+          }
+          .custom-scope-card .card-arrow-btn {
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          }
+          .custom-scope-card:hover .card-arrow-btn {
+            background: rgba(94, 192, 152, 0.22) !important;
+            border-color: rgba(94, 192, 152, 0.5) !important;
+            transform: translateX(3px);
+            box-shadow: 0 0 12px rgba(94, 192, 152, 0.3);
+          }
+          .custom-scope-card .card-bottom-divider {
+            transition: border-color 0.3s ease;
+          }
+          .custom-scope-card:hover .card-bottom-divider {
+            border-color: rgba(94, 192, 152, 0.35) !important;
+          }
+        `}</style>
+
+        {/* Static Background Ambient Grid (0 CPU Cost) */}
+        <div
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            inset: 0,
+            backgroundImage: isLight
+              ? "radial-gradient(rgba(0, 168, 143, 0.08) 1px, transparent 1px)"
+              : "radial-gradient(rgba(94, 192, 152, 0.07) 1px, transparent 1px)",
+            backgroundSize: "36px 36px",
+            maskImage: "radial-gradient(ellipse 70% 60% at 50% 50%, black 30%, transparent 80%)",
+            WebkitMaskImage: "radial-gradient(ellipse 70% 60% at 50% 50%, black 30%, transparent 80%)",
+            pointerEvents: "none",
+            zIndex: 0,
+          }}
+        />
+
         <div
           className="container-custom"
-          style={{ maxWidth: "1200px", margin: "0 auto" }}
+          style={{ maxWidth: "1200px", margin: "0 auto", position: "relative", zIndex: 1 }}
         >
           <div
             style={{
@@ -1417,14 +1673,16 @@ export default function MobileDevelopmentPageClient({
             </span>
 
             <h2
+              className="heading-section"
               style={{
-                fontSize: "clamp(2rem, 3.8vw, 3rem)",
-                fontWeight: 800,
-                letterSpacing: "-0.02em",
+                fontSize: "clamp(1.45rem, 2.1vw, 1.95rem)",
+                fontWeight: 850,
+                letterSpacing: "-0.025em",
+                lineHeight: 1.2,
                 marginBottom: "1rem",
               }}
             >
-              Our Mobile App Development Services Include
+              Our Mobile App Development Services <span className="opash-hero-gradient-text">Include</span>
             </h2>
 
             <p
@@ -1440,12 +1698,12 @@ export default function MobileDevelopmentPageClient({
             </p>
           </div>
 
-          {/* 6 Capabilities Cards */}
+          {/* 6 Capabilities Cards in Interactive Grid */}
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-              gap: "1.5rem",
+              gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))",
+              gap: "1.75rem",
             }}
           >
             {INCLUDES_DATA.map((item, idx) => {
@@ -1453,72 +1711,116 @@ export default function MobileDevelopmentPageClient({
               return (
                 <div
                   key={idx}
+                  className="custom-scope-card"
+                  onMouseMove={(e) => {
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    e.currentTarget.style.setProperty("--mouse-x", `${e.clientX - rect.left}px`);
+                    e.currentTarget.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`);
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.removeProperty("--mouse-x");
+                    e.currentTarget.style.removeProperty("--mouse-y");
+                  }}
                   style={{
-                    padding: "2rem",
-                    borderRadius: "18px",
-                    background: isLight ? "#ffffff" : "rgba(8, 16, 30, 0.6)",
+                    padding: "2.25rem 2rem",
+                    background: isLight
+                      ? "linear-gradient(165deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.94) 100%)"
+                      : "linear-gradient(165deg, rgba(13, 23, 42, 0.72) 0%, rgba(7, 13, 27, 0.82) 100%)",
                     border: isLight
                       ? "1px solid #e2e8f0"
-                      : "1px solid rgba(255, 255, 255, 0.07)",
+                      : "1px solid rgba(255, 255, 255, 0.08)",
                     boxShadow: isLight
-                      ? "0 4px 16px rgba(0, 0, 0, 0.04)"
-                      : "none",
+                      ? "0 4px 16px rgba(0,0,0,0.03)"
+                      : "0 10px 30px -10px rgba(0,0,0,0.5)",
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "space-between",
-                    transition: "transform 0.2s ease, border-color 0.2s ease",
                   }}
                 >
-                  <div>
+                  {/* Top Glowing Laser Accent Beam */}
+                  <div className="card-laser-beam" />
+
+                  {/* GPU-Accelerated Dynamic Torchlight Spotlight */}
+                  <div
+                    className="card-spotlight"
+                    style={{
+                      background: isLight
+                        ? "radial-gradient(420px circle at var(--mouse-x, -999px) var(--mouse-y, -999px), rgba(0, 168, 143, 0.09), transparent 65%)"
+                        : "radial-gradient(420px circle at var(--mouse-x, -999px) var(--mouse-y, -999px), rgba(94, 192, 152, 0.14), transparent 65%)",
+                    }}
+                  />
+
+                  {/* Card Content */}
+                  <div style={{ position: "relative", zIndex: 2 }}>
                     <div
                       style={{
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "space-between",
-                        marginBottom: "1.25rem",
+                        marginBottom: "1.35rem",
                       }}
                     >
+                      {/* Icon Box with Spring Hover Transformation */}
                       <div
+                        className="card-icon-wrapper"
                         style={{
-                          width: 46,
-                          height: 46,
-                          borderRadius: "12px",
+                          width: 50,
+                          height: 50,
+                          borderRadius: "14px",
                           background: isLight
                             ? "rgba(0, 168, 143, 0.1)"
-                            : "rgba(94, 192, 152, 0.15)",
+                            : "rgba(94, 192, 152, 0.14)",
+                          border: isLight
+                            ? "1px solid rgba(0, 168, 143, 0.28)"
+                            : "1px solid rgba(94, 192, 152, 0.35)",
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
                           color: mintColor,
                         }}
                       >
-                        <IconComp size={22} />
+                        <IconComp size={24} />
                       </div>
-                      <span
+
+                      {/* Micro-Architectural Code Pill with Live Indicator */}
+                      <div
+                        className="card-badge"
                         style={{
-                          fontSize: "0.75rem",
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "0.45rem",
+                          padding: "0.28rem 0.65rem",
+                          borderRadius: "9999px",
+                          fontFamily: "monospace",
+                          fontSize: "0.72rem",
                           fontWeight: 700,
-                          padding: "0.3rem 0.65rem",
-                          borderRadius: "6px",
-                          background: isLight
-                            ? "rgba(0, 168, 143, 0.08)"
-                            : "rgba(94, 192, 152, 0.12)",
-                          color: mintColor,
-                          border: isLight
-                            ? "1px solid rgba(0, 168, 143, 0.2)"
-                            : "1px solid rgba(94, 192, 152, 0.25)",
+                          letterSpacing: "0.05em",
+                          color: isLight ? "#64748b" : "#94a3b8",
+                          background: isLight ? "rgba(0, 0, 0, 0.04)" : "rgba(255, 255, 255, 0.04)",
+                          border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
                         }}
                       >
-                        {item.badge}
-                      </span>
+                        <span
+                          style={{
+                            width: 6,
+                            height: 6,
+                            borderRadius: "50%",
+                            background: "#10b981",
+                            boxShadow: "0 0 8px #10b981",
+                          }}
+                        />
+                        <span>{item.badge}</span>
+                      </div>
                     </div>
 
                     <h3
+                      className="card-title"
                       style={{
-                        fontSize: "1.2rem",
-                        fontWeight: 750,
-                        marginBottom: "0.65rem",
-                        letterSpacing: "-0.01em",
+                        fontSize: "1.28rem",
+                        fontWeight: 700,
+                        marginBottom: "0.75rem",
+                        color: isLight ? "#0f172a" : "#ffffff",
+                        letterSpacing: "-0.015em",
                       }}
                     >
                       {item.title}
@@ -1526,14 +1828,62 @@ export default function MobileDevelopmentPageClient({
 
                     <p
                       style={{
-                        color: isLight ? "#64748b" : "#94a3b8",
-                        fontSize: "0.93rem",
-                        lineHeight: 1.6,
-                        margin: 0,
+                        color: isLight ? "#475569" : "#cbd5e1",
+                        fontSize: "0.98rem",
+                        lineHeight: 1.65,
+                        fontWeight: 500,
                       }}
                     >
                       {item.desc}
                     </p>
+                  </div>
+
+                  {/* Interactive Action Bar with Animated Sliding Arrow Button */}
+                  <div
+                    className="card-bottom-divider"
+                    style={{
+                      position: "relative",
+                      zIndex: 2,
+                      marginTop: "1.75rem",
+                      paddingTop: "1.1rem",
+                      borderTop: isLight
+                        ? "1px solid #f1f5f9"
+                        : "1px solid rgba(255, 255, 255, 0.07)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontSize: "0.84rem",
+                        fontWeight: 700,
+                        color: mintColor,
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "0.45rem",
+                      }}
+                    >
+                      <span>Engineered For Scale</span>
+                      <ArrowRight size={14} className="card-arrow-icon" />
+                    </span>
+
+                    <div
+                      className="card-arrow-btn"
+                      style={{
+                        width: 28,
+                        height: 28,
+                        borderRadius: "50%",
+                        background: isLight ? "rgba(0, 168, 143, 0.08)" : "rgba(94, 192, 152, 0.12)",
+                        border: isLight ? "1px solid rgba(0, 168, 143, 0.2)" : "1px solid rgba(94, 192, 152, 0.25)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        color: mintColor,
+                      }}
+                    >
+                      <ArrowRight size={13} className="card-arrow-icon" />
+                    </div>
                   </div>
                 </div>
               );
@@ -1543,178 +1893,9 @@ export default function MobileDevelopmentPageClient({
       </section>
 
       {/* ===================================================================== */}
-      {/* 4. TECHNOLOGIES WE USE (EXACT LIVE DATA)                               */}
+      {/* 4. TECHNOLOGIES & PLATFORMS SHOWCASE (SAME AS HOME PAGE)               */}
       {/* ===================================================================== */}
-      <section
-        id="technologies"
-        style={{
-          padding: "5.5rem 1.5rem",
-          position: "relative",
-          background: isLight ? "#ffffff" : "#040a17",
-          borderTop: isLight
-            ? "1px solid #e2e8f0"
-            : "1px solid rgba(255, 255, 255, 0.06)",
-        }}
-      >
-        <div
-          className="container-custom"
-          style={{ maxWidth: "1200px", margin: "0 auto" }}
-        >
-          <div
-            style={{
-              textAlign: "center",
-              maxWidth: "800px",
-              margin: "0 auto 3rem auto",
-            }}
-          >
-            <span
-              style={{
-                display: "inline-block",
-                color: mintColor,
-                fontSize: "0.85rem",
-                fontWeight: 700,
-                letterSpacing: "0.06em",
-                textTransform: "uppercase",
-                marginBottom: "0.75rem",
-              }}
-            >
-              Technology Stack
-            </span>
-
-            <h2
-              style={{
-                fontSize: "clamp(2rem, 3.8vw, 3rem)",
-                fontWeight: 800,
-                letterSpacing: "-0.02em",
-                marginBottom: "1rem",
-              }}
-            >
-              Technologies We Master
-            </h2>
-
-            <p
-              style={{
-                color: isLight ? "#64748b" : "#94a3b8",
-                fontSize: "1.05rem",
-                lineHeight: 1.65,
-              }}
-            >
-              We leverage battle-tested mobile development frameworks, modern
-              languages, and cloud native architectures to ensure your mobile
-              apps are blazing fast, reliable, and secure.
-            </p>
-          </div>
-
-          {/* Category Filter Pills */}
-          <div
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: "0.6rem",
-              justifyContent: "center",
-              marginBottom: "3rem",
-            }}
-          >
-            {[
-              "All",
-              "Native iOS & Android",
-              "Cross-Platform",
-              "Backend & APIs",
-              "Cloud & DB",
-              "DevOps & Tools",
-            ].map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setSelectedTechCat(cat)}
-                style={{
-                  padding: "0.55rem 1.25rem",
-                  borderRadius: "30px",
-                  fontSize: "0.88rem",
-                  fontWeight: 600,
-                  border: "none",
-                  cursor: "pointer",
-                  background:
-                    selectedTechCat === cat
-                      ? isLight
-                        ? "#00A88F"
-                        : "#5EC098"
-                      : isLight
-                        ? "#f1f5f9"
-                        : "rgba(255, 255, 255, 0.06)",
-                  color:
-                    selectedTechCat === cat
-                      ? "#ffffff"
-                      : isLight
-                        ? "#475569"
-                        : "#94a3b8",
-                  transition: "all 0.2s ease",
-                }}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-
-          {/* Tech Badges Grid */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
-              gap: "1rem",
-              maxWidth: "1000px",
-              margin: "0 auto",
-            }}
-          >
-            {displayedTechs.map((tech, idx) => (
-              <div
-                key={idx}
-                style={{
-                  padding: "1.2rem 1.1rem",
-                  borderRadius: "14px",
-                  background: isLight ? "#f8fafc" : "rgba(10, 20, 36, 0.55)",
-                  border: isLight
-                    ? "1px solid #e2e8f0"
-                    : "1px solid rgba(255, 255, 255, 0.08)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  transition: "all 0.2s ease",
-                }}
-              >
-                <div>
-                  <div
-                    style={{
-                      fontSize: "1rem",
-                      fontWeight: 700,
-                      color: isLight ? "#0f172a" : "#ffffff",
-                    }}
-                  >
-                    {tech.name}
-                  </div>
-                  <div
-                    style={{
-                      fontSize: "0.75rem",
-                      color: isLight ? "#64748b" : "#94a3b8",
-                      marginTop: "0.15rem",
-                    }}
-                  >
-                    {tech.category}
-                  </div>
-                </div>
-                <div
-                  style={{
-                    width: 8,
-                    height: 8,
-                    borderRadius: "50%",
-                    backgroundColor: mintColor,
-                    boxShadow: `0 0 8px ${mintColor}`,
-                  }}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <TechStackShowcase />
 
       {/* ===================================================================== */}
       {/* 5. PROCESS: 6-STEP AGILE MOBILE LIFECYCLE (EXACT LIVE DATA)            */}
@@ -1756,14 +1937,16 @@ export default function MobileDevelopmentPageClient({
             </span>
 
             <h2
+              className="heading-section"
               style={{
-                fontSize: "clamp(2rem, 3.8vw, 3rem)",
-                fontWeight: 800,
-                letterSpacing: "-0.02em",
+                fontSize: "clamp(1.45rem, 2.1vw, 1.95rem)",
+                fontWeight: 850,
+                letterSpacing: "-0.025em",
+                lineHeight: 1.2,
                 marginBottom: "1rem",
               }}
             >
-              Our Mobile App Development Process
+              Our Mobile App Development <span className="opash-hero-gradient-text">Process</span>
             </h2>
 
             <p
@@ -1779,12 +1962,166 @@ export default function MobileDevelopmentPageClient({
             </p>
           </div>
 
-          {/* 6 Process Cards */}
+          {/* Scoped CSS for Process Roadmap Animation (Zero CPU Overhead, Pure GPU Composited) */}
+          <style>{`
+            .process-phase-card {
+              position: relative;
+              overflow: hidden;
+              border-radius: 20px;
+              transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+                          box-shadow 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+                          border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                          background 0.35s ease;
+              will-change: transform;
+              cursor: pointer;
+              backdrop-filter: blur(12px);
+              -webkit-backdrop-filter: blur(12px);
+            }
+            .process-phase-card:hover {
+              transform: translateY(-8px);
+            }
+            .process-phase-card .phase-watermark-num {
+              position: absolute;
+              top: 0.75rem;
+              right: 1.25rem;
+              font-size: 3.75rem;
+              font-weight: 900;
+              font-family: var(--font-space-grotesk), monospace, sans-serif;
+              line-height: 1;
+              pointer-events: none;
+              transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease, color 0.35s ease;
+              user-select: none;
+            }
+            .process-phase-card:hover .phase-watermark-num {
+              transform: scale(1.12) translate(-4px, -2px);
+              opacity: 0.28 !important;
+              color: #5EC098 !important;
+            }
+            .process-phase-card .phase-bottom-progress {
+              position: absolute;
+              bottom: 0;
+              left: 0;
+              right: 0;
+              height: 3px;
+              background: linear-gradient(90deg, #00A88F, #5EC098, #38bdf8);
+              transform: scaleX(0);
+              transform-origin: left;
+              transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+              pointer-events: none;
+              z-index: 4;
+            }
+            .process-phase-card:hover .phase-bottom-progress {
+              transform: scaleX(1);
+            }
+            .process-phase-card .phase-icon-box {
+              position: relative;
+              transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                          background 0.3s ease,
+                          box-shadow 0.3s ease,
+                          border-color 0.3s ease;
+            }
+            .process-phase-card:hover .phase-icon-box {
+              transform: translateY(-3px) scale(1.1) rotate(4deg);
+              background: rgba(94, 192, 152, 0.25) !important;
+              box-shadow: 0 0 24px rgba(94, 192, 152, 0.45) !important;
+              border-color: rgba(94, 192, 152, 0.6) !important;
+            }
+            .process-phase-card .phase-tag-chip {
+              transition: all 0.3s ease;
+            }
+            .process-phase-card:hover .phase-tag-chip {
+              border-color: rgba(94, 192, 152, 0.4) !important;
+              background: rgba(94, 192, 152, 0.12) !important;
+              color: #5EC098 !important;
+            }
+            .process-phase-card .phase-title {
+              transition: color 0.25s ease;
+            }
+            .process-phase-card:hover .phase-title {
+              color: #5EC098 !important;
+            }
+            .process-pipeline-strip {
+              display: none;
+            }
+            @media (min-width: 900px) {
+              .process-pipeline-strip {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                position: relative;
+                max-width: 1040px;
+                margin: 0 auto 3.25rem auto;
+                padding: 1rem 1.5rem;
+                border-radius: 16px;
+              }
+            }
+          `}</style>
+
+          {/* Interactive Horizontal Pipeline Tracker (Desktop) */}
+          <div
+            className="process-pipeline-strip"
+            style={{
+              background: isLight ? "rgba(0, 0, 0, 0.02)" : "rgba(255, 255, 255, 0.02)",
+              border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
+            }}
+          >
+            {PROCESS_STEPS_LIVE.map((step, idx) => (
+              <React.Fragment key={idx}>
+                <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
+                  <div
+                    style={{
+                      width: 26,
+                      height: 26,
+                      borderRadius: "50%",
+                      background: isLight ? "rgba(0, 168, 143, 0.12)" : "rgba(94, 192, 152, 0.15)",
+                      border: isLight ? "1px solid rgba(0, 168, 143, 0.4)" : "1px solid rgba(94, 192, 152, 0.5)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: "0.72rem",
+                      fontWeight: 800,
+                      fontFamily: "monospace",
+                      color: mintColor,
+                    }}
+                  >
+                    {step.step}
+                  </div>
+                  <span
+                    style={{
+                      fontSize: "0.78rem",
+                      fontWeight: 700,
+                      color: isLight ? "#475569" : "#cbd5e1",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {step.phase.split(" ")[0]}
+                  </span>
+                </div>
+                {idx < PROCESS_STEPS_LIVE.length - 1 && (
+                  <div
+                    style={{
+                      flex: 1,
+                      height: "2px",
+                      margin: "0 0.85rem",
+                      background: isLight
+                        ? "linear-gradient(90deg, rgba(0, 168, 143, 0.2), rgba(0, 168, 143, 0.5))"
+                        : "linear-gradient(90deg, rgba(94, 192, 152, 0.2), rgba(94, 192, 152, 0.6))",
+                      position: "relative",
+                      borderRadius: "9999px",
+                    }}
+                  />
+                )}
+              </React.Fragment>
+            ))}
+          </div>
+
+          {/* 6 Process Cards in High-Performance GPU-Driven Grid */}
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-              gap: "1.5rem",
+              gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))",
+              gap: "1.75rem",
+              marginBottom: "3rem",
             }}
           >
             {PROCESS_STEPS_LIVE.map((step, idx) => {
@@ -1792,75 +2129,138 @@ export default function MobileDevelopmentPageClient({
               return (
                 <div
                   key={idx}
+                  className="process-phase-card"
                   style={{
                     padding: "2.25rem 2rem",
-                    borderRadius: "18px",
-                    background: isLight ? "#ffffff" : "rgba(8, 16, 30, 0.6)",
-                    border: isLight
-                      ? "1px solid #e2e8f0"
-                      : "1px solid rgba(255, 255, 255, 0.08)",
-                    position: "relative",
+                    background: isLight
+                      ? "linear-gradient(165deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.94) 100%)"
+                      : "linear-gradient(165deg, rgba(13, 23, 42, 0.72) 0%, rgba(7, 13, 27, 0.82) 100%)",
+                    border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
+                    boxShadow: isLight
+                      ? "0 4px 16px rgba(0,0,0,0.03)"
+                      : "0 10px 30px -10px rgba(0,0,0,0.5)",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
                   }}
                 >
+                  {/* Giant Watermark Step Number that glows on hover */}
                   <div
+                    className="phase-watermark-num"
                     style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      marginBottom: "1.25rem",
+                      color: isLight ? "rgba(0,0,0,0.06)" : "rgba(255,255,255,0.06)",
                     }}
                   >
-                    <div
-                      style={{
-                        width: 44,
-                        height: 44,
-                        borderRadius: "12px",
-                        background: isLight
-                          ? "rgba(0, 168, 143, 0.1)"
-                          : "rgba(94, 192, 152, 0.15)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        color: mintColor,
-                      }}
-                    >
-                      <StepIcon size={22} />
-                    </div>
-
-                    <span
-                      style={{
-                        fontSize: "1.3rem",
-                        fontWeight: 900,
-                        color: isLight
-                          ? "rgba(0, 168, 143, 0.35)"
-                          : "rgba(94, 192, 152, 0.35)",
-                        fontFamily: "monospace",
-                      }}
-                    >
-                      {step.step}
-                    </span>
+                    {step.step}
                   </div>
 
-                  <h3
-                    style={{
-                      fontSize: "1.25rem",
-                      fontWeight: 750,
-                      marginBottom: "0.75rem",
-                    }}
-                  >
-                    {step.phase}
-                  </h3>
+                  {/* Progressive Bottom Milestone Charging Line */}
+                  <div className="phase-bottom-progress" />
 
-                  <p
+                  {/* Main Content */}
+                  <div style={{ position: "relative", zIndex: 2 }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        marginBottom: "1.35rem",
+                      }}
+                    >
+                      {/* Icon Box with Spring Hover Transformation */}
+                      <div
+                        className="phase-icon-box"
+                        style={{
+                          width: 48,
+                          height: 48,
+                          borderRadius: "14px",
+                          background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.14)",
+                          border: isLight ? "1px solid rgba(0, 168, 143, 0.28)" : "1px solid rgba(94, 192, 152, 0.35)",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          color: mintColor,
+                        }}
+                      >
+                        <StepIcon size={24} />
+                      </div>
+                    </div>
+
+                    <div
+                      style={{
+                        fontSize: "0.78rem",
+                        fontWeight: 800,
+                        textTransform: "uppercase",
+                        letterSpacing: "0.06em",
+                        color: mintColor,
+                        marginBottom: "0.45rem",
+                      }}
+                    >
+                      Phase {step.step}
+                    </div>
+
+                    <h3
+                      className="phase-title"
+                      style={{
+                        fontSize: "1.28rem",
+                        fontWeight: 700,
+                        marginBottom: "0.75rem",
+                        color: isLight ? "#0f172a" : "#ffffff",
+                        letterSpacing: "-0.015em",
+                      }}
+                    >
+                      {step.phase}
+                    </h3>
+
+                    <p
+                      style={{
+                        color: isLight ? "#475569" : "#cbd5e1",
+                        fontSize: "0.96rem",
+                        lineHeight: 1.65,
+                        fontWeight: 500,
+                        marginBottom: "1.35rem",
+                      }}
+                    >
+                      {step.desc}
+                    </p>
+                  </div>
+
+                  {/* Deliverable Micro-Checklist Chips */}
+                  <div
                     style={{
-                      color: isLight ? "#64748b" : "#94a3b8",
-                      fontSize: "0.93rem",
-                      lineHeight: 1.6,
-                      margin: 0,
+                      position: "relative",
+                      zIndex: 2,
+                      marginTop: "auto",
+                      paddingTop: "1.1rem",
+                      borderTop: isLight ? "1px solid #f1f5f9" : "1px solid rgba(255, 255, 255, 0.07)",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "0.55rem",
+                      flexWrap: "wrap",
                     }}
                   >
-                    {step.desc}
-                  </p>
+                    {step.tags.map((tag, tIdx) => (
+                      <span
+                        key={tIdx}
+                        className="phase-tag-chip"
+                        style={{
+                          fontSize: "0.74rem",
+                          fontWeight: 600,
+                          padding: "0.22rem 0.55rem",
+                          borderRadius: "7px",
+                          background: isLight ? "rgba(0, 0, 0, 0.03)" : "rgba(255, 255, 255, 0.04)",
+                          border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.07)",
+                          color: isLight ? "#64748b" : "#94a3b8",
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "0.35rem",
+                        }}
+                      >
+                        <CheckCircle2 size={12} color={mintColor} />
+                        <span>{tag}</span>
+                      </span>
+                    ))}
+                  </div>
                 </div>
               );
             })}
@@ -1918,12 +2318,15 @@ export default function MobileDevelopmentPageClient({
                 Clear Tangibles
               </span>
               <h2
+                className="heading-section"
                 style={{
-                  fontSize: "clamp(1.8rem, 3.2vw, 2.5rem)",
-                  fontWeight: 800,
+                  fontSize: "clamp(1.45rem, 2.1vw, 1.95rem)",
+                  fontWeight: 850,
+                  letterSpacing: "-0.025em",
+                  lineHeight: 1.2,
                 }}
               >
-                What You Receive With Opash
+                What You Receive With <span className="opash-hero-gradient-text">Opash Mobile</span>
               </h2>
             </div>
 
@@ -1972,130 +2375,9 @@ export default function MobileDevelopmentPageClient({
       </section>
 
       {/* ===================================================================== */}
-      {/* 7. INDUSTRIES WE SPECIALIZE IN                                        */}
+      {/* 7. INDUSTRIES WE SPECIALIZE IN (ANIMATED CAROUSEL AS ON HOME PAGE)    */}
       {/* ===================================================================== */}
-      <section
-        id="industries"
-        style={{
-          padding: "5.5rem 1.5rem",
-          position: "relative",
-          background: isLight ? "#f8fafc" : "#020712",
-          borderTop: isLight
-            ? "1px solid #e2e8f0"
-            : "1px solid rgba(255, 255, 255, 0.06)",
-        }}
-      >
-        <div
-          className="container-custom"
-          style={{ maxWidth: "1200px", margin: "0 auto" }}
-        >
-          <div
-            style={{
-              textAlign: "center",
-              maxWidth: "800px",
-              margin: "0 auto 3rem auto",
-            }}
-          >
-            <span
-              style={{
-                display: "inline-block",
-                color: mintColor,
-                fontSize: "0.85rem",
-                fontWeight: 700,
-                letterSpacing: "0.06em",
-                textTransform: "uppercase",
-                marginBottom: "0.75rem",
-              }}
-            >
-              Domain Specialization
-            </span>
-
-            <h2
-              style={{
-                fontSize: "clamp(2rem, 3.8vw, 3rem)",
-                fontWeight: 800,
-                letterSpacing: "-0.02em",
-                marginBottom: "1rem",
-              }}
-            >
-              Industries We Build Apps For
-            </h2>
-
-            <p
-              style={{
-                color: isLight ? "#64748b" : "#94a3b8",
-                fontSize: "1.05rem",
-                lineHeight: 1.65,
-              }}
-            >
-              We bring proven sector-specific domain experience, handling
-              specialized mobile compliance and unique customer workflows.
-            </p>
-          </div>
-
-          {/* Industry Grid */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-              gap: "1.25rem",
-            }}
-          >
-            {INDUSTRIES_LIVE.map((ind, idx) => {
-              const IndIcon = ind.icon;
-              const isActive = activeIndustryIdx === idx;
-              return (
-                <div
-                  key={idx}
-                  onClick={() => setActiveIndustryIdx(idx)}
-                  style={{
-                    padding: "1.75rem 1.25rem",
-                    borderRadius: "16px",
-                    background: isActive
-                      ? isLight
-                        ? "rgba(0, 168, 143, 0.1)"
-                        : "rgba(94, 192, 152, 0.15)"
-                      : isLight
-                        ? "#ffffff"
-                        : "rgba(8, 16, 30, 0.6)",
-                    border: isActive
-                      ? isLight
-                        ? "1.5px solid #00A88F"
-                        : "1.5px solid #5EC098"
-                      : isLight
-                        ? "1px solid #e2e8f0"
-                        : "1px solid rgba(255, 255, 255, 0.08)",
-                    textAlign: "center",
-                    cursor: "pointer",
-                    transition: "all 0.2s ease",
-                  }}
-                >
-                  <div
-                    style={{
-                      width: 48,
-                      height: 48,
-                      margin: "0 auto 1rem auto",
-                      borderRadius: "12px",
-                      background: isLight
-                        ? "rgba(0, 168, 143, 0.1)"
-                        : "rgba(94, 192, 152, 0.12)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      color: mintColor,
-                    }}
-                  >
-                    <IndIcon size={24} />
-                  </div>
-                  <div style={{ fontSize: "1rem", fontWeight: 700 }}>
-                    {ind.name}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+      <AnimatedIndustriesCarousel />
 
       {/* ===================================================================== */}
       {/* 8. RECOGNISED BY & WHY CHOOSE US                                      */}
@@ -2136,13 +2418,15 @@ export default function MobileDevelopmentPageClient({
               Got Questions?
             </span>
             <h2
+              className="heading-section"
               style={{
-                fontSize: "clamp(2rem, 3.8vw, 3rem)",
-                fontWeight: 800,
-                letterSpacing: "-0.02em",
+                fontSize: "clamp(1.45rem, 2.1vw, 1.95rem)",
+                fontWeight: 850,
+                letterSpacing: "-0.025em",
+                lineHeight: 1.2,
               }}
             >
-              Mobile App Development FAQs
+              Mobile App Development <span className="opash-hero-gradient-text">FAQs</span>
             </h2>
           </div>
 
@@ -2281,14 +2565,16 @@ export default function MobileDevelopmentPageClient({
                 Let&apos;s Build Together
               </span>
               <h2
+                className="heading-section"
                 style={{
-                  fontSize: "clamp(2rem, 3.8vw, 3rem)",
-                  fontWeight: 800,
-                  letterSpacing: "-0.02em",
+                  fontSize: "clamp(1.45rem, 2.1vw, 1.95rem)",
+                  fontWeight: 850,
+                  letterSpacing: "-0.025em",
+                  lineHeight: 1.2,
                   marginBottom: "1rem",
                 }}
               >
-                Ready to Launch Your Mobile App?
+                Ready to Launch Your <span className="opash-hero-gradient-text">Mobile App?</span>
               </h2>
               <p
                 style={{

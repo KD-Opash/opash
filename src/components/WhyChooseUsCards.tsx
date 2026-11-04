@@ -1,86 +1,774 @@
 "use client";
 
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import { useTheme } from "./ThemeProvider";
-import {
-  ShieldCheck,
-  Zap,
-  Clock,
-  Headphones,
-  CheckCircle2,
-  ArrowUpRight,
-  Code2,
-  GitBranch,
-  Terminal,
-  Activity,
-  Award,
-  Globe2,
-  Lock,
-} from "lucide-react";
+
+interface WhyChooseItem {
+  id: string;
+  title: string;
+  accent: string;
+  accentRgb: string;
+  icon: React.ReactNode;
+}
 
 export function WhyChooseUsCards() {
   const { theme } = useTheme();
   const isLight = theme === "light";
+  const [hoveredCard, setHoveredCard] = useState<string | null>(null);
+
+  const CARDS: WhyChooseItem[] = [
+    // 1. Trusted Upwork Agency (3D Metallic Plaque & Minted Gold Stars)
+    {
+      id: "upwork",
+      title: "Trusted Upwork Agency",
+      accent: "#16a34a",
+      accentRgb: "22, 163, 74",
+      icon: (
+        <div
+          className="upwork-custom-card"
+          style={{
+            position: "relative",
+            margin: "0 auto",
+            padding: "10px 16px 9px 16px",
+            borderRadius: "15px",
+            minWidth: "136px",
+            background: isLight
+              ? "linear-gradient(145deg, #ffffff 0%, #f1f5f9 50%, #e2e8f0 100%)"
+              : "linear-gradient(145deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.95) 60%, rgba(9, 14, 23, 0.98) 100%)",
+            border: isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.2)",
+            boxShadow: isLight
+              ? "inset 0 1px 1px #ffffff, 0 8px 16px -4px rgba(15, 23, 42, 0.12), 0 2px 4px rgba(0,0,0,0.06)"
+              : "inset 0 1px 1px rgba(255, 255, 255, 0.28), inset 0 -1px 1px rgba(0,0,0,0.6), 0 12px 24px -6px rgba(0, 0, 0, 0.7)",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "6px",
+          }}
+        >
+          {/* 1. Rating at TOP: 5x 3D Minted Metallic Gold Stars */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "4px",
+              filter: "drop-shadow(0 2px 6px rgba(234, 179, 8, 0.5))",
+            }}
+          >
+            {[0, 1, 2, 3, 4].map((i) => (
+              <svg key={i} width="14" height="14" viewBox="0 0 24 24" fill="none">
+                <defs>
+                  <linearGradient id={`starLightFacet_${i}`} x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#fef08a" />
+                    <stop offset="100%" stopColor="#eab308" />
+                  </linearGradient>
+                  <linearGradient id={`starDarkFacet_${i}`} x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#ca8a04" />
+                    <stop offset="100%" stopColor="#854d0e" />
+                  </linearGradient>
+                </defs>
+                {/* Left Facets (Light Gold) */}
+                <polygon points="12,2 12,17.27 6.18,20.77 7.77,14.14 2.7,9.45 9.47,8.63" fill={`url(#starLightFacet_${i})`} />
+                {/* Right Facets (Shadow Bronze Gold) */}
+                <polygon points="12,2 14.53,8.63 21.3,9.45 16.23,14.14 17.82,20.77 12,17.27" fill={`url(#starDarkFacet_${i})`} />
+                {/* Central Ridge Highlight */}
+                <line x1="12" y1="2" x2="12" y2="17.27" stroke="rgba(255,255,255,0.85)" strokeWidth="0.6" />
+              </svg>
+            ))}
+          </div>
+
+          {/* 2. Middle: High-Contrast Visible Upwork Wordmark */}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", margin: "1px 0" }}>
+            <span
+              style={{
+                fontSize: "1.28rem",
+                fontWeight: 900,
+                fontFamily: "var(--font-plus-jakarta-sans), system-ui, -apple-system, sans-serif",
+                letterSpacing: "-0.03em",
+                lineHeight: 1,
+                color: isLight ? "#15803d" : "#22c55e",
+                textShadow: isLight
+                  ? "none"
+                  : "0 0 14px rgba(34, 197, 94, 0.5), 0 2px 4px rgba(0,0,0,0.8)",
+                display: "inline-block",
+              }}
+            >
+              upwork
+            </span>
+          </div>
+
+          {/* 3. Bottom: High-Visibility Badge Capsule (Single Line) */}
+          <div
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "6px",
+              padding: "3.5px 10px",
+              borderRadius: "999px",
+              whiteSpace: "nowrap",
+              flexWrap: "nowrap",
+              background: isLight
+                ? "linear-gradient(180deg, #f1f5f9 0%, #e2e8f0 100%)"
+                : "linear-gradient(180deg, rgba(30, 48, 70, 0.95) 0%, rgba(15, 25, 42, 0.95) 100%)",
+              border: isLight
+                ? "1px solid #cbd5e1"
+                : "1px solid rgba(255, 255, 255, 0.25)",
+              boxShadow: isLight
+                ? "inset 0 1px 0 #fff, 0 2px 6px rgba(0,0,0,0.06)"
+                : "inset 0 1px 0 rgba(255,255,255,0.2), 0 3px 8px rgba(0,0,0,0.4)",
+            }}
+          >
+            {/* 3D Faceted Ruby Gem Emblem */}
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none" style={{ flexShrink: 0, filter: "drop-shadow(0 0 4px rgba(244,63,94,0.6))" }}>
+              <defs>
+                <linearGradient id="rubyGradTop" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stopColor="#fda4af" />
+                  <stop offset="100%" stopColor="#f43f5e" />
+                </linearGradient>
+                <linearGradient id="rubyGradBot" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#e11d48" />
+                  <stop offset="100%" stopColor="#9f1239" />
+                </linearGradient>
+              </defs>
+              <polygon points="8,1 15,6 8,15 1,6" fill="url(#rubyGradBot)" />
+              <polygon points="8,1 15,6 8,8 1,6" fill="url(#rubyGradTop)" />
+              <polygon points="8,1 11,6 8,8 5,6" fill="#ffffff" />
+            </svg>
+            <span
+              style={{
+                fontSize: "0.66rem",
+                fontWeight: 850,
+                letterSpacing: "0.05em",
+                color: isLight ? "#0f172a" : "#ffffff",
+                lineHeight: 1,
+                whiteSpace: "nowrap",
+                textTransform: "uppercase",
+                textShadow: isLight ? "none" : "0 1px 2px rgba(0,0,0,0.8)",
+              }}
+            >
+              TOP RATED PLUS
+            </span>
+          </div>
+        </div>
+      ),
+    },
+
+    // 2. Agile Approach (3D Metallic Möbius Cycle)
+    {
+      id: "agile",
+      title: "Agile Approach",
+      accent: "#10b981",
+      accentRgb: "16, 185, 129",
+      icon: (
+        <svg
+          className="custom-3d-icon"
+          style={{ display: "block", margin: "0 auto" }}
+          width="70"
+          height="70"
+          viewBox="0 0 72 72"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <defs>
+            {/* Emerald Metallic Gradients */}
+            <linearGradient id="metalAgileArcTop" x1="12" y1="12" x2="56" y2="36" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stopColor="#34d399" />
+              <stop offset="30%" stopColor="#a7f3d0" />
+              <stop offset="55%" stopColor="#10b981" />
+              <stop offset="85%" stopColor="#047857" />
+              <stop offset="100%" stopColor="#064e3b" />
+            </linearGradient>
+            <linearGradient id="metalAgileArcBot" x1="60" y1="60" x2="16" y2="36" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stopColor="#34d399" />
+              <stop offset="30%" stopColor="#a7f3d0" />
+              <stop offset="55%" stopColor="#10b981" />
+              <stop offset="85%" stopColor="#047857" />
+              <stop offset="100%" stopColor="#064e3b" />
+            </linearGradient>
+            <linearGradient id="metalAgileArrow" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stopColor="#ecfdf5" />
+              <stop offset="40%" stopColor="#6ee7b7" />
+              <stop offset="100%" stopColor="#059669" />
+            </linearGradient>
+            <filter id="metalAgileGlow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="4" stdDeviation="6" floodColor="#10b981" floodOpacity="0.45" />
+            </filter>
+          </defs>
+
+          {/* 3D Volumetric Extrusion Underlayer (Dark Bevel Shadow) */}
+          <path
+            d="M 52 26 C 49 15.5 39.5 9 29 11.5 C 20.5 13.5 13.5 20.5 12.5 29"
+            stroke="#022c22"
+            strokeWidth="9"
+            strokeLinecap="round"
+          />
+          <path
+            d="M 20 46 C 23 56.5 32.5 63 43 60.5 C 51.5 58.5 58.5 51.5 59.5 43"
+            stroke="#022c22"
+            strokeWidth="9"
+            strokeLinecap="round"
+          />
+
+          {/* Main 3D Metallic Cylinder Torus Arcs */}
+          <g filter="url(#metalAgileGlow)">
+            {/* Top-Right Curving Metallic Tube */}
+            <path
+              d="M 52 25 C 49 15 39.5 8.5 29 11 C 20.5 13 13.5 20 12.5 28.5"
+              stroke="url(#metalAgileArcTop)"
+              strokeWidth="7"
+              strokeLinecap="round"
+            />
+            {/* Top Chrome Highlight Specular Spine */}
+            <path
+              d="M 50 23 C 47.5 14.5 39 9 29 11.2 C 21.5 13 15 19 14 27"
+              stroke="#ffffff"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              opacity="0.85"
+            />
+
+            {/* Top 3D Faceted Arrowhead */}
+            <path
+              d="M 55 12 L 54 28 L 38 28 Z"
+              fill="url(#metalAgileArrow)"
+              stroke="#047857"
+              strokeWidth="1"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M 55 12 L 54 28 L 47 28 Z"
+              fill="#ffffff"
+              opacity="0.75"
+            />
+
+            {/* Bottom-Left Curving Metallic Tube */}
+            <path
+              d="M 20 47 C 23 57 32.5 63.5 43 61 C 51.5 59 58.5 52 59.5 43.5"
+              stroke="url(#metalAgileArcBot)"
+              strokeWidth="7"
+              strokeLinecap="round"
+            />
+            {/* Bottom Chrome Highlight Specular Spine */}
+            <path
+              d="M 22 49 C 24.5 57.5 33 63 43 60.8 C 50.5 59 57 53 58 45"
+              stroke="#ffffff"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              opacity="0.85"
+            />
+
+            {/* Bottom 3D Faceted Arrowhead */}
+            <path
+              d="M 17 60 L 18 44 L 34 44 Z"
+              fill="url(#metalAgileArrow)"
+              stroke="#047857"
+              strokeWidth="1"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M 17 60 L 18 44 L 25 44 Z"
+              fill="#ffffff"
+              opacity="0.75"
+            />
+          </g>
+        </svg>
+      ),
+    },
+
+    // 3. On-Time Delivery (3D Metallic Chrono Ring & Floating Supersonic Prism)
+    {
+      id: "ontime",
+      title: "On-Time Delivery",
+      accent: "#0ea5e9",
+      accentRgb: "14, 165, 233",
+      icon: (
+        <svg
+          className="custom-3d-icon"
+          style={{ display: "block", margin: "0 auto" }}
+          width="70"
+          height="70"
+          viewBox="0 0 72 72"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <defs>
+            <linearGradient id="metalChronoOuterBevel" x1="12" y1="12" x2="60" y2="60" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stopColor="#bae6fd" />
+              <stop offset="25%" stopColor="#0284c7" />
+              <stop offset="60%" stopColor="#0369a1" />
+              <stop offset="90%" stopColor="#075985" />
+              <stop offset="100%" stopColor="#082f49" />
+            </linearGradient>
+            <linearGradient id="metalChronoInnerTrack" x1="60" y1="60" x2="12" y2="12" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stopColor="#0f172a" />
+              <stop offset="40%" stopColor="#082f49" />
+              <stop offset="100%" stopColor="#0284c7" />
+            </linearGradient>
+            <linearGradient id="metalArrowTopFacet" x1="26" y1="18" x2="48" y2="36" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stopColor="#ffffff" />
+              <stop offset="35%" stopColor="#7dd3fc" />
+              <stop offset="100%" stopColor="#0284c7" />
+            </linearGradient>
+            <linearGradient id="metalArrowBotFacet" x1="26" y1="54" x2="48" y2="36" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stopColor="#0369a1" />
+              <stop offset="60%" stopColor="#075985" />
+              <stop offset="100%" stopColor="#082f49" />
+            </linearGradient>
+            <filter id="metalChronoGlow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="4" stdDeviation="6" floodColor="#0ea5e9" floodOpacity="0.45" />
+            </filter>
+          </defs>
+
+          {/* 3D Extruded Deep Shadow Under Ring */}
+          <circle cx="36" cy="38" r="27" fill="none" stroke="#041f33" strokeWidth="6" />
+
+          {/* 3D Precision Chrono Outer Beveled Ring */}
+          <g filter="url(#metalChronoGlow)">
+            <circle cx="36" cy="36" r="27" fill="none" stroke="url(#metalChronoOuterBevel)" strokeWidth="5.5" />
+            {/* Top Chrome Highlight Rim */}
+            <path
+              d="M 17 22 C 22 14 31 10 41 10 C 49 10 56 14 60 20"
+              stroke="#ffffff"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              opacity="0.9"
+            />
+            {/* Inner Dark Groove */}
+            <circle cx="36" cy="36" r="23" fill="none" stroke="url(#metalChronoInnerTrack)" strokeWidth="1.5" />
+
+            {/* 4x Milled Metallic Chrono Notches at 12, 3, 6, 9 o'clock */}
+            <line x1="36" y1="9" x2="36" y2="14" stroke="#ffffff" strokeWidth="2.5" strokeLinecap="round" />
+            <line x1="63" y1="36" x2="58" y2="36" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" />
+            <line x1="36" y1="63" x2="36" y2="58" stroke="#0369a1" strokeWidth="2" strokeLinecap="round" />
+            <line x1="9" y1="36" x2="14" y2="36" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" />
+
+            {/* Floating 3D Metallic Supersonic Chevron */}
+            {/* Drop shadow of chevron inside ring */}
+            <path d="M 28 23 L 46 38 L 28 53 L 33 38 Z" fill="rgba(0, 0, 0, 0.45)" />
+            {/* Upper Facet (Catching Bright Overhead Light) */}
+            <path d="M 27 21 L 45 36 L 32 36 Z" fill="url(#metalArrowTopFacet)" stroke="#ffffff" strokeWidth="0.8" strokeLinejoin="round" />
+            {/* Lower Facet (In Metallic Shadow) */}
+            <path d="M 32 36 L 45 36 L 27 51 Z" fill="url(#metalArrowBotFacet)" stroke="#075985" strokeWidth="0.8" strokeLinejoin="round" />
+            {/* Central Ridge Chrome Gleam */}
+            <line x1="32" y1="36" x2="45" y2="36" stroke="#ffffff" strokeWidth="1.6" strokeLinecap="round" />
+          </g>
+        </svg>
+      ),
+    },
+
+    // 4. 24/7 Support (3D Metallic Headset & Hologram Avatar)
+    {
+      id: "support247",
+      title: "24/7 Support",
+      accent: "#a855f7",
+      accentRgb: "168, 85, 247",
+      icon: (
+        <svg
+          className="custom-3d-icon"
+          style={{ display: "block", margin: "0 auto" }}
+          width="70"
+          height="70"
+          viewBox="0 0 72 72"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <defs>
+            <linearGradient id="metalHeadsetBand" x1="16" y1="12" x2="56" y2="38" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stopColor="#f3e8ff" />
+              <stop offset="25%" stopColor="#c084fc" />
+              <stop offset="65%" stopColor="#7e22ce" />
+              <stop offset="100%" stopColor="#3b0764" />
+            </linearGradient>
+            <radialGradient id="metalEarCup" cx="50%" cy="40%" r="55%">
+              <stop offset="0%" stopColor="#f5d0fe" />
+              <stop offset="30%" stopColor="#c084fc" />
+              <stop offset="70%" stopColor="#6b21a8" />
+              <stop offset="100%" stopColor="#2e1065" />
+            </radialGradient>
+            <radialGradient id="metalAvatarSphere" cx="40%" cy="35%" r="55%">
+              <stop offset="0%" stopColor="#ffffff" />
+              <stop offset="35%" stopColor="#d8b4fe" />
+              <stop offset="75%" stopColor="#7e22ce" />
+              <stop offset="100%" stopColor="#1e0538" />
+            </radialGradient>
+            <filter id="metalSupportGlow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="4" stdDeviation="6" floodColor="#a855f7" floodOpacity="0.45" />
+            </filter>
+          </defs>
+
+          {/* 3D Deep Outer Halo Ring */}
+          <circle cx="36" cy="38" r="28" fill="none" stroke="#25093d" strokeWidth="5" />
+          <g filter="url(#metalSupportGlow)">
+            <circle cx="36" cy="36" r="28" fill="none" stroke="url(#metalHeadsetBand)" strokeWidth="4.5" />
+            {/* Top Chrome Highlight on Ring */}
+            <path d="M 18 22 C 23 14 31 10 41 10 C 49 10 56 14 60 20" stroke="#ffffff" strokeWidth="1.4" strokeLinecap="round" opacity="0.9" />
+
+            {/* 3D Metallic Headset Arc Over Avatar */}
+            <path d="M 23 31 C 23 23.5 28.5 18 36 18 C 43.5 18 49 23.5 49 31 V 36" stroke="url(#metalHeadsetBand)" strokeWidth="4" strokeLinecap="round" />
+            <path d="M 25 29 C 26 24 30.5 19.5 36 19.5 C 41.5 19.5 46 24 47 29" stroke="#ffffff" strokeWidth="1.2" strokeLinecap="round" opacity="0.8" />
+
+            {/* 3D Left & Right Metallic Ear Cups */}
+            <rect x="20" y="30" width="5.5" height="11" rx="2.5" fill="url(#metalEarCup)" stroke="#ffffff" strokeWidth="0.8" />
+            <rect x="46.5" y="30" width="5.5" height="11" rx="2.5" fill="url(#metalEarCup)" stroke="#ffffff" strokeWidth="0.8" />
+
+            {/* 3D Articulated Boom Mic with Chrome Tip */}
+            <path d="M 48 37 C 48 42 43 45.5 38 45.5" stroke="#e9d5ff" strokeWidth="2.4" strokeLinecap="round" />
+            <circle cx="37" cy="45.5" r="2.2" fill="#ffffff" stroke="#7e22ce" strokeWidth="1" />
+
+            {/* Central 3D Sculpted Metallic Avatar Head */}
+            <circle cx="36" cy="31" r="6.5" fill="url(#metalAvatarSphere)" stroke="#ffffff" strokeWidth="0.8" />
+            {/* 3D Beveled Shoulders */}
+            <path
+              d="M 24 51 C 24 44 29 41 36 41 C 43 41 48 44 48 51"
+              stroke="url(#metalHeadsetBand)"
+              strokeWidth="4.5"
+              strokeLinecap="round"
+            />
+            <path
+              d="M 26 50 C 27 45.5 31 43 36 43 C 41 43 45 45.5 46 50"
+              stroke="#ffffff"
+              strokeWidth="1.2"
+              strokeLinecap="round"
+              opacity="0.85"
+            />
+          </g>
+        </svg>
+      ),
+    },
+
+    // 5. Transparent Project Management (3D Metallic Cyber-Lens Eye)
+    {
+      id: "transparent",
+      title: "Transparent Project Management",
+      accent: "#00bbab",
+      accentRgb: "0, 187, 171",
+      icon: (
+        <svg
+          className="custom-3d-icon"
+          style={{ display: "block", margin: "0 auto" }}
+          width="76"
+          height="62"
+          viewBox="0 0 78 60"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <defs>
+            <linearGradient id="metalEyeRimUpper" x1="6" y1="12" x2="72" y2="30" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stopColor="#5eead4" />
+              <stop offset="25%" stopColor="#ffffff" />
+              <stop offset="50%" stopColor="#14b8a6" />
+              <stop offset="85%" stopColor="#0f766e" />
+              <stop offset="100%" stopColor="#115e59" />
+            </linearGradient>
+            <linearGradient id="metalEyeRimLower" x1="72" y1="48" x2="6" y2="30" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stopColor="#0d9488" />
+              <stop offset="40%" stopColor="#115e59" />
+              <stop offset="80%" stopColor="#042f2e" />
+              <stop offset="100%" stopColor="#134e4a" />
+            </linearGradient>
+            <radialGradient id="metalIrisBezel" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="#ccfbf1" />
+              <stop offset="45%" stopColor="#14b8a6" />
+              <stop offset="80%" stopColor="#0f766e" />
+              <stop offset="100%" stopColor="#042f2e" />
+            </radialGradient>
+            <radialGradient id="metalPupilLens" cx="35%" cy="35%" r="60%">
+              <stop offset="0%" stopColor="#ffffff" />
+              <stop offset="30%" stopColor="#5eead4" />
+              <stop offset="70%" stopColor="#0d9488" />
+              <stop offset="100%" stopColor="#022c22" />
+            </radialGradient>
+            <filter id="metalEyeGlow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="4" stdDeviation="6" floodColor="#00bbab" floodOpacity="0.45" />
+            </filter>
+          </defs>
+
+          {/* 3D Cast Shadow */}
+          <path
+            d="M 8 32 C 17 17 31 11 39 11 C 47 11 61 17 70 32 C 61 47 47 53 39 53 C 31 53 17 47 8 32 Z"
+            fill="none"
+            stroke="#022c22"
+            strokeWidth="7"
+          />
+
+          <g filter="url(#metalEyeGlow)">
+            {/* 3D Machined Metallic Eye Frame */}
+            <path
+              d="M 8 30 C 17 15 31 9 39 9 C 47 9 61 15 70 30 C 61 45 47 51 39 51 C 31 51 17 45 8 30 Z"
+              fill="rgba(4, 47, 46, 0.35)"
+              stroke="url(#metalEyeRimUpper)"
+              strokeWidth="5.5"
+              strokeLinejoin="round"
+            />
+            {/* Top Edge Specular Chrome Sweep */}
+            <path
+              d="M 14 26 C 21 15 31 11 39 11 C 47 11 57 15 64 26"
+              stroke="#ffffff"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              opacity="0.95"
+            />
+
+            {/* 3D Concentric Milled Iris Bezel */}
+            <circle cx="39" cy="30" r="13" fill="url(#metalIrisBezel)" stroke="#ffffff" strokeWidth="1.2" />
+            {/* Shutter ticks / aperture ridges */}
+            <circle cx="39" cy="30" r="10.5" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="0.8" strokeDasharray="3 3" />
+
+            {/* Central Polished 3D Crystalline Aqua Pupil Lens */}
+            <circle cx="39" cy="30" r="6.5" fill="url(#metalPupilLens)" stroke="#5eead4" strokeWidth="1" />
+            {/* Spherical Reflection Glint Point */}
+            <circle cx="36.5" cy="27.5" r="2" fill="#ffffff" />
+          </g>
+        </svg>
+      ),
+    },
+
+    // 6. Responsive Communication (3D Metallic Speech Capsule)
+    {
+      id: "communication",
+      title: "Responsive Communication",
+      accent: "#f59e0b",
+      accentRgb: "245, 158, 11",
+      icon: (
+        <svg
+          className="custom-3d-icon"
+          style={{ display: "block", margin: "0 auto" }}
+          width="70"
+          height="70"
+          viewBox="0 0 72 72"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <defs>
+            <linearGradient id="metalCommPlaque" x1="12" y1="8" x2="60" y2="58" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stopColor="#fef08a" />
+              <stop offset="25%" stopColor="#fbbf24" />
+              <stop offset="60%" stopColor="#d97706" />
+              <stop offset="85%" stopColor="#b45309" />
+              <stop offset="100%" stopColor="#78350f" />
+            </linearGradient>
+            <linearGradient id="metalCommFace" x1="16" y1="12" x2="56" y2="44" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stopColor="#451a03" />
+              <stop offset="50%" stopColor="#78350f" />
+              <stop offset="100%" stopColor="#1e0b02" />
+            </linearGradient>
+            <linearGradient id="metalSoundwaveBar" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#ffffff" />
+              <stop offset="30%" stopColor="#fef08a" />
+              <stop offset="70%" stopColor="#f59e0b" />
+              <stop offset="100%" stopColor="#b45309" />
+            </linearGradient>
+            <filter id="metalCommGlow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="4" stdDeviation="6" floodColor="#f59e0b" floodOpacity="0.45" />
+            </filter>
+          </defs>
+
+          {/* 3D Extrusion Shadow Under Bubble */}
+          <path
+            d="M 14 15 C 14 11.5 17 8.5 20.5 8.5 H 51.5 C 55 8.5 58 11.5 58 15 V 42 C 58 45.5 55 48.5 51.5 48.5 H 27 L 14 61 V 15 Z"
+            fill="none"
+            stroke="#2e0f02"
+            strokeWidth="7"
+            strokeLinejoin="round"
+          />
+
+          <g filter="url(#metalCommGlow)">
+            {/* 3D Metallic Beveled Outer Bubble Body */}
+            <path
+              d="M 14 13 C 14 9.5 17 6.5 20.5 6.5 H 51.5 C 55 6.5 58 9.5 58 13 V 40 C 58 43.5 55 46.5 51.5 46.5 H 27 L 14 59 V 13 Z"
+              fill="url(#metalCommFace)"
+              stroke="url(#metalCommPlaque)"
+              strokeWidth="5.5"
+              strokeLinejoin="round"
+            />
+            {/* Top & Left Bevel Chrome Highlight */}
+            <path
+              d="M 21 8.5 H 51 C 54.5 8.5 56 10 56 13"
+              stroke="#ffffff"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              opacity="0.9"
+            />
+            <path
+              d="M 16 14 V 45"
+              stroke="rgba(255,255,255,0.65)"
+              strokeWidth="1.4"
+              strokeLinecap="round"
+            />
+
+            {/* 3x Embossed 3D Metallic Soundwave / Pulse Bars Inside */}
+            <rect x="25" y="24" width="4.5" height="12" rx="2.25" fill="url(#metalSoundwaveBar)" stroke="#ffffff" strokeWidth="0.6" />
+            <rect x="34" y="18" width="4.5" height="24" rx="2.25" fill="url(#metalSoundwaveBar)" stroke="#ffffff" strokeWidth="0.8" />
+            <rect x="43" y="22" width="4.5" height="16" rx="2.25" fill="url(#metalSoundwaveBar)" stroke="#ffffff" strokeWidth="0.6" />
+          </g>
+        </svg>
+      ),
+    },
+
+    // 7. Post-Launch Support (3D Heavy Heraldic Cyber-Shield & Floating Checkmark)
+    {
+      id: "postlaunch",
+      title: "Post-Launch Support",
+      accent: "#3b82f6",
+      accentRgb: "59, 130, 246",
+      icon: (
+        <svg
+          className="custom-3d-icon"
+          style={{ display: "block", margin: "0 auto" }}
+          width="70"
+          height="70"
+          viewBox="0 0 72 72"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <defs>
+            <linearGradient id="metalShieldRim" x1="12" y1="6" x2="60" y2="66" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stopColor="#bfdbfe" />
+              <stop offset="25%" stopColor="#ffffff" />
+              <stop offset="50%" stopColor="#3b82f6" />
+              <stop offset="75%" stopColor="#1d4ed8" />
+              <stop offset="100%" stopColor="#172554" />
+            </linearGradient>
+            <linearGradient id="metalShieldLeftFacet" x1="14" y1="8" x2="36" y2="62" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stopColor="#60a5fa" />
+              <stop offset="40%" stopColor="#2563eb" />
+              <stop offset="100%" stopColor="#1e40af" />
+            </linearGradient>
+            <linearGradient id="metalShieldRightFacet" x1="58" y1="8" x2="36" y2="62" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stopColor="#1e40af" />
+              <stop offset="50%" stopColor="#1e3a8a" />
+              <stop offset="100%" stopColor="#0f172a" />
+            </linearGradient>
+            <linearGradient id="metalCheckmarkTop" x1="22" y1="28" x2="48" y2="40" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stopColor="#ffffff" />
+              <stop offset="50%" stopColor="#e0f2fe" />
+              <stop offset="100%" stopColor="#38bdf8" />
+            </linearGradient>
+            <linearGradient id="metalCheckmarkBevel" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#0284c7" />
+              <stop offset="100%" stopColor="#0369a1" />
+            </linearGradient>
+            <filter id="metalShieldGlow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="4" stdDeviation="6" floodColor="#3b82f6" floodOpacity="0.45" />
+            </filter>
+          </defs>
+
+          {/* 3D Cast Shadow */}
+          <path
+            d="M 36 9 L 57 18 V 34 C 57 48 48 58 36 62 C 24 58 15 48 15 34 V 18 L 36 9 Z"
+            fill="none"
+            stroke="#0b1736"
+            strokeWidth="7"
+            strokeLinejoin="round"
+          />
+
+          <g filter="url(#metalShieldGlow)">
+            {/* Left 3D Shield Facet (Light-Facing) */}
+            <path
+              d="M 36 7 L 15 16 V 32 C 15 46 24 56 36 60 V 7 Z"
+              fill="url(#metalShieldLeftFacet)"
+            />
+            {/* Right 3D Shield Facet (In Metallic Shadow) */}
+            <path
+              d="M 36 7 L 57 16 V 32 C 57 46 48 56 36 60 V 7 Z"
+              fill="url(#metalShieldRightFacet)"
+            />
+
+            {/* 3D Machined Metallic Border Rim */}
+            <path
+              d="M 36 7 L 57 16 V 32 C 57 46 48 56 36 60 C 24 56 15 46 15 32 V 16 L 36 7 Z"
+              fill="none"
+              stroke="url(#metalShieldRim)"
+              strokeWidth="5"
+              strokeLinejoin="round"
+            />
+            {/* Central Vertical Spine Light Reflection */}
+            <line x1="36" y1="8" x2="36" y2="59" stroke="#ffffff" strokeWidth="1.4" opacity="0.85" />
+            {/* Top-Left Chrome Rim Specular Highlight */}
+            <path d="M 16 16.5 L 36 7.5" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" />
+
+            {/* Floating 3D Metallic Checkmark */}
+            {/* Drop shadow on shield */}
+            <path
+              d="M 26 34 L 33 41 L 47 27"
+              stroke="rgba(0,0,0,0.45)"
+              strokeWidth="6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            {/* Extruded Bevel */}
+            <path
+              d="M 25 33 L 32 40 L 46 26"
+              stroke="url(#metalCheckmarkBevel)"
+              strokeWidth="6.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            {/* Top Chrome Facet */}
+            <path
+              d="M 25 31.5 L 32 38.5 L 46 24.5"
+              stroke="url(#metalCheckmarkTop)"
+              strokeWidth="5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            {/* Specular White Stroke Along Checkmark Center */}
+            <path
+              d="M 25 31.5 L 32 38.5 L 46 24.5"
+              stroke="#ffffff"
+              strokeWidth="1.4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              opacity="0.95"
+            />
+          </g>
+        </svg>
+      ),
+    },
+  ];
 
   return (
     <section
-      id="why-choose-us-bento"
+      id="why-choose-us"
       className="why-choose-us-section"
       style={{
-        padding: "6.5rem 1.5rem 5.5rem 1.5rem",
+        padding: "5rem 1.25rem 4.5rem 1.25rem",
         position: "relative",
         background: isLight
           ? "linear-gradient(180deg, #f8fafc 0%, #ffffff 50%, #f1f5f9 100%)"
           : "linear-gradient(180deg, #020713 0%, #040d21 50%, #020614 100%)",
         contain: "paint",
+        overflow: "hidden",
       }}
     >
-      {/* Subtle Ambient Radial Lighting (Low GPU overhead) */}
+      {/* Background 3D Aurora Lighting */}
       <div
+        aria-hidden="true"
         style={{
           position: "absolute",
-          top: "0",
+          top: "5%",
           left: "50%",
           transform: "translateX(-50%)",
-          width: "80%",
-          maxWidth: "1000px",
-          height: "360px",
+          width: "90%",
+          maxWidth: "1100px",
+          height: "380px",
           background: isLight
             ? "radial-gradient(ellipse at top, rgba(37, 99, 235, 0.08) 0%, transparent 70%)"
-            : "radial-gradient(ellipse at top, rgba(56, 189, 248, 0.1) 0%, transparent 70%)",
+            : "radial-gradient(ellipse at top, rgba(0, 255, 209, 0.08) 0%, rgba(56, 189, 248, 0.05) 45%, transparent 75%)",
           pointerEvents: "none",
         }}
       />
 
-      <div className="container-custom" style={{ maxWidth: "1280px", margin: "0 auto", position: "relative", zIndex: 1 }}>
+      <div className="container-custom" style={{ maxWidth: "1360px", margin: "0 auto", position: "relative", zIndex: 1 }}>
         {/* ===================================================================== */}
         {/* SECTION HEADER                                                        */}
         {/* ===================================================================== */}
-        <div style={{ textAlign: "center", maxWidth: "800px", margin: "0 auto 4rem auto" }}>
-          <div
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "0.5rem",
-              padding: "0.38rem 0.95rem",
-              borderRadius: "9999px",
-              background: isLight ? "rgba(37, 99, 235, 0.08)" : "rgba(56, 189, 248, 0.1)",
-              border: isLight ? "1px solid rgba(37, 99, 235, 0.2)" : "1px solid rgba(56, 189, 248, 0.25)",
-              color: isLight ? "#2563eb" : "#38bdf8",
-              fontSize: "0.8rem",
-              fontWeight: 750,
-              letterSpacing: "0.06em",
-              textTransform: "uppercase",
-              marginBottom: "1rem",
-            }}
-          >
-            <Award size={14} />
-            <span>Why Leading Founders Partner With Us</span>
-          </div>
-
+        <div style={{ textAlign: "center", maxWidth: "800px", margin: "0 auto 3.5rem auto" }}>
           <h2
             style={{
-              fontSize: "clamp(2.2rem, 4vw, 3.4rem)",
+              fontSize: "clamp(1.45rem, 2.1vw, 1.95rem)",
               fontWeight: 850,
               letterSpacing: "-0.03em",
               lineHeight: 1.15,
@@ -101,7 +789,7 @@ export function WhyChooseUsCards() {
 
           <p
             style={{
-              fontSize: "clamp(1rem, 1.8vw, 1.12rem)",
+              fontSize: "clamp(0.95rem, 1.6vw, 1.1rem)",
               color: isLight ? "#475569" : "#94a3b8",
               lineHeight: 1.6,
               margin: 0,
@@ -113,592 +801,247 @@ export function WhyChooseUsCards() {
         </div>
 
         {/* ===================================================================== */}
-        {/* ASYMMETRIC BENTO GRID                                                 */}
+        {/* 7 GLASSMORPHIC 3D PILLAR CARDS (SINGLE ROW / RESPONSIVE GRID)         */}
         {/* ===================================================================== */}
-        <div className="bento-grid">
-          {/* =================================================================== */}
-          {/* BENTO 1 (HERO CARD - SPAN 7): UPWORK TOP RATED PLUS PROOF           */}
-          {/* =================================================================== */}
-          <div className="bento-card bento-card-hero">
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "flex-start",
-                flexWrap: "wrap",
-                gap: "1rem",
-                marginBottom: "1.5rem",
-              }}
-            >
-              {/* Upwork Official Badge */}
-              <div
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "0.75rem",
-                  padding: "0.6rem 1rem",
-                  borderRadius: "14px",
-                  background: isLight ? "rgba(20, 168, 0, 0.08)" : "rgba(20, 168, 0, 0.15)",
-                  border: "1.5px solid rgba(20, 168, 0, 0.35)",
-                }}
+        <div className="seven-pillars-grid">
+          {CARDS.map((card, idx) => {
+            const isHovered = hoveredCard === card.id;
+
+            return (
+              <motion.div
+                key={card.id}
+                className="pillar-card-wrapper"
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{ duration: 0.5, delay: idx * 0.06, ease: [0.16, 1, 0.3, 1] }}
+                onMouseEnter={() => setHoveredCard(card.id)}
+                onMouseLeave={() => setHoveredCard(null)}
               >
-                <span
+                <div
+                  className={`pillar-3d-card ${isHovered ? "is-hovered" : ""}`}
                   style={{
-                    color: "#14a800",
-                    fontWeight: 900,
-                    fontSize: "1.2rem",
-                    letterSpacing: "-0.03em",
-                    fontFamily: "system-ui, sans-serif",
-                    lineHeight: 1,
+                    borderColor: isHovered
+                      ? card.accent
+                      : isLight
+                      ? "rgba(226, 232, 240, 0.85)"
+                      : "rgba(255, 255, 255, 0.09)",
+                    boxShadow: isHovered
+                      ? isLight
+                        ? `0 20px 35px -8px rgba(${card.accentRgb}, 0.22), 0 0 1px 1px ${card.accent}`
+                        : `0 24px 45px -10px rgba(0, 0, 0, 0.8), 0 0 30px rgba(${card.accentRgb}, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.25)`
+                      : isLight
+                      ? "0 10px 25px -5px rgba(15, 23, 42, 0.04)"
+                      : "inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 14px 28px -8px rgba(0, 0, 0, 0.55)",
                   }}
                 >
-                  upwork
-                </span>
-                <div style={{ height: "20px", width: "1px", background: "rgba(20, 168, 0, 0.3)" }} />
-                <div style={{ display: "flex", alignItems: "center", gap: "0.35rem" }}>
-                  <span style={{ fontSize: "0.75rem" }}>💖</span>
-                  <span
+                  {/* Top 3D Icon Stage with Perfectly Centered Co-Axial Shadow/Glow */}
+                  <div
+                    className="pillar-icon-stage"
                     style={{
-                      fontSize: "0.72rem",
-                      fontWeight: 800,
-                      color: isLight ? "#0f172a" : "#f1f5f9",
-                      letterSpacing: "0.04em",
-                      textTransform: "uppercase",
+                      position: "relative",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      width: "100%",
+                      minHeight: "105px",
+                      margin: "0 auto",
                     }}
                   >
-                    Top Rated Plus
-                  </span>
-                </div>
-              </div>
+                    {/* Centered Ambient Glow / Shadow directly behind the icon */}
+                    <div
+                      aria-hidden="true"
+                      className="pillar-radial-flare"
+                      style={{
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        transform: "translate(-50%, -50%)",
+                        width: "130px",
+                        height: "130px",
+                        borderRadius: "50%",
+                        background: `radial-gradient(circle at center, rgba(${card.accentRgb}, ${isHovered ? "0.45" : "0.22"}) 0%, rgba(${card.accentRgb}, 0.08) 45%, transparent 70%)`,
+                        pointerEvents: "none",
+                        zIndex: 0,
+                        transition: "background 0.3s ease",
+                      }}
+                    />
 
-              {/* Verified Pill */}
-              <div
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "0.4rem",
-                  fontSize: "0.78rem",
-                  fontWeight: 700,
-                  color: "#14a800",
-                  background: "rgba(20, 168, 0, 0.1)",
-                  padding: "0.35rem 0.75rem",
-                  borderRadius: "9999px",
-                }}
-              >
-                <CheckCircle2 size={13} />
-                <span>Top 1% Global Talent</span>
-              </div>
-            </div>
-
-            {/* Stat Row */}
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))",
-                gap: "1.25rem",
-                margin: "1.5rem 0 2rem 0",
-              }}
-            >
-              <div className="bento-metric-tile">
-                <div style={{ fontSize: "2.3rem", fontWeight: 900, color: "#14a800", lineHeight: 1 }}>100%</div>
-                <div style={{ fontSize: "0.82rem", fontWeight: 650, color: isLight ? "#475569" : "#94a3b8", marginTop: "0.35rem" }}>
-                  Job Success Score
-                </div>
-              </div>
-
-              <div className="bento-metric-tile">
-                <div style={{ fontSize: "2.3rem", fontWeight: 900, color: "#f59e0b", lineHeight: 1 }}>5.0 ★</div>
-                <div style={{ fontSize: "0.82rem", fontWeight: 650, color: isLight ? "#475569" : "#94a3b8", marginTop: "0.35rem" }}>
-                  Enterprise Rating
-                </div>
-              </div>
-
-              <div className="bento-metric-tile">
-                <div style={{ fontSize: "2.3rem", fontWeight: 900, color: isLight ? "#0f172a" : "#ffffff", lineHeight: 1 }}>$1M+</div>
-                <div style={{ fontSize: "0.82rem", fontWeight: 650, color: isLight ? "#475569" : "#94a3b8", marginTop: "0.35rem" }}>
-                  Earned Deliveries
-                </div>
-              </div>
-            </div>
-
-            <h3 style={{ fontSize: "1.35rem", fontWeight: 800, marginBottom: "0.5rem", color: isLight ? "#0f172a" : "#ffffff" }}>
-              Trusted Upwork Agency & Vetted Partner
-            </h3>
-            <p style={{ fontSize: "0.95rem", color: isLight ? "#475569" : "#94a3b8", lineHeight: 1.6, margin: 0 }}>
-              Recognized in the elite tier of technology consultancies on Upwork with flawless execution, zero disputed milestones,
-              and continuous enterprise rehires across North America and Europe.
-            </p>
-          </div>
-
-          {/* =================================================================== */}
-          {/* BENTO 2 (VELOCITY & CADENCE - SPAN 5)                              */}
-          {/* =================================================================== */}
-          <div className="bento-card bento-card-velocity">
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.25rem" }}>
-              <div
-                style={{
-                  width: "48px",
-                  height: "48px",
-                  borderRadius: "14px",
-                  background: isLight ? "rgba(16, 185, 129, 0.1)" : "rgba(16, 185, 129, 0.15)",
-                  color: "#10b981",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Zap size={24} />
-              </div>
-
-              <span
-                style={{
-                  fontSize: "0.75rem",
-                  fontWeight: 750,
-                  color: "#10b981",
-                  background: "rgba(16, 185, 129, 0.1)",
-                  padding: "0.3rem 0.7rem",
-                  borderRadius: "8px",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.04em",
-                }}
-              >
-                2-Week Sprints
-              </span>
-            </div>
-
-            <h3 style={{ fontSize: "1.25rem", fontWeight: 800, marginBottom: "0.5rem", color: isLight ? "#0f172a" : "#ffffff" }}>
-              Agile Approach & On-Time Delivery
-            </h3>
-
-            <p style={{ fontSize: "0.9rem", color: isLight ? "#475569" : "#94a3b8", lineHeight: 1.55, marginBottom: "1.5rem" }}>
-              Predictable bi-weekly sprint cadence with clickable staging builds and automated GitHub PR reviews.
-            </p>
-
-            {/* Sprint Telemetry Bar */}
-            <div
-              style={{
-                background: isLight ? "#f1f5f9" : "rgba(255, 255, 255, 0.04)",
-                borderRadius: "12px",
-                padding: "0.9rem 1rem",
-                border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
-              }}
-            >
-              <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.78rem", fontWeight: 700, marginBottom: "0.4rem" }}>
-                <span style={{ color: isLight ? "#334155" : "#e2e8f0" }}>Milestone SLA Velocity</span>
-                <span style={{ color: "#10b981" }}>99.4% On-Time</span>
-              </div>
-              <div style={{ width: "100%", height: "7px", background: "rgba(16, 185, 129, 0.15)", borderRadius: "9999px", overflow: "hidden" }}>
-                <div style={{ width: "99.4%", height: "100%", background: "#10b981", borderRadius: "9999px" }} />
-              </div>
-              <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.7rem", color: isLight ? "#64748b" : "#94a3b8", marginTop: "0.4rem" }}>
-                <span>Sprint Kickoff</span>
-                <span>Live Staging Demo</span>
-                <span>Production Release</span>
-              </div>
-            </div>
-          </div>
-
-          {/* =================================================================== */}
-          {/* BENTO 3 (SUPPORT - SPAN 4)                                         */}
-          {/* =================================================================== */}
-          <div className="bento-card">
-            <div
-              style={{
-                width: "48px",
-                height: "48px",
-                borderRadius: "14px",
-                background: isLight ? "rgba(168, 85, 247, 0.1)" : "rgba(168, 85, 247, 0.15)",
-                color: "#a855f7",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                marginBottom: "1.25rem",
-              }}
-            >
-              <Headphones size={24} />
-            </div>
-
-            <div style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem", marginBottom: "0.6rem" }}>
-              <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#10b981", boxShadow: "0 0 8px #10b981" }} />
-              <span style={{ fontSize: "0.75rem", fontWeight: 750, color: "#10b981", textTransform: "uppercase" }}>
-                Always Online
-              </span>
-            </div>
-
-            <h3 style={{ fontSize: "1.18rem", fontWeight: 800, marginBottom: "0.5rem", color: isLight ? "#0f172a" : "#ffffff" }}>
-              24/7 Global Support & Overlap
-            </h3>
-
-            <p style={{ fontSize: "0.88rem", color: isLight ? "#475569" : "#94a3b8", lineHeight: 1.55, margin: 0 }}>
-              4+ hours synchronous working overlap with US, UK, and EU timezones. Direct Slack channels with zero communication delay.
-            </p>
-          </div>
-
-          {/* =================================================================== */}
-          {/* BENTO 4 (TRANSPARENT PM - SPAN 4)                                   */}
-          {/* =================================================================== */}
-          <div className="bento-card">
-            <div
-              style={{
-                width: "48px",
-                height: "48px",
-                borderRadius: "14px",
-                background: isLight ? "rgba(6, 182, 212, 0.1)" : "rgba(6, 182, 212, 0.15)",
-                color: "#06b6d4",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                marginBottom: "1.25rem",
-              }}
-            >
-              <Terminal size={24} />
-            </div>
-
-            <div style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem", marginBottom: "0.6rem" }}>
-              <GitBranch size={13} color="#06b6d4" />
-              <span style={{ fontSize: "0.75rem", fontWeight: 750, color: "#06b6d4", textTransform: "uppercase" }}>
-                Direct Engineer Access
-              </span>
-            </div>
-
-            <h3 style={{ fontSize: "1.18rem", fontWeight: 800, marginBottom: "0.5rem", color: isLight ? "#0f172a" : "#ffffff" }}>
-              Transparent Project Management
-            </h3>
-
-            <p style={{ fontSize: "0.88rem", color: isLight ? "#475569" : "#94a3b8", lineHeight: 1.55, margin: 0 }}>
-              No non-technical middle-men. Collaborate directly with senior architects and developers with real-time Jira & Git transparency.
-            </p>
-          </div>
-
-          {/* =================================================================== */}
-          {/* BENTO 5 (POST-LAUNCH WARRANTY & IP - SPAN 4)                        */}
-          {/* =================================================================== */}
-          <div className="bento-card">
-            <div
-              style={{
-                width: "48px",
-                height: "48px",
-                borderRadius: "14px",
-                background: isLight ? "rgba(56, 189, 248, 0.1)" : "rgba(56, 189, 248, 0.15)",
-                color: "#38bdf8",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                marginBottom: "1.25rem",
-              }}
-            >
-              <ShieldCheck size={24} />
-            </div>
-
-            <div style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem", marginBottom: "0.6rem" }}>
-              <Lock size={13} color="#38bdf8" />
-              <span style={{ fontSize: "0.75rem", fontWeight: 750, color: "#38bdf8", textTransform: "uppercase" }}>
-                100% IP Transferred
-              </span>
-            </div>
-
-            <h3 style={{ fontSize: "1.18rem", fontWeight: 800, marginBottom: "0.5rem", color: isLight ? "#0f172a" : "#ffffff" }}>
-              Post-Launch Support & Warranty
-            </h3>
-
-            <p style={{ fontSize: "0.88rem", color: isLight ? "#475569" : "#94a3b8", lineHeight: 1.55, margin: 0 }}>
-              Full 30-day post-launch bug warranty included on every project. Complete ownership of all code, repositories, and secrets.
-            </p>
-          </div>
-
-          {/* =================================================================== */}
-          {/* BENTO 6 (ACCREDITATION SHELF - SPAN 12 / FULL WIDTH)                */}
-          {/* =================================================================== */}
-          <div className="bento-card bento-card-full">
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                flexWrap: "wrap",
-                gap: "1rem",
-                marginBottom: "1.75rem",
-                paddingBottom: "1.25rem",
-                borderBottom: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
-              }}
-            >
-              <div>
-                <span
-                  style={{
-                    fontSize: "0.78rem",
-                    fontWeight: 750,
-                    color: isLight ? "#2563eb" : "#38bdf8",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.06em",
-                  }}
-                >
-                  Global Industry Accreditations
-                </span>
-                <h3 style={{ fontSize: "1.45rem", fontWeight: 850, margin: "0.25rem 0 0 0", color: isLight ? "#0f172a" : "#ffffff" }}>
-                  We Are <span style={{ color: "#2563eb" }}>Recognised By</span> Top Review Authorities
-                </h3>
-              </div>
-
-              <div
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "0.5rem",
-                  fontSize: "0.82rem",
-                  fontWeight: 650,
-                  color: isLight ? "#64748b" : "#94a3b8",
-                }}
-              >
-                <Award size={16} color="#f59e0b" />
-                <span>Verified Independent Client Audits</span>
-              </div>
-            </div>
-
-            {/* Accreditation Partner Badges */}
-            <div className="accreditation-flex-row">
-              {/* GoodFirms */}
-              <div className="partner-badge">
-                <div
-                  style={{
-                    width: "28px",
-                    height: "28px",
-                    borderRadius: "6px",
-                    background: "#2563eb",
-                    color: "#ffffff",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontWeight: 900,
-                    fontSize: "1.1rem",
-                    lineHeight: 1,
-                  }}
-                >
-                  F
-                </div>
-                <div>
-                  <div style={{ fontSize: "1.05rem", fontWeight: 800, color: "#2563eb", lineHeight: 1 }}>GoodFirms</div>
-                  <div style={{ fontSize: "0.7rem", color: isLight ? "#64748b" : "#94a3b8", marginTop: "2px" }}>5.0 Top Agency</div>
-                </div>
-              </div>
-
-              {/* Clutch */}
-              <div className="partner-badge">
-                <div
-                  style={{
-                    background: isLight ? "#0f212d" : "#132836",
-                    color: "#ffffff",
-                    padding: "0.35rem 0.75rem",
-                    borderRadius: "8px",
-                    fontWeight: 850,
-                    fontSize: "0.95rem",
-                    letterSpacing: "-0.02em",
-                  }}
-                >
-                  Clutch<span style={{ color: "#ef4444" }}>.</span>
-                </div>
-                <div>
-                  <div style={{ fontSize: "0.78rem", fontWeight: 750, color: isLight ? "#0f172a" : "#f1f5f9" }}>4.9 / 5.0 Rating</div>
-                  <div style={{ fontSize: "0.7rem", color: isLight ? "#64748b" : "#94a3b8" }}>Top Developers</div>
-                </div>
-              </div>
-
-              {/* Google Rating */}
-              <div className="partner-badge">
-                <svg width="28" height="28" viewBox="0 0 48 48">
-                  <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
-                  <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z" />
-                  <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z" />
-                  <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
-                </svg>
-                <div>
-                  <div style={{ display: "flex", alignItems: "center", gap: "0.3rem" }}>
-                    <span style={{ fontSize: "1.05rem", fontWeight: 850, color: isLight ? "#0f172a" : "#ffffff", lineHeight: 1 }}>4.6</span>
-                    <span style={{ color: "#ea580c", fontSize: "0.85rem" }}>★★★★½</span>
+                    {/* The Icon itself, centered directly in the middle of the shadow */}
+                    <div
+                      style={{
+                        position: "relative",
+                        zIndex: 1,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        margin: "0 auto",
+                        width: "100%",
+                      }}
+                    >
+                      {card.icon}
+                    </div>
                   </div>
-                  <div style={{ fontSize: "0.7rem", color: isLight ? "#64748b" : "#94a3b8" }}>Google Reviews</div>
-                </div>
-              </div>
 
-              {/* Trustpilot */}
-              <div className="partner-badge">
-                <svg width="26" height="26" viewBox="0 0 36 36" fill="none">
-                  <path d="M18 2L22.9 12.1L34 13.7L26 21.5L27.9 32.5L18 27.3L8.1 32.5L10 21.5L2 13.7L13.1 12.1L18 2Z" fill="#00b67a" />
-                  <path d="M26 21.5L27.9 32.5L18 27.3V2L22.9 12.1L34 13.7L26 21.5Z" fill="#005128" opacity="0.22" />
-                </svg>
-                <div>
-                  <div style={{ fontSize: "1.05rem", fontWeight: 850, color: isLight ? "#111827" : "#f9fafb", lineHeight: 1 }}>Trustpilot</div>
-                  <div style={{ fontSize: "0.7rem", color: isLight ? "#64748b" : "#94a3b8", marginTop: "2px" }}>Verified Client Rating</div>
-                </div>
-              </div>
+                  {/* Bottom Text Content */}
+                  <div className="pillar-text-stage">
+                    <h3 className="pillar-title">
+                      {card.title}
+                    </h3>
+                  </div>
 
-              {/* TopDevelopers */}
-              <div className="partner-badge">
-                <div
-                  style={{
-                    width: "28px",
-                    height: "28px",
-                    borderRadius: "6px",
-                    background: "#0d3b66",
-                    color: "#ffffff",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontWeight: 900,
-                    fontSize: "0.82rem",
-                  }}
-                >
-                  TD
+                  {/* Bottom Active Glow Accent Bar */}
+                  <div
+                    className="pillar-accent-bar"
+                    style={{
+                      backgroundColor: card.accent,
+                      opacity: isHovered ? 1 : 0,
+                    }}
+                  />
                 </div>
-                <div>
-                  <div style={{ fontSize: "0.98rem", fontWeight: 750, color: isLight ? "#0d3b66" : "#f1f5f9", lineHeight: 1 }}>TopDevelopers</div>
-                  <div style={{ fontSize: "0.7rem", color: isLight ? "#64748b" : "#94a3b8", marginTop: "2px" }}>Global IT Provider</div>
-                </div>
-              </div>
-
-              {/* techreviewer */}
-              <div className="partner-badge">
-                <span style={{ color: "#f43f5e", fontWeight: 900, fontSize: "1.35rem", lineHeight: 1 }}>’T</span>
-                <div>
-                  <div style={{ fontSize: "0.98rem", fontWeight: 750, color: isLight ? "#1e293b" : "#f8fafc", lineHeight: 1 }}>techreviewer</div>
-                  <div style={{ fontSize: "0.7rem", color: isLight ? "#64748b" : "#94a3b8", marginTop: "2px" }}>Top 10 Web Devs</div>
-                </div>
-              </div>
-
-              {/* AmbitionBox */}
-              <div className="partner-badge">
-                <svg width="26" height="26" viewBox="0 0 36 36" fill="none">
-                  <path d="M18 3L32 11V25L18 33L4 25V11L18 3Z" fill="#2563eb" opacity="0.2" />
-                  <path d="M18 3L32 11L18 19L4 11L18 3Z" fill="#3b82f6" />
-                  <path d="M4 11L18 19V33L4 25V11Z" fill="#1d4ed8" />
-                  <path d="M32 11L18 19V33L32 25V11Z" fill="#2563eb" />
-                </svg>
-                <div>
-                  <div style={{ fontSize: "0.98rem", fontWeight: 750, color: isLight ? "#1e293b" : "#f8fafc", lineHeight: 1 }}>AmbitionBox</div>
-                  <div style={{ fontSize: "0.7rem", color: isLight ? "#64748b" : "#94a3b8", marginTop: "2px" }}>Top Culture Rating</div>
-                </div>
-              </div>
-
-              {/* TECHIMPLY Badge */}
-              <div className="partner-badge">
-                <div
-                  style={{
-                    width: "28px",
-                    height: "28px",
-                    borderRadius: "50%",
-                    border: "2px solid #e11d48",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: "0.45rem",
-                    fontWeight: 900,
-                    color: "#e11d48",
-                  }}
-                >
-                  TI
-                </div>
-                <div>
-                  <div style={{ fontSize: "0.92rem", fontWeight: 750, color: isLight ? "#0f172a" : "#f1f5f9", lineHeight: 1 }}>TECHIMPLY</div>
-                  <div style={{ fontSize: "0.7rem", color: isLight ? "#64748b" : "#94a3b8", marginTop: "2px" }}>Top Software Dev</div>
-                </div>
-              </div>
-            </div>
-          </div>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
 
       <style jsx>{`
-        /* Responsive Asymmetric Bento Grid */
-        .bento-grid {
+        /* 7 Pillars Grid: 7 columns on Desktop, responsive wrap on tablet/mobile */
+        .seven-pillars-grid {
           display: grid;
-          grid-template-columns: repeat(12, 1fr);
-          gap: 1.5rem;
+          grid-template-columns: repeat(7, 1fr);
+          gap: 1.15rem;
+          perspective: 1200px;
         }
 
-        .bento-card {
-          background: ${isLight ? "#ffffff" : "linear-gradient(180deg, rgba(16, 26, 46, 0.7) 0%, rgba(8, 15, 28, 0.85) 100%)"};
-          border-radius: 24px;
-          border: 1px solid ${isLight ? "#e2e8f0" : "rgba(255, 255, 255, 0.08)"};
-          box-shadow: ${isLight ? "0 10px 30px -8px rgba(15, 23, 42, 0.06)" : "inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 16px 36px -12px rgba(0, 0, 0, 0.5)"};
-          padding: 2.25rem;
+        @media (max-width: 1240px) {
+          .seven-pillars-grid {
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.1rem;
+          }
+        }
+
+        @media (max-width: 860px) {
+          .seven-pillars-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+          }
+        }
+
+        @media (max-width: 520px) {
+          .seven-pillars-grid {
+            grid-template-columns: 1fr;
+            gap: 0.9rem;
+          }
+        }
+
+        .pillar-card-wrapper {
+          transform-style: preserve-3d;
+        }
+
+        /* 3D Glassmorphic Card Container */
+        .pillar-3d-card {
           position: relative;
-          will-change: transform;
-          transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+          min-height: 250px;
+          height: 100%;
+          border-radius: 22px;
+          padding: 1.85rem 1rem 1.6rem 1rem;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justifyContent: space-between;
+          text-align: center;
+          background: ${isLight
+            ? "rgba(255, 255, 255, 0.75)"
+            : "linear-gradient(180deg, rgba(14, 24, 46, 0.72) 0%, rgba(7, 14, 28, 0.86) 100%)"};
+          backdrop-filter: blur(18px);
+          -webkit-backdrop-filter: blur(18px);
+          border-width: 1px;
+          border-style: solid;
+          overflow: hidden;
+          will-change: transform, box-shadow;
+          transform: translateY(0) rotateX(0);
+          transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
                       border-color 0.25s ease,
-                      box-shadow 0.25s ease;
+                      box-shadow 0.3s ease;
         }
 
-        .bento-card:hover {
-          transform: translateY(-4px);
-          border-color: ${isLight ? "#93c5fd" : "rgba(56, 189, 248, 0.35)"} !important;
-          box-shadow: ${isLight ? "0 20px 40px -10px rgba(37, 99, 235, 0.14)" : "0 22px 45px -12px rgba(37, 99, 235, 0.25)"} !important;
+        .pillar-3d-card.is-hovered {
+          transform: translateY(-8px) scale(1.02);
         }
 
-        .bento-card-hero {
-          grid-column: span 7;
+        .pillar-radial-flare {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%) !important;
+          width: 130px;
+          height: 130px;
+          border-radius: 50%;
+          pointer-events: none;
+          transition: background 0.3s ease;
         }
 
-        .bento-card-velocity {
-          grid-column: span 5;
-        }
-
-        .bento-card-full {
-          grid-column: span 12;
-        }
-
-        .bento-grid > div:not(.bento-card-hero):not(.bento-card-velocity):not(.bento-card-full) {
-          grid-column: span 4;
-        }
-
-        @media (max-width: 1024px) {
-          .bento-card-hero,
-          .bento-card-velocity {
-            grid-column: span 12 !important;
-          }
-
-          .bento-grid > div:not(.bento-card-hero):not(.bento-card-velocity):not(.bento-card-full) {
-            grid-column: span 6 !important;
-          }
-        }
-
-        @media (max-width: 680px) {
-          .bento-grid > div {
-            grid-column: span 12 !important;
-          }
-          .bento-card {
-            padding: 1.5rem !important;
-          }
-        }
-
-        .bento-metric-tile {
-          background: ${isLight ? "#f8fafc" : "rgba(255, 255, 255, 0.03)"};
-          border: 1px solid ${isLight ? "#e2e8f0" : "rgba(255, 255, 255, 0.06)"};
-          border-radius: 16px;
-          padding: 1rem 1.15rem;
-        }
-
-        .accreditation-flex-row {
+        /* Icon Stage */
+        .pillar-icon-stage {
+          position: relative;
+          z-index: 2;
+          min-height: 105px;
           display: flex;
           align-items: center;
-          justifyContent: flex-start;
-          flex-wrap: wrap;
-          gap: 1.25rem;
+          justifyContent: center;
+          width: 100%;
+          margin: 0 auto;
         }
 
-        .partner-badge {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.75rem;
-          padding: 0.65rem 1.1rem;
-          border-radius: 14px;
-          background: ${isLight ? "#f8fafc" : "rgba(255, 255, 255, 0.03)"};
-          border: 1px solid ${isLight ? "#e2e8f0" : "rgba(255, 255, 255, 0.06)"};
-          will-change: transform;
-          transition: transform 0.2s ease, border-color 0.2s ease;
+        .custom-3d-icon {
+          display: block;
+          margin: 0 auto;
+          transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .partner-badge:hover {
-          transform: translateY(-2px);
-          border-color: ${isLight ? "#2563eb" : "rgba(56, 189, 248, 0.35)"};
+        .pillar-3d-card.is-hovered .custom-3d-icon {
+          transform: scale(1.12) translateY(-2px);
+        }
+
+        /* Upwork Badge Card Style */
+        .upwork-custom-card {
+          transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+        }
+
+        .pillar-3d-card.is-hovered .upwork-custom-card {
+          transform: scale(1.08) translateY(-2px);
+        }
+
+        /* Text Stage */
+        .pillar-text-stage {
+          position: relative;
+          z-index: 2;
+          width: 100%;
+          margin-top: 1.25rem;
+        }
+
+        .pillar-title {
+          font-size: 0.95rem;
+          font-weight: 750;
+          line-height: 1.35;
+          color: ${isLight ? "#0f172a" : "#f1f5f9"};
+          margin: 0;
+          letter-spacing: -0.01em;
+          transition: color 0.2s ease;
+          text-wrap: balance;
+        }
+
+        /* Bottom Accent Line */
+        .pillar-accent-bar {
+          position: absolute;
+          bottom: 0;
+          left: 20%;
+          right: 20%;
+          height: 3px;
+          border-radius: 3px 3px 0 0;
+          transition: opacity 0.3s ease;
+          box-shadow: 0 0 10px currentColor;
         }
       `}</style>
     </section>

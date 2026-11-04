@@ -2,51 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { motion, useInView } from "framer-motion";
-
-function StatCounter({
-  value,
-  suffix = "",
-  duration = 1600,
-}: {
-  value: number;
-  suffix?: string;
-  duration?: number;
-}) {
-  const [count, setCount] = React.useState(0);
-  const ref = React.useRef<HTMLSpanElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "100px 0px" });
-
-  React.useEffect(() => {
-    if (!isInView) return;
-    let startTime: number | null = null;
-    let animId: number;
-
-    const animate = (currentTime: number) => {
-      if (!startTime) startTime = currentTime;
-      const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      const ease = 1 - Math.pow(1 - progress, 3);
-      setCount(Math.floor(ease * value));
-
-      if (progress < 1) {
-        animId = requestAnimationFrame(animate);
-      } else {
-        setCount(value);
-      }
-    };
-
-    animId = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(animId);
-  }, [isInView, value, duration]);
-
-  return (
-    <span ref={ref}>
-      {count.toLocaleString()}
-      {suffix}
-    </span>
-  );
-}
+import { motion } from "framer-motion";
 
 import {
   ArrowRight,
@@ -85,13 +41,9 @@ import CinematicImpactSection from "@/components/CinematicImpactSection";
 import { ClockServicesShowcase } from "@/components/ClockServicesShowcase";
 import { AnimatedIndustriesCarousel } from "@/components/AnimatedIndustriesCarousel";
 import { TechStackShowcase } from "@/components/TechStackShowcase";
-import { FeaturedSuccessStories } from "@/components/FeaturedSuccessStories";
 import { WhyChooseUsCards } from "@/components/WhyChooseUsCards";
 import { RecognisedBy } from "@/components/RecognisedBy";
-import { WhyChooseUsComparison } from "@/components/WhyChooseUsComparison";
-import { GlobalDeliveryMesh } from "@/components/GlobalDeliveryMesh";
 import { FounderShowcase } from "@/components/FounderShowcase";
-import { TechInsightsShowcase } from "@/components/TechInsightsShowcase";
 import { useTheme } from "@/components/ThemeProvider";
 
 export default function HomePage() {
@@ -113,17 +65,6 @@ export default function HomePage() {
       className="bg-grid-pattern"
       style={{ position: "relative", overflow: "hidden" }}
     >
-      {/* Background Ambient Orbs */}
-      <div
-        className="ambient-glow-orb"
-        style={{
-          top: "-100px",
-          left: "50%",
-          transform: "translateX(-50%)",
-          background: "radial-gradient(circle, #476D9A 0%, transparent 70%)",
-        }}
-      />
-
       {/* ========================================================= */}
       {/* SECTION 1: 3D DIGITAL PILLAR HERO (Title, Buttons, 3D Earth) */}
       {/* ========================================================= */}
@@ -149,34 +90,15 @@ export default function HomePage() {
       {/* ========================================================= */}
       <TechStackShowcase />
 
-
-      {/* ========================================================= */}
-      {/* SECTION 6: VERIFIED CLIENT WORK & CASE STORIES (REDESIGNED)*/}
-      {/* ========================================================= */}
-      <FeaturedSuccessStories />
-
-
       {/* ========================================================= */}
       {/* SECTION 7: WHY CHOOSE US (7 CARDS ROW)                     */}
       {/* ========================================================= */}
       <WhyChooseUsCards />
 
       {/* ========================================================= */}
-      {/* SECTION 7.5: WE ARE RECOGNISED BY (INDUSTRY BADGES)        */}
+      {/* SECTION 7.5: WE ARE RECOGNISED BY (CROSSING MARQUEE)       */}
       {/* ========================================================= */}
       <RecognisedBy />
-
-      {/* ========================================================= */}
-      {/* SECTION 8: WHY GLOBAL BRANDS CHOOSE US (COMPARISON MATRIX) */}
-      {/* ========================================================= */}
-      <WhyChooseUsComparison />
-
-      {/* ========================================================= */}
-      {/* SECTION 8.5: WORLDWIDE DELIVERY MESH & TELEMETRY RADAR    */}
-      {/* ========================================================= */}
-      <GlobalDeliveryMesh />
-
-
 
       {/* ========================================================= */}
       {/* SECTION 9: CLIENT TESTIMONIALS SLIDER */}
@@ -202,23 +124,6 @@ export default function HomePage() {
               margin: "0 auto 3rem auto",
             }}
           >
-            <div
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.5rem",
-                color: isLight ? "#008a75" : "#10b981",
-                fontSize: "0.85rem",
-                fontWeight: 700,
-                letterSpacing: "0.08em",
-                textTransform: "uppercase",
-                marginBottom: "1rem",
-              }}
-            >
-              <Award size={15} />
-              <span>Real World Client Proof</span>
-            </div>
-
             <h2 className="heading-section" style={{ margin: "0 0 1rem 0" }}>
               Verified Feedback From{" "}
               <span className="opash-hero-gradient-text">
@@ -239,11 +144,6 @@ export default function HomePage() {
       {/* SECTION 10: LEADERSHIP & FOUNDER'S NOTE                    */}
       {/* ========================================================= */}
       <FounderShowcase />
-
-      {/* ========================================================= */}
-      {/* SECTION 11: TECH INSIGHTS / BLOGS                          */}
-      {/* ========================================================= */}
-      <TechInsightsShowcase />
 
       {/* ========================================================= */}
       {/* SECTION 12: CONTACT & PROPOSAL HUB                         */}

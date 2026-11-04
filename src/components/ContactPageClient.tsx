@@ -6,6 +6,7 @@ import { companyData } from '@/data/company';
 import ContactCreativeBackdrop from '@/components/ContactCreativeBackdrop';
 import ContactForm from '@/components/ContactForm';
 import { useTheme } from '@/components/ThemeProvider';
+import OuiWillHeadline, { OuiWillWord, OuiWillDot } from '@/components/OuiWillHeadline';
 import {
   MapPin,
   Phone,
@@ -148,19 +149,27 @@ export default function ContactPageClient() {
               </span>
             </div>
 
-            {/* Main Gradient Headline */}
-            <h1
-              className="opash-hero-gradient-text"
+            {/* Main Headline with Oui Will Kinetic Typographic Animation */}
+            <OuiWillHeadline
               style={{
                 fontSize: 'clamp(2.4rem, 5.2vw, 4.2rem)',
                 fontWeight: 900,
-                lineHeight: 1.12,
+                lineHeight: 1.15,
                 letterSpacing: '-0.03em',
                 marginBottom: '1.5rem',
+                display: 'block',
               }}
             >
-              Let&apos;s architect something extraordinary together
-            </h1>
+              <OuiWillWord index={1}>Let&apos;s</OuiWillWord>
+              <OuiWillWord index={2}>architect</OuiWillWord>
+              <OuiWillWord index={3}>something</OuiWillWord>
+              <OuiWillDot />
+              <span style={{ display: 'block', width: '100%', marginTop: '0.35rem' }}>
+                <OuiWillWord index={4} isGradient>
+                  extraordinary together
+                </OuiWillWord>
+              </span>
+            </OuiWillHeadline>
 
             {/* Subtitle */}
             <p

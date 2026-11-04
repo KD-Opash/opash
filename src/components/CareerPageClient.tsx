@@ -6,6 +6,7 @@ import { careersData, JobOpening } from '@/data/careers';
 import { companyData } from '@/data/company';
 import CareerCreativeBackdrop from '@/components/CareerCreativeBackdrop';
 import { useTheme } from '@/components/ThemeProvider';
+import OuiWillHeadline, { OuiWillWord, OuiWillDot } from '@/components/OuiWillHeadline';
 import LifeAtOpashSection from '@/components/LifeAtOpashSection';
 import OurAchievementsSection from '@/components/OurAchievementsSection';
 import {
@@ -43,9 +44,330 @@ import {
   MessageCircle,
 } from 'lucide-react';
 
+function RollingDigit({
+  target,
+  start,
+  delay = 0,
+  duration = 1.4,
+}: {
+  target: number;
+  start: boolean;
+  delay?: number;
+  duration?: number;
+}) {
+  const digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+  const targetIndex = 10 + target;
+
+  return (
+    <span
+      style={{
+        display: "inline-block",
+        height: "1.15em",
+        lineHeight: "1.15em",
+        overflow: "hidden",
+        verticalAlign: "baseline",
+        position: "relative",
+      }}
+    >
+      <span
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          transform: start
+            ? `translate3d(0, -${targetIndex * 5}%, 0)`
+            : "translate3d(0, 0%, 0)",
+          transition: `transform ${duration}s cubic-bezier(0.12, 1, 0.25, 1) ${delay}s`,
+          willChange: "transform",
+        }}
+      >
+        {digits.map((d, idx) => (
+          <span
+            key={idx}
+            style={{
+              height: "1.15em",
+              lineHeight: "1.15em",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            {d}
+          </span>
+        ))}
+      </span>
+    </span>
+  );
+}
+
+function RollingNumberTicker({
+  text,
+  start,
+  duration = 1.5,
+}: {
+  text: string;
+  start: boolean;
+  duration?: number;
+}) {
+  let digitIndex = 0;
+
+  return (
+    <span style={{ display: "inline-flex", alignItems: "baseline", justifyContent: "center" }}>
+      {text.split("").map((char, index) => {
+        const isDigit = /\d/.test(char);
+        if (isDigit) {
+          const num = parseInt(char, 10);
+          const delay = digitIndex * 0.08;
+          digitIndex++;
+          return (
+            <RollingDigit
+              key={index}
+              target={num}
+              start={start}
+              delay={delay}
+              duration={duration}
+            />
+          );
+        }
+
+        return (
+          <span
+            key={index}
+            style={{
+              display: "inline-block",
+              lineHeight: "1.15em",
+            }}
+          >
+            {char}
+          </span>
+        );
+      })}
+    </span>
+  );
+}
+
+interface ManifestoPillar {
+  icon: React.ReactNode;
+  title: string;
+  desc: string;
+  highlight: string;
+}
+
+function ManifestoInteractiveCard({
+  pillar,
+  index,
+  isLight,
+  sectionInView,
+}: {
+  pillar: ManifestoPillar;
+  index: number;
+  isLight: boolean;
+  sectionInView: boolean;
+}) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [isHovered, setIsHovered] = useState(false);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    setMousePos({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
+  };
+
+  const delays = [0.1, 0.25, 0.4];
+  const delay = delays[index] ?? 0.1;
+
+  return (
+    <div
+      ref={cardRef}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onMouseMove={handleMouseMove}
+      style={{
+        position: 'relative',
+        borderRadius: '20px',
+        padding: '2.25rem 2rem',
+        background: isLight ? '#ffffff' : 'rgba(15, 23, 42, 0.65)',
+        border: isLight
+          ? isHovered
+            ? '1px solid rgba(0, 138, 117, 0.5)'
+            : '1px solid #e2e8f0'
+          : isHovered
+            ? '1px solid rgba(0, 255, 209, 0.45)'
+            : '1px solid rgba(255, 255, 255, 0.08)',
+        boxShadow: isLight
+          ? isHovered
+            ? '0 20px 40px -10px rgba(0, 138, 117, 0.18)'
+            : '0 10px 30px -5px rgba(0, 0, 0, 0.05)'
+          : isHovered
+            ? '0 24px 50px -10px rgba(0, 255, 209, 0.22), 0 0 25px rgba(0, 255, 209, 0.08)'
+            : '0 10px 40px -10px rgba(0, 0, 0, 0.5)',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '1rem',
+        overflow: 'hidden',
+        cursor: 'default',
+        transform: sectionInView
+          ? isHovered
+            ? 'translateY(-8px) scale(1.02)'
+            : 'translateY(0px) scale(1)'
+          : 'translateY(45px) scale(0.94)',
+        opacity: sectionInView ? 1 : 0,
+        transition: isHovered
+          ? 'transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s ease, border-color 0.25s ease'
+          : `transform 0.75s cubic-bezier(0.16, 1, 0.3, 1) ${sectionInView ? delay : 0}s, opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1) ${sectionInView ? delay : 0}s, box-shadow 0.3s ease, border-color 0.3s ease`,
+        willChange: 'transform, opacity',
+      }}
+    >
+      {/* Top Laser Glow Border with sweeping light */}
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: '2px',
+          background: isLight
+            ? 'linear-gradient(90deg, transparent 0%, rgba(0, 138, 117, 0.2) 20%, #00a88f 50%, rgba(0, 138, 117, 0.2) 80%, transparent 100%)'
+            : 'linear-gradient(90deg, transparent 0%, rgba(0, 255, 209, 0.2) 20%, #00ffd1 50%, rgba(0, 255, 209, 0.2) 80%, transparent 100%)',
+          backgroundSize: '200% 100%',
+          opacity: sectionInView ? 1 : 0,
+          animation: sectionInView ? 'manifestoLaserSweep 2.8s ease-in-out infinite' : 'none',
+          animationDelay: `${delay + 0.2}s`,
+          pointerEvents: 'none',
+        }}
+      />
+      {/* Extra soft glow behind the laser */}
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: '6px',
+          filter: 'blur(4px)',
+          background: isLight
+            ? 'linear-gradient(90deg, transparent 0%, rgba(0, 138, 117, 0.3) 50%, transparent 100%)'
+            : 'linear-gradient(90deg, transparent 0%, rgba(0, 255, 209, 0.45) 50%, transparent 100%)',
+          backgroundSize: '200% 100%',
+          opacity: sectionInView ? (isHovered ? 1 : 0.6) : 0,
+          animation: sectionInView ? 'manifestoLaserSweep 2.8s ease-in-out infinite' : 'none',
+          animationDelay: `${delay + 0.2}s`,
+          pointerEvents: 'none',
+          transition: 'opacity 0.3s ease',
+        }}
+      />
+
+      {/* Dynamic Cursor Spotlight Radial Glow on Hover */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          pointerEvents: 'none',
+          opacity: isHovered ? 1 : 0,
+          transition: 'opacity 0.3s ease',
+          background: isLight
+            ? `radial-gradient(280px circle at ${mousePos.x}px ${mousePos.y}px, rgba(0, 138, 117, 0.08), transparent 70%)`
+            : `radial-gradient(280px circle at ${mousePos.x}px ${mousePos.y}px, rgba(0, 255, 209, 0.14), transparent 70%)`,
+        }}
+      />
+
+      {/* Icon with 360 micro-rotation lock on entry */}
+      <div
+        style={{
+          width: 52,
+          height: 52,
+          borderRadius: '14px',
+          background: isLight ? '#f1f5f9' : 'rgba(255, 255, 255, 0.05)',
+          border: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.1)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          transform: sectionInView ? 'rotate(0deg) scale(1)' : 'rotate(-140deg) scale(0.6)',
+          transition: `transform 0.85s cubic-bezier(0.34, 1.56, 0.64, 1) ${delay + 0.15}s`,
+          zIndex: 1,
+        }}
+      >
+        {pillar.icon}
+      </div>
+
+      <div
+        style={{
+          fontSize: '0.72rem',
+          fontWeight: 700,
+          letterSpacing: '0.06em',
+          textTransform: 'uppercase',
+          color: isLight ? '#008a75' : '#00ffd1',
+          zIndex: 1,
+        }}
+      >
+        {pillar.highlight}
+      </div>
+
+      <h3 style={{ fontSize: '1.3rem', fontWeight: 800, letterSpacing: '-0.01em', margin: 0, zIndex: 1 }}>
+        {pillar.title}
+      </h3>
+
+      <p style={{ color: isLight ? '#64748b' : '#94a3b8', fontSize: '0.94rem', lineHeight: 1.6, margin: 0, zIndex: 1 }}>
+        {pillar.desc}
+      </p>
+    </div>
+  );
+}
+
 export default function CareerPageClient() {
   const { theme } = useTheme();
   const isLight = theme === 'light';
+
+  // Stats trigger: start on mount & on scroll
+  const statsRef = useRef<HTMLDivElement>(null);
+  const [statsInView, setStatsInView] = useState(false);
+
+  // Manifesto Section scroll trigger
+  const manifestoGridRef = useRef<HTMLDivElement>(null);
+  const [manifestoInView, setManifestoInView] = useState(false);
+
+  useEffect(() => {
+    const el = manifestoGridRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setManifestoInView(true);
+        } else {
+          setManifestoInView(false);
+        }
+      },
+      { threshold: 0.15 }
+    );
+    observer.observe(el);
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setStatsInView(true);
+    }, 150);
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setStatsInView(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+    if (statsRef.current) observer.observe(statsRef.current);
+
+    return () => {
+      clearTimeout(timer);
+      observer.disconnect();
+    };
+  }, []);
 
   // Dynamic job openings from NextHRMS
   const [openings, setOpenings] = useState<JobOpening[]>(careersData.openings);
@@ -269,19 +591,28 @@ export default function CareerPageClient() {
               </span>
             </div>
 
-            {/* Main Gradient Headline */}
-            <h1
-              className="opash-hero-gradient-text"
+            {/* Main Headline with Oui Will Kinetic Typographic Animation */}
+            <OuiWillHeadline
               style={{
                 fontSize: 'clamp(2.4rem, 5.2vw, 4.2rem)',
                 fontWeight: 900,
-                lineHeight: 1.12,
+                lineHeight: 1.15,
                 letterSpacing: '-0.03em',
                 marginBottom: '1.5rem',
+                display: 'block',
               }}
             >
-              Where elite engineering craft meets global impact
-            </h1>
+              <OuiWillWord index={1}>Where</OuiWillWord>
+              <OuiWillWord index={2}>elite</OuiWillWord>
+              <OuiWillWord index={3}>engineering</OuiWillWord>
+              <OuiWillWord index={4}>craft</OuiWillWord>
+              <OuiWillDot />
+              <span style={{ display: 'block', width: '100%', marginTop: '0.35rem' }}>
+                <OuiWillWord index={5} isGradient>
+                  meets global impact
+                </OuiWillWord>
+              </span>
+            </OuiWillHeadline>
 
             {/* Subtitle */}
             <p
@@ -298,7 +629,7 @@ export default function CareerPageClient() {
               cloud systems, AI agent pipelines, and enterprise platforms for global leaders.
             </p>
 
-            {/* CTAs */}
+            {/* CTAs with Kinetic Rolling Text on Hover */}
             <div
               style={{
                 display: 'flex',
@@ -311,27 +642,37 @@ export default function CareerPageClient() {
             >
               <a
                 href="#openings"
-                className="btn-primary"
+                className="opash-roll-btn btn-primary"
                 style={{
-                  padding: '0.9rem 2.2rem',
-                  fontSize: '1rem',
+                  padding: '0.88rem 2.2rem',
+                  fontSize: '0.98rem',
                   fontWeight: 700,
                   borderRadius: '12px',
                   display: 'inline-flex',
                   alignItems: 'center',
-                  gap: '8px',
+                  justifyContent: 'center',
+                  textDecoration: 'none',
                 }}
               >
-                <span>Explore Open Roles ({openings.length})</span>
-                <ChevronDown size={18} />
+                <span className="opash-roll-track">
+                  <span className="opash-roll-item">
+                    <span>Explore Open Roles ({openings.length})</span>
+                    <ChevronDown size={18} />
+                  </span>
+                  <span className="opash-roll-item" aria-hidden="true">
+                    <span>Explore Open Roles ({openings.length})</span>
+                    <ChevronDown size={18} />
+                  </span>
+                </span>
               </a>
 
               <button
                 type="button"
                 onClick={handleShareResume}
+                className="opash-roll-btn"
                 style={{
-                  padding: '0.9rem 2rem',
-                  fontSize: '1rem',
+                  padding: '0.88rem 2rem',
+                  fontSize: '0.98rem',
                   fontWeight: 700,
                   borderRadius: '12px',
                   color: '#ffffff',
@@ -341,19 +682,28 @@ export default function CareerPageClient() {
                   cursor: 'pointer',
                   display: 'inline-flex',
                   alignItems: 'center',
-                  gap: '8px',
-                  transition: 'all 0.25s ease',
+                  justifyContent: 'center',
+                  textDecoration: 'none',
                 }}
               >
-                <UploadCloud size={18} />
-                <span>Share Resume</span>
+                <span className="opash-roll-track">
+                  <span className="opash-roll-item">
+                    <UploadCloud size={18} />
+                    <span>Share Resume</span>
+                  </span>
+                  <span className="opash-roll-item" aria-hidden="true">
+                    <UploadCloud size={18} />
+                    <span>Share Resume</span>
+                  </span>
+                </span>
               </button>
 
               <a
                 href="#life-at-opash"
+                className="opash-roll-btn"
                 style={{
-                  padding: '0.9rem 2rem',
-                  fontSize: '1rem',
+                  padding: '0.88rem 2rem',
+                  fontSize: '0.98rem',
                   fontWeight: 600,
                   borderRadius: '12px',
                   color: isLight ? '#0f172a' : '#f8fafc',
@@ -362,17 +712,26 @@ export default function CareerPageClient() {
                   backdropFilter: 'blur(12px)',
                   display: 'inline-flex',
                   alignItems: 'center',
-                  gap: '8px',
-                  transition: 'all 0.2s ease',
+                  justifyContent: 'center',
+                  textDecoration: 'none',
                 }}
               >
-                <span>Life at Opash</span>
-                <ArrowRight size={16} />
+                <span className="opash-roll-track">
+                  <span className="opash-roll-item">
+                    <span>Life at Opash</span>
+                    <ArrowRight size={16} />
+                  </span>
+                  <span className="opash-roll-item" aria-hidden="true">
+                    <span>Life at Opash</span>
+                    <ArrowRight size={16} />
+                  </span>
+                </span>
               </a>
             </div>
 
-            {/* Floating Telemetry Stats Bar */}
+            {/* Floating Telemetry Stats Bar with Rolling Number Counters */}
             <div
+              ref={statsRef}
               style={{
                 display: 'grid',
                 gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
@@ -399,18 +758,28 @@ export default function CareerPageClient() {
                       ? '0 4px 20px -2px rgba(0, 0, 0, 0.04)'
                       : '0 4px 24px -2px rgba(0, 0, 0, 0.4)',
                     textAlign: 'center',
+                    transform: statsInView ? 'translate3d(0, 0, 0)' : 'translate3d(0, 24px, 0)',
+                    opacity: statsInView ? 1 : 0,
+                    transition: `transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) ${i * 0.1}s, opacity 0.7s ease ${i * 0.1}s`,
                   }}
                 >
                   <div
-                    className="opash-hero-gradient-text"
                     style={{
-                      fontSize: '1.85rem',
+                      fontSize: '2rem',
                       fontWeight: 850,
                       letterSpacing: '-0.02em',
-                      marginBottom: '0.2rem',
+                      lineHeight: 1.15,
+                      marginBottom: '0.3rem',
+                      color: isLight ? '#008a75' : '#2dd4bf',
                     }}
                   >
-                    {stat.number}
+                    {stat.number === '4.9 ★' ? (
+                      <>
+                        <RollingNumberTicker text="4.9" start={statsInView} /> ★
+                      </>
+                    ) : (
+                      <RollingNumberTicker text={stat.number} start={statsInView} />
+                    )}
                   </div>
                   <div
                     style={{
@@ -453,28 +822,49 @@ export default function CareerPageClient() {
       >
         <div className="container-custom">
           <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 3.5rem auto' }}>
-            <span
+            <div
               style={{
-                display: 'inline-block',
-                fontSize: '0.85rem',
-                fontWeight: 700,
-                letterSpacing: '0.08em',
-                textTransform: 'uppercase',
-                color: isLight ? '#008a75' : '#00ffd1',
-                marginBottom: '0.75rem',
-              }}
-            >
-              The Opash Engineering Manifesto
-            </span>
-            <h2
-              style={{
-                fontSize: 'clamp(1.9rem, 3.4vw, 2.7rem)',
-                fontWeight: 850,
-                letterSpacing: '-0.02em',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
                 marginBottom: '1rem',
               }}
             >
-              We Build Software With Uncompromising Standards
+              <span
+                style={{
+                  width: '8px',
+                  height: '8px',
+                  borderRadius: '50%',
+                  background: isLight ? '#00a88f' : '#5EC098',
+                  boxShadow: isLight ? '0 0 8px #00a88f' : '0 0 10px #5EC098',
+                }}
+              />
+              <span
+                style={{
+                  fontSize: '0.85rem',
+                  fontWeight: 700,
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                  color: isLight ? '#008a75' : '#5EC098',
+                }}
+              >
+                The Opash Engineering Manifesto
+              </span>
+            </div>
+            <h2
+              style={{
+                fontSize: 'clamp(2.1rem, 4vw, 3.2rem)',
+                fontWeight: 850,
+                letterSpacing: '-0.025em',
+                color: isLight ? '#03173C' : '#f8fafc',
+                marginBottom: '1.15rem',
+                lineHeight: 1.15,
+              }}
+            >
+              We Build Software With{' '}
+              <span className="opash-brand-gradient-text">
+                Uncompromising Standards
+              </span>
             </h2>
             <p style={{ color: isLight ? '#64748b' : '#94a3b8', fontSize: '1.05rem', lineHeight: 1.6 }}>
               We are not a ticket-moving sweatshop. We are product engineers who respect clean architecture,
@@ -483,6 +873,7 @@ export default function CareerPageClient() {
           </div>
 
           <div
+            ref={manifestoGridRef}
             style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fit, minmax(310px, 1fr))',
@@ -509,56 +900,13 @@ export default function CareerPageClient() {
                 highlight: 'Direct Global Exposure',
               },
             ].map((pillar, i) => (
-              <div
+              <ManifestoInteractiveCard
                 key={i}
-                style={{
-                  padding: '2.25rem 2rem',
-                  borderRadius: '20px',
-                  background: isLight ? '#ffffff' : 'rgba(15, 23, 42, 0.65)',
-                  border: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.08)',
-                  boxShadow: isLight ? '0 10px 30px -5px rgba(0, 0, 0, 0.05)' : '0 10px 40px -10px rgba(0, 0, 0, 0.5)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '1rem',
-                  position: 'relative',
-                  overflow: 'hidden',
-                }}
-              >
-                <div
-                  style={{
-                    width: 52,
-                    height: 52,
-                    borderRadius: '14px',
-                    background: isLight ? '#f1f5f9' : 'rgba(255, 255, 255, 0.05)',
-                    border: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.1)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  {pillar.icon}
-                </div>
-
-                <div
-                  style={{
-                    fontSize: '0.72rem',
-                    fontWeight: 700,
-                    letterSpacing: '0.06em',
-                    textTransform: 'uppercase',
-                    color: isLight ? '#008a75' : '#00ffd1',
-                  }}
-                >
-                  {pillar.highlight}
-                </div>
-
-                <h3 style={{ fontSize: '1.3rem', fontWeight: 800, letterSpacing: '-0.01em', margin: 0 }}>
-                  {pillar.title}
-                </h3>
-
-                <p style={{ color: isLight ? '#64748b' : '#94a3b8', fontSize: '0.94rem', lineHeight: 1.6, margin: 0 }}>
-                  {pillar.desc}
-                </p>
-              </div>
+                pillar={pillar}
+                index={i}
+                isLight={isLight}
+                sectionInView={manifestoInView}
+              />
             ))}
           </div>
         </div>
@@ -582,28 +930,49 @@ export default function CareerPageClient() {
       >
         <div className="container-custom">
           <div style={{ textAlign: 'center', maxWidth: '680px', margin: '0 auto 3.5rem auto' }}>
-            <span
+            <div
               style={{
-                display: 'inline-block',
-                fontSize: '0.85rem',
-                fontWeight: 700,
-                letterSpacing: '0.08em',
-                textTransform: 'uppercase',
-                color: isLight ? '#008a75' : '#00ffd1',
-                marginBottom: '0.75rem',
-              }}
-            >
-              Benefits & Culture
-            </span>
-            <h2
-              style={{
-                fontSize: 'clamp(1.9rem, 3.4vw, 2.7rem)',
-                fontWeight: 850,
-                letterSpacing: '-0.02em',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
                 marginBottom: '1rem',
               }}
             >
-              Engineered For High Growth & Low Burnout
+              <span
+                style={{
+                  width: '8px',
+                  height: '8px',
+                  borderRadius: '50%',
+                  background: isLight ? '#00a88f' : '#5EC098',
+                  boxShadow: isLight ? '0 0 8px #00a88f' : '0 0 10px #5EC098',
+                }}
+              />
+              <span
+                style={{
+                  fontSize: '0.85rem',
+                  fontWeight: 700,
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                  color: isLight ? '#008a75' : '#5EC098',
+                }}
+              >
+                Benefits & Culture
+              </span>
+            </div>
+            <h2
+              style={{
+                fontSize: 'clamp(2.1rem, 4vw, 3.2rem)',
+                fontWeight: 850,
+                letterSpacing: '-0.025em',
+                color: isLight ? '#03173C' : '#f8fafc',
+                marginBottom: '1.15rem',
+                lineHeight: 1.15,
+              }}
+            >
+              Engineered For High Growth &{' '}
+              <span className="opash-brand-gradient-text">
+                Low Burnout
+              </span>
             </h2>
             <p style={{ color: isLight ? '#64748b' : '#94a3b8', fontSize: '1.05rem', lineHeight: 1.6 }}>
               Great software is built by well-rested, highly appreciated engineers with the best tools on earth.
@@ -692,28 +1061,49 @@ export default function CareerPageClient() {
         <div className="container-custom">
           {/* Section Header */}
           <div style={{ textAlign: 'center', maxWidth: '750px', margin: '0 auto 2.5rem auto' }}>
-            <span
+            <div
               style={{
-                display: 'inline-block',
-                fontSize: '0.85rem',
-                fontWeight: 700,
-                letterSpacing: '0.08em',
-                textTransform: 'uppercase',
-                color: isLight ? '#008a75' : '#00ffd1',
-                marginBottom: '0.75rem',
-              }}
-            >
-              Current Openings ({filteredOpenings.length})
-            </span>
-            <h2
-              style={{
-                fontSize: 'clamp(1.9rem, 3.4vw, 2.7rem)',
-                fontWeight: 850,
-                letterSpacing: '-0.02em',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
                 marginBottom: '1rem',
               }}
             >
-              Find Your Next Career Milestone
+              <span
+                style={{
+                  width: '8px',
+                  height: '8px',
+                  borderRadius: '50%',
+                  background: isLight ? '#00a88f' : '#5EC098',
+                  boxShadow: isLight ? '0 0 8px #00a88f' : '0 0 10px #5EC098',
+                }}
+              />
+              <span
+                style={{
+                  fontSize: '0.85rem',
+                  fontWeight: 700,
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                  color: isLight ? '#008a75' : '#5EC098',
+                }}
+              >
+                Current Openings ({filteredOpenings.length})
+              </span>
+            </div>
+            <h2
+              style={{
+                fontSize: 'clamp(2.1rem, 4vw, 3.2rem)',
+                fontWeight: 850,
+                letterSpacing: '-0.025em',
+                color: isLight ? '#03173C' : '#f8fafc',
+                marginBottom: '1.15rem',
+                lineHeight: 1.15,
+              }}
+            >
+              Find Your Next{' '}
+              <span className="opash-brand-gradient-text">
+                Career Milestone
+              </span>
             </h2>
             <p style={{ color: isLight ? '#64748b' : '#94a3b8', fontSize: '1.05rem', lineHeight: 1.6 }}>
               Review our live openings below. Click any role to view detailed responsibilities,
@@ -1288,31 +1678,49 @@ export default function CareerPageClient() {
             ) : (
               <>
                 <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-                  <span
+                  <div
                     style={{
-                      display: 'inline-block',
-                      padding: '4px 14px',
-                      borderRadius: '9999px',
-                      fontSize: '0.78rem',
-                      fontWeight: 700,
-                      letterSpacing: '0.08em',
-                      textTransform: 'uppercase',
-                      background: isLight ? 'rgba(0, 168, 143, 0.1)' : 'rgba(0, 255, 209, 0.1)',
-                      color: isLight ? '#008a75' : '#00ffd1',
-                      marginBottom: '0.75rem',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      marginBottom: '1rem',
                     }}
                   >
-                    Direct Candidate Fast-Track
-                  </span>
+                    <span
+                      style={{
+                        width: '8px',
+                        height: '8px',
+                        borderRadius: '50%',
+                        background: isLight ? '#00a88f' : '#5EC098',
+                        boxShadow: isLight ? '0 0 8px #00a88f' : '0 0 10px #5EC098',
+                      }}
+                    />
+                    <span
+                      style={{
+                        fontSize: '0.85rem',
+                        fontWeight: 700,
+                        letterSpacing: '0.08em',
+                        textTransform: 'uppercase',
+                        color: isLight ? '#008a75' : '#5EC098',
+                      }}
+                    >
+                      Direct Candidate Fast-Track
+                    </span>
+                  </div>
                   <h3
                     style={{
-                      fontSize: 'clamp(1.8rem, 3.2vw, 2.5rem)',
+                      fontSize: 'clamp(1.9rem, 3.2vw, 2.6rem)',
                       fontWeight: 850,
-                      letterSpacing: '-0.02em',
-                      marginBottom: '0.75rem',
+                      letterSpacing: '-0.025em',
+                      color: isLight ? '#03173C' : '#f8fafc',
+                      marginBottom: '0.85rem',
+                      lineHeight: 1.15,
                     }}
                   >
-                    Send Your Profile Directly to Engineering
+                    Send Your Profile Directly to{' '}
+                    <span className="opash-brand-gradient-text">
+                      Engineering
+                    </span>
                   </h3>
                   <p style={{ color: isLight ? '#64748b' : '#94a3b8', fontSize: '0.98rem' }}>
                     No automated keyword-parsing filters. Real engineering leads read every portfolio and codebase.
@@ -2239,28 +2647,49 @@ export default function CareerPageClient() {
       >
         <div className="container-custom">
           <div style={{ textAlign: 'center', maxWidth: '680px', margin: '0 auto 3rem auto' }}>
-            <span
+            <div
               style={{
-                display: 'inline-block',
-                fontSize: '0.85rem',
-                fontWeight: 700,
-                letterSpacing: '0.08em',
-                textTransform: 'uppercase',
-                color: isLight ? '#008a75' : '#00ffd1',
-                marginBottom: '0.75rem',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                marginBottom: '1rem',
               }}
             >
-              Hiring Process
-            </span>
+              <span
+                style={{
+                  width: '8px',
+                  height: '8px',
+                  borderRadius: '50%',
+                  background: isLight ? '#00a88f' : '#5EC098',
+                  boxShadow: isLight ? '0 0 8px #00a88f' : '0 0 10px #5EC098',
+                }}
+              />
+              <span
+                style={{
+                  fontSize: '0.85rem',
+                  fontWeight: 700,
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                  color: isLight ? '#008a75' : '#5EC098',
+                }}
+              >
+                Hiring Process
+              </span>
+            </div>
             <h2
               style={{
-                fontSize: 'clamp(1.8rem, 3.2vw, 2.4rem)',
+                fontSize: 'clamp(2.1rem, 4vw, 3.2rem)',
                 fontWeight: 850,
-                letterSpacing: '-0.02em',
-                marginBottom: '0.75rem',
+                letterSpacing: '-0.025em',
+                color: isLight ? '#03173C' : '#f8fafc',
+                marginBottom: '1.15rem',
+                lineHeight: 1.15,
               }}
             >
-              Our 4-Stage Fast-Track Hiring Process
+              Our 4-Stage{' '}
+              <span className="opash-brand-gradient-text">
+                Fast-Track Hiring Process
+              </span>
             </h2>
             <p style={{ color: isLight ? '#64748b' : '#94a3b8', fontSize: '0.98rem' }}>
               We value your time. The entire interview journey typically completes in under 10 business days.

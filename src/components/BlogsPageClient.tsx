@@ -26,6 +26,7 @@ import {
 } from 'lucide-react';
 import { useTheme } from './ThemeProvider';
 import BlogsCreativeBackdrop from './BlogsCreativeBackdrop';
+import OuiWillHeadline, { OuiWillWord, OuiWillDot } from './OuiWillHeadline';
 
 export default function BlogsPageClient() {
   const { theme } = useTheme();
@@ -33,6 +34,7 @@ export default function BlogsPageClient() {
 
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [hoveredCardIndex, setHoveredCardIndex] = useState<number | null>(null);
 
   // Dynamic blogs from NextHRMS API
   const [blogs, setBlogs] = useState<BlogPost[]>(blogsData);
@@ -106,19 +108,8 @@ export default function BlogsPageClient() {
   // Featured article is the top architecture article
   const featuredArticle = blogs[0];
 
-  const getCategoryColor = (category: string) => {
-    switch (category) {
-      case 'Full-Stack Architecture':
-        return '#00bbab';
-      case 'SaaS Engineering':
-        return '#38bdf8';
-      case 'AI & Innovation':
-        return '#818cf8';
-      case 'Business & Strategy':
-        return '#f59e0b';
-      default:
-        return '#00bbab';
-    }
+  const getCategoryColor = (_category?: string) => {
+    return '#00bbab';
   };
 
   return (
@@ -133,16 +124,23 @@ export default function BlogsPageClient() {
       {/* 1. CINEMATIC HERO SECTION: CREATIVE ARCHITECTURE TELEMETRY NEXUS      */}
       {/* ===================================================================== */}
       <section
+        id="insights-hero"
         style={{
           position: 'relative',
-          padding: '7.5rem 1.5rem 4.5rem 1.5rem',
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: '7rem 1.5rem 4rem 1.5rem',
           overflow: 'hidden',
+          boxSizing: 'border-box',
         }}
       >
         {/* Bespoke 0% GPU Native Gradient Ambient Backdrop */}
         <BlogsCreativeBackdrop isLightMode={isLight} />
 
-        <div className="container-custom" style={{ position: 'relative', zIndex: 2, maxWidth: '980px', margin: '0 auto', textAlign: 'center' }}>
+        <div className="container-custom" style={{ position: 'relative', zIndex: 2, maxWidth: '1060px', margin: '0 auto', textAlign: 'center' }}>
           {/* Eyebrow Status */}
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '1.25rem' }}>
             <div
@@ -162,199 +160,216 @@ export default function BlogsPageClient() {
             </div>
           </div>
 
-          {/* Headline */}
-          <h1
+          {/* Headline with Oui Will Kinetic Typographic Animation */}
+          <OuiWillHeadline
             style={{
-              fontSize: 'clamp(2.3rem, 4.5vw, 3.8rem)',
+              fontSize: 'clamp(2.8rem, 5.4vw, 4.5rem)',
               fontWeight: 800,
               lineHeight: 1.14,
               letterSpacing: '-0.035em',
-              marginBottom: '1.1rem',
+              marginBottom: '1.35rem',
+              display: 'block',
             }}
           >
-            Architectural Insights &{' '}
-            <span className="opash-hero-gradient-text" style={{ display: 'block', marginTop: '0.35rem' }}>
-              Engineering Telemetry.
+            <OuiWillWord index={1}>Architectural</OuiWillWord>
+            <OuiWillWord index={2}>Insights</OuiWillWord>
+            <OuiWillWord index={3}>&amp;</OuiWillWord>
+            <OuiWillDot />
+            <span style={{ display: 'block', width: '100%', marginTop: '0.35rem' }}>
+              <OuiWillWord index={4} isGradient>
+                Engineering Telemetry.
+              </OuiWillWord>
             </span>
-          </h1>
+          </OuiWillHeadline>
 
           {/* Narrative */}
           <p
             style={{
-              fontSize: 'clamp(0.96rem, 1.25vw, 1.12rem)',
+              fontSize: 'clamp(1.05rem, 1.4vw, 1.2rem)',
               lineHeight: 1.65,
               color: isLight ? '#475569' : '#94a3b8',
-              maxWidth: '720px',
-              margin: '0 auto 1.6rem auto',
+              maxWidth: '780px',
+              margin: '0 auto',
             }}
           >
             First-principles deep dives on distributed microservices resilience, multi-tenant database models, agentic AI systems, and modern full-stack performance authored by Opash&apos;s senior engineering squad.
           </p>
+        </div>
 
-          {/* Search Console */}
+        {/* Animated "Scroll to Explore" Indicator (Identical to Portfolio) */}
+        <a
+          href="#insights-articles"
+          onClick={(e) => {
+            e.preventDefault();
+            const target = document.getElementById("insights-articles");
+            if (target) {
+              target.scrollIntoView({ behavior: "smooth" });
+            }
+          }}
+          className="hero-scroll-indicator"
+          style={{
+            position: 'absolute',
+            bottom: 'clamp(3.25rem, 6vh, 4.25rem)',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            display: 'inline-flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '0.55rem',
+            textDecoration: 'none',
+            zIndex: 3,
+            cursor: 'pointer',
+            transition: 'transform 0.25s ease, opacity 0.25s ease',
+          }}
+        >
+          {/* Minimalist mouse pill with animated green glowing dot */}
           <div
             style={{
-              maxWidth: '620px',
-              margin: '0 auto 1.25rem auto',
-              padding: '0.42rem',
-              borderRadius: '16px',
-              background: isLight ? '#ffffff' : 'rgba(15, 23, 42, 0.92)',
-              border: isLight ? '1px solid #e2e8f0' : '1px solid rgba(45, 212, 191, 0.28)',
-              boxShadow: isLight
-                ? '0 6px 25px rgba(0, 0, 0, 0.05)'
-                : '0 10px 30px rgba(0, 0, 0, 0.45), 0 0 20px rgba(0, 187, 171, 0.1)',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.65rem',
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', paddingLeft: '0.85rem', color: isLight ? '#008a75' : '#2dd4bf' }}>
-              <Search size={18} />
-            </div>
-            <input
-              type="text"
-              placeholder="Search microservices, AI agents, Next.js, multi-tenant databases..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              style={{
-                width: '100%',
-                background: 'transparent',
-                border: 'none',
-                outline: 'none',
-                fontSize: '0.94rem',
-                color: isLight ? '#0f172a' : '#f8fafc',
-                padding: '0.5rem 0',
-              }}
-            />
-            {searchTerm && (
-              <button
-                onClick={() => setSearchTerm('')}
-                style={{
-                  background: 'transparent',
-                  border: 'none',
-                  cursor: 'pointer',
-                  padding: '0.35rem',
-                  color: isLight ? '#94a3b8' : '#64748b',
-                }}
-                title="Clear search"
-              >
-                <X size={16} />
-              </button>
-            )}
-            <div
-              style={{
-                padding: '0.3rem 0.65rem',
-                borderRadius: '8px',
-                backgroundColor: isLight ? '#f1f5f9' : 'rgba(255, 255, 255, 0.06)',
-                fontSize: '0.72rem',
-                fontFamily: 'monospace',
-                color: isLight ? '#64748b' : '#94a3b8',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.2rem',
-                marginRight: '0.35rem',
-              }}
-            >
-              <span>⌘K</span>
-            </div>
-          </div>
-
-          {/* Category Filter Chips */}
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '1.4rem' }}>
-            {categories.map((cat) => {
-              const isSelected = selectedCategory === cat;
-              const count = categoryStats[cat] || 0;
-              const catColor = getCategoryColor(cat);
-
-              return (
-                <button
-                  key={cat}
-                  onClick={() => setSelectedCategory(cat)}
-                  style={{
-                    padding: '0.45rem 1rem',
-                    borderRadius: '9999px',
-                    fontSize: '0.82rem',
-                    fontWeight: isSelected ? 700 : 500,
-                    cursor: 'pointer',
-                    border: isSelected
-                      ? `1px solid ${catColor}`
-                      : isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.08)',
-                    background: isSelected
-                      ? isLight ? `${catColor}14` : `${catColor}25`
-                      : isLight ? '#ffffff' : 'rgba(15, 23, 42, 0.7)',
-                    color: isSelected
-                      ? isLight ? '#008a75' : '#2dd4bf'
-                      : isLight ? '#64748b' : '#94a3b8',
-                    transition: 'all 0.2s ease',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.45rem',
-                  }}
-                >
-                  <span>{cat}</span>
-                  <span
-                    style={{
-                      fontSize: '0.72rem',
-                      fontFamily: 'monospace',
-                      fontWeight: 700,
-                      padding: '0.1rem 0.45rem',
-                      borderRadius: '9999px',
-                      background: isSelected
-                        ? isLight ? '#008a75' : '#2dd4bf'
-                        : isLight ? '#f1f5f9' : 'rgba(255, 255, 255, 0.08)',
-                      color: isSelected ? '#ffffff' : isLight ? '#64748b' : '#94a3b8',
-                    }}
-                  >
-                    {count}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Engineering Methodology Trust Strip */}
-          <div
-            style={{
+              width: '22px',
+              height: '36px',
+              borderRadius: '9999px',
+              border: `1.5px solid ${isLight ? 'rgba(0, 138, 117, 0.45)' : 'rgba(0, 255, 209, 0.45)'}`,
+              background: isLight ? 'rgba(255, 255, 255, 0.65)' : 'rgba(10, 20, 36, 0.65)',
+              backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)',
               display: 'flex',
               justifyContent: 'center',
-              alignItems: 'center',
-              flexWrap: 'wrap',
-              gap: '1.25rem',
-              fontSize: '0.8rem',
-              color: isLight ? '#64748b' : '#94a3b8',
+              paddingTop: '6px',
+              boxShadow: isLight
+                ? '0 4px 14px rgba(0, 168, 143, 0.15)'
+                : '0 4px 18px rgba(0, 255, 209, 0.2)',
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-              <BookOpen size={14} style={{ color: isLight ? '#008a75' : '#2dd4bf' }} />
-              <span>Peer-Reviewed Whitepapers</span>
-            </div>
-            <span style={{ opacity: 0.35 }}>&bull;</span>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-              <Clock size={14} style={{ color: '#38bdf8' }} />
-              <span>First-Principles Deep Dives</span>
-            </div>
-            <span style={{ opacity: 0.35 }}>&bull;</span>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-              <Terminal size={14} style={{ color: '#818cf8' }} />
-              <span>Production Code Examples</span>
-            </div>
-            <span style={{ opacity: 0.35 }}>&bull;</span>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-              <CheckCircle2 size={14} style={{ color: '#10b981' }} />
-              <span>Zero Vendor Fluff</span>
-            </div>
+            <span
+              className="hero-scroll-dot"
+              style={{
+                width: '4px',
+                height: '7px',
+                borderRadius: '9999px',
+                background: isLight ? '#008a75' : '#00ffd1',
+                boxShadow: isLight ? '0 0 8px #008a75' : '0 0 10px #00ffd1',
+              }}
+            />
           </div>
-        </div>
+
+          {/* Subtle helper text with animated bouncing arrow */}
+          <div
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.35rem',
+              fontSize: '0.78rem',
+              fontWeight: 700,
+              letterSpacing: '0.12em',
+              textTransform: 'uppercase',
+              color: isLight ? '#008a75' : '#2dd4bf',
+            }}
+          >
+            <span>Scroll to explore articles</span>
+            <span className="hero-scroll-arrow">&darr;</span>
+          </div>
+        </a>
       </section>
 
       {/* ===================================================================== */}
-      {/* 2. FEATURED ARCHITECTURAL WHITEPAPER (Spotlight Hero Article)         */}
+      {/* 2. ARCHITECTURAL WHITEPAPERS & ARTICLES (Unified Content Section)    */}
       {/* ===================================================================== */}
-      {!searchTerm && selectedCategory === 'All' && (
-        <section style={{ padding: '2rem 1.5rem 5rem 1.5rem' }}>
-          <div className="container-custom" style={{ maxWidth: '1240px', margin: '0 auto' }}>
+      <section
+        id="insights-articles"
+        style={{
+          padding: '5rem 0 7rem 0',
+          position: 'relative',
+          width: '100%',
+          overflow: 'visible',
+        }}
+      >
+        <div style={{ width: '100%', margin: '0 auto' }}>
+          {/* Category Filter Bar in Single Clean Line (Identical to Portfolio Filter) */}
+          <div
+            style={{
+              maxWidth: '1240px',
+              margin: '0 auto 3rem auto',
+              padding: '0 1.5rem',
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
+            <div
+              className="case-studies-filter-scroll"
+              style={{
+                display: 'inline-flex',
+                gap: '0.6rem',
+                flexWrap: 'nowrap',
+                overflowX: 'auto',
+                padding: '0.35rem 0.5rem',
+                scrollbarWidth: 'none',
+                msOverflowStyle: 'none',
+                WebkitOverflowScrolling: 'touch',
+              }}
+            >
+              {categories.map((cat) => {
+                const isSelected = selectedCategory === cat;
+                const count = categoryStats[cat] || 0;
+
+                return (
+                  <button
+                    key={cat}
+                    onClick={() => setSelectedCategory(cat)}
+                    style={{
+                      padding: '0.55rem 1.15rem',
+                      borderRadius: '9999px',
+                      background: isSelected
+                        ? isLight ? '#008a75' : '#2dd4bf'
+                        : isLight ? '#ffffff' : 'rgba(15, 23, 42, 0.6)',
+                      color: isSelected
+                        ? isLight ? '#ffffff' : '#020712'
+                        : isLight ? '#475569' : '#94a3b8',
+                      border: isSelected
+                        ? 'none'
+                        : isLight ? '1px solid #cbd5e1' : '1px solid rgba(255, 255, 255, 0.08)',
+                      fontWeight: 700,
+                      fontSize: '0.85rem',
+                      cursor: 'pointer',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.5rem',
+                      whiteSpace: 'nowrap',
+                      flexShrink: 0,
+                      transition: 'all 0.2s ease',
+                      boxShadow: isSelected
+                        ? isLight ? '0 4px 15px rgba(0, 168, 143, 0.25)' : '0 4px 15px rgba(45, 212, 191, 0.25)'
+                        : 'none',
+                    }}
+                  >
+                    <span>{cat}</span>
+                    <span
+                      style={{
+                        fontSize: '0.72rem',
+                        fontFamily: 'monospace',
+                        fontWeight: 700,
+                        padding: '0.1rem 0.45rem',
+                        borderRadius: '9999px',
+                        background: isSelected
+                          ? isLight ? 'rgba(255, 255, 255, 0.25)' : 'rgba(0, 0, 0, 0.25)'
+                          : isLight ? '#f1f5f9' : 'rgba(255, 255, 255, 0.08)',
+                        color: isSelected ? '#ffffff' : isLight ? '#64748b' : '#94a3b8',
+                      }}
+                    >
+                      {count}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Featured Architecture Whitepaper Spotlight (when All is selected) */}
+          {selectedCategory === 'All' && (
             <div
               style={{
+                maxWidth: '1240px',
+                margin: '0 auto 3.5rem auto',
+                width: 'calc(100% - 3rem)',
                 borderRadius: '24px',
                 background: isLight
                   ? 'linear-gradient(135deg, #ffffff 0%, #f0fdfa 100%)'
@@ -529,10 +544,11 @@ export default function BlogsPageClient() {
 
                     <Link
                       href={`/blogs/${featuredArticle.slug}`}
+                      className="opash-roll-btn"
                       style={{
                         display: 'inline-flex',
                         alignItems: 'center',
-                        gap: '0.5rem',
+                        justifyContent: 'center',
                         padding: '0.8rem 1.6rem',
                         borderRadius: '12px',
                         background: isLight
@@ -543,13 +559,18 @@ export default function BlogsPageClient() {
                         fontSize: '0.92rem',
                         textDecoration: 'none',
                         boxShadow: '0 8px 20px rgba(0, 168, 143, 0.3)',
-                        transition: 'transform 0.2s ease',
                       }}
-                      onMouseEnter={(e) => (e.currentTarget.style.transform = 'translateY(-2px)')}
-                      onMouseLeave={(e) => (e.currentTarget.style.transform = 'translateY(0)')}
                     >
-                      <span>Read Full Whitepaper</span>
-                      <ArrowRight size={16} />
+                      <span className="opash-roll-track">
+                        <span className="opash-roll-item">
+                          <span>Read Full Whitepaper</span>
+                          <ArrowRight size={16} />
+                        </span>
+                        <span className="opash-roll-item" aria-hidden="true">
+                          <span>Read Full Whitepaper</span>
+                          <ArrowRight size={16} />
+                        </span>
+                      </span>
                     </Link>
                   </div>
                 </div>
@@ -615,38 +636,30 @@ export default function BlogsPageClient() {
                 </div>
               </div>
             </div>
-          </div>
-        </section>
-      )}
+          )}
 
-      {/* ===================================================================== */}
-      {/* 3. ARTICLES GRID (All Filtered Posts)                                 */}
-      {/* ===================================================================== */}
-      <section style={{ padding: '2rem 1.5rem 6rem 1.5rem' }}>
-        <div className="container-custom" style={{ maxWidth: '1240px', margin: '0 auto' }}>
           {/* Results Summary Bar */}
           <div
             style={{
+              maxWidth: '1240px',
+              margin: '0 auto 2rem auto',
+              padding: '0 1.5rem 1rem 1.5rem',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
-              marginBottom: '2rem',
               flexWrap: 'wrap',
               gap: '1rem',
               borderBottom: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.08)',
-              paddingBottom: '1rem',
             }}
           >
             <div style={{ fontSize: '0.95rem', fontWeight: 700, color: isLight ? '#0f172a' : '#f8fafc' }}>
               Showing {filteredPosts.length} Architectural Whitepaper{filteredPosts.length === 1 ? '' : 's'}
               {selectedCategory !== 'All' && <span> in <span style={{ color: getCategoryColor(selectedCategory) }}>{selectedCategory}</span></span>}
-              {searchTerm && <span> matching &quot;{searchTerm}&quot;</span>}
             </div>
 
-            {(searchTerm || selectedCategory !== 'All') && (
+            {selectedCategory !== 'All' && (
               <button
                 onClick={() => {
-                  setSearchTerm('');
                   setSelectedCategory('All');
                 }}
                 style={{
@@ -661,7 +674,7 @@ export default function BlogsPageClient() {
                   gap: '0.35rem',
                 }}
               >
-                <span>Reset all filters</span>
+                <span>Reset filter</span>
                 <X size={14} />
               </button>
             )}
@@ -670,6 +683,8 @@ export default function BlogsPageClient() {
           {filteredPosts.length === 0 ? (
             <div
               style={{
+                maxWidth: '640px',
+                margin: '0 auto',
                 textAlign: 'center',
                 padding: '5rem 2rem',
                 borderRadius: '20px',
@@ -690,19 +705,19 @@ export default function BlogsPageClient() {
                   margin: '0 auto 1.25rem auto',
                 }}
               >
-                <Search size={26} />
+                <BookOpen size={26} />
               </div>
               <h3 style={{ fontSize: '1.35rem', fontWeight: 700, marginBottom: '0.5rem' }}>
                 No Architectural Articles Found
               </h3>
               <p style={{ color: isLight ? '#64748b' : '#94a3b8', maxWidth: '480px', margin: '0 auto 1.5rem auto', fontSize: '0.95rem' }}>
-                We couldn&apos;t find any articles matching &ldquo;{searchTerm}&rdquo;. Try adjusting your search query or reset filters.
+                No articles found in this category. Try selecting another category or view all articles.
               </p>
               <button
                 onClick={() => {
-                  setSearchTerm('');
                   setSelectedCategory('All');
                 }}
+                className="opash-roll-btn"
                 style={{
                   padding: '0.65rem 1.4rem',
                   borderRadius: '10px',
@@ -714,225 +729,377 @@ export default function BlogsPageClient() {
                   cursor: 'pointer',
                 }}
               >
-                View All Articles
+                <span className="opash-roll-track">
+                  <span className="opash-roll-item">
+                    <span>View All Articles</span>
+                  </span>
+                  <span className="opash-roll-item" aria-hidden="true">
+                    <span>View All Articles</span>
+                  </span>
+                </span>
               </button>
             </div>
-          ) : (
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
-                gap: '1.75rem',
-              }}
-            >
+          ) : filteredPosts.length === 1 ? (
+            /* Single Card Centered */
+            <div style={{ maxWidth: '440px', margin: '2rem auto' }}>
               {filteredPosts.map((post) => {
                 const catColor = getCategoryColor(post.category);
-
                 return (
                   <article
                     key={post.slug}
                     style={{
-                      borderRadius: '20px',
-                      background: isLight ? '#ffffff' : 'rgba(10, 20, 36, 0.75)',
-                      border: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.08)',
-                      boxShadow: isLight
-                        ? '0 6px 24px rgba(0, 0, 0, 0.04)'
-                        : '0 10px 30px rgba(0, 0, 0, 0.3)',
-                      backdropFilter: 'blur(16px)',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'space-between',
+                      borderRadius: '22px',
+                      background: isLight ? '#ffffff' : 'rgba(10, 20, 36, 0.85)',
+                      border: `1.5px solid ${isLight ? '#cbd5e1' : 'rgba(255, 255, 255, 0.12)'}`,
+                      boxShadow: isLight ? '0 12px 35px rgba(0,0,0,0.06)' : '0 16px 45px rgba(0,0,0,0.5)',
                       overflow: 'hidden',
                       position: 'relative',
-                      transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'translateY(-6px)';
-                      e.currentTarget.style.boxShadow = isLight
-                        ? `0 16px 36px -6px ${catColor}30, 0 0 0 1px ${catColor}44`
-                        : `0 20px 45px -8px ${catColor}35, 0 0 0 1px ${catColor}55`;
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'translateY(0)';
-                      e.currentTarget.style.boxShadow = isLight
-                        ? '0 6px 24px rgba(0, 0, 0, 0.04)'
-                        : '0 10px 30px rgba(0, 0, 0, 0.3)';
                     }}
                   >
-                    {/* Top Accent Color Bar */}
-                    <div
-                      style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        height: '4px',
-                        background: catColor,
-                      }}
-                    />
-
+                    <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '4px', background: catColor }} />
                     <div style={{ padding: '2rem 1.75rem 1.5rem 1.75rem' }}>
-                      {/* Meta Header */}
-                      <div
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'space-between',
-                          marginBottom: '1.25rem',
-                        }}
-                      >
-                        <span
-                          style={{
-                            fontSize: '0.74rem',
-                            fontWeight: 800,
-                            letterSpacing: '0.04em',
-                            textTransform: 'uppercase',
-                            color: catColor,
-                            background: `${catColor}14`,
-                            padding: '0.3rem 0.75rem',
-                            borderRadius: '9999px',
-                            border: `1px solid ${catColor}33`,
-                          }}
-                        >
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
+                        <span style={{ fontSize: '0.74rem', fontWeight: 800, letterSpacing: '0.04em', textTransform: 'uppercase', color: catColor, background: `${catColor}14`, padding: '0.3rem 0.75rem', borderRadius: '9999px', border: `1px solid ${catColor}33` }}>
                           {post.category}
                         </span>
-
-                        <span
-                          style={{
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: '0.35rem',
-                            fontSize: '0.78rem',
-                            color: isLight ? '#64748b' : '#94a3b8',
-                            fontFamily: 'monospace',
-                          }}
-                        >
+                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.78rem', color: isLight ? '#64748b' : '#94a3b8', fontFamily: 'monospace' }}>
                           <Clock size={13} />
                           <span>{post.readTime}</span>
                         </span>
                       </div>
-
-                      {/* Title */}
-                      <h2
-                        style={{
-                          fontSize: '1.35rem',
-                          fontWeight: 700,
-                          lineHeight: 1.35,
-                          marginBottom: '0.85rem',
-                          color: isLight ? '#0f172a' : '#f8fafc',
-                        }}
-                      >
-                        <Link
-                          href={`/blogs/${post.slug}`}
-                          style={{ color: 'inherit', textDecoration: 'none' }}
-                        >
+                      <h2 style={{ fontSize: '1.35rem', fontWeight: 700, lineHeight: 1.35, marginBottom: '0.85rem', color: isLight ? '#0f172a' : '#f8fafc' }}>
+                        <Link href={`/blogs/${post.slug}`} style={{ color: 'inherit', textDecoration: 'none' }}>
                           {post.title}
                         </Link>
                       </h2>
-
-                      {/* Excerpt */}
-                      <p
-                        style={{
-                          fontSize: '0.92rem',
-                          lineHeight: 1.6,
-                          color: isLight ? '#475569' : '#94a3b8',
-                          marginBottom: '1.5rem',
-                        }}
-                      >
+                      <p style={{ fontSize: '0.92rem', lineHeight: 1.6, color: isLight ? '#475569' : '#94a3b8', marginBottom: '1.5rem' }}>
                         {post.excerpt}
                       </p>
-
-                      {/* Tag Pills */}
                       <div style={{ display: 'flex', gap: '0.45rem', flexWrap: 'wrap', marginBottom: '1.5rem' }}>
                         {post.tags.slice(0, 4).map((tag) => (
-                          <span
-                            key={tag}
-                            style={{
-                              fontSize: '0.72rem',
-                              fontFamily: 'monospace',
-                              padding: '0.2rem 0.55rem',
-                              borderRadius: '6px',
-                              background: isLight ? 'rgba(0, 0, 0, 0.03)' : 'rgba(255, 255, 255, 0.04)',
-                              border: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.07)',
-                              color: isLight ? '#64748b' : '#94a3b8',
-                            }}
-                          >
+                          <span key={tag} style={{ fontSize: '0.72rem', fontFamily: 'monospace', padding: '0.2rem 0.55rem', borderRadius: '6px', background: isLight ? 'rgba(0, 0, 0, 0.03)' : 'rgba(255, 255, 255, 0.04)', border: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.07)', color: isLight ? '#64748b' : '#94a3b8' }}>
                             #{tag}
                           </span>
                         ))}
                       </div>
                     </div>
-
-                    {/* Card Footer: Author & Read CTA */}
-                    <div
-                      style={{
-                        padding: '1.15rem 1.75rem',
-                        borderTop: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.07)',
-                        background: isLight ? 'rgba(248, 250, 252, 0.6)' : 'rgba(5, 11, 22, 0.5)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                      }}
-                    >
+                    <div style={{ padding: '1.15rem 1.75rem', borderTop: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.07)', background: isLight ? 'rgba(248, 250, 252, 0.6)' : 'rgba(5, 11, 22, 0.5)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-                        <div
-                          style={{
-                            position: 'relative',
-                            width: '34px',
-                            height: '34px',
-                            borderRadius: '50%',
-                            overflow: 'hidden',
-                            background: `linear-gradient(135deg, ${catColor} 0%, #0284c7 100%)`,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            fontSize: '0.76rem',
-                            fontWeight: 800,
-                            color: '#ffffff',
-                            flexShrink: 0,
-                          }}
-                        >
-                          {post.author.avatar.startsWith('/') ? (
-                            <Image
-                              src={post.author.avatar}
-                              alt={post.author.name}
-                              fill
-                              sizes="34px"
-                              style={{ objectFit: 'cover', objectPosition: 'top' }}
-                            />
-                          ) : (
-                            post.author.avatar
-                          )}
+                        <div style={{ position: 'relative', width: '34px', height: '34px', borderRadius: '50%', overflow: 'hidden', background: `linear-gradient(135deg, ${catColor} 0%, #0284c7 100%)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.76rem', fontWeight: 800, color: '#ffffff', flexShrink: 0 }}>
+                          {post.author.avatar.startsWith('/') ? <Image src={post.author.avatar} alt={post.author.name} fill sizes="34px" style={{ objectFit: 'cover', objectPosition: 'top' }} /> : post.author.avatar}
                         </div>
                         <div>
-                          <div style={{ fontSize: '0.84rem', fontWeight: 700, color: isLight ? '#0f172a' : '#f8fafc' }}>
-                            {post.author.name}
-                          </div>
-                          <div style={{ fontSize: '0.72rem', color: isLight ? '#64748b' : '#94a3b8' }}>
-                            {post.date}
-                          </div>
+                          <div style={{ fontSize: '0.84rem', fontWeight: 700, color: isLight ? '#0f172a' : '#f8fafc' }}>{post.author.name}</div>
+                          <div style={{ fontSize: '0.72rem', color: isLight ? '#64748b' : '#94a3b8' }}>{post.date}</div>
                         </div>
                       </div>
-
                       <Link
                         href={`/blogs/${post.slug}`}
+                        className="opash-roll-btn"
                         style={{
                           display: 'inline-flex',
                           alignItems: 'center',
-                          gap: '0.4rem',
                           fontSize: '0.86rem',
                           fontWeight: 700,
                           color: catColor,
                           textDecoration: 'none',
                         }}
                       >
-                        <span>Read</span>
-                        <ArrowRight size={14} />
+                        <span className="opash-roll-track" style={{ height: '1.3rem', lineHeight: '1.3rem' }}>
+                          <span className="opash-roll-item" style={{ height: '1.3rem', lineHeight: '1.3rem', gap: '0.4rem' }}>
+                            <span>Read</span>
+                            <ArrowRight size={14} />
+                          </span>
+                          <span className="opash-roll-item" aria-hidden="true" style={{ height: '1.3rem', lineHeight: '1.3rem', gap: '0.4rem' }}>
+                            <span>Read</span>
+                            <ArrowRight size={14} />
+                          </span>
+                        </span>
                       </Link>
                     </div>
                   </article>
                 );
               })}
+            </div>
+          ) : (
+            /* Option 3: Interactive 3D Overlapping Stacking Cards (Perspective Hover Fan) */
+            <div
+              className="insights-deck-container"
+              style={{
+                perspective: '1400px',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'stretch',
+                padding: '3rem 1.5rem 4.5rem 1.5rem',
+                position: 'relative',
+                width: '100%',
+                overflowX: 'visible',
+                overflowY: 'visible',
+              }}
+            >
+              <div
+                style={{
+                  display: 'inline-flex',
+                  justifyContent: 'center',
+                  alignItems: 'stretch',
+                  padding: '3rem 5.5rem 4rem 5.5rem',
+                  minWidth: 'max-content',
+                  margin: '0 auto',
+                }}
+              >
+                {filteredPosts.map((post, i) => {
+                  const catColor = getCategoryColor(post.category);
+                  const isHovered = hoveredCardIndex === i;
+                  const isOtherHovered = hoveredCardIndex !== null && !isHovered;
+
+                  // 3D Stacking Transform Calculation
+                  let transform = 'translate3d(0, 0, 0)';
+                  let zIndex = i + 1;
+                  let opacity = 1;
+
+                  if (isHovered) {
+                    transform = 'translate3d(0, -32px, 70px) scale(1.05)';
+                    zIndex = 40;
+                    opacity = 1;
+                  } else if (isOtherHovered) {
+                    opacity = 0.62;
+                    if (hoveredCardIndex !== null && i < hoveredCardIndex) {
+                      transform = 'translate3d(-48px, 0, -25px) scale(0.96)';
+                    } else if (hoveredCardIndex !== null && i > hoveredCardIndex) {
+                      transform = 'translate3d(48px, 0, -25px) scale(0.96)';
+                    }
+                  } else {
+                    // Resting state: subtle gentle fan rotation based on relative card index
+                    const rotY = (i - (filteredPosts.length - 1) / 2) * -3;
+                    const rotZ = (i - (filteredPosts.length - 1) / 2) * 1;
+                    transform = `rotateY(${rotY}deg) rotateZ(${rotZ}deg) translate3d(0, 0, 0)`;
+                  }
+
+                  return (
+                    <article
+                      key={post.slug}
+                      onMouseEnter={() => setHoveredCardIndex(i)}
+                      onMouseLeave={() => setHoveredCardIndex(null)}
+                      style={{
+                        width: '345px',
+                        flex: '0 0 345px',
+                        marginLeft: i === 0 ? '0' : '-75px',
+                        borderRadius: '22px',
+                        background: isLight
+                          ? (isHovered ? '#ffffff' : 'rgba(255, 255, 255, 0.94)')
+                          : (isHovered ? 'rgba(13, 24, 46, 0.96)' : 'rgba(9, 18, 34, 0.88)'),
+                        border: isHovered
+                          ? `1.5px solid ${catColor}`
+                          : (isLight ? '1px solid #cbd5e1' : '1px solid rgba(255, 255, 255, 0.1)'),
+                        boxShadow: isHovered
+                          ? (isLight
+                              ? `0 30px 65px -10px ${catColor}45, 0 0 25px ${catColor}35`
+                              : `0 35px 75px -10px ${catColor}55, 0 0 35px ${catColor}45`)
+                          : (isLight
+                              ? '0 10px 30px rgba(0, 0, 0, 0.06)'
+                              : '0 14px 40px rgba(0, 0, 0, 0.5)'),
+                        backdropFilter: 'blur(20px)',
+                        WebkitBackdropFilter: 'blur(20px)',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'space-between',
+                        overflow: 'hidden',
+                        position: 'relative',
+                        transform: transform,
+                        zIndex: zIndex,
+                        opacity: opacity,
+                        transition: 'transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.3s ease, opacity 0.35s ease, background 0.3s ease',
+                        cursor: 'pointer',
+                        willChange: 'transform, box-shadow, opacity',
+                      }}
+                    >
+                      {/* Top Accent Color Bar */}
+                      <div
+                        style={{
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          height: '4px',
+                          background: catColor,
+                        }}
+                      />
+
+                      <div style={{ padding: '2rem 1.75rem 1.5rem 1.75rem' }}>
+                        {/* Meta Header */}
+                        <div
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            marginBottom: '1.25rem',
+                          }}
+                        >
+                          <span
+                            style={{
+                              fontSize: '0.74rem',
+                              fontWeight: 800,
+                              letterSpacing: '0.04em',
+                              textTransform: 'uppercase',
+                              color: catColor,
+                              background: `${catColor}14`,
+                              padding: '0.3rem 0.75rem',
+                              borderRadius: '9999px',
+                              border: `1px solid ${catColor}33`,
+                            }}
+                          >
+                            {post.category}
+                          </span>
+
+                          <span
+                            style={{
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: '0.35rem',
+                              fontSize: '0.78rem',
+                              color: isLight ? '#64748b' : '#94a3b8',
+                              fontFamily: 'monospace',
+                            }}
+                          >
+                            <Clock size={13} />
+                            <span>{post.readTime}</span>
+                          </span>
+                        </div>
+
+                        {/* Title */}
+                        <h2
+                          style={{
+                            fontSize: '1.3rem',
+                            fontWeight: 700,
+                            lineHeight: 1.35,
+                            marginBottom: '0.85rem',
+                            color: isLight ? '#0f172a' : '#f8fafc',
+                          }}
+                        >
+                          <Link
+                            href={`/blogs/${post.slug}`}
+                            style={{ color: 'inherit', textDecoration: 'none' }}
+                          >
+                            {post.title}
+                          </Link>
+                        </h2>
+
+                        {/* Excerpt */}
+                        <p
+                          style={{
+                            fontSize: '0.92rem',
+                            lineHeight: 1.6,
+                            color: isLight ? '#475569' : '#94a3b8',
+                            marginBottom: '1.5rem',
+                            display: '-webkit-box',
+                            WebkitLineClamp: 3,
+                            WebkitBoxOrient: 'vertical',
+                            overflow: 'hidden',
+                          }}
+                        >
+                          {post.excerpt}
+                        </p>
+
+                        {/* Tag Pills */}
+                        <div style={{ display: 'flex', gap: '0.45rem', flexWrap: 'wrap', marginBottom: '1.5rem' }}>
+                          {post.tags.slice(0, 3).map((tag) => (
+                            <span
+                              key={tag}
+                              style={{
+                                fontSize: '0.72rem',
+                                fontFamily: 'monospace',
+                                padding: '0.2rem 0.55rem',
+                                borderRadius: '6px',
+                                background: isLight ? 'rgba(0, 0, 0, 0.03)' : 'rgba(255, 255, 255, 0.04)',
+                                border: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.07)',
+                                color: isLight ? '#64748b' : '#94a3b8',
+                              }}
+                            >
+                              #{tag}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Card Footer: Author & Read CTA */}
+                      <div
+                        style={{
+                          padding: '1.15rem 1.75rem',
+                          borderTop: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.07)',
+                          background: isLight ? 'rgba(248, 250, 252, 0.6)' : 'rgba(5, 11, 22, 0.5)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                        }}
+                      >
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                          <div
+                            style={{
+                              position: 'relative',
+                              width: '34px',
+                              height: '34px',
+                              borderRadius: '50%',
+                              overflow: 'hidden',
+                              background: `linear-gradient(135deg, ${catColor} 0%, #0284c7 100%)`,
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              fontSize: '0.76rem',
+                              fontWeight: 800,
+                              color: '#ffffff',
+                              flexShrink: 0,
+                            }}
+                          >
+                            {post.author.avatar.startsWith('/') ? (
+                              <Image
+                                src={post.author.avatar}
+                                alt={post.author.name}
+                                fill
+                                sizes="34px"
+                                style={{ objectFit: 'cover', objectPosition: 'top' }}
+                              />
+                            ) : (
+                              post.author.avatar
+                            )}
+                          </div>
+                          <div>
+                            <div style={{ fontSize: '0.84rem', fontWeight: 700, color: isLight ? '#0f172a' : '#f8fafc' }}>
+                              {post.author.name}
+                            </div>
+                            <div style={{ fontSize: '0.72rem', color: isLight ? '#64748b' : '#94a3b8' }}>
+                              {post.date}
+                            </div>
+                          </div>
+                        </div>
+
+                        <Link
+                          href={`/blogs/${post.slug}`}
+                          className="opash-roll-btn"
+                          style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            fontSize: '0.86rem',
+                            fontWeight: 700,
+                            color: catColor,
+                            textDecoration: 'none',
+                          }}
+                        >
+                          <span className="opash-roll-track" style={{ height: '1.3rem', lineHeight: '1.3rem' }}>
+                            <span className="opash-roll-item" style={{ height: '1.3rem', lineHeight: '1.3rem', gap: '0.4rem' }}>
+                              <span>Read</span>
+                              <ArrowRight size={14} />
+                            </span>
+                            <span className="opash-roll-item" aria-hidden="true" style={{ height: '1.3rem', lineHeight: '1.3rem', gap: '0.4rem' }}>
+                              <span>Read</span>
+                              <ArrowRight size={14} />
+                            </span>
+                          </span>
+                        </Link>
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
             </div>
           )}
         </div>
@@ -1021,10 +1188,11 @@ export default function BlogsPageClient() {
             <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
               <Link
                 href="/get-a-quote"
+                className="opash-roll-btn"
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
-                  gap: '0.5rem',
+                  justifyContent: 'center',
                   padding: '0.9rem 2rem',
                   borderRadius: '12px',
                   background: '#ffffff',
@@ -1033,21 +1201,27 @@ export default function BlogsPageClient() {
                   fontSize: '0.95rem',
                   textDecoration: 'none',
                   boxShadow: '0 8px 25px rgba(0, 0, 0, 0.2)',
-                  transition: 'transform 0.2s ease',
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.transform = 'translateY(-2px)')}
-                onMouseLeave={(e) => (e.currentTarget.style.transform = 'translateY(0)')}
               >
-                <span>Book Architecture Teardown</span>
-                <ArrowRight size={16} />
+                <span className="opash-roll-track">
+                  <span className="opash-roll-item">
+                    <span>Book Architecture Teardown</span>
+                    <ArrowRight size={16} />
+                  </span>
+                  <span className="opash-roll-item" aria-hidden="true">
+                    <span>Book Architecture Teardown</span>
+                    <ArrowRight size={16} />
+                  </span>
+                </span>
               </Link>
 
               <Link
                 href="/contact"
+                className="opash-roll-btn"
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
-                  gap: '0.5rem',
+                  justifyContent: 'center',
                   padding: '0.9rem 1.8rem',
                   borderRadius: '12px',
                   background: 'rgba(255, 255, 255, 0.1)',
@@ -1057,11 +1231,18 @@ export default function BlogsPageClient() {
                   fontSize: '0.95rem',
                   textDecoration: 'none',
                   backdropFilter: 'blur(10px)',
-                  transition: 'background 0.2s ease',
                 }}
               >
-                <MessageSquare size={16} />
-                <span>Submit Technical Question</span>
+                <span className="opash-roll-track">
+                  <span className="opash-roll-item">
+                    <MessageSquare size={16} />
+                    <span>Submit Technical Question</span>
+                  </span>
+                  <span className="opash-roll-item" aria-hidden="true">
+                    <MessageSquare size={16} />
+                    <span>Submit Technical Question</span>
+                  </span>
+                </span>
               </Link>
             </div>
           </div>
