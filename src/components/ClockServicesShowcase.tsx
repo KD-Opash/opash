@@ -189,7 +189,7 @@ export function ClockServicesShowcase() {
         >
           <h2
             className="heading-section"
-            style={{ fontSize: "clamp(1.45rem, 2.1vw, 1.95rem)", fontWeight: 850, margin: "0 0 1rem 0" }}
+            style={{ margin: "0 0 1rem 0" }}
           >
             Our <span className="opash-hero-gradient-text">Services</span>
           </h2>

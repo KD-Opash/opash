@@ -24,8 +24,7 @@ export default function ServicesCreativeBackdrop({ isLightMode = false }: Servic
         pointerEvents: 'none',
         zIndex: 0,
         background: 'transparent',
-      }}
-    >
+      }}>
       {/* 1. Fully-Spread Ambient Radiant Aura (Opash Logo Palette) */}
       <div
         style={{

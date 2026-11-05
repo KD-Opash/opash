@@ -453,9 +453,9 @@ export default function MobileDevelopmentPageClient({
                 <OuiWillHeadline
                   style={{
                     fontFamily: "var(--font-acthirey), 'Acthirey', 'Playfair Display', serif",
-                    fontSize: "clamp(2rem, 3.4vw, 3.1rem)",
+                    fontSize: "clamp(1.9rem, 5vw, 68px)",
                     fontWeight: 400,
-                    lineHeight: 1.14,
+                    lineHeight: 1.12,
                     letterSpacing: "-0.015em",
                     margin: 0,
                     textAlign: "left",
@@ -1168,9 +1168,6 @@ export default function MobileDevelopmentPageClient({
           padding: "5.5rem 1.5rem",
           position: "relative",
           background: isLight ? "#ffffff" : "rgba(4, 10, 22, 0.9)",
-          borderTop: isLight
-            ? "1px solid #e2e8f0"
-            : "1px solid rgba(255, 255, 255, 0.06)",
         }}
       >
         <div
@@ -1184,27 +1181,9 @@ export default function MobileDevelopmentPageClient({
               margin: "0 auto 3.5rem auto",
             }}
           >
-            <span
-              style={{
-                display: "inline-block",
-                color: mintColor,
-                fontSize: "0.85rem",
-                fontWeight: 700,
-                letterSpacing: "0.06em",
-                textTransform: "uppercase",
-                marginBottom: "0.75rem",
-              }}
-            >
-              Strategic Advantage
-            </span>
-
             <h2
               className="heading-section"
               style={{
-                fontSize: "clamp(1.45rem, 2.1vw, 1.95rem)",
-                fontWeight: 850,
-                letterSpacing: "-0.025em",
-                lineHeight: 1.2,
                 marginBottom: "1.25rem",
               }}
             >
@@ -1658,27 +1637,9 @@ export default function MobileDevelopmentPageClient({
               margin: "0 auto 3.5rem auto",
             }}
           >
-            <span
-              style={{
-                display: "inline-block",
-                color: mintColor,
-                fontSize: "0.85rem",
-                fontWeight: 700,
-                letterSpacing: "0.06em",
-                textTransform: "uppercase",
-                marginBottom: "0.75rem",
-              }}
-            >
-              Full Lifecycle Capabilities
-            </span>
-
             <h2
               className="heading-section"
               style={{
-                fontSize: "clamp(1.45rem, 2.1vw, 1.95rem)",
-                fontWeight: 850,
-                letterSpacing: "-0.025em",
-                lineHeight: 1.2,
                 marginBottom: "1rem",
               }}
             >
@@ -1702,7 +1663,7 @@ export default function MobileDevelopmentPageClient({
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))",
+              gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 340px), 1fr))",
               gap: "1.75rem",
             }}
           >
@@ -1756,7 +1717,6 @@ export default function MobileDevelopmentPageClient({
                       style={{
                         display: "flex",
                         alignItems: "center",
-                        justifyContent: "space-between",
                         marginBottom: "1.35rem",
                       }}
                     >
@@ -1781,36 +1741,6 @@ export default function MobileDevelopmentPageClient({
                       >
                         <IconComp size={24} />
                       </div>
-
-                      {/* Micro-Architectural Code Pill with Live Indicator */}
-                      <div
-                        className="card-badge"
-                        style={{
-                          display: "inline-flex",
-                          alignItems: "center",
-                          gap: "0.45rem",
-                          padding: "0.28rem 0.65rem",
-                          borderRadius: "9999px",
-                          fontFamily: "monospace",
-                          fontSize: "0.72rem",
-                          fontWeight: 700,
-                          letterSpacing: "0.05em",
-                          color: isLight ? "#64748b" : "#94a3b8",
-                          background: isLight ? "rgba(0, 0, 0, 0.04)" : "rgba(255, 255, 255, 0.04)",
-                          border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
-                        }}
-                      >
-                        <span
-                          style={{
-                            width: 6,
-                            height: 6,
-                            borderRadius: "50%",
-                            background: "#10b981",
-                            boxShadow: "0 0 8px #10b981",
-                          }}
-                        />
-                        <span>{item.badge}</span>
-                      </div>
                     </div>
 
                     <h3
@@ -1832,58 +1762,11 @@ export default function MobileDevelopmentPageClient({
                         fontSize: "0.98rem",
                         lineHeight: 1.65,
                         fontWeight: 500,
+                        margin: 0,
                       }}
                     >
                       {item.desc}
                     </p>
-                  </div>
-
-                  {/* Interactive Action Bar with Animated Sliding Arrow Button */}
-                  <div
-                    className="card-bottom-divider"
-                    style={{
-                      position: "relative",
-                      zIndex: 2,
-                      marginTop: "1.75rem",
-                      paddingTop: "1.1rem",
-                      borderTop: isLight
-                        ? "1px solid #f1f5f9"
-                        : "1px solid rgba(255, 255, 255, 0.07)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontSize: "0.84rem",
-                        fontWeight: 700,
-                        color: mintColor,
-                        display: "inline-flex",
-                        alignItems: "center",
-                        gap: "0.45rem",
-                      }}
-                    >
-                      <span>Engineered For Scale</span>
-                      <ArrowRight size={14} className="card-arrow-icon" />
-                    </span>
-
-                    <div
-                      className="card-arrow-btn"
-                      style={{
-                        width: 28,
-                        height: 28,
-                        borderRadius: "50%",
-                        background: isLight ? "rgba(0, 168, 143, 0.08)" : "rgba(94, 192, 152, 0.12)",
-                        border: isLight ? "1px solid rgba(0, 168, 143, 0.2)" : "1px solid rgba(94, 192, 152, 0.25)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        color: mintColor,
-                      }}
-                    >
-                      <ArrowRight size={13} className="card-arrow-icon" />
-                    </div>
                   </div>
                 </div>
               );
@@ -1922,27 +1805,9 @@ export default function MobileDevelopmentPageClient({
               margin: "0 auto 3.5rem auto",
             }}
           >
-            <span
-              style={{
-                display: "inline-block",
-                color: mintColor,
-                fontSize: "0.85rem",
-                fontWeight: 700,
-                letterSpacing: "0.06em",
-                textTransform: "uppercase",
-                marginBottom: "0.75rem",
-              }}
-            >
-              Engineered Delivery
-            </span>
-
             <h2
               className="heading-section"
               style={{
-                fontSize: "clamp(1.45rem, 2.1vw, 1.95rem)",
-                fontWeight: 850,
-                letterSpacing: "-0.025em",
-                lineHeight: 1.2,
                 marginBottom: "1rem",
               }}
             >
@@ -2119,7 +1984,7 @@ export default function MobileDevelopmentPageClient({
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))",
+              gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 340px), 1fr))",
               gap: "1.75rem",
               marginBottom: "3rem",
             }}
@@ -2290,11 +2155,11 @@ export default function MobileDevelopmentPageClient({
               padding: "3.5rem 2.5rem",
               borderRadius: "24px",
               background: isLight
-                ? "linear-gradient(135deg, rgba(0, 168, 143, 0.06) 0%, rgba(2, 132, 199, 0.04) 100%)"
-                : "linear-gradient(135deg, rgba(94, 192, 152, 0.08) 0%, rgba(45, 212, 191, 0.04) 100%)",
+                ? "#f8fafc"
+                : "rgba(10, 20, 36, 0.5)",
               border: isLight
-                ? "1px solid rgba(0, 168, 143, 0.2)"
-                : "1px solid rgba(94, 192, 152, 0.25)",
+                ? "1px solid #e2e8f0"
+                : "1px solid rgba(255, 255, 255, 0.08)",
             }}
           >
             <div
@@ -2304,27 +2169,8 @@ export default function MobileDevelopmentPageClient({
                 margin: "0 auto 2.5rem auto",
               }}
             >
-              <span
-                style={{
-                  display: "inline-block",
-                  color: mintColor,
-                  fontSize: "0.85rem",
-                  fontWeight: 700,
-                  letterSpacing: "0.06em",
-                  textTransform: "uppercase",
-                  marginBottom: "0.5rem",
-                }}
-              >
-                Clear Tangibles
-              </span>
               <h2
                 className="heading-section"
-                style={{
-                  fontSize: "clamp(1.45rem, 2.1vw, 1.95rem)",
-                  fontWeight: 850,
-                  letterSpacing: "-0.025em",
-                  lineHeight: 1.2,
-                }}
               >
                 What You Receive With <span className="opash-hero-gradient-text">Opash Mobile</span>
               </h2>
@@ -2353,10 +2199,10 @@ export default function MobileDevelopmentPageClient({
                     gap: "0.9rem",
                     padding: "1.1rem 1.25rem",
                     borderRadius: "14px",
-                    background: isLight ? "#ffffff" : "rgba(10, 20, 36, 0.6)",
+                    background: isLight ? "#ffffff" : "rgba(255, 255, 255, 0.03)",
                     border: isLight
                       ? "1px solid #e2e8f0"
-                      : "1px solid rgba(255, 255, 255, 0.08)",
+                      : "1px solid rgba(255, 255, 255, 0.06)",
                   }}
                 >
                   <CheckCircle2
@@ -2404,27 +2250,8 @@ export default function MobileDevelopmentPageClient({
           style={{ maxWidth: "860px", margin: "0 auto" }}
         >
           <div style={{ textAlign: "center", marginBottom: "3.5rem" }}>
-            <span
-              style={{
-                display: "inline-block",
-                color: mintColor,
-                fontSize: "0.85rem",
-                fontWeight: 700,
-                letterSpacing: "0.06em",
-                textTransform: "uppercase",
-                marginBottom: "0.75rem",
-              }}
-            >
-              Got Questions?
-            </span>
             <h2
               className="heading-section"
-              style={{
-                fontSize: "clamp(1.45rem, 2.1vw, 1.95rem)",
-                fontWeight: 850,
-                letterSpacing: "-0.025em",
-                lineHeight: 1.2,
-              }}
             >
               Mobile App Development <span className="opash-hero-gradient-text">FAQs</span>
             </h2>
@@ -2551,26 +2378,9 @@ export default function MobileDevelopmentPageClient({
                 margin: "0 auto 3rem auto",
               }}
             >
-              <span
-                style={{
-                  display: "inline-block",
-                  color: mintColor,
-                  fontSize: "0.85rem",
-                  fontWeight: 700,
-                  letterSpacing: "0.06em",
-                  textTransform: "uppercase",
-                  marginBottom: "0.75rem",
-                }}
-              >
-                Let&apos;s Build Together
-              </span>
               <h2
                 className="heading-section"
                 style={{
-                  fontSize: "clamp(1.45rem, 2.1vw, 1.95rem)",
-                  fontWeight: 850,
-                  letterSpacing: "-0.025em",
-                  lineHeight: 1.2,
                   marginBottom: "1rem",
                 }}
               >

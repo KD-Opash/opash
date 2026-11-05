@@ -2,8 +2,6 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import {
-  ChevronLeft,
-  ChevronRight,
   Quote,
   Star,
   ExternalLink,
@@ -433,6 +431,7 @@ export default function TestimonialsSlider() {
           >
             {/* LEFT COLUMN: THE EXECUTIVE STATEMENT */}
             <div
+              className="testimonial-spotlight-left"
               style={{
                 padding: "3.5rem 3.2rem",
                 display: "flex",
@@ -683,6 +682,7 @@ export default function TestimonialsSlider() {
 
             {/* RIGHT COLUMN: PROVEN IMPACT RADAR */}
             <div
+              className="testimonial-spotlight-right"
               style={{
                 padding: "3.2rem 2.8rem",
                 background: isLight
@@ -691,7 +691,7 @@ export default function TestimonialsSlider() {
                 borderLeft: `1px solid ${isLight ? "#e2e8f0" : "rgba(255, 255, 255, 0.08)"}`,
                 display: "flex",
                 flexDirection: "column",
-                justifyContent: "space-between",
+                justifyContent: "center",
                 position: "relative",
               }}
             >
@@ -764,66 +764,6 @@ export default function TestimonialsSlider() {
                       Scope: <strong style={{ color: isLight ? "#0f172a" : "#f8fafc" }}>{current.relationship}</strong>
                     </span>
                   </div>
-                </div>
-              </div>
-
-              {/* Slider Controls Inside Right Column */}
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  paddingTop: "2rem",
-                  borderTop: `1px solid ${isLight ? "#e2e8f0" : "rgba(255, 255, 255, 0.08)"}`,
-                }}
-              >
-                <div style={{ fontSize: "0.85rem", fontWeight: 700, color: isLight ? "#94a3b8" : "#64748b" }}>
-                  <span style={{ color: current.accent, fontSize: "1.1rem" }}>{currentIndex + 1}</span> / {total}
-                </div>
-
-                <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                  <button
-                    type="button"
-                    onClick={prevSlide}
-                    aria-label="Previous testimonial"
-                    style={{
-                      width: "44px",
-                      height: "44px",
-                      borderRadius: "12px",
-                      background: isLight ? "#ffffff" : "rgba(255, 255, 255, 0.06)",
-                      border: `1px solid ${isLight ? "#cbd5e1" : "rgba(255, 255, 255, 0.1)"}`,
-                      color: isLight ? "#0f172a" : "#ffffff",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      cursor: "pointer",
-                      transition: "all 0.2s ease",
-                    }}
-                  >
-                    <ChevronLeft size={20} />
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={nextSlide}
-                    aria-label="Next testimonial"
-                    style={{
-                      width: "44px",
-                      height: "44px",
-                      borderRadius: "12px",
-                      background: current.accent,
-                      border: "none",
-                      color: "#ffffff",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      cursor: "pointer",
-                      transition: "all 0.2s ease",
-                      boxShadow: `0 4px 14px rgba(${current.accentRgb}, 0.35)`,
-                    }}
-                  >
-                    <ChevronRight size={20} />
-                  </button>
                 </div>
               </div>
             </div>

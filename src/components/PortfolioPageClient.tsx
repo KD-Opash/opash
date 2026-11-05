@@ -9,8 +9,6 @@ import {
   ArrowRight, 
   ArrowUpRight,
   MessageCircle,
-  Wifi,
-  Battery,
   CheckCircle2, 
   Quote, 
   Star, 
@@ -399,7 +397,6 @@ export default function PortfolioPageClient() {
       className="portfolio-main-wrapper"
       style={{
         position: "relative",
-        overflowX: "clip",
         backgroundColor: "var(--bg-primary)",
         color: "var(--text-primary)",
         minHeight: "100vh",
@@ -425,35 +422,17 @@ export default function PortfolioPageClient() {
         <PortfolioCreativeBackdrop isLightMode={isLight} />
 
         <div className="container-custom" style={{ position: "relative", zIndex: 2, maxWidth: "1240px", margin: "0 auto" }}>
-          {/* Eyebrow Status Badge */}
-          <div style={{ display: "flex", justifyContent: "center", marginBottom: "1.25rem" }}>
-            <div
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.6rem",
-                fontSize: "0.86rem",
-                fontWeight: 700,
-                letterSpacing: "0.06em",
-                textTransform: "uppercase",
-                color: isLight ? "#008a75" : "#2dd4bf",
-              }}
-            >
-              <ShieldCheck size={16} />
-              <span>Verified Enterprise Deliverables &bull; 75+ Production Platforms</span>
-            </div>
-          </div>
-
           {/* Main Headline */}
           <div style={{ textAlign: "center", maxWidth: "980px", margin: "0 auto" }}>
             {/* Main Headline with Oui Will Kinetic Typographic Animation */}
             <OuiWillHeadline
               style={{
-                fontSize: "clamp(2.4rem, 5vw, 4.3rem)",
-                fontWeight: 800,
-                lineHeight: 1.12,
-                letterSpacing: "-0.03em",
-                marginBottom: "1.25rem",
+                fontFamily: "var(--font-acthirey), 'Acthirey', 'Playfair Display', serif",
+                fontSize: "clamp(1.85rem, 4.5vw, 60px)",
+                fontWeight: 400,
+                lineHeight: 1.1,
+                letterSpacing: "-0.015em",
+                marginBottom: "1.5rem",
                 display: "block",
               }}
             >
@@ -657,11 +636,8 @@ export default function PortfolioPageClient() {
             >
               {/* Animated Heading with Mask Reveal & Gradient Flow */}
               <h2
+                className="heading-section"
                 style={{
-                  fontSize: "clamp(2rem, 3.2vw, 2.75rem)",
-                  fontWeight: 800,
-                  lineHeight: 1.16,
-                  letterSpacing: "-0.025em",
                   marginBottom: "1.25rem",
                 }}
               >
@@ -1236,24 +1212,18 @@ export default function PortfolioPageClient() {
                     top: `${stackTop}px`,
                     zIndex: 10 + idx,
                     marginBottom: "3.5rem",
+                    borderRadius: "24px",
+                    background: isLight ? "#ffffff" : "rgba(10, 20, 36, 0.96)",
+                    border: isLight ? "1px solid #cbd5e1" : "1px solid rgba(45, 212, 191, 0.22)",
+                    boxShadow: isLight
+                      ? "0 -10px 30px -5px rgba(0, 0, 0, 0.06), 0 20px 45px -10px rgba(0, 0, 0, 0.08)"
+                      : "0 -14px 40px -5px rgba(0, 0, 0, 0.85), 0 25px 60px -10px rgba(0, 0, 0, 0.7)",
+                    padding: "2.5rem",
+                    backdropFilter: "blur(20px)",
+                    WebkitBackdropFilter: "blur(20px)",
+                    transition: "border-color 0.2s ease, box-shadow 0.2s ease",
                   }}
                 >
-                  <div
-                    className="card-lighting-border"
-                    style={{
-                      borderRadius: "24px",
-                      background: isLight ? "#ffffff" : "rgba(10, 20, 36, 0.94)",
-                      border: isLight ? "1px solid #cbd5e1" : "1px solid rgba(45, 212, 191, 0.22)",
-                      boxShadow: isLight
-                        ? "0 -10px 30px -5px rgba(0, 0, 0, 0.06), 0 20px 45px -10px rgba(0, 0, 0, 0.08)"
-                        : "0 -14px 40px -5px rgba(0, 0, 0, 0.85), 0 25px 60px -10px rgba(0, 0, 0, 0.6)",
-                      padding: "2.5rem",
-                      backdropFilter: "blur(20px)",
-                      WebkitBackdropFilter: "blur(20px)",
-                      position: "relative",
-                      overflow: "hidden",
-                    }}
-                  >
                   {/* Top Header: Client & Domain Badges + Live Link */}
                   <div
                     style={{
@@ -1451,7 +1421,7 @@ export default function PortfolioPageClient() {
                     )}
 
                     {currentTab === "solution" && (
-                      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "1.5rem" }}>
+                      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 300px), 1fr))", gap: "1.5rem" }}>
                         <div
                           style={{
                             padding: "1.25rem",
@@ -1536,9 +1506,8 @@ export default function PortfolioPageClient() {
                     )}
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
           </div>
         </div>
       </section>
@@ -1615,7 +1584,7 @@ export default function PortfolioPageClient() {
       </section>
 
       {/* ===================================================================== */}
-      {/* 5. READY TO ARCHITECT YOUR SOLUTION (Tablet Workstation Scoper CTA)   */}
+      {/* 5. READY TO ARCHITECT YOUR SOLUTION (Laptop Workstation CTA)         */}
       {/* ===================================================================== */}
       <section
         style={{
@@ -1628,7 +1597,7 @@ export default function PortfolioPageClient() {
           borderBottom: "none",
         }}
       >
-        {/* Clean Ambient Radial Glow (No Duplicate Ribbon Image) */}
+        {/* Clean Ambient Radial Glow */}
         <div
           aria-hidden="true"
           style={{
@@ -1656,234 +1625,195 @@ export default function PortfolioPageClient() {
         </div>
 
         <div className="container-custom" style={{ maxWidth: "1080px", margin: "0 auto", position: "relative", zIndex: 1 }}>
-          {/* REALISTIC TABLET / IPAD PRO CHASSIS FRAME */}
+          {/* REALISTIC LAPTOP CHASSIS FRAME */}
           <div
             style={{
               position: "relative",
-              borderRadius: "44px",
-              padding: "clamp(12px, 1.8vw, 18px)",
-              background: isLight
-                ? "linear-gradient(145deg, #1e293b 0%, #0f172a 100%)"
-                : "linear-gradient(145deg, #1e293b 0%, #050b17 100%)",
-              border: isLight
-                ? "2px solid #94a3b8"
-                : "2px solid rgba(255, 255, 255, 0.18)",
-              boxShadow: isLight
-                ? "0 0 0 1px rgba(0, 0, 0, 0.12), 0 30px 75px -15px rgba(0, 0, 0, 0.25)"
-                : "0 0 0 1px rgba(0, 0, 0, 0.6), 0 32px 85px -15px rgba(0, 0, 0, 0.9), 0 0 45px -10px rgba(0, 255, 209, 0.14)",
-              transition: "transform 0.3s ease, box-shadow 0.3s ease",
             }}
           >
-            {/* Tablet Camera & Ambient Sensor (Centered on Top Bezel) */}
+            {/* Laptop Screen */}
             <div
               style={{
-                position: "absolute",
-                top: "8px",
-                left: "50%",
-                transform: "translateX(-50%)",
-                display: "flex",
-                alignItems: "center",
-                gap: "8px",
-                zIndex: 5,
-              }}
-            >
-              <div
-                style={{
-                  width: "7px",
-                  height: "7px",
-                  borderRadius: "50%",
-                  background: "#030712",
-                  border: "1px solid rgba(255, 255, 255, 0.25)",
-                  boxShadow: "inset 0 0 2px rgba(45, 212, 191, 0.5)",
-                }}
-              />
-              <div
-                style={{
-                  width: "3px",
-                  height: "3px",
-                  borderRadius: "50%",
-                  background: "rgba(255, 255, 255, 0.2)",
-                }}
-              />
-            </div>
-
-            {/* TABLET INNER DISPLAY SCREEN */}
-            <div
-              style={{
-                borderRadius: "30px",
+                borderRadius: "16px 16px 0 0",
+                padding: "clamp(10px, 1.5vw, 16px)",
                 background: isLight
-                  ? "#ffffff"
-                  : "linear-gradient(145deg, rgba(10, 18, 34, 0.98) 0%, rgba(4, 9, 20, 0.99) 100%)",
-                backdropFilter: "blur(20px)",
-                WebkitBackdropFilter: "blur(20px)",
-                padding: "clamp(1.75rem, 3.5vw, 3rem) clamp(1.5rem, 4vw, 3.5rem)",
-                textAlign: "center",
-                position: "relative",
-                overflow: "hidden",
-                border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
+                  ? "linear-gradient(145deg, #1e293b 0%, #0f172a 100%)"
+                  : "linear-gradient(145deg, #1e293b 0%, #050b17 100%)",
+                border: isLight
+                  ? "2px solid #94a3b8"
+                  : "2px solid rgba(255, 255, 255, 0.18)",
+                borderBottom: "none",
+                boxShadow: isLight
+                  ? "0 0 0 1px rgba(0, 0, 0, 0.12), 0 -10px 40px -15px rgba(0, 0, 0, 0.15)"
+                  : "0 0 0 1px rgba(0, 0, 0, 0.6), 0 -10px 40px -15px rgba(0, 0, 0, 0.5), 0 0 45px -10px rgba(0, 255, 209, 0.1)",
               }}
             >
-              {/* iPadOS Status Bar: 9:41 Mon Jun 22 (Left) & WiFi/Battery 100% (Right) */}
+              {/* Laptop Camera Dot */}
               <div
                 style={{
                   display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  paddingBottom: "1.1rem",
-                  borderBottom: isLight ? "1px solid #f1f5f9" : "1px solid rgba(255, 255, 255, 0.06)",
-                  marginBottom: "2.25rem",
-                  fontSize: "0.82rem",
-                  color: isLight ? "#64748b" : "#94a3b8",
-                  userSelect: "none",
+                  justifyContent: "center",
+                  marginBottom: "8px",
                 }}
               >
-                {/* Left: Time and Date */}
-                <div style={{ display: "flex", alignItems: "center", gap: "0.45rem", fontWeight: 600 }}>
-                  <span style={{ fontWeight: 700, color: isLight ? "#0f172a" : "#f1f5f9" }}>9:41</span>
-                  <span style={{ fontSize: "0.78rem", opacity: 0.85 }}>Mon Jun 22</span>
-                </div>
-
-                {/* Right: WiFi and Battery Status */}
-                <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", fontWeight: 600 }}>
-                  <Wifi size={15} />
-                  <div style={{ display: "flex", alignItems: "center", gap: "0.35rem" }}>
-                    <span style={{ fontSize: "0.78rem", fontWeight: 700, color: isLight ? "#0f172a" : "#f1f5f9" }}>100%</span>
-                    <Battery size={17} style={{ transform: "rotate(90deg)" }} />
-                  </div>
-                </div>
-              </div>
-
-              {/* Eyebrow Pill from Image 1 */}
-              <div
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "0.55rem",
-                  padding: "0.4rem 1.15rem",
-                  borderRadius: "9999px",
-                  background: isLight ? "rgba(14, 165, 233, 0.1)" : "rgba(0, 255, 209, 0.12)",
-                  border: `1px solid ${isLight ? "rgba(14, 165, 233, 0.3)" : "rgba(0, 255, 209, 0.35)"}`,
-                  color: isLight ? "#0284c7" : "#00ffd1",
-                  fontSize: "0.8rem",
-                  fontWeight: 800,
-                  letterSpacing: "0.06em",
-                  textTransform: "uppercase",
-                  marginBottom: "1.25rem",
-                  boxShadow: isLight
-                    ? "0 2px 10px rgba(14, 165, 233, 0.12)"
-                    : "0 2px 14px rgba(0, 255, 209, 0.2)",
-                }}
-              >
-                <span
+                <div
                   style={{
-                    width: "7px",
-                    height: "7px",
+                    width: "6px",
+                    height: "6px",
                     borderRadius: "50%",
-                    background: "#10b981",
-                    boxShadow: "0 0 8px #10b981",
+                    background: "#1a1a2e",
+                    border: "1px solid rgba(255, 255, 255, 0.2)",
+                    boxShadow: "inset 0 0 2px rgba(45, 212, 191, 0.4)",
                   }}
                 />
-                <span>Ready To Build Something Great?</span>
               </div>
 
-              {/* Heading from Image 1 */}
-              <h2
-                style={{
-                  fontSize: "clamp(2rem, 3.8vw, 3.25rem)",
-                  fontWeight: 850,
-                  lineHeight: 1.15,
-                  letterSpacing: "-0.03em",
-                  color: isLight ? "#0f172a" : "#ffffff",
-                  margin: "0 auto 1.15rem auto",
-                  maxWidth: "760px",
-                }}
-              >
-                Transform Your Vision Into{" "}
-                <span className="case-studies-heading-gradient">
-                  High-Impact Software
-                </span>
-              </h2>
-
-              {/* Description from Image 1 */}
-              <p
-                style={{
-                  color: isLight ? "#475569" : "#cbd5e1",
-                  fontSize: "clamp(0.98rem, 1.2vw, 1.08rem)",
-                  lineHeight: 1.65,
-                  maxWidth: "680px",
-                  margin: "0 auto 2.5rem auto",
-                }}
-              >
-                Schedule a 30-minute free technical architecture consultation with our engineering leads. No sales fluff — just pure technical feasibility and rapid roadmap planning.
-              </p>
-
-              {/* Buttons from Image 1 */}
-              <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "1rem", flexWrap: "wrap" }}>
-                <Link
-                  href="/get-a-quote"
-                  className="opash-roll-btn"
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    padding: "1rem 2.35rem",
-                    borderRadius: "14px",
-                    background: "linear-gradient(135deg, #0ea5e9 0%, #10b981 100%)",
-                    color: "#ffffff",
-                    fontSize: "1.02rem",
-                    fontWeight: 800,
-                    textDecoration: "none",
-                    boxShadow: "0 6px 24px rgba(14, 165, 233, 0.4)",
-                    transition: "all 0.25s ease",
-                  }}
-                >
-                  <span className="opash-roll-track">
-                    <span className="opash-roll-item">
-                      <span>Start Your Project</span>
-                      <ArrowUpRight size={19} />
-                    </span>
-                    <span className="opash-roll-item" aria-hidden="true">
-                      <span>Start Your Project</span>
-                      <ArrowUpRight size={19} />
-                    </span>
-                  </span>
-                </Link>
-
-                <a
-                  href={companyData.contact.whatsapp}
-                  target="_blank"
-                  rel="noreferrer"
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: "0.6rem",
-                    padding: "1rem 2.15rem",
-                    borderRadius: "14px",
-                    background: isLight ? "#ffffff" : "rgba(255, 255, 255, 0.05)",
-                    border: `1px solid ${isLight ? "#cbd5e1" : "rgba(255, 255, 255, 0.14)"}`,
-                    color: isLight ? "#0f172a" : "#f1f5f9",
-                    fontSize: "1rem",
-                    fontWeight: 700,
-                    textDecoration: "none",
-                    transition: "all 0.25s ease",
-                  }}
-                >
-                  <MessageCircle size={19} color="#25D366" />
-                  <span>Chat on WhatsApp</span>
-                </a>
-              </div>
-
-              {/* Tablet Home Indicator Bar (Image 3) */}
+              {/* LAPTOP INNER DISPLAY SCREEN */}
               <div
                 style={{
-                  width: "140px",
-                  height: "4.5px",
+                  borderRadius: "8px",
+                  background: isLight
+                    ? "#ffffff"
+                    : "linear-gradient(145deg, rgba(10, 18, 34, 0.98) 0%, rgba(4, 9, 20, 0.99) 100%)",
+                  backdropFilter: "blur(20px)",
+                  WebkitBackdropFilter: "blur(20px)",
+                  padding: "clamp(2rem, 4vw, 3.5rem) clamp(1.5rem, 4vw, 3.5rem)",
+                  textAlign: "center",
+                  position: "relative",
+                  overflow: "hidden",
+                  border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
+                }}
+              >
+                {/* Heading */}
+                <h2
+                  className="heading-section"
+                  style={{
+                    color: isLight ? "#0f172a" : "#ffffff",
+                    margin: "0 auto 1.15rem auto",
+                    maxWidth: "760px",
+                  }}
+                >
+                  Transform Your Vision Into{" "}
+                  <span className="case-studies-heading-gradient">
+                    High-Impact Software
+                  </span>
+                </h2>
+
+                {/* Description */}
+                <p
+                  style={{
+                    color: isLight ? "#475569" : "#cbd5e1",
+                    fontSize: "clamp(0.98rem, 1.2vw, 1.08rem)",
+                    lineHeight: 1.65,
+                    maxWidth: "680px",
+                    margin: "0 auto 2.5rem auto",
+                  }}
+                >
+                  Schedule a 30-minute free technical architecture consultation with our engineering leads. No sales fluff — just pure technical feasibility and rapid roadmap planning.
+                </p>
+
+                {/* Buttons */}
+                <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "1rem", flexWrap: "wrap" }}>
+                  <Link
+                    href="/get-a-quote"
+                    className="opash-roll-btn"
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      padding: "1rem 2.35rem",
+                      borderRadius: "14px",
+                      background: "linear-gradient(135deg, #0ea5e9 0%, #10b981 100%)",
+                      color: "#ffffff",
+                      fontSize: "1.02rem",
+                      fontWeight: 800,
+                      textDecoration: "none",
+                      boxShadow: "0 6px 24px rgba(14, 165, 233, 0.4)",
+                      transition: "all 0.25s ease",
+                    }}
+                  >
+                    <span className="opash-roll-track">
+                      <span className="opash-roll-item">
+                        <span>Start Your Project</span>
+                        <ArrowUpRight size={19} />
+                      </span>
+                      <span className="opash-roll-item" aria-hidden="true">
+                        <span>Start Your Project</span>
+                        <ArrowUpRight size={19} />
+                      </span>
+                    </span>
+                  </Link>
+
+                  <a
+                    href={companyData.contact.whatsapp}
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "0.6rem",
+                      padding: "1rem 2.15rem",
+                      borderRadius: "14px",
+                      background: isLight ? "#ffffff" : "rgba(255, 255, 255, 0.05)",
+                      border: `1px solid ${isLight ? "#cbd5e1" : "rgba(255, 255, 255, 0.14)"}`,
+                      color: isLight ? "#0f172a" : "#f1f5f9",
+                      fontSize: "1rem",
+                      fontWeight: 700,
+                      textDecoration: "none",
+                      transition: "all 0.25s ease",
+                    }}
+                  >
+                    <MessageCircle size={19} color="#25D366" />
+                    <span>Chat on WhatsApp</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {/* Laptop Base / Keyboard Deck */}
+            <div
+              style={{
+                position: "relative",
+                height: "clamp(18px, 2.5vw, 28px)",
+                background: isLight
+                  ? "linear-gradient(180deg, #334155 0%, #475569 100%)"
+                  : "linear-gradient(180deg, #1e293b 0%, #0f172a 100%)",
+                borderRadius: "0 0 10px 10px",
+                border: isLight
+                  ? "2px solid #94a3b8"
+                  : "2px solid rgba(255, 255, 255, 0.18)",
+                borderTop: isLight
+                  ? "1px solid #64748b"
+                  : "1px solid rgba(255, 255, 255, 0.12)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              {/* Trackpad indicator */}
+              <div
+                style={{
+                  width: "clamp(60px, 10vw, 100px)",
+                  height: "4px",
                   borderRadius: "9999px",
-                  background: isLight ? "rgba(0, 0, 0, 0.22)" : "rgba(255, 255, 255, 0.45)",
-                  margin: "2.75rem auto 0.25rem auto",
+                  background: isLight ? "rgba(148, 163, 184, 0.6)" : "rgba(255, 255, 255, 0.2)",
                 }}
               />
             </div>
+
+            {/* Laptop Stand Shadow */}
+            <div
+              style={{
+                width: "110%",
+                height: "8px",
+                margin: "0 auto",
+                marginLeft: "-5%",
+                background: isLight
+                  ? "radial-gradient(ellipse, rgba(0, 0, 0, 0.1) 0%, transparent 70%)"
+                  : "radial-gradient(ellipse, rgba(0, 0, 0, 0.4) 0%, transparent 70%)",
+                borderRadius: "50%",
+              }}
+            />
           </div>
         </div>
       </section>

@@ -9,7 +9,7 @@ import {
   Calculator, 
   Check, 
   CheckCircle2, 
-  Clock, ShieldCheck, Users, ArrowRight, Layers, Globe, Smartphone, Database, Bot, Workflow, FileText, ChevronDown, Star, Lock, Code2, Zap, Award, HelpCircle, TrendingUp, Cpu, RefreshCw, PhoneCall, Calendar } from 'lucide-react';
+  Clock, ShieldCheck, Users, ArrowRight, Layers, Globe, Smartphone, Database, Bot, Workflow, FileText, ChevronDown, Star, Lock, Code2, Zap, Award, HelpCircle, TrendingUp, Cpu, RefreshCw, PhoneCall, Calendar, MessageCircle } from 'lucide-react';
 import { companyData } from '@/data/company';
 
 interface ProjectType {
@@ -57,6 +57,8 @@ export default function GetAQuotePageClient() {
     email: '',
     phone: '',
     company: '',
+    country: 'United States',
+    engagementType: 'Hourly',
     notes: '',
   });
 
@@ -263,111 +265,296 @@ export default function GetAQuotePageClient() {
       }}
     >
       {/* ===================================================================== */}
-      {/* 1. CINEMATIC HERO SECTION: TRANSPARENT SCOPING & ESTIMATION HUD       */}
+      {/* 1. BESPOKE CREATIVE HERO SECTION (100VH FULL VIEWPORT)                */}
       {/* ===================================================================== */}
       <section
         style={{
           position: 'relative',
-          padding: '7.5rem 1.5rem 3.5rem 1.5rem',
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: 'clamp(6rem, 10vh, 7.5rem) 1.5rem clamp(5rem, 8vh, 6.5rem) 1.5rem',
           overflow: 'hidden',
+          boxSizing: 'border-box',
         }}
       >
-        {/* Opash Mint (#5EC098) & Slate Blue (#476D9A) Brand Backdrop */}
+        {/* Opash Creative Blueprint Backdrop */}
         <QuoteCreativeBackdrop isLightMode={isLight} />
 
-        <div className="container-custom" style={{ position: 'relative', zIndex: 2, maxWidth: '1240px', margin: '0 auto' }}>
-          {/* Eyebrow Status Badge */}
-          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.25rem' }}>
-            <div
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.6rem',
-                fontSize: '0.86rem',
-                fontWeight: 700,
-                letterSpacing: '0.06em',
-                textTransform: 'uppercase',
-                color: isLight ? '#008a75' : '#2dd4bf',
-              }}
-            >
-              <ShieldCheck size={16} />
-              <span>Transparent Sprint Pricing &bull; 0% Surprise Fees &bull; 100% IP Ownership</span>
-            </div>
-          </div>
-
-          {/* Main Headline */}
-          <div style={{ textAlign: 'center', maxWidth: '980px', margin: '0 auto 1.5rem auto' }}>
+        <div
+          className="container-custom"
+          style={{ position: 'relative', zIndex: 10, maxWidth: '1240px', margin: '0 auto', width: '100%' }}
+        >
+          <div style={{ textAlign: 'center', maxWidth: '980px', margin: '0 auto' }}>
+            {/* Main Headline with Oui Will Kinetic Typographic Animation */}
             <OuiWillHeadline
               style={{
-                fontSize: 'clamp(2.35rem, 5.2vw, 3.85rem)',
-                fontWeight: 800,
-                lineHeight: 1.15,
-                letterSpacing: '-0.025em',
-                marginBottom: '1rem',
+                fontFamily: "var(--font-acthirey), 'Acthirey', 'Playfair Display', serif",
+                fontSize: 'clamp(2.1rem, 6.5vw, 80px)',
+                fontWeight: 400,
+                lineHeight: 1.08,
+                letterSpacing: '-0.02em',
+                marginBottom: '1.5rem',
                 display: 'block',
               }}
             >
-              <OuiWillWord index={1}>Interactive</OuiWillWord>
-              <OuiWillWord index={2}>Project</OuiWillWord>
-              <OuiWillWord index={3}>Scope</OuiWillWord>
-              <OuiWillWord index={4}>&amp;</OuiWillWord>
+              <OuiWillWord index={1}>Get</OuiWillWord>{' '}
+              <OuiWillWord index={2}>A</OuiWillWord>{' '}
+              <OuiWillWord index={3}>Quote</OuiWillWord>
               <OuiWillDot />
               <span style={{ display: 'block', width: '100%', marginTop: '0.35rem' }}>
-                <OuiWillWord index={5} isGradient>
-                  Guaranteed Investment Estimator
+                <OuiWillWord index={4} isGradient>
+                  For Your Project
                 </OuiWillWord>
               </span>
             </OuiWillHeadline>
 
+            {/* Exact details from https://www.opashsoftware.com/get-a-quote/ */}
             <p
               style={{
-                fontSize: 'clamp(1rem, 1.8vw, 1.18rem)',
-                lineHeight: 1.65,
+                fontSize: 'clamp(1.05rem, 1.8vw, 1.25rem)',
+                lineHeight: 1.68,
                 color: isLight ? '#475569' : '#94a3b8',
-                maxWidth: '820px',
-                margin: '0 auto',
+                maxWidth: '840px',
+                margin: '0 auto 2.25rem auto',
+                fontWeight: 400,
               }}
             >
-              Configure your system archetype, technical modules, and dedicated squad cadence to generate an instant, 
-              verifiable delivery timeline and realistic budget estimate calibrated across 75+ enterprise deployments.
+              We analyze your requirements, part them into phase and tasks, and give you an hourly or fixed price estimation of each phase and task. It&apos;s simply started by filling the form below.
+            </p>
+
+            {/* CTAs with Home Page Rolling Text on Hover */}
+            <div
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '1rem',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginBottom: '2.5rem',
+              }}
+            >
+              <a href="#quote-estimation-section" className="hero-brand-primary-btn opash-roll-btn">
+                <span className="opash-roll-track">
+                  <span className="opash-roll-item">
+                    <span>Calculate Estimate</span>
+                    <ArrowRight size={15} className="hero-btn-arrow" />
+                  </span>
+                  <span className="opash-roll-item" aria-hidden="true">
+                    <span>Calculate Estimate</span>
+                    <ArrowRight size={15} className="hero-btn-arrow" />
+                  </span>
+                </span>
+              </a>
+
+              <a
+                href={companyData.contact.whatsapp}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hero-brand-secondary-btn opash-roll-btn"
+              >
+                <span className="opash-roll-track">
+                  <span className="opash-roll-item">
+                    <MessageCircle size={15} className="hero-wa-icon" />
+                    <span>WhatsApp Direct</span>
+                  </span>
+                  <span className="opash-roll-item" aria-hidden="true">
+                    <MessageCircle size={15} className="hero-wa-icon" />
+                    <span>WhatsApp Direct</span>
+                  </span>
+                </span>
+              </a>
+            </div>
+
+            {/* Genuine Trust Badges / Stats */}
+            <div
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '1.75rem',
+                fontSize: '0.88rem',
+                color: isLight ? '#64748b' : '#94a3b8',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <Star size={15} style={{ fill: '#f59e0b', color: '#f59e0b' }} />
+                <span style={{ fontWeight: 700, color: isLight ? '#0f172a' : '#f8fafc' }}>4.9/5 Clutch Rating</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <CheckCircle2 size={15} style={{ color: '#00ffd1' }} />
+                <span>100% Upwork Job Success</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <Clock size={15} style={{ color: '#00ffd1' }} />
+                <span>Hourly &amp; Fixed-Price Options</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <ShieldCheck size={15} style={{ color: '#00ffd1' }} />
+                <span>Strict Mutual NDA Included</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Animated Scroll To Explore Indicator (Mouse Pill) */}
+        <div
+          style={{
+            position: 'absolute',
+            bottom: '2rem',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 5,
+            textAlign: 'center',
+            cursor: 'pointer',
+          }}
+        >
+          <a
+            href="#quote-estimation-section"
+            style={{
+              display: 'inline-flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '0.5rem',
+              textDecoration: 'none',
+              color: isLight ? '#64748b' : '#94a3b8',
+              transition: 'color 0.2s ease',
+            }}
+          >
+            <div
+              style={{
+                width: '24px',
+                height: '38px',
+                borderRadius: '12px',
+                border: `2px solid ${isLight ? 'rgba(0, 168, 143, 0.4)' : 'rgba(0, 255, 209, 0.4)'}`,
+                display: 'flex',
+                justifyContent: 'center',
+                paddingTop: '6px',
+                boxShadow: isLight ? '0 0 10px rgba(0, 168, 143, 0.15)' : '0 0 12px rgba(0, 255, 209, 0.2)',
+              }}
+            >
+              <div
+                style={{
+                  width: '4px',
+                  height: '8px',
+                  borderRadius: '2px',
+                  background: isLight ? '#008a75' : '#00ffd1',
+                  animation: 'mouseScrollBob 1.6s ease-in-out infinite',
+                }}
+              />
+            </div>
+            <span
+              style={{
+                fontSize: '0.72rem',
+                fontWeight: 800,
+                letterSpacing: '0.14em',
+                color: isLight ? '#008a75' : '#00ffd1',
+                textTransform: 'uppercase',
+              }}
+            >
+              SCROLL TO EXPLORE &darr;
+            </span>
+          </a>
+        </div>
+      </section>
+
+      {/* ===================================================================== */}
+      {/* 2. THE 3-STEP ESTIMATION METHODOLOGY (EXACT LIVE SITE PROCESS)         */}
+      {/* ===================================================================== */}
+      <section
+        style={{
+          position: 'relative',
+          padding: '4.5rem 1.5rem 2rem 1.5rem',
+          zIndex: 10,
+        }}
+      >
+        <div className="container-custom" style={{ maxWidth: '1240px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', maxWidth: '780px', margin: '0 auto 3rem auto' }}>
+            <h2 className="heading-section" style={{ margin: '0 0 0.75rem 0' }}>
+              How We Estimate <span className="opash-hero-gradient-text">Your Project</span>
+            </h2>
+            <p style={{ color: isLight ? '#64748b' : '#94a3b8', fontSize: '1.05rem', lineHeight: 1.65, margin: 0 }}>
+              Transparent, reliable engineering estimations from day one. Here is how our process works:
             </p>
           </div>
 
-          {/* Quick Value Guarantees Ribbon */}
           <div
             style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              flexWrap: 'wrap',
-              gap: '1rem',
-              marginTop: '1.5rem',
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+              gap: '1.75rem',
             }}
           >
             {[
-              { icon: ShieldCheck, text: '2-Week Risk-Free Trial' },
-              { icon: Clock, text: 'Guaranteed Bi-Weekly Sprints' },
-              { icon: Lock, text: 'Strict Mutual NDA Before Kickoff' },
-              { icon: Award, text: '100% IP Transfer On Day 1' },
-            ].map((item, idx) => (
+              {
+                step: '01',
+                title: 'We Analyzed Your Requirements',
+                desc: 'Our experienced technical architects analyze your requirements, business goals, and product scope to identify the optimal technology stack and architectural foundation.',
+                accent: '#00A88F',
+              },
+              {
+                step: '02',
+                title: 'Part Them Into Phase & Tasks',
+                desc: 'We divide the entire project into structured, manageable phases and specific milestone tasks with granular sprint backlogs and deliverable checkpoints.',
+                accent: '#0284C7',
+              },
+              {
+                step: '03',
+                title: 'Hourly or Fixed Price Estimation',
+                desc: 'We provide you with a transparent hourly or fixed price estimation for each phase and task with zero hidden fees, giving you full budget certainty.',
+                accent: '#9333EA',
+              },
+            ].map((card, idx) => (
               <div
                 key={idx}
                 style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  fontSize: '0.84rem',
-                  fontWeight: 600,
-                  color: isLight ? '#334155' : '#cbd5e1',
-                  background: isLight ? 'rgba(255, 255, 255, 0.7)' : 'rgba(4, 15, 36, 0.6)',
-                  padding: '0.4rem 0.95rem',
-                  borderRadius: '9999px',
-                  border: isLight ? '1px solid rgba(15, 23, 42, 0.08)' : '1px solid rgba(255, 255, 255, 0.08)',
-                  backdropFilter: 'blur(8px)',
+                  padding: '2.25rem 2rem',
+                  borderRadius: '20px',
+                  background: isLight ? '#ffffff' : 'rgba(10, 20, 36, 0.75)',
+                  border: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.08)',
+                  boxShadow: isLight ? '0 6px 25px rgba(0, 0, 0, 0.04)' : '0 10px 35px rgba(0, 0, 0, 0.35)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '1rem',
+                  position: 'relative',
+                  overflow: 'hidden',
                 }}
               >
-                <item.icon size={14} style={{ color: isLight ? '#008a75' : '#5EC098' }} />
-                <span>{item.text}</span>
+                <div
+                  style={{
+                    fontSize: '2.5rem',
+                    fontWeight: 900,
+                    color: card.accent,
+                    fontFamily: 'var(--font-space-grotesk), monospace',
+                    lineHeight: 1,
+                  }}
+                >
+                  {card.step}
+                </div>
+                <h3
+                  style={{
+                    fontSize: '1.35rem',
+                    fontWeight: 750,
+                    margin: 0,
+                    color: isLight ? '#0f172a' : '#ffffff',
+                    lineHeight: 1.3,
+                  }}
+                >
+                  {card.title}
+                </h3>
+                <p
+                  style={{
+                    color: isLight ? '#475569' : '#94a3b8',
+                    fontSize: '0.94rem',
+                    lineHeight: 1.65,
+                    margin: 0,
+                  }}
+                >
+                  {card.desc}
+                </p>
               </div>
             ))}
           </div>
@@ -375,9 +562,12 @@ export default function GetAQuotePageClient() {
       </section>
 
       {/* ===================================================================== */}
-      {/* 2. THE INTERACTIVE CONFIGURATOR ENGINE: TWO-COLUMN LAYOUT             */}
+      {/* 3. THE INTERACTIVE CONFIGURATOR ENGINE: TWO-COLUMN LAYOUT             */}
       {/* ===================================================================== */}
-      <section style={{ position: 'relative', padding: '1rem 1.5rem 5rem 1.5rem', zIndex: 10 }}>
+      <section
+        id="quote-estimation-section"
+        style={{ position: 'relative', padding: '1rem 1.5rem 5rem 1.5rem', zIndex: 10 }}
+      >
         <div className="container-custom" style={{ maxWidth: '1280px', margin: '0 auto' }}>
           
           <div
@@ -1050,6 +1240,102 @@ export default function GetAQuotePageClient() {
                       />
                     </div>
 
+                    {/* Project Engagement Type */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
+                      <label style={{ fontSize: '0.78rem', fontWeight: 700, color: isLight ? '#475569' : '#cbd5e1' }}>
+                        Project Type / Engagement Model *
+                      </label>
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.35rem' }}>
+                        {['Hourly', 'Part Time', 'Full Time', 'Fixed Price'].map((model) => (
+                          <button
+                            type="button"
+                            key={model}
+                            onClick={() => setFormData({ ...formData, engagementType: model })}
+                            style={{
+                              padding: '0.45rem 0.2rem',
+                              fontSize: '0.75rem',
+                              fontWeight: 700,
+                              borderRadius: '8px',
+                              border: formData.engagementType === model
+                                ? (isLight ? '1.5px solid #008a75' : '1.5px solid #5EC098')
+                                : (isLight ? '1px solid #cbd5e1' : '1px solid rgba(255, 255, 255, 0.12)'),
+                              background: formData.engagementType === model
+                                ? (isLight ? 'rgba(0, 168, 143, 0.12)' : 'rgba(94, 192, 152, 0.18)')
+                                : (isLight ? '#f8fafc' : 'rgba(0, 0, 0, 0.2)'),
+                              color: formData.engagementType === model
+                                ? (isLight ? '#008a75' : '#5EC098')
+                                : 'inherit',
+                              cursor: 'pointer',
+                              transition: 'all 0.2s ease',
+                            }}
+                          >
+                            {model}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Country Dropdown */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
+                      <label style={{ fontSize: '0.78rem', fontWeight: 700, color: isLight ? '#475569' : '#cbd5e1' }}>
+                        Your Country *
+                      </label>
+                      <select
+                        value={formData.country}
+                        onChange={(e) => setFormData({ ...formData, country: e.target.value })}
+                        style={{
+                          padding: '0.75rem 1rem',
+                          borderRadius: '10px',
+                          border: isLight ? '1px solid rgba(15, 23, 42, 0.15)' : '1px solid rgba(255, 255, 255, 0.12)',
+                          background: isLight ? '#ffffff' : 'rgba(10, 20, 36, 0.95)',
+                          color: 'inherit',
+                          fontSize: '0.88rem',
+                          outline: 'none',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        {[
+                          'United States',
+                          'United Kingdom',
+                          'Canada',
+                          'Australia',
+                          'Germany',
+                          'United Arab Emirates',
+                          'India',
+                          'Singapore',
+                          'Netherlands',
+                          'France',
+                          'Switzerland',
+                          'Ireland',
+                          'Sweden',
+                          'Saudi Arabia',
+                          'Other Country',
+                        ].map((c) => (
+                          <option key={c} value={c} style={{ background: isLight ? '#ffffff' : '#030a18', color: isLight ? '#0f172a' : '#f8fafc' }}>
+                            {c}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {/* Project Requirements Notes */}
+                    <textarea
+                      rows={2}
+                      placeholder="Brief Project Scope / Notes (Optional)"
+                      value={formData.notes}
+                      onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+                      style={{
+                        padding: '0.75rem 1rem',
+                        borderRadius: '10px',
+                        border: isLight ? '1px solid rgba(15, 23, 42, 0.15)' : '1px solid rgba(255, 255, 255, 0.12)',
+                        background: isLight ? '#ffffff' : 'rgba(0, 0, 0, 0.25)',
+                        color: 'inherit',
+                        fontSize: '0.88rem',
+                        outline: 'none',
+                        resize: 'none',
+                      }}
+                    />
+
                     <button
                       type="submit"
                       disabled={isSubmitting}
@@ -1178,8 +1464,8 @@ export default function GetAQuotePageClient() {
               <span>Predictable Engineering Cadence</span>
             </div>
 
-            <h2 style={{ fontSize: 'clamp(1.95rem, 3.8vw, 2.75rem)', fontWeight: 800, margin: '0 0 1rem 0' }}>
-              How We Turn Scopes Into Production Deployments
+            <h2 className="heading-section" style={{ margin: '0 0 1rem 0' }}>
+              How We Turn Scopes Into <span className="opash-hero-gradient-text">Production Deployments</span>
             </h2>
             <p style={{ color: isLight ? '#64748b' : '#94a3b8', fontSize: '1rem', lineHeight: 1.6, margin: 0 }}>
               Every Opash build follows our battle-tested 4-phase agile delivery pipeline with zero ambiguity, 
@@ -1296,8 +1582,8 @@ export default function GetAQuotePageClient() {
       <section style={{ position: 'relative', padding: '5.5rem 1.5rem' }}>
         <div className="container-custom" style={{ maxWidth: '1100px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 3rem auto' }}>
-            <h2 style={{ fontSize: 'clamp(1.95rem, 3.8vw, 2.75rem)', fontWeight: 800, margin: '0 0 1rem 0' }}>
-              Why Global Founders Choose Opash
+            <h2 className="heading-section" style={{ margin: '0 0 1rem 0' }}>
+              Why Global Founders <span className="opash-hero-gradient-text">Choose Opash</span>
             </h2>
             <p style={{ color: isLight ? '#64748b' : '#94a3b8', fontSize: '1rem', lineHeight: 1.6, margin: 0 }}>
               Compare how our dedicated Surat engineering team performs against traditional in-house hiring and legacy agencies.
@@ -1400,8 +1686,8 @@ export default function GetAQuotePageClient() {
             >
               Executive FAQ
             </span>
-            <h2 style={{ fontSize: 'clamp(1.95rem, 3.5vw, 2.6rem)', fontWeight: 800, margin: '0.5rem 0 0 0' }}>
-              Common Questions About Project Scoping
+            <h2 className="heading-section" style={{ margin: '0.5rem 0 0 0' }}>
+              Common Questions About <span className="opash-hero-gradient-text">Project Scoping</span>
             </h2>
           </div>
 

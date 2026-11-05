@@ -127,8 +127,7 @@ export default function ProjectEstimator() {
                       alignItems: "center",
                       justifyContent: "space-between",
                       transition: "all 0.2s",
-                    }}
-                  >
+                    }}>
                     <div>
                       <div style={{ color: "var(--text-primary)", fontWeight: 600, fontSize: "0.95rem" }}>{type.label}</div>
                       <div style={{ color: "var(--text-muted)", fontSize: "0.8rem" }}>{type.desc}</div>
@@ -168,7 +167,7 @@ export default function ProjectEstimator() {
                       gap: "0.6rem",
                       transition: "all 0.2s",
                     }}
-                  >
+ >
                     <div
                       style={{
                         width: 18,

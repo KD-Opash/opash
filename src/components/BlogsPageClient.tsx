@@ -141,33 +141,15 @@ export default function BlogsPageClient() {
         <BlogsCreativeBackdrop isLightMode={isLight} />
 
         <div className="container-custom" style={{ position: 'relative', zIndex: 2, maxWidth: '1060px', margin: '0 auto', textAlign: 'center' }}>
-          {/* Eyebrow Status */}
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '1.25rem' }}>
-            <div
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.55rem',
-                fontSize: '0.86rem',
-                fontWeight: 700,
-                letterSpacing: '0.06em',
-                textTransform: 'uppercase',
-                color: isLight ? '#008a75' : '#2dd4bf',
-              }}
-            >
-              <BookOpen size={16} />
-              <span>Engineering Insights &bull; Technical Guides &bull; Production Architectures</span>
-            </div>
-          </div>
-
           {/* Headline with Oui Will Kinetic Typographic Animation */}
           <OuiWillHeadline
             style={{
-              fontSize: 'clamp(2.8rem, 5.4vw, 4.5rem)',
-              fontWeight: 800,
-              lineHeight: 1.14,
-              letterSpacing: '-0.035em',
-              marginBottom: '1.35rem',
+              fontFamily: "var(--font-acthirey), 'Acthirey', 'Playfair Display', serif",
+              fontSize: "clamp(1.85rem, 4.5vw, 60px)",
+              fontWeight: 400,
+              lineHeight: 1.1,
+              letterSpacing: "-0.015em",
+              marginBottom: '1.5rem',
               display: 'block',
             }}
           >
@@ -399,7 +381,7 @@ export default function BlogsPageClient() {
               <div
                 style={{
                   display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))',
                   gap: '2.5rem',
                   alignItems: 'center',
                 }}
@@ -1106,145 +1088,222 @@ export default function BlogsPageClient() {
       </section>
 
       {/* ===================================================================== */}
-      {/* 4. EXECUTIVE ARCHITECTURE TEARDOWN CTA                                */}
+      {/* 4. EXECUTIVE ARCHITECTURE TEARDOWN CTA (Laptop Frame)                */}
       {/* ===================================================================== */}
       <section style={{ padding: '0 1.5rem 6rem 1.5rem' }}>
-        <div className="container-custom" style={{ maxWidth: '1240px', margin: '0 auto' }}>
-          <div
-            style={{
-              borderRadius: '24px',
-              background: isLight
-                ? 'linear-gradient(135deg, #008a75 0%, #0284c7 100%)'
-                : 'linear-gradient(135deg, #003830 0%, #041a3a 100%)',
-              border: isLight ? 'none' : '1px solid rgba(45, 212, 191, 0.3)',
-              boxShadow: '0 25px 60px rgba(0, 0, 0, 0.25)',
-              padding: '3.5rem 2.5rem',
-              color: '#ffffff',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              textAlign: 'center',
-              position: 'relative',
-              overflow: 'hidden',
-            }}
-          >
-            {/* Subtle Opash Portal Watermark */}
-            <img
-              src="/images/opash-o-portal-dark.png"
-              alt=""
-              style={{
-                position: 'absolute',
-                top: '-30%',
-                right: '-10%',
-                width: '450px',
-                height: '450px',
-                opacity: 0.08,
-                pointerEvents: 'none',
-              }}
-            />
-
+        <div className="container-custom" style={{ maxWidth: '1080px', margin: '0 auto' }}>
+          {/* REALISTIC LAPTOP CHASSIS FRAME */}
+          <div style={{ position: 'relative' }}>
+            {/* Laptop Screen */}
             <div
               style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                fontSize: '0.85rem',
-                fontWeight: 700,
-                textTransform: 'uppercase',
-                letterSpacing: '0.06em',
-                marginBottom: '1rem',
-                color: '#ffffff',
+                borderRadius: '16px 16px 0 0',
+                padding: 'clamp(10px, 1.5vw, 16px)',
+                background: isLight
+                  ? 'linear-gradient(145deg, #1e293b 0%, #0f172a 100%)'
+                  : 'linear-gradient(145deg, #1e293b 0%, #050b17 100%)',
+                border: isLight
+                  ? '2px solid #94a3b8'
+                  : '2px solid rgba(255, 255, 255, 0.18)',
+                borderBottom: 'none',
+                boxShadow: isLight
+                  ? '0 0 0 1px rgba(0, 0, 0, 0.12), 0 -10px 40px -15px rgba(0, 0, 0, 0.15)'
+                  : '0 0 0 1px rgba(0, 0, 0, 0.6), 0 -10px 40px -15px rgba(0, 0, 0, 0.5), 0 0 45px -10px rgba(0, 255, 209, 0.1)',
               }}
             >
-              <Terminal size={16} />
-              <span>Have a System Design Bottleneck?</span>
-            </div>
+              {/* Laptop Camera Dot */}
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '8px' }}>
+                <div
+                  style={{
+                    width: '6px',
+                    height: '6px',
+                    borderRadius: '50%',
+                    background: '#1a1a2e',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    boxShadow: 'inset 0 0 2px rgba(45, 212, 191, 0.4)',
+                  }}
+                />
+              </div>
 
-            <h2
-              style={{
-                fontSize: 'clamp(2rem, 3.8vw, 3rem)',
-                fontWeight: 800,
-                lineHeight: 1.2,
-                letterSpacing: '-0.025em',
-                marginBottom: '1rem',
-                maxWidth: '780px',
-              }}
-            >
-              Request a 1-on-1 Architectural Teardown with Our Senior Engineers
-            </h2>
-
-            <p
-              style={{
-                fontSize: '1.1rem',
-                lineHeight: 1.6,
-                maxWidth: '680px',
-                opacity: 0.9,
-                marginBottom: '2.5rem',
-              }}
-            >
-              Share your current tech stack, traffic benchmarks, or cloud infrastructure challenges. Our principal architects will review your setup and deliver actionable optimization advice.
-            </p>
-
-            <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
-              <Link
-                href="/get-a-quote"
-                className="opash-roll-btn"
+              {/* LAPTOP INNER DISPLAY SCREEN */}
+              <div
                 style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  padding: '0.9rem 2rem',
-                  borderRadius: '12px',
-                  background: '#ffffff',
-                  color: '#0f172a',
-                  fontWeight: 800,
-                  fontSize: '0.95rem',
-                  textDecoration: 'none',
-                  boxShadow: '0 8px 25px rgba(0, 0, 0, 0.2)',
-                }}
-              >
-                <span className="opash-roll-track">
-                  <span className="opash-roll-item">
-                    <span>Book Architecture Teardown</span>
-                    <ArrowRight size={16} />
-                  </span>
-                  <span className="opash-roll-item" aria-hidden="true">
-                    <span>Book Architecture Teardown</span>
-                    <ArrowRight size={16} />
-                  </span>
-                </span>
-              </Link>
-
-              <Link
-                href="/contact"
-                className="opash-roll-btn"
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  padding: '0.9rem 1.8rem',
-                  borderRadius: '12px',
-                  background: 'rgba(255, 255, 255, 0.1)',
-                  border: '1px solid rgba(255, 255, 255, 0.3)',
+                  borderRadius: '8px',
+                  background: isLight
+                    ? 'linear-gradient(135deg, #008a75 0%, #0284c7 100%)'
+                    : 'linear-gradient(135deg, #003830 0%, #041a3a 100%)',
+                  padding: 'clamp(2rem, 4vw, 3.5rem) clamp(1.5rem, 4vw, 3.5rem)',
                   color: '#ffffff',
-                  fontWeight: 700,
-                  fontSize: '0.95rem',
-                  textDecoration: 'none',
-                  backdropFilter: 'blur(10px)',
+                  display: 'flex',
+                  flexDirection: 'column' as const,
+                  alignItems: 'center',
+                  textAlign: 'center' as const,
+                  position: 'relative' as const,
+                  overflow: 'hidden',
                 }}
               >
-                <span className="opash-roll-track">
-                  <span className="opash-roll-item">
-                    <MessageSquare size={16} />
-                    <span>Submit Technical Question</span>
-                  </span>
-                  <span className="opash-roll-item" aria-hidden="true">
-                    <MessageSquare size={16} />
-                    <span>Submit Technical Question</span>
-                  </span>
-                </span>
-              </Link>
+                {/* Subtle Opash Portal Watermark */}
+                <img
+                  src="/images/opash-o-portal-dark.png"
+                  alt=""
+                  style={{
+                    position: 'absolute',
+                    top: '-30%',
+                    right: '-10%',
+                    width: '450px',
+                    height: '450px',
+                    opacity: 0.08,
+                    pointerEvents: 'none',
+                  }}
+                />
+
+                <div
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    fontSize: '0.85rem',
+                    fontWeight: 700,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.06em',
+                    marginBottom: '1rem',
+                    color: '#ffffff',
+                  }}
+                >
+                  <Terminal size={16} />
+                  <span>Have a System Design Bottleneck?</span>
+                </div>
+
+                <h2
+                  className="heading-section"
+                  style={{
+                    marginBottom: '1rem',
+                    maxWidth: '780px',
+                    color: '#ffffff',
+                  }}
+                >
+                  Request a 1-on-1 Architectural Teardown with Our Senior Engineers
+                </h2>
+
+                <p
+                  style={{
+                    fontSize: '1.1rem',
+                    lineHeight: 1.6,
+                    maxWidth: '680px',
+                    opacity: 0.9,
+                    marginBottom: '2.5rem',
+                  }}
+                >
+                  Share your current tech stack, traffic benchmarks, or cloud infrastructure challenges. Our principal architects will review your setup and deliver actionable optimization advice.
+                </p>
+
+                <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+                  <Link
+                    href="/get-a-quote"
+                    className="opash-roll-btn"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      padding: '0.9rem 2rem',
+                      borderRadius: '12px',
+                      background: '#ffffff',
+                      color: '#0f172a',
+                      fontWeight: 800,
+                      fontSize: '0.95rem',
+                      textDecoration: 'none',
+                      boxShadow: '0 8px 25px rgba(0, 0, 0, 0.2)',
+                    }}
+                  >
+                    <span className="opash-roll-track">
+                      <span className="opash-roll-item">
+                        <span>Book Architecture Teardown</span>
+                        <ArrowRight size={16} />
+                      </span>
+                      <span className="opash-roll-item" aria-hidden="true">
+                        <span>Book Architecture Teardown</span>
+                        <ArrowRight size={16} />
+                      </span>
+                    </span>
+                  </Link>
+
+                  <Link
+                    href="/contact"
+                    className="opash-roll-btn"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      padding: '0.9rem 1.8rem',
+                      borderRadius: '12px',
+                      background: 'rgba(255, 255, 255, 0.1)',
+                      border: '1px solid rgba(255, 255, 255, 0.3)',
+                      color: '#ffffff',
+                      fontWeight: 700,
+                      fontSize: '0.95rem',
+                      textDecoration: 'none',
+                      backdropFilter: 'blur(10px)',
+                    }}
+                  >
+                    <span className="opash-roll-track">
+                      <span className="opash-roll-item">
+                        <MessageSquare size={16} />
+                        <span>Submit Technical Question</span>
+                      </span>
+                      <span className="opash-roll-item" aria-hidden="true">
+                        <MessageSquare size={16} />
+                        <span>Submit Technical Question</span>
+                      </span>
+                    </span>
+                  </Link>
+                </div>
+              </div>
             </div>
+
+            {/* Laptop Base / Keyboard Deck */}
+            <div
+              style={{
+                position: 'relative',
+                height: 'clamp(18px, 2.5vw, 28px)',
+                background: isLight
+                  ? 'linear-gradient(180deg, #334155 0%, #475569 100%)'
+                  : 'linear-gradient(180deg, #1e293b 0%, #0f172a 100%)',
+                borderRadius: '0 0 10px 10px',
+                border: isLight
+                  ? '2px solid #94a3b8'
+                  : '2px solid rgba(255, 255, 255, 0.18)',
+                borderTop: isLight
+                  ? '1px solid #64748b'
+                  : '1px solid rgba(255, 255, 255, 0.12)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              {/* Trackpad indicator */}
+              <div
+                style={{
+                  width: 'clamp(60px, 10vw, 100px)',
+                  height: '4px',
+                  borderRadius: '9999px',
+                  background: isLight ? 'rgba(148, 163, 184, 0.6)' : 'rgba(255, 255, 255, 0.2)',
+                }}
+              />
+            </div>
+
+            {/* Laptop Stand Shadow */}
+            <div
+              style={{
+                width: '110%',
+                height: '8px',
+                margin: '0 auto',
+                marginLeft: '-5%',
+                background: isLight
+                  ? 'radial-gradient(ellipse, rgba(0, 0, 0, 0.1) 0%, transparent 70%)'
+                  : 'radial-gradient(ellipse, rgba(0, 0, 0, 0.4) 0%, transparent 70%)',
+                borderRadius: '50%',
+              }}
+            />
           </div>
         </div>
       </section>

@@ -32,7 +32,18 @@ export default function TermsAndConditionsPage() {
           <span className="badge-glow" style={{ marginBottom: "1rem" }}>
             Terms of Service
           </span>
-          <h1 style={{ fontSize: "2.75rem", fontWeight: 800, color: "var(--text-primary)", marginTop: "0.5rem", marginBottom: "1.5rem" }}>
+          <h1
+            style={{
+              fontFamily: "var(--font-acthirey), 'Acthirey', 'Playfair Display', serif",
+              fontSize: "clamp(1.85rem, 3.2vw, 39px)",
+              fontWeight: 400,
+              color: "var(--text-primary)",
+              lineHeight: 1.18,
+              letterSpacing: "-0.015em",
+              marginTop: "0.5rem",
+              marginBottom: "1.5rem",
+            }}
+          >
             Terms & Conditions
           </h1>
 

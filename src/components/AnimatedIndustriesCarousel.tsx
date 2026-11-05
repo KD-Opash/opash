@@ -542,7 +542,7 @@ export function AnimatedIndustriesCarousel() {
             margin: "0 auto 3rem auto",
           }}
         >
-          <h2 className="heading-section" style={{ fontSize: "clamp(1.45rem, 2.1vw, 1.95rem)" }}>
+          <h2 className="heading-section">
             Industries We <span className="opash-hero-gradient-text">Specialize In</span>
           </h2>
           <p className="subhead-lead" style={{ marginTop: "1rem" }}>

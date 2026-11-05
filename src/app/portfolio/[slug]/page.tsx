@@ -207,10 +207,11 @@ async function ProjectDetailContent({ params }: Props) {
 
             <h1
               style={{
-                fontSize: "clamp(2.3rem, 4.6vw, 3.8rem)",
-                fontWeight: 800,
-                lineHeight: 1.15,
-                letterSpacing: "-0.025em",
+                fontFamily: "var(--font-acthirey), 'Acthirey', 'Playfair Display', serif",
+                fontSize: "clamp(1.85rem, 3.2vw, 39px)",
+                fontWeight: 400,
+                lineHeight: 1.18,
+                letterSpacing: "-0.015em",
                 marginBottom: "1.25rem",
               }}
             >

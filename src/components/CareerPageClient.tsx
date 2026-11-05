@@ -1,535 +1,73 @@
 'use client';
 
-import React, { useState, useEffect, useId, useRef } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { careersData, JobOpening } from '@/data/careers';
 import { companyData } from '@/data/company';
 import CareerCreativeBackdrop from '@/components/CareerCreativeBackdrop';
-import { useTheme } from '@/components/ThemeProvider';
-import OuiWillHeadline, { OuiWillWord, OuiWillDot } from '@/components/OuiWillHeadline';
 import LifeAtOpashSection from '@/components/LifeAtOpashSection';
 import OurAchievementsSection from '@/components/OurAchievementsSection';
+import { useTheme } from '@/components/ThemeProvider';
+import OuiWillHeadline, { OuiWillWord, OuiWillDot } from '@/components/OuiWillHeadline';
+import Interactive3DIcon from '@/components/Interactive3DIcon';
 import {
-  Briefcase,
   MapPin,
+  Phone,
+  Mail,
   Clock,
   Send,
   CheckCircle2,
-  Zap,
   ArrowRight,
+  ArrowUpRight,
   UploadCloud,
-  HeartHandshake,
-  Laptop,
-  TrendingUp,
-  Coffee,
-  Shield,
-  Award,
-  ChevronDown,
-  ChevronUp,
-  Code2,
-  Cpu,
-  Layers,
-  Terminal,
-  Target,
-  Users2,
-  Check,
-  Building2,
-  Globe2,
-  ExternalLink,
   FileText,
   X,
-  Phone,
-  Mail,
-  ArrowUpRight,
   MessageCircle,
+  Building2,
+  Briefcase,
+  Sparkles,
+  User,
+  Layers,
 } from 'lucide-react';
-
-function RollingDigit({
-  target,
-  start,
-  delay = 0,
-  duration = 1.4,
-}: {
-  target: number;
-  start: boolean;
-  delay?: number;
-  duration?: number;
-}) {
-  const digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-  const targetIndex = 10 + target;
-
-  return (
-    <span
-      style={{
-        display: "inline-block",
-        height: "1.15em",
-        lineHeight: "1.15em",
-        overflow: "hidden",
-        verticalAlign: "baseline",
-        position: "relative",
-      }}
-    >
-      <span
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          transform: start
-            ? `translate3d(0, -${targetIndex * 5}%, 0)`
-            : "translate3d(0, 0%, 0)",
-          transition: `transform ${duration}s cubic-bezier(0.12, 1, 0.25, 1) ${delay}s`,
-          willChange: "transform",
-        }}
-      >
-        {digits.map((d, idx) => (
-          <span
-            key={idx}
-            style={{
-              height: "1.15em",
-              lineHeight: "1.15em",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            {d}
-          </span>
-        ))}
-      </span>
-    </span>
-  );
-}
-
-function RollingNumberTicker({
-  text,
-  start,
-  duration = 1.5,
-}: {
-  text: string;
-  start: boolean;
-  duration?: number;
-}) {
-  let digitIndex = 0;
-
-  return (
-    <span style={{ display: "inline-flex", alignItems: "baseline", justifyContent: "center" }}>
-      {text.split("").map((char, index) => {
-        const isDigit = /\d/.test(char);
-        if (isDigit) {
-          const num = parseInt(char, 10);
-          const delay = digitIndex * 0.08;
-          digitIndex++;
-          return (
-            <RollingDigit
-              key={index}
-              target={num}
-              start={start}
-              delay={delay}
-              duration={duration}
-            />
-          );
-        }
-
-        return (
-          <span
-            key={index}
-            style={{
-              display: "inline-block",
-              lineHeight: "1.15em",
-            }}
-          >
-            {char}
-          </span>
-        );
-      })}
-    </span>
-  );
-}
-
-interface ManifestoPillar {
-  icon: React.ReactNode;
-  title: string;
-  desc: string;
-  highlight: string;
-}
-
-function ManifestoInteractiveCard({
-  pillar,
-  index,
-  isLight,
-  sectionInView,
-}: {
-  pillar: ManifestoPillar;
-  index: number;
-  isLight: boolean;
-  sectionInView: boolean;
-}) {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const [isHovered, setIsHovered] = useState(false);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    setMousePos({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
-  };
-
-  const delays = [0.1, 0.25, 0.4];
-  const delay = delays[index] ?? 0.1;
-
-  return (
-    <div
-      ref={cardRef}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onMouseMove={handleMouseMove}
-      style={{
-        position: 'relative',
-        borderRadius: '20px',
-        padding: '2.25rem 2rem',
-        background: isLight ? '#ffffff' : 'rgba(15, 23, 42, 0.65)',
-        border: isLight
-          ? isHovered
-            ? '1px solid rgba(0, 138, 117, 0.5)'
-            : '1px solid #e2e8f0'
-          : isHovered
-            ? '1px solid rgba(0, 255, 209, 0.45)'
-            : '1px solid rgba(255, 255, 255, 0.08)',
-        boxShadow: isLight
-          ? isHovered
-            ? '0 20px 40px -10px rgba(0, 138, 117, 0.18)'
-            : '0 10px 30px -5px rgba(0, 0, 0, 0.05)'
-          : isHovered
-            ? '0 24px 50px -10px rgba(0, 255, 209, 0.22), 0 0 25px rgba(0, 255, 209, 0.08)'
-            : '0 10px 40px -10px rgba(0, 0, 0, 0.5)',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '1rem',
-        overflow: 'hidden',
-        cursor: 'default',
-        transform: sectionInView
-          ? isHovered
-            ? 'translateY(-8px) scale(1.02)'
-            : 'translateY(0px) scale(1)'
-          : 'translateY(45px) scale(0.94)',
-        opacity: sectionInView ? 1 : 0,
-        transition: isHovered
-          ? 'transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s ease, border-color 0.25s ease'
-          : `transform 0.75s cubic-bezier(0.16, 1, 0.3, 1) ${sectionInView ? delay : 0}s, opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1) ${sectionInView ? delay : 0}s, box-shadow 0.3s ease, border-color 0.3s ease`,
-        willChange: 'transform, opacity',
-      }}
-    >
-      {/* Top Laser Glow Border with sweeping light */}
-      <div
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          height: '2px',
-          background: isLight
-            ? 'linear-gradient(90deg, transparent 0%, rgba(0, 138, 117, 0.2) 20%, #00a88f 50%, rgba(0, 138, 117, 0.2) 80%, transparent 100%)'
-            : 'linear-gradient(90deg, transparent 0%, rgba(0, 255, 209, 0.2) 20%, #00ffd1 50%, rgba(0, 255, 209, 0.2) 80%, transparent 100%)',
-          backgroundSize: '200% 100%',
-          opacity: sectionInView ? 1 : 0,
-          animation: sectionInView ? 'manifestoLaserSweep 2.8s ease-in-out infinite' : 'none',
-          animationDelay: `${delay + 0.2}s`,
-          pointerEvents: 'none',
-        }}
-      />
-      {/* Extra soft glow behind the laser */}
-      <div
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          height: '6px',
-          filter: 'blur(4px)',
-          background: isLight
-            ? 'linear-gradient(90deg, transparent 0%, rgba(0, 138, 117, 0.3) 50%, transparent 100%)'
-            : 'linear-gradient(90deg, transparent 0%, rgba(0, 255, 209, 0.45) 50%, transparent 100%)',
-          backgroundSize: '200% 100%',
-          opacity: sectionInView ? (isHovered ? 1 : 0.6) : 0,
-          animation: sectionInView ? 'manifestoLaserSweep 2.8s ease-in-out infinite' : 'none',
-          animationDelay: `${delay + 0.2}s`,
-          pointerEvents: 'none',
-          transition: 'opacity 0.3s ease',
-        }}
-      />
-
-      {/* Dynamic Cursor Spotlight Radial Glow on Hover */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          pointerEvents: 'none',
-          opacity: isHovered ? 1 : 0,
-          transition: 'opacity 0.3s ease',
-          background: isLight
-            ? `radial-gradient(280px circle at ${mousePos.x}px ${mousePos.y}px, rgba(0, 138, 117, 0.08), transparent 70%)`
-            : `radial-gradient(280px circle at ${mousePos.x}px ${mousePos.y}px, rgba(0, 255, 209, 0.14), transparent 70%)`,
-        }}
-      />
-
-      {/* Icon with 360 micro-rotation lock on entry */}
-      <div
-        style={{
-          width: 52,
-          height: 52,
-          borderRadius: '14px',
-          background: isLight ? '#f1f5f9' : 'rgba(255, 255, 255, 0.05)',
-          border: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.1)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          transform: sectionInView ? 'rotate(0deg) scale(1)' : 'rotate(-140deg) scale(0.6)',
-          transition: `transform 0.85s cubic-bezier(0.34, 1.56, 0.64, 1) ${delay + 0.15}s`,
-          zIndex: 1,
-        }}
-      >
-        {pillar.icon}
-      </div>
-
-      <div
-        style={{
-          fontSize: '0.72rem',
-          fontWeight: 700,
-          letterSpacing: '0.06em',
-          textTransform: 'uppercase',
-          color: isLight ? '#008a75' : '#00ffd1',
-          zIndex: 1,
-        }}
-      >
-        {pillar.highlight}
-      </div>
-
-      <h3 style={{ fontSize: '1.3rem', fontWeight: 800, letterSpacing: '-0.01em', margin: 0, zIndex: 1 }}>
-        {pillar.title}
-      </h3>
-
-      <p style={{ color: isLight ? '#64748b' : '#94a3b8', fontSize: '0.94rem', lineHeight: 1.6, margin: 0, zIndex: 1 }}>
-        {pillar.desc}
-      </p>
-    </div>
-  );
-}
 
 export default function CareerPageClient() {
   const { theme } = useTheme();
   const isLight = theme === 'light';
 
-  // Stats trigger: start on mount & on scroll
-  const statsRef = useRef<HTMLDivElement>(null);
-  const [statsInView, setStatsInView] = useState(false);
-
-  // Manifesto Section scroll trigger
-  const manifestoGridRef = useRef<HTMLDivElement>(null);
-  const [manifestoInView, setManifestoInView] = useState(false);
-
-  useEffect(() => {
-    const el = manifestoGridRef.current;
-    if (!el) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setManifestoInView(true);
-        } else {
-          setManifestoInView(false);
-        }
-      },
-      { threshold: 0.15 }
-    );
-    observer.observe(el);
-
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setStatsInView(true);
-    }, 150);
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setStatsInView(true);
-        }
-      },
-      { threshold: 0.1 }
-    );
-    if (statsRef.current) observer.observe(statsRef.current);
-
-    return () => {
-      clearTimeout(timer);
-      observer.disconnect();
-    };
-  }, []);
-
-  // Dynamic job openings from NextHRMS
-  const [openings, setOpenings] = useState<JobOpening[]>(careersData.openings);
-  const [loadingOpenings, setLoadingOpenings] = useState(false);
-
-  useEffect(() => {
-    const fetchOpenings = async () => {
-      try {
-        setLoadingOpenings(true);
-        const res = await fetch('/api/job-postings/public');
-        if (res.ok) {
-          const json = await res.json();
-          if (json.success && Array.isArray(json.data) && json.data.length > 0) {
-            const mapped: JobOpening[] = json.data.map((item: any) => ({
-              id: item.id || item.token,
-              token: item.token,
-              title: item.title,
-              positions: item.positions || 1,
-              department: item.department || 'Engineering',
-              location: item.location || 'Surat, Gujarat (Hybrid / On-Site)',
-              type: item.type || 'Full-Time',
-              experience: item.experience || '2 - 5 Years',
-              description: item.description || 'Join our dedicated team building high-performance scalable systems.',
-              responsibilities: Array.isArray(item.responsibilities) && item.responsibilities.length > 0
-                ? item.responsibilities
-                : [
-                    `Lead and execute ${item.title} deliverables adhering to sprint milestones.`,
-                    'Participate in daily engineering scrums, code reviews, and architecture discussions.',
-                    'Collaborate closely with team leads and client stakeholders.',
-                  ],
-              requirements: Array.isArray(item.skillsRequired) && item.skillsRequired.length > 0
-                ? item.skillsRequired
-                : (Array.isArray(item.requirements) && item.requirements.length > 0
-                    ? item.requirements
-                    : ['Professional software engineering experience', 'Strong analytical and problem-solving skills', 'Excellent team collaboration and communication']),
-            }));
-            setOpenings(mapped);
-          }
-        }
-      } catch (err) {
-        console.warn('NextHRMS job postings API offline, using fallback openings:', err);
-      } finally {
-        setLoadingOpenings(false);
-      }
-    };
-
-    fetchOpenings();
-  }, []);
-
-  // Department filter
-  const departments = ['All Roles', 'Engineering', 'AI Innovation Lab', 'Mobile Engineering', 'Quality Assurance', 'Early Careers'];
-  const [activeDept, setActiveDept] = useState('All Roles');
-
-  // Expanded job accordion
-  const [expandedJobId, setExpandedJobId] = useState<string | null>(careersData.openings[0]?.id || null);
-
-  // Application form state
-  const [selectedRole, setSelectedRole] = useState(careersData.openings[0]?.title || 'Senior Full-Stack Engineer (React / Node.js)');
-  const [formSubmitted, setFormSubmitted] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-  const [resumeFile, setResumeFile] = useState<File | null>(null);
-  const [isDragging, setIsDragging] = useState(false);
-  const [showCloudLink, setShowCloudLink] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
+  // Resume Form State
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
-    position: careersData.openings[0]?.title || '',
-    experience: '3 - 5 Years',
-    portfolioUrl: '',
-    resumeLink: '',
+    position: '',
+    expertise: '',
     message: '',
   });
+  const [resumeFile, setResumeFile] = useState<File | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
-  const filteredOpenings = activeDept === 'All Roles'
-    ? openings
-    : openings.filter((job) => job.department.toLowerCase().includes(activeDept.toLowerCase()));
-
-  const handleShareResume = () => {
-    setSelectedRole('General Engineering Consideration');
-    setFormData((prev) => ({ ...prev, position: 'General Engineering Consideration' }));
-    const applyEl = document.getElementById('apply-section');
-    if (applyEl) {
-      applyEl.scrollIntoView({ behavior: 'smooth' });
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setResumeFile(e.target.files[0]);
     }
   };
 
-  const handleApplyClick = (jobTitle: string) => {
-    setSelectedRole(jobTitle);
-    setFormData((prev) => ({ ...prev, position: jobTitle }));
-    const applyEl = document.getElementById('apply-section');
-    if (applyEl) {
-      applyEl.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  const handleDragOver = (e: React.DragEvent) => {
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    e.stopPropagation();
-    setIsDragging(true);
-  };
-
-  const handleDragLeave = (e: React.DragEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsDragging(false);
-  };
-
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
     setIsDragging(false);
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       setResumeFile(e.dataTransfer.files[0]);
     }
   };
 
-  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setResumeFile(e.target.files[0]);
-    }
-  };
-
-  const handleFormSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitting(true);
-
-    try {
-      const activeJob = openings.find((j) => j.title === formData.position);
-      if (activeJob?.token) {
-        await fetch(`/api/recruitment/apply/${activeJob.token}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            name: formData.name,
-            email: formData.email,
-            phone: formData.phone,
-            currentLocation: 'Surat / Remote',
-            experience: formData.experience,
-            source: 'Opash Website Career Portal',
-            sourceDetails: formData.portfolioUrl || formData.resumeLink || formData.message,
-          }),
-        });
-      }
-    } catch (err) {
-      console.warn('NextHRMS recruitment application submission fallback:', err);
-    } finally {
-      setSubmitting(false);
-      setFormSubmitted(true);
-      setResumeFile(null);
-    }
-  };
-
-  const perkIcons: Record<string, React.ReactNode> = {
-    Laptop: <Laptop size={22} className="text-cyan-400" />,
-    TrendingUp: <TrendingUp size={22} className="text-emerald-400" />,
-    Coffee: <Coffee size={22} className="text-amber-400" />,
-    Shield: <Shield size={22} className="text-blue-400" />,
-    Clock: <Clock size={22} className="text-purple-400" />,
-    Award: <Award size={22} className="text-rose-400" />,
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setSubmitted(true);
+    }, 850);
   };
 
   return (
@@ -544,92 +82,105 @@ export default function CareerPageClient() {
       }}
     >
       {/* ========================================================
-          1. BESPOKE CREATIVE HERO SECTION
+          1. BESPOKE CREATIVE HERO SECTION (100VH FULL WINDOW)
       ======================================================== */}
       <section
+        className="career-hero-section"
         style={{
           position: 'relative',
-          paddingTop: 'clamp(7rem, 12vw, 10rem)',
-          paddingBottom: 'clamp(4rem, 8vw, 6.5rem)',
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: 'clamp(6rem, 10vh, 7.5rem) 1.5rem clamp(5rem, 8vh, 6.5rem) 1.5rem',
           overflow: 'hidden',
+          boxSizing: 'border-box',
         }}
       >
         <CareerCreativeBackdrop isLightMode={isLight} />
 
-        <div className="container-custom" style={{ position: 'relative', zIndex: 10 }}>
-          <div style={{ maxWidth: '960px', margin: '0 auto', textAlign: 'center' }}>
-            
-            {/* Live Talent Beacon Eyebrow */}
-            <div
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                marginBottom: '1.25rem',
-              }}
-            >
-              <span
-                style={{
-                  width: '8px',
-                  height: '8px',
-                  borderRadius: '50%',
-                  background: isLight ? '#00a88f' : '#00ffd1',
-                  boxShadow: isLight ? '0 0 8px #00a88f' : '0 0 12px #00ffd1',
-                  animation: 'pulse 2s infinite',
-                }}
-              />
-              <span
-                style={{
-                  fontSize: '0.85rem',
-                  fontWeight: 700,
-                  letterSpacing: '0.08em',
-                  textTransform: 'uppercase',
-                  color: isLight ? '#008a75' : '#00ffd1',
-                }}
-              >
-                We Are Hiring &bull; Open Roles in Surat & Hybrid
-              </span>
-            </div>
-
+        <div
+          className="container-custom"
+          style={{ position: 'relative', zIndex: 10, maxWidth: '1100px', margin: '0 auto', width: '100%' }}
+        >
+          <div style={{ maxWidth: '980px', margin: '0 auto', textAlign: 'center' }}>
             {/* Main Headline with Oui Will Kinetic Typographic Animation */}
             <OuiWillHeadline
               style={{
-                fontSize: 'clamp(2.4rem, 5.2vw, 4.2rem)',
-                fontWeight: 900,
-                lineHeight: 1.15,
-                letterSpacing: '-0.03em',
+                fontFamily: "var(--font-acthirey), 'Acthirey', 'Playfair Display', serif",
+                fontSize: 'clamp(1.9rem, 4.8vw, 62px)',
+                fontWeight: 400,
+                lineHeight: 1.08,
+                letterSpacing: '-0.02em',
                 marginBottom: '1.5rem',
                 display: 'block',
               }}
             >
-              <OuiWillWord index={1}>Where</OuiWillWord>
-              <OuiWillWord index={2}>elite</OuiWillWord>
-              <OuiWillWord index={3}>engineering</OuiWillWord>
-              <OuiWillWord index={4}>craft</OuiWillWord>
+              <OuiWillWord index={1}>Let</OuiWillWord>
+              <OuiWillWord index={2}>Your</OuiWillWord>
+              <OuiWillWord index={3}>Career</OuiWillWord>
               <OuiWillDot />
               <span style={{ display: 'block', width: '100%', marginTop: '0.35rem' }}>
-                <OuiWillWord index={5} isGradient>
-                  meets global impact
+                <OuiWillWord index={4} isGradient>
+                  Take Flight
                 </OuiWillWord>
               </span>
             </OuiWillHeadline>
 
-            {/* Subtitle */}
+            {/* Subtitle from Official Site */}
             <p
               style={{
                 fontSize: 'clamp(1.05rem, 1.8vw, 1.25rem)',
-                lineHeight: 1.65,
+                lineHeight: 1.68,
                 color: isLight ? '#475569' : '#94a3b8',
-                maxWidth: '740px',
-                margin: '0 auto 2.5rem auto',
+                maxWidth: '820px',
+                margin: '0 auto 2.25rem auto',
                 fontWeight: 400,
               }}
             >
-              Join a dedicated squad of engineers, architects, and innovators building mission-critical
-              cloud systems, AI agent pipelines, and enterprise platforms for global leaders.
+              Ignite Your Future with Opash Software. Join a team that thrives on innovation, collaboration, and continuous growth. If you&apos;re driven by learning, creativity, and teamwork, your next big opportunity starts here.
             </p>
 
-            {/* CTAs with Kinetic Rolling Text on Hover */}
+            {/* CTAs with Home Page Rolling Text on Hover */}
+            <div
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '1rem',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginBottom: '2.5rem',
+              }}
+            >
+              <a href="#resume-form" className="hero-brand-primary-btn opash-roll-btn">
+                <span className="opash-roll-track">
+                  <span className="opash-roll-item">
+                    <span>Send Resume Here</span>
+                    <ArrowRight size={15} className="hero-btn-arrow" />
+                  </span>
+                  <span className="opash-roll-item" aria-hidden="true">
+                    <span>Send Resume Here</span>
+                    <ArrowRight size={15} className="hero-btn-arrow" />
+                  </span>
+                </span>
+              </a>
+
+              <a href="#life-at-opash" className="hero-brand-secondary-btn opash-roll-btn">
+                <span className="opash-roll-track">
+                  <span className="opash-roll-item">
+                    <Briefcase size={15} className="hero-wa-icon" />
+                    <span>Life at Opash</span>
+                  </span>
+                  <span className="opash-roll-item" aria-hidden="true">
+                    <Briefcase size={15} className="hero-wa-icon" />
+                    <span>Life at Opash</span>
+                  </span>
+                </span>
+              </a>
+            </div>
+
+            {/* Genuine Contact Quick Pills */}
             <div
               style={{
                 display: 'flex',
@@ -637,2135 +188,742 @@ export default function CareerPageClient() {
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: '1rem',
-                marginBottom: '3.5rem',
               }}
             >
-              <a
-                href="#openings"
-                className="opash-roll-btn btn-primary"
+              <div
                 style={{
-                  padding: '0.88rem 2.2rem',
-                  fontSize: '0.98rem',
-                  fontWeight: 700,
-                  borderRadius: '12px',
-                  display: 'inline-flex',
+                  display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'center',
-                  textDecoration: 'none',
-                }}
-              >
-                <span className="opash-roll-track">
-                  <span className="opash-roll-item">
-                    <span>Explore Open Roles ({openings.length})</span>
-                    <ChevronDown size={18} />
-                  </span>
-                  <span className="opash-roll-item" aria-hidden="true">
-                    <span>Explore Open Roles ({openings.length})</span>
-                    <ChevronDown size={18} />
-                  </span>
-                </span>
-              </a>
-
-              <button
-                type="button"
-                onClick={handleShareResume}
-                className="opash-roll-btn"
-                style={{
-                  padding: '0.88rem 2rem',
-                  fontSize: '0.98rem',
-                  fontWeight: 700,
-                  borderRadius: '12px',
-                  color: '#ffffff',
-                  background: 'linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%)',
-                  border: 'none',
-                  boxShadow: '0 4px 20px rgba(14, 165, 233, 0.4)',
-                  cursor: 'pointer',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  textDecoration: 'none',
-                }}
-              >
-                <span className="opash-roll-track">
-                  <span className="opash-roll-item">
-                    <UploadCloud size={18} />
-                    <span>Share Resume</span>
-                  </span>
-                  <span className="opash-roll-item" aria-hidden="true">
-                    <UploadCloud size={18} />
-                    <span>Share Resume</span>
-                  </span>
-                </span>
-              </button>
-
-              <a
-                href="#life-at-opash"
-                className="opash-roll-btn"
-                style={{
-                  padding: '0.88rem 2rem',
-                  fontSize: '0.98rem',
-                  fontWeight: 600,
-                  borderRadius: '12px',
-                  color: isLight ? '#0f172a' : '#f8fafc',
-                  background: isLight ? 'rgba(255, 255, 255, 0.8)' : 'rgba(255, 255, 255, 0.05)',
+                  gap: '8px',
+                  padding: '8px 18px',
+                  borderRadius: '9999px',
+                  background: isLight ? 'rgba(255, 255, 255, 0.85)' : 'rgba(15, 23, 42, 0.65)',
                   border: isLight ? '1px solid #cbd5e1' : '1px solid rgba(255, 255, 255, 0.12)',
-                  backdropFilter: 'blur(12px)',
-                  display: 'inline-flex',
+                  backdropFilter: 'blur(10px)',
+                  fontSize: '0.86rem',
+                  fontWeight: 650,
+                  color: isLight ? '#334155' : '#cbd5e1',
+                }}
+              >
+                <MapPin size={15} className="text-emerald-400" />
+                <span>Surat HQ, Gujarat, India</span>
+              </div>
+
+              <a
+                href="tel:+919537222266"
+                style={{
+                  display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'center',
+                  gap: '8px',
+                  padding: '8px 18px',
+                  borderRadius: '9999px',
+                  background: isLight ? 'rgba(255, 255, 255, 0.85)' : 'rgba(15, 23, 42, 0.65)',
+                  border: isLight ? '1px solid #cbd5e1' : '1px solid rgba(255, 255, 255, 0.12)',
+                  backdropFilter: 'blur(10px)',
+                  fontSize: '0.86rem',
+                  fontWeight: 650,
+                  color: isLight ? '#334155' : '#cbd5e1',
                   textDecoration: 'none',
                 }}
               >
-                <span className="opash-roll-track">
-                  <span className="opash-roll-item">
-                    <span>Life at Opash</span>
-                    <ArrowRight size={16} />
-                  </span>
-                  <span className="opash-roll-item" aria-hidden="true">
-                    <span>Life at Opash</span>
-                    <ArrowRight size={16} />
-                  </span>
-                </span>
+                <Phone size={15} className="text-cyan-400" />
+                <span>+91 95372-22266</span>
+              </a>
+
+              <a
+                href="mailto:opash.hr@gmail.com"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '8px 18px',
+                  borderRadius: '9999px',
+                  background: isLight ? 'rgba(255, 255, 255, 0.85)' : 'rgba(15, 23, 42, 0.65)',
+                  border: isLight ? '1px solid #cbd5e1' : '1px solid rgba(255, 255, 255, 0.12)',
+                  backdropFilter: 'blur(10px)',
+                  fontSize: '0.86rem',
+                  fontWeight: 650,
+                  color: isLight ? '#334155' : '#cbd5e1',
+                  textDecoration: 'none',
+                }}
+              >
+                <Mail size={15} className="text-sky-400" />
+                <span>opash.hr@gmail.com</span>
               </a>
             </div>
-
-            {/* Floating Telemetry Stats Bar with Rolling Number Counters */}
-            <div
-              ref={statsRef}
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-                gap: '1rem',
-                maxWidth: '920px',
-                margin: '0 auto',
-              }}
-            >
-              {[
-                { number: '100%', label: 'In-House Engineers', sub: 'Surat HQ & Global Delivery' },
-                { number: '4.9 ★', label: 'Glassdoor Rating', sub: 'Top Employee CSAT' },
-                { number: '0%', label: 'Micro-Management', sub: 'High Agency Autonomy' },
-                { number: '100%', label: 'Modern AI & Cloud', sub: 'Next.js, Go, PyTorch' },
-              ].map((stat, i) => (
-                <div
-                  key={i}
-                  style={{
-                    padding: '1.25rem 1rem',
-                    borderRadius: '16px',
-                    background: isLight ? 'rgba(255, 255, 255, 0.7)' : 'rgba(15, 23, 42, 0.55)',
-                    border: isLight ? '1px solid rgba(226, 232, 240, 0.9)' : '1px solid rgba(255, 255, 255, 0.08)',
-                    backdropFilter: 'blur(16px)',
-                    boxShadow: isLight
-                      ? '0 4px 20px -2px rgba(0, 0, 0, 0.04)'
-                      : '0 4px 24px -2px rgba(0, 0, 0, 0.4)',
-                    textAlign: 'center',
-                    transform: statsInView ? 'translate3d(0, 0, 0)' : 'translate3d(0, 24px, 0)',
-                    opacity: statsInView ? 1 : 0,
-                    transition: `transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) ${i * 0.1}s, opacity 0.7s ease ${i * 0.1}s`,
-                  }}
-                >
-                  <div
-                    style={{
-                      fontSize: '2rem',
-                      fontWeight: 850,
-                      letterSpacing: '-0.02em',
-                      lineHeight: 1.15,
-                      marginBottom: '0.3rem',
-                      color: isLight ? '#008a75' : '#2dd4bf',
-                    }}
-                  >
-                    {stat.number === '4.9 ★' ? (
-                      <>
-                        <RollingNumberTicker text="4.9" start={statsInView} /> ★
-                      </>
-                    ) : (
-                      <RollingNumberTicker text={stat.number} start={statsInView} />
-                    )}
-                  </div>
-                  <div
-                    style={{
-                      fontSize: '0.86rem',
-                      fontWeight: 700,
-                      color: isLight ? '#1e293b' : '#f1f5f9',
-                    }}
-                  >
-                    {stat.label}
-                  </div>
-                  <div
-                    style={{
-                      fontSize: '0.74rem',
-                      color: isLight ? '#64748b' : '#94a3b8',
-                      marginTop: '0.15rem',
-                    }}
-                  >
-                    {stat.sub}
-                  </div>
-                </div>
-              ))}
-            </div>
-
           </div>
         </div>
-      </section>
 
-      {/* ========================================================
-          2. OUR CRAFT MANIFESTO (3 Engineering Pillars)
-      ======================================================== */}
-      <section
-        id="culture"
-        style={{
-          padding: '5rem 0',
-          position: 'relative',
-          background: isLight ? 'rgba(241, 245, 249, 0.5)' : 'rgba(10, 18, 34, 0.4)',
-          borderTop: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.06)',
-          borderBottom: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.06)',
-        }}
-      >
-        <div className="container-custom">
-          <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 3.5rem auto' }}>
-            <div
+        {/* Animated "Scroll to Explore" Indicator (like Portfolio & About Us) */}
+        <a
+          href="#life-at-opash"
+          onClick={(e) => {
+            e.preventDefault();
+            const target = document.getElementById('life-at-opash');
+            if (target) {
+              target.scrollIntoView({ behavior: 'smooth' });
+            }
+          }}
+          className="hero-scroll-indicator"
+          style={{
+            position: 'absolute',
+            bottom: 'clamp(1.5rem, 3.5vh, 2.75rem)',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            display: 'inline-flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '0.55rem',
+            textDecoration: 'none',
+            zIndex: 10,
+            cursor: 'pointer',
+            transition: 'transform 0.25s ease, opacity 0.25s ease',
+          }}
+        >
+          {/* Minimalist mouse pill with animated glowing dot */}
+          <div
+            style={{
+              width: '22px',
+              height: '36px',
+              borderRadius: '9999px',
+              border: `1.5px solid ${isLight ? 'rgba(0, 138, 117, 0.45)' : 'rgba(0, 255, 209, 0.45)'}`,
+              background: isLight ? 'rgba(255, 255, 255, 0.65)' : 'rgba(10, 20, 36, 0.65)',
+              backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)',
+              display: 'flex',
+              justifyContent: 'center',
+              paddingTop: '6px',
+              boxShadow: isLight
+                ? '0 4px 14px rgba(0, 168, 143, 0.15)'
+                : '0 4px 18px rgba(0, 255, 209, 0.2)',
+            }}
+          >
+            <span
+              className="hero-scroll-dot"
               style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                marginBottom: '1rem',
+                width: '4px',
+                height: '7px',
+                borderRadius: '9999px',
+                background: isLight ? '#008a75' : '#00ffd1',
+                boxShadow: isLight ? '0 0 8px #008a75' : '0 0 10px #00ffd1',
               }}
-            >
-              <span
-                style={{
-                  width: '8px',
-                  height: '8px',
-                  borderRadius: '50%',
-                  background: isLight ? '#00a88f' : '#5EC098',
-                  boxShadow: isLight ? '0 0 8px #00a88f' : '0 0 10px #5EC098',
-                }}
-              />
-              <span
-                style={{
-                  fontSize: '0.85rem',
-                  fontWeight: 700,
-                  letterSpacing: '0.08em',
-                  textTransform: 'uppercase',
-                  color: isLight ? '#008a75' : '#5EC098',
-                }}
-              >
-                The Opash Engineering Manifesto
-              </span>
-            </div>
-            <h2
-              style={{
-                fontSize: 'clamp(2.1rem, 4vw, 3.2rem)',
-                fontWeight: 850,
-                letterSpacing: '-0.025em',
-                color: isLight ? '#03173C' : '#f8fafc',
-                marginBottom: '1.15rem',
-                lineHeight: 1.15,
-              }}
-            >
-              We Build Software With{' '}
-              <span className="opash-brand-gradient-text">
-                Uncompromising Standards
-              </span>
-            </h2>
-            <p style={{ color: isLight ? '#64748b' : '#94a3b8', fontSize: '1.05rem', lineHeight: 1.6 }}>
-              We are not a ticket-moving sweatshop. We are product engineers who respect clean architecture,
-              type safety, zero bloat, and extreme ownership.
-            </p>
+            />
           </div>
 
           <div
-            ref={manifestoGridRef}
             style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(310px, 1fr))',
-              gap: '1.75rem',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.35rem',
+              fontSize: '0.72rem',
+              fontWeight: 800,
+              letterSpacing: '0.14em',
+              color: isLight ? '#008a75' : '#00ffd1',
+              textTransform: 'uppercase',
             }}
           >
-            {[
-              {
-                icon: <Code2 size={28} className="text-cyan-400" />,
-                title: 'Clean Architecture First',
-                desc: 'Strict TypeScript, modular components, and decoupled microservices. We choose battle-tested primitives over fragile dependencies that create tech debt.',
-                highlight: 'Zero Bloat Philosophy',
-              },
-              {
-                icon: <Cpu size={28} className="text-emerald-400" />,
-                title: 'AI-Augmented Velocity',
-                desc: 'We pioneer production LLM agent pipelines, automated test synthesis, and vector search in everyday client products and internal workflows.',
-                highlight: 'Modern AI Native Stacks',
-              },
-              {
-                icon: <Target size={28} className="text-amber-400" />,
-                title: 'Extreme Ownership & Impact',
-                desc: 'Engineers participate in architectural calls directly with founders and CTOs across the US and Europe. No middlemen twisting requirements.',
-                highlight: 'Direct Global Exposure',
-              },
-            ].map((pillar, i) => (
-              <ManifestoInteractiveCard
-                key={i}
-                pillar={pillar}
-                index={i}
-                isLight={isLight}
-                sectionInView={manifestoInView}
-              />
-            ))}
+            <span>SCROLL TO EXPLORE</span>
+            <span style={{ fontSize: '0.85rem' }}>↓</span>
           </div>
-        </div>
+        </a>
       </section>
 
       {/* ========================================================
-          3. LIFE AT OPASH (Real Photos Carousel & Lightbox)
+          2. SECTION 1: LIFE AT OPASH (PHOTOS & CULTURE)
       ======================================================== */}
       <LifeAtOpashSection />
 
       {/* ========================================================
-          4. BENEFITS & CULTURE PERKS BENTO GRID
-      ======================================================== */}
-      <section
-        style={{
-          padding: '6rem 0',
-          position: 'relative',
-          background: isLight ? 'rgba(241, 245, 249, 0.45)' : 'rgba(10, 18, 34, 0.45)',
-          borderBottom: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.08)',
-        }}
-      >
-        <div className="container-custom">
-          <div style={{ textAlign: 'center', maxWidth: '680px', margin: '0 auto 3.5rem auto' }}>
-            <div
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                marginBottom: '1rem',
-              }}
-            >
-              <span
-                style={{
-                  width: '8px',
-                  height: '8px',
-                  borderRadius: '50%',
-                  background: isLight ? '#00a88f' : '#5EC098',
-                  boxShadow: isLight ? '0 0 8px #00a88f' : '0 0 10px #5EC098',
-                }}
-              />
-              <span
-                style={{
-                  fontSize: '0.85rem',
-                  fontWeight: 700,
-                  letterSpacing: '0.08em',
-                  textTransform: 'uppercase',
-                  color: isLight ? '#008a75' : '#5EC098',
-                }}
-              >
-                Benefits & Culture
-              </span>
-            </div>
-            <h2
-              style={{
-                fontSize: 'clamp(2.1rem, 4vw, 3.2rem)',
-                fontWeight: 850,
-                letterSpacing: '-0.025em',
-                color: isLight ? '#03173C' : '#f8fafc',
-                marginBottom: '1.15rem',
-                lineHeight: 1.15,
-              }}
-            >
-              Engineered For High Growth &{' '}
-              <span className="opash-brand-gradient-text">
-                Low Burnout
-              </span>
-            </h2>
-            <p style={{ color: isLight ? '#64748b' : '#94a3b8', fontSize: '1.05rem', lineHeight: 1.6 }}>
-              Great software is built by well-rested, highly appreciated engineers with the best tools on earth.
-            </p>
-          </div>
-
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-              gap: '1.5rem',
-            }}
-          >
-            {careersData.perks.map((perk, i) => (
-              <div
-                key={i}
-                style={{
-                  padding: '2rem',
-                  borderRadius: '20px',
-                  background: isLight ? '#ffffff' : 'rgba(15, 23, 42, 0.5)',
-                  border: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.08)',
-                  boxShadow: isLight ? '0 4px 20px -2px rgba(0, 0, 0, 0.03)' : 'none',
-                  transition: 'transform 0.25s ease, border-color 0.25s ease',
-                  position: 'relative',
-                }}
-              >
-                <div
-                  style={{
-                    width: 48,
-                    height: 48,
-                    borderRadius: '12px',
-                    background: isLight ? 'rgba(0, 168, 143, 0.08)' : 'rgba(0, 255, 209, 0.08)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginBottom: '1.25rem',
-                  }}
-                >
-                  {perkIcons[perk.icon] || <Zap size={20} className="text-cyan-400" />}
-                </div>
-
-                <h3
-                  style={{
-                    fontSize: '1.18rem',
-                    fontWeight: 750,
-                    letterSpacing: '-0.01em',
-                    marginBottom: '0.5rem',
-                  }}
-                >
-                  {perk.title}
-                </h3>
-
-                <p
-                  style={{
-                    color: isLight ? '#64748b' : '#94a3b8',
-                    fontSize: '0.92rem',
-                    lineHeight: 1.6,
-                    margin: 0,
-                  }}
-                >
-                  {perk.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ========================================================
-          5. OUR ACHIEVEMENTS (Milestones & Orbiting Counters)
+          3. SECTION 2: OUR ACHIEVEMENTS
       ======================================================== */}
       <OurAchievementsSection />
 
       {/* ========================================================
-          6. INTERACTIVE OPEN POSITIONS CONSOLE
+          4. SECTION 3: SEND YOUR RESUME HERE!
       ======================================================== */}
       <section
-        id="openings"
+        id="resume-form"
         style={{
-          padding: '6rem 0',
+          paddingTop: 'clamp(4rem, 7vw, 6rem)',
+          paddingBottom: 'clamp(5rem, 8vw, 7rem)',
+          scrollMarginTop: '90px',
           position: 'relative',
-          background: isLight ? 'rgba(241, 245, 249, 0.4)' : 'rgba(10, 18, 34, 0.5)',
           borderTop: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.06)',
         }}
       >
         <div className="container-custom">
           {/* Section Header */}
-          <div style={{ textAlign: 'center', maxWidth: '750px', margin: '0 auto 2.5rem auto' }}>
-            <div
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                marginBottom: '1rem',
-              }}
-            >
-              <span
-                style={{
-                  width: '8px',
-                  height: '8px',
-                  borderRadius: '50%',
-                  background: isLight ? '#00a88f' : '#5EC098',
-                  boxShadow: isLight ? '0 0 8px #00a88f' : '0 0 10px #5EC098',
-                }}
-              />
-              <span
-                style={{
-                  fontSize: '0.85rem',
-                  fontWeight: 700,
-                  letterSpacing: '0.08em',
-                  textTransform: 'uppercase',
-                  color: isLight ? '#008a75' : '#5EC098',
-                }}
-              >
-                Current Openings ({filteredOpenings.length})
-              </span>
-            </div>
-            <h2
-              style={{
-                fontSize: 'clamp(2.1rem, 4vw, 3.2rem)',
-                fontWeight: 850,
-                letterSpacing: '-0.025em',
-                color: isLight ? '#03173C' : '#f8fafc',
-                marginBottom: '1.15rem',
-                lineHeight: 1.15,
-              }}
-            >
-              Find Your Next{' '}
-              <span className="opash-brand-gradient-text">
-                Career Milestone
-              </span>
+          <div style={{ textAlign: 'center', maxWidth: '780px', margin: '0 auto 3.5rem auto' }}>
+            <h2 className="heading-section" style={{ marginBottom: '1rem' }}>
+              Send your <span className="opash-hero-gradient-text">Resume here!</span>
             </h2>
-            <p style={{ color: isLight ? '#64748b' : '#94a3b8', fontSize: '1.05rem', lineHeight: 1.6 }}>
-              Review our live openings below. Click any role to view detailed responsibilities,
-              prerequisites, and launch your application directly.
+            <p style={{ color: isLight ? '#64748b' : '#94a3b8', fontSize: '1.05rem', lineHeight: 1.65 }}>
+              Join a fast-growing IT company where your skills shape the digital future.
             </p>
           </div>
 
-          {/* Department Filter Pills */}
           <div
             style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: '0.5rem',
-              justifyContent: 'center',
-              marginBottom: '3rem',
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 340px), 1fr))',
+              gap: '2.5rem',
+              alignItems: 'start',
             }}
           >
-            {departments.map((dept) => {
-              const active = activeDept === dept;
-              return (
-                <button
-                  key={dept}
-                  onClick={() => setActiveDept(dept)}
-                  style={{
-                    padding: '8px 18px',
-                    borderRadius: '9999px',
-                    fontSize: '0.85rem',
-                    fontWeight: 650,
-                    cursor: 'pointer',
-                    transition: 'all 0.2s ease',
-                    border: active
-                      ? '1px solid #00ffd1'
-                      : isLight
-                      ? '1px solid #cbd5e1'
-                      : '1px solid rgba(255, 255, 255, 0.1)',
-                    background: active
-                      ? isLight
-                        ? '#00a88f'
-                        : 'rgba(0, 255, 209, 0.15)'
-                      : isLight
-                      ? '#ffffff'
-                      : 'rgba(255, 255, 255, 0.04)',
-                    color: active
-                      ? isLight
-                        ? '#ffffff'
-                        : '#00ffd1'
-                      : isLight
-                      ? '#475569'
-                      : '#cbd5e1',
-                    boxShadow: active
-                      ? isLight
-                        ? '0 2px 10px rgba(0, 168, 143, 0.2)'
-                        : '0 0 16px rgba(0, 255, 209, 0.2)'
-                      : 'none',
-                  }}
-                >
-                  {dept}
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Openings Bento List */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', maxWidth: '1000px', margin: '0 auto' }}>
-            {filteredOpenings.map((job) => {
-              const isExpanded = expandedJobId === job.id;
-              return (
-                <div
-                  key={job.id}
-                  style={{
-                    borderRadius: '20px',
-                    background: isLight ? '#ffffff' : 'rgba(15, 23, 42, 0.65)',
-                    border: isExpanded
-                      ? isLight
-                        ? '1px solid #00a88f'
-                        : '1px solid rgba(0, 255, 209, 0.5)'
-                      : isLight
-                      ? '1px solid #e2e8f0'
-                      : '1px solid rgba(255, 255, 255, 0.08)',
-                    boxShadow: isExpanded
-                      ? isLight
-                        ? '0 8px 30px rgba(0, 168, 143, 0.12)'
-                        : '0 8px 30px rgba(0, 255, 209, 0.12)'
-                      : 'none',
-                    overflow: 'hidden',
-                    transition: 'border-color 0.25s ease, box-shadow 0.25s ease',
-                  }}
-                >
-                  {/* Card Main Row (Always Visible) */}
-                  <div
-                    style={{
-                      padding: '1.75rem 2rem',
-                      display: 'flex',
-                      flexWrap: 'wrap',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      gap: '1.25rem',
-                      cursor: 'pointer',
-                    }}
-                    onClick={() => setExpandedJobId(isExpanded ? null : job.id)}
-                  >
-                    <div style={{ flex: '1 1 500px' }}>
-                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '0.6rem' }}>
-                        <span
-                          style={{
-                            fontSize: '0.74rem',
-                            fontWeight: 700,
-                            padding: '3px 10px',
-                            borderRadius: '6px',
-                            background: isLight ? 'rgba(0, 168, 143, 0.1)' : 'rgba(0, 255, 209, 0.1)',
-                            color: isLight ? '#008a75' : '#00ffd1',
-                          }}
-                        >
-                          {job.department}
-                        </span>
-                        <span
-                          style={{
-                            fontSize: '0.74rem',
-                            fontWeight: 600,
-                            padding: '3px 10px',
-                            borderRadius: '6px',
-                            background: isLight ? '#f1f5f9' : 'rgba(255, 255, 255, 0.06)',
-                            color: isLight ? '#64748b' : '#94a3b8',
-                          }}
-                        >
-                          {job.type}
-                        </span>
-                        <span
-                          style={{
-                            fontSize: '0.74rem',
-                            fontWeight: 600,
-                            padding: '3px 10px',
-                            borderRadius: '6px',
-                            background: isLight ? '#f1f5f9' : 'rgba(255, 255, 255, 0.06)',
-                            color: isLight ? '#64748b' : '#94a3b8',
-                          }}
-                        >
-                          {job.experience}
-                        </span>
-                        {job.positions && (
-                          <span
-                            style={{
-                              fontSize: '0.74rem',
-                              fontWeight: 700,
-                              padding: '3px 10px',
-                              borderRadius: '6px',
-                              background: isLight ? 'rgba(59, 130, 246, 0.1)' : 'rgba(59, 130, 246, 0.18)',
-                              color: isLight ? '#2563eb' : '#60a5fa',
-                              display: 'inline-flex',
-                              alignItems: 'center',
-                              gap: '4px',
-                            }}
-                          >
-                            <Users2 size={12} />
-                            {job.positions} {job.positions === 1 ? 'Opening' : 'Openings'}
-                          </span>
-                        )}
-                      </div>
-
-                      <h3
-                        style={{
-                          fontSize: '1.35rem',
-                          fontWeight: 800,
-                          letterSpacing: '-0.01em',
-                          marginBottom: '0.4rem',
-                        }}
-                      >
-                        {job.title}
-                      </h3>
-
-                      <div
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '6px',
-                          color: isLight ? '#64748b' : '#94a3b8',
-                          fontSize: '0.86rem',
-                        }}
-                      >
-                        <MapPin size={15} className="text-cyan-400" />
-                        <span>{job.location}</span>
-                      </div>
+            {/* LEFT COLUMN: HR & Office Details */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
+              <div
+                style={{
+                  padding: '2.5rem',
+                  borderRadius: '24px',
+                  background: isLight ? '#ffffff' : 'rgba(15, 23, 42, 0.75)',
+                  border: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.08)',
+                  boxShadow: isLight ? '0 10px 30px -5px rgba(0, 0, 0, 0.04)' : 'none',
+                }}
+              >
+                {/* HR Information Header */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '2rem' }}>
+                  <Interactive3DIcon type="building" size={52} iconSize={26} />
+                  <div>
+                    <h3 style={{ fontSize: '1.45rem', fontWeight: 800, margin: 0 }}>
+                      HR Contact Information
+                    </h3>
+                    <div style={{ fontSize: '0.88rem', color: isLight ? '#008a75' : '#00ffd1', fontWeight: 650 }}>
+                      Opash Talent Acquisition Team
                     </div>
+                  </div>
+                </div>
 
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleApplyClick(job.title);
-                        }}
-                        className="btn-primary"
-                        style={{
-                          padding: '0.65rem 1.4rem',
-                          fontSize: '0.88rem',
-                          fontWeight: 700,
-                          borderRadius: '10px',
-                        }}
-                      >
-                        Apply Now
-                      </button>
-
+                {/* Contact List */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
+                  {/* Phone */}
+                  <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
+                    <Interactive3DIcon type="phone" size={44} iconSize={22} style={{ marginTop: '2px' }} />
+                    <div>
                       <div
                         style={{
-                          width: 36,
-                          height: 36,
-                          borderRadius: '50%',
-                          background: isLight ? '#f1f5f9' : 'rgba(255, 255, 255, 0.05)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          color: isLight ? '#475569' : '#94a3b8',
+                          fontSize: '0.8rem',
+                          fontWeight: 750,
+                          color: isLight ? '#64748b' : '#94a3b8',
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.05em',
+                          marginBottom: '4px',
                         }}
                       >
-                        {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+                        HR Phone Hotline
                       </div>
+                      <a
+                        href="tel:+919537222266"
+                        style={{
+                          fontSize: '1.05rem',
+                          fontWeight: 700,
+                          color: isLight ? '#0f172a' : '#ffffff',
+                          textDecoration: 'none',
+                        }}
+                      >
+                        +91 95372-22266
+                      </a>
                     </div>
                   </div>
 
-                  {/* Expandable Details Drawer */}
-                  {isExpanded && (
-                    <div
-                      style={{
-                        padding: '0 2rem 2rem 2rem',
-                        borderTop: isLight ? '1px solid #f1f5f9' : '1px solid rgba(255, 255, 255, 0.06)',
-                        marginTop: '0.5rem',
-                        paddingTop: '1.5rem',
-                      }}
-                    >
+                  {/* Email */}
+                  <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
+                    <Interactive3DIcon type="mail" size={44} iconSize={22} style={{ marginTop: '2px' }} />
+                    <div>
+                      <div
+                        style={{
+                          fontSize: '0.8rem',
+                          fontWeight: 750,
+                          color: isLight ? '#64748b' : '#94a3b8',
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.05em',
+                          marginBottom: '4px',
+                        }}
+                      >
+                        HR Email Address
+                      </div>
+                      <a
+                        href="mailto:opash.hr@gmail.com"
+                        style={{
+                          fontSize: '1.02rem',
+                          fontWeight: 700,
+                          color: isLight ? '#0f172a' : '#ffffff',
+                          textDecoration: 'none',
+                        }}
+                      >
+                        opash.hr@gmail.com
+                      </a>
+                    </div>
+                  </div>
+
+                  {/* Office Address */}
+                  <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
+                    <Interactive3DIcon type="location" size={44} iconSize={22} style={{ marginTop: '2px' }} />
+                    <div>
+                      <div
+                        style={{
+                          fontSize: '0.8rem',
+                          fontWeight: 750,
+                          color: isLight ? '#64748b' : '#94a3b8',
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.05em',
+                          marginBottom: '4px',
+                        }}
+                      >
+                        Office Address
+                      </div>
                       <p
                         style={{
-                          color: isLight ? '#334155' : '#cbd5e1',
-                          fontSize: '0.98rem',
-                          lineHeight: 1.65,
-                          marginBottom: '1.75rem',
+                          margin: 0,
+                          fontSize: '0.96rem',
+                          lineHeight: 1.6,
+                          fontWeight: 500,
+                          color: isLight ? '#1e293b' : '#f1f5f9',
                         }}
                       >
-                        {job.description}
+                        129, The Galleria Shopping Hub, Nr. Sanjeev Kumar Auditorium, Opp. 3Seventy Kitchen Restaurant, Pal, Adajan, Surat - 395009
                       </p>
-
-                      <div
-                        style={{
-                          display: 'grid',
-                          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-                          gap: '2rem',
-                          marginBottom: '2rem',
-                        }}
-                      >
-                        {/* Responsibilities */}
-                        <div>
-                          <h4
-                            style={{
-                              fontSize: '0.95rem',
-                              fontWeight: 750,
-                              textTransform: 'uppercase',
-                              letterSpacing: '0.04em',
-                              marginBottom: '0.85rem',
-                              color: isLight ? '#008a75' : '#00ffd1',
-                            }}
-                          >
-                            Key Responsibilities
-                          </h4>
-                          <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
-                            {job.responsibilities.map((resp: string, idx: number) => (
-                              <li
-                                key={idx}
-                                style={{
-                                  display: 'flex',
-                                  alignItems: 'flex-start',
-                                  gap: '10px',
-                                  fontSize: '0.9rem',
-                                  lineHeight: 1.5,
-                                  color: isLight ? '#475569' : '#94a3b8',
-                                }}
-                              >
-                                <span
-                                  style={{
-                                    width: 18,
-                                    height: 18,
-                                    borderRadius: '50%',
-                                    background: isLight ? 'rgba(0, 168, 143, 0.12)' : 'rgba(0, 255, 209, 0.12)',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    color: isLight ? '#008a75' : '#00ffd1',
-                                    flexShrink: 0,
-                                    marginTop: 2,
-                                  }}
-                                >
-                                  <Check size={12} strokeWidth={3} />
-                                </span>
-                                <span>{resp}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-
-                        {/* Requirements */}
-                        <div>
-                          <h4
-                            style={{
-                              fontSize: '0.95rem',
-                              fontWeight: 750,
-                              textTransform: 'uppercase',
-                              letterSpacing: '0.04em',
-                              marginBottom: '0.85rem',
-                              color: isLight ? '#0284c7' : '#38bdf8',
-                            }}
-                          >
-                            Qualifications & Mastery
-                          </h4>
-                          <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
-                            {job.requirements.map((req: string, idx: number) => (
-                              <li
-                                key={idx}
-                                style={{
-                                  display: 'flex',
-                                  alignItems: 'flex-start',
-                                  gap: '10px',
-                                  fontSize: '0.9rem',
-                                  lineHeight: 1.5,
-                                  color: isLight ? '#475569' : '#94a3b8',
-                                }}
-                              >
-                                <span
-                                  style={{
-                                    width: 18,
-                                    height: 18,
-                                    borderRadius: '50%',
-                                    background: isLight ? 'rgba(14, 165, 233, 0.12)' : 'rgba(56, 189, 248, 0.12)',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    color: isLight ? '#0284c7' : '#38bdf8',
-                                    flexShrink: 0,
-                                    marginTop: 2,
-                                  }}
-                                >
-                                  <Check size={12} strokeWidth={3} />
-                                </span>
-                                <span>{req}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      </div>
-
-                      {/* Fast Launch Apply Bar */}
-                      <div
-                        style={{
-                          padding: '1.25rem',
-                          borderRadius: '12px',
-                          background: isLight ? '#f8fafc' : 'rgba(255, 255, 255, 0.03)',
-                          border: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.06)',
-                          display: 'flex',
-                          flexWrap: 'wrap',
-                          alignItems: 'center',
-                          justifyContent: 'space-between',
-                          gap: '1rem',
-                        }}
-                      >
-                        <div style={{ fontSize: '0.9rem', color: isLight ? '#475569' : '#94a3b8' }}>
-                          Ready to interview? Submit your profile to skip HR gatekeepers.
-                        </div>
-                        <button
-                          onClick={() => handleApplyClick(job.title)}
-                          className="btn-primary"
-                          style={{
-                            padding: '0.6rem 1.5rem',
-                            fontSize: '0.88rem',
-                            fontWeight: 700,
-                            borderRadius: '8px',
-                          }}
-                        >
-                          Fill Application For This Role &rarr;
-                        </button>
-                      </div>
                     </div>
-                  )}
+                  </div>
+
+                  {/* Timing */}
+                  <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
+                    <Interactive3DIcon type="clock" size={44} iconSize={22} style={{ marginTop: '2px' }} />
+                    <div>
+                      <div
+                        style={{
+                          fontSize: '0.8rem',
+                          fontWeight: 750,
+                          color: isLight ? '#64748b' : '#94a3b8',
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.05em',
+                          marginBottom: '4px',
+                        }}
+                      >
+                        Working Timing
+                      </div>
+                      <p
+                        style={{
+                          margin: 0,
+                          fontSize: '0.96rem',
+                          lineHeight: 1.6,
+                          fontWeight: 650,
+                          color: isLight ? '#1e293b' : '#f1f5f9',
+                        }}
+                      >
+                        Monday - Friday : 9:30 AM to 6:30 PM IST
+                      </p>
+                    </div>
+                  </div>
                 </div>
-              );
-            })}
-          </div>
 
-          {/* Share Resume / Direct Drop Callout Card */}
-          <div
-            style={{
-              maxWidth: '1000px',
-              margin: '3rem auto 0 auto',
-              padding: '2.25rem 2.5rem',
-              borderRadius: '20px',
-              background: isLight
-                ? 'linear-gradient(135deg, #f8fafc 0%, #edf2f7 100%)'
-                : 'linear-gradient(135deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.9) 100%)',
-              border: isLight ? '1px solid #cbd5e1' : '1px solid rgba(255, 255, 255, 0.12)',
-              display: 'flex',
-              flexWrap: 'wrap',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              gap: '1.5rem',
-              boxShadow: '0 10px 30px -10px rgba(0, 0, 0, 0.08)',
-            }}
-          >
-            <div style={{ flex: '1 1 500px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '0.6rem' }}>
-                <span
-                  style={{
-                    fontSize: '0.75rem',
-                    fontWeight: 700,
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.08em',
-                    padding: '3px 9px',
-                    borderRadius: '6px',
-                    background: '#2563eb',
-                    color: '#ffffff',
-                  }}
-                >
-                  Direct Drop
-                </span>
-                <span style={{ fontSize: '0.88rem', fontWeight: 650, color: isLight ? '#334155' : '#cbd5e1' }}>
-                  Don&apos;t see an exact fit for your domain?
-                </span>
-              </div>
-              <h3 style={{ fontSize: '1.35rem', fontWeight: 800, marginBottom: '0.4rem', letterSpacing: '-0.01em' }}>
-                Share Your Resume for Fast-Track Consideration
-              </h3>
-              <p style={{ fontSize: '0.92rem', color: isLight ? '#64748b' : '#94a3b8', margin: 0, lineHeight: 1.55 }}>
-                We are always seeking exceptional talent in AI, cloud platforms, full-stack development, and UI/UX engineering. Drop your resume directly into our pipeline and our leadership team will review it within 48 hours.
-              </p>
-            </div>
-
-            <button
-              type="button"
-              onClick={handleShareResume}
-              className="btn-primary"
-              style={{
-                padding: '0.9rem 2rem',
-                fontSize: '0.95rem',
-                fontWeight: 700,
-                borderRadius: '12px',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                whiteSpace: 'nowrap',
-                background: 'linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%)',
-                boxShadow: '0 4px 18px rgba(14, 165, 233, 0.35)',
-              }}
-            >
-              <UploadCloud size={18} />
-              <span>Share Resume Now</span>
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* ========================================================
-          5. DIRECT APPLICATION TERMINAL
-      ======================================================== */}
-      <style>{`
-        .careers-apply-grid {
-          display: grid;
-          grid-template-columns: minmax(0, 1.42fr) minmax(360px, 1fr);
-          gap: 2.25rem;
-          align-items: start;
-          max-width: 1240px;
-          margin: 0 auto;
-        }
-        .careers-form-row {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 1.25rem;
-        }
-        .hr-contact-card {
-          position: sticky;
-          top: 100px;
-          transition: transform 0.25s ease, box-shadow 0.25s ease;
-        }
-        .hr-card-title {
-          font-size: 1.35rem !important;
-          font-weight: 800 !important;
-          color: #2563eb !important;
-          margin: 0 0 1rem 0 !important;
-          letter-spacing: -0.015em !important;
-          line-height: 1.3 !important;
-        }
-        .hr-channel-card {
-          transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
-        }
-        .hr-channel-card:hover {
-          transform: translateY(-2px);
-          border-color: #3b82f6 !important;
-          box-shadow: 0 10px 24px -6px rgba(37, 99, 235, 0.2) !important;
-        }
-        @media (max-width: 991px) {
-          .careers-apply-grid {
-            grid-template-columns: 1fr;
-            gap: 2.5rem;
-          }
-          .hr-contact-card {
-            position: static;
-          }
-        }
-        @media (max-width: 600px) {
-          .careers-form-row {
-            grid-template-columns: 1fr;
-          }
-        }
-      `}</style>
-      <section
-        id="apply-section"
-        style={{
-          padding: '5.5rem 0',
-          position: 'relative',
-        }}
-      >
-        <div className="container-custom">
-          <div className="careers-apply-grid">
-            {/* Left: Application Form Card */}
-            <div
-              style={{
-                padding: 'clamp(2rem, 4.5vw, 3.25rem)',
-                borderRadius: '24px',
-                background: isLight ? '#ffffff' : 'rgba(15, 23, 42, 0.85)',
-                border: isLight ? '1px solid #e2e8f0' : '1px solid rgba(0, 255, 209, 0.25)',
-                boxShadow: isLight
-                  ? '0 20px 50px -15px rgba(0, 0, 0, 0.06)'
-                  : '0 30px 80px -20px rgba(0, 255, 209, 0.15)',
-                backdropFilter: 'blur(20px)',
-                position: 'relative',
-              }}
-            >
-            {formSubmitted ? (
-              <div style={{ textAlign: 'center', padding: '3rem 1rem' }}>
-                <div
-                  style={{
-                    width: 72,
-                    height: 72,
-                    borderRadius: '50%',
-                    background: 'rgba(0, 255, 209, 0.15)',
-                    border: '1px solid #00ffd1',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    margin: '0 auto 1.5rem auto',
-                    color: '#00ffd1',
-                  }}
-                >
-                  <CheckCircle2 size={40} />
-                </div>
-                <h3 style={{ fontSize: '2rem', fontWeight: 850, marginBottom: '0.75rem' }}>
-                  Application Dispatched to Engineering!
-                </h3>
-                <p
-                  style={{
-                    color: isLight ? '#475569' : '#94a3b8',
-                    fontSize: '1.05rem',
-                    lineHeight: 1.6,
-                    maxWidth: '520px',
-                    margin: '0 auto 2rem auto',
-                  }}
-                >
-                  Thank you, <strong>{formData.name || 'Candidate'}</strong>. Our technical talent lead and
-                  engineering director review all candidate submissions within 2 business days.
-                </p>
-                <button
-                  onClick={() => setFormSubmitted(false)}
-                  className="btn-primary"
-                  style={{ padding: '0.8rem 2rem', borderRadius: '10px', fontSize: '0.95rem' }}
-                >
-                  Submit Another Profile
-                </button>
-              </div>
-            ) : (
-              <>
-                <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-                  <div
+                {/* Google Maps Link */}
+                <div style={{ marginTop: '2rem', paddingTop: '1.5rem', borderTop: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.08)' }}>
+                  <a
+                    href={companyData.contact.googleMapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     style={{
                       display: 'inline-flex',
                       alignItems: 'center',
                       gap: '8px',
-                      marginBottom: '1rem',
+                      fontSize: '0.92rem',
+                      fontWeight: 700,
+                      color: isLight ? '#0284c7' : '#38bdf8',
+                      textDecoration: 'none',
                     }}
                   >
-                    <span
-                      style={{
-                        width: '8px',
-                        height: '8px',
-                        borderRadius: '50%',
-                        background: isLight ? '#00a88f' : '#5EC098',
-                        boxShadow: isLight ? '0 0 8px #00a88f' : '0 0 10px #5EC098',
-                      }}
-                    />
-                    <span
-                      style={{
-                        fontSize: '0.85rem',
-                        fontWeight: 700,
-                        letterSpacing: '0.08em',
-                        textTransform: 'uppercase',
-                        color: isLight ? '#008a75' : '#5EC098',
-                      }}
-                    >
-                      Direct Candidate Fast-Track
-                    </span>
-                  </div>
-                  <h3
-                    style={{
-                      fontSize: 'clamp(1.9rem, 3.2vw, 2.6rem)',
-                      fontWeight: 850,
-                      letterSpacing: '-0.025em',
-                      color: isLight ? '#03173C' : '#f8fafc',
-                      marginBottom: '0.85rem',
-                      lineHeight: 1.15,
-                    }}
-                  >
-                    Send Your Profile Directly to{' '}
-                    <span className="opash-brand-gradient-text">
-                      Engineering
-                    </span>
-                  </h3>
-                  <p style={{ color: isLight ? '#64748b' : '#94a3b8', fontSize: '0.98rem' }}>
-                    No automated keyword-parsing filters. Real engineering leads read every portfolio and codebase.
-                  </p>
+                    <span>Open in Google Maps &amp; Directions</span>
+                    <ArrowUpRight size={16} />
+                  </a>
                 </div>
+              </div>
 
-                <form onSubmit={handleFormSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-                  {/* Position Select */}
-                  <div>
-                    <label
-                      style={{
-                        display: 'block',
-                        fontSize: '0.86rem',
-                        fontWeight: 700,
-                        marginBottom: '0.5rem',
-                        color: isLight ? '#334155' : '#cbd5e1',
-                      }}
-                    >
-                      Target Role / Opportunity *
-                    </label>
-                    <select
-                      value={selectedRole}
-                      onChange={(e) => {
-                        setSelectedRole(e.target.value);
-                        setFormData((prev) => ({ ...prev, position: e.target.value }));
-                      }}
-                      style={{
-                        width: '100%',
-                        padding: '0.85rem 1rem',
-                        borderRadius: '12px',
-                        background: isLight ? '#f8fafc' : 'rgba(255, 255, 255, 0.05)',
-                        border: isLight ? '1px solid #cbd5e1' : '1px solid rgba(255, 255, 255, 0.12)',
-                        color: isLight ? '#0f172a' : '#f8fafc',
-                        fontSize: '0.95rem',
-                        outline: 'none',
-                      }}
-                    >
-                      {openings.map((j) => (
-                        <option key={j.id} value={j.title} style={{ background: isLight ? '#ffffff' : '#0a1222' }}>
-                          {j.title} ({j.experience})
-                        </option>
-                      ))}
-                      <option value="General Engineering Consideration" style={{ background: isLight ? '#ffffff' : '#0a1222' }}>
-                        🚀 General Consideration — Share Resume Directly
-                      </option>
-                    </select>
+              {/* Direct WhatsApp HR Inquiry */}
+              <a
+                href={companyData.contact.whatsapp}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  padding: '1.5rem 2rem',
+                  borderRadius: '20px',
+                  background: isLight ? '#ffffff' : 'rgba(15, 23, 42, 0.75)',
+                  border: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.08)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '16px',
+                  textDecoration: 'none',
+                  color: 'inherit',
+                  transition: 'border-color 0.2s ease, transform 0.2s ease',
+                }}
+              >
+                <Interactive3DIcon type="whatsapp" size={48} iconSize={26} />
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: '0.78rem', fontWeight: 750, color: '#25D366', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                    Chat Directly with HR
+                  </div>
+                  <div style={{ fontSize: '1.05rem', fontWeight: 800 }}>
+                    +91 95372-22266
+                  </div>
+                </div>
+                <ArrowRight size={18} style={{ color: '#25D366' }} />
+              </a>
+            </div>
+
+            {/* RIGHT COLUMN: Application Form */}
+            <div
+              style={{
+                borderRadius: '24px',
+                background: isLight ? '#ffffff' : 'rgba(15, 23, 42, 0.85)',
+                border: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.08)',
+                boxShadow: isLight
+                  ? '0 20px 50px -15px rgba(0, 0, 0, 0.06)'
+                  : '0 25px 60px -20px rgba(0, 0, 0, 0.8)',
+                padding: 'clamp(2rem, 4vw, 3rem)',
+                position: 'relative',
+              }}
+            >
+              {submitted ? (
+                <div style={{ textAlign: 'center', padding: '3rem 1.5rem' }}>
+                  <div
+                    style={{
+                      width: 72,
+                      height: 72,
+                      borderRadius: '50%',
+                      background: 'rgba(0, 255, 209, 0.15)',
+                      color: '#00ffd1',
+                      border: '1px solid #00ffd1',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      margin: '0 auto 1.5rem auto',
+                    }}
+                  >
+                    <CheckCircle2 size={40} />
+                  </div>
+                  <h3 style={{ fontSize: '1.8rem', fontWeight: 800, marginBottom: '0.75rem' }}>
+                    Application Submitted!
+                  </h3>
+                  <p style={{ color: isLight ? '#64748b' : '#94a3b8', fontSize: '1rem', lineHeight: 1.6, maxWidth: '440px', margin: '0 auto 2rem auto' }}>
+                    Thank you for applying to Opash Software. Our HR team will review your profile and reach out within 24-48 business hours.
+                  </p>
+                  <button
+                    onClick={() => {
+                      setSubmitted(false);
+                      setFormData({ name: '', email: '', phone: '', position: '', expertise: '', message: '' });
+                      setResumeFile(null);
+                    }}
+                    className="hero-brand-primary-btn"
+                    style={{ padding: '0.85rem 2rem' }}
+                  >
+                    Submit Another Application
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <div style={{ marginBottom: '2rem' }}>
+                    <h3 style={{ fontSize: '1.45rem', fontWeight: 800, margin: '0 0 0.5rem 0' }}>
+                      Love What You Do? Do It with Us.
+                    </h3>
+                    <p style={{ color: isLight ? '#008a75' : '#00ffd1', fontSize: '0.92rem', fontWeight: 650, margin: 0 }}>
+                      Connect with our HR today.
+                    </p>
                   </div>
 
-                  {/* Name & Email Row */}
-                  <div className="careers-form-row">
-                    <div>
-                      <label
-                        style={{
-                          display: 'block',
-                          fontSize: '0.86rem',
-                          fontWeight: 700,
-                          marginBottom: '0.5rem',
-                          color: isLight ? '#334155' : '#cbd5e1',
-                        }}
-                      >
-                        Full Name *
+                  <form onSubmit={handleSubmit}>
+                    {/* Name */}
+                    <div style={{ marginBottom: '1.25rem' }}>
+                      <label style={{ display: 'block', fontSize: '0.84rem', fontWeight: 700, marginBottom: '0.5rem' }}>
+                        Name *
                       </label>
                       <input
                         type="text"
                         required
-                        placeholder="Alex Sharma"
+                        placeholder="Your full name"
                         value={formData.name}
-                        onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         style={{
                           width: '100%',
-                          padding: '0.85rem 1rem',
+                          padding: '0.85rem 1.15rem',
                           borderRadius: '12px',
-                          background: isLight ? '#f8fafc' : 'rgba(255, 255, 255, 0.05)',
-                          border: isLight ? '1px solid #cbd5e1' : '1px solid rgba(255, 255, 255, 0.12)',
-                          color: isLight ? '#0f172a' : '#f8fafc',
-                          fontSize: '0.95rem',
+                          background: isLight ? '#f8fafc' : 'rgba(0, 0, 0, 0.35)',
+                          border: `1px solid ${isLight ? '#cbd5e1' : 'rgba(255, 255, 255, 0.1)'}`,
+                          color: isLight ? '#0f172a' : '#ffffff',
+                          fontSize: '0.94rem',
                           outline: 'none',
+                          boxSizing: 'border-box',
                         }}
                       />
                     </div>
 
-                    <div>
-                      <label
-                        style={{
-                          display: 'block',
-                          fontSize: '0.86rem',
-                          fontWeight: 700,
-                          marginBottom: '0.5rem',
-                          color: isLight ? '#334155' : '#cbd5e1',
-                        }}
-                      >
-                        Email Address *
-                      </label>
-                      <input
-                        type="email"
-                        required
-                        placeholder="alex@domain.com"
-                        value={formData.email}
-                        onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
-                        style={{
-                          width: '100%',
-                          padding: '0.85rem 1rem',
-                          borderRadius: '12px',
-                          background: isLight ? '#f8fafc' : 'rgba(255, 255, 255, 0.05)',
-                          border: isLight ? '1px solid #cbd5e1' : '1px solid rgba(255, 255, 255, 0.12)',
-                          color: isLight ? '#0f172a' : '#f8fafc',
-                          fontSize: '0.95rem',
-                          outline: 'none',
-                        }}
-                      />
-                    </div>
-                  </div>
-
-                  {/* Phone & Experience Row */}
-                  <div className="careers-form-row">
-                    <div>
-                      <label
-                        style={{
-                          display: 'block',
-                          fontSize: '0.86rem',
-                          fontWeight: 700,
-                          marginBottom: '0.5rem',
-                          color: isLight ? '#334155' : '#cbd5e1',
-                        }}
-                      >
-                        Phone / WhatsApp *
-                      </label>
-                      <input
-                        type="tel"
-                        required
-                        placeholder="+91 98765 43210"
-                        value={formData.phone}
-                        onChange={(e) => setFormData((prev) => ({ ...prev, phone: e.target.value }))}
-                        style={{
-                          width: '100%',
-                          padding: '0.85rem 1rem',
-                          borderRadius: '12px',
-                          background: isLight ? '#f8fafc' : 'rgba(255, 255, 255, 0.05)',
-                          border: isLight ? '1px solid #cbd5e1' : '1px solid rgba(255, 255, 255, 0.12)',
-                          color: isLight ? '#0f172a' : '#f8fafc',
-                          fontSize: '0.95rem',
-                          outline: 'none',
-                        }}
-                      />
-                    </div>
-
-                    <div>
-                      <label
-                        style={{
-                          display: 'block',
-                          fontSize: '0.86rem',
-                          fontWeight: 700,
-                          marginBottom: '0.5rem',
-                          color: isLight ? '#334155' : '#cbd5e1',
-                        }}
-                      >
-                        Total Professional Experience
-                      </label>
-                      <select
-                        value={formData.experience}
-                        onChange={(e) => setFormData((prev) => ({ ...prev, experience: e.target.value }))}
-                        style={{
-                          width: '100%',
-                          padding: '0.85rem 1rem',
-                          borderRadius: '12px',
-                          background: isLight ? '#f8fafc' : 'rgba(255, 255, 255, 0.05)',
-                          border: isLight ? '1px solid #cbd5e1' : '1px solid rgba(255, 255, 255, 0.12)',
-                          color: isLight ? '#0f172a' : '#f8fafc',
-                          fontSize: '0.95rem',
-                          outline: 'none',
-                        }}
-                      >
-                        <option value="Fresher / Intern">Fresher / Intern (0 - 1 Years)</option>
-                        <option value="1 - 3 Years">Junior Engineer (1 - 3 Years)</option>
-                        <option value="3 - 5 Years">Mid-Senior Engineer (3 - 5 Years)</option>
-                        <option value="5+ Years">Senior / Lead Architect (5+ Years)</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  {/* GitHub / Portfolio URL */}
-                  <div>
-                    <label
-                      style={{
-                        display: 'block',
-                        fontSize: '0.86rem',
-                        fontWeight: 700,
-                        marginBottom: '0.5rem',
-                        color: isLight ? '#334155' : '#cbd5e1',
-                      }}
-                    >
-                      GitHub / Portfolio / LinkedIn URL *
-                    </label>
-                    <input
-                      type="url"
-                      required
-                      placeholder="https://github.com/yourhandle"
-                      value={formData.portfolioUrl}
-                      onChange={(e) => setFormData((prev) => ({ ...prev, portfolioUrl: e.target.value }))}
-                      style={{
-                        width: '100%',
-                        padding: '0.85rem 1rem',
-                        borderRadius: '12px',
-                        background: isLight ? '#f8fafc' : 'rgba(255, 255, 255, 0.05)',
-                        border: isLight ? '1px solid #cbd5e1' : '1px solid rgba(255, 255, 255, 0.12)',
-                        color: isLight ? '#0f172a' : '#f8fafc',
-                        fontSize: '0.95rem',
-                        outline: 'none',
-                      }}
-                    />
-                  </div>
-
-                  {/* Message / Cover Note */}
-                  <div>
-                    <label
-                      style={{
-                        display: 'block',
-                        fontSize: '0.86rem',
-                        fontWeight: 700,
-                        marginBottom: '0.5rem',
-                        color: isLight ? '#334155' : '#cbd5e1',
-                      }}
-                    >
-                      Why Opash Software? (Optional Note)
-                    </label>
-                    <textarea
-                      rows={3}
-                      placeholder="Tell us about the toughest engineering challenge you solved recently..."
-                      value={formData.message}
-                      onChange={(e) => setFormData((prev) => ({ ...prev, message: e.target.value }))}
-                      style={{
-                        width: '100%',
-                        padding: '0.85rem 1rem',
-                        borderRadius: '12px',
-                        background: isLight ? '#f8fafc' : 'rgba(255, 255, 255, 0.05)',
-                        border: isLight ? '1px solid #cbd5e1' : '1px solid rgba(255, 255, 255, 0.12)',
-                        color: isLight ? '#0f172a' : '#f8fafc',
-                        fontSize: '0.95rem',
-                        outline: 'none',
-                        resize: 'vertical',
-                      }}
-                    />
-                  </div>
-
-                  {/* Resume Upload Dropzone Section */}
-                  <div>
+                    {/* Email & Phone Grid */}
                     <div
                       style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        marginBottom: '0.6rem',
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                        gap: '1.25rem',
+                        marginBottom: '1.25rem',
                       }}
                     >
-                      <label
-                        style={{
-                          display: 'block',
-                          fontSize: '0.96rem',
-                          fontWeight: 600,
-                          color: isLight ? '#0f172a' : '#f8fafc',
-                          letterSpacing: '-0.01em',
-                        }}
-                      >
-                        Resume
-                      </label>
-                      <button
-                        type="button"
-                        onClick={() => setShowCloudLink((prev) => !prev)}
-                        style={{
-                          background: 'none',
-                          border: 'none',
-                          fontSize: '0.8rem',
-                          color: '#2563eb',
-                          cursor: 'pointer',
-                          textDecoration: 'underline',
-                          padding: 0,
-                          fontWeight: 500,
-                        }}
-                      >
-                        {showCloudLink ? 'Hide Cloud Link' : 'Or paste Cloud link (Drive / Dropbox)'}
-                      </button>
+                      <div>
+                        <label style={{ display: 'block', fontSize: '0.84rem', fontWeight: 700, marginBottom: '0.5rem' }}>
+                          Email *
+                        </label>
+                        <input
+                          type="email"
+                          required
+                          placeholder="your.email@example.com"
+                          value={formData.email}
+                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                          style={{
+                            width: '100%',
+                            padding: '0.85rem 1.15rem',
+                            borderRadius: '12px',
+                            background: isLight ? '#f8fafc' : 'rgba(0, 0, 0, 0.35)',
+                            border: `1px solid ${isLight ? '#cbd5e1' : 'rgba(255, 255, 255, 0.1)'}`,
+                            color: isLight ? '#0f172a' : '#ffffff',
+                            fontSize: '0.94rem',
+                            outline: 'none',
+                            boxSizing: 'border-box',
+                          }}
+                        />
+                      </div>
+
+                      <div>
+                        <label style={{ display: 'block', fontSize: '0.84rem', fontWeight: 700, marginBottom: '0.5rem' }}>
+                          Phone *
+                        </label>
+                        <input
+                          type="tel"
+                          required
+                          placeholder="+91 00000-00000"
+                          value={formData.phone}
+                          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                          style={{
+                            width: '100%',
+                            padding: '0.85rem 1.15rem',
+                            borderRadius: '12px',
+                            background: isLight ? '#f8fafc' : 'rgba(0, 0, 0, 0.35)',
+                            border: `1px solid ${isLight ? '#cbd5e1' : 'rgba(255, 255, 255, 0.1)'}`,
+                            color: isLight ? '#0f172a' : '#ffffff',
+                            fontSize: '0.94rem',
+                            outline: 'none',
+                            boxSizing: 'border-box',
+                          }}
+                        />
+                      </div>
                     </div>
 
-                    <input
-                      ref={fileInputRef}
-                      type="file"
-                      accept=".pdf,.doc,.docx"
-                      onChange={handleFileSelect}
-                      style={{ display: 'none' }}
-                    />
-
+                    {/* Position & Area of Expertise */}
                     <div
-                      onDragOver={handleDragOver}
-                      onDragLeave={handleDragLeave}
-                      onDrop={handleDrop}
-                      onClick={() => fileInputRef.current?.click()}
                       style={{
-                        border: isDragging
-                          ? '2px dashed #1d4ed8'
-                          : '1.5px dashed #2563eb',
-                        borderRadius: '8px',
-                        padding: '1.75rem 1.25rem',
-                        background: isDragging
-                          ? isLight
-                            ? 'rgba(37, 99, 235, 0.06)'
-                            : 'rgba(37, 99, 235, 0.15)'
-                          : isLight
-                            ? '#ffffff'
-                            : 'rgba(255, 255, 255, 0.02)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        textAlign: 'center',
-                        cursor: 'pointer',
-                        transition: 'all 0.2s ease',
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                        gap: '1.25rem',
+                        marginBottom: '1.25rem',
                       }}
                     >
+                      <div>
+                        <label style={{ display: 'block', fontSize: '0.84rem', fontWeight: 700, marginBottom: '0.5rem' }}>
+                          Position *
+                        </label>
+                        <select
+                          required
+                          value={formData.position}
+                          onChange={(e) => setFormData({ ...formData, position: e.target.value })}
+                          style={{
+                            width: '100%',
+                            padding: '0.85rem 1.15rem',
+                            borderRadius: '12px',
+                            background: isLight ? '#f8fafc' : 'rgba(0, 0, 0, 0.35)',
+                            border: `1px solid ${isLight ? '#cbd5e1' : 'rgba(255, 255, 255, 0.1)'}`,
+                            color: isLight ? '#0f172a' : '#ffffff',
+                            fontSize: '0.94rem',
+                            outline: 'none',
+                            boxSizing: 'border-box',
+                            cursor: 'pointer',
+                          }}
+                        >
+                          <option value="" style={{ background: isLight ? '#fff' : '#0f172a', color: isLight ? '#000' : '#fff' }}>Select position</option>
+                          <option value="Intern" style={{ background: isLight ? '#fff' : '#0f172a', color: isLight ? '#000' : '#fff' }}>Intern</option>
+                          <option value="Fresher" style={{ background: isLight ? '#fff' : '#0f172a', color: isLight ? '#000' : '#fff' }}>Fresher</option>
+                          <option value="Software engineer" style={{ background: isLight ? '#fff' : '#0f172a', color: isLight ? '#000' : '#fff' }}>Software engineer</option>
+                          <option value="QA engineer" style={{ background: isLight ? '#fff' : '#0f172a', color: isLight ? '#000' : '#fff' }}>QA engineer</option>
+                          <option value="DevOps engineer" style={{ background: isLight ? '#fff' : '#0f172a', color: isLight ? '#000' : '#fff' }}>DevOps engineer</option>
+                          <option value="Mobile App developer" style={{ background: isLight ? '#fff' : '#0f172a', color: isLight ? '#000' : '#fff' }}>Mobile App developer</option>
+                        </select>
+                      </div>
+
+                      <div>
+                        <label style={{ display: 'block', fontSize: '0.84rem', fontWeight: 700, marginBottom: '0.5rem' }}>
+                          Area of Expertise
+                        </label>
+                        <input
+                          type="text"
+                          placeholder="e.g. React, Node.js, Flutter"
+                          value={formData.expertise}
+                          onChange={(e) => setFormData({ ...formData, expertise: e.target.value })}
+                          style={{
+                            width: '100%',
+                            padding: '0.85rem 1.15rem',
+                            borderRadius: '12px',
+                            background: isLight ? '#f8fafc' : 'rgba(0, 0, 0, 0.35)',
+                            border: `1px solid ${isLight ? '#cbd5e1' : 'rgba(255, 255, 255, 0.1)'}`,
+                            color: isLight ? '#0f172a' : '#ffffff',
+                            fontSize: '0.94rem',
+                            outline: 'none',
+                            boxSizing: 'border-box',
+                          }}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Message */}
+                    <div style={{ marginBottom: '1.25rem' }}>
+                      <label style={{ display: 'block', fontSize: '0.84rem', fontWeight: 700, marginBottom: '0.5rem' }}>
+                        Message
+                      </label>
+                      <textarea
+                        rows={3}
+                        placeholder="Tell us about yourself, your projects, or what you're passionate about..."
+                        value={formData.message}
+                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                        style={{
+                          width: '100%',
+                          padding: '0.85rem 1.15rem',
+                          borderRadius: '12px',
+                          background: isLight ? '#f8fafc' : 'rgba(0, 0, 0, 0.35)',
+                          border: `1px solid ${isLight ? '#cbd5e1' : 'rgba(255, 255, 255, 0.1)'}`,
+                          color: isLight ? '#0f172a' : '#ffffff',
+                          fontSize: '0.94rem',
+                          outline: 'none',
+                          boxSizing: 'border-box',
+                          resize: 'vertical',
+                        }}
+                      />
+                    </div>
+
+                    {/* Resume Upload Area */}
+                    <div style={{ marginBottom: '1.75rem' }}>
+                      <label style={{ display: 'block', fontSize: '0.84rem', fontWeight: 700, marginBottom: '0.5rem' }}>
+                        Resume (PDF / DOCX) *
+                      </label>
                       {resumeFile ? (
                         <div
                           style={{
+                            padding: '1rem 1.25rem',
+                            borderRadius: '12px',
+                            background: isLight ? 'rgba(0, 168, 143, 0.08)' : 'rgba(0, 255, 209, 0.08)',
+                            border: isLight ? '1px solid rgba(0, 168, 143, 0.3)' : '1px solid rgba(0, 255, 209, 0.3)',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'space-between',
-                            width: '100%',
-                            maxWidth: '480px',
-                            padding: '0.6rem 0.9rem',
-                            borderRadius: '8px',
-                            background: isLight ? '#f1f5f9' : 'rgba(255, 255, 255, 0.06)',
-                            border: isLight ? '1px solid #cbd5e1' : '1px solid rgba(255, 255, 255, 0.12)',
                           }}
-                          onClick={(e) => e.stopPropagation()}
                         >
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', overflow: 'hidden' }}>
-                            <FileText size={22} color="#2563eb" style={{ flexShrink: 0 }} />
-                            <div style={{ textAlign: 'left', overflow: 'hidden' }}>
-                              <p
-                                style={{
-                                  fontSize: '0.9rem',
-                                  fontWeight: 600,
-                                  color: isLight ? '#0f172a' : '#f8fafc',
-                                  margin: 0,
-                                  whiteSpace: 'nowrap',
-                                  overflow: 'hidden',
-                                  textOverflow: 'ellipsis',
-                                  maxWidth: '280px',
-                                }}
-                              >
-                                {resumeFile.name}
-                              </p>
-                              <span style={{ fontSize: '0.75rem', color: isLight ? '#64748b' : '#94a3b8' }}>
-                                {(resumeFile.size / (1024 * 1024)).toFixed(2)} MB • Click to replace
-                              </span>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            <FileText size={20} color={isLight ? '#008a75' : '#00ffd1'} />
+                            <div>
+                              <div style={{ fontSize: '0.92rem', fontWeight: 700 }}>{resumeFile.name}</div>
+                              <div style={{ fontSize: '0.76rem', color: isLight ? '#64748b' : '#94a3b8' }}>
+                                {(resumeFile.size / 1024).toFixed(1)} KB
+                              </div>
                             </div>
                           </div>
                           <button
                             type="button"
-                            onClick={() => {
-                              setResumeFile(null);
-                              if (fileInputRef.current) fileInputRef.current.value = '';
-                            }}
+                            onClick={() => setResumeFile(null)}
                             style={{
                               background: 'transparent',
                               border: 'none',
-                              color: '#ef4444',
                               cursor: 'pointer',
+                              color: isLight ? '#64748b' : '#94a3b8',
                               padding: '4px',
-                              display: 'flex',
-                              alignItems: 'center',
                             }}
-                            title="Remove file"
                           >
                             <X size={18} />
                           </button>
                         </div>
                       ) : (
                         <div
+                          onDragOver={(e) => {
+                            e.preventDefault();
+                            setIsDragging(true);
+                          }}
+                          onDragLeave={() => setIsDragging(false)}
+                          onDrop={handleDrop}
                           style={{
-                            fontSize: '0.95rem',
-                            color: isLight ? '#1e293b' : '#f1f5f9',
-                            fontWeight: 450,
-                            letterSpacing: '-0.01em',
+                            border: `2px dashed ${
+                              isDragging
+                                ? '#00ffd1'
+                                : isLight
+                                ? '#cbd5e1'
+                                : 'rgba(255, 255, 255, 0.15)'
+                            }`,
+                            borderRadius: '12px',
+                            padding: '1.75rem 1.5rem',
+                            textAlign: 'center',
+                            background: isDragging
+                              ? 'rgba(0, 255, 209, 0.05)'
+                              : isLight
+                              ? '#f8fafc'
+                              : 'rgba(0, 0, 0, 0.2)',
+                            transition: 'all 0.2s ease',
+                            cursor: 'pointer',
+                            position: 'relative',
                           }}
                         >
-                          Drag &amp; drop Files here or{' '}
-                          <span
+                          <input
+                            type="file"
+                            required
+                            accept=".pdf,.doc,.docx"
+                            onChange={handleFileChange}
                             style={{
-                              color: '#2563eb',
-                              textDecoration: 'underline',
-                              fontWeight: 600,
+                              position: 'absolute',
+                              inset: 0,
+                              opacity: 0,
                               cursor: 'pointer',
                             }}
-                          >
-                            Browse Files
-                          </span>
+                          />
+                          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '0.75rem' }}>
+                            <Interactive3DIcon type="upload" size={48} iconSize={24} />
+                          </div>
+                          <div style={{ fontSize: '0.94rem', fontWeight: 700, marginBottom: '2px' }}>
+                            Drag &amp; drop Files here or <span style={{ color: isLight ? '#0284c7' : '#38bdf8' }}>Browse Files</span>
+                          </div>
+                          <div style={{ fontSize: '0.78rem', color: isLight ? '#64748b' : '#94a3b8' }}>
+                            Supported format: PDF, DOCX (Max 10MB)
+                          </div>
                         </div>
                       )}
                     </div>
 
-                    {showCloudLink && (
-                      <div style={{ marginTop: '0.75rem' }}>
-                        <input
-                          type="url"
-                          placeholder="Or paste cloud link: https://drive.google.com/..."
-                          value={formData.resumeLink}
-                          onChange={(e) => setFormData((prev) => ({ ...prev, resumeLink: e.target.value }))}
-                          style={{
-                            width: '100%',
-                            padding: '0.75rem 1rem',
-                            borderRadius: '10px',
-                            background: isLight ? '#f8fafc' : 'rgba(255, 255, 255, 0.05)',
-                            border: isLight ? '1px solid #cbd5e1' : '1px solid rgba(255, 255, 255, 0.12)',
-                            color: isLight ? '#0f172a' : '#f8fafc',
-                            fontSize: '0.9rem',
-                            outline: 'none',
-                          }}
-                        />
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Submit Button */}
-                  <button
-                    type="submit"
-                    disabled={submitting}
-                    className="btn-primary"
-                    style={{
-                      padding: '1rem 2.5rem',
-                      borderRadius: '12px',
-                      fontSize: '1.05rem',
-                      fontWeight: 750,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: '10px',
-                      marginTop: '0.5rem',
-                      cursor: submitting ? 'wait' : 'pointer',
-                    }}
-                  >
-                    {submitting ? (
-                      <span>Transmitting Profile...</span>
-                    ) : (
-                      <>
-                        <Send size={18} />
-                        <span>Submit Direct Application</span>
-                      </>
-                    )}
-                  </button>
-
-                  <div
-                    style={{
-                      textAlign: 'center',
-                      fontSize: '0.82rem',
-                      color: isLight ? '#64748b' : '#94a3b8',
-                      marginTop: '0.5rem',
-                    }}
-                  >
-                    Prefer direct email? You can also send your resume directly to{' '}
-                    <a
-                      href={`mailto:${companyData.contact.hrEmail}`}
-                      style={{ color: isLight ? '#008a75' : '#00ffd1', fontWeight: 600, textDecoration: 'underline' }}
+                    {/* Submit Button */}
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className="hero-brand-primary-btn opash-roll-btn"
+                      style={{
+                        width: '100%',
+                        justifyContent: 'center',
+                        padding: '1rem',
+                        fontSize: '1rem',
+                      }}
                     >
-                      {companyData.contact.hrEmail}
-                    </a>
-                  </div>
-                </form>
-              </>
-            )}
+                      <span className="opash-roll-track">
+                        <span className="opash-roll-item">
+                          <span>{loading ? 'Submitting...' : 'Send Message'}</span>
+                          <Send size={16} className="hero-btn-arrow" />
+                        </span>
+                        <span className="opash-roll-item" aria-hidden="true">
+                          <span>{loading ? 'Submitting...' : 'Send Message'}</span>
+                          <Send size={16} className="hero-btn-arrow" />
+                        </span>
+                      </span>
+                    </button>
+                  </form>
+                </>
+              )}
             </div>
-
-            {/* Right: Modern High-Impact HR Contact Information Card */}
-            <div
-              className="hr-contact-card"
-              style={{
-                borderRadius: '28px',
-                background: isLight
-                  ? 'linear-gradient(165deg, #ffffff 0%, #f4f8ff 60%, #ebf3ff 100%)'
-                  : 'linear-gradient(165deg, rgba(15, 23, 42, 0.95) 0%, rgba(10, 18, 38, 0.98) 100%)',
-                border: isLight ? '1px solid rgba(37, 99, 235, 0.18)' : '1px solid rgba(59, 130, 246, 0.32)',
-                boxShadow: isLight
-                  ? '0 25px 60px -15px rgba(37, 99, 235, 0.12), 0 0 0 1px rgba(37, 99, 235, 0.05)'
-                  : '0 30px 80px -20px rgba(0, 0, 0, 0.7), 0 0 50px -10px rgba(37, 99, 235, 0.25)',
-                padding: 'clamp(2rem, 3.5vw, 2.75rem)',
-                display: 'flex',
-                flexDirection: 'column',
-                position: 'relative',
-                overflow: 'hidden',
-              }}
-            >
-              {/* Ambient Radial Glow Orb */}
-              <div
-                style={{
-                  position: 'absolute',
-                  top: '-50px',
-                  right: '-50px',
-                  width: '240px',
-                  height: '240px',
-                  background: isLight
-                    ? 'radial-gradient(circle, rgba(37, 99, 235, 0.12) 0%, transparent 70%)'
-                    : 'radial-gradient(circle, rgba(59, 130, 246, 0.22) 0%, transparent 70%)',
-                  filter: 'blur(40px)',
-                  pointerEvents: 'none',
-                  zIndex: 0,
-                }}
-              />
-
-              <div style={{ position: 'relative', zIndex: 1 }}>
-                {/* Live Status Pill */}
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
-                  <span
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '7px',
-                      padding: '5px 12px',
-                      borderRadius: '9999px',
-                      fontSize: '0.72rem',
-                      fontWeight: 700,
-                      letterSpacing: '0.08em',
-                      textTransform: 'uppercase',
-                      background: isLight ? 'rgba(16, 185, 129, 0.1)' : 'rgba(16, 185, 129, 0.18)',
-                      border: isLight ? '1px solid rgba(16, 185, 129, 0.25)' : '1px solid rgba(16, 185, 129, 0.4)',
-                      color: isLight ? '#059669' : '#34d399',
-                    }}
-                  >
-                    <span
-                      style={{
-                        width: 7,
-                        height: 7,
-                        borderRadius: '50%',
-                        background: '#10b981',
-                        boxShadow: '0 0 8px #10b981',
-                        display: 'inline-block',
-                      }}
-                    />
-                    HR Desk Active • Quick Reply
-                  </span>
-                  <span
-                    style={{
-                      fontSize: '0.75rem',
-                      fontWeight: 700,
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.06em',
-                      color: isLight ? '#2563eb' : '#60a5fa',
-                    }}
-                  >
-                    Careers Portal
-                  </span>
-                </div>
-
-                {/* 1. HR Contact Information */}
-                <div style={{ marginBottom: '1.75rem' }}>
-                  <div className="hr-card-title">
-                    HR Contact Information
-                  </div>
-                  <p style={{ margin: '0 0 1.25rem 0', fontSize: '0.88rem', color: isLight ? '#64748b' : '#94a3b8', lineHeight: 1.55 }}>
-                    Reach our technical recruitment team directly for role inquiries, process details, or candidate updates.
-                  </p>
-
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
-                    {/* Phone Channel Card */}
-                    <a
-                      href={`tel:${companyData.contact.phoneClean}`}
-                      className="hr-channel-card"
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        padding: '1rem 1.15rem',
-                        borderRadius: '16px',
-                        background: isLight ? '#ffffff' : 'rgba(255, 255, 255, 0.04)',
-                        border: isLight ? '1px solid #dbeafe' : '1px solid rgba(255, 255, 255, 0.08)',
-                        boxShadow: isLight ? '0 2px 8px rgba(37, 99, 235, 0.04)' : 'none',
-                        textDecoration: 'none',
-                      }}
-                    >
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.9rem' }}>
-                        <div
-                          style={{
-                            width: '42px',
-                            height: '42px',
-                            borderRadius: '12px',
-                            background: isLight ? 'rgba(37, 99, 235, 0.1)' : 'rgba(37, 99, 235, 0.25)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            color: isLight ? '#2563eb' : '#60a5fa',
-                            flexShrink: 0,
-                          }}
-                        >
-                          <Phone size={19} />
-                        </div>
-                        <div>
-                          <div style={{ fontSize: '0.72rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: isLight ? '#64748b' : '#94a3b8' }}>
-                            Call / WhatsApp
-                          </div>
-                          <div style={{ fontSize: '1.02rem', fontWeight: 650, color: isLight ? '#0f172a' : '#f8fafc' }}>
-                            {companyData.contact.phone}
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        style={{
-                          width: '32px',
-                          height: '32px',
-                          borderRadius: '50%',
-                          background: isLight ? '#f1f5f9' : 'rgba(255, 255, 255, 0.08)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          color: isLight ? '#2563eb' : '#60a5fa',
-                        }}
-                      >
-                        <ArrowUpRight size={16} />
-                      </div>
-                    </a>
-
-                    {/* Email Channel Card */}
-                    <a
-                      href={`mailto:${companyData.contact.hrEmail}`}
-                      className="hr-channel-card"
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        padding: '1rem 1.15rem',
-                        borderRadius: '16px',
-                        background: isLight ? '#ffffff' : 'rgba(255, 255, 255, 0.04)',
-                        border: isLight ? '1px solid #dbeafe' : '1px solid rgba(255, 255, 255, 0.08)',
-                        boxShadow: isLight ? '0 2px 8px rgba(37, 99, 235, 0.04)' : 'none',
-                        textDecoration: 'none',
-                      }}
-                    >
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.9rem' }}>
-                        <div
-                          style={{
-                            width: '42px',
-                            height: '42px',
-                            borderRadius: '12px',
-                            background: isLight ? 'rgba(14, 165, 233, 0.1)' : 'rgba(14, 165, 233, 0.25)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            color: isLight ? '#0284c7' : '#38bdf8',
-                            flexShrink: 0,
-                          }}
-                        >
-                          <Mail size={19} />
-                        </div>
-                        <div>
-                          <div style={{ fontSize: '0.72rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: isLight ? '#64748b' : '#94a3b8' }}>
-                            Official Talent Inbox
-                          </div>
-                          <div style={{ fontSize: '1.02rem', fontWeight: 650, color: isLight ? '#0f172a' : '#f8fafc' }}>
-                            {companyData.contact.hrEmail}
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        style={{
-                          width: '32px',
-                          height: '32px',
-                          borderRadius: '50%',
-                          background: isLight ? '#f1f5f9' : 'rgba(255, 255, 255, 0.08)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          color: isLight ? '#0284c7' : '#38bdf8',
-                        }}
-                      >
-                        <ArrowUpRight size={16} />
-                      </div>
-                    </a>
-                  </div>
-                </div>
-
-                {/* Subtle Divider */}
-                <div
-                  style={{
-                    height: '1px',
-                    background: isLight
-                      ? 'linear-gradient(90deg, #bfdbfe 0%, rgba(191, 219, 254, 0.3) 100%)'
-                      : 'linear-gradient(90deg, rgba(59, 130, 246, 0.4) 0%, rgba(59, 130, 246, 0.08) 100%)',
-                    margin: '1.75rem 0',
-                  }}
-                />
-
-                {/* 2. Office Address */}
-                <div style={{ marginBottom: '1.75rem' }}>
-                  <div className="hr-card-title">
-                    Office Address
-                  </div>
-                  <div
-                    style={{
-                      padding: '1.15rem 1.25rem',
-                      borderRadius: '16px',
-                      background: isLight ? '#ffffff' : 'rgba(255, 255, 255, 0.04)',
-                      border: isLight ? '1px solid #dbeafe' : '1px solid rgba(255, 255, 255, 0.08)',
-                      boxShadow: isLight ? '0 2px 8px rgba(37, 99, 235, 0.04)' : 'none',
-                    }}
-                  >
-                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.9rem' }}>
-                      <div
-                        style={{
-                          width: '38px',
-                          height: '38px',
-                          borderRadius: '10px',
-                          background: isLight ? 'rgba(37, 99, 235, 0.1)' : 'rgba(37, 99, 235, 0.25)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          color: isLight ? '#2563eb' : '#60a5fa',
-                          flexShrink: 0,
-                          marginTop: '2px',
-                        }}
-                      >
-                        <Building2 size={19} />
-                      </div>
-                      <div style={{ flex: 1 }}>
-                        <div style={{ fontSize: '0.96rem', fontWeight: 650, color: isLight ? '#0f172a' : '#f8fafc', marginBottom: '4px' }}>
-                          Opash Software Headquarters
-                        </div>
-                        <p style={{ margin: 0, fontSize: '0.88rem', lineHeight: 1.6, color: isLight ? '#475569' : '#cbd5e1' }}>
-                          129, The Galleria Shopping Hub, Nr. Sanjeev Kumar Auditorium, Opp. 3Seventy Kitchen Restaurant, Pal, Adajan, Surat - 395009
-                        </p>
-                        <a
-                          href={companyData.contact.googleMapsUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          style={{
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: '5px',
-                            marginTop: '0.75rem',
-                            fontSize: '0.82rem',
-                            fontWeight: 650,
-                            color: isLight ? '#2563eb' : '#60a5fa',
-                            textDecoration: 'none',
-                          }}
-                        >
-                          <MapPin size={14} />
-                          <span>Locate on Google Maps</span>
-                          <ExternalLink size={12} />
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Subtle Divider */}
-                <div
-                  style={{
-                    height: '1px',
-                    background: isLight
-                      ? 'linear-gradient(90deg, #bfdbfe 0%, rgba(191, 219, 254, 0.3) 100%)'
-                      : 'linear-gradient(90deg, rgba(59, 130, 246, 0.4) 0%, rgba(59, 130, 246, 0.08) 100%)',
-                    margin: '1.75rem 0',
-                  }}
-                />
-
-                {/* 3. Timing */}
-                <div style={{ marginBottom: '1.75rem' }}>
-                  <div className="hr-card-title">
-                    Timing
-                  </div>
-                  <div
-                    style={{
-                      padding: '1.15rem 1.25rem',
-                      borderRadius: '16px',
-                      background: isLight ? '#ffffff' : 'rgba(255, 255, 255, 0.04)',
-                      border: isLight ? '1px solid #dbeafe' : '1px solid rgba(255, 255, 255, 0.08)',
-                      boxShadow: isLight ? '0 2px 8px rgba(37, 99, 235, 0.04)' : 'none',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      flexWrap: 'wrap',
-                      gap: '0.75rem',
-                    }}
-                  >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
-                      <div
-                        style={{
-                          width: '38px',
-                          height: '38px',
-                          borderRadius: '10px',
-                          background: isLight ? 'rgba(16, 185, 129, 0.1)' : 'rgba(16, 185, 129, 0.25)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          color: isLight ? '#059669' : '#34d399',
-                          flexShrink: 0,
-                        }}
-                      >
-                        <Clock size={19} />
-                      </div>
-                      <div>
-                        <div style={{ fontSize: '0.72rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: isLight ? '#64748b' : '#94a3b8' }}>
-                          Working Days
-                        </div>
-                        <div style={{ fontSize: '0.96rem', fontWeight: 650, color: isLight ? '#0f172a' : '#f8fafc' }}>
-                          Monday – Friday
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      style={{
-                        padding: '6px 12px',
-                        borderRadius: '8px',
-                        background: isLight ? '#eff6ff' : 'rgba(37, 99, 235, 0.2)',
-                        border: isLight ? '1px solid #bfdbfe' : '1px solid rgba(59, 130, 246, 0.3)',
-                        fontSize: '0.86rem',
-                        fontWeight: 650,
-                        color: isLight ? '#1d4ed8' : '#93c5fd',
-                      }}
-                    >
-                      9:30 AM to 6:30 PM IST
-                    </div>
-                  </div>
-                </div>
-
-                {/* 4. Quote & Quick Connect Box */}
-                <div
-                  style={{
-                    padding: '1.4rem 1.35rem',
-                    borderRadius: '18px',
-                    background: isLight
-                      ? 'linear-gradient(135deg, rgba(37, 99, 235, 0.08) 0%, rgba(14, 165, 233, 0.04) 100%)'
-                      : 'linear-gradient(135deg, rgba(37, 99, 235, 0.22) 0%, rgba(14, 165, 233, 0.1) 100%)',
-                    border: isLight ? '1px solid rgba(37, 99, 235, 0.15)' : '1px solid rgba(59, 130, 246, 0.32)',
-                    position: 'relative',
-                  }}
-                >
-                  <p
-                    style={{
-                      fontSize: '1.02rem',
-                      fontWeight: 650,
-                      color: isLight ? '#0f172a' : '#f8fafc',
-                      lineHeight: 1.6,
-                      margin: 0,
-                    }}
-                  >
-                    <span
-                      style={{
-                        color: isLight ? '#2563eb' : '#60a5fa',
-                        fontSize: '1.65rem',
-                        fontWeight: 900,
-                        lineHeight: 1,
-                        verticalAlign: '-3px',
-                        marginRight: '6px',
-                      }}
-                    >
-                      “
-                    </span>
-                    Love What You Do? Do It with Us. Explore exciting career
-                    <span
-                      style={{
-                        color: isLight ? '#2563eb' : '#60a5fa',
-                        fontSize: '1.65rem',
-                        fontWeight: 900,
-                        lineHeight: 1,
-                        verticalAlign: '-3px',
-                        marginLeft: '6px',
-                      }}
-                    >
-                      ”
-                    </span>
-                    <br />
-                    opportunities now.
-                  </p>
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      marginTop: '1.15rem',
-                      paddingTop: '0.95rem',
-                      borderTop: isLight ? '1px solid rgba(37, 99, 235, 0.12)' : '1px solid rgba(255, 255, 255, 0.08)',
-                      flexWrap: 'wrap',
-                      gap: '0.65rem',
-                    }}
-                  >
-                    <span style={{ fontSize: '0.92rem', fontWeight: 600, color: isLight ? '#475569' : '#cbd5e1' }}>
-                      Connect with our HR today.
-                    </span>
-                    <a
-                      href={`https://wa.me/${companyData.contact.phoneClean}?text=Hello%20Opash%20HR,%20I%20am%20interested%20in%20career%20opportunities%20at%20Opash%20Software.`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '6px',
-                        padding: '6px 14px',
-                        borderRadius: '9999px',
-                        fontSize: '0.8rem',
-                        fontWeight: 700,
-                        background: '#2563eb',
-                        color: '#ffffff',
-                        textDecoration: 'none',
-                        boxShadow: '0 4px 12px rgba(37, 99, 235, 0.25)',
-                        transition: 'all 0.2s ease',
-                      }}
-                    >
-                      <MessageCircle size={14} />
-                      <span>WhatsApp HR</span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ========================================================
-          6. THE 4-STEP TRANSPARENT HIRING JOURNEY
-      ======================================================== */}
-      <section
-        style={{
-          padding: '5rem 0',
-          position: 'relative',
-          background: isLight ? 'rgba(241, 245, 249, 0.5)' : 'rgba(10, 18, 34, 0.4)',
-          borderTop: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.06)',
-        }}
-      >
-        <div className="container-custom">
-          <div style={{ textAlign: 'center', maxWidth: '680px', margin: '0 auto 3rem auto' }}>
-            <div
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                marginBottom: '1rem',
-              }}
-            >
-              <span
-                style={{
-                  width: '8px',
-                  height: '8px',
-                  borderRadius: '50%',
-                  background: isLight ? '#00a88f' : '#5EC098',
-                  boxShadow: isLight ? '0 0 8px #00a88f' : '0 0 10px #5EC098',
-                }}
-              />
-              <span
-                style={{
-                  fontSize: '0.85rem',
-                  fontWeight: 700,
-                  letterSpacing: '0.08em',
-                  textTransform: 'uppercase',
-                  color: isLight ? '#008a75' : '#5EC098',
-                }}
-              >
-                Hiring Process
-              </span>
-            </div>
-            <h2
-              style={{
-                fontSize: 'clamp(2.1rem, 4vw, 3.2rem)',
-                fontWeight: 850,
-                letterSpacing: '-0.025em',
-                color: isLight ? '#03173C' : '#f8fafc',
-                marginBottom: '1.15rem',
-                lineHeight: 1.15,
-              }}
-            >
-              Our 4-Stage{' '}
-              <span className="opash-brand-gradient-text">
-                Fast-Track Hiring Process
-              </span>
-            </h2>
-            <p style={{ color: isLight ? '#64748b' : '#94a3b8', fontSize: '0.98rem' }}>
-              We value your time. The entire interview journey typically completes in under 10 business days.
-            </p>
-          </div>
-
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-              gap: '1.25rem',
-            }}
-          >
-            {[
-              {
-                step: '01',
-                title: 'Culture & Tech Sync',
-                time: '30 Mins (Google Meet)',
-                desc: 'Informal discussion covering your career goals, past projects, and culture alignment with Opash leadership.',
-              },
-              {
-                step: '02',
-                title: 'Practical Code Teardown',
-                time: '60 Mins (Live Pairing)',
-                desc: 'Real-world problem solving and code review with a senior engineer. No reverse-binary-tree whiteboard trivia.',
-              },
-              {
-                step: '03',
-                title: 'System Design & Arch',
-                time: '45 Mins (Architecture)',
-                desc: 'High-level scalability dialogue on databases, caching, API design, and asynchronous event streaming.',
-              },
-              {
-                step: '04',
-                title: 'Executive Offer & Welcome',
-                time: 'Fast Same-Week Decision',
-                desc: 'Transparent compensation breakdown, joining bonuses, equipment provisioning, and start date alignment.',
-              },
-            ].map((stage, idx) => (
-              <div
-                key={idx}
-                style={{
-                  padding: '1.75rem',
-                  borderRadius: '16px',
-                  background: isLight ? '#ffffff' : 'rgba(15, 23, 42, 0.65)',
-                  border: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.08)',
-                  position: 'relative',
-                }}
-              >
-                <div
-                  style={{
-                    fontSize: '1.75rem',
-                    fontWeight: 900,
-                    letterSpacing: '-0.03em',
-                    color: isLight ? '#00a88f' : '#00ffd1',
-                    marginBottom: '0.5rem',
-                  }}
-                >
-                  {stage.step}
-                </div>
-                <h4 style={{ fontSize: '1.1rem', fontWeight: 800, marginBottom: '0.25rem' }}>{stage.title}</h4>
-                <div
-                  style={{
-                    fontSize: '0.78rem',
-                    fontWeight: 650,
-                    color: isLight ? '#0284c7' : '#38bdf8',
-                    marginBottom: '0.75rem',
-                  }}
-                >
-                  {stage.time}
-                </div>
-                <p style={{ color: isLight ? '#64748b' : '#94a3b8', fontSize: '0.88rem', lineHeight: 1.55, margin: 0 }}>
-                  {stage.desc}
-                </p>
-              </div>
-            ))}
           </div>
         </div>
       </section>

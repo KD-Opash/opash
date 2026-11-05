@@ -1,94 +1,71 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { companyData } from '@/data/company';
 import ContactCreativeBackdrop from '@/components/ContactCreativeBackdrop';
-import ContactForm from '@/components/ContactForm';
 import { useTheme } from '@/components/ThemeProvider';
 import OuiWillHeadline, { OuiWillWord, OuiWillDot } from '@/components/OuiWillHeadline';
+import { TechStackShowcase } from '@/components/TechStackShowcase';
+import Interactive3DIcon from '@/components/Interactive3DIcon';
 import {
   MapPin,
   Phone,
   Mail,
-  Clock,
-  ArrowUpRight,
-  Globe,
-  ShieldCheck,
-  MessageSquare,
-  CheckCircle2,
   Send,
-  Building2,
-  Calendar,
-  Layers,
-  DollarSign,
-  ChevronDown,
-  ChevronUp,
-  Cpu,
-  Laptop,
+  CheckCircle2,
+  ArrowRight,
+  ArrowUpRight,
   MessageCircle,
+  Building2,
+  Sparkles,
+  User,
+  FileText,
+  MessageSquare,
+  Cpu,
+  Layers,
+  ChevronLeft,
+  ChevronRight,
+  Check,
 } from 'lucide-react';
 
-function LiveIstClock({ isLight }: { isLight: boolean }) {
-  const [istTime, setIstTime] = useState<string>('');
-
-  useEffect(() => {
-    const updateTime = () => {
-      try {
-        const now = new Date();
-        const options: Intl.DateTimeFormatOptions = {
-          timeZone: 'Asia/Kolkata',
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
-          hour12: true,
-        };
-        setIstTime(new Intl.DateTimeFormat('en-US', options).format(now));
-      } catch {
-        setIstTime('9:30 AM IST');
-      }
-    };
-    updateTime();
-    const interval = setInterval(updateTime, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  return (
-    <div style={{ fontSize: '0.82rem', fontFamily: 'monospace', color: isLight ? '#008a75' : '#00ffd1', fontWeight: 700 }}>
-      {istTime || '9:30 AM IST'}
-    </div>
-  );
-}
+// Exact 10 Industries from live site: https://www.opashsoftware.com/contact/
+const LIVE_INDUSTRIES = [
+  { name: 'Travel & Hospitality', desc: 'Unified global booking engines, dynamic pricing matrices & live GDS inventory synchronization.' },
+  { name: 'Telecommunication', desc: 'Carrier-grade OSS/BSS software, 5G telemetry routing & low-latency mesh communications.' },
+  { name: 'Industrial Tech', desc: 'IoT sensor telematics, automated factory intelligence & digital twin process control.' },
+  { name: 'NGOs', desc: 'Donation collection infrastructure, transparency ledgers & global community engagement platforms.' },
+  { name: 'InsureTech', desc: 'Automated policy issuance, claims management pipelines & AI-driven risk underwriting engines.' },
+  { name: 'Health Care', desc: 'HIPAA-compliant EHR integrations, telehealth video streaming & secure FHIR interoperability.' },
+  { name: 'Fintech', desc: 'High-frequency transaction ledgers, payment gateway integrations & PCI-DSS banking rails.' },
+  { name: 'Ecommerce', desc: 'Sub-second headless storefronts, multi-warehouse inventory & AI-driven product recommendations.' },
+  { name: 'Education', desc: 'Adaptive learning academies, interactive virtual classrooms & SCORM-compliant student LMS.' },
+  { name: 'Real Estate', desc: 'PropTech asset management, 3D interactive virtual tours & automated tenant lease workflows.' },
+];
 
 export default function ContactPageClient() {
   const { theme } = useTheme();
   const isLight = theme === 'light';
 
-  // FAQ Accordion State
-  const [openFaq, setOpenFaq] = useState<number | null>(0);
+  // Form State (Exact fields from live site)
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    projectTitle: '',
+    message: '',
+  });
+  const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
-  const faqs = [
-    {
-      q: 'How quickly can an Opash engineering squad deploy?',
-      a: 'For dedicated engineering squads, we can assemble and onboard vetted senior engineers within 5 to 7 business days. For fixed-scope projects, architecture blueprints and sprint milestones are finalized within 48 to 72 hours of PRD review.',
-    },
-    {
-      q: 'Who owns the intellectual property and code repositories?',
-      a: 'You do. 100% of all source code, architecture diagrams, database schemas, and AI prompts are the exclusive property of your organization from Day 1. We execute a mutual NDA and IP assignment agreement prior to sprint kickoff.',
-    },
-    {
-      q: 'How do you handle collaboration across US, European, and Gulf timezones?',
-      a: 'Our engineering teams work in calibrated overlap windows. We maintain 4 to 6 hours of daily real-time overlap with North America (PST / EST), Europe (GMT / CET), and Middle East (GST) business hours for daily standups, sprint reviews, and Slack/Teams communications.',
-    },
-    {
-      q: 'What engagement models do you support?',
-      a: 'We offer flexible engagement structures tailored to your stage: (1) Dedicated Engineering Squads for fast-scaling products, (2) Milestone-Based Fixed Scope for well-defined deliverables, and (3) Dedicated AI / Architecture Advisory on a retainer model.',
-    },
-    {
-      q: 'Can we start with a small pilot or proof-of-concept (PoC)?',
-      a: 'Yes, absolutely. Many of our enterprise partners begin with a 2-to-4 week PoC or architectural feasibility sprint to validate performance, user experience, and technical viability before committing to large-scale development.',
-    },
-  ];
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setSubmitted(true);
+    }, 800);
+  };
 
   return (
     <div
@@ -102,91 +79,110 @@ export default function ContactPageClient() {
       }}
     >
       {/* ========================================================
-          1. BESPOKE CREATIVE HERO SECTION
+          1. BESPOKE CREATIVE HERO SECTION (100VH FULL WINDOW)
       ======================================================== */}
       <section
+        className="contact-hero-section"
         style={{
           position: 'relative',
-          paddingTop: 'clamp(7rem, 12vw, 10rem)',
-          paddingBottom: 'clamp(4rem, 8vw, 6rem)',
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: 'clamp(6rem, 10vh, 7.5rem) 1.5rem clamp(5rem, 8vh, 6.5rem) 1.5rem',
           overflow: 'hidden',
+          boxSizing: 'border-box',
         }}
       >
         <ContactCreativeBackdrop isLightMode={isLight} />
 
-        <div className="container-custom" style={{ position: 'relative', zIndex: 10 }}>
-          <div style={{ maxWidth: '960px', margin: '0 auto', textAlign: 'center' }}>
-            
-            {/* Live Response Beacon */}
-            <div
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                marginBottom: '1.25rem',
-              }}
-            >
-              <span
-                style={{
-                  width: '8px',
-                  height: '8px',
-                  borderRadius: '50%',
-                  background: isLight ? '#00a88f' : '#00ffd1',
-                  boxShadow: isLight ? '0 0 8px #00a88f' : '0 0 12px #00ffd1',
-                  animation: 'pulse 2s infinite',
-                }}
-              />
-              <span
-                style={{
-                  fontSize: '0.85rem',
-                  fontWeight: 700,
-                  letterSpacing: '0.08em',
-                  textTransform: 'uppercase',
-                  color: isLight ? '#008a75' : '#00ffd1',
-                }}
-              >
-                Direct Access &bull; Fast Technical Response
-              </span>
-            </div>
-
+        <div
+          className="container-custom"
+          style={{ position: 'relative', zIndex: 10, maxWidth: '1280px', margin: '0 auto', width: '100%' }}
+        >
+          <div style={{ maxWidth: '1040px', margin: '0 auto', textAlign: 'center' }}>
             {/* Main Headline with Oui Will Kinetic Typographic Animation */}
             <OuiWillHeadline
               style={{
-                fontSize: 'clamp(2.4rem, 5.2vw, 4.2rem)',
-                fontWeight: 900,
-                lineHeight: 1.15,
-                letterSpacing: '-0.03em',
+                fontFamily: "var(--font-acthirey), 'Acthirey', 'Playfair Display', serif",
+                fontSize: 'clamp(2.1rem, 6.5vw, 82px)',
+                fontWeight: 400,
+                lineHeight: 1.08,
+                letterSpacing: '-0.02em',
                 marginBottom: '1.5rem',
                 display: 'block',
               }}
             >
-              <OuiWillWord index={1}>Let&apos;s</OuiWillWord>
-              <OuiWillWord index={2}>architect</OuiWillWord>
-              <OuiWillWord index={3}>something</OuiWillWord>
+              <OuiWillWord index={1}>Get</OuiWillWord>
+              <OuiWillWord index={2}>In</OuiWillWord>
+              <OuiWillWord index={3}>Touch</OuiWillWord>
               <OuiWillDot />
               <span style={{ display: 'block', width: '100%', marginTop: '0.35rem' }}>
                 <OuiWillWord index={4} isGradient>
-                  extraordinary together
+                  With Us
                 </OuiWillWord>
               </span>
             </OuiWillHeadline>
 
-            {/* Subtitle */}
+            {/* Exact Subtitle from Live Site */}
             <p
               style={{
                 fontSize: 'clamp(1.05rem, 1.8vw, 1.25rem)',
-                lineHeight: 1.65,
+                lineHeight: 1.68,
                 color: isLight ? '#475569' : '#94a3b8',
-                maxWidth: '740px',
-                margin: '0 auto 2.5rem auto',
+                maxWidth: '820px',
+                margin: '0 auto 2.25rem auto',
                 fontWeight: 400,
               }}
             >
-              Skip the sales pipeline. Connect directly with our Principal Architects and Technical Directors
-              to evaluate feasibility, estimate sprints, and receive an actionable roadmap.
+              See how your business can benefit with Opash Software on Your team. Connect directly with our team to evaluate feasibility, estimate sprints, and receive an actionable roadmap.
             </p>
 
-            {/* Trust Assurances Pill Badges */}
+            {/* CTAs with Home Page Rolling Text on Hover */}
+            <div
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '1rem',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginBottom: '2.5rem',
+              }}
+            >
+              <a href="#contact-details-form" className="hero-brand-primary-btn opash-roll-btn">
+                <span className="opash-roll-track">
+                  <span className="opash-roll-item">
+                    <span>Send Message</span>
+                    <ArrowRight size={15} className="hero-btn-arrow" />
+                  </span>
+                  <span className="opash-roll-item" aria-hidden="true">
+                    <span>Send Message</span>
+                    <ArrowRight size={15} className="hero-btn-arrow" />
+                  </span>
+                </span>
+              </a>
+
+              <a
+                href={companyData.contact.whatsapp}
+                target="_blank"
+                rel="noreferrer"
+                className="hero-brand-secondary-btn opash-roll-btn"
+              >
+                <span className="opash-roll-track">
+                  <span className="opash-roll-item">
+                    <MessageCircle size={15} className="hero-wa-icon" />
+                    <span>WhatsApp Direct</span>
+                  </span>
+                  <span className="opash-roll-item" aria-hidden="true">
+                    <MessageCircle size={15} className="hero-wa-icon" />
+                    <span>WhatsApp Direct</span>
+                  </span>
+                </span>
+              </a>
+            </div>
+
+            {/* Real Details Badges */}
             <div
               style={{
                 display: 'flex',
@@ -196,476 +192,673 @@ export default function ContactPageClient() {
                 gap: '1rem',
               }}
             >
-              {[
-                { icon: <ShieldCheck size={16} className="text-emerald-400" />, label: '100% Mutual NDA from Day 1' },
-                { icon: <Clock size={16} className="text-cyan-400" />, label: 'Guaranteed < 4h Initial Response' },
-                { icon: <Cpu size={16} className="text-sky-400" />, label: 'Direct Senior Tech Leads' },
-              ].map((item, i) => (
-                <div
-                  key={i}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    padding: '8px 16px',
-                    borderRadius: '9999px',
-                    background: isLight ? 'rgba(255, 255, 255, 0.8)' : 'rgba(15, 23, 42, 0.6)',
-                    border: isLight ? '1px solid #cbd5e1' : '1px solid rgba(255, 255, 255, 0.1)',
-                    backdropFilter: 'blur(10px)',
-                    fontSize: '0.84rem',
-                    fontWeight: 650,
-                    color: isLight ? '#334155' : '#cbd5e1',
-                  }}
-                >
-                  {item.icon}
-                  <span>{item.label}</span>
-                </div>
-              ))}
-            </div>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '8px 18px',
+                  borderRadius: '9999px',
+                  background: isLight ? 'rgba(255, 255, 255, 0.85)' : 'rgba(15, 23, 42, 0.65)',
+                  border: isLight ? '1px solid #cbd5e1' : '1px solid rgba(255, 255, 255, 0.12)',
+                  backdropFilter: 'blur(10px)',
+                  fontSize: '0.86rem',
+                  fontWeight: 650,
+                  color: isLight ? '#334155' : '#cbd5e1',
+                }}
+              >
+                <MapPin size={15} className="text-emerald-400" />
+                <span>Surat, Gujarat, India</span>
+              </div>
 
+              <a
+                href={`tel:${companyData.contact.phoneClean}`}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '8px 18px',
+                  borderRadius: '9999px',
+                  background: isLight ? 'rgba(255, 255, 255, 0.85)' : 'rgba(15, 23, 42, 0.65)',
+                  border: isLight ? '1px solid #cbd5e1' : '1px solid rgba(255, 255, 255, 0.12)',
+                  backdropFilter: 'blur(10px)',
+                  fontSize: '0.86rem',
+                  fontWeight: 650,
+                  color: isLight ? '#334155' : '#cbd5e1',
+                  textDecoration: 'none',
+                }}
+              >
+                <Phone size={15} className="text-cyan-400" />
+                <span>+91 95372-22266</span>
+              </a>
+
+              <a
+                href={`mailto:${companyData.contact.email}`}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '8px 18px',
+                  borderRadius: '9999px',
+                  background: isLight ? 'rgba(255, 255, 255, 0.85)' : 'rgba(15, 23, 42, 0.65)',
+                  border: isLight ? '1px solid #cbd5e1' : '1px solid rgba(255, 255, 255, 0.12)',
+                  backdropFilter: 'blur(10px)',
+                  fontSize: '0.86rem',
+                  fontWeight: 650,
+                  color: isLight ? '#334155' : '#cbd5e1',
+                  textDecoration: 'none',
+                }}
+              >
+                <Mail size={15} className="text-sky-400" />
+                <span>hiren@opashsoftware.com</span>
+              </a>
+            </div>
           </div>
         </div>
+
+        {/* Animated "Scroll to Explore" Indicator (Like About Us & Portfolio) */}
+        <a
+          href="#contact-details-form"
+          onClick={(e) => {
+            e.preventDefault();
+            const target = document.getElementById('contact-details-form');
+            if (target) {
+              target.scrollIntoView({ behavior: 'smooth' });
+            }
+          }}
+          className="hero-scroll-indicator"
+          style={{
+            position: 'absolute',
+            bottom: 'clamp(1.5rem, 3.5vh, 2.75rem)',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            display: 'inline-flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '0.55rem',
+            textDecoration: 'none',
+            zIndex: 10,
+            cursor: 'pointer',
+            transition: 'transform 0.25s ease, opacity 0.25s ease',
+          }}
+        >
+          {/* Minimalist mouse pill with animated green glowing dot */}
+          <div
+            style={{
+              width: '22px',
+              height: '36px',
+              borderRadius: '9999px',
+              border: `1.5px solid ${isLight ? 'rgba(0, 138, 117, 0.45)' : 'rgba(0, 255, 209, 0.45)'}`,
+              background: isLight ? 'rgba(255, 255, 255, 0.65)' : 'rgba(10, 20, 36, 0.65)',
+              backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)',
+              display: 'flex',
+              justifyContent: 'center',
+              paddingTop: '6px',
+              boxShadow: isLight
+                ? '0 4px 14px rgba(0, 168, 143, 0.15)'
+                : '0 4px 18px rgba(0, 255, 209, 0.2)',
+            }}
+          >
+            <span
+              className="hero-scroll-dot"
+              style={{
+                width: '4px',
+                height: '7px',
+                borderRadius: '9999px',
+                background: isLight ? '#008a75' : '#00ffd1',
+                boxShadow: isLight ? '0 0 8px #008a75' : '0 0 10px #00ffd1',
+              }}
+            />
+          </div>
+
+          <div
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.35rem',
+              fontSize: '0.72rem',
+              fontWeight: 800,
+              letterSpacing: '0.14em',
+              color: isLight ? '#008a75' : '#00ffd1',
+              textTransform: 'uppercase',
+            }}
+          >
+            <span>SCROLL TO EXPLORE</span>
+            <span style={{ fontSize: '0.85rem' }}>↓</span>
+          </div>
+        </a>
       </section>
 
       {/* ========================================================
-          2. DUAL-COLUMN COMMAND CONSOLE & INQUIRY FORM
+          2. SECTION 1: CONTACT INFORMATION & GET IN TOUCH FORM
       ======================================================== */}
       <section
-        id="inquiry-form"
+        id="contact-details-form"
         style={{
-          paddingTop: 'clamp(3.5rem, 6vw, 5.5rem)',
-          paddingBottom: '6.5rem',
-          scrollMarginTop: '110px',
+          paddingTop: 'clamp(4rem, 7vw, 6rem)',
+          paddingBottom: 'clamp(4rem, 7vw, 6rem)',
+          scrollMarginTop: '90px',
           position: 'relative',
+          borderTop: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.06)',
         }}
       >
         <div className="container-custom">
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 340px), 1fr))',
               gap: '2.5rem',
               alignItems: 'start',
             }}
           >
-            {/* LEFT COLUMN: Global HQ & Communication Channels */}
+            {/* LEFT COLUMN: Contact Information */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
-              
-              {/* Surat Headquarters Card */}
               <div
                 style={{
-                  padding: '2.25rem',
+                  padding: '2.5rem',
                   borderRadius: '24px',
-                  background: isLight ? '#ffffff' : 'rgba(15, 23, 42, 0.65)',
+                  background: isLight ? '#ffffff' : 'rgba(15, 23, 42, 0.75)',
                   border: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.08)',
                   boxShadow: isLight ? '0 10px 30px -5px rgba(0, 0, 0, 0.04)' : 'none',
-                  position: 'relative',
-                  overflow: 'hidden',
                 }}
               >
-                {/* Header Row */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
-                  <div
-                    style={{
-                      width: 50,
-                      height: 50,
-                      borderRadius: '14px',
-                      background: 'linear-gradient(135deg, #00ffd1 0%, #0284c7 100%)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: '#020712',
-                      flexShrink: 0,
-                    }}
-                  >
-                    <MapPin size={24} strokeWidth={2.5} />
-                  </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '2rem' }}>
+                  <Interactive3DIcon type="building" size={52} iconSize={26} />
                   <div>
-                    <h3 style={{ fontSize: '1.35rem', fontWeight: 800, margin: 0 }}>
-                      Global Headquarters
+                    <h3 style={{ fontSize: '1.45rem', fontWeight: 800, margin: 0 }}>
+                      Contact Information
                     </h3>
-                    <div style={{ fontSize: '0.85rem', color: isLight ? '#008a75' : '#00ffd1', fontWeight: 650 }}>
-                      Surat, Gujarat, India &bull; Innovation Campus
+                    <div style={{ fontSize: '0.88rem', color: isLight ? '#008a75' : '#00ffd1', fontWeight: 650 }}>
+                      Opash Software Headquarters
                     </div>
                   </div>
                 </div>
 
-                {/* Address Description */}
-                <p
-                  style={{
-                    color: isLight ? '#475569' : '#94a3b8',
-                    fontSize: '0.94rem',
-                    lineHeight: 1.6,
-                    marginBottom: '1.5rem',
-                  }}
-                >
-                  {companyData.contact.address}
-                </p>
-
-                {/* Live IST Clock & Status */}
-                <div
-                  style={{
-                    padding: '0.85rem 1.15rem',
-                    borderRadius: '12px',
-                    background: isLight ? '#f1f5f9' : 'rgba(255, 255, 255, 0.04)',
-                    border: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.06)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    marginBottom: '1.5rem',
-                  }}
-                >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span
-                      style={{
-                        width: '8px',
-                        height: '8px',
-                        borderRadius: '50%',
-                        background: '#10b981',
-                        boxShadow: '0 0 8px #10b981',
-                      }}
-                    />
-                    <span style={{ fontSize: '0.82rem', fontWeight: 700, color: isLight ? '#1e293b' : '#f8fafc' }}>
-                      LAB STATUS: ACTIVE
-                    </span>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
+                  {/* Location */}
+                  <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
+                    <Interactive3DIcon type="location" size={44} iconSize={22} style={{ marginTop: '2px' }} />
+                    <div>
+                      <div style={{ fontSize: '0.8rem', fontWeight: 750, color: isLight ? '#64748b' : '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '4px' }}>
+                        Location
+                      </div>
+                      <p
+                        style={{
+                          margin: 0,
+                          fontSize: '0.96rem',
+                          lineHeight: 1.6,
+                          fontWeight: 500,
+                          color: isLight ? '#1e293b' : '#f1f5f9',
+                        }}
+                      >
+                        129, The Galleria Shopping Hub, Nr. Sanjeev Kumar Auditorium, Opp. 3Seventy Kitchen Restaurant, Pal, Adajan, Surat - 395009
+                      </p>
+                    </div>
                   </div>
-                  <LiveIstClock isLight={isLight} />
+
+                  {/* Phone */}
+                  <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
+                    <Interactive3DIcon type="phone" size={44} iconSize={22} style={{ marginTop: '2px' }} />
+                    <div>
+                      <div style={{ fontSize: '0.8rem', fontWeight: 750, color: isLight ? '#64748b' : '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '4px' }}>
+                        Phone
+                      </div>
+                      <a
+                        href={`tel:${companyData.contact.phoneClean}`}
+                        style={{
+                          fontSize: '1.05rem',
+                          fontWeight: 700,
+                          color: isLight ? '#0f172a' : '#ffffff',
+                          textDecoration: 'none',
+                        }}
+                      >
+                        +91 95372-22266
+                      </a>
+                    </div>
+                  </div>
+
+                  {/* Email */}
+                  <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
+                    <Interactive3DIcon type="mail" size={44} iconSize={22} style={{ marginTop: '2px' }} />
+                    <div>
+                      <div style={{ fontSize: '0.8rem', fontWeight: 750, color: isLight ? '#64748b' : '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '4px' }}>
+                        E-mail
+                      </div>
+                      <a
+                        href={`mailto:${companyData.contact.email}`}
+                        style={{
+                          fontSize: '1.02rem',
+                          fontWeight: 700,
+                          color: isLight ? '#0f172a' : '#ffffff',
+                          textDecoration: 'none',
+                        }}
+                      >
+                        hiren@opashsoftware.com
+                      </a>
+                    </div>
+                  </div>
                 </div>
 
-                {/* Google Maps External Action */}
-                <a
-                  href={companyData.contact.googleMapsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    fontSize: '0.88rem',
-                    fontWeight: 700,
-                    color: isLight ? '#0284c7' : '#38bdf8',
-                    textDecoration: 'none',
-                    transition: 'gap 0.2s ease',
-                  }}
-                >
-                  <span>Open in Google Maps &amp; Directions</span>
-                  <ArrowUpRight size={16} />
-                </a>
-              </div>
-
-              {/* Instant Communication Rails */}
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-                  gap: '1rem',
-                }}
-              >
-                {/* WhatsApp Instant */}
-                <a
-                  href={companyData.contact.whatsapp}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    padding: '1.25rem',
-                    borderRadius: '16px',
-                    background: isLight ? '#ffffff' : 'rgba(15, 23, 42, 0.65)',
-                    border: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.08)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '12px',
-                    textDecoration: 'none',
-                    color: 'inherit',
-                    transition: 'border-color 0.2s ease, transform 0.2s ease',
-                  }}
-                >
-                  <div
+                {/* Google Maps Link */}
+                <div style={{ marginTop: '2rem', paddingTop: '1.5rem', borderTop: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.08)' }}>
+                  <a
+                    href={companyData.contact.googleMapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     style={{
-                      width: 42,
-                      height: 42,
-                      borderRadius: '10px',
-                      background: 'rgba(37, 211, 102, 0.15)',
-                      color: '#25D366',
-                      display: 'flex',
+                      display: 'inline-flex',
                       alignItems: 'center',
-                      justifyContent: 'center',
-                      flexShrink: 0,
-                    }}
-                  >
-                    <MessageCircle size={22} />
-                  </div>
-                  <div>
-                    <div style={{ fontSize: '0.74rem', fontWeight: 700, color: '#25D366', textTransform: 'uppercase' }}>
-                      Instant Chat
-                    </div>
-                    <div style={{ fontSize: '0.94rem', fontWeight: 750 }}>
-                      WhatsApp
-                    </div>
-                  </div>
-                </a>
-
-                {/* Direct Phone */}
-                <a
-                  href={`tel:${companyData.contact.phoneClean}`}
-                  style={{
-                    padding: '1.25rem',
-                    borderRadius: '16px',
-                    background: isLight ? '#ffffff' : 'rgba(15, 23, 42, 0.65)',
-                    border: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.08)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '12px',
-                    textDecoration: 'none',
-                    color: 'inherit',
-                    transition: 'border-color 0.2s ease, transform 0.2s ease',
-                  }}
-                >
-                  <div
-                    style={{
-                      width: 42,
-                      height: 42,
-                      borderRadius: '10px',
-                      background: isLight ? 'rgba(2, 132, 199, 0.12)' : 'rgba(56, 189, 248, 0.15)',
+                      gap: '8px',
+                      fontSize: '0.92rem',
+                      fontWeight: 700,
                       color: isLight ? '#0284c7' : '#38bdf8',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      flexShrink: 0,
+                      textDecoration: 'none',
                     }}
                   >
-                    <Phone size={20} />
-                  </div>
-                  <div>
-                    <div style={{ fontSize: '0.74rem', fontWeight: 700, color: isLight ? '#0284c7' : '#38bdf8', textTransform: 'uppercase' }}>
-                      Voice Hotline
-                    </div>
-                    <div style={{ fontSize: '0.94rem', fontWeight: 750 }}>
-                      {companyData.contact.phone}
-                    </div>
-                  </div>
-                </a>
+                    <span>Open in Google Maps &amp; Directions</span>
+                    <ArrowUpRight size={16} />
+                  </a>
+                </div>
               </div>
 
-              {/* Direct Architecture Email */}
+              {/* Instant WhatsApp Card */}
               <a
-                href={`mailto:${companyData.contact.email}`}
+                href={companyData.contact.whatsapp}
+                target="_blank"
+                rel="noopener noreferrer"
                 style={{
-                  padding: '1.25rem',
-                  borderRadius: '16px',
-                  background: isLight ? '#ffffff' : 'rgba(15, 23, 42, 0.65)',
+                  padding: '1.5rem 2rem',
+                  borderRadius: '20px',
+                  background: isLight ? '#ffffff' : 'rgba(15, 23, 42, 0.75)',
                   border: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.08)',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '12px',
+                  gap: '16px',
                   textDecoration: 'none',
                   color: 'inherit',
+                  transition: 'border-color 0.2s ease, transform 0.2s ease',
                 }}
               >
-                <div
-                  style={{
-                    width: 42,
-                    height: 42,
-                    borderRadius: '10px',
-                    background: isLight ? 'rgba(0, 168, 143, 0.12)' : 'rgba(0, 255, 209, 0.15)',
-                    color: isLight ? '#008a75' : '#00ffd1',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flexShrink: 0,
-                  }}
-                >
-                  <Mail size={20} />
-                </div>
-                <div>
-                  <div style={{ fontSize: '0.74rem', fontWeight: 700, color: isLight ? '#008a75' : '#00ffd1', textTransform: 'uppercase' }}>
-                    Principal Architect Direct
+                <Interactive3DIcon type="whatsapp" size={48} iconSize={26} />
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: '0.78rem', fontWeight: 750, color: '#25D366', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                    Instant Chat on WhatsApp
                   </div>
-                  <div style={{ fontSize: '0.94rem', fontWeight: 750 }}>
-                    {companyData.contact.email}
+                  <div style={{ fontSize: '1.05rem', fontWeight: 800 }}>
+                    +91 95372-22266
                   </div>
                 </div>
+                <ArrowRight size={18} style={{ color: '#25D366' }} />
               </a>
+            </div>
 
-              {/* Global Timezone Synchronizer */}
-              <div
-                style={{
-                  padding: '1.75rem',
-                  borderRadius: '20px',
-                  background: isLight ? '#ffffff' : 'rgba(15, 23, 42, 0.65)',
-                  border: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.08)',
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '1.25rem' }}>
-                  <Globe size={18} className="text-cyan-400" />
-                  <h4 style={{ fontSize: '1.05rem', fontWeight: 750, margin: 0 }}>
-                    Active Sprint Overlap Windows
-                  </h4>
+            {/* RIGHT COLUMN: Get In Touch With Us Form (Exact Live Site Fields) */}
+            <div
+              style={{
+                borderRadius: '24px',
+                background: isLight ? '#ffffff' : 'rgba(15, 23, 42, 0.85)',
+                border: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.08)',
+                boxShadow: isLight
+                  ? '0 20px 50px -15px rgba(0, 0, 0, 0.06)'
+                  : '0 25px 60px -20px rgba(0, 0, 0, 0.8)',
+                padding: 'clamp(2rem, 4vw, 3rem)',
+                position: 'relative',
+              }}
+            >
+              {submitted ? (
+                <div style={{ textAlign: 'center', padding: '3rem 1.5rem' }}>
+                  <div
+                    style={{
+                      width: 72,
+                      height: 72,
+                      borderRadius: '50%',
+                      background: 'rgba(0, 255, 209, 0.15)',
+                      color: '#00ffd1',
+                      border: '1px solid #00ffd1',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      margin: '0 auto 1.5rem auto',
+                    }}
+                  >
+                    <CheckCircle2 size={40} />
+                  </div>
+                  <h3 style={{ fontSize: '1.8rem', fontWeight: 800, marginBottom: '0.75rem' }}>
+                    Message Dispatched!
+                  </h3>
+                  <p style={{ color: isLight ? '#64748b' : '#94a3b8', fontSize: '1rem', lineHeight: 1.6, maxWidth: '440px', margin: '0 auto 2rem auto' }}>
+                    Thank you for reaching out. A Senior Technical Director will review your project and get back to you within 2-4 business hours.
+                  </p>
+                  <button
+                    onClick={() => {
+                      setSubmitted(false);
+                      setFormData({ name: '', email: '', phone: '', projectTitle: '', message: '' });
+                    }}
+                    className="hero-brand-primary-btn"
+                    style={{ padding: '0.85rem 2rem' }}
+                  >
+                    Send Another Message
+                  </button>
                 </div>
+              ) : (
+                <>
+                  <div style={{ marginBottom: '2rem' }}>
+                    <h3 style={{ fontSize: '1.6rem', fontWeight: 800, margin: '0 0 0.5rem 0' }}>
+                      Get In Touch With Us
+                    </h3>
+                    <p style={{ color: isLight ? '#64748b' : '#94a3b8', fontSize: '0.94rem', margin: 0 }}>
+                      See how your business can benefit with Opash Software on Your team.
+                    </p>
+                  </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
-                  {[
-                    { region: 'Surat HQ (India)', tz: 'IST (UTC+5:30)', overlap: 'Primary Command Center & Lab', active: true },
-                    { region: 'North America (West)', tz: 'PST / PDT', overlap: '4 Hours Daily Overlap', active: true },
-                    { region: 'North America (East)', tz: 'EST / EDT', overlap: '5 Hours Daily Overlap', active: true },
-                    { region: 'United Kingdom & Europe', tz: 'GMT / CET', overlap: '6 Hours Daily Overlap', active: true },
-                    { region: 'UAE & Middle East', tz: 'GST (UTC+4)', overlap: '8 Hours Full Overlap', active: true },
-                  ].map((row, i) => (
+                  <form onSubmit={handleSubmit}>
+                    {/* Your Name */}
+                    <div style={{ marginBottom: '1.25rem' }}>
+                      <label style={{ display: 'block', fontSize: '0.84rem', fontWeight: 700, marginBottom: '0.5rem' }}>
+                        Your Name *
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        placeholder="John Miller"
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        style={{
+                          width: '100%',
+                          padding: '0.85rem 1.15rem',
+                          borderRadius: '12px',
+                          background: isLight ? '#f8fafc' : 'rgba(0, 0, 0, 0.35)',
+                          border: `1px solid ${isLight ? '#cbd5e1' : 'rgba(255, 255, 255, 0.1)'}`,
+                          color: isLight ? '#0f172a' : '#ffffff',
+                          fontSize: '0.94rem',
+                          outline: 'none',
+                          boxSizing: 'border-box',
+                        }}
+                      />
+                    </div>
+
+                    {/* Your Email */}
+                    <div style={{ marginBottom: '1.25rem' }}>
+                      <label style={{ display: 'block', fontSize: '0.84rem', fontWeight: 700, marginBottom: '0.5rem' }}>
+                        Your Email *
+                      </label>
+                      <input
+                        type="email"
+                        required
+                        placeholder="john@company.com"
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        style={{
+                          width: '100%',
+                          padding: '0.85rem 1.15rem',
+                          borderRadius: '12px',
+                          background: isLight ? '#f8fafc' : 'rgba(0, 0, 0, 0.35)',
+                          border: `1px solid ${isLight ? '#cbd5e1' : 'rgba(255, 255, 255, 0.1)'}`,
+                          color: isLight ? '#0f172a' : '#ffffff',
+                          fontSize: '0.94rem',
+                          outline: 'none',
+                          boxSizing: 'border-box',
+                        }}
+                      />
+                    </div>
+
+                    {/* Phone & Project Title */}
                     <div
-                      key={i}
                       style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        padding: '0.65rem 0.85rem',
-                        borderRadius: '10px',
-                        background: isLight ? '#f8fafc' : 'rgba(255, 255, 255, 0.03)',
-                        fontSize: '0.84rem',
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                        gap: '1.25rem',
+                        marginBottom: '1.25rem',
                       }}
                     >
                       <div>
-                        <div style={{ fontWeight: 700, color: isLight ? '#1e293b' : '#f8fafc' }}>{row.region}</div>
-                        <div style={{ fontSize: '0.74rem', color: isLight ? '#64748b' : '#94a3b8' }}>{row.tz}</div>
+                        <label style={{ display: 'block', fontSize: '0.84rem', fontWeight: 700, marginBottom: '0.5rem' }}>
+                          Phone *
+                        </label>
+                        <input
+                          type="tel"
+                          required
+                          placeholder="+1 (555) 000-0000"
+                          value={formData.phone}
+                          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                          style={{
+                            width: '100%',
+                            padding: '0.85rem 1.15rem',
+                            borderRadius: '12px',
+                            background: isLight ? '#f8fafc' : 'rgba(0, 0, 0, 0.35)',
+                            border: `1px solid ${isLight ? '#cbd5e1' : 'rgba(255, 255, 255, 0.1)'}`,
+                            color: isLight ? '#0f172a' : '#ffffff',
+                            fontSize: '0.94rem',
+                            outline: 'none',
+                            boxSizing: 'border-box',
+                          }}
+                        />
                       </div>
-                      <span
-                        style={{
-                          fontSize: '0.74rem',
-                          fontWeight: 650,
-                          padding: '3px 8px',
-                          borderRadius: '6px',
-                          background: isLight ? 'rgba(0, 168, 143, 0.1)' : 'rgba(0, 255, 209, 0.1)',
-                          color: isLight ? '#008a75' : '#00ffd1',
-                        }}
-                      >
-                        {row.overlap}
-                      </span>
+
+                      <div>
+                        <label style={{ display: 'block', fontSize: '0.84rem', fontWeight: 700, marginBottom: '0.5rem' }}>
+                          Project Title *
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          placeholder="e.g. Fintech Mobile App"
+                          value={formData.projectTitle}
+                          onChange={(e) => setFormData({ ...formData, projectTitle: e.target.value })}
+                          style={{
+                            width: '100%',
+                            padding: '0.85rem 1.15rem',
+                            borderRadius: '12px',
+                            background: isLight ? '#f8fafc' : 'rgba(0, 0, 0, 0.35)',
+                            border: `1px solid ${isLight ? '#cbd5e1' : 'rgba(255, 255, 255, 0.1)'}`,
+                            color: isLight ? '#0f172a' : '#ffffff',
+                            fontSize: '0.94rem',
+                            outline: 'none',
+                            boxSizing: 'border-box',
+                          }}
+                        />
+                      </div>
                     </div>
-                  ))}
-                </div>
-              </div>
 
+                    {/* Your Message */}
+                    <div style={{ marginBottom: '1.75rem' }}>
+                      <label style={{ display: 'block', fontSize: '0.84rem', fontWeight: 700, marginBottom: '0.5rem' }}>
+                        Your Message *
+                      </label>
+                      <textarea
+                        rows={4}
+                        required
+                        placeholder="Tell us about your requirements, project scope, or goals..."
+                        value={formData.message}
+                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                        style={{
+                          width: '100%',
+                          padding: '0.85rem 1.15rem',
+                          borderRadius: '12px',
+                          background: isLight ? '#f8fafc' : 'rgba(0, 0, 0, 0.35)',
+                          border: `1px solid ${isLight ? '#cbd5e1' : 'rgba(255, 255, 255, 0.1)'}`,
+                          color: isLight ? '#0f172a' : '#ffffff',
+                          fontSize: '0.94rem',
+                          outline: 'none',
+                          boxSizing: 'border-box',
+                          resize: 'vertical',
+                        }}
+                      />
+                    </div>
+
+                    {/* Send Message Button */}
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className="hero-brand-primary-btn opash-roll-btn"
+                      style={{
+                        width: '100%',
+                        justifyContent: 'center',
+                        padding: '1rem',
+                        fontSize: '1rem',
+                      }}
+                    >
+                      <span className="opash-roll-track">
+                        <span className="opash-roll-item">
+                          <span>{loading ? 'Sending...' : 'Send Message'}</span>
+                          <Send size={16} className="hero-btn-arrow" />
+                        </span>
+                        <span className="opash-roll-item" aria-hidden="true">
+                          <span>{loading ? 'Sending...' : 'Send Message'}</span>
+                          <Send size={16} className="hero-btn-arrow" />
+                        </span>
+                      </span>
+                    </button>
+                  </form>
+                </>
+              )}
             </div>
-
-            {/* RIGHT COLUMN: Direct Technical Inquiry Console */}
-            <div>
-              <ContactForm />
-            </div>
-
           </div>
         </div>
       </section>
 
       {/* ========================================================
-          3. EXECUTIVE FAQ ACCORDION
+          3. SECTION 2: TECHNOLOGIES & PLATFORMS WE WORK WITH (HOME STYLE)
+      ======================================================== */}
+      <TechStackShowcase
+        badgeText="Technologies & Platforms"
+        title={
+          <>
+            We Work <span className="tech-showcase-gradient-text">With</span>
+          </>
+        }
+        subtitle="We architect scalable, high-performance web, mobile, and cloud solutions using cutting-edge enterprise stacks."
+      />
+
+      {/* ========================================================
+          4. SECTION 3: INDUSTRIES WE SPECIALIZE IN
       ======================================================== */}
       <section
+        id="industries"
         style={{
-          padding: '5rem 0',
+          paddingTop: 'clamp(4rem, 7vw, 6rem)',
+          paddingBottom: 'clamp(5rem, 8vw, 7rem)',
           position: 'relative',
-          background: isLight ? 'rgba(241, 245, 249, 0.5)' : 'rgba(10, 18, 34, 0.5)',
           borderTop: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.06)',
         }}
       >
         <div className="container-custom">
-          <div style={{ textAlign: 'center', maxWidth: '680px', margin: '0 auto 3rem auto' }}>
-            <span
-              style={{
-                display: 'inline-block',
-                fontSize: '0.85rem',
-                fontWeight: 700,
-                letterSpacing: '0.08em',
-                textTransform: 'uppercase',
-                color: isLight ? '#008a75' : '#00ffd1',
-                marginBottom: '0.75rem',
-              }}
-            >
-              Frequently Asked Questions
-            </span>
-            <h2
-              style={{
-                fontSize: 'clamp(1.8rem, 3.2vw, 2.4rem)',
-                fontWeight: 850,
-                letterSpacing: '-0.02em',
-                marginBottom: '0.75rem',
-              }}
-            >
-              Everything You Need To Know Before Kickoff
+          {/* Header */}
+          <div style={{ textAlign: 'center', maxWidth: '840px', margin: '0 auto 3.5rem auto' }}>
+            <h2 className="heading-section" style={{ marginBottom: '1rem' }}>
+              We <span className="opash-hero-gradient-text">Specialize In</span>
             </h2>
-            <p style={{ color: isLight ? '#64748b' : '#94a3b8', fontSize: '0.98rem' }}>
-              Clear answers regarding timeline, intellectual property, sprint cadence, and engineering contracts.
+            <p style={{ color: isLight ? '#64748b' : '#94a3b8', fontSize: '1.05rem', lineHeight: 1.65 }}>
+              Opash Software brings over 8 years of expertise in delivering tailored digital solutions for Insurance, Fintech, eCommerce, Education, and Real Estate — helping businesses overcome industry challenges and scale confidently.
             </p>
           </div>
 
-          <div style={{ maxWidth: '820px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            {faqs.map((faq, index) => {
-              const isOpen = openFaq === index;
-              return (
+          {/* 10 Verified Industries Grid */}
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+              gap: '1.5rem',
+              maxWidth: '1240px',
+              margin: '0 auto',
+            }}
+          >
+            {LIVE_INDUSTRIES.map((ind, idx) => (
+              <div
+                key={ind.name}
+                style={{
+                  padding: '2rem 1.75rem',
+                  borderRadius: '20px',
+                  background: isLight ? '#ffffff' : 'rgba(15, 23, 42, 0.75)',
+                  border: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.08)',
+                  boxShadow: isLight ? '0 4px 18px rgba(0, 0, 0, 0.03)' : '0 10px 30px rgba(0, 0, 0, 0.35)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  transition: 'transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-4px)';
+                  e.currentTarget.style.borderColor = isLight ? '#00a88f' : '#00ffd1';
+                  e.currentTarget.style.boxShadow = isLight
+                    ? '0 12px 28px -6px rgba(0, 168, 143, 0.15)'
+                    : '0 16px 36px -10px rgba(0, 255, 209, 0.2)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.borderColor = isLight ? '#e2e8f0' : 'rgba(255, 255, 255, 0.08)';
+                  e.currentTarget.style.boxShadow = isLight
+                    ? '0 4px 18px rgba(0, 0, 0, 0.03)'
+                    : '0 10px 30px rgba(0, 0, 0, 0.35)';
+                }}
+              >
+                {/* Top Glowing Laser Accent */}
                 <div
-                  key={index}
                   style={{
-                    borderRadius: '16px',
-                    background: isLight ? '#ffffff' : 'rgba(15, 23, 42, 0.65)',
-                    border: isOpen
-                      ? isLight
-                        ? '1px solid #00a88f'
-                        : '1px solid rgba(0, 255, 209, 0.4)'
-                      : isLight
-                      ? '1px solid #e2e8f0'
-                      : '1px solid rgba(255, 255, 255, 0.08)',
-                    overflow: 'hidden',
-                    transition: 'border-color 0.2s ease',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: '2px',
+                    background: 'linear-gradient(90deg, transparent, #00ffd1, #38bdf8, transparent)',
                   }}
-                >
-                  <button
-                    onClick={() => setOpenFaq(isOpen ? null : index)}
+                />
+
+                <div>
+                  <div
                     style={{
-                      width: '100%',
-                      padding: '1.25rem 1.75rem',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      gap: '1rem',
-                      background: 'transparent',
-                      border: 'none',
-                      cursor: 'pointer',
-                      textAlign: 'left',
-                      color: isLight ? '#0f172a' : '#f8fafc',
+                      fontSize: '0.78rem',
+                      fontWeight: 750,
+                      color: isLight ? '#008a75' : '#00ffd1',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.06em',
+                      marginBottom: '0.5rem',
                     }}
                   >
-                    <span style={{ fontSize: '1.05rem', fontWeight: 750 }}>
-                      {faq.q}
-                    </span>
-                    <div
-                      style={{
-                        width: 32,
-                        height: 32,
-                        borderRadius: '50%',
-                        background: isLight ? '#f1f5f9' : 'rgba(255, 255, 255, 0.05)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        color: isLight ? '#475569' : '#94a3b8',
-                        flexShrink: 0,
-                      }}
-                    >
-                      {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
-                    </div>
-                  </button>
-
-                  {isOpen && (
-                    <div
-                      style={{
-                        padding: '0 1.75rem 1.5rem 1.75rem',
-                        color: isLight ? '#475569' : '#94a3b8',
-                        fontSize: '0.94rem',
-                        lineHeight: 1.65,
-                      }}
-                    >
-                      {faq.a}
-                    </div>
-                  )}
+                    Domain {(idx + 1).toString().padStart(2, '0')}
+                  </div>
+                  <h3
+                    style={{
+                      fontSize: '1.28rem',
+                      fontWeight: 800,
+                      color: isLight ? '#0f172a' : '#ffffff',
+                      marginBottom: '0.75rem',
+                    }}
+                  >
+                    {ind.name}
+                  </h3>
+                  <p
+                    style={{
+                      fontSize: '0.92rem',
+                      color: isLight ? '#64748b' : '#94a3b8',
+                      lineHeight: 1.6,
+                      margin: 0,
+                    }}
+                  >
+                    {ind.desc}
+                  </p>
                 </div>
-              );
-            })}
+
+                <div
+                  style={{
+                    marginTop: '1.5rem',
+                    paddingTop: '1rem',
+                    borderTop: isLight ? '1px solid #f1f5f9' : '1px solid rgba(255, 255, 255, 0.06)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  <span style={{ fontSize: '0.82rem', fontWeight: 650, color: isLight ? '#0284c7' : '#38bdf8' }}>
+                    Enterprise Grade
+                  </span>
+                  <ArrowRight size={16} color={isLight ? '#0284c7' : '#38bdf8'} />
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>

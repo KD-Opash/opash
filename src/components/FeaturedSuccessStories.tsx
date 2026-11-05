@@ -271,8 +271,8 @@ export function FeaturedSuccessStories() {
               <span>Verified Enterprise Case Deployments</span>
             </div>
 
-            <h2 className="heading-section" style={{ fontSize: "clamp(1.65rem, 2.5vw, 2.25rem)" }}>
-              Featured Client Success Stories
+            <h2 className="heading-section">
+              Featured Client <span className="opash-hero-gradient-text">Success Stories</span>
             </h2>
 
             <p className="subhead-lead" style={{ marginTop: "0.65rem", fontSize: "1rem" }}>

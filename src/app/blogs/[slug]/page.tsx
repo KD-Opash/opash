@@ -213,7 +213,18 @@ async function BlogPostContent({ params }: Props) {
             <span className="badge-glow" style={{ marginBottom: "1rem" }}>
               {post.category}
             </span>
-            <h1 style={{ fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 800, color: "var(--text-primary)", lineHeight: 1.2, marginTop: "0.75rem", marginBottom: "1.25rem" }}>
+            <h1
+              style={{
+                fontFamily: "var(--font-acthirey), 'Acthirey', 'Playfair Display', serif",
+                fontSize: "clamp(1.85rem, 3.2vw, 39px)",
+                fontWeight: 400,
+                color: "var(--text-primary)",
+                lineHeight: 1.18,
+                letterSpacing: "-0.015em",
+                marginTop: "0.75rem",
+                marginBottom: "1.25rem",
+              }}
+            >
               {post.title}
             </h1>
 

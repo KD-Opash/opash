@@ -1,21 +1,64 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 interface ContactCreativeBackdropProps {
   isLightMode?: boolean;
 }
 
 /**
- * 0% GPU Ultra-Efficient Ambient Contact Backdrop.
- * Removes 3D sculpture clutter, floating corner badges, and harsh oval masks.
- * Spreads edge-to-edge with multi-stop radial gradient lighting,
- * laser horizon beam, and global network connection arcs.
+ * Bespoke Creative Studio Backdrop for Contact Us Hero.
+ * Matches Portfolio Page kinetic animation:
+ *  1. Interactive Mouse-Tracking Gradient Spotlight (illuminates blueprint under cursor)
+ *  2. Precision Blueprint Graph Grid (Crafto Pattern)
+ *  3. Giant Ambient Architectural Ghost Watermark ("CONNECT")
+ *  4. Global Network Signal Connection Arcs & Radar Beacons
+ *  5. Floating 3D Micro-Squiggle Accents (Mint, Teal & Cyan)
+ *  6. Top Laser Horizon Beam
+ *  7. 0% CPU Overhead (RAF-throttled pointer tracking + GPU transforms)
  */
 export default function ContactCreativeBackdrop({ isLightMode = false }: ContactCreativeBackdropProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [mousePos, setMousePos] = useState<{ x: string; y: string }>({ x: '50%', y: '40%' });
+  const [isHovered, setIsHovered] = useState(false);
+
+  useEffect(() => {
+    const parent = containerRef.current?.parentElement;
+    if (!parent) return;
+
+    let rafId: number | null = null;
+
+    const handlePointerMove = (e: PointerEvent) => {
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        const rect = parent.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        setMousePos({ x: `${Math.round(x)}px`, y: `${Math.round(y)}px` });
+        setIsHovered(true);
+      });
+    };
+
+    const handlePointerLeave = () => {
+      setIsHovered(false);
+      setMousePos({ x: '50%', y: '40%' });
+    };
+
+    parent.addEventListener('pointermove', handlePointerMove, { passive: true });
+    parent.addEventListener('pointerleave', handlePointerLeave, { passive: true });
+
+    return () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      parent.removeEventListener('pointermove', handlePointerMove);
+      parent.removeEventListener('pointerleave', handlePointerLeave);
+    };
+  }, []);
+
   return (
     <div
+      ref={containerRef}
       aria-hidden="true"
+      className="portfolio-creative-backdrop contact-creative-backdrop"
       style={{
         position: 'absolute',
         inset: 0,
@@ -43,11 +86,11 @@ export default function ContactCreativeBackdrop({ isLightMode = false }: Contact
               radial-gradient(ellipse 75% 65% at 100% 35%, rgba(94, 192, 152, 0.18) 0%, transparent 70%),
               radial-gradient(ellipse 90% 50% at 50% 100%, rgba(71, 109, 154, 0.10) 0%, transparent 75%)
             `,
-          transition: 'background 0.5s ease',
+          pointerEvents: 'none',
         }}
       />
 
-      {/* 2. Top Horizon Laser Beam (Opash Mint & Slate) */}
+      {/* 2. Top Horizon Laser Beam */}
       <div
         style={{
           position: 'absolute',
@@ -63,71 +106,217 @@ export default function ContactCreativeBackdrop({ isLightMode = false }: Contact
           boxShadow: isLightMode
             ? '0 0 20px rgba(0, 168, 143, 0.3)'
             : '0 0 25px rgba(94, 192, 152, 0.5), 0 0 10px rgba(71, 109, 154, 0.35)',
+          zIndex: 1,
         }}
       />
 
-      {/* 3. Global Telemetry & Signal Beacon SVG (Opash Brand Vectors) */}
-      <svg
+      {/* 3. Giant Ambient Architectural Ghost Watermark ("CONNECT") */}
+      <div
         style={{
           position: 'absolute',
-          top: '46%',
+          top: '48%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: '100%',
-          maxWidth: '1300px',
-          height: '760px',
-          opacity: isLightMode ? 0.35 : 0.45,
-          maskImage: 'linear-gradient(to bottom, black 0%, black 80%, transparent 100%)',
-          WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 80%, transparent 100%)',
+          fontSize: 'clamp(5.5rem, 18vw, 15rem)',
+          fontWeight: 900,
+          letterSpacing: '-0.04em',
+          lineHeight: 0.9,
+          userSelect: 'none',
+          pointerEvents: 'none',
+          zIndex: 0,
+          fontFamily: 'var(--font-space-grotesk), system-ui, -apple-system, sans-serif',
+          whiteSpace: 'nowrap',
+          color: isLightMode ? 'rgba(71, 109, 154, 0.04)' : 'rgba(255, 255, 255, 0.025)',
+          transition: 'color 0.4s ease',
         }}
-        viewBox="0 0 1240 760"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
       >
-        <defs>
-          <linearGradient id="contactSignalBeam" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor={isLightMode ? "#476D9A" : "#6289B8"} stopOpacity="0.7" />
-            <stop offset="100%" stopColor={isLightMode ? "#00A88F" : "#5EC098"} stopOpacity="0.2" />
-          </linearGradient>
-        </defs>
+        CONNECT
+      </div>
 
-        {/* Global Connection Arcs radiating from Surat HQ Center (620, 380) */}
-        <path d="M 620 380 Q 320 220 180 320" stroke="url(#contactSignalBeam)" strokeWidth="1.5" strokeDasharray="6 6" />
-        <path d="M 620 380 Q 420 140 320 180" stroke={isLightMode ? "rgba(71, 109, 154, 0.3)" : "rgba(98, 137, 184, 0.35)"} strokeWidth="1" strokeDasharray="4 8" />
-        <path d="M 620 380 Q 820 180 1020 280" stroke="url(#contactSignalBeam)" strokeWidth="1.5" strokeDasharray="6 6" />
-        <path d="M 620 380 Q 900 480 1120 420" stroke={isLightMode ? "rgba(0, 168, 143, 0.3)" : "rgba(94, 192, 152, 0.35)"} strokeWidth="1" strokeDasharray="5 7" />
+      {/* 4. Precision Engineering Blueprint Graph Grid */}
+      <div
+        className="portfolio-hero-grid"
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundSize: '28px 28px',
+          maskImage: 'radial-gradient(ellipse 95% 85% at 50% 45%, black 40%, transparent 92%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 95% 85% at 50% 45%, black 40%, transparent 92%)',
+          zIndex: 1,
+        }}
+      />
 
-        {/* Concentric Radar Beacon Rings */}
-        <ellipse cx="620" cy="380" rx="140" ry="70" stroke={isLightMode ? "rgba(71, 109, 154, 0.22)" : "rgba(98, 137, 184, 0.3)"} strokeWidth="1.2" strokeDasharray="6 6" />
-        <ellipse cx="620" cy="380" rx="280" ry="140" stroke={isLightMode ? "rgba(0, 168, 143, 0.16)" : "rgba(94, 192, 152, 0.2)"} strokeWidth="1" strokeDasharray="4 8" />
-        <ellipse cx="620" cy="380" rx="460" ry="230" stroke={isLightMode ? "rgba(71, 109, 154, 0.10)" : "rgba(71, 109, 154, 0.14)"} strokeWidth="1" strokeDasharray="3 10" />
-        <ellipse cx="620" cy="380" rx="600" ry="300" stroke={isLightMode ? "rgba(71, 109, 154, 0.06)" : "rgba(71, 109, 154, 0.08)"} strokeWidth="1" strokeDasharray="2 12" />
-
-        {/* Central Surat HQ Beacon Node */}
-        <circle cx="620" cy="380" r="6" fill={isLightMode ? "#00A88F" : "#5EC098"} />
-        <circle cx="620" cy="380" r="14" stroke={isLightMode ? "#00A88F" : "#5EC098"} strokeWidth="1.2" opacity="0.6" />
-
-        {/* Global Node Endpoint Circles */}
-        <circle cx="180" cy="320" r="4.5" fill={isLightMode ? "#476D9A" : "#6289B8"} />
-        <circle cx="320" cy="180" r="4" fill={isLightMode ? "#00A88F" : "#5EC098"} />
-        <circle cx="1020" cy="280" r="4.5" fill={isLightMode ? "#476D9A" : "#6289B8"} />
-        <circle cx="1120" cy="420" r="4" fill={isLightMode ? "#00A88F" : "#5EC098"} />
-      </svg>
-
-      {/* 4. Fine Matrix Coordinate Grid (Edge-to-Edge Spread) */}
+      {/* 5. Interactive Mouse-Tracking Gradient Spotlight */}
       <div
         style={{
           position: 'absolute',
           inset: 0,
-          opacity: isLightMode ? 0.32 : 0.2,
-          backgroundImage: isLightMode
-            ? 'radial-gradient(rgba(148, 163, 184, 0.5) 1px, transparent 1px)'
-            : 'radial-gradient(rgba(56, 189, 248, 0.5) 1px, transparent 1px)',
-          backgroundSize: '32px 32px',
-          maskImage: 'linear-gradient(to bottom, black 0%, black 80%, transparent 100%)',
-          WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 80%, transparent 100%)',
+          background: `radial-gradient(650px circle at ${mousePos.x} ${mousePos.y}, ${
+            isLightMode
+              ? 'rgba(0, 168, 143, 0.18) 0%, rgba(71, 109, 154, 0.10) 35%, rgba(98, 137, 184, 0.03) 60%, transparent 75%'
+              : 'rgba(94, 192, 152, 0.22) 0%, rgba(0, 255, 209, 0.12) 30%, rgba(71, 109, 154, 0.09) 55%, transparent 75%'
+          })`,
+          opacity: isHovered ? 1 : 0.7,
+          transition: isHovered ? 'opacity 0.25s ease' : 'all 0.5s ease',
+          pointerEvents: 'none',
+          zIndex: 2,
         }}
       />
+
+      {/* 7. Soft Corner Ambient Lights */}
+      <div
+        className="portfolio-ambient-halo-1"
+        style={{
+          position: 'absolute',
+          bottom: '-10%',
+          left: '-5%',
+          width: '520px',
+          height: '420px',
+          borderRadius: '50%',
+          filter: 'blur(75px)',
+          pointerEvents: 'none',
+          zIndex: 1,
+        }}
+      />
+      <div
+        className="portfolio-ambient-halo-2"
+        style={{
+          position: 'absolute',
+          top: '-8%',
+          right: '-5%',
+          width: '540px',
+          height: '440px',
+          borderRadius: '50%',
+          filter: 'blur(80px)',
+          pointerEvents: 'none',
+          zIndex: 1,
+        }}
+      />
+
+      <style>{`
+        @keyframes craftoSquiggleFloat1 {
+          0%, 100% {
+            transform: translate3d(0, 0, 0) rotate(-12deg) scale(1);
+          }
+          50% {
+            transform: translate3d(0, -18px, 0) rotate(-4deg) scale(1.05);
+          }
+        }
+
+        @keyframes craftoSquiggleFloat2 {
+          0%, 100% {
+            transform: translate3d(0, 0, 0) rotate(15deg) scale(1);
+          }
+          50% {
+            transform: translate3d(0, 16px, 0) rotate(8deg) scale(0.96);
+          }
+        }
+
+        @keyframes craftoSquiggleFloat3 {
+          0%, 100% {
+            transform: translate3d(0, 0, 0) rotate(0deg);
+          }
+          50% {
+            transform: translate3d(8px, -12px, 0) rotate(10deg);
+          }
+        }
+      `}</style>
+
+      {/* ================================================================= */}
+      {/* 8. PLAYFUL 3D FLOATING SQUIGGLE ACCENTS (Opash Brand Palette)     */}
+      {/* ================================================================= */}
+      {/* Mid-Left Opash Mint / Teal Wavy Squiggle */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '56%',
+          left: '6%',
+          width: '74px',
+          height: '74px',
+          overflow: 'visible',
+          zIndex: 3,
+          animation: 'craftoSquiggleFloat1 9s ease-in-out infinite',
+          willChange: 'transform',
+        }}
+      >
+        <svg viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ overflow: 'visible' }}>
+          <defs>
+            <linearGradient id="mintSquiggleContact" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#00FFD1" />
+              <stop offset="100%" stopColor="#5EC098" />
+            </linearGradient>
+          </defs>
+          <path
+            d="M 12 55 Q 22 25 35 48 T 58 18"
+            stroke="url(#mintSquiggleContact)"
+            strokeWidth="5"
+            strokeLinecap="round"
+            style={{
+              filter: isLightMode
+                ? 'drop-shadow(0 4px 10px rgba(0, 168, 143, 0.35))'
+                : 'drop-shadow(0 4px 16px rgba(0, 255, 209, 0.6))',
+            }}
+          />
+        </svg>
+      </div>
+
+      {/* Mid-Right Opash Cyan & Slate Blue Wavy Squiggle */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '32%',
+          right: '8%',
+          width: '78px',
+          height: '78px',
+          overflow: 'visible',
+          zIndex: 3,
+          animation: 'craftoSquiggleFloat2 11s ease-in-out infinite',
+          willChange: 'transform',
+        }}
+      >
+        <svg viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ overflow: 'visible' }}>
+          <defs>
+            <linearGradient id="opashBrandSquiggleContact" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#38BDF8" />
+              <stop offset="50%" stopColor="#00FFD1" />
+              <stop offset="100%" stopColor="#5EC098" />
+            </linearGradient>
+          </defs>
+          <path
+            d="M 14 18 Q 28 52 42 24 T 58 50"
+            stroke="url(#opashBrandSquiggleContact)"
+            strokeWidth="5"
+            strokeLinecap="round"
+            style={{
+              filter: isLightMode
+                ? 'drop-shadow(0 4px 10px rgba(0, 168, 143, 0.35))'
+                : 'drop-shadow(0 4px 16px rgba(0, 255, 209, 0.6))',
+            }}
+          />
+        </svg>
+      </div>
+
+      {/* Top-Left Cyber Cyan Micro Spiral */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '18%',
+          left: '9%',
+          width: '46px',
+          height: '46px',
+          overflow: 'visible',
+          zIndex: 3,
+          animation: 'craftoSquiggleFloat3 8s ease-in-out infinite',
+          willChange: 'transform',
+          opacity: 0.85,
+        }}
+      >
+        <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ overflow: 'visible' }}>
+          <circle cx="25" cy="25" r="16" stroke="url(#mintSquiggleContact)" strokeWidth="3" strokeDasharray="5 7" />
+          <circle cx="25" cy="25" r="5" fill="#00FFD1" />
+        </svg>
+      </div>
+
     </div>
   );
 }

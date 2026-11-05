@@ -318,8 +318,6 @@ export default function CinematicImpactSection() {
             <h2
               className="heading-section"
               style={{
-                fontSize: "clamp(1.65rem, 2.5vw, 2.25rem)",
-                lineHeight: 1.15,
                 margin: 0,
               }}
             >
@@ -519,7 +517,7 @@ export default function CinematicImpactSection() {
                   {/* Giant Typography Counter */}
                   <div
                     style={{
-                      fontSize: "clamp(3.8rem, 7vw, 5.8rem)",
+                      fontSize: "clamp(2.75rem, 7vw, 5.8rem)",
                       fontWeight: 900,
                       fontFamily: "var(--font-display), monospace",
                       lineHeight: 1,

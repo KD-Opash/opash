@@ -28,14 +28,14 @@ interface AchievementStat {
 const STATS_DATA: AchievementStat[] = [
   {
     icon: Users,
-    count: '100%',
-    label: 'In-House Software Developers',
+    count: '50+',
+    label: 'Experienced Software Developers',
     pillarNum: '01',
     pillarTag: 'ENGINEERING TEAM',
     accentColor: '#00A88F',
     accentRgb: '0, 168, 143',
     gradientText: 'linear-gradient(135deg, #00ffd1 0%, #00A88F 100%)',
-    specPill: 'Vetted Top 1% Engineers',
+    specPill: 'In-House Talent',
     detail: 'Full-Stack, Mobile & AI Solutions Specialists',
   },
   {
@@ -47,7 +47,7 @@ const STATS_DATA: AchievementStat[] = [
     accentColor: '#2563EB',
     accentRgb: '37, 99, 235',
     gradientText: 'linear-gradient(135deg, #38bdf8 0%, #2563EB 100%)',
-    specPill: '100% On-Time Sprints',
+    specPill: 'Agile Delivery',
     detail: 'Global Startups, Scale-ups & Enterprises',
   },
   {
@@ -65,13 +65,13 @@ const STATS_DATA: AchievementStat[] = [
   {
     icon: Award,
     count: '8+',
-    label: 'Years of Industry Experience in IT',
+    label: 'Years of Industry Experience in IT Solutions',
     pillarNum: '04',
     pillarTag: 'ENTERPRISE MATURITY',
     accentColor: '#F59E0B',
     accentRgb: '245, 158, 11',
     gradientText: 'linear-gradient(135deg, #fde047 0%, #F59E0B 100%)',
-    specPill: 'ISO-Grade Reliability',
+    specPill: 'Client-First Approach',
     detail: 'Established Global Technology Partner',
   },
 ];
@@ -227,10 +227,10 @@ export default function OurAchievementsSection() {
               lineHeight: 1.65,
               color: isLight ? '#64748b' : '#94a3b8',
               margin: '0 auto',
-              maxWidth: '680px',
+              maxWidth: '780px',
             }}
           >
-            Verifiable milestones that reflect our passion for scalable software architecture, engineering discipline, and long-term client success.
+            As a leading custom software development company in India, Opash Software empowers startups, SMEs, and enterprises with scalable Web, Mobile, and AI solutions. Our proven agile methodologies, expert team, and client-first approach ensure quality results and long-term success.
           </p>
         </div>
 
@@ -421,13 +421,13 @@ export default function OurAchievementsSection() {
                     ...(isLight
                       ? {
                           color: isHovered ? stat.accentColor : '#0f172a',
-                          background: 'none',
+                          backgroundImage: 'none',
                           WebkitBackgroundClip: 'unset',
                           backgroundClip: 'unset',
                           WebkitTextFillColor: isHovered ? stat.accentColor : '#0f172a',
                         }
                       : {
-                          background: stat.gradientText,
+                          backgroundImage: stat.gradientText,
                           WebkitBackgroundClip: 'text',
                           backgroundClip: 'text',
                           WebkitTextFillColor: 'transparent',

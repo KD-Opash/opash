@@ -55,13 +55,22 @@ export default function OuiWillHeadline({
     return () => observer.disconnect();
   }, []);
 
+  const mergedStyle: React.CSSProperties = {
+    fontFamily: "var(--font-acthirey), 'Acthirey', 'Playfair Display', serif",
+    fontSize: "clamp(1.9rem, 5.5vw, 76px)",
+    fontWeight: 400,
+    lineHeight: 1.12,
+    letterSpacing: "-0.015em",
+    ...style,
+  };
+
   return (
     <Component
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ref={containerRef as any}
       key={animKey}
       className={`ouiwill-headline-wrap ${className}`}
-      style={style}
+      style={mergedStyle}
     >
       {children}
     </Component>

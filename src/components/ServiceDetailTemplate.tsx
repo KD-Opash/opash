@@ -1596,9 +1596,9 @@ export default function ServiceDetailTemplate({
                 <OuiWillHeadline
                   style={{
                     fontFamily: "var(--font-acthirey), 'Acthirey', 'Playfair Display', serif",
-                    fontSize: "clamp(2rem, 3.4vw, 3.1rem)",
+                    fontSize: "clamp(1.85rem, 3.2vw, 39px)",
                     fontWeight: 400,
-                    lineHeight: 1.14,
+                    lineHeight: 1.18,
                     letterSpacing: "-0.015em",
                     margin: 0,
                     textAlign: "left",
@@ -2244,37 +2244,15 @@ export default function ServiceDetailTemplate({
           position: "relative",
           padding: "5.5rem 1.5rem",
           background: isLight ? "#ffffff" : "#040b17",
-          borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
           borderBottom: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
         }}
       >
         <div className="container-custom" style={{ maxWidth: "1240px", margin: "0 auto" }}>
           <div style={{ textAlign: "center", maxWidth: "880px", margin: "0 auto 3.5rem auto" }}>
-            <div
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.5rem",
-                fontSize: "0.85rem",
-                fontWeight: 700,
-                color: mintColor,
-                textTransform: "uppercase",
-                letterSpacing: "0.06em",
-                marginBottom: "0.85rem",
-              }}
-            >
-              <Award size={16} />
-              <span>Strategic Advantage</span>
-            </div>
-
             <h2
               className="heading-section"
               style={{
-                fontSize: "clamp(1.45rem, 2.1vw, 1.95rem)",
-                fontWeight: 850,
-                letterSpacing: "-0.025em",
                 marginBottom: "1.5rem",
-                lineHeight: 1.2,
               }}
             >
               {service.whyTitle ? (
@@ -2609,77 +2587,18 @@ export default function ServiceDetailTemplate({
         <div className="container-custom" style={{ maxWidth: "1240px", margin: "0 auto", position: "relative", zIndex: 1 }}>
           {/* Section Header */}
           <div style={{ textAlign: "center", maxWidth: "860px", margin: "0 auto 4rem auto" }}>
-            <div
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.55rem",
-                fontSize: "0.82rem",
-                fontWeight: 700,
-                color: mintColor,
-                textTransform: "uppercase",
-                letterSpacing: "0.08em",
-                padding: "0.35rem 0.95rem",
-                borderRadius: "9999px",
-                background: isLight ? "rgba(0, 168, 143, 0.08)" : "rgba(94, 192, 152, 0.12)",
-                border: isLight ? "1px solid rgba(0, 168, 143, 0.2)" : "1px solid rgba(94, 192, 152, 0.25)",
-                marginBottom: "1.25rem",
-              }}
-            >
-              <span
-                style={{
-                  width: 7,
-                  height: 7,
-                  borderRadius: "50%",
-                  background: mintColor,
-                  boxShadow: `0 0 10px ${mintColor}`,
-                }}
-              />
-              {service.slug === "api-integration" ? (
-                <>
-                  <Cpu size={14} />
-                  <span>Enterprise Integration Architecture</span>
-                </>
-              ) : service.slug === "qa-testing" ? (
-                <>
-                  <ShieldCheck size={14} />
-                  <span>Zero-Defect Quality Gates</span>
-                </>
-              ) : service.slug === "hire-developers" ? (
-                <>
-                  <Users size={14} />
-                  <span>Top 3% Technical Talent</span>
-                </>
-              ) : (
-                <>
-                  <Layers size={14} />
-                  <span>Full-Spectrum Capabilities</span>
-                </>
-              )}
-            </div>
-
             {/* Title with Acthirey Serif font & Dual-Tone Gradient */}
             <h2
-              className="font-acthirey"
+              className="heading-section"
               style={{
-                fontSize: "clamp(1.45rem, 2.1vw, 1.95rem)",
-                fontWeight: 800,
-                letterSpacing: "-0.025em",
                 marginBottom: "1.25rem",
-                lineHeight: 1.18,
                 textAlign: "center",
               }}
             >
               {service.slug === "api-integration" ? (
                 <>
                   <span style={{ color: isLight ? "#0f172a" : "#f8fafc" }}>Our </span>
-                  <span
-                    style={{
-                      background: "linear-gradient(135deg, #00A88F 0%, #38bdf8 100%)",
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                    }}
-                  >
+                  <span className="opash-hero-gradient-text">
                     API Integration Service
                   </span>
                   <span style={{ color: isLight ? "#0f172a" : "#f8fafc" }}> Includes</span>
@@ -2687,13 +2606,7 @@ export default function ServiceDetailTemplate({
               ) : service.slug === "qa-testing" ? (
                 <>
                   <span style={{ color: isLight ? "#0f172a" : "#f8fafc" }}>What Our </span>
-                  <span
-                    style={{
-                      background: "linear-gradient(135deg, #00A88F 0%, #38bdf8 100%)",
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                    }}
-                  >
+                  <span className="opash-hero-gradient-text">
                     QA & Testing
                   </span>
                   <span style={{ color: isLight ? "#0f172a" : "#f8fafc" }}> Services Include</span>
@@ -2701,26 +2614,14 @@ export default function ServiceDetailTemplate({
               ) : service.slug === "hire-developers" ? (
                 <>
                   <span style={{ color: isLight ? "#0f172a" : "#f8fafc" }}>Who You Can </span>
-                  <span
-                    style={{
-                      background: "linear-gradient(135deg, #00A88F 0%, #38bdf8 100%)",
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                    }}
-                  >
+                  <span className="opash-hero-gradient-text">
                     Hire
                   </span>
                 </>
               ) : service.slug === "saas-development" ? (
                 <>
                   <span style={{ color: isLight ? "#0f172a" : "#f8fafc" }}>What </span>
-                  <span
-                    style={{
-                      background: "linear-gradient(135deg, #00A88F 0%, #38bdf8 100%)",
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                    }}
-                  >
+                  <span className="opash-hero-gradient-text">
                     SaaS Development
                   </span>
                   <span style={{ color: isLight ? "#0f172a" : "#f8fafc" }}> Includes</span>
@@ -2728,13 +2629,7 @@ export default function ServiceDetailTemplate({
               ) : (
                 <>
                   <span style={{ color: isLight ? "#0f172a" : "#f8fafc" }}>What </span>
-                  <span
-                    style={{
-                      background: "linear-gradient(135deg, #00A88F 0%, #38bdf8 100%)",
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                    }}
-                  >
+                  <span className="opash-hero-gradient-text">
                     {service.title}
                   </span>
                   <span style={{ color: isLight ? "#0f172a" : "#f8fafc" }}> Includes</span>
@@ -2766,7 +2661,7 @@ export default function ServiceDetailTemplate({
             className="service-features-grid"
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))",
+              gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 340px), 1fr))",
               gap: "1.75rem",
               marginBottom: "3.5rem",
             }}
@@ -2816,7 +2711,6 @@ export default function ServiceDetailTemplate({
                       style={{
                         display: "flex",
                         alignItems: "center",
-                        justifyContent: "space-between",
                         marginBottom: "1.5rem",
                       }}
                     >
@@ -2840,36 +2734,6 @@ export default function ServiceDetailTemplate({
                         }}
                       >
                         <IconComp size={24} />
-                      </div>
-
-                      {/* Monospace Step & Badge */}
-                      <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
-                        <span
-                          style={{
-                            fontFamily: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
-                            fontSize: "0.82rem",
-                            fontWeight: 700,
-                            color: isLight ? "#94a3b8" : "#475569",
-                          }}
-                        >
-                          0{idx + 1}
-                        </span>
-                        <span
-                          style={{
-                            fontSize: "0.72rem",
-                            fontWeight: 700,
-                            padding: "0.22rem 0.65rem",
-                            borderRadius: "9999px",
-                            background: isLight ? "rgba(37, 99, 235, 0.08)" : "rgba(56, 189, 248, 0.1)",
-                            color: isLight ? "#2563eb" : "#38bdf8",
-                            border: isLight
-                              ? "1px solid rgba(37, 99, 235, 0.2)"
-                              : "1px solid rgba(56, 189, 248, 0.25)",
-                            letterSpacing: "0.04em",
-                          }}
-                        >
-                          {meta.badge}
-                        </span>
                       </div>
                     </div>
 
@@ -2976,23 +2840,6 @@ export default function ServiceDetailTemplate({
             }}
           >
             <div style={{ maxWidth: "720px" }}>
-              <div
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "0.45rem",
-                  fontSize: "0.78rem",
-                  fontWeight: 700,
-                  color: mintColor,
-                  textTransform: "uppercase",
-                  letterSpacing: "0.06em",
-                  marginBottom: "0.6rem",
-                }}
-              >
-                <ShieldCheck size={14} />
-                <span>Enterprise Guarantee & Velocity</span>
-              </div>
-
               <h3
                 style={{
                   fontSize: "clamp(1.25rem, 2.2vw, 1.65rem)",
@@ -3112,31 +2959,10 @@ export default function ServiceDetailTemplate({
       >
         <div className="container-custom" style={{ maxWidth: "1240px", margin: "0 auto" }}>
           <div style={{ textAlign: "center", maxWidth: "860px", margin: "0 auto 3.5rem auto" }}>
-            <div
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.5rem",
-                fontSize: "0.85rem",
-                fontWeight: 700,
-                color: mintColor,
-                textTransform: "uppercase",
-                letterSpacing: "0.06em",
-                marginBottom: "0.85rem",
-              }}
-            >
-              <Workflow size={16} />
-              <span>Agile Execution Framework</span>
-            </div>
-
             <h2
               className="heading-section"
               style={{
-                fontSize: "clamp(1.45rem, 2.1vw, 1.95rem)",
-                fontWeight: 850,
-                letterSpacing: "-0.025em",
                 marginBottom: "1rem",
-                lineHeight: 1.2,
               }}
             >
               {service.title} <span className="opash-hero-gradient-text">Process</span>
@@ -3316,7 +3142,7 @@ export default function ServiceDetailTemplate({
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))",
+              gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 320px), 1fr))",
               gap: "1.75rem",
               marginBottom: "3rem",
             }}
@@ -3474,9 +3300,9 @@ export default function ServiceDetailTemplate({
                 padding: "2rem 2.5rem",
                 borderRadius: "16px",
                 background: isLight
-                  ? "linear-gradient(135deg, rgba(0, 168, 143, 0.08) 0%, rgba(71, 109, 154, 0.06) 100%)"
-                  : "linear-gradient(135deg, rgba(94, 192, 152, 0.12) 0%, rgba(71, 109, 154, 0.15) 100%)",
-                border: isLight ? "1px solid rgba(0, 168, 143, 0.25)" : "1px solid rgba(94, 192, 152, 0.3)",
+                  ? "#f8fafc"
+                  : "rgba(10, 20, 36, 0.5)",
+                border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
                 display: "flex",
                 flexWrap: "wrap",
                 alignItems: "center",
@@ -3568,34 +3394,16 @@ export default function ServiceDetailTemplate({
             <div
               style={{
                 display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+                gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 300px), 1fr))",
                 gap: "3rem",
                 alignItems: "center",
               }}
             >
               {/* Left Column: Verbatim Opash Copy */}
               <div>
-                <span
-                  style={{
-                    display: "inline-block",
-                    fontSize: "0.85rem",
-                    fontWeight: 700,
-                    textTransform: "uppercase",
-                    letterSpacing: "0.06em",
-                    color: mintColor,
-                    marginBottom: "1rem",
-                  }}
-                >
-                  Turn Your Ideas into Scalable Digital Solutions
-                </span>
-
                 <h2
                   className="heading-section"
                   style={{
-                    fontSize: "clamp(1.45rem, 2.1vw, 1.95rem)",
-                    fontWeight: 850,
-                    lineHeight: 1.2,
-                    letterSpacing: "-0.025em",
                     marginBottom: "1.5rem",
                   }}
                 >

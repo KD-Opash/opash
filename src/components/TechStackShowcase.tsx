@@ -492,7 +492,17 @@ const CATEGORY_TABS = [
   { id: "testing", name: "Testing & QA", icon: ShieldCheck, count: 9 },
 ];
 
-export function TechStackShowcase() {
+export interface TechStackShowcaseProps {
+  title?: React.ReactNode;
+  subtitle?: string;
+  badgeText?: string;
+}
+
+export function TechStackShowcase({
+  title,
+  subtitle,
+  badgeText,
+}: TechStackShowcaseProps = {}) {
   const [activeTab, setActiveTab] = useState<string>("frontend");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const { theme } = useTheme();
@@ -562,13 +572,36 @@ export function TechStackShowcase() {
         {/* 1. SECTION HEADER (TITLE & DESCRIPTION)                                   */}
         {/* ========================================================================= */}
         <div className="tech-showcase-header">
+          {badgeText && (
+            <span
+              style={{
+                display: "inline-block",
+                padding: "0.35rem 1rem",
+                borderRadius: "9999px",
+                fontSize: "0.82rem",
+                fontWeight: 700,
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
+                background: isLightMode ? "rgba(0, 168, 143, 0.08)" : "rgba(45, 212, 191, 0.12)",
+                color: isLightMode ? "#008a75" : "#2dd4bf",
+                marginBottom: "0.85rem",
+              }}
+            >
+              {badgeText}
+            </span>
+          )}
           <h2 className="tech-showcase-title">
-            Technologies & Platforms{" "}
-            <span className="tech-showcase-gradient-text">That Power Scale</span>
+            {title ?? (
+              <>
+                Technologies &amp; Platforms{" "}
+                <span className="tech-showcase-gradient-text">That Power Scale</span>
+              </>
+            )}
           </h2>
 
           <p className="tech-showcase-desc">
-            From modern responsive frontends and distributed cloud backends to native mobile ecosystems and AI automations, we leverage industry-grade production frameworks.
+            {subtitle ??
+              "From modern responsive frontends and distributed cloud backends to native mobile ecosystems and AI automations, we leverage industry-grade production frameworks."}
           </p>
         </div>
 
@@ -627,7 +660,7 @@ export function TechStackShowcase() {
         {/* 3. TECHNOLOGY CARDS CHROMA GRID                                           */}
         {/* ========================================================================= */}
         {filteredTechs.length > 0 && (
-          <div style={{ marginBottom: "3.5rem" }}>
+          <div className="tech-showcase-grid-wrapper" style={{ marginBottom: "3.5rem" }}>
             <ChromaGrid
               items={filteredTechs.map((tech) => {
                 const brandColor =

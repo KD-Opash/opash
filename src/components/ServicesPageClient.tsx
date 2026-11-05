@@ -273,33 +273,15 @@ export default function ServicesPageClient() {
         />
 
         <div className="container-custom" style={{ position: 'relative', zIndex: 2, maxWidth: '1240px', margin: '0 auto' }}>
-          {/* Eyebrow Status Badge */}
-          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.25rem' }}>
-            <div
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.55rem',
-                fontSize: '0.85rem',
-                fontWeight: 700,
-                letterSpacing: '0.06em',
-                textTransform: 'uppercase',
-                color: mintColor,
-              }}
-            >
-              <Layers size={16} />
-              <span>Full-Spectrum Capabilities &bull; 8+ Years Expertise &bull; 100% IP Ownership</span>
-            </div>
-          </div>
-
           {/* Main Headline */}
           <div style={{ textAlign: 'center', maxWidth: '980px', margin: '0 auto 2.5rem auto' }}>
             <OuiWillHeadline
               style={{
-                fontSize: 'clamp(2.4rem, 5vw, 4.2rem)',
-                fontWeight: 800,
-                lineHeight: 1.15,
-                letterSpacing: '-0.03em',
+                fontFamily: "var(--font-acthirey), 'Acthirey', 'Playfair Display', serif",
+                fontSize: "clamp(2.1rem, 6.5vw, 80px)",
+                fontWeight: 400,
+                lineHeight: 1.1,
+                letterSpacing: "-0.015em",
                 marginBottom: '1.5rem',
                 display: 'block',
               }}
@@ -461,7 +443,7 @@ export default function ServicesPageClient() {
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 340px), 1fr))',
               gap: '1.75rem',
             }}
           >
@@ -575,36 +557,47 @@ export default function ServicesPageClient() {
                         </div>
                       </div>
 
-                      {/* Service Icon Badge */}
+                      {/* Header Row: Left Side Icon, Right Side Title */}
                       <div
                         style={{
-                          width: '56px',
-                          height: '56px',
-                          borderRadius: '16px',
-                          backgroundColor: `rgba(${service.accentRgb}, 0.12)`,
                           display: 'flex',
                           alignItems: 'center',
-                          justifyContent: 'center',
-                          color: service.accent,
-                          marginBottom: '1.25rem',
-                          border: `1px solid rgba(${service.accentRgb}, 0.25)`,
+                          gap: '1.15rem',
+                          marginBottom: '1.15rem',
                         }}
                       >
-                        <Icon size={28} />
-                      </div>
+                        {/* Service Icon Badge */}
+                        <div
+                          style={{
+                            width: '54px',
+                            height: '54px',
+                            borderRadius: '16px',
+                            backgroundColor: `rgba(${service.accentRgb}, 0.12)`,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: service.accent,
+                            border: `1px solid rgba(${service.accentRgb}, 0.25)`,
+                            flexShrink: 0,
+                          }}
+                        >
+                          <Icon size={26} />
+                        </div>
 
-                      {/* Title & Description */}
-                      <h3
-                        style={{
-                          fontSize: '1.35rem',
-                          fontWeight: 800,
-                          margin: '0 0 0.85rem 0',
-                          letterSpacing: '-0.015em',
-                          color: isLight ? '#0f172a' : '#f8fafc',
-                        }}
-                      >
-                        {service.title}
-                      </h3>
+                        {/* Title */}
+                        <h3
+                          style={{
+                            fontSize: '1.32rem',
+                            fontWeight: 800,
+                            margin: 0,
+                            letterSpacing: '-0.015em',
+                            color: isLight ? '#0f172a' : '#f8fafc',
+                            lineHeight: 1.28,
+                          }}
+                        >
+                          {service.title}
+                        </h3>
+                      </div>
 
                       <p
                         style={{
@@ -711,19 +704,8 @@ export default function ServicesPageClient() {
       >
         <div className="container-custom" style={{ maxWidth: '1240px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', maxWidth: '780px', margin: '0 auto 3.5rem auto' }}>
-            <span
-              style={{
-                fontSize: '0.82rem',
-                fontWeight: 700,
-                color: isLight ? '#008a75' : '#5EC098',
-                letterSpacing: '0.05em',
-                textTransform: 'uppercase',
-              }}
-            >
-              Enterprise Engineering Standards
-            </span>
-            <h2 style={{ fontSize: 'clamp(1.95rem, 3.8vw, 2.75rem)', fontWeight: 800, margin: '0.65rem 0 1rem 0' }}>
-              Why Leading Founders Partner With Opash
+            <h2 className="heading-section" style={{ margin: '0.65rem 0 1rem 0' }}>
+              Why Leading Founders <span className="opash-hero-gradient-text">Partner With Opash</span>
             </h2>
             <p style={{ color: isLight ? '#64748b' : '#94a3b8', fontSize: '1rem', lineHeight: 1.6, margin: 0 }}>
               We eliminate traditional outsourcing friction with direct architect communication, rigorous automated testing, 
@@ -808,101 +790,228 @@ export default function ServicesPageClient() {
       </section>
 
       {/* ===================================================================== */}
-      {/* 4. BOTTOM ARCHITECTURAL CONSULTATION CALL-TO-ACTION                   */}
+      {/* 4. BOTTOM ARCHITECTURAL CONSULTATION CALL-TO-ACTION (DESKTOP MOCKUP)   */}
       {/* ===================================================================== */}
-      <section style={{ position: 'relative', padding: '6rem 1.5rem' }}>
-        <div className="container-custom" style={{ maxWidth: '960px', margin: '0 auto' }}>
+      <section
+        style={{
+          position: 'relative',
+          padding: '6.5rem 1.5rem 7.5rem 1.5rem',
+          overflow: 'hidden',
+        }}
+      >
+        <div className="container-custom" style={{ maxWidth: '1080px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
+          {/* Ambient Radiant Glow behind Desktop Frame */}
+          <div
+            aria-hidden="true"
+            style={{
+              position: 'absolute',
+              top: '30%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: '680px',
+              height: '380px',
+              borderRadius: '50%',
+              background: isLight
+                ? 'radial-gradient(circle, rgba(0, 168, 143, 0.15) 0%, rgba(14, 165, 233, 0.08) 50%, transparent 75%)'
+                : 'radial-gradient(circle, rgba(0, 255, 209, 0.18) 0%, rgba(14, 165, 233, 0.1) 50%, transparent 75%)',
+              filter: 'blur(60px)',
+              pointerEvents: 'none',
+              zIndex: 0,
+            }}
+          />
+
+          {/* REALISTIC LAPTOP / DESKTOP HARDWARE FRAME */}
           <div
             style={{
-              padding: '3.5rem 2.5rem',
-              borderRadius: '24px',
-              background: isLight
-                ? 'linear-gradient(135deg, rgba(0, 168, 143, 0.1) 0%, rgba(71, 109, 154, 0.12) 100%)'
-                : 'linear-gradient(135deg, rgba(94, 192, 152, 0.14) 0%, rgba(71, 109, 154, 0.22) 100%)',
-              border: isLight ? '1.5px solid rgba(0, 168, 143, 0.3)' : '1.5px solid rgba(94, 192, 152, 0.4)',
-              textAlign: 'center',
-              boxShadow: isLight ? '0 20px 50px rgba(0, 168, 143, 0.08)' : '0 25px 60px rgba(0, 0, 0, 0.5)',
+              position: 'relative',
+              zIndex: 1,
+              maxWidth: '940px',
+              margin: '0 auto',
             }}
           >
-            <span
+            {/* Laptop Screen / Display Bezel */}
+            <div
               style={{
-                fontSize: '0.82rem',
-                fontWeight: 700,
-                color: isLight ? '#008a75' : '#5EC098',
-                letterSpacing: '0.06em',
-                textTransform: 'uppercase',
+                borderRadius: '16px 16px 0 0',
+                padding: 'clamp(10px, 1.5vw, 16px)',
+                background: isLight
+                  ? 'linear-gradient(145deg, #1e293b 0%, #0f172a 100%)'
+                  : 'linear-gradient(145deg, #1e293b 0%, #050b17 100%)',
+                border: isLight
+                  ? '2px solid #94a3b8'
+                  : '2px solid rgba(255, 255, 255, 0.18)',
+                borderBottom: 'none',
+                boxShadow: isLight
+                  ? '0 0 0 1px rgba(0, 0, 0, 0.12), 0 -10px 40px -15px rgba(0, 0, 0, 0.15)'
+                  : '0 0 0 1px rgba(0, 0, 0, 0.6), 0 -10px 40px -15px rgba(0, 0, 0, 0.5), 0 0 45px -10px rgba(0, 255, 209, 0.1)',
               }}
             >
-              Start Your Technical Sprint
-            </span>
-
-            <h2
-              style={{
-                fontSize: 'clamp(2rem, 4vw, 3rem)',
-                fontWeight: 800,
-                letterSpacing: '-0.02em',
-                margin: '0.65rem 0 1rem 0',
-              }}
-            >
-              Ready To Build Something Exceptional?
-            </h2>
-
-            <p
-              style={{
-                color: isLight ? '#475569' : '#94a3b8',
-                maxWidth: '680px',
-                margin: '0 auto 2rem auto',
-                fontSize: '1.05rem',
-                lineHeight: 1.6,
-              }}
-            >
-              Schedule a 30-minute architectural consultation directly with our engineering team or scope your project 
-              with our interactive investment estimator.
-            </p>
-
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
-              <Link
-                href="/get-a-quote"
+              {/* Laptop Camera Dot */}
+              <div
                 style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.6rem',
-                  padding: '0.95rem 1.85rem',
-                  borderRadius: '12px',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  marginBottom: '8px',
+                }}
+              >
+                <div
+                  style={{
+                    width: '6px',
+                    height: '6px',
+                    borderRadius: '50%',
+                    background: '#1a1a2e',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    boxShadow: 'inset 0 0 2px rgba(45, 212, 191, 0.4)',
+                  }}
+                />
+              </div>
+
+              {/* LAPTOP INNER DISPLAY SCREEN */}
+              <div
+                style={{
+                  borderRadius: '8px',
                   background: isLight
-                    ? 'linear-gradient(135deg, #008a75 0%, #476D9A 100%)'
-                    : 'linear-gradient(135deg, #5EC098 0%, #476D9A 100%)',
-                  color: '#ffffff',
-                  fontWeight: 700,
-                  fontSize: '0.95rem',
-                  textDecoration: 'none',
-                  boxShadow: '0 4px 20px rgba(94, 192, 152, 0.3)',
+                    ? '#ffffff'
+                    : 'linear-gradient(145deg, rgba(10, 18, 34, 0.98) 0%, rgba(4, 9, 20, 0.99) 100%)',
+                  backdropFilter: 'blur(20px)',
+                  WebkitBackdropFilter: 'blur(20px)',
+                  padding: 'clamp(2rem, 4vw, 3.5rem) clamp(1.5rem, 4vw, 3.5rem)',
+                  textAlign: 'center',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  border: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.06)',
                 }}
               >
-                <span>Launch Project Estimator</span>
-                <ArrowRight size={16} />
-              </Link>
+                {/* Heading */}
+                <h2
+                  className="heading-section"
+                  style={{
+                    color: isLight ? '#0f172a' : '#ffffff',
+                    margin: '0 auto 1.15rem auto',
+                    maxWidth: '760px',
+                    fontFamily: "var(--font-acthirey), 'Acthirey', 'Playfair Display', serif",
+                    fontSize: 'clamp(2rem, 3.5vw, 42px)',
+                    lineHeight: 1.2,
+                  }}
+                >
+                  Ready To Build Something{' '}
+                  <span className="opash-hero-gradient-text">Exceptional?</span>
+                </h2>
 
-              <Link
-                href="/contact"
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.6rem',
-                  padding: '0.95rem 1.85rem',
-                  borderRadius: '12px',
-                  background: isLight ? '#ffffff' : 'rgba(255, 255, 255, 0.06)',
-                  color: isLight ? '#0f172a' : '#f8fafc',
-                  border: isLight ? '1px solid rgba(15, 23, 42, 0.15)' : '1px solid rgba(255, 255, 255, 0.15)',
-                  fontWeight: 700,
-                  fontSize: '0.95rem',
-                  textDecoration: 'none',
-                }}
-              >
-                <Calendar size={16} />
-                <span>Talk With Lead Architect</span>
-              </Link>
+                {/* Description */}
+                <p
+                  style={{
+                    color: isLight ? '#475569' : '#cbd5e1',
+                    fontSize: 'clamp(0.98rem, 1.2vw, 1.08rem)',
+                    lineHeight: 1.65,
+                    maxWidth: '680px',
+                    margin: '0 auto 2.5rem auto',
+                  }}
+                >
+                  Schedule a 30-minute architectural consultation directly with our engineering team or scope your project 
+                  with our interactive investment estimator.
+                </p>
+
+                {/* Buttons */}
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+                  <Link
+                    href="/get-a-quote"
+                    className="opash-roll-btn"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      padding: '1rem 2.35rem',
+                      borderRadius: '14px',
+                      background: 'linear-gradient(135deg, #0ea5e9 0%, #10b981 100%)',
+                      color: '#ffffff',
+                      fontSize: '1.02rem',
+                      fontWeight: 800,
+                      textDecoration: 'none',
+                      boxShadow: '0 6px 24px rgba(14, 165, 233, 0.4)',
+                      transition: 'all 0.25s ease',
+                    }}
+                  >
+                    <span className="opash-roll-track">
+                      <span className="opash-roll-item">
+                        <span>Launch Project Estimator</span>
+                        <ArrowUpRight size={19} />
+                      </span>
+                      <span className="opash-roll-item" aria-hidden="true">
+                        <span>Launch Project Estimator</span>
+                        <ArrowUpRight size={19} />
+                      </span>
+                    </span>
+                  </Link>
+
+                  <Link
+                    href="/contact"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.6rem',
+                      padding: '1rem 2.15rem',
+                      borderRadius: '14px',
+                      background: isLight ? '#ffffff' : 'rgba(255, 255, 255, 0.05)',
+                      border: `1px solid ${isLight ? '#cbd5e1' : 'rgba(255, 255, 255, 0.14)'}`,
+                      color: isLight ? '#0f172a' : '#f1f5f9',
+                      fontSize: '1rem',
+                      fontWeight: 700,
+                      textDecoration: 'none',
+                      transition: 'all 0.25s ease',
+                    }}
+                  >
+                    <Calendar size={18} />
+                    <span>Talk With Lead Architect</span>
+                  </Link>
+                </div>
+              </div>
             </div>
+
+            {/* Laptop Base / Keyboard Deck */}
+            <div
+              style={{
+                position: 'relative',
+                height: 'clamp(18px, 2.5vw, 28px)',
+                background: isLight
+                  ? 'linear-gradient(180deg, #334155 0%, #475569 100%)'
+                  : 'linear-gradient(180deg, #1e293b 0%, #0f172a 100%)',
+                borderRadius: '0 0 10px 10px',
+                border: isLight
+                  ? '2px solid #94a3b8'
+                  : '2px solid rgba(255, 255, 255, 0.18)',
+                borderTop: isLight
+                  ? '1px solid #64748b'
+                  : '1px solid rgba(255, 255, 255, 0.12)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              {/* Trackpad indicator */}
+              <div
+                style={{
+                  width: 'clamp(60px, 10vw, 100px)',
+                  height: '4px',
+                  borderRadius: '9999px',
+                  background: isLight ? 'rgba(148, 163, 184, 0.6)' : 'rgba(255, 255, 255, 0.2)',
+                }}
+              />
+            </div>
+
+            {/* Laptop Stand Shadow */}
+            <div
+              style={{
+                width: '110%',
+                height: '8px',
+                margin: '0 auto',
+                marginLeft: '-5%',
+                background: isLight
+                  ? 'radial-gradient(ellipse, rgba(0, 0, 0, 0.1) 0%, transparent 70%)'
+                  : 'radial-gradient(ellipse, rgba(0, 0, 0, 0.4) 0%, transparent 70%)',
+                borderRadius: '50%',
+              }}
+            />
           </div>
         </div>
       </section>

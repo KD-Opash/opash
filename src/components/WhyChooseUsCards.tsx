@@ -30,9 +30,9 @@ export function WhyChooseUsCards() {
           style={{
             position: "relative",
             margin: "0 auto",
-            padding: "10px 16px 9px 16px",
-            borderRadius: "15px",
-            minWidth: "136px",
+            padding: "12px 18px 12px 18px",
+            borderRadius: "16px",
+            minWidth: "140px",
             background: isLight
               ? "linear-gradient(145deg, #ffffff 0%, #f1f5f9 50%, #e2e8f0 100%)"
               : "linear-gradient(145deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.95) 60%, rgba(9, 14, 23, 0.98) 100%)",
@@ -43,7 +43,7 @@ export function WhyChooseUsCards() {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            gap: "6px",
+            gap: "7px",
           }}
         >
           {/* 1. Rating at TOP: 5x 3D Minted Metallic Gold Stars */}
@@ -98,14 +98,15 @@ export function WhyChooseUsCards() {
             </span>
           </div>
 
-          {/* 3. Bottom: High-Visibility Badge Capsule (Single Line) */}
+          {/* 3. Bottom: High-Visibility Badge Capsule (Single Line with Balanced Vertical Padding) */}
           <div
             style={{
               display: "inline-flex",
               alignItems: "center",
               justifyContent: "center",
-              gap: "6px",
-              padding: "3.5px 10px",
+              gap: "7px",
+              padding: "6px 13px",
+              marginTop: "2px",
               borderRadius: "999px",
               whiteSpace: "nowrap",
               flexWrap: "nowrap",
@@ -138,7 +139,7 @@ export function WhyChooseUsCards() {
             </svg>
             <span
               style={{
-                fontSize: "0.66rem",
+                fontSize: "0.68rem",
                 fontWeight: 850,
                 letterSpacing: "0.05em",
                 color: isLight ? "#0f172a" : "#ffffff",
@@ -146,6 +147,8 @@ export function WhyChooseUsCards() {
                 whiteSpace: "nowrap",
                 textTransform: "uppercase",
                 textShadow: isLight ? "none" : "0 1px 2px rgba(0,0,0,0.8)",
+                display: "inline-block",
+                padding: "1px 0",
               }}
             >
               TOP RATED PLUS
@@ -767,22 +770,13 @@ export function WhyChooseUsCards() {
         {/* ===================================================================== */}
         <div style={{ textAlign: "center", maxWidth: "800px", margin: "0 auto 3.5rem auto" }}>
           <h2
+            className="heading-section"
             style={{
-              fontSize: "clamp(1.45rem, 2.1vw, 1.95rem)",
-              fontWeight: 850,
-              letterSpacing: "-0.03em",
-              lineHeight: 1.15,
               margin: "0 0 1rem 0",
             }}
           >
             <span style={{ color: isLight ? "#0f172a" : "#f8fafc" }}>Why </span>
-            <span
-              style={{
-                background: "linear-gradient(135deg, #2563eb 0%, #38bdf8 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-              }}
-            >
+            <span className="opash-hero-gradient-text">
               Choose Us?
             </span>
           </h2>
@@ -923,15 +917,34 @@ export function WhyChooseUsCards() {
 
         @media (max-width: 860px) {
           .seven-pillars-grid {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
+            display: flex !important;
+            flex-direction: row !important;
+            overflow-x: auto !important;
+            overflow-y: hidden !important;
+            scroll-snap-type: x mandatory !important;
+            gap: 1.15rem !important;
+            padding: 0.5rem 0.5rem 1.25rem 0.5rem !important;
+            margin: 0 -1.5rem !important;
+            padding-left: 1.5rem !important;
+            padding-right: 1.5rem !important;
+            scrollbar-width: thin !important;
+            -webkit-overflow-scrolling: touch !important;
           }
-        }
 
-        @media (max-width: 520px) {
-          .seven-pillars-grid {
-            grid-template-columns: 1fr;
-            gap: 0.9rem;
+          .seven-pillars-grid::-webkit-scrollbar {
+            height: 4px !important;
+          }
+
+          .seven-pillars-grid::-webkit-scrollbar-thumb {
+            background: ${isLight ? "rgba(0, 168, 143, 0.35)" : "rgba(0, 255, 209, 0.45)"} !important;
+            border-radius: 9999px !important;
+          }
+
+          .pillar-card-wrapper {
+            flex: 0 0 78vw !important;
+            max-width: 300px !important;
+            min-width: 250px !important;
+            scroll-snap-align: center !important;
           }
         }
 

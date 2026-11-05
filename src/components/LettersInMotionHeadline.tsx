@@ -94,13 +94,15 @@ function CleanHeadlineHeading({ text, primaryColor, secondaryColor }: CleanHeadl
       className="letters-active-phrase"
       style={{
         fontFamily: "var(--font-acthirey), 'Acthirey', 'Playfair Display', 'Prime Serif', serif",
-        fontSize: "clamp(1.875rem, 2.75vw, 2.875rem)",
+        fontSize: "clamp(1.4rem, 5.5vw, 2.875rem)",
         fontWeight: 400,
         lineHeight: 1.2,
         letterSpacing: "-0.015em",
         display: "inline-block",
         textAlign: "center",
-        wordBreak: "keep-all",
+        wordBreak: "normal",
+        overflowWrap: "break-word",
+        whiteSpace: "normal",
         maxWidth: "100%",
         ["--phrase-primary" as string]: primaryColor,
         ["--phrase-secondary" as string]: secondaryColor,
@@ -245,12 +247,13 @@ export default function LettersInMotionHeadline({
         className="letters-headline-lead"
         style={{
           fontFamily: "var(--font-acthirey), 'Acthirey', 'Playfair Display', 'Prime Serif', serif",
-          fontSize: "clamp(1.275rem, 1.7vw, 1.625rem)",
+          fontSize: "clamp(1.05rem, 3.8vw, 1.625rem)",
           fontWeight: 400,
           lineHeight: 1.25,
           letterSpacing: "-0.01em",
           textAlign: "center",
           width: "100%",
+          padding: "0 0.5rem",
           marginBottom: "0.35rem",
         }}
       >

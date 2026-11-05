@@ -1,58 +1,52 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { 
-  Shield, 
-  Zap, 
-  Users, 
-  Clock, 
-  Lock, 
-  Headphones, 
-  ArrowRight, 
-  CheckCircle2, 
-  Building2, 
-  Compass, 
-  Layers, 
-  Globe, 
+import {
+  Compass,
+  Layers,
+  Globe,
   ShieldCheck,
+  Zap,
+  ArrowRight,
+  ArrowUpRight,
   Star,
-  ExternalLink,
-  Code2,
-  Cpu,
-  Mail,
-  Copy,
-  Check,
-  MapPin,
-  Calendar,
-  Award,
-  ChevronLeft,
-  ChevronRight,
-  Play,
-  Pause,
-  TrendingUp,
-  Server,
-  FileCheck2,
-  Terminal,
-  FolderOpen,
   Quote,
   Target,
   Rocket,
   Lightbulb,
   Handshake,
-  ArrowUpRight,
-  AtSign,
-  RefreshCw
+  Code2,
+  Cpu,
+  Smartphone,
+  BrainCircuit,
+  Cloud,
+  Users,
+  Check,
+  Award,
+  Lock,
+  Clock,
+  Terminal,
+  ChevronLeft,
+  ChevronRight,
+  ExternalLink,
+  Sparkles,
+  MessageCircle,
+  CheckCircle2,
+  Mail,
+  Play,
+  Pause,
 } from "lucide-react";
 import { companyData } from "@/data/company";
 import ContactForm from "@/components/ContactForm";
 import { useTheme } from "./ThemeProvider";
 import AboutCreativeBackdrop from "./AboutCreativeBackdrop";
+import TestimonialsSlider from "./TestimonialsSlider";
+import TestimonialsCreativeBackdrop from "./TestimonialsCreativeBackdrop";
 import OuiWillHeadline, { OuiWillWord, OuiWillDot } from "@/components/OuiWillHeadline";
 
-
-
+// 1. Five Verified Milestones From Live Site (2021 to 2025)
 interface ProgressMilestone {
   year: string;
   badge: string;
@@ -125,7 +119,7 @@ const PROGRESS_MILESTONES: ProgressMilestone[] = [
     kpi: "99.99% SLA Uptime",
   },
   {
-    year: "2025 - 2026",
+    year: "2025",
     badge: "Next-Gen AI",
     title: "Future-Ready Vision & Leadership",
     description:
@@ -140,211 +134,481 @@ const PROGRESS_MILESTONES: ProgressMilestone[] = [
   },
 ];
 
+// 2. Six Verified Differentiators From Live Site
+const UNIQUE_DIFFERENTIATORS = [
+  {
+    title: "Custom Solutions",
+    description: "Tailor-made software architectures engineered specifically for your domain, audience, and operational goals.",
+    icon: Code2,
+    accent: "#00A88F",
+  },
+  {
+    title: "Fast + Reliable Delivery",
+    description: "Agile 2-week sprint cadences with predictable milestones, CI/CD pipelines, and zero-downtime rollouts.",
+    icon: Clock,
+    accent: "#0284C7",
+  },
+  {
+    title: "Full-Cycle Development",
+    description: "From concept discovery, wireframing, and UI/UX design to backend development, QA, and cloud scaling.",
+    icon: Layers,
+    accent: "#9333EA",
+  },
+  {
+    title: "Agile & Transparent",
+    description: "Real-time Slack/Teams collaboration, shared Jira dashboards, and daily progress standups with senior architects.",
+    icon: Target,
+    accent: "#10B981",
+  },
+  {
+    title: "Scalable Codebase",
+    description: "Cloud-native architectures built with modern frameworks (React, Next.js, Node.js, Python, AWS) ready for multi-region scale.",
+    icon: Cpu,
+    accent: "#F59E0B",
+  },
+  {
+    title: "Global Experience",
+    description: "Trusted track record across US, UK, European, Middle East, and Australian markets across FinTech, HealthTech & Logistics.",
+    icon: Globe,
+    accent: "#EC4899",
+  },
+];
+
+// 3. Six Verified Services From Live Site
+const CORE_SERVICES = [
+  {
+    id: "custom-software",
+    title: "Custom Software Development",
+    href: "/custom-software",
+    icon: Code2,
+    accent: "#00A88F",
+    description:
+      "Opash Software builds scalable custom software tailored to your business needs — from enterprise platforms to niche solutions. Our agile approach, combined with DevOps automation, ensures faster delivery and long-term performance.",
+  },
+  {
+    id: "web-development",
+    title: "Web Development",
+    href: "/web-development",
+    icon: Globe,
+    accent: "#0284C7",
+    description:
+      "Get modern, responsive, and SEO-friendly websites with Opash Software’s web development services. We build high-performance platforms using cutting-edge technologies for startups and enterprises.",
+  },
+  {
+    id: "mobile-development",
+    title: "Mobile App Development",
+    href: "/mobile-development",
+    icon: Smartphone,
+    accent: "#8B5CF6",
+    description:
+      "We design and develop feature-rich mobile apps for iOS and Android that are fast, secure, and scalable. Opash Software helps you deliver exceptional user experiences with cross-platform and native apps.",
+  },
+  {
+    id: "ai-ml-solutions",
+    title: "AI & ML Solutions",
+    href: "/ai-ml-solutions",
+    icon: BrainCircuit,
+    accent: "#10B981",
+    description:
+      "Leverage Artificial Intelligence and Machine Learning to automate workflows, enhance decision-making, and personalize user experiences. Opash Software delivers AI-driven solutions tailored to your business goals.",
+  },
+  {
+    id: "api-integration",
+    title: "API Integration & Microservices",
+    href: "/api-integration",
+    icon: Cloud,
+    accent: "#F59E0B",
+    description:
+      "Enhance system efficiency with seamless API integration and microservices architecture. Opash Software enables rapid scalability, modular development, and faster time-to-market for your digital products.",
+  },
+  {
+    id: "hire-developers",
+    title: "Hire Dedicated Developers",
+    href: "/hire-developers",
+    icon: Users,
+    accent: "#EC4899",
+    description:
+      "Hire vetted and skilled developers from Opash Software for your custom projects. Scale your tech team on-demand with flexible engagement models and domain expertise.",
+  },
+];
+
+// Rolling Digit Reel Component for 60fps GPU Counter Animation
+function RollingDigit({
+  target,
+  start,
+  delay = 0,
+  duration = 1.6,
+}: {
+  target: number;
+  start: boolean;
+  delay?: number;
+  duration?: number;
+}) {
+  const digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+  const targetIndex = 10 + target;
+
+  return (
+    <span
+      style={{
+        display: "inline-block",
+        height: "1.15em",
+        lineHeight: "1.15em",
+        overflow: "hidden",
+        verticalAlign: "baseline",
+        position: "relative",
+      }}
+    >
+      <span
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          transform: start
+            ? `translate3d(0, -${targetIndex * 5}%, 0)`
+            : "translate3d(0, 0%, 0)",
+          transition: `transform ${duration}s cubic-bezier(0.12, 1, 0.25, 1) ${delay}s`,
+          willChange: "transform",
+        }}
+      >
+        {digits.map((d, idx) => (
+          <span
+            key={idx}
+            style={{
+              height: "1.15em",
+              lineHeight: "1.15em",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            {d}
+          </span>
+        ))}
+      </span>
+    </span>
+  );
+}
+
+function RollingNumberTicker({
+  text,
+  start,
+  duration = 1.6,
+}: {
+  text: string;
+  start: boolean;
+  duration?: number;
+}) {
+  let digitIndex = 0;
+
+  return (
+    <span style={{ display: "inline-flex", alignItems: "baseline", justifyContent: "center" }}>
+      {text.split("").map((char, index) => {
+        const isDigit = /\d/.test(char);
+        if (isDigit) {
+          const num = parseInt(char, 10);
+          const delay = digitIndex * 0.08;
+          digitIndex++;
+          return (
+            <RollingDigit
+              key={index}
+              target={num}
+              start={start}
+              delay={delay}
+              duration={duration}
+            />
+          );
+        }
+
+        return (
+          <span
+            key={index}
+            style={{
+              display: "inline-block",
+              lineHeight: "1.15em",
+            }}
+          >
+            {char}
+          </span>
+        );
+      })}
+    </span>
+  );
+}
+
+const COMPANY_STATS = [
+  {
+    count: "50+",
+    label: "Experienced Software Developers",
+    detail: "Top 1% senior full-stack, cloud & AI developers",
+    accentColor: "#00a88f",
+    gradientColor: "#2dd4bf",
+    lightColor: "#008a75",
+    glowBorder: "rgba(45, 212, 191, 0.25)",
+  },
+  {
+    count: "70+",
+    label: "Custom Software Projects Delivered",
+    detail: "SaaS, FinTech, Healthcare & Logistics platforms",
+    accentColor: "#0284c7",
+    gradientColor: "#38bdf8",
+    lightColor: "#0284c7",
+    glowBorder: "rgba(56, 189, 248, 0.25)",
+  },
+  {
+    count: "12,000+",
+    label: "Hours of Project Execution",
+    detail: "Agile sprints & 96% client retention",
+    accentColor: "#8b5cf6",
+    gradientColor: "#818cf8",
+    lightColor: "#4f46e5",
+    glowBorder: "rgba(99, 102, 241, 0.25)",
+  },
+  {
+    count: "8+",
+    label: "Years of Industry Experience in IT Solutions",
+    detail: "Proven digital transformation track record",
+    accentColor: "#10b981",
+    gradientColor: "#2dd4bf",
+    lightColor: "#0d9488",
+    glowBorder: "rgba(20, 184, 166, 0.25)",
+  },
+];
+
+function Freestanding3DIcon({
+  icon: Icon,
+  accent,
+  size = 46,
+  style,
+}: {
+  icon: React.ComponentType<{ size?: number; className?: string; style?: React.CSSProperties; strokeWidth?: number }>;
+  accent: string;
+  size?: number;
+  style?: React.CSSProperties;
+}) {
+  const { theme } = useTheme();
+  const isLight = theme === "light";
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <div
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      style={{
+        position: "relative",
+        width: size + 16,
+        height: size + 16,
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        perspective: "600px",
+        cursor: "pointer",
+        marginBottom: "1.25rem",
+        userSelect: "none",
+        flexShrink: 0,
+        ...style,
+      }}
+    >
+      {/* 1. Dynamic 3D Ambient Aura Glow (Pulsing / Blooming behind icon) */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          top: "15%",
+          left: "15%",
+          width: "70%",
+          height: "70%",
+          borderRadius: "50%",
+          background: accent,
+          filter: "blur(18px)",
+          opacity: isHovered ? (isLight ? 0.45 : 0.8) : isLight ? 0.12 : 0.28,
+          transform: isHovered ? "scale(1.45)" : "scale(1)",
+          transition: "all 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
+          pointerEvents: "none",
+          zIndex: 0,
+        }}
+      />
+
+      {/* 2. 3D Extruded Deep Shadow Silhouette Layer */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          color: accent,
+          opacity: isLight ? 0.15 : 0.35,
+          transform: isHovered
+            ? "translateY(5px) translateZ(-6px) scale(0.96)"
+            : "translateY(2px) translateZ(-2px) scale(0.98)",
+          filter: isLight ? "none" : "blur(1px)",
+          transition: "transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease",
+          pointerEvents: "none",
+          zIndex: 1,
+        }}
+      >
+        <Icon size={size} strokeWidth={2.4} />
+      </div>
+
+      {/* 3. Main Foreground 3D Floating Icon Layer */}
+      <div
+        style={{
+          position: "relative",
+          zIndex: 2,
+          color: accent,
+          transformStyle: "preserve-3d",
+          transform: isHovered
+            ? "translateY(-6px) translateZ(16px) rotateX(12deg) rotateY(-10deg) scale(1.14)"
+            : "translateY(0) translateZ(0) rotateX(0) rotateY(0) scale(1)",
+          filter: isHovered
+            ? isLight
+              ? `drop-shadow(0 6px 14px ${accent}60)`
+              : `drop-shadow(0 10px 22px ${accent}85) drop-shadow(0 2px 4px rgba(0,0,0,0.6))`
+            : isLight
+            ? `drop-shadow(0 2px 6px ${accent}35)`
+            : `drop-shadow(0 4px 10px ${accent}45)`,
+          transition: "transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), filter 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Icon size={size} strokeWidth={2.2} />
+      </div>
+    </div>
+  );
+}
+
 export default function CompanyPageClient() {
   const { theme } = useTheme();
   const isLight = theme === "light";
 
   // State
   const [activeMilestoneIndex, setActiveMilestoneIndex] = useState(0);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-  const [copiedEmail, setCopiedEmail] = useState(false);
-  const [hoveredWhyCard, setHoveredWhyCard] = useState<number | null>(null);
-  const [hoveredConvictionCard, setHoveredConvictionCard] = useState<number | null>(null);
+  const [isTimelinePaused, setIsTimelinePaused] = useState(false);
 
-  // Auto-advance progress bar every 5.5 seconds (pauses on user interaction)
+  // Counter Scroll Trigger
+  const statsRef = useRef<HTMLDivElement>(null);
+  const [statsInView, setStatsInView] = useState(false);
+
   useEffect(() => {
-    if (!isAutoPlaying) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.target === statsRef.current && entry.isIntersecting) {
+            setStatsInView(true);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+    if (statsRef.current) observer.observe(statsRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  // Continuous auto-advance timeline milestones (2021 -> 2022 -> 2023 -> 2024 -> 2025 -> 2021)
+  useEffect(() => {
+    if (isTimelinePaused) return;
     const interval = setInterval(() => {
       setActiveMilestoneIndex((prev) => (prev + 1) % PROGRESS_MILESTONES.length);
-    }, 5500);
+    }, 4000);
     return () => clearInterval(interval);
-  }, [isAutoPlaying]);
-
-  const handleCopyEmail = () => {
-    navigator.clipboard.writeText(companyData.ceo.email);
-    setCopiedEmail(true);
-    setTimeout(() => setCopiedEmail(false), 2500);
-  };
-
-  const whyChooseUsIconMap: Record<string, React.ComponentType<{ size?: number; className?: string; strokeWidth?: number; style?: React.CSSProperties }>> = {
-    Star: Star,
-    Clock: Clock,
-    RefreshCw: RefreshCw,
-    AtSign: AtSign,
-    Lock: Lock,
-    Check: Check,
-  };
-
-  const pillarIconMap: Record<string, React.ComponentType<{ size?: number; className?: string; strokeWidth?: number; style?: React.CSSProperties }>> = {
-    Layers: Layers,
-    Cpu: Cpu,
-    ShieldCheck: ShieldCheck,
-  };
+  }, [isTimelinePaused, activeMilestoneIndex]);
 
   return (
     <div
       style={{
         position: "relative",
-        overflowX: "clip",
-        backgroundColor: isLight ? "#F7FAFC" : "#060b13",
+        background: isLight ? "#f8fafc" : "#020712",
         color: isLight ? "#102033" : "#f8fafc",
         minHeight: "100vh",
       }}
     >
       {/* ===================================================================== */}
-      {/* 1. CINEMATIC HERO SECTION: INTERACTIVE BENTO STUDIO SHOWCASE          */}
+      {/* 1. CINEMATIC HERO SECTION (100VH FULL WINDOW)                         */}
       {/* ===================================================================== */}
       <section
+        className="company-hero-section"
         style={{
           position: "relative",
-          padding: "7.5rem 1.5rem 5rem 1.5rem",
+          minHeight: "100vh",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "7.5rem 1.5rem 4rem 1.5rem",
           overflow: "hidden",
+          boxSizing: "border-box",
         }}
       >
-        {/* Background Layer with 3D Sculpture & Gradient Aura */}
-        <div
-          aria-hidden="true"
-          style={{
-            position: "absolute",
-            inset: 0,
-            overflow: "hidden",
-            pointerEvents: "none",
-            zIndex: 0,
-          }}
-        >
-          <img
-            src="/images/hero-sculpture-main.jpg"
-            alt=""
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              objectPosition: "center 25%",
-              opacity: isLight ? 0.10 : 0.28,
-              filter: isLight ? "saturate(1.1) contrast(1.05)" : "saturate(1.25) brightness(0.9)",
-              transform: "scale(1.04)",
-              maskImage: "linear-gradient(to bottom, black 0%, black 55%, rgba(0, 0, 0, 0.3) 85%, transparent 100%)",
-              WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 55%, rgba(0, 0, 0, 0.3) 85%, transparent 100%)",
-            }}
-          />
-
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              background: isLight
-                ? `
-                  radial-gradient(ellipse 80% 65% at 50% 30%, rgba(248, 250, 252, 0.45) 0%, rgba(248, 250, 252, 0.88) 60%, #f8fafc 100%),
-                  linear-gradient(to bottom, rgba(248, 250, 252, 0.15) 0%, rgba(248, 250, 252, 0.95) 85%, #f8fafc 100%)
-                `
-                : `
-                  radial-gradient(ellipse 80% 65% at 50% 30%, rgba(4, 10, 23, 0.35) 0%, rgba(4, 10, 23, 0.88) 60%, #020712 100%),
-                  linear-gradient(to bottom, rgba(2, 7, 18, 0.15) 0%, rgba(2, 7, 18, 0.95) 85%, #020712 100%)
-                `,
-              pointerEvents: "none",
-            }}
-          />
-
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              background: isLight
-                ? `radial-gradient(ellipse 70% 50% at 50% 15%, rgba(0, 168, 143, 0.14) 0%, transparent 65%)`
-                : `radial-gradient(ellipse 70% 50% at 50% 15%, rgba(94, 192, 152, 0.20) 0%, transparent 65%)`,
-              pointerEvents: "none",
-            }}
-          />
-        </div>
-
-        {/* Ambient Studio Laser & Dot Grid */}
         <AboutCreativeBackdrop isLightMode={isLight} />
 
-        <div className="container-custom" style={{ position: "relative", zIndex: 2, maxWidth: "1320px", margin: "0 auto" }}>
-          {/* Top Pill Badge matching screenshot */}
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              marginBottom: "1.5rem",
-            }}
-          >
-            <div
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.55rem",
-                fontSize: "0.85rem",
-                fontWeight: 700,
-                letterSpacing: "0.07em",
-                textTransform: "uppercase",
-                color: isLight ? "#008a75" : "#2dd4bf",
-                padding: "0.45rem 1.25rem",
-                borderRadius: "9999px",
-                background: isLight ? "rgba(0, 168, 143, 0.08)" : "rgba(45, 212, 191, 0.1)",
-                border: isLight ? "1px solid rgba(0, 168, 143, 0.25)" : "1px solid rgba(45, 212, 191, 0.25)",
-              }}
-            >
-              <ShieldCheck size={15} />
-              <span>SURAT HQ • 8+ YEARS EXPERTISE • 100% IP OWNERSHIP</span>
-            </div>
-          </div>
-
-          {/* Centered Majestic Headline & Narrative */}
-          <div style={{ textAlign: "center", maxWidth: "980px", margin: "0 auto" }}>
+        <div className="container-custom" style={{ position: "relative", zIndex: 2, maxWidth: "1320px", margin: "0 auto", width: "100%" }}>
+          <div style={{ textAlign: "center", maxWidth: "1280px", margin: "0 auto" }}>
             <OuiWillHeadline
               style={{
-                fontSize: "clamp(2.4rem, 5vw, 4.2rem)",
-                fontWeight: 800,
+                fontFamily: "var(--font-acthirey), 'Acthirey', 'Playfair Display', serif",
+                fontSize: "clamp(1.8rem, 3.8vw, 54px)",
+                fontWeight: 400,
                 lineHeight: 1.15,
-                letterSpacing: "-0.03em",
-                marginBottom: "1.5rem",
+                letterSpacing: "-0.015em",
+                marginBottom: "1.75rem",
                 display: "block",
               }}
             >
-              <OuiWillWord index={1}>Not</OuiWillWord>
-              <OuiWillWord index={2}>Just</OuiWillWord>
-              <OuiWillWord index={3}>Another</OuiWillWord>
-              <OuiWillWord index={4}>IT</OuiWillWord>
-              <OuiWillWord index={5}>Company.</OuiWillWord>
-              <OuiWillDot />
-              <span style={{ display: "block", width: "100%", marginTop: "0.35rem" }}>
+              <span className="headline-nowrap-desktop" style={{ display: "inline-block" }}>
+                <OuiWillWord index={1}>Not</OuiWillWord>{" "}
+                <OuiWillWord index={2}>Just</OuiWillWord>{" "}
+                <OuiWillWord index={3}>Another</OuiWillWord>{" "}
+                <OuiWillWord index={4}>IT</OuiWillWord>{" "}
+                <OuiWillWord index={5}>Company.</OuiWillWord>
+                <OuiWillDot />
+              </span>
+              <span style={{ display: "block", width: "100%", marginTop: "0.5rem" }}>
                 <OuiWillWord index={6} isGradient>
                   We Are A Dedicated Team Of Tech Experts.
                 </OuiWillWord>
               </span>
             </OuiWillHeadline>
 
-            <p
+            {/* Narrative Paragraph from Live Site to Fill Blank Spacing */}
+            <div
               style={{
-                fontSize: "clamp(1.05rem, 1.7vw, 1.22rem)",
-                lineHeight: 1.68,
-                color: isLight ? "#334155" : "#cbd5e1",
-                maxWidth: "880px",
-                margin: "0 auto 1.25rem auto",
-                fontWeight: 450,
+                maxWidth: "920px",
+                margin: "0 auto 2.25rem auto",
+                display: "flex",
+                flexDirection: "column",
+                gap: "1rem",
               }}
             >
-              Founded with the ambition to bridge the gap between ideas and digital realities, Opash Software is a Surat-based IT solutions provider delivering cutting-edge software development services to businesses worldwide.
-            </p>
+              <p
+                style={{
+                  fontSize: "clamp(1.05rem, 1.4vw, 1.18rem)",
+                  lineHeight: 1.7,
+                  color: isLight ? "#475569" : "#cbd5e1",
+                  margin: 0,
+                  fontWeight: 400,
+                }}
+              >
+                At Opash Software, we’re not just another IT company — we’re a passionate family of over 50+ tech experts dedicated to turning digital dreams into reality. Based in Surat, Gujarat, a rising tech hub ideal for IT nearshoring due to its strategic location and time zone advantages, we serve businesses globally — from startups to MNCs.
+              </p>
+              <p
+                style={{
+                  fontSize: "clamp(1.02rem, 1.35vw, 1.12rem)",
+                  lineHeight: 1.7,
+                  color: isLight ? "#64748b" : "#94a3b8",
+                  margin: 0,
+                  fontWeight: 400,
+                }}
+              >
+                With 8+ years of experience in full-stack development, cloud services, mobile apps, AI/ML, and digital marketing, we specialize in delivering tailor-made, scalable IT solutions that align perfectly with your business goals.
+              </p>
+            </div>
 
-            <p
-              style={{
-                fontSize: "clamp(0.96rem, 1.45vw, 1.1rem)",
-                lineHeight: 1.68,
-                color: isLight ? "#64748b" : "#94a3b8",
-                maxWidth: "860px",
-                margin: "0 auto 2.5rem auto",
-              }}
-            >
-              From high-growth startups to enterprise leaders across the US, Europe, Middle East, and Asia, we engineer custom software, scalable SaaS, and AI-driven platforms that deliver enduring market dominance.
-            </p>
-
-            {/* Redesigned CTAs matching the screenshot */}
+            {/* CTAs with Home Page Rolling Text on Hover */}
             <div
               style={{
                 display: "flex",
@@ -352,53 +616,39 @@ export default function CompanyPageClient() {
                 gap: "1rem",
                 justifyContent: "center",
                 alignItems: "center",
-                marginBottom: "3.25rem",
+                marginBottom: "2.5rem",
               }}
             >
               <Link
                 href="/get-a-quote"
-                className="btn-shimmer"
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "0.6rem",
-                  padding: "0.95rem 2rem",
-                  borderRadius: "12px",
-                  fontWeight: 700,
-                  fontSize: "1rem",
-                  color: "#ffffff",
-                  background: "linear-gradient(135deg, #00a88f 0%, #0284c7 100%)",
-                  boxShadow: isLight
-                    ? "0 10px 25px -5px rgba(0, 168, 143, 0.45)"
-                    : "0 10px 25px -5px rgba(94, 192, 152, 0.35)",
-                  textDecoration: "none",
-                  transition: "all 0.25s ease",
-                }}
+                className="hero-brand-primary-btn opash-roll-btn"
               >
-                <span>Get Free Consultation</span>
-                <ArrowRight size={18} />
+                <span className="opash-roll-track">
+                  <span className="opash-roll-item">
+                    <span>Get Free Consultation</span>
+                    <ArrowRight size={15} className="hero-btn-arrow" />
+                  </span>
+                  <span className="opash-roll-item" aria-hidden="true">
+                    <span>Get Free Consultation</span>
+                    <ArrowRight size={15} className="hero-btn-arrow" />
+                  </span>
+                </span>
               </Link>
 
               <a
-                href="#leadership"
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "0.6rem",
-                  padding: "0.95rem 1.85rem",
-                  borderRadius: "12px",
-                  fontWeight: 600,
-                  fontSize: "1rem",
-                  color: isLight ? "#0f172a" : "#ffffff",
-                  background: isLight ? "rgba(255, 255, 255, 0.9)" : "rgba(255, 255, 255, 0.05)",
-                  border: isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.12)",
-                  backdropFilter: "blur(10px)",
-                  textDecoration: "none",
-                  transition: "all 0.25s ease",
-                }}
+                href="#services"
+                className="hero-brand-secondary-btn opash-roll-btn"
               >
-                <span>Explore Technologies</span>
-                <Terminal size={17} />
+                <span className="opash-roll-track">
+                  <span className="opash-roll-item">
+                    <Terminal size={15} className="hero-wa-icon" />
+                    <span>Explore Technologies</span>
+                  </span>
+                  <span className="opash-roll-item" aria-hidden="true">
+                    <Terminal size={15} className="hero-wa-icon" />
+                    <span>Explore Technologies</span>
+                  </span>
+                </span>
               </a>
             </div>
 
@@ -435,1004 +685,211 @@ export default function CompanyPageClient() {
               </div>
             </div>
           </div>
+        </div>
 
-          {/* ================================================================= */}
-          {/* BOTTOM TELEMETRY STRIP: 4 VERIFIED POWERS FROM OPASH OFFICIAL     */}
-          {/* ================================================================= */}
+        {/* Animated "Scroll to Explore" Indicator (Pinned to bottom like Portfolio) */}
+        <a
+          href="#company-stats"
+          onClick={(e) => {
+            e.preventDefault();
+            const target = document.getElementById("company-stats");
+            if (target) {
+              target.scrollIntoView({ behavior: "smooth" });
+            }
+          }}
+          className="hero-scroll-indicator"
+          style={{
+            position: "absolute",
+            bottom: "clamp(2.5rem, 5vh, 3.5rem)",
+            left: "50%",
+            transform: "translateX(-50%)",
+            display: "inline-flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "0.55rem",
+            textDecoration: "none",
+            zIndex: 3,
+            cursor: "pointer",
+            transition: "transform 0.25s ease, opacity 0.25s ease",
+          }}
+        >
+          {/* Minimalist mouse pill with animated green glowing dot */}
           <div
             style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-              gap: "1.25rem",
-              maxWidth: "1320px",
-              margin: "0 auto",
+              width: "22px",
+              height: "36px",
+              borderRadius: "9999px",
+              border: `1.5px solid ${isLight ? "rgba(0, 138, 117, 0.45)" : "rgba(0, 255, 209, 0.45)"}`,
+              background: isLight ? "rgba(255, 255, 255, 0.65)" : "rgba(10, 20, 36, 0.65)",
+              backdropFilter: "blur(10px)",
+              WebkitBackdropFilter: "blur(10px)",
+              display: "flex",
+              justifyContent: "center",
+              paddingTop: "6px",
+              boxShadow: isLight
+                ? "0 4px 14px rgba(0, 168, 143, 0.15)"
+                : "0 4px 18px rgba(0, 255, 209, 0.2)",
             }}
           >
-            {/* Metric 1: Dedicated In-House Team */}
-            <div
+            <span
+              className="hero-scroll-dot"
               style={{
-                padding: "1.75rem 1.4rem",
-                borderRadius: "18px",
-                background: isLight ? "#ffffff" : "rgba(10, 20, 36, 0.75)",
-                border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(45, 212, 191, 0.25)",
-                boxShadow: isLight ? "0 4px 20px rgba(0, 0, 0, 0.04)" : "0 8px 30px rgba(0, 0, 0, 0.35)",
-                textAlign: "center",
+                width: "4px",
+                height: "7px",
+                borderRadius: "9999px",
+                background: isLight ? "#008a75" : "#00ffd1",
+                boxShadow: isLight ? "0 0 8px #008a75" : "0 0 10px #00ffd1",
               }}
-            >
-              <div
-                style={{
-                  fontSize: "2.9rem",
-                  fontWeight: 800,
-                  color: isLight ? "#008a75" : "#2dd4bf",
-                  lineHeight: 1.1,
-                  marginBottom: "0.35rem",
-                }}
-              >
-                100%
-              </div>
-              <div style={{ fontSize: "0.98rem", fontWeight: 700, color: isLight ? "#0f172a" : "#f8fafc", marginBottom: "0.2rem" }}>
-                In-House Tech Experts
-              </div>
-              <div style={{ fontSize: "0.8rem", color: isLight ? "#64748b" : "#94a3b8" }}>
-                Senior full-stack, cloud & AI developers
-              </div>
-            </div>
-
-            {/* Metric 2: 8+ Years Experience */}
-            <div
-              style={{
-                padding: "1.75rem 1.4rem",
-                borderRadius: "18px",
-                background: isLight ? "#ffffff" : "rgba(10, 20, 36, 0.75)",
-                border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(56, 189, 248, 0.25)",
-                boxShadow: isLight ? "0 4px 20px rgba(0, 0, 0, 0.04)" : "0 8px 30px rgba(0, 0, 0, 0.35)",
-                textAlign: "center",
-              }}
-            >
-              <div
-                style={{
-                  fontSize: "2.9rem",
-                  fontWeight: 800,
-                  color: isLight ? "#0284c7" : "#38bdf8",
-                  lineHeight: 1.1,
-                  marginBottom: "0.35rem",
-                }}
-              >
-                8+
-              </div>
-              <div style={{ fontSize: "0.98rem", fontWeight: 700, color: isLight ? "#0f172a" : "#f8fafc", marginBottom: "0.2rem" }}>
-                Years of Industry Experience
-              </div>
-              <div style={{ fontSize: "0.8rem", color: isLight ? "#64748b" : "#94a3b8" }}>
-                Proven digital transformation track record
-              </div>
-            </div>
-
-            {/* Metric 3: 70+ Projects Delivered */}
-            <div
-              style={{
-                padding: "1.75rem 1.4rem",
-                borderRadius: "18px",
-                background: isLight ? "#ffffff" : "rgba(10, 20, 36, 0.75)",
-                border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(99, 102, 241, 0.25)",
-                boxShadow: isLight ? "0 4px 20px rgba(0, 0, 0, 0.04)" : "0 8px 30px rgba(0, 0, 0, 0.35)",
-                textAlign: "center",
-              }}
-            >
-              <div
-                style={{
-                  fontSize: "2.9rem",
-                  fontWeight: 800,
-                  color: isLight ? "#4f46e5" : "#818cf8",
-                  lineHeight: 1.1,
-                  marginBottom: "0.35rem",
-                }}
-              >
-                70+
-              </div>
-              <div style={{ fontSize: "0.98rem", fontWeight: 700, color: isLight ? "#0f172a" : "#f8fafc", marginBottom: "0.2rem" }}>
-                Custom Projects Delivered
-              </div>
-              <div style={{ fontSize: "0.8rem", color: isLight ? "#64748b" : "#94a3b8" }}>
-                SaaS, FinTech, Healthcare & Logistics
-              </div>
-            </div>
-
-            {/* Metric 4: 12,000+ Project Execution Hours */}
-            <div
-              style={{
-                padding: "1.75rem 1.4rem",
-                borderRadius: "18px",
-                background: isLight ? "#ffffff" : "rgba(10, 20, 36, 0.75)",
-                border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(20, 184, 166, 0.25)",
-                boxShadow: isLight ? "0 4px 20px rgba(0, 0, 0, 0.04)" : "0 8px 30px rgba(0, 0, 0, 0.35)",
-                textAlign: "center",
-              }}
-            >
-              <div
-                style={{
-                  fontSize: "2.9rem",
-                  fontWeight: 800,
-                  color: isLight ? "#0d9488" : "#2dd4bf",
-                  lineHeight: 1.1,
-                  marginBottom: "0.35rem",
-                }}
-              >
-                12,000+
-              </div>
-              <div style={{ fontSize: "0.98rem", fontWeight: 700, color: isLight ? "#0f172a" : "#f8fafc", marginBottom: "0.2rem" }}>
-                Project Execution Hours
-              </div>
-              <div style={{ fontSize: "0.8rem", color: isLight ? "#64748b" : "#94a3b8" }}>
-                Agile sprints & 96% client retention
-              </div>
-            </div>
+            />
           </div>
-        </div>
+
+          {/* Subtle helper text with animated bouncing arrow */}
+          <div
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "0.35rem",
+              fontSize: "0.78rem",
+              fontWeight: 700,
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+              color: isLight ? "#008a75" : "#2dd4bf",
+              whiteSpace: "nowrap",
+            }}
+          >
+            <span>Scroll to explore</span>
+            <span className="hero-scroll-arrow">↓</span>
+          </div>
+        </a>
       </section>
 
       {/* ===================================================================== */}
-      {/* 2. WHAT MAKES OPASH SOFTWARE UNIQUE (WHY CHOOSE US)                   */}
+      {/* 2. DEDICATED TELEMETRY STATS SECTION (OUTSIDE HERO WITH ROLLING TICKER) */}
       {/* ===================================================================== */}
       <section
+        id="company-stats"
+        ref={statsRef}
         style={{
-          padding: "6.5rem 1.5rem",
           position: "relative",
-          overflow: "hidden",
+          padding: "5rem 1.5rem",
           background: isLight
-            ? "linear-gradient(180deg, #F0F5F8 0%, #F7FAFC 100%)"
-            : "linear-gradient(180deg, #0a121e 0%, #060b13 100%)",
-          borderTop: isLight ? "1px solid #DCE6ED" : "1px solid rgba(255, 255, 255, 0.08)",
-          borderBottom: isLight ? "1px solid #DCE6ED" : "1px solid rgba(255, 255, 255, 0.08)",
+            ? "linear-gradient(180deg, rgba(248, 250, 252, 0.7) 0%, #ffffff 30%, #ffffff 70%, rgba(248, 250, 252, 0.7) 100%)"
+            : "linear-gradient(180deg, rgba(10, 18, 34, 0.6) 0%, rgba(6, 14, 30, 0.95) 30%, rgba(8, 17, 36, 0.95) 70%, rgba(10, 18, 34, 0.6) 100%)",
+          borderBottom: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
+          overflow: "hidden",
         }}
       >
-        {/* Ambient Top Glow using Opash Logo Mint (#5EC098) & Slate Blue (#476D9A) */}
-        <div
-          style={{
-            position: "absolute",
-            top: "-15%",
-            left: "50%",
-            transform: "translateX(-50%)",
-            width: "800px",
-            height: "450px",
-            background: isLight
-              ? "radial-gradient(circle, rgba(0, 168, 143, 0.1) 0%, rgba(16, 32, 51, 0.04) 50%, transparent 70%)"
-              : "radial-gradient(circle, rgba(94, 192, 152, 0.14) 0%, rgba(71, 109, 154, 0.1) 50%, transparent 70%)",
-            filter: "blur(60px)",
-            pointerEvents: "none",
-          }}
-        />
-
-        <div className="container-custom" style={{ maxWidth: "1240px", margin: "0 auto", position: "relative", zIndex: 2 }}>
-          {/* Section Header */}
-          <div style={{ textAlign: "center", maxWidth: "820px", margin: "0 auto 4rem auto" }}>
-            <div
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "0.5rem",
-                color: isLight ? "#008a75" : "#5EC098",
-                fontSize: "0.85rem",
-                fontWeight: 700,
-                letterSpacing: "0.08em",
-                textTransform: "uppercase",
-                marginBottom: "0.85rem",
-              }}
-            >
-              <Award size={15} />
-              <span>Why Choose Opash Software</span>
-            </div>
-
-            <h2
-              style={{
-                fontSize: "clamp(2.1rem, 3.8vw, 3rem)",
-                fontWeight: 800,
-                color: isLight ? "#102033" : "#ffffff",
-                letterSpacing: "-0.025em",
-                lineHeight: 1.2,
-                fontFamily: "var(--font-heading), sans-serif",
-              }}
-            >
-              What Makes Opash Software Unique
-            </h2>
-
-            <p
-              style={{
-                maxWidth: "680px",
-                margin: "1rem auto 0 auto",
-                color: isLight ? "#526579" : "#94a3b8",
-                fontSize: "1.05rem",
-                lineHeight: 1.65,
-              }}
-            >
-              We combine senior engineering talent, agile sprint cadence, and 100% intellectual property ownership to engineer digital platforms that scale seamlessly.
-            </p>
-          </div>
-
-          {/* 6 Bento-Style Feature Cards Grid */}
+        <div className="container-custom" style={{ maxWidth: "1320px", margin: "0 auto", position: "relative", zIndex: 2 }}>
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))",
-              gap: "2rem",
-              marginBottom: "3.5rem",
+              gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+              gap: "1.5rem",
+              width: "100%",
             }}
           >
-            {companyData.whyChooseUs.map((item, idx) => {
-              const IconComponent = whyChooseUsIconMap[item.icon] || Star;
-              const isHovered = hoveredWhyCard === idx;
-              const indexStr = `0${idx + 1}`;
-              const brandMint = isLight ? "#00A88F" : "#5EC098";
-              const brandSlate = isLight ? "#102033" : "#476D9A";
-
+            {COMPANY_STATS.map((stat, idx) => {
+              const delays = [0.05, 0.15, 0.25, 0.35];
               return (
                 <div
                   key={idx}
-                  onMouseEnter={() => setHoveredWhyCard(idx)}
-                  onMouseLeave={() => setHoveredWhyCard(null)}
                   style={{
-                    position: "relative",
-                    borderRadius: "22px",
-                    padding: "2.25rem 2rem",
-                    background: isLight
-                      ? "#ffffff"
-                      : isHovered
-                      ? "linear-gradient(145deg, rgba(22, 38, 62, 0.95) 0%, rgba(14, 25, 41, 0.98) 100%)"
-                      : "linear-gradient(145deg, rgba(14, 25, 41, 0.85) 0%, rgba(10, 18, 30, 0.9) 100%)",
-                    borderTop: `3.5px solid ${isHovered ? brandMint : brandSlate}`,
-                    borderRight: isLight
-                      ? isHovered
-                        ? `1.5px solid ${brandMint}`
-                        : "1.5px solid #DCE6ED"
-                      : isHovered
-                      ? "1.5px solid rgba(94, 192, 152, 0.55)"
-                      : "1.5px solid rgba(255, 255, 255, 0.08)",
-                    borderBottom: isLight
-                      ? isHovered
-                        ? `1.5px solid ${brandMint}`
-                        : "1.5px solid #DCE6ED"
-                      : isHovered
-                      ? "1.5px solid rgba(94, 192, 152, 0.55)"
-                      : "1.5px solid rgba(255, 255, 255, 0.08)",
-                    borderLeft: isLight
-                      ? isHovered
-                        ? `1.5px solid ${brandMint}`
-                        : "1.5px solid #DCE6ED"
-                      : isHovered
-                      ? "1.5px solid rgba(94, 192, 152, 0.55)"
-                      : "1.5px solid rgba(255, 255, 255, 0.08)",
+                    padding: "2rem 1.6rem",
+                    borderRadius: "20px",
+                    background: isLight ? "#ffffff" : "rgba(10, 20, 36, 0.82)",
+                    border: isLight ? "1px solid #e2e8f0" : `1px solid ${stat.glowBorder}`,
                     boxShadow: isLight
-                      ? isHovered
-                        ? "0 20px 40px rgba(0, 168, 143, 0.14), 0 0 20px rgba(0, 168, 143, 0.06)"
-                        : "0 10px 30px rgba(16, 32, 51, 0.04)"
-                      : isHovered
-                      ? "0 22px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(94, 192, 152, 0.22)"
-                      : "0 14px 35px rgba(0, 0, 0, 0.4)",
-                    transform: isHovered ? "translateY(-6px)" : "translateY(0)",
-                    transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-between",
+                      ? "0 4px 20px rgba(0, 0, 0, 0.04)"
+                      : "0 10px 30px rgba(0, 0, 0, 0.4)",
+                    textAlign: "center",
+                    position: "relative",
+                    overflow: "hidden",
+                    transform: statsInView ? "translate3d(0, 0, 0)" : "translate3d(0, 32px, 0)",
+                    opacity: statsInView ? 1 : 0,
+                    transition: `transform 0.65s cubic-bezier(0.16, 1, 0.3, 1) ${delays[idx]}s, opacity 0.65s ease ${delays[idx]}s, border-color 0.25s ease`,
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "translate3d(0, -6px, 0)";
+                    e.currentTarget.style.borderColor = stat.accentColor;
+                    e.currentTarget.style.boxShadow = isLight
+                      ? "0 14px 34px -8px rgba(0, 168, 143, 0.18)"
+                      : "0 16px 40px -10px rgba(0, 255, 209, 0.25)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "translate3d(0, 0, 0)";
+                    e.currentTarget.style.borderColor = isLight ? "#e2e8f0" : stat.glowBorder;
+                    e.currentTarget.style.boxShadow = isLight
+                      ? "0 4px 20px rgba(0, 0, 0, 0.04)"
+                      : "0 10px 30px rgba(0, 0, 0, 0.4)";
                   }}
                 >
-                  <div>
-                    {/* Top Row: Icon Medallion with Opash Logo Gradient + Index & Badge */}
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        marginBottom: "1.5rem",
-                      }}
-                    >
-                      {/* Logo-Colored Gradient Medallion: Slate Blue to Mint */}
-                      <div
-                        style={{
-                          width: "56px",
-                          height: "56px",
-                          borderRadius: "16px",
-                          background: isLight
-                            ? "linear-gradient(135deg, #102033 0%, #00A88F 100%)"
-                            : "linear-gradient(135deg, #476D9A 0%, #5EC098 100%)",
-                          color: "#ffffff",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          boxShadow: isLight
-                            ? "0 8px 24px rgba(0, 168, 143, 0.28)"
-                            : "0 8px 24px rgba(94, 192, 152, 0.32)",
-                          transform: isHovered ? "scale(1.08)" : "scale(1)",
-                          transition: "transform 0.3s ease",
-                        }}
-                      >
-                        <IconComponent
-                          size={26}
-                          strokeWidth={item.icon === "Check" ? 3 : 2.2}
-                          style={{ fill: item.icon === "Star" ? "#ffffff" : "none" }}
-                        />
-                      </div>
-
-                      {/* Right Tag + Number Index */}
-                      <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-                        <span
-                          style={{
-                            display: "inline-block",
-                            padding: "0.3rem 0.75rem",
-                            borderRadius: "9999px",
-                            fontSize: "0.76rem",
-                            fontWeight: 700,
-                            letterSpacing: "0.03em",
-                            background: isLight ? "rgba(0, 168, 143, 0.08)" : "rgba(94, 192, 152, 0.12)",
-                            color: isLight ? "#008a75" : "#5EC098",
-                            border: isLight ? "1px solid rgba(0, 168, 143, 0.2)" : "1px solid rgba(94, 192, 152, 0.3)",
-                          }}
-                        >
-                          {item.badge}
-                        </span>
-                        <span
-                          style={{
-                            fontFamily: "monospace",
-                            fontSize: "1.25rem",
-                            fontWeight: 800,
-                            color: isLight ? "#94a3b8" : "#64748b",
-                          }}
-                        >
-                          {indexStr}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Card Title */}
-                    <h3
-                      style={{
-                        fontSize: "1.35rem",
-                        fontWeight: 800,
-                        color: isLight ? "#102033" : "#ffffff",
-                        letterSpacing: "-0.015em",
-                        marginBottom: "0.65rem",
-                        lineHeight: 1.3,
-                      }}
-                    >
-                      {item.title}
-                    </h3>
-
-                    {/* Card User-Readable Description */}
-                    <p
-                      style={{
-                        color: isLight ? "#526579" : "#cbd5e1",
-                        fontSize: "0.95rem",
-                        lineHeight: 1.68,
-                        marginBottom: "1.75rem",
-                      }}
-                    >
-                      {item.description}
-                    </p>
-                  </div>
-
-                  {/* Bottom Highlight Pill with Logo Mint Accent */}
+                  {/* Top glowing laser line on card */}
                   <div
                     style={{
-                      borderTop: isLight ? "1px solid #F0F5F8" : "1px solid rgba(255, 255, 255, 0.08)",
-                      paddingTop: "1.1rem",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      height: "3px",
+                      background: `linear-gradient(90deg, transparent, ${stat.accentColor}, transparent)`,
+                    }}
+                  />
+
+                  {/* Rolling Number Ticker with 60fps GPU Acceleration */}
+                  <div
+                    style={{
+                      fontSize: "clamp(2.4rem, 3.5vw, 3.1rem)",
+                      fontWeight: 800,
+                      color: isLight ? stat.lightColor : stat.gradientColor,
+                      lineHeight: 1.15,
+                      marginBottom: "0.5rem",
+                      letterSpacing: "-0.02em",
                     }}
                   >
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "0.45rem",
-                        fontSize: "0.84rem",
-                        fontWeight: 700,
-                        color: isLight ? "#008a75" : "#5EC098",
-                      }}
-                    >
-                      <CheckCircle2 size={16} style={{ color: isLight ? "#00A88F" : "#5EC098" }} />
-                      <span>{item.highlight}</span>
-                    </div>
+                    <RollingNumberTicker text={stat.count} start={statsInView} />
+                  </div>
 
-                    <ArrowRight
-                      size={16}
-                      style={{
-                        color: isHovered
-                          ? brandMint
-                          : isLight ? "#94a3b8" : "#64748b",
-                        transform: isHovered ? "translateX(4px)" : "translateX(0)",
-                        transition: "all 0.25s ease",
-                      }}
-                    />
+                  {/* Label */}
+                  <div
+                    style={{
+                      fontSize: "1.02rem",
+                      fontWeight: 750,
+                      color: isLight ? "#0f172a" : "#f8fafc",
+                      lineHeight: 1.4,
+                      margin: 0,
+                    }}
+                  >
+                    {stat.label}
                   </div>
                 </div>
               );
             })}
           </div>
-
-          {/* Bottom Trust & Delivery Metrics Ribbon */}
-          <div
-            style={{
-              padding: "1.75rem 2rem",
-              borderRadius: "20px",
-              background: isLight
-                ? "#ffffff"
-                : "rgba(14, 25, 41, 0.85)",
-              border: isLight ? "1.5px solid #DCE6ED" : "1px solid rgba(255, 255, 255, 0.08)",
-              boxShadow: isLight ? "0 10px 30px rgba(16, 32, 51, 0.04)" : "0 10px 30px rgba(0, 0, 0, 0.35)",
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-              gap: "1.5rem",
-              alignItems: "center",
-            }}
-          >
-            {[
-              { stat: "100%", label: "In-House Dedicated Engineers", color: isLight ? "#102033" : "#6289B8" },
-              { stat: "75+", label: "Production Platforms Shipped", color: isLight ? "#00A88F" : "#5EC098" },
-              { stat: "96%", label: "Client Retention Rate", color: isLight ? "#008a75" : "#2dd4bf" },
-              { stat: "100%", label: "Day-One IP & Code Ownership", color: isLight ? "#476D9A" : "#818cf8" },
-            ].map((metric, mIdx) => (
-              <div
-                key={mIdx}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "1rem",
-                  padding: "0 0.5rem",
-                  borderLeft: mIdx > 0 && isLight ? "1px solid #DCE6ED" : mIdx > 0 ? "1px solid rgba(255, 255, 255, 0.08)" : "none",
-                }}
-              >
-                <div
-                  style={{
-                    fontSize: "2rem",
-                    fontWeight: 800,
-                    color: metric.color,
-                    fontFamily: "var(--font-heading), sans-serif",
-                    lineHeight: 1,
-                  }}
-                >
-                  {metric.stat}
-                </div>
-                <div
-                  style={{
-                    fontSize: "0.85rem",
-                    fontWeight: 600,
-                    color: isLight ? "#526579" : "#cbd5e1",
-                    lineHeight: 1.35,
-                  }}
-                >
-                  {metric.label}
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
       {/* ===================================================================== */}
-      {/* 3. CORE FOUNDATIONAL PILLARS: VISION, MISSION & VALUES                */}
-      {/* ===================================================================== */}
-      <section style={{ padding: "6rem 1.5rem", position: "relative" }}>
-        <div className="container-custom" style={{ maxWidth: "1240px", margin: "0 auto" }}>
-          <div style={{ textAlign: "center", maxWidth: "780px", margin: "0 auto 4rem auto" }}>
-            <span
-              style={{
-                display: "inline-block",
-                color: isLight ? "#008a75" : "#2dd4bf",
-                fontSize: "0.85rem",
-                fontWeight: 700,
-                letterSpacing: "0.08em",
-                textTransform: "uppercase",
-                marginBottom: "0.75rem",
-              }}
-            >
-              Purpose & Direction
-            </span>
-            <h2 style={{ fontSize: "clamp(2rem, 3.5vw, 2.9rem)", fontWeight: 800, lineHeight: 1.2 }}>
-              The Conviction That Drives Opash
-            </h2>
-            <p style={{ color: isLight ? "#64748b" : "#94a3b8", fontSize: "1.05rem", marginTop: "0.75rem" }}>
-              Our guiding principles, strategic mission, and uncompromising core values shaping how we build and scale.
-            </p>
-          </div>
-
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))",
-              gap: "2rem",
-              alignItems: "stretch",
-            }}
-          >
-            {/* 1. OUR VISION CARD */}
-            <div
-              onMouseEnter={() => setHoveredConvictionCard(0)}
-              onMouseLeave={() => setHoveredConvictionCard(null)}
-              style={{
-                position: "relative",
-                borderRadius: "22px",
-                padding: "2.5rem 2rem",
-                background: isLight
-                  ? "#ffffff"
-                  : hoveredConvictionCard === 0
-                  ? "linear-gradient(145deg, rgba(22, 38, 62, 0.95) 0%, rgba(14, 25, 41, 0.98) 100%)"
-                  : "linear-gradient(145deg, rgba(14, 25, 41, 0.85) 0%, rgba(10, 18, 30, 0.9) 100%)",
-                    borderTop: "3.5px solid #00A88F",
-                    borderRight: isLight
-                      ? hoveredConvictionCard === 0
-                        ? "1.5px solid #00A88F"
-                        : "1.5px solid #DCE6ED"
-                      : hoveredConvictionCard === 0
-                      ? "1.5px solid rgba(94, 192, 152, 0.55)"
-                      : "1.5px solid rgba(255, 255, 255, 0.08)",
-                    borderBottom: isLight
-                      ? hoveredConvictionCard === 0
-                        ? "1.5px solid #00A88F"
-                        : "1.5px solid #DCE6ED"
-                      : hoveredConvictionCard === 0
-                      ? "1.5px solid rgba(94, 192, 152, 0.55)"
-                      : "1.5px solid rgba(255, 255, 255, 0.08)",
-                    borderLeft: isLight
-                      ? hoveredConvictionCard === 0
-                        ? "1.5px solid #00A88F"
-                        : "1.5px solid #DCE6ED"
-                      : hoveredConvictionCard === 0
-                      ? "1.5px solid rgba(94, 192, 152, 0.55)"
-                      : "1.5px solid rgba(255, 255, 255, 0.08)",
-                boxShadow: isLight
-                  ? hoveredConvictionCard === 0
-                    ? "0 20px 45px rgba(0, 168, 143, 0.15), 0 0 20px rgba(0, 168, 143, 0.06)"
-                    : "0 10px 30px rgba(16, 32, 51, 0.04)"
-                  : hoveredConvictionCard === 0
-                  ? "0 22px 55px rgba(0, 0, 0, 0.6), 0 0 30px rgba(94, 192, 152, 0.22)"
-                  : "0 14px 35px rgba(0, 0, 0, 0.4)",
-                transform: hoveredConvictionCard === 0 ? "translateY(-6px)" : "translateY(0)",
-                transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-              }}
-            >
-              <div>
-                {/* Header: Icon + Category Tag */}
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.75rem" }}>
-                  <div
-                    style={{
-                      width: "56px",
-                      height: "56px",
-                      borderRadius: "16px",
-                      background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(94, 192, 152, 0.14)",
-                      border: isLight ? "1px solid rgba(0, 168, 143, 0.25)" : "1px solid rgba(94, 192, 152, 0.3)",
-                      color: isLight ? "#00A88F" : "#5EC098",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      boxShadow: "0 8px 20px rgba(0, 168, 143, 0.18)",
-                    }}
-                  >
-                    <Target size={26} strokeWidth={2.2} />
-                  </div>
-                  <span
-                    style={{
-                      padding: "0.35rem 0.85rem",
-                      borderRadius: "9999px",
-                      fontSize: "0.78rem",
-                      fontWeight: 700,
-                      letterSpacing: "0.04em",
-                      textTransform: "uppercase",
-                      background: isLight ? "rgba(0, 168, 143, 0.08)" : "rgba(94, 192, 152, 0.12)",
-                      color: isLight ? "#008a75" : "#5EC098",
-                      border: isLight ? "1px solid rgba(0, 168, 143, 0.2)" : "1px solid rgba(94, 192, 152, 0.3)",
-                    }}
-                  >
-                    Our Vision
-                  </span>
-                </div>
-
-                {/* Headline */}
-                <h3
-                  style={{
-                    fontSize: "1.5rem",
-                    fontWeight: 800,
-                    color: isLight ? "#102033" : "#ffffff",
-                    letterSpacing: "-0.02em",
-                    marginBottom: "0.85rem",
-                    lineHeight: 1.3,
-                  }}
-                >
-                  Empowering Ideas. Transforming Futures.
-                </h3>
-
-                {/* Narrative */}
-                <p
-                  style={{
-                    color: isLight ? "#526579" : "#cbd5e1",
-                    fontSize: "0.96rem",
-                    lineHeight: 1.7,
-                    marginBottom: "1.75rem",
-                  }}
-                >
-                  At Opash Software, our vision is to empower innovators, startups, and global enterprises by blending cutting-edge engineering with bold product strategy. We strive to be the definitive global catalyst for digital transformation, helping businesses build impactful, scalable software solutions that stand the test of time.
-                </p>
-              </div>
-
-              {/* Bottom Focus Tag */}
-              <div
-                style={{
-                  borderTop: isLight ? "1px solid #F0F5F8" : "1px solid rgba(255, 255, 255, 0.08)",
-                  paddingTop: "1.25rem",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}
-              >
-                <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", fontSize: "0.84rem", fontWeight: 700, color: isLight ? "#008a75" : "#5EC098" }}>
-                  <CheckCircle2 size={16} style={{ color: isLight ? "#00A88F" : "#5EC098" }} />
-                  <span>Global Impact & Innovation</span>
-                </div>
-                <ArrowRight
-                  size={16}
-                  style={{
-                    color: hoveredConvictionCard === 0 ? (isLight ? "#00A88F" : "#5EC098") : (isLight ? "#94a3b8" : "#64748b"),
-                    transform: hoveredConvictionCard === 0 ? "translateX(4px)" : "translateX(0)",
-                    transition: "all 0.25s ease",
-                  }}
-                />
-              </div>
-            </div>
-
-            {/* 2. OUR MISSION CARD */}
-            <div
-              onMouseEnter={() => setHoveredConvictionCard(1)}
-              onMouseLeave={() => setHoveredConvictionCard(null)}
-              style={{
-                position: "relative",
-                borderRadius: "22px",
-                padding: "2.5rem 2rem",
-                background: isLight
-                  ? "#ffffff"
-                  : hoveredConvictionCard === 1
-                  ? "linear-gradient(145deg, rgba(22, 38, 62, 0.95) 0%, rgba(14, 25, 41, 0.98) 100%)"
-                  : "linear-gradient(145deg, rgba(14, 25, 41, 0.85) 0%, rgba(10, 18, 30, 0.9) 100%)",
-                    borderTop: "3.5px solid #38bdf8",
-                    borderRight: isLight
-                      ? hoveredConvictionCard === 1
-                        ? "1.5px solid #38bdf8"
-                        : "1.5px solid #DCE6ED"
-                      : hoveredConvictionCard === 1
-                      ? "1.5px solid rgba(56, 189, 248, 0.55)"
-                      : "1.5px solid rgba(255, 255, 255, 0.08)",
-                    borderBottom: isLight
-                      ? hoveredConvictionCard === 1
-                        ? "1.5px solid #38bdf8"
-                        : "1.5px solid #DCE6ED"
-                      : hoveredConvictionCard === 1
-                      ? "1.5px solid rgba(56, 189, 248, 0.55)"
-                      : "1.5px solid rgba(255, 255, 255, 0.08)",
-                    borderLeft: isLight
-                      ? hoveredConvictionCard === 1
-                        ? "1.5px solid #38bdf8"
-                        : "1.5px solid #DCE6ED"
-                      : hoveredConvictionCard === 1
-                      ? "1.5px solid rgba(56, 189, 248, 0.55)"
-                      : "1.5px solid rgba(255, 255, 255, 0.08)",
-                boxShadow: isLight
-                  ? hoveredConvictionCard === 1
-                    ? "0 20px 45px rgba(56, 189, 248, 0.15), 0 0 20px rgba(56, 189, 248, 0.06)"
-                    : "0 10px 30px rgba(16, 32, 51, 0.04)"
-                  : hoveredConvictionCard === 1
-                  ? "0 22px 55px rgba(0, 0, 0, 0.6), 0 0 30px rgba(56, 189, 248, 0.22)"
-                  : "0 14px 35px rgba(0, 0, 0, 0.4)",
-                transform: hoveredConvictionCard === 1 ? "translateY(-6px)" : "translateY(0)",
-                transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-              }}
-            >
-              <div>
-                {/* Header: Icon + Category Tag */}
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.75rem" }}>
-                  <div
-                    style={{
-                      width: "56px",
-                      height: "56px",
-                      borderRadius: "16px",
-                      background: isLight ? "rgba(56, 189, 248, 0.1)" : "rgba(56, 189, 248, 0.14)",
-                      border: isLight ? "1px solid rgba(56, 189, 248, 0.25)" : "1px solid rgba(56, 189, 248, 0.3)",
-                      color: isLight ? "#0284c7" : "#38bdf8",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      boxShadow: "0 8px 20px rgba(56, 189, 248, 0.18)",
-                    }}
-                  >
-                    <Rocket size={26} strokeWidth={2.2} />
-                  </div>
-                  <span
-                    style={{
-                      padding: "0.35rem 0.85rem",
-                      borderRadius: "9999px",
-                      fontSize: "0.78rem",
-                      fontWeight: 700,
-                      letterSpacing: "0.04em",
-                      textTransform: "uppercase",
-                      background: isLight ? "rgba(56, 189, 248, 0.08)" : "rgba(56, 189, 248, 0.12)",
-                      color: isLight ? "#0284c7" : "#38bdf8",
-                      border: isLight ? "1px solid rgba(56, 189, 248, 0.2)" : "1px solid rgba(56, 189, 248, 0.3)",
-                    }}
-                  >
-                    Our Mission
-                  </span>
-                </div>
-
-                {/* Headline */}
-                <h3
-                  style={{
-                    fontSize: "1.5rem",
-                    fontWeight: 800,
-                    color: isLight ? "#102033" : "#ffffff",
-                    letterSpacing: "-0.02em",
-                    marginBottom: "0.85rem",
-                    lineHeight: 1.3,
-                  }}
-                >
-                  Delivering Innovation with Precision & Passion.
-                </h3>
-
-                {/* Narrative */}
-                <p
-                  style={{
-                    color: isLight ? "#526579" : "#cbd5e1",
-                    fontSize: "0.96rem",
-                    lineHeight: 1.7,
-                    marginBottom: "1.75rem",
-                  }}
-                >
-                  Our mission is to provide tailor-made, high-performance IT solutions that deliver measurable business value. We are committed to achieving client satisfaction through quality, transparency, and timely delivery, ensuring every project we undertake exceeds expectations and drives growth.
-                </p>
-              </div>
-
-              {/* Bottom Focus Tag */}
-              <div
-                style={{
-                  borderTop: isLight ? "1px solid #F0F5F8" : "1px solid rgba(255, 255, 255, 0.08)",
-                  paddingTop: "1.25rem",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}
-              >
-                <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", fontSize: "0.84rem", fontWeight: 700, color: isLight ? "#0284c7" : "#38bdf8" }}>
-                  <CheckCircle2 size={16} style={{ color: isLight ? "#0284c7" : "#38bdf8" }} />
-                  <span>Measurable Business Value</span>
-                </div>
-                <ArrowRight
-                  size={16}
-                  style={{
-                    color: hoveredConvictionCard === 1 ? (isLight ? "#0284c7" : "#38bdf8") : (isLight ? "#94a3b8" : "#64748b"),
-                    transform: hoveredConvictionCard === 1 ? "translateX(4px)" : "translateX(0)",
-                    transition: "all 0.25s ease",
-                  }}
-                />
-              </div>
-            </div>
-
-            {/* 3. OUR CORE VALUES CARD */}
-            <div
-              onMouseEnter={() => setHoveredConvictionCard(2)}
-              onMouseLeave={() => setHoveredConvictionCard(null)}
-              style={{
-                position: "relative",
-                borderRadius: "22px",
-                padding: "2.5rem 2rem",
-                background: isLight
-                  ? "#ffffff"
-                  : hoveredConvictionCard === 2
-                  ? "linear-gradient(145deg, rgba(22, 38, 62, 0.95) 0%, rgba(14, 25, 41, 0.98) 100%)"
-                  : "linear-gradient(145deg, rgba(14, 25, 41, 0.85) 0%, rgba(10, 18, 30, 0.9) 100%)",
-                    borderTop: "3.5px solid #6366f1",
-                    borderRight: isLight
-                      ? hoveredConvictionCard === 2
-                        ? "1.5px solid #6366f1"
-                        : "1.5px solid #DCE6ED"
-                      : hoveredConvictionCard === 2
-                      ? "1.5px solid rgba(99, 102, 241, 0.55)"
-                      : "1.5px solid rgba(255, 255, 255, 0.08)",
-                    borderBottom: isLight
-                      ? hoveredConvictionCard === 2
-                        ? "1.5px solid #6366f1"
-                        : "1.5px solid #DCE6ED"
-                      : hoveredConvictionCard === 2
-                      ? "1.5px solid rgba(99, 102, 241, 0.55)"
-                      : "1.5px solid rgba(255, 255, 255, 0.08)",
-                    borderLeft: isLight
-                      ? hoveredConvictionCard === 2
-                        ? "1.5px solid #6366f1"
-                        : "1.5px solid #DCE6ED"
-                      : hoveredConvictionCard === 2
-                      ? "1.5px solid rgba(99, 102, 241, 0.55)"
-                      : "1.5px solid rgba(255, 255, 255, 0.08)",
-                boxShadow: isLight
-                  ? hoveredConvictionCard === 2
-                    ? "0 20px 45px rgba(99, 102, 241, 0.15), 0 0 20px rgba(99, 102, 241, 0.06)"
-                    : "0 10px 30px rgba(16, 32, 51, 0.04)"
-                  : hoveredConvictionCard === 2
-                  ? "0 22px 55px rgba(0, 0, 0, 0.6), 0 0 30px rgba(99, 102, 241, 0.22)"
-                  : "0 14px 35px rgba(0, 0, 0, 0.4)",
-                transform: hoveredConvictionCard === 2 ? "translateY(-6px)" : "translateY(0)",
-                transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-              }}
-            >
-              <div>
-                {/* Header: Icon + Category Tag */}
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.75rem" }}>
-                  <div
-                    style={{
-                      width: "56px",
-                      height: "56px",
-                      borderRadius: "16px",
-                      background: isLight ? "rgba(99, 102, 241, 0.1)" : "rgba(99, 102, 241, 0.14)",
-                      border: isLight ? "1px solid rgba(99, 102, 241, 0.25)" : "1px solid rgba(99, 102, 241, 0.3)",
-                      color: isLight ? "#4f46e5" : "#818cf8",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      boxShadow: "0 8px 20px rgba(99, 102, 241, 0.18)",
-                    }}
-                  >
-                    <Award size={26} strokeWidth={2.2} />
-                  </div>
-                  <span
-                    style={{
-                      padding: "0.35rem 0.85rem",
-                      borderRadius: "9999px",
-                      fontSize: "0.78rem",
-                      fontWeight: 700,
-                      letterSpacing: "0.04em",
-                      textTransform: "uppercase",
-                      background: isLight ? "rgba(99, 102, 241, 0.08)" : "rgba(99, 102, 241, 0.12)",
-                      color: isLight ? "#4f46e5" : "#818cf8",
-                      border: isLight ? "1px solid rgba(99, 102, 241, 0.2)" : "1px solid rgba(99, 102, 241, 0.3)",
-                    }}
-                  >
-                    Our Core Values
-                  </span>
-                </div>
-
-                {/* Headline */}
-                <h3
-                  style={{
-                    fontSize: "1.5rem",
-                    fontWeight: 800,
-                    color: isLight ? "#102033" : "#ffffff",
-                    letterSpacing: "-0.02em",
-                    marginBottom: "0.85rem",
-                    lineHeight: 1.3,
-                  }}
-                >
-                  Built on Integrity, Speed & Rigor.
-                </h3>
-
-                {/* Values List with Professional Icons */}
-                <div style={{ display: "flex", flexDirection: "column", gap: "0.85rem", marginBottom: "1.75rem" }}>
-                  {[
-                    { icon: ShieldCheck, title: "Integrity First", desc: "Honesty, code clarity, and transparent tracking." },
-                    { icon: Zap, title: "Innovation-Driven", desc: "Pushing boundaries with cutting-edge tech." },
-                    { icon: Users, title: "Client-Centric", desc: "Engineering solutions aligned with your goals." },
-                    { icon: Clock, title: "On-Time Delivery", desc: "Predictable 2-week agile sprint delivery." },
-                    { icon: Handshake, title: "Collaboration Culture", desc: "High-trust teamwork and shared ownership." },
-                  ].map((val, vIdx) => {
-                    const ValIcon = val.icon;
-                    return (
-                      <div key={vIdx} style={{ display: "flex", alignItems: "flex-start", gap: "0.75rem" }}>
-                        <div
-                          style={{
-                            width: "28px",
-                            height: "28px",
-                            borderRadius: "8px",
-                            background: isLight ? "rgba(99, 102, 241, 0.1)" : "rgba(99, 102, 241, 0.16)",
-                            color: isLight ? "#4f46e5" : "#818cf8",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            flexShrink: 0,
-                            marginTop: "2px",
-                          }}
-                        >
-                          <ValIcon size={15} strokeWidth={2.4} />
-                        </div>
-                        <div style={{ fontSize: "0.9rem", lineHeight: 1.45 }}>
-                          <strong style={{ color: isLight ? "#102033" : "#f8fafc", marginRight: "0.35rem" }}>
-                            {val.title}:
-                          </strong>
-                          <span style={{ color: isLight ? "#526579" : "#cbd5e1" }}>
-                            {val.desc}
-                          </span>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Bottom Focus Tag */}
-              <div
-                style={{
-                  borderTop: isLight ? "1px solid #F0F5F8" : "1px solid rgba(255, 255, 255, 0.08)",
-                  paddingTop: "1.25rem",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}
-              >
-                <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", fontSize: "0.84rem", fontWeight: 700, color: isLight ? "#4f46e5" : "#818cf8" }}>
-                  <CheckCircle2 size={16} style={{ color: isLight ? "#4f46e5" : "#818cf8" }} />
-                  <span>Uncompromising Engineering DNA</span>
-                </div>
-                <ArrowRight
-                  size={16}
-                  style={{
-                    color: hoveredConvictionCard === 2 ? (isLight ? "#4f46e5" : "#818cf8") : (isLight ? "#94a3b8" : "#64748b"),
-                    transform: hoveredConvictionCard === 2 ? "translateX(4px)" : "translateX(0)",
-                    transition: "all 0.25s ease",
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ===================================================================== */}
-      {/* 3. INTERACTIVE EVOLUTION PROGRESSBAR TIMELINE                         */}
+      {/* 2. OPASH SOFTWARE – OUR JOURNEY (MILESTONES & VISION/MISSION/VALUES)   */}
       {/* ===================================================================== */}
       <section
-        id="our-journey"
-        aria-label="Our Journey Over The Years"
+        id="journey"
         style={{
-          padding: "6rem 1.5rem",
+          padding: "6.5rem 1.5rem",
           position: "relative",
-          overflow: "hidden",
+          background: isLight ? "#ffffff" : "rgba(8, 16, 28, 0.6)",
+          borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
         }}
       >
-        <div className="container-custom" style={{ maxWidth: "1180px", margin: "0 auto" }}>
-          {/* Section Header */}
-          <div style={{ textAlign: "center", maxWidth: "780px", margin: "0 auto 3.5rem auto" }}>
-            <span
-              style={{
-                display: "inline-block",
-                color: isLight ? "#008a75" : "#2dd4bf",
-                fontSize: "0.85rem",
-                fontWeight: 700,
-                letterSpacing: "0.08em",
-                textTransform: "uppercase",
-                marginBottom: "0.75rem",
-              }}
-            >
-              The Opash Evolution
-            </span>
-            <h2 style={{ fontSize: "clamp(2rem, 3.5vw, 2.9rem)", fontWeight: 800, lineHeight: 1.2 }}>
-              Our Journey Over The Years
-            </h2>
-            <p style={{ color: isLight ? "#64748b" : "#94a3b8", fontSize: "1.05rem", marginTop: "0.75rem" }}>
-              From our founding in Surat to partnering with global enterprises across North America, Europe, and Asia.
-            </p>
-          </div>
-
+        <div className="container-custom" style={{ maxWidth: "1280px", margin: "0 auto" }}>
           {/* ============================================================= */}
           {/* 1. PROGRESS BAR TRACK & STEPPER NODES                        */}
-          {/* ============================================================= */}
-          {/* 1. INTERACTIVE MILESTONE PROGRESS TRACK BAR                 */}
           {/* ============================================================= */}
           <div
             style={{
               width: "100%",
               maxWidth: "1020px",
               margin: "0 auto 1.5rem auto",
-              padding: "1.5rem 3.5rem 5rem 3.5rem",
+              padding: "1.5rem clamp(1rem, 4vw, 3.5rem) 5.5rem clamp(1rem, 4vw, 3.5rem)",
               position: "relative",
               boxSizing: "border-box",
             }}
@@ -1474,7 +931,6 @@ export default function CompanyPageClient() {
                     key={milestone.year}
                     onClick={() => {
                       setActiveMilestoneIndex(idx);
-                      setIsAutoPlaying(false);
                     }}
                     style={{
                       position: "absolute",
@@ -1488,7 +944,7 @@ export default function CompanyPageClient() {
                       zIndex: 5,
                     }}
                   >
-                    {/* Circle Node Container (Centered on the 5px track line) */}
+                    {/* Circle Node Container */}
                     <div
                       style={{
                         width: "48px",
@@ -1500,6 +956,7 @@ export default function CompanyPageClient() {
                       }}
                     >
                       <button
+                        type="button"
                         style={{
                           width: isActive ? "44px" : "32px",
                           height: isActive ? "44px" : "32px",
@@ -1540,7 +997,7 @@ export default function CompanyPageClient() {
                       </button>
                     </div>
 
-                    {/* Year & Badge Labels (Comfortably spaced below circle with no overlap) */}
+                    {/* Year & Badge Labels */}
                     <div
                       style={{
                         marginTop: "12px",
@@ -1603,11 +1060,12 @@ export default function CompanyPageClient() {
 
             return (
               <div
-                onMouseEnter={() => setIsAutoPlaying(false)}
+                onMouseEnter={() => setIsTimelinePaused(true)}
+                onMouseLeave={() => setIsTimelinePaused(false)}
                 style={{
                   maxWidth: "1020px",
-                  margin: "0 auto",
-                  padding: "clamp(2rem, 4vw, 3.5rem) clamp(1.5rem, 4vw, 3.25rem)",
+                  margin: "0 auto 4.5rem auto",
+                  padding: "clamp(2rem, 4vw, 3.25rem) clamp(1.5rem, 4vw, 3.25rem)",
                   borderRadius: "28px",
                   background: isLight
                     ? "#ffffff"
@@ -1616,10 +1074,12 @@ export default function CompanyPageClient() {
                   boxShadow: isLight
                     ? "0 16px 48px rgba(0, 168, 143, 0.1), 0 4px 16px rgba(0, 0, 0, 0.04)"
                     : "0 24px 60px rgba(0, 0, 0, 0.5), 0 0 35px rgba(0, 168, 143, 0.18)",
-                  display: "grid",
-                  gridTemplateColumns: "1fr auto",
-                  gap: "2.5rem",
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
                   alignItems: "center",
+                  gap: "2.5rem",
+                  flexWrap: "wrap",
                   position: "relative",
                   overflow: "hidden",
                   transition: "all 0.4s ease",
@@ -1641,7 +1101,16 @@ export default function CompanyPageClient() {
                 />
 
                 {/* Left Content Column */}
-                <div style={{ position: "relative", zIndex: 2 }}>
+                <div
+                  key={`content-${activeMilestoneIndex}`}
+                  style={{
+                    flex: "1 1 520px",
+                    minWidth: "280px",
+                    position: "relative",
+                    zIndex: 2,
+                    animation: "milestoneSlideIn 0.45s cubic-bezier(0.16, 1, 0.3, 1)",
+                  }}
+                >
                   {/* Top Badge & Stage Progress */}
                   <div
                     style={{
@@ -1713,7 +1182,7 @@ export default function CompanyPageClient() {
                       color: isLight ? "#475569" : "#cbd5e1",
                       fontSize: "1.05rem",
                       lineHeight: 1.7,
-                      marginBottom: "1.75rem",
+                      marginBottom: "1.5rem",
                       maxWidth: "680px",
                     }}
                   >
@@ -1727,7 +1196,7 @@ export default function CompanyPageClient() {
                       alignItems: "center",
                       gap: "1.25rem",
                       flexWrap: "wrap",
-                      marginBottom: "2rem",
+                      margin: 0,
                     }}
                   >
                     {current.metrics.map((metric, mIdx) => (
@@ -1747,101 +1216,11 @@ export default function CompanyPageClient() {
                       </div>
                     ))}
                   </div>
-
-                  {/* Stepper Controls & Auto-Play */}
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "1rem",
-                      flexWrap: "wrap",
-                      paddingTop: "1.25rem",
-                      borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
-                    }}
-                  >
-                    {/* Prev Milestone */}
-                    <button
-                      onClick={() => {
-                        setActiveMilestoneIndex((prev) => (prev - 1 + PROGRESS_MILESTONES.length) % PROGRESS_MILESTONES.length);
-                        setIsAutoPlaying(false);
-                      }}
-                      style={{
-                        padding: "0.55rem 1.1rem",
-                        borderRadius: "12px",
-                        background: isLight ? "#f1f5f9" : "rgba(255, 255, 255, 0.06)",
-                        color: isLight ? "#334155" : "#cbd5e1",
-                        border: isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.12)",
-                        fontSize: "0.84rem",
-                        fontWeight: 700,
-                        cursor: "pointer",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "6px",
-                        transition: "all 0.25s ease",
-                      }}
-                    >
-                      <ChevronLeft size={16} />
-                      <span>Previous Year</span>
-                    </button>
-
-                    {/* Auto-Play Toggle */}
-                    <button
-                      onClick={() => setIsAutoPlaying(!isAutoPlaying)}
-                      style={{
-                        padding: "0.55rem 1.1rem",
-                        borderRadius: "12px",
-                        background: isAutoPlaying
-                          ? isLight ? "rgba(0, 168, 143, 0.12)" : "rgba(45, 212, 191, 0.18)"
-                          : isLight ? "#f1f5f9" : "rgba(255, 255, 255, 0.06)",
-                        color: isAutoPlaying
-                          ? isLight ? "#008a75" : "#2dd4bf"
-                          : isLight ? "#64748b" : "#94a3b8",
-                        border: isAutoPlaying
-                          ? `1px solid ${isLight ? "rgba(0, 168, 143, 0.35)" : "rgba(45, 212, 191, 0.4)"}`
-                          : isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.12)",
-                        fontSize: "0.84rem",
-                        fontWeight: 700,
-                        cursor: "pointer",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "6px",
-                        transition: "all 0.25s ease",
-                      }}
-                    >
-                      {isAutoPlaying ? <Pause size={14} /> : <Play size={14} />}
-                      <span>{isAutoPlaying ? "Auto-Play Active" : "Resume Auto-Play"}</span>
-                    </button>
-
-                    {/* Next Milestone */}
-                    <button
-                      onClick={() => {
-                        setActiveMilestoneIndex((prev) => (prev + 1) % PROGRESS_MILESTONES.length);
-                        setIsAutoPlaying(false);
-                      }}
-                      style={{
-                        padding: "0.55rem 1.25rem",
-                        borderRadius: "12px",
-                        background: isLight ? "#008a75" : "#00A88F",
-                        color: "#ffffff",
-                        border: "none",
-                        fontSize: "0.84rem",
-                        fontWeight: 700,
-                        cursor: "pointer",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "6px",
-                        boxShadow: "0 4px 14px rgba(0, 168, 143, 0.35)",
-                        transition: "all 0.25s ease",
-                      }}
-                    >
-                      <span>Next Year</span>
-                      <ChevronRight size={16} />
-                    </button>
-                  </div>
                 </div>
 
-                {/* Right Side Visual Icon Pod */}
+                {/* Right Side Visual Icon Pod (Set on the right side next to 2025) */}
                 <div
+                  key={`icon-${activeMilestoneIndex}`}
                   style={{
                     display: "flex",
                     flexDirection: "column",
@@ -1850,6 +1229,7 @@ export default function CompanyPageClient() {
                     flexShrink: 0,
                     position: "relative",
                     zIndex: 2,
+                    animation: "milestoneSlideIn 0.45s cubic-bezier(0.16, 1, 0.3, 1)",
                   }}
                 >
                   <div
@@ -1890,420 +1270,607 @@ export default function CompanyPageClient() {
               </div>
             );
           })()}
+
+          {/* 3 Foundational Cards: Vision, Mission & Core Values */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 340px), 1fr))",
+              gap: "2rem",
+            }}
+          >
+            {/* Vision Card */}
+            <div
+              style={{
+                padding: "2.5rem 2rem",
+                borderRadius: "22px",
+                background: isLight ? "#ffffff" : "rgba(15, 23, 42, 0.75)",
+                border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(0, 168, 143, 0.25)",
+                boxShadow: isLight ? "0 6px 25px rgba(0, 0, 0, 0.04)" : "0 10px 35px rgba(0, 0, 0, 0.35)",
+              }}
+            >
+              <Freestanding3DIcon
+                icon={Lightbulb}
+                accent={isLight ? "#008a75" : "#00ffd1"}
+                size={44}
+                style={{ marginBottom: "1.25rem" }}
+              />
+              <h3 style={{ fontSize: "1.45rem", fontWeight: 800, marginTop: 0, marginBottom: "1rem", color: isLight ? "#0f172a" : "#ffffff" }}>
+                Empowering Ideas. Transforming Futures.
+              </h3>
+              <p style={{ color: isLight ? "#475569" : "#94a3b8", lineHeight: 1.7, fontSize: "0.98rem" }}>
+                At Opash Software, our vision is to empower innovators, startups, and enterprises by blending cutting-edge technology with bold ideas. We strive to be a catalyst for digital transformation, helping businesses create meaningful change in the world through impactful, scalable software solutions.
+              </p>
+            </div>
+
+            {/* Mission Card */}
+            <div
+              style={{
+                padding: "2.5rem 2rem",
+                borderRadius: "22px",
+                background: isLight ? "#ffffff" : "rgba(15, 23, 42, 0.75)",
+                border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(2, 132, 199, 0.25)",
+                boxShadow: isLight ? "0 6px 25px rgba(0, 0, 0, 0.04)" : "0 10px 35px rgba(0, 0, 0, 0.35)",
+              }}
+            >
+              <Freestanding3DIcon
+                icon={Rocket}
+                accent={isLight ? "#7c3aed" : "#c084fc"}
+                size={44}
+                style={{ marginBottom: "1.25rem" }}
+              />
+              <h3 style={{ fontSize: "1.45rem", fontWeight: 800, marginTop: 0, marginBottom: "1rem", color: isLight ? "#0f172a" : "#ffffff" }}>
+                Delivering Innovation with Precision & Passion.
+              </h3>
+              <p style={{ color: isLight ? "#475569" : "#94a3b8", lineHeight: 1.7, fontSize: "0.98rem" }}>
+                Our mission is to provide tailor-made, high-performance IT solutions that deliver measurable business value. We are committed to achieving client satisfaction through quality, transparency, and timely delivery, ensuring every project we undertake exceeds expectations and drives growth.
+              </p>
+            </div>
+
+            {/* Core Values Card */}
+            <div
+              style={{
+                padding: "2.5rem 2rem",
+                borderRadius: "22px",
+                background: isLight ? "#ffffff" : "rgba(15, 23, 42, 0.75)",
+                border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(16, 185, 129, 0.25)",
+                boxShadow: isLight ? "0 6px 25px rgba(0, 0, 0, 0.04)" : "0 10px 35px rgba(0, 0, 0, 0.35)",
+              }}
+            >
+              <Freestanding3DIcon
+                icon={Handshake}
+                accent={isLight ? "#059669" : "#10b981"}
+                size={44}
+                style={{ marginBottom: "1.25rem" }}
+              />
+              <h3 style={{ fontSize: "1.45rem", fontWeight: 800, marginTop: 0, marginBottom: "1rem", color: isLight ? "#0f172a" : "#ffffff" }}>
+                Principles That Guide Every Sprint
+              </h3>
+              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "0.65rem" }}>
+                {[
+                  { title: "Integrity First:", desc: "Honesty and transparency in all we do." },
+                  { title: "Innovation-Driven:", desc: "Continuously pushing boundaries with new ideas." },
+                  { title: "Client-Centric Approach:", desc: "We build solutions around your goals." },
+                  { title: "On-Time, Every Time:", desc: "We respect your time and timelines." },
+                  { title: "Collaboration Culture:", desc: "Great results come from great teamwork." },
+                ].map((val, i) => (
+                  <li key={i} style={{ display: "flex", alignItems: "flex-start", gap: "0.6rem", fontSize: "0.92rem", lineHeight: 1.5 }}>
+                    <Check size={16} style={{ color: "#10b981", flexShrink: 0, marginTop: "0.2rem" }} />
+                    <span>
+                      <strong style={{ color: isLight ? "#0f172a" : "#ffffff" }}>{val.title}</strong>{" "}
+                      <span style={{ color: isLight ? "#64748b" : "#94a3b8" }}>{val.desc}</span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* ===================================================================== */}
-      {/* 5. STRATEGIC ARCHITECTURAL PILLARS                                    */}
+      {/* 3. WHAT MAKES OPASH SOFTWARE UNIQUE (WHY CHOOSE US)                   */}
       {/* ===================================================================== */}
       <section
-        id="pillars"
+        id="why-choose-us"
         style={{
-          padding: "6rem 1.5rem",
+          padding: "6.5rem 1.5rem",
           position: "relative",
-          background: isLight ? "#F7FAFC" : "#060b13",
+          background: isLight ? "#f8fafc" : "#020712",
         }}
       >
-        <div className="container-custom" style={{ maxWidth: "1240px", margin: "0 auto" }}>
-          <div style={{ textAlign: "center", maxWidth: "780px", margin: "0 auto 3.5rem auto" }}>
-            <span
+        <div className="container-custom" style={{ maxWidth: "1280px", margin: "0 auto" }}>
+          <div style={{ textAlign: "center", maxWidth: "820px", margin: "0 auto 4rem auto" }}>
+            <h2
+              className="heading-section"
               style={{
-                display: "inline-block",
-                color: isLight ? "#008a75" : "#2dd4bf",
-                fontSize: "0.85rem",
-                fontWeight: 700,
-                letterSpacing: "0.08em",
-                textTransform: "uppercase",
-                marginBottom: "0.75rem",
+                fontFamily: "var(--font-acthirey), 'Acthirey', 'Playfair Display', serif",
+                fontSize: "clamp(2.4rem, 4.5vw, 52px)",
+                color: isLight ? "#102033" : "#ffffff",
+                marginBottom: "1rem",
               }}
             >
-              Engineering DNA
-            </span>
-            <h2 style={{ fontSize: "clamp(2rem, 3.5vw, 2.9rem)", fontWeight: 800, lineHeight: 1.2 }}>
-              Our 3 Architectural Pillars
+              What Makes Opash Software <span className="opash-hero-gradient-text">Unique</span>
             </h2>
-            <p style={{ color: isLight ? "#475569" : "#cbd5e1", fontSize: "1.05rem", marginTop: "0.75rem" }}>
-              Why international tech companies, healthcare pioneers, and FinTech platforms choose Opash.
+            <p style={{ color: isLight ? "#64748b" : "#94a3b8", fontSize: "1.05rem", lineHeight: 1.65 }}>
+              Engineered for velocity, scalability, and predictable quality across every product milestone.
             </p>
           </div>
 
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-              gap: "2rem",
+              gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 340px), 1fr))",
+              gap: "1.75rem",
             }}
           >
-            {companyData.architecturalPillars.map((pillar) => {
-              const IconComp = pillarIconMap[pillar.iconName] || Layers;
-              return (
+            {UNIQUE_DIFFERENTIATORS.map((diff, idx) => (
+              <div
+                key={idx}
+                style={{
+                  padding: "2rem 1.75rem",
+                  borderRadius: "20px",
+                  background: isLight ? "#ffffff" : "rgba(10, 20, 36, 0.75)",
+                  border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
+                  boxShadow: isLight ? "0 4px 20px rgba(0, 0, 0, 0.04)" : "0 8px 30px rgba(0, 0, 0, 0.35)",
+                  transition: "transform 0.25s ease, box-shadow 0.25s ease",
+                }}
+              >
+                {/* Header row: Icon on the left, Heading on the right */}
                 <div
-                  key={pillar.number}
                   style={{
-                    padding: "2.5rem 2rem",
-                    borderRadius: "22px",
-                    background: isLight
-                      ? "#ffffff"
-                      : "linear-gradient(180deg, rgba(15, 23, 42, 0.8) 0%, rgba(10, 18, 34, 0.92) 100%)",
-                    borderTop: `3.5px solid ${pillar.accent}`,
-                    borderRight: isLight
-                      ? "1.5px solid #e2e8f0"
-                      : "1.5px solid rgba(255, 255, 255, 0.08)",
-                    borderBottom: isLight
-                      ? "1.5px solid #e2e8f0"
-                      : "1.5px solid rgba(255, 255, 255, 0.08)",
-                    borderLeft: isLight
-                      ? "1.5px solid #e2e8f0"
-                      : "1.5px solid rgba(255, 255, 255, 0.08)",
-                    boxShadow: isLight
-                      ? `0 10px 30px rgba(0, 0, 0, 0.04), 0 0 20px ${pillar.accent}12`
-                      : `0 16px 40px rgba(0, 0, 0, 0.4), 0 0 20px ${pillar.accent}15`,
                     display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-between",
-                    transition: "all 0.3s ease",
+                    alignItems: "center",
+                    gap: "1rem",
+                    marginBottom: "1rem",
                   }}
                 >
-                  <div>
-                    {/* Top Icon & Number */}
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
-                      <div
-                        style={{
-                          width: "50px",
-                          height: "50px",
-                          borderRadius: "14px",
-                          background: `${pillar.accent}20`,
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          color: pillar.accent,
-                        }}
-                      >
-                        <IconComp size={24} />
-                      </div>
-                      <span
-                        style={{
-                          fontSize: "1.35rem",
-                          fontWeight: 800,
-                          fontFamily: "monospace",
-                          color: isLight ? "#94a3b8" : "#64748b",
-                        }}
-                      >
-                        {pillar.number}
-                      </span>
-                    </div>
-
-                    {/* Title & Tagline */}
-                    <h3
-                      style={{
-                        fontSize: "1.45rem",
-                        fontWeight: 800,
-                        color: isLight ? "#0f172a" : "#ffffff",
-                        marginBottom: "0.45rem",
-                        letterSpacing: "-0.015em",
-                      }}
-                    >
-                      {pillar.title}
-                    </h3>
-                    <div
-                      style={{
-                        fontSize: "0.92rem",
-                        fontWeight: 700,
-                        color: pillar.accent,
-                        marginBottom: "1rem",
-                        lineHeight: 1.4,
-                      }}
-                    >
-                      {pillar.tagline}
-                    </div>
-
-                    {/* Highly Readable Description */}
-                    <p
-                      style={{
-                        color: isLight ? "#334155" : "#cbd5e1",
-                        fontSize: "0.96rem",
-                        lineHeight: 1.68,
-                        marginBottom: "1.5rem",
-                      }}
-                    >
-                      {pillar.description}
-                    </p>
-                  </div>
-
-                  {/* Features List */}
-                  <div
+                  <Freestanding3DIcon
+                    icon={diff.icon}
+                    accent={diff.accent}
+                    size={38}
+                    style={{ marginBottom: 0 }}
+                  />
+                  <h3
                     style={{
-                      borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
-                      paddingTop: "1.25rem",
+                      fontSize: "1.32rem",
+                      fontWeight: 700,
+                      margin: 0,
+                      color: isLight ? "#0f172a" : "#ffffff",
+                      lineHeight: 1.25,
                     }}
                   >
-                    <ul
-                      style={{
-                        listStyle: "none",
-                        padding: 0,
-                        margin: 0,
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "0.65rem",
-                      }}
-                    >
-                      {pillar.features.map((feat, fIdx) => (
-                        <li
-                          key={fIdx}
-                          style={{
-                            display: "flex",
-                            alignItems: "flex-start",
-                            gap: "0.6rem",
-                            fontSize: "0.88rem",
-                            lineHeight: 1.45,
-                            color: isLight ? "#1e293b" : "#e2e8f0",
-                            fontWeight: 550,
-                          }}
-                        >
-                          <CheckCircle2
-                            size={16}
-                            style={{ color: pillar.accent, flexShrink: 0, marginTop: "2px" }}
-                          />
-                          <span>{feat}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                    {diff.title}
+                  </h3>
                 </div>
-              );
-            })}
+                <p style={{ color: isLight ? "#475569" : "#94a3b8", lineHeight: 1.65, fontSize: "0.96rem", margin: 0 }}>
+                  {diff.description}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* ===================================================================== */}
-      {/* 5. LEADERSHIP PROFILE: HIREN DANECHA (FOUNDER & CEO)                  */}
+      {/* 4. MEET OUR CEO – HIREN DANECHA                                       */}
       {/* ===================================================================== */}
-      <section id="leadership" style={{ padding: "6rem 1.5rem", position: "relative" }}>
+      <section
+        id="leadership"
+        style={{
+          padding: "6.5rem 1.5rem",
+          position: "relative",
+          background: isLight ? "#ffffff" : "rgba(8, 16, 28, 0.6)",
+          borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
+        }}
+      >
         <div className="container-custom" style={{ maxWidth: "1240px", margin: "0 auto" }}>
+          {/* Executive Founder Bento Container */}
           <div
             style={{
-              padding: "4rem 3.5rem",
+              position: "relative",
+              padding: "clamp(2.5rem, 5vw, 4rem) clamp(1.75rem, 4.5vw, 3.5rem)",
               borderRadius: "28px",
-              background: isLight ? "#ffffff" : "rgba(10, 20, 36, 0.8)",
-              border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.1)",
-              boxShadow: isLight ? "0 10px 40px rgba(0, 0, 0, 0.05)" : "0 20px 60px rgba(0, 0, 0, 0.45)",
+              background: isLight
+                ? "linear-gradient(145deg, #ffffff 0%, #f8fafc 100%)"
+                : "linear-gradient(145deg, rgba(13, 23, 42, 0.85) 0%, rgba(8, 14, 28, 0.95) 100%)",
+              border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(0, 255, 209, 0.22)",
+              boxShadow: isLight
+                ? "0 20px 50px -15px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(0, 168, 143, 0.08)"
+                : "0 30px 80px -20px rgba(0, 0, 0, 0.8), 0 0 40px -10px rgba(0, 255, 209, 0.12)",
+              overflow: "hidden",
             }}
           >
+            {/* Top Laser Accent Beam */}
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: "8%",
+                right: "8%",
+                height: "2px",
+                background: isLight
+                  ? "linear-gradient(90deg, transparent, #00a88f 50%, transparent)"
+                  : "linear-gradient(90deg, transparent, #00ffd1 50%, transparent)",
+                pointerEvents: "none",
+                zIndex: 2,
+              }}
+            />
+
             <div
               style={{
                 display: "grid",
-                gridTemplateColumns: "1.4fr 1fr",
-                gap: "3.5rem",
+                gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 320px), 1fr))",
+                gap: "clamp(2.5rem, 4vw, 4rem)",
                 alignItems: "center",
+                position: "relative",
+                zIndex: 1,
               }}
-              className="founder-grid"
             >
+              {/* Left Column: Vision, Bio & Direct Action */}
               <div>
-                <span
+                <h2
+                  className="heading-section"
                   style={{
-                    display: "inline-block",
-                    padding: "0.35rem 0.95rem",
-                    borderRadius: "9999px",
-                    background: isLight ? "rgba(0, 168, 143, 0.1)" : "rgba(0, 187, 171, 0.12)",
-                    color: isLight ? "#008a75" : "#2dd4bf",
-                    fontSize: "0.82rem",
-                    fontWeight: 700,
-                    letterSpacing: "0.05em",
-                    textTransform: "uppercase",
-                    marginBottom: "1rem",
+                    fontFamily: "var(--font-acthirey), 'Acthirey', 'Playfair Display', serif",
+                    fontSize: "clamp(2.1rem, 3.8vw, 44px)",
+                    color: isLight ? "#102033" : "#ffffff",
+                    marginBottom: "0.5rem",
+                    lineHeight: 1.18,
                   }}
                 >
-                  Visionary Leadership
-                </span>
-
-                <h2 style={{ fontSize: "clamp(2.2rem, 4vw, 3rem)", fontWeight: 800, lineHeight: 1.15, marginBottom: "0.5rem" }}>
-                  {companyData.ceo.name}
+                  Meet Our CEO <span className="opash-hero-gradient-text">– Hiren Danecha</span>
                 </h2>
 
                 <div
                   style={{
                     color: isLight ? "#008a75" : "#2dd4bf",
-                    fontSize: "1.15rem",
+                    fontSize: "1.02rem",
                     fontWeight: 700,
-                    marginBottom: "1.5rem",
-                  }}
-                >
-                  Founder & CEO &bull; 10+ Years in Distributed Architecture & Scaling Products
-                </div>
-
-                <div
-                  style={{
-                    padding: "1.25rem 1.5rem",
-                    borderRadius: "16px",
-                    background: isLight ? "rgba(0, 168, 143, 0.05)" : "rgba(0, 187, 171, 0.06)",
-                    borderLeft: `4px solid ${isLight ? "#008a75" : "#2dd4bf"}`,
                     marginBottom: "1.75rem",
                   }}
                 >
-                  <p style={{ fontStyle: "italic", fontSize: "1.05rem", lineHeight: 1.6, color: isLight ? "#1e293b" : "#f1f5f9", margin: 0 }}>
-                    &ldquo;{companyData.ceo.quote}&rdquo;
-                  </p>
+                  Founder &amp; CEO &bull; 10+ Years in Full-Stack Development &amp; Product Strategy
                 </div>
 
-                <p style={{ color: isLight ? "#475569" : "#94a3b8", lineHeight: 1.7, fontSize: "1.02rem", marginBottom: "1.75rem" }}>
-                  {companyData.ceo.bio}
+                {/* Luxury Glassmorphic Quote Box */}
+                <div
+                  style={{
+                    padding: "1.5rem 1.75rem",
+                    borderRadius: "18px",
+                    background: isLight ? "rgba(241, 245, 249, 0.85)" : "rgba(15, 23, 42, 0.65)",
+                    border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(0, 255, 209, 0.2)",
+                    borderLeft: `4px solid ${isLight ? "#00a88f" : "#00ffd1"}`,
+                    marginBottom: "1.75rem",
+                    position: "relative",
+                  }}
+                >
+                  <Quote
+                    size={28}
+                    style={{
+                      position: "absolute",
+                      top: "14px",
+                      right: "16px",
+                      opacity: isLight ? 0.15 : 0.2,
+                      color: isLight ? "#00a88f" : "#00ffd1",
+                      pointerEvents: "none",
+                    }}
+                  />
+                  <p
+                    style={{
+                      fontStyle: "italic",
+                      fontSize: "1.04rem",
+                      lineHeight: 1.65,
+                      color: isLight ? "#1e293b" : "#f1f5f9",
+                      margin: "0 0 0.5rem 0",
+                      fontWeight: 500,
+                    }}
+                  >
+                    &ldquo;We don’t just build software—we build long-term partnerships powered by innovation, reliability, and mutual growth.&rdquo;
+                  </p>
+                  <div
+                    style={{
+                      fontSize: "0.86rem",
+                      fontWeight: 750,
+                      color: isLight ? "#008a75" : "#00ffd1",
+                      letterSpacing: "0.02em",
+                    }}
+                  >
+                    — Hiren Danecha, CEO
+                  </div>
+                </div>
+
+                {/* Narrative Paragraphs */}
+                <p
+                  style={{
+                    color: isLight ? "#475569" : "#cbd5e1",
+                    lineHeight: 1.72,
+                    fontSize: "0.98rem",
+                    marginBottom: "1.25rem",
+                  }}
+                >
+                  With a passion for innovation and a deep-rooted belief in the power of technology, Hiren Danecha founded Opash Software to help startups and enterprises turn bold ideas into scalable digital solutions. Backed by 10+ years of experience in full-stack development and product strategy, Hiren leads the company with a clear vision: to deliver high-performance, custom-built software that creates real business impact.
                 </p>
 
-                {/* Tags */}
-                <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", marginBottom: "2.25rem" }}>
-                  {companyData.ceo.tags.map((tag) => (
+                <p
+                  style={{
+                    color: isLight ? "#64748b" : "#94a3b8",
+                    lineHeight: 1.72,
+                    fontSize: "0.98rem",
+                    marginBottom: "1.75rem",
+                  }}
+                >
+                  Under his leadership, Opash Software has grown into a trusted tech partner for clients across the US, Europe, and Asia—known for its transparency, agility, and results-driven approach.
+                </p>
+
+                {/* Executive Competency Badges */}
+                <div
+                  style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: "0.65rem",
+                    marginBottom: "2rem",
+                  }}
+                >
+                  {[
+                    { label: "Tech Strategist", icon: <Code2 size={13} /> },
+                    { label: "Startup Mentor", icon: <Rocket size={13} /> },
+                    { label: "Product Builder", icon: <Layers size={13} /> },
+                  ].map((item) => (
                     <span
-                      key={tag}
+                      key={item.label}
                       style={{
-                        padding: "0.35rem 0.85rem",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "6px",
+                        padding: "0.45rem 0.95rem",
                         borderRadius: "9999px",
-                        background: isLight ? "#f1f5f9" : "rgba(255, 255, 255, 0.06)",
-                        color: isLight ? "#475569" : "#cbd5e1",
+                        background: isLight ? "#ffffff" : "rgba(255, 255, 255, 0.05)",
+                        color: isLight ? "#334155" : "#cbd5e1",
                         fontSize: "0.82rem",
-                        fontWeight: 600,
-                        border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
+                        fontWeight: 650,
+                        border: isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.1)",
                       }}
                     >
-                      {tag}
+                      <span style={{ color: isLight ? "#008a75" : "#00ffd1" }}>{item.icon}</span>
+                      <span>{item.label}</span>
                     </span>
                   ))}
                 </div>
 
-                {/* CTAs */}
-                <div style={{ display: "flex", alignItems: "center", gap: "1rem", flexWrap: "wrap" }}>
-                  <a
-                    href={`mailto:${companyData.ceo.email}`}
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: "0.55rem",
-                      padding: "0.85rem 1.75rem",
-                      borderRadius: "12px",
-                      background: isLight
-                        ? "linear-gradient(135deg, #008a75 0%, #00a88f 100%)"
-                        : "linear-gradient(135deg, #00a88f 0%, #2dd4bf 100%)",
-                      color: "#ffffff",
-                      fontWeight: 700,
-                      fontSize: "0.95rem",
-                      textDecoration: "none",
-                      boxShadow: "0 4px 15px rgba(0, 168, 143, 0.3)",
-                    }}
+                {/* Dual Action CTAs */}
+                <div
+                  style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: "1rem",
+                    alignItems: "center",
+                  }}
+                >
+                  <Link
+                    href="/get-a-quote"
+                    className="hero-brand-primary-btn opash-roll-btn"
                   >
-                    <span>Schedule Call with Hiren</span>
-                    <ArrowRight size={16} />
-                  </a>
-
-                  <button
-                    onClick={handleCopyEmail}
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: "0.5rem",
-                      padding: "0.85rem 1.4rem",
-                      borderRadius: "12px",
-                      background: isLight ? "#f8fafc" : "rgba(255, 255, 255, 0.06)",
-                      border: isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.12)",
-                      color: isLight ? "#0f172a" : "#f8fafc",
-                      fontWeight: 600,
-                      fontSize: "0.9rem",
-                      cursor: "pointer",
-                    }}
-                  >
-                    {copiedEmail ? <Check size={16} style={{ color: "#10b981" }} /> : <Copy size={16} />}
-                    <span>{copiedEmail ? "Copied!" : "Copy Email"}</span>
-                  </button>
+                    <span className="opash-roll-track">
+                      <span className="opash-roll-item">
+                        <span>Schedule Intro Call with CEO</span>
+                        <ArrowRight size={15} className="hero-btn-arrow" />
+                      </span>
+                      <span className="opash-roll-item" aria-hidden="true">
+                        <span>Schedule Intro Call with CEO</span>
+                        <ArrowRight size={15} className="hero-btn-arrow" />
+                      </span>
+                    </span>
+                  </Link>
 
                   <a
-                    href={companyData.ceo.linkedin}
+                    href={companyData.contact.whatsapp}
                     target="_blank"
-                    rel="noreferrer"
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: "0.45rem",
-                      padding: "0.85rem 1.4rem",
-                      borderRadius: "12px",
-                      background: isLight ? "#0a66c215" : "rgba(10, 102, 194, 0.15)",
-                      border: "1px solid rgba(10, 102, 194, 0.3)",
-                      color: "#0a66c2",
-                      fontWeight: 600,
-                      fontSize: "0.9rem",
-                      textDecoration: "none",
-                    }}
+                    rel="noopener noreferrer"
+                    className="hero-brand-secondary-btn opash-roll-btn"
                   >
-                    <ExternalLink size={15} />
-                    <span>LinkedIn</span>
+                    <span className="opash-roll-track">
+                      <span className="opash-roll-item">
+                        <MessageCircle size={15} className="hero-wa-icon" />
+                        <span>WhatsApp Direct</span>
+                      </span>
+                      <span className="opash-roll-item" aria-hidden="true">
+                        <MessageCircle size={15} className="hero-wa-icon" />
+                        <span>WhatsApp Direct</span>
+                      </span>
+                    </span>
                   </a>
                 </div>
               </div>
 
-              {/* Graphic Card */}
+              {/* Right Column: High-End CEO Portrait Showcase */}
               <div
                 style={{
+                  position: "relative",
                   display: "flex",
-                  flexDirection: "column",
+                  justifyContent: "center",
                   alignItems: "center",
-                  textAlign: "center",
-                  padding: "3rem 2rem",
-                  borderRadius: "24px",
-                  background: isLight
-                    ? "linear-gradient(135deg, rgba(0, 168, 143, 0.06) 0%, rgba(14, 165, 233, 0.06) 100%)"
-                    : "linear-gradient(135deg, rgba(0, 187, 171, 0.12) 0%, rgba(56, 189, 248, 0.08) 100%)",
-                  border: isLight ? "1px solid rgba(0, 168, 143, 0.2)" : "1px solid rgba(0, 187, 171, 0.25)",
                 }}
               >
+                {/* Soft Radiant Ambient Glow behind Portrait */}
+                <div
+                  aria-hidden="true"
+                  style={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    width: "420px",
+                    height: "480px",
+                    borderRadius: "50%",
+                    background: isLight
+                      ? "radial-gradient(circle, rgba(0, 168, 143, 0.25) 0%, rgba(14, 165, 233, 0.16) 45%, transparent 70%)"
+                      : "radial-gradient(circle, rgba(0, 255, 209, 0.22) 0%, transparent 70%)",
+                    filter: isLight ? "blur(40px)" : "blur(50px)",
+                    pointerEvents: "none",
+                    zIndex: 0,
+                  }}
+                />
+
+
+
                 <div
                   style={{
                     position: "relative",
-                    width: "140px",
-                    height: "140px",
-                    borderRadius: "50%",
+                    zIndex: 1,
+                    borderRadius: "26px",
                     overflow: "hidden",
-                    border: "3px solid #00ffd1",
-                    boxShadow: "0 10px 35px rgba(0, 168, 143, 0.45)",
-                    marginBottom: "1.75rem",
-                    background: isLight ? "#0f172a" : "#060d1d",
+                    border: isLight
+                      ? "2px solid rgba(0, 168, 143, 0.3)"
+                      : "1px solid rgba(0, 255, 209, 0.35)",
+                    boxShadow: isLight
+                      ? "0 25px 60px -12px rgba(0, 168, 143, 0.18), 0 10px 25px -5px rgba(0, 0, 0, 0.08)"
+                      : "0 30px 70px -15px rgba(0, 0, 0, 0.8), 0 0 35px -5px rgba(0, 255, 209, 0.2)",
+                    maxWidth: "380px",
+                    width: "100%",
+                    background: isLight
+                      ? "linear-gradient(160deg, #f0fdfa 0%, #ffffff 40%, #f1f5f9 100%)"
+                      : "#020712",
+                    transition: "transform 0.3s ease, box-shadow 0.3s ease",
                   }}
                 >
-                  <Image
-                    src="/images/image.webp"
-                    alt={companyData.ceo.name}
-                    fill
-                    sizes="140px"
-                    priority
+                  {/* Floating Verified Founder Badge */}
+                  <div
                     style={{
-                      objectFit: "cover",
-                      objectPosition: "top center",
+                      position: "absolute",
+                      top: "14px",
+                      right: "14px",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "6px",
+                      padding: "6px 12px",
+                      borderRadius: "9999px",
+                      background: isLight ? "rgba(255, 255, 255, 0.92)" : "rgba(2, 7, 18, 0.8)",
+                      backdropFilter: "blur(12px)",
+                      WebkitBackdropFilter: "blur(12px)",
+                      border: isLight
+                        ? "1px solid rgba(0, 168, 143, 0.35)"
+                        : "1px solid rgba(0, 255, 209, 0.4)",
+                      color: isLight ? "#008a75" : "#00ffd1",
+                      fontSize: "0.76rem",
+                      fontWeight: 750,
+                      zIndex: 3,
+                      boxShadow: isLight ? "0 4px 12px rgba(0, 168, 143, 0.15)" : "none",
                     }}
-                  />
-                </div>
-                <h3 style={{ fontSize: "1.6rem", fontWeight: 800 }}>
-                  {companyData.ceo.name}
-                </h3>
-                <div style={{ color: isLight ? "#008a75" : "#2dd4bf", fontSize: "0.95rem", fontWeight: 700, marginTop: "0.25rem" }}>
-                  Founder & Chief Executive Officer
-                </div>
-                <div style={{ color: isLight ? "#64748b" : "#94a3b8", fontSize: "0.85rem", marginTop: "0.4rem" }}>
-                  Opash Software &bull; Surat, India
-                </div>
-                <div
-                  style={{
-                    marginTop: "1.75rem",
-                    padding: "0.6rem 1.25rem",
-                    borderRadius: "9999px",
-                    background: isLight ? "#ffffff" : "rgba(15, 23, 42, 0.7)",
-                    border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.1)",
-                    fontSize: "0.82rem",
-                    fontWeight: 700,
-                    color: isLight ? "#008a75" : "#2dd4bf",
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: "0.45rem",
-                  }}
-                >
-                  <Award size={14} />
-                  <span>Clutch Top Developer 4.9/5</span>
+                  >
+                    <CheckCircle2 size={13} />
+                    <span>Verified Founder</span>
+                  </div>
+
+                  {/* CEO Photo */}
+                  <div style={{ position: "relative", width: "100%", height: "420px" }}>
+                    <Image
+                      src={isLight ? "/images/image-light.webp" : "/images/image-dark.webp"}
+                      alt="Hiren Danecha - Founder & CEO"
+                      fill
+                      sizes="(max-width: 768px) 100vw, 380px"
+                      style={{
+                        objectFit: "cover",
+                        objectPosition: "top center",
+                      }}
+                      priority
+                    />
+                  </div>
+
+                  {/* Gradient Card Footer with LinkedIn action */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      padding: "1.75rem 1.5rem 1.25rem 1.5rem",
+                      background: isLight
+                        ? "linear-gradient(to top, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.88) 60%, transparent 100%)"
+                        : "linear-gradient(to top, rgba(2, 7, 18, 0.98) 0%, rgba(2, 7, 18, 0.8) 65%, transparent 100%)",
+                      color: isLight ? "#0f172a" : "#ffffff",
+                      textAlign: "left",
+                      zIndex: 2,
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontWeight: 800,
+                        fontSize: "1.35rem",
+                        letterSpacing: "-0.015em",
+                        marginBottom: "2px",
+                        color: isLight ? "#0f172a" : "#ffffff",
+                      }}
+                    >
+                      Hiren Danecha
+                    </div>
+                    <div
+                      style={{
+                        fontSize: "0.86rem",
+                        color: isLight ? "#008a75" : "#00ffd1",
+                        fontWeight: 650,
+                        marginBottom: "1rem",
+                      }}
+                    >
+                      Founder &amp; CEO, Opash Software
+                    </div>
+
+                    {/* Quick Direct Actions on Card */}
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "0.65rem",
+                      }}
+                    >
+                      <a
+                        href="https://in.linkedin.com/company/opash-software"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          flex: 1,
+                          display: "inline-flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          gap: "6px",
+                          padding: "7px 12px",
+                          borderRadius: "10px",
+                          background: isLight ? "rgba(2, 132, 199, 0.12)" : "rgba(14, 165, 233, 0.18)",
+                          border: isLight
+                            ? "1px solid rgba(2, 132, 199, 0.35)"
+                            : "1px solid rgba(56, 189, 248, 0.4)",
+                          color: isLight ? "#0284c7" : "#38bdf8",
+                          fontSize: "0.82rem",
+                          fontWeight: 700,
+                          textDecoration: "none",
+                        }}
+                      >
+                        <svg width={14} height={14} viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.25c-.9 0-1.63.73-1.63 1.63 0 .9.73 1.63 1.63 1.63.9 0 1.63-.73 1.63-1.63Z" />
+                        </svg>
+                        <span>Connect on LinkedIn</span>
+                      </a>
+
+                      <a
+                        href="mailto:hiren@opashsoftware.com"
+                        aria-label="Email Hiren Danecha"
+                        style={{
+                          width: 34,
+                          height: 34,
+                          borderRadius: "10px",
+                          background: isLight ? "#f1f5f9" : "rgba(255, 255, 255, 0.1)",
+                          border: isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.15)",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          color: isLight ? "#334155" : "#ffffff",
+                          textDecoration: "none",
+                        }}
+                      >
+                        <Mail size={15} />
+                      </a>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -2312,40 +1879,208 @@ export default function CompanyPageClient() {
       </section>
 
       {/* ===================================================================== */}
-      {/* 6. INQUIRY & STRATEGY CONSULTATION FORM                              */}
+      {/* 5. OUR SERVICES (VERIFIED 6 SERVICES FROM LIVE SITE)                  */}
       {/* ===================================================================== */}
       <section
+        id="services"
         style={{
-          padding: "6rem 1.5rem",
+          padding: "6.5rem 1.5rem",
           position: "relative",
-          background: isLight ? "#f1f5f9" : "rgba(6, 12, 24, 0.6)",
-          borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
+          background: isLight ? "#f8fafc" : "#020712",
         }}
       >
-        <div className="container-custom" style={{ maxWidth: "880px", margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: "3rem" }}>
-            <span
+        <div className="container-custom" style={{ maxWidth: "1280px", margin: "0 auto" }}>
+          <div style={{ textAlign: "center", maxWidth: "840px", margin: "0 auto 4rem auto" }}>
+            <h2
+              className="heading-section"
               style={{
-                display: "inline-block",
-                color: isLight ? "#008a75" : "#2dd4bf",
-                fontSize: "0.85rem",
-                fontWeight: 700,
-                letterSpacing: "0.08em",
-                textTransform: "uppercase",
-                marginBottom: "0.75rem",
+                fontFamily: "var(--font-acthirey), 'Acthirey', 'Playfair Display', serif",
+                fontSize: "clamp(2rem, 3.5vw, 39px)",
+                color: isLight ? "#102033" : "#ffffff",
+                marginBottom: "1rem",
               }}
             >
-              Direct Architecture Consultation
-            </span>
-            <h2 style={{ fontSize: "clamp(2rem, 3.5vw, 2.8rem)", fontWeight: 800, lineHeight: 1.2 }}>
-              Speak Directly with Senior Architects
+              Our <span className="opash-hero-gradient-text">Services</span>
             </h2>
-            <p style={{ color: isLight ? "#64748b" : "#94a3b8", fontSize: "1.05rem", marginTop: "0.75rem" }}>
-              Share your project vision, timeline, and tech stack. We respond within 4 hours with an actionable roadmap.
+            <p style={{ color: isLight ? "#64748b" : "#94a3b8", fontSize: "1.05rem", lineHeight: 1.65 }}>
+              We create highly responsive applications with the remarkable aesthetics that deliver a spectrum of result oriented digital experience.
             </p>
           </div>
 
-          <ContactForm />
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 320px), 1fr))",
+              gap: "2rem",
+            }}
+          >
+            {CORE_SERVICES.map((srv) => (
+              <div
+                key={srv.id}
+                style={{
+                  padding: "2.5rem 2.25rem",
+                  borderRadius: "22px",
+                  background: isLight ? "#ffffff" : "rgba(10, 20, 36, 0.75)",
+                  border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
+                  boxShadow: isLight ? "0 4px 20px rgba(0, 0, 0, 0.04)" : "0 8px 30px rgba(0, 0, 0, 0.35)",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                }}
+              >
+                <div>
+                  <div
+                    style={{
+                      width: 52,
+                      height: 52,
+                      borderRadius: "14px",
+                      background: isLight ? "rgba(0, 168, 143, 0.08)" : "rgba(45, 212, 191, 0.12)",
+                      color: srv.accent,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      marginBottom: "1.35rem",
+                    }}
+                  >
+                    <srv.icon size={26} />
+                  </div>
+                  <h3 style={{ fontSize: "1.35rem", fontWeight: 700, marginBottom: "0.85rem", color: isLight ? "#0f172a" : "#ffffff" }}>
+                    {srv.title}
+                  </h3>
+                  <p style={{ color: isLight ? "#475569" : "#94a3b8", lineHeight: 1.7, fontSize: "0.96rem", marginBottom: "1.5rem" }}>
+                    {srv.description}
+                  </p>
+                </div>
+                <Link
+                  href={srv.href}
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "0.5rem",
+                    color: isLight ? "#008a75" : "#2dd4bf",
+                    fontWeight: 700,
+                    fontSize: "0.92rem",
+                    textDecoration: "none",
+                  }}
+                >
+                  <span>Explore Service</span>
+                  <ArrowRight size={15} />
+                </Link>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ===================================================================== */}
+      {/* 6. WHAT OUR CLIENTS SAY ABOUT US (TESTIMONIALS SLIDER - HOME STYLE)   */}
+      {/* ===================================================================== */}
+      <section
+        id="testimonials"
+        className="section-alt"
+        style={{
+          padding: "7.5rem 1.5rem 6.5rem 1.5rem",
+          position: "relative",
+          overflow: "hidden",
+          scrollMarginTop: "100px",
+        }}
+      >
+        {/* Unified Ambient Backdrop with Seamless Feather Melts */}
+        <TestimonialsCreativeBackdrop isLightMode={isLight} />
+
+        <div className="container-custom" style={{ maxWidth: "1320px", margin: "0 auto", position: "relative", zIndex: 1 }}>
+          <div style={{ textAlign: "center", maxWidth: "840px", margin: "0 auto 3.5rem auto" }}>
+            <h2
+              className="heading-section"
+              style={{
+                fontFamily: "var(--font-acthirey), 'Acthirey', 'Playfair Display', serif",
+                fontSize: "clamp(2rem, 3.5vw, 39px)",
+                color: isLight ? "#102033" : "#ffffff",
+                marginBottom: "1rem",
+              }}
+            >
+              What Our Clients Say <span className="opash-hero-gradient-text">About Us</span>
+            </h2>
+            <p style={{ color: isLight ? "#64748b" : "#94a3b8", fontSize: "1.05rem", lineHeight: 1.65 }}>
+              Genuine testimonials from founders, CTOs, and global innovators who trust Opash Software.
+            </p>
+          </div>
+
+          <TestimonialsSlider />
+        </div>
+      </section>
+
+      {/* ===================================================================== */}
+      {/* 7. CONNECT WITH OPASH SOFTWARE / GET A QUOTE                          */}
+      {/* ===================================================================== */}
+      <section
+        id="contact"
+        style={{
+          padding: "6.5rem 1.5rem",
+          position: "relative",
+          background: isLight ? "#f8fafc" : "#020712",
+        }}
+      >
+        <div className="container-custom" style={{ maxWidth: "1240px", margin: "0 auto" }}>
+          <div style={{ textAlign: "center", maxWidth: "980px", margin: "0 auto 4rem auto" }}>
+            <OuiWillHeadline
+              as="h2"
+              className="heading-section"
+              style={{
+                fontFamily: "var(--font-acthirey), 'Acthirey', 'Playfair Display', serif",
+                fontSize: "clamp(2.1rem, 3.8vw, 44px)",
+                lineHeight: 1.22,
+                color: isLight ? "#102033" : "#ffffff",
+                marginBottom: "1.25rem",
+                textAlign: "center",
+              }}
+            >
+              <span style={{ display: "block" }}>
+                <OuiWillWord index={0}>Connect</OuiWillWord>{" "}
+                <OuiWillWord index={1}>with</OuiWillWord>{" "}
+                <OuiWillWord index={2}>Opash</OuiWillWord>{" "}
+                <OuiWillWord index={3}>Software’s</OuiWillWord>
+              </span>
+              <span
+                style={{
+                  display: "block",
+                  marginTop: "0.35rem",
+                }}
+              >
+                <OuiWillWord index={4} isGradient>
+                  Expert Development Team
+                </OuiWillWord>{" "}
+                <OuiWillWord index={5}>Today</OuiWillWord>
+                <OuiWillDot />
+              </span>
+            </OuiWillHeadline>
+
+            <p
+              style={{
+                color: isLight ? "#64748b" : "#94a3b8",
+                fontSize: "clamp(1rem, 1.4vw, 1.12rem)",
+                lineHeight: 1.65,
+                maxWidth: "680px",
+                margin: "0 auto",
+              }}
+            >
+              From trends to transformations — we deliver what’s next in tech, directly to you.
+            </p>
+          </div>
+
+          <div
+            style={{
+              maxWidth: "960px",
+              margin: "0 auto",
+              background: isLight ? "#ffffff" : "rgba(10, 20, 36, 0.8)",
+              borderRadius: "28px",
+              padding: "3rem 2.5rem",
+              border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.1)",
+              boxShadow: isLight ? "0 10px 40px rgba(0, 0, 0, 0.04)" : "0 20px 60px rgba(0, 0, 0, 0.45)",
+            }}
+          >
+            <ContactForm />
+          </div>
         </div>
       </section>
     </div>

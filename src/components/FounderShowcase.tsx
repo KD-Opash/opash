@@ -114,10 +114,6 @@ export function FounderShowcase() {
           <h2
             className="heading-section"
             style={{
-              fontSize: "clamp(1.45rem, 2.1vw, 1.95rem)",
-              fontWeight: 850,
-              lineHeight: 1.15,
-              letterSpacing: "-0.03em",
               margin: "0 0 0.85rem 0",
             }}
           >
@@ -215,7 +211,7 @@ export function FounderShowcase() {
                 }}
               >
                 <Image
-                  src="/images/image.webp"
+                  src={isLight ? "/images/image-light.webp" : "/images/image-dark.webp"}
                   alt={companyData.ceo.name}
                   fill
                   sizes="72px"
