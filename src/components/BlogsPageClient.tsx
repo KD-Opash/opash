@@ -1102,7 +1102,13 @@ export default function BlogsPageClient() {
                 background: isLight
                   ? 'linear-gradient(145deg, #1e293b 0%, #0f172a 100%)'
                   : 'linear-gradient(145deg, #1e293b 0%, #050b17 100%)',
-                border: isLight
+                borderTop: isLight
+                  ? '2px solid #94a3b8'
+                  : '2px solid rgba(255, 255, 255, 0.18)',
+                borderLeft: isLight
+                  ? '2px solid #94a3b8'
+                  : '2px solid rgba(255, 255, 255, 0.18)',
+                borderRight: isLight
                   ? '2px solid #94a3b8'
                   : '2px solid rgba(255, 255, 255, 0.18)',
                 borderBottom: 'none',

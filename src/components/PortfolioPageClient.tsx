@@ -1521,8 +1521,6 @@ export default function PortfolioPageClient() {
           position: "relative",
           background: "transparent",
           border: "none",
-          borderTop: "none",
-          borderBottom: "none",
           overflow: "hidden",
           width: "100%",
         }}
@@ -1593,8 +1591,6 @@ export default function PortfolioPageClient() {
           overflow: "hidden",
           background: "transparent",
           border: "none",
-          borderTop: "none",
-          borderBottom: "none",
         }}
       >
         {/* Clean Ambient Radial Glow */}
@@ -1639,7 +1635,13 @@ export default function PortfolioPageClient() {
                 background: isLight
                   ? "linear-gradient(145deg, #1e293b 0%, #0f172a 100%)"
                   : "linear-gradient(145deg, #1e293b 0%, #050b17 100%)",
-                border: isLight
+                borderTop: isLight
+                  ? "2px solid #94a3b8"
+                  : "2px solid rgba(255, 255, 255, 0.18)",
+                borderLeft: isLight
+                  ? "2px solid #94a3b8"
+                  : "2px solid rgba(255, 255, 255, 0.18)",
+                borderRight: isLight
                   ? "2px solid #94a3b8"
                   : "2px solid rgba(255, 255, 255, 0.18)",
                 borderBottom: "none",

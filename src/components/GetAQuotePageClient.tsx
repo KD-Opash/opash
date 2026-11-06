@@ -920,11 +920,8 @@ export default function GetAQuotePageClient() {
               >
                 <Link
                   href="/contact"
-                  className="hero-brand-primary-btn"
+                  className="hero-brand-primary-btn opash-roll-btn"
                   style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.65rem',
                     padding: '13px 28px',
                     borderRadius: '12px',
                     fontWeight: 700,
@@ -932,19 +929,24 @@ export default function GetAQuotePageClient() {
                     textDecoration: 'none',
                   }}
                 >
-                  <Calendar size={16} />
-                  <span>Book Architecture Call</span>
+                  <span className="opash-roll-track">
+                    <span className="opash-roll-item">
+                      <Calendar size={16} className="hero-btn-arrow" />
+                      <span>Book Architecture Call</span>
+                    </span>
+                    <span className="opash-roll-item" aria-hidden="true">
+                      <Calendar size={16} className="hero-btn-arrow" />
+                      <span>Book Architecture Call</span>
+                    </span>
+                  </span>
                 </Link>
 
                 <a
                   href={companyData.contact.whatsapp}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hero-brand-secondary-btn"
+                  className="hero-brand-secondary-btn opash-roll-btn"
                   style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.65rem',
                     padding: '13px 26px',
                     borderRadius: '12px',
                     fontWeight: 600,
@@ -952,8 +954,16 @@ export default function GetAQuotePageClient() {
                     textDecoration: 'none',
                   }}
                 >
-                  <PhoneCall size={16} className="hero-wa-icon" />
-                  <span>Instant WhatsApp Query</span>
+                  <span className="opash-roll-track">
+                    <span className="opash-roll-item">
+                      <PhoneCall size={16} className="hero-wa-icon" />
+                      <span>Instant WhatsApp Query</span>
+                    </span>
+                    <span className="opash-roll-item" aria-hidden="true">
+                      <PhoneCall size={16} className="hero-wa-icon" />
+                      <span>Instant WhatsApp Query</span>
+                    </span>
+                  </span>
                 </a>
               </div>
 
