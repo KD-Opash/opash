@@ -59,6 +59,8 @@ import OuiWillHeadline, { OuiWillWord, OuiWillDot } from "@/components/OuiWillHe
 import { TechStackShowcase } from "@/components/TechStackShowcase";
 import { AnimatedIndustriesCarousel } from "@/components/AnimatedIndustriesCarousel";
 import AnimatedRollingMetric from "@/components/AnimatedRollingMetric";
+import ServiceCardsCarousel from "@/components/ServiceCardsCarousel";
+import CustomSelect from "@/components/CustomSelect";
 
 function AiMlDeviceIllustration() {
   return (
@@ -1458,7 +1460,7 @@ export default function ServiceDetailTemplate({
         className="service-hero"
         style={{
           position: "relative",
-          padding: "7.5rem 1.5rem 4.5rem 1.5rem",
+          padding: "clamp(5rem, 8vw, 7.5rem) clamp(1rem, 3vw, 1.5rem) clamp(2.5rem, 5vw, 4.25rem) clamp(1rem, 3vw, 1.5rem)",
           overflow: "hidden",
           minHeight: "100vh",
           display: "flex",
@@ -1596,7 +1598,7 @@ export default function ServiceDetailTemplate({
                 <OuiWillHeadline
                   style={{
                     fontFamily: "var(--font-acthirey), 'Acthirey', 'Playfair Display', serif",
-                    fontSize: "clamp(1.85rem, 3.2vw, 39px)",
+                    fontSize: "clamp(2rem, 5vw, 60px)",
                     fontWeight: 400,
                     lineHeight: 1.18,
                     letterSpacing: "-0.015em",
@@ -1605,16 +1607,16 @@ export default function ServiceDetailTemplate({
                     display: "block",
                   }}
                 >
-                  <OuiWillWord index={1}>{titleConfig.main}</OuiWillWord>
+                  <span style={{ display: "inline-flex", alignItems: "baseline", whiteSpace: "nowrap" }}>
+                    <OuiWillWord index={1}>{titleConfig.main}</OuiWillWord>
+                    {titleConfig.accent && <OuiWillDot />}
+                  </span>
                   {titleConfig.accent && (
-                    <>
-                      <OuiWillDot />
-                      <span style={{ display: "block", width: "100%", marginTop: "0.2rem" }}>
-                        <OuiWillWord index={2} isGradient>
-                          {titleConfig.accent}
-                        </OuiWillWord>
-                      </span>
-                    </>
+                    <span style={{ display: "block", width: "100%", marginTop: "0.25rem" }}>
+                      <OuiWillWord index={2} isGradient>
+                        {titleConfig.accent}
+                      </OuiWillWord>
+                    </span>
                   )}
                 </OuiWillHeadline>
               </div>
@@ -2081,7 +2083,7 @@ export default function ServiceDetailTemplate({
       <section
         style={{
           position: "relative",
-          padding: "3.75rem 1.5rem 4rem 1.5rem",
+          padding: "clamp(2.5rem, 5vw, 4.25rem) clamp(1rem, 3vw, 1.5rem)",
           background: isLight ? "#ffffff" : "#020712",
           borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
         }}
@@ -2242,7 +2244,7 @@ export default function ServiceDetailTemplate({
       <section
         style={{
           position: "relative",
-          padding: "5.5rem 1.5rem",
+          padding: "clamp(2.5rem, 5vw, 4.25rem) clamp(1rem, 3vw, 1.5rem)",
           background: isLight ? "#ffffff" : "#040b17",
           borderBottom: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
         }}
@@ -2384,14 +2386,8 @@ export default function ServiceDetailTemplate({
             }
           `}</style>
 
-          {/* 4 Bento Architecture Highlights with Interactive Animations */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-              gap: "1.5rem",
-            }}
-          >
+          {/* 4 Bento Architecture Highlights with Interactive Carousel Slider */}
+          <ServiceCardsCarousel id="detail-benefits" desktopCards={3} autoScrollInterval={3800}>
             {themeConfig.whyPillars.map((pillar, idx) => {
               const PillarIcon = pillar.icon;
               return (
@@ -2546,7 +2542,7 @@ export default function ServiceDetailTemplate({
                 </div>
               );
             })}
-          </div>
+          </ServiceCardsCarousel>
         </div>
       </section>
 
@@ -2557,7 +2553,7 @@ export default function ServiceDetailTemplate({
         id="what-includes"
         style={{
           position: "relative",
-          padding: "6.5rem 1.5rem",
+          padding: "clamp(2.5rem, 5vw, 4.25rem) clamp(1rem, 3vw, 1.5rem)",
           background: isLight
             ? "linear-gradient(180deg, #f8fafc 0%, #ffffff 50%, #f8fafc 100%)"
             : "linear-gradient(180deg, #020712 0%, #060e1d 50%, #020712 100%)",
@@ -2656,16 +2652,8 @@ export default function ServiceDetailTemplate({
             </p>
           </div>
 
-          {/* Redesigned Features Grid (Bento Glass Cards) */}
-          <div
-            className="service-features-grid"
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 340px), 1fr))",
-              gap: "1.75rem",
-              marginBottom: "3.5rem",
-            }}
-          >
+          {/* Redesigned Features Carousel (Bento Glass Cards) */}
+          <ServiceCardsCarousel id="detail-features" desktopCards={3} autoScrollInterval={4200}>
             {service.features.map((item, idx) => {
               const meta = getServiceFeatureMeta(service.slug, item, idx);
               const IconComp = meta.icon;
@@ -2814,13 +2802,15 @@ export default function ServiceDetailTemplate({
                 </div>
               );
             })}
-          </div>
+          </ServiceCardsCarousel>
 
           {/* Bottom High-Impact Engineering Assurance Banner */}
           <div
             style={{
               position: "relative",
-              padding: "2.5rem 2.25rem",
+              marginTop: "3.5rem",
+              marginBottom: "1rem",
+              padding: "clamp(2rem, 4vw, 2.75rem) clamp(1.5rem, 4vw, 2.5rem)",
               borderRadius: "22px",
               background: isLight
                 ? "linear-gradient(135deg, rgba(0, 168, 143, 0.06) 0%, rgba(56, 189, 248, 0.06) 100%)"
@@ -2906,7 +2896,7 @@ export default function ServiceDetailTemplate({
             </div>
 
             {/* Action CTA */}
-            <div>
+            <div style={{ marginTop: "0.5rem" }}>
               <Link
                 href="#quote-section"
                 style={{
@@ -2954,7 +2944,7 @@ export default function ServiceDetailTemplate({
       <section
         style={{
           position: "relative",
-          padding: "6rem 1.5rem",
+          padding: "clamp(2.5rem, 5vw, 4.25rem) clamp(1rem, 3vw, 1.5rem)",
         }}
       >
         <div className="container-custom" style={{ maxWidth: "1240px", margin: "0 auto" }}>
@@ -3138,15 +3128,8 @@ export default function ServiceDetailTemplate({
             </div>
           )}
 
-          {/* Process Timeline Grid */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 320px), 1fr))",
-              gap: "1.75rem",
-              marginBottom: "3rem",
-            }}
-          >
+          {/* Process Timeline Carousel */}
+          <ServiceCardsCarousel id="detail-process" desktopCards={3} autoScrollInterval={4500}>
             {service.process.map((step, idx) => {
               const StepIcon = getProcessStepIcon(idx, step.title);
               const tags = getProcessStepTags(idx, service.slug, step.title);
@@ -3291,13 +3274,14 @@ export default function ServiceDetailTemplate({
                 </div>
               );
             })}
-          </div>
+          </ServiceCardsCarousel>
 
           {/* Verbatim SLA Note Card from Live Site */}
           {service.processSla && (
             <div
               style={{
-                padding: "2rem 2.5rem",
+                marginTop: "clamp(2.5rem, 5vw, 3.75rem)",
+                padding: "clamp(1.25rem, 3.5vw, 2rem) clamp(1rem, 3.5vw, 2.5rem)",
                 borderRadius: "16px",
                 background: isLight
                   ? "#f8fafc"
@@ -3371,7 +3355,7 @@ export default function ServiceDetailTemplate({
         id="quote-section"
         style={{
           position: "relative",
-          padding: "6rem 1.5rem",
+          padding: "clamp(2.5rem, 5vw, 4.25rem) clamp(1rem, 3vw, 1.5rem)",
           overflow: "hidden",
         }}
       >
@@ -3386,7 +3370,7 @@ export default function ServiceDetailTemplate({
               boxShadow: isLight
                 ? "0 20px 40px -15px rgba(0, 0, 0, 0.06)"
                 : "0 20px 40px -15px rgba(0, 0, 0, 0.5)",
-              padding: "clamp(2rem, 5vw, 4rem)",
+              padding: "clamp(1.25rem, 3.5vw, 3.5rem) clamp(0.75rem, 2.5vw, 2.5rem)",
               position: "relative",
               overflow: "hidden",
             }}
@@ -3402,13 +3386,19 @@ export default function ServiceDetailTemplate({
               {/* Left Column: Verbatim Opash Copy */}
               <div>
                 <h2
-                  className="heading-section"
+                  className="heading-section section-connect-heading"
                   style={{
+                    fontFamily: "var(--font-acthirey), 'Acthirey', 'Playfair Display', 'Prime Serif', Georgia, serif",
+                    fontSize: "clamp(1.35rem, 3.5vw, 2.35rem)",
+                    lineHeight: 1.25,
+                    maxWidth: "760px",
                     marginBottom: "1.5rem",
+                    textAlign: "left",
+                    textWrap: "balance",
                   }}
                 >
-                  Connect with{" "}
-                  <span className="opash-hero-gradient-text">Opash Software’s</span> Expert Development Team Today.
+                  <span>Connect with <span className="opash-hero-gradient-text">Opash Software’s</span></span>{" "}
+                  <span style={{ display: "inline-block" }}>Expert Development Team Today.</span>
                 </h2>
 
                 <p
@@ -3491,7 +3481,7 @@ export default function ServiceDetailTemplate({
                   background: isLight ? "#ffffff" : "rgba(10, 24, 46, 0.8)",
                   borderRadius: "20px",
                   border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.1)",
-                  padding: "2.25rem",
+                  padding: "clamp(1.25rem, 3vw, 2rem) clamp(0.75rem, 2vw, 1.5rem)",
                   boxShadow: isLight ? "0 10px 25px rgba(0, 0, 0, 0.04)" : "none",
                 }}
               >
@@ -3582,135 +3572,103 @@ export default function ServiceDetailTemplate({
                       />
                     </div>
 
-                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
-                      <div>
-                        <label
-                          style={{
-                            display: "block",
-                            fontSize: "0.85rem",
-                            fontWeight: 600,
-                            marginBottom: "0.35rem",
-                            color: isLight ? "#334155" : "#cbd5e1",
-                          }}
-                        >
-                          Email *
-                        </label>
-                        <input
-                          type="email"
-                          required
-                          value={formData.email}
-                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                          placeholder="alex@company.com"
-                          style={{
-                            width: "100%",
-                            padding: "0.75rem 1rem",
-                            borderRadius: "10px",
-                            border: isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.15)",
-                            background: isLight ? "#f8fafc" : "rgba(255, 255, 255, 0.04)",
-                            color: isLight ? "#0f172a" : "#ffffff",
-                            fontSize: "0.95rem",
-                            outline: "none",
-                          }}
-                        />
-                      </div>
-
-                      <div>
-                        <label
-                          style={{
-                            display: "block",
-                            fontSize: "0.85rem",
-                            fontWeight: 600,
-                            marginBottom: "0.35rem",
-                            color: isLight ? "#334155" : "#cbd5e1",
-                          }}
-                        >
-                          Phone Number
-                        </label>
-                        <input
-                          type="tel"
-                          value={formData.phone}
-                          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                          placeholder="+1 (555) 000-0000"
-                          style={{
-                            width: "100%",
-                            padding: "0.75rem 1rem",
-                            borderRadius: "10px",
-                            border: isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.15)",
-                            background: isLight ? "#f8fafc" : "rgba(255, 255, 255, 0.04)",
-                            color: isLight ? "#0f172a" : "#ffffff",
-                            fontSize: "0.95rem",
-                            outline: "none",
-                          }}
-                        />
-                      </div>
+                    <div>
+                      <label
+                        style={{
+                          display: "block",
+                          fontSize: "0.85rem",
+                          fontWeight: 600,
+                          marginBottom: "0.35rem",
+                          color: isLight ? "#334155" : "#cbd5e1",
+                        }}
+                      >
+                        Email *
+                      </label>
+                      <input
+                        type="email"
+                        required
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        placeholder="alex@company.com"
+                        style={{
+                          width: "100%",
+                          padding: "0.75rem 1rem",
+                          borderRadius: "10px",
+                          border: isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.15)",
+                          background: isLight ? "#f8fafc" : "rgba(255, 255, 255, 0.04)",
+                          color: isLight ? "#0f172a" : "#ffffff",
+                          fontSize: "0.95rem",
+                          outline: "none",
+                        }}
+                      />
                     </div>
 
-                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
-                      <div>
-                        <label
-                          style={{
-                            display: "block",
-                            fontSize: "0.85rem",
-                            fontWeight: 600,
-                            marginBottom: "0.35rem",
-                            color: isLight ? "#334155" : "#cbd5e1",
-                          }}
-                        >
-                          Project Engagement
-                        </label>
-                        <select
-                          value={formData.projectType}
-                          onChange={(e) => setFormData({ ...formData, projectType: e.target.value })}
-                          style={{
-                            width: "100%",
-                            padding: "0.75rem 1rem",
-                            borderRadius: "10px",
-                            border: isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.15)",
-                            background: isLight ? "#f8fafc" : "#0d1b2e",
-                            color: isLight ? "#0f172a" : "#ffffff",
-                            fontSize: "0.95rem",
-                            outline: "none",
-                          }}
-                        >
-                          <option value="Hourly">Hourly</option>
-                          <option value="Part Time">Part Time</option>
-                          <option value="Full Time">Full Time</option>
-                        </select>
-                      </div>
+                    <div>
+                      <label
+                        style={{
+                          display: "block",
+                          fontSize: "0.85rem",
+                          fontWeight: 600,
+                          marginBottom: "0.35rem",
+                          color: isLight ? "#334155" : "#cbd5e1",
+                        }}
+                      >
+                        Phone Number
+                      </label>
+                      <input
+                        type="tel"
+                        value={formData.phone}
+                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                        placeholder="+1 (555) 000-0000"
+                        style={{
+                          width: "100%",
+                          padding: "0.75rem 1rem",
+                          borderRadius: "10px",
+                          border: isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.15)",
+                          background: isLight ? "#f8fafc" : "rgba(255, 255, 255, 0.04)",
+                          color: isLight ? "#0f172a" : "#ffffff",
+                          fontSize: "0.95rem",
+                          outline: "none",
+                        }}
+                      />
+                    </div>
 
-                      <div>
-                        <label
-                          style={{
-                            display: "block",
-                            fontSize: "0.85rem",
-                            fontWeight: 600,
-                            marginBottom: "0.35rem",
-                            color: isLight ? "#334155" : "#cbd5e1",
-                          }}
-                        >
-                          Country
-                        </label>
-                        <select
-                          value={formData.country}
-                          onChange={(e) => setFormData({ ...formData, country: e.target.value })}
-                          style={{
-                            width: "100%",
-                            padding: "0.75rem 1rem",
-                            borderRadius: "10px",
-                            border: isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.15)",
-                            background: isLight ? "#f8fafc" : "#0d1b2e",
-                            color: isLight ? "#0f172a" : "#ffffff",
-                            fontSize: "0.95rem",
-                            outline: "none",
-                          }}
-                        >
-                          {COUNTRIES_LIST.map((c) => (
-                            <option key={c} value={c}>
-                              {c}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
+                    <div>
+                      <label
+                        style={{
+                          display: "block",
+                          fontSize: "0.85rem",
+                          fontWeight: 600,
+                          marginBottom: "0.35rem",
+                          color: isLight ? "#334155" : "#cbd5e1",
+                        }}
+                      >
+                        Project Engagement
+                      </label>
+                      <CustomSelect
+                        value={formData.projectType}
+                        onChange={(val) => setFormData({ ...formData, projectType: val })}
+                        options={["Hourly", "Part Time", "Full Time"]}
+                      />
+                    </div>
+
+                    <div>
+                      <label
+                        style={{
+                          display: "block",
+                          fontSize: "0.85rem",
+                          fontWeight: 600,
+                          marginBottom: "0.35rem",
+                          color: isLight ? "#334155" : "#cbd5e1",
+                        }}
+                      >
+                        Country
+                      </label>
+                      <CustomSelect
+                        value={formData.country}
+                        onChange={(val) => setFormData({ ...formData, country: val })}
+                        options={COUNTRIES_LIST}
+                      />
                     </div>
 
                     <div>

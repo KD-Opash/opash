@@ -230,6 +230,7 @@ export default function TestimonialsSlider() {
       >
         {/* Company Quick-Jump Tabs (Spotlight Mode) */}
         <div
+          className="testimonials-quicktabs-scroll"
           style={{
             display: "flex",
             alignItems: "center",
@@ -237,6 +238,9 @@ export default function TestimonialsSlider() {
             overflowX: "auto",
             paddingBottom: "4px",
             maxWidth: "100%",
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+            WebkitOverflowScrolling: "touch",
           }}
           role="tablist"
         >
@@ -953,6 +957,18 @@ export default function TestimonialsSlider() {
           })}
         </div>
       )}
+
+      <style jsx>{`
+        .testimonials-quicktabs-scroll {
+          scrollbar-width: none !important;
+          -ms-overflow-style: none !important;
+        }
+        .testimonials-quicktabs-scroll::-webkit-scrollbar {
+          display: none !important;
+          width: 0 !important;
+          height: 0 !important;
+        }
+      `}</style>
     </div>
   );
 }

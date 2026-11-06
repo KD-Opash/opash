@@ -107,7 +107,7 @@ export default function HomePage() {
         id="testimonials"
         className="section-alt"
         style={{
-          padding: "7.5rem 0 6.5rem 0",
+          padding: "clamp(2.5rem, 5vw, 4.25rem) 0",
           position: "relative",
           overflow: "hidden",
           scrollMarginTop: "100px",
@@ -151,7 +151,7 @@ export default function HomePage() {
       <section
         id="contact-section"
         style={{
-          padding: "7.5rem 0",
+          padding: "clamp(2.5rem, 5vw, 4.25rem) 0",
           position: "relative",
           overflow: "hidden",
           backgroundColor: isLight ? "#f8fafc" : "#030814",

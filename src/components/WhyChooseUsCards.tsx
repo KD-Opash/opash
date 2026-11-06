@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTheme } from "./ThemeProvider";
 
 interface WhyChooseItem {
@@ -16,6 +17,40 @@ export function WhyChooseUsCards() {
   const { theme } = useTheme();
   const isLight = theme === "light";
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
+  const [isPaused, setIsPaused] = useState(false);
+
+  // Smooth scroll handler for manual arrow taps
+  const handleScroll = (direction: "left" | "right") => {
+    const el = gridRef.current;
+    if (!el) return;
+    const firstChild = el.firstElementChild as HTMLElement;
+    const cardStep = firstChild ? firstChild.offsetWidth + 18 : 280;
+    el.scrollBy({
+      left: direction === "left" ? -cardStep : cardStep,
+      behavior: "smooth",
+    });
+  };
+
+  // Continuous auto-scroll on mobile/tablet screens
+  useEffect(() => {
+    if (isPaused) return;
+    const interval = setInterval(() => {
+      const el = gridRef.current;
+      if (!el) return;
+      // If all cards fit without overflow, don't auto-scroll
+      if (el.scrollWidth <= el.clientWidth + 10) return;
+
+      const cardWidth = 280;
+      if (el.scrollLeft + el.clientWidth >= el.scrollWidth - 15) {
+        el.scrollTo({ left: 0, behavior: "smooth" });
+      } else {
+        el.scrollBy({ left: cardWidth, behavior: "smooth" });
+      }
+    }, 3200);
+
+    return () => clearInterval(interval);
+  }, [isPaused]);
 
   const CARDS: WhyChooseItem[] = [
     // 1. Trusted Upwork Agency (3D Metallic Plaque & Minted Gold Stars)
@@ -737,7 +772,7 @@ export function WhyChooseUsCards() {
       id="why-choose-us"
       className="why-choose-us-section"
       style={{
-        padding: "5rem 1.25rem 4.5rem 1.25rem",
+        padding: "clamp(2.5rem, 5vw, 4.25rem) 1.25rem",
         position: "relative",
         background: isLight
           ? "linear-gradient(180deg, #f8fafc 0%, #ffffff 50%, #f1f5f9 100%)"
@@ -797,109 +832,187 @@ export function WhyChooseUsCards() {
         {/* ===================================================================== */}
         {/* 7 GLASSMORPHIC 3D PILLAR CARDS (SINGLE ROW / RESPONSIVE GRID)         */}
         {/* ===================================================================== */}
-        <div className="seven-pillars-grid">
-          {CARDS.map((card, idx) => {
-            const isHovered = hoveredCard === card.id;
+        <div className="why-choose-carousel-wrapper" style={{ position: "relative" }}>
+          {/* Left Arrow Button (Visible only on mobile) */}
+          <button
+            type="button"
+            className="why-choose-arrow why-choose-arrow-left"
+            onClick={() => handleScroll("left")}
+            aria-label="Previous cards"
+            style={{
+              position: "absolute",
+              left: "-12px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              width: "42px",
+              height: "42px",
+              borderRadius: "50%",
+              background: isLight ? "#ffffff" : "rgba(15, 23, 42, 0.9)",
+              border: isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.2)",
+              color: isLight ? "#0f172a" : "#f8fafc",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+              zIndex: 10,
+              boxShadow: isLight
+                ? "0 4px 16px rgba(0, 0, 0, 0.12)"
+                : "0 6px 20px rgba(0, 0, 0, 0.6)",
+              backdropFilter: "blur(12px)",
+              transition: "all 0.25s ease",
+            }}
+          >
+            <ChevronLeft size={20} />
+          </button>
 
-            return (
-              <motion.div
-                key={card.id}
-                className="pillar-card-wrapper"
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.15 }}
-                transition={{ duration: 0.5, delay: idx * 0.06, ease: [0.16, 1, 0.3, 1] }}
-                onMouseEnter={() => setHoveredCard(card.id)}
-                onMouseLeave={() => setHoveredCard(null)}
-              >
-                <div
-                  className={`pillar-3d-card ${isHovered ? "is-hovered" : ""}`}
-                  style={{
-                    borderColor: isHovered
-                      ? card.accent
-                      : isLight
-                      ? "rgba(226, 232, 240, 0.85)"
-                      : "rgba(255, 255, 255, 0.09)",
-                    boxShadow: isHovered
-                      ? isLight
-                        ? `0 20px 35px -8px rgba(${card.accentRgb}, 0.22), 0 0 1px 1px ${card.accent}`
-                        : `0 24px 45px -10px rgba(0, 0, 0, 0.8), 0 0 30px rgba(${card.accentRgb}, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.25)`
-                      : isLight
-                      ? "0 10px 25px -5px rgba(15, 23, 42, 0.04)"
-                      : "inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 14px 28px -8px rgba(0, 0, 0, 0.55)",
-                  }}
+          {/* Right Arrow Button (Visible only on mobile) */}
+          <button
+            type="button"
+            className="why-choose-arrow why-choose-arrow-right"
+            onClick={() => handleScroll("right")}
+            aria-label="Next cards"
+            style={{
+              position: "absolute",
+              right: "-12px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              width: "42px",
+              height: "42px",
+              borderRadius: "50%",
+              background: isLight ? "#ffffff" : "rgba(15, 23, 42, 0.9)",
+              border: isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.2)",
+              color: isLight ? "#0f172a" : "#f8fafc",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+              zIndex: 10,
+              boxShadow: isLight
+                ? "0 4px 16px rgba(0, 0, 0, 0.12)"
+                : "0 6px 20px rgba(0, 0, 0, 0.6)",
+              backdropFilter: "blur(12px)",
+              transition: "all 0.25s ease",
+            }}
+          >
+            <ChevronRight size={20} />
+          </button>
+
+          <div
+            ref={gridRef}
+            className="seven-pillars-grid"
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+            onTouchStart={() => setIsPaused(true)}
+            onTouchEnd={() => {
+              setTimeout(() => setIsPaused(false), 2000);
+            }}
+          >
+            {CARDS.map((card, idx) => {
+              const isHovered = hoveredCard === card.id;
+
+              return (
+                <motion.div
+                  key={card.id}
+                  className="pillar-card-wrapper"
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.15 }}
+                  transition={{ duration: 0.5, delay: idx * 0.06, ease: [0.16, 1, 0.3, 1] }}
+                  onMouseEnter={() => setHoveredCard(card.id)}
+                  onMouseLeave={() => setHoveredCard(null)}
                 >
-                  {/* Top 3D Icon Stage with Perfectly Centered Co-Axial Shadow/Glow */}
                   <div
-                    className="pillar-icon-stage"
+                    className={`pillar-3d-card ${isHovered ? "is-hovered" : ""}`}
                     style={{
-                      position: "relative",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      width: "100%",
-                      minHeight: "105px",
-                      margin: "0 auto",
+                      borderColor: isHovered
+                        ? card.accent
+                        : isLight
+                        ? "rgba(226, 232, 240, 0.85)"
+                        : "rgba(255, 255, 255, 0.09)",
+                      boxShadow: isHovered
+                        ? isLight
+                          ? `0 20px 35px -8px rgba(${card.accentRgb}, 0.22), 0 0 1px 1px ${card.accent}`
+                          : `0 24px 45px -10px rgba(0, 0, 0, 0.8), 0 0 30px rgba(${card.accentRgb}, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.25)`
+                        : isLight
+                        ? "0 10px 25px -5px rgba(15, 23, 42, 0.04)"
+                        : "inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 14px 28px -8px rgba(0, 0, 0, 0.55)",
                     }}
                   >
-                    {/* Centered Ambient Glow / Shadow directly behind the icon */}
+                    {/* Top 3D Icon Stage with Perfectly Centered Co-Axial Shadow/Glow */}
                     <div
-                      aria-hidden="true"
-                      className="pillar-radial-flare"
-                      style={{
-                        position: "absolute",
-                        top: "50%",
-                        left: "50%",
-                        transform: "translate(-50%, -50%)",
-                        width: "130px",
-                        height: "130px",
-                        borderRadius: "50%",
-                        background: `radial-gradient(circle at center, rgba(${card.accentRgb}, ${isHovered ? "0.45" : "0.22"}) 0%, rgba(${card.accentRgb}, 0.08) 45%, transparent 70%)`,
-                        pointerEvents: "none",
-                        zIndex: 0,
-                        transition: "background 0.3s ease",
-                      }}
-                    />
-
-                    {/* The Icon itself, centered directly in the middle of the shadow */}
-                    <div
+                      className="pillar-icon-stage"
                       style={{
                         position: "relative",
-                        zIndex: 1,
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        margin: "0 auto",
                         width: "100%",
+                        minHeight: "105px",
+                        margin: "0 auto",
                       }}
                     >
-                      {card.icon}
+                      {/* Centered Ambient Glow / Shadow directly behind the icon */}
+                      <div
+                        aria-hidden="true"
+                        className="pillar-radial-flare"
+                        style={{
+                          position: "absolute",
+                          top: "50%",
+                          left: "50%",
+                          transform: "translate(-50%, -50%)",
+                          width: "130px",
+                          height: "130px",
+                          borderRadius: "50%",
+                          background: `radial-gradient(circle at center, rgba(${card.accentRgb}, ${isHovered ? "0.45" : "0.22"}) 0%, rgba(${card.accentRgb}, 0.08) 45%, transparent 70%)`,
+                          pointerEvents: "none",
+                          zIndex: 0,
+                          transition: "background 0.3s ease",
+                        }}
+                      />
+
+                      {/* The Icon itself, centered directly in the middle of the shadow */}
+                      <div
+                        style={{
+                          position: "relative",
+                          zIndex: 1,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          margin: "0 auto",
+                          width: "100%",
+                        }}
+                      >
+                        {card.icon}
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Bottom Text Content */}
-                  <div className="pillar-text-stage">
-                    <h3 className="pillar-title">
-                      {card.title}
-                    </h3>
-                  </div>
+                    {/* Bottom Text Content */}
+                    <div className="pillar-text-stage">
+                      <h3 className="pillar-title">
+                        {card.title}
+                      </h3>
+                    </div>
 
-                  {/* Bottom Active Glow Accent Bar */}
-                  <div
-                    className="pillar-accent-bar"
-                    style={{
-                      backgroundColor: card.accent,
-                      opacity: isHovered ? 1 : 0,
-                    }}
-                  />
-                </div>
-              </motion.div>
-            );
-          })}
+                    {/* Bottom Active Glow Accent Bar */}
+                    <div
+                      className="pillar-accent-bar"
+                      style={{
+                        backgroundColor: card.accent,
+                        opacity: isHovered ? 1 : 0,
+                      }}
+                    />
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
       </div>
 
       <style jsx>{`
+        /* Large / Desktop screens: Hide arrows completely */
+        .why-choose-arrow {
+          display: none !important;
+        }
+
         /* 7 Pillars Grid: 7 columns on Desktop, responsive wrap on tablet/mobile */
         .seven-pillars-grid {
           display: grid;
@@ -908,14 +1021,19 @@ export function WhyChooseUsCards() {
           perspective: 1200px;
         }
 
-        @media (max-width: 1240px) {
+        @media (max-width: 1240px) and (min-width: 769px) {
           .seven-pillars-grid {
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1.1rem;
+            grid-template-columns: repeat(4, 1fr) !important;
+            overflow: visible !important;
           }
         }
 
-        @media (max-width: 860px) {
+        /* Mobile Screens (<= 768px): Smooth Horizontal Swipeable Carousel */
+        @media (max-width: 768px) {
+          .why-choose-arrow {
+            display: flex !important;
+          }
+
           .seven-pillars-grid {
             display: flex !important;
             flex-direction: row !important;
@@ -924,20 +1042,18 @@ export function WhyChooseUsCards() {
             scroll-snap-type: x mandatory !important;
             gap: 1.15rem !important;
             padding: 0.5rem 0.5rem 1.25rem 0.5rem !important;
-            margin: 0 -1.5rem !important;
-            padding-left: 1.5rem !important;
-            padding-right: 1.5rem !important;
-            scrollbar-width: thin !important;
+            scrollbar-width: none !important;
+            -ms-overflow-style: none !important;
             -webkit-overflow-scrolling: touch !important;
+            margin: 0 -0.5rem !important;
+            padding-left: 0.5rem !important;
+            padding-right: 0.5rem !important;
           }
 
           .seven-pillars-grid::-webkit-scrollbar {
-            height: 4px !important;
-          }
-
-          .seven-pillars-grid::-webkit-scrollbar-thumb {
-            background: ${isLight ? "rgba(0, 168, 143, 0.35)" : "rgba(0, 255, 209, 0.45)"} !important;
-            border-radius: 9999px !important;
+            display: none !important;
+            width: 0 !important;
+            height: 0 !important;
           }
 
           .pillar-card-wrapper {
@@ -945,6 +1061,14 @@ export function WhyChooseUsCards() {
             max-width: 300px !important;
             min-width: 250px !important;
             scroll-snap-align: center !important;
+          }
+
+          .why-choose-arrow-left {
+            left: -8px !important;
+          }
+
+          .why-choose-arrow-right {
+            right: -8px !important;
           }
         }
 

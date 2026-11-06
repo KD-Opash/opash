@@ -560,7 +560,7 @@ export function TechStackShowcase({
     <section
       id="tech-stack"
       className="tech-showcase-section relative w-full overflow-hidden select-none"
-      style={{ paddingTop: "4.5rem" }}
+      style={{ padding: "clamp(2.5rem, 5vw, 4.25rem) 0" }}
       aria-label="Technologies & Platforms We Work With"
     >
       {/* Dynamic Cyber Tech Backdrop (Auroras, Dot Matrix, Radar Scan & Glyphs) */}
@@ -660,7 +660,7 @@ export function TechStackShowcase({
         {/* 3. TECHNOLOGY CARDS CHROMA GRID                                           */}
         {/* ========================================================================= */}
         {filteredTechs.length > 0 && (
-          <div className="tech-showcase-grid-wrapper" style={{ marginBottom: "3.5rem" }}>
+          <div className="tech-showcase-grid-wrapper" style={{ marginBottom: "3.5rem", scrollbarWidth: "none" }}>
             <ChromaGrid
               items={filteredTechs.map((tech) => {
                 const brandColor =

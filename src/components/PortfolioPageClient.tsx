@@ -607,7 +607,7 @@ export default function PortfolioPageClient() {
       <section
         id="schematics-vault"
         style={{
-          padding: "5.5rem 1.5rem 5rem 1.5rem",
+          padding: "clamp(2.5rem, 5vw, 4.25rem) clamp(1rem, 3vw, 1.5rem)",
           position: "relative",
           background: isLight ? "#f8fafc" : "rgba(6, 12, 24, 0.65)",
           borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
@@ -1067,7 +1067,7 @@ export default function PortfolioPageClient() {
       {/* ===================================================================== */}
       {/* 3. CASE STUDIES GRID WITH DOMAIN FILTERS & SEARCH                     */}
       {/* ===================================================================== */}
-      <section id="case-studies-grid" style={{ padding: "6rem 1.5rem", position: "relative" }}>
+      <section id="case-studies-grid" style={{ padding: "clamp(2.5rem, 5vw, 4.25rem) clamp(1rem, 3vw, 1.5rem)", position: "relative" }}>
         <div className="container-custom" style={{ maxWidth: "1240px", margin: "0 auto" }}>
           {/* Header & Controls */}
           <div
@@ -1588,7 +1588,7 @@ export default function PortfolioPageClient() {
       {/* ===================================================================== */}
       <section
         style={{
-          padding: "0.5rem 1.5rem 5.5rem 1.5rem",
+          padding: "0.5rem clamp(1rem, 3vw, 1.5rem) clamp(2.5rem, 5vw, 4.25rem) clamp(1rem, 3vw, 1.5rem)",
           position: "relative",
           overflow: "hidden",
           background: "transparent",

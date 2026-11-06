@@ -55,6 +55,8 @@ import OuiWillHeadline, { OuiWillWord, OuiWillDot } from "@/components/OuiWillHe
 import { TechStackShowcase } from "@/components/TechStackShowcase";
 import { AnimatedIndustriesCarousel } from "@/components/AnimatedIndustriesCarousel";
 import AnimatedRollingMetric from "@/components/AnimatedRollingMetric";
+import ServiceCardsCarousel from "@/components/ServiceCardsCarousel";
+import CustomSelect from "@/components/CustomSelect";
 
 interface WebDevelopmentPageClientProps {
   service: ServiceDetail;
@@ -290,7 +292,7 @@ export default function WebDevelopmentPageClient({
       <section
         style={{
           position: "relative",
-          padding: "7.5rem 1.5rem 3.5rem 1.5rem",
+          padding: "clamp(5rem, 8vw, 7.5rem) clamp(1rem, 3vw, 1.5rem) clamp(2.5rem, 5vw, 4.25rem) clamp(1rem, 3vw, 1.5rem)",
           overflow: "hidden",
           minHeight: "100vh",
           display: "flex",
@@ -440,18 +442,20 @@ export default function WebDevelopmentPageClient({
                 <OuiWillHeadline
                   style={{
                     fontFamily: "var(--font-acthirey), 'Acthirey', 'Playfair Display', serif",
-                    fontSize: "clamp(1.9rem, 5vw, 68px)",
+                    fontSize: "clamp(2rem, 5vw, 60px)",
                     fontWeight: 400,
-                    lineHeight: 1.12,
+                    lineHeight: 1.18,
                     letterSpacing: "-0.015em",
                     margin: 0,
                     textAlign: "left",
                     display: "block",
                   }}
                 >
-                  <OuiWillWord index={1}>Web</OuiWillWord>
-                  <OuiWillDot />
-                  <span style={{ display: "block", width: "100%", marginTop: "0.2rem" }}>
+                  <span style={{ display: "inline-flex", alignItems: "baseline", whiteSpace: "nowrap" }}>
+                    <OuiWillWord index={1}>Web</OuiWillWord>
+                    <OuiWillDot />
+                  </span>
+                  <span style={{ display: "block", width: "100%", marginTop: "0.25rem" }}>
                     <OuiWillWord index={2} isGradient>
                       Development
                     </OuiWillWord>
@@ -967,7 +971,7 @@ export default function WebDevelopmentPageClient({
       <section
         style={{
           position: "relative",
-          padding: "3.5rem 1.5rem 3.75rem 1.5rem",
+          padding: "clamp(2.5rem, 5vw, 4.25rem) clamp(1rem, 3vw, 1.5rem)",
           background: isLight ? "#ffffff" : "#020712",
           borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
         }}
@@ -1150,7 +1154,7 @@ export default function WebDevelopmentPageClient({
       <section
         id="benefits"
         style={{
-          padding: "5.5rem 1.5rem",
+          padding: "clamp(2.5rem, 5vw, 4.25rem) clamp(1rem, 3vw, 1.5rem)",
           position: "relative",
           background: isLight ? "#ffffff" : "rgba(4, 10, 22, 0.9)",
         }}
@@ -1296,14 +1300,8 @@ export default function WebDevelopmentPageClient({
             }
           `}</style>
 
-          {/* 4 Modern Benefit Feature Highlights */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-              gap: "1.5rem",
-            }}
-          >
+          {/* 4 Modern Benefit Feature Highlights (Carousel Slider) */}
+          <ServiceCardsCarousel id="web-dev-benefits" desktopCards={3} autoScrollInterval={3800}>
             {[
               {
                 icon: Globe2,
@@ -1483,7 +1481,7 @@ export default function WebDevelopmentPageClient({
                 </div>
               );
             })}
-          </div>
+          </ServiceCardsCarousel>
         </div>
       </section>
 
@@ -1493,7 +1491,7 @@ export default function WebDevelopmentPageClient({
       <section
         id="what-includes"
         style={{
-          padding: "5.5rem 1.5rem",
+          padding: "clamp(2.5rem, 5vw, 4.25rem) clamp(1rem, 3vw, 1.5rem)",
           position: "relative",
           background: isLight ? "#f8fafc" : "#020712",
           borderTop: isLight
@@ -1646,14 +1644,8 @@ export default function WebDevelopmentPageClient({
             </p>
           </div>
 
-          {/* 6 Exact Items in a High-Performance Interactive Grid */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 340px), 1fr))",
-              gap: "1.75rem",
-            }}
-          >
+          {/* 6 Exact Items in a High-Performance Interactive Carousel */}
+          <ServiceCardsCarousel id="web-dev-includes" desktopCards={3} autoScrollInterval={4200}>
             {INCLUDES_DATA.map((item, idx) => {
               const IconComp = item.icon;
               return (
@@ -1758,7 +1750,7 @@ export default function WebDevelopmentPageClient({
                 </div>
               );
             })}
-          </div>
+          </ServiceCardsCarousel>
         </div>
       </section>
 
@@ -1773,7 +1765,7 @@ export default function WebDevelopmentPageClient({
       <section
         id="process"
         style={{
-          padding: "5.5rem 1.5rem",
+          padding: "clamp(2.5rem, 5vw, 4.25rem) clamp(1rem, 3vw, 1.5rem)",
           position: "relative",
           background: isLight ? "#f8fafc" : "#020712",
           borderTop: isLight
@@ -1973,15 +1965,8 @@ export default function WebDevelopmentPageClient({
             ))}
           </div>
 
-          {/* 6 Process Steps (Interactive Animated Grid with Watermark Number & Micro-Checklist) */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 340px), 1fr))",
-              gap: "1.75rem",
-              marginBottom: "3rem",
-            }}
-          >
+          {/* 6 Process Steps (Interactive Animated Carousel with Watermark Number & Micro-Checklist) */}
+          <ServiceCardsCarousel id="web-dev-process" desktopCards={3} autoScrollInterval={4500}>
             {PROCESS_STEPS_LIVE.map((step, sIdx) => {
               const StepIcon = step.icon;
               return (
@@ -2122,7 +2107,7 @@ export default function WebDevelopmentPageClient({
                 </div>
               );
             })}
-          </div>
+          </ServiceCardsCarousel>
 
           {/* Exact Concluding Copy from Live Site */}
           <div
@@ -2173,7 +2158,7 @@ export default function WebDevelopmentPageClient({
       <section
         id="quote-section"
         style={{
-          padding: "6rem 1.5rem",
+          padding: "clamp(2.5rem, 5vw, 4.25rem) clamp(1rem, 3vw, 1.5rem)",
           position: "relative",
           overflow: "hidden",
           background: isLight ? "#f8fafc" : "#020712",
@@ -2195,14 +2180,19 @@ export default function WebDevelopmentPageClient({
           <div style={{ textAlign: "center", marginBottom: "3rem" }}>
             {/* Exact Heading from Live Page */}
             <h2
-              className="heading-section"
+              className="heading-section section-connect-heading"
               style={{
-                marginBottom: "1rem",
+                fontFamily: "var(--font-acthirey), 'Acthirey', 'Playfair Display', 'Prime Serif', Georgia, serif",
+                fontSize: "clamp(1.35rem, 3.5vw, 2.35rem)",
+                lineHeight: 1.25,
+                maxWidth: "760px",
+                margin: "0 auto 1rem auto",
+                textAlign: "center",
+                textWrap: "balance",
               }}
             >
-              Connect with{" "}
-              <span className="opash-hero-gradient-text">Opash Software’s</span> Expert
-              Development Team Today.
+              <span>Connect with <span className="opash-hero-gradient-text">Opash Software’s</span></span>{" "}
+              <span style={{ display: "inline-block" }}>Expert Development Team Today.</span>
             </h2>
           </div>
 
@@ -2210,7 +2200,7 @@ export default function WebDevelopmentPageClient({
           <div
             style={{
               borderRadius: "24px",
-              padding: "clamp(2rem, 4vw, 3.25rem)",
+              padding: "clamp(1.5rem, 3.5vw, 3rem) clamp(0.85rem, 2.5vw, 2.5rem)",
               background: isLight ? "#ffffff" : "rgba(10, 20, 36, 0.8)",
               border: isLight
                 ? "1px solid #e2e8f0"
@@ -2439,13 +2429,15 @@ export default function WebDevelopmentPageClient({
                     >
                       Your Country *
                     </label>
-                    <select
+                    <CustomSelect
                       value={formData.country}
-                      onChange={(e) =>
-                        setFormData({ ...formData, country: e.target.value })
+                      onChange={(val) =>
+                        setFormData({ ...formData, country: val })
                       }
+                      options={COUNTRIES_LIST}
+                      placeholder="Select country"
+                      required
                       style={{
-                        width: "100%",
                         padding: "0.85rem 1rem",
                         borderRadius: "10px",
                         background: isLight
@@ -2455,24 +2447,8 @@ export default function WebDevelopmentPageClient({
                           ? "1px solid #cbd5e1"
                           : "1px solid rgba(255, 255, 255, 0.1)",
                         color: isLight ? "#0f172a" : "#ffffff",
-                        fontSize: "0.95rem",
-                        outline: "none",
-                        cursor: "pointer",
                       }}
-                    >
-                      {COUNTRIES_LIST.map((c) => (
-                        <option
-                          key={c}
-                          value={c}
-                          style={{
-                            background: isLight ? "#ffffff" : "#0a1424",
-                            color: isLight ? "#0f172a" : "#ffffff",
-                          }}
-                        >
-                          {c}
-                        </option>
-                      ))}
-                    </select>
+                    />
                   </div>
                 </div>
 

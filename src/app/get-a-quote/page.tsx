@@ -3,9 +3,20 @@ import { Metadata } from "next";
 import GetAQuotePageClient from "@/components/GetAQuotePageClient";
 
 export const metadata: Metadata = {
-  title: "Get a Project Estimate & Quote | Transparent Sprint Scoping | Opash Software",
+  title: "Quote | Opash Software",
   description:
-    "Calculate instant, transparent project budgets and delivery timelines for custom web apps, mobile apps, SaaS platforms, and AI systems. 100% IP ownership and 2-week risk-free trial.",
+    "We are a team of talented IT Experts. We Analyzed your requirements; Part them into phase and tasks; give you an hourly or fixed price estimation of each phase and task.",
+  alternates: {
+    canonical: "https://www.opashsoftware.com/get-a-quote/",
+  },
+  openGraph: {
+    title: "Quote | Opash Software",
+    description:
+      "We are a team of talented IT Experts. We Analyzed your requirements; Part them into phase and tasks; give you an hourly or fixed price estimation of each phase and task.",
+    url: "https://www.opashsoftware.com/get-a-quote/",
+    siteName: "Opash Software",
+    type: "website",
+  },
   keywords: [
     "software development quote",
     "project cost estimator",

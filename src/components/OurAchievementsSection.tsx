@@ -87,7 +87,7 @@ export default function OurAchievementsSection() {
       aria-label="Our Achievements"
       style={{
         position: 'relative',
-        padding: '6.5rem 0 7rem 0',
+        padding: 'clamp(2.5rem, 5vw, 4.25rem) 0',
         background: isLight
           ? 'linear-gradient(180deg, rgba(248, 250, 252, 0.7) 0%, #ffffff 30%, #ffffff 70%, rgba(248, 250, 252, 0.7) 100%)'
           : 'linear-gradient(180deg, rgba(10, 18, 34, 0.6) 0%, rgba(6, 14, 30, 0.95) 30%, rgba(8, 17, 36, 0.95) 70%, rgba(10, 18, 34, 0.6) 100%)',

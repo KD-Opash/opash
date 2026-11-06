@@ -509,6 +509,33 @@ export default function CompanyPageClient() {
     return () => observer.disconnect();
   }, []);
 
+  const timelineScrollRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll timeline track on mobile to center the active milestone
+  useEffect(() => {
+    const container = timelineScrollRef.current;
+    if (!container) return;
+    const activeNode = container.querySelector(`[data-milestone-idx="${activeMilestoneIndex}"]`) as HTMLElement;
+    if (activeNode) {
+      const containerWidth = container.clientWidth;
+      const nodeLeft = activeNode.offsetLeft;
+      const nodeWidth = activeNode.clientWidth;
+      const targetScroll = nodeLeft - (containerWidth / 2) + (nodeWidth / 2);
+      container.scrollTo({
+        left: Math.max(0, targetScroll),
+        behavior: "smooth"
+      });
+    }
+  }, [activeMilestoneIndex]);
+
+  const handlePrevMilestone = () => {
+    setActiveMilestoneIndex((prev) => (prev <= 0 ? PROGRESS_MILESTONES.length - 1 : prev - 1));
+  };
+
+  const handleNextMilestone = () => {
+    setActiveMilestoneIndex((prev) => (prev + 1) % PROGRESS_MILESTONES.length);
+  };
+
   // Continuous auto-advance timeline milestones (2021 -> 2022 -> 2023 -> 2024 -> 2025 -> 2021)
   useEffect(() => {
     if (isTimelinePaused) return;
@@ -549,30 +576,62 @@ export default function CompanyPageClient() {
         <div className="container-custom" style={{ position: "relative", zIndex: 2, maxWidth: "1320px", margin: "0 auto", width: "100%" }}>
           <div style={{ textAlign: "center", maxWidth: "1280px", margin: "0 auto" }}>
             <OuiWillHeadline
+              className="company-hero-headline"
               style={{
                 fontFamily: "var(--font-acthirey), 'Acthirey', 'Playfair Display', serif",
-                fontSize: "clamp(1.8rem, 3.8vw, 54px)",
+                fontSize: "clamp(1.75rem, 3.8vw, 54px)",
                 fontWeight: 400,
-                lineHeight: 1.15,
+                lineHeight: 1.2,
                 letterSpacing: "-0.015em",
                 marginBottom: "1.75rem",
                 display: "block",
               }}
             >
               <span className="headline-nowrap-desktop" style={{ display: "inline-block" }}>
-                <OuiWillWord index={1}>Not</OuiWillWord>{" "}
-                <OuiWillWord index={2}>Just</OuiWillWord>{" "}
-                <OuiWillWord index={3}>Another</OuiWillWord>{" "}
-                <OuiWillWord index={4}>IT</OuiWillWord>{" "}
-                <OuiWillWord index={5}>Company.</OuiWillWord>
-                <OuiWillDot />
+                <span className="company-title-phrase-1">
+                  <OuiWillWord index={1}>Not</OuiWillWord>{" "}
+                  <OuiWillWord index={2}>Just</OuiWillWord>{" "}
+                  <OuiWillWord index={3}>Another</OuiWillWord>{" "}
+                </span>
+                <span className="company-title-phrase-2" style={{ display: "inline-flex", alignItems: "baseline", whiteSpace: "nowrap" }}>
+                  <OuiWillWord index={4}>IT</OuiWillWord>{" "}
+                  <OuiWillWord index={5}>Company.</OuiWillWord>
+                  <OuiWillDot />
+                </span>
               </span>
-              <span style={{ display: "block", width: "100%", marginTop: "0.5rem" }}>
-                <OuiWillWord index={6} isGradient>
-                  We Are A Dedicated Team Of Tech Experts.
-                </OuiWillWord>
+              <span className="company-title-subline" style={{ display: "block", width: "100%", marginTop: "0.5rem" }}>
+                <span className="company-title-sub-1">
+                  <OuiWillWord index={6} isGradient>
+                    We Are A Dedicated
+                  </OuiWillWord>{" "}
+                </span>
+                <span className="company-title-sub-2">
+                  <OuiWillWord index={7} isGradient>
+                    Team Of Tech Experts.
+                  </OuiWillWord>
+                </span>
               </span>
             </OuiWillHeadline>
+
+            <style jsx>{`
+              @media (max-width: 640px) {
+                .company-title-phrase-1 {
+                  display: block !important;
+                }
+                .company-title-phrase-2 {
+                  display: inline-flex !important;
+                  align-items: baseline !important;
+                  white-space: nowrap !important;
+                }
+                .company-title-sub-1 {
+                  display: block !important;
+                  margin-bottom: 0.15rem !important;
+                }
+                .company-title-sub-2 {
+                  display: block !important;
+                }
+              }
+            `}</style>
 
             {/* Narrative Paragraph from Live Site to Fill Blank Spacing */}
             <div
@@ -771,7 +830,7 @@ export default function CompanyPageClient() {
         ref={statsRef}
         style={{
           position: "relative",
-          padding: "5rem 1.5rem",
+          padding: "clamp(2.5rem, 5vw, 4.25rem) clamp(1rem, 3vw, 1.5rem)",
           background: isLight
             ? "linear-gradient(180deg, rgba(248, 250, 252, 0.7) 0%, #ffffff 30%, #ffffff 70%, rgba(248, 250, 252, 0.7) 100%)"
             : "linear-gradient(180deg, rgba(10, 18, 34, 0.6) 0%, rgba(6, 14, 30, 0.95) 30%, rgba(8, 17, 36, 0.95) 70%, rgba(10, 18, 34, 0.6) 100%)",
@@ -874,7 +933,7 @@ export default function CompanyPageClient() {
       <section
         id="journey"
         style={{
-          padding: "6.5rem 1.5rem",
+          padding: "clamp(2.5rem, 5vw, 4.25rem) clamp(1rem, 3vw, 1.5rem)",
           position: "relative",
           background: isLight ? "#ffffff" : "rgba(8, 16, 28, 0.6)",
           borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
@@ -882,172 +941,196 @@ export default function CompanyPageClient() {
       >
         <div className="container-custom" style={{ maxWidth: "1280px", margin: "0 auto" }}>
           {/* ============================================================= */}
-          {/* 1. PROGRESS BAR TRACK & STEPPER NODES                        */}
+          {/* 1. PROGRESS BAR TRACK & STEPPER NODES (SCROLLABLE TIMELINE) */}
           {/* ============================================================= */}
           <div
+            ref={timelineScrollRef}
+            className="milestones-timeline-scroll-wrap"
+            onMouseEnter={() => setIsTimelinePaused(true)}
+            onMouseLeave={() => setIsTimelinePaused(false)}
+            onTouchStart={() => setIsTimelinePaused(true)}
+            onTouchEnd={() => {
+              setTimeout(() => setIsTimelinePaused(false), 2500);
+            }}
             style={{
               width: "100%",
               maxWidth: "1020px",
               margin: "0 auto 1.5rem auto",
-              padding: "1.5rem clamp(1rem, 4vw, 3.5rem) 5.5rem clamp(1rem, 4vw, 3.5rem)",
+              overflowX: "auto",
+              overflowY: "hidden",
+              WebkitOverflowScrolling: "touch",
+              scrollbarWidth: "none",
+              msOverflowStyle: "none",
               position: "relative",
               boxSizing: "border-box",
             }}
           >
-            {/* Base Track Rail */}
+            {/* Inner Fixed Width Track (Guarantees Plenty of Breathing Room on Mobile) */}
             <div
+              className="milestones-timeline-inner-track"
               style={{
+                minWidth: "620px",
                 position: "relative",
-                width: "100%",
-                height: "5px",
-                borderRadius: "9999px",
-                background: isLight ? "#e2e8f0" : "rgba(255, 255, 255, 0.12)",
+                padding: "1.5rem 50px 5.5rem 50px",
+                boxSizing: "border-box",
               }}
             >
-              {/* Active Filled Progress Line */}
+              {/* Base Track Rail */}
               <div
                 style={{
-                  position: "absolute",
-                  left: 0,
-                  top: 0,
-                  height: "100%",
-                  width: `${(activeMilestoneIndex / (PROGRESS_MILESTONES.length - 1)) * 100}%`,
-                  background: "linear-gradient(90deg, #00A88F 0%, #00BFA5 50%, #2DD4BF 100%)",
+                  position: "relative",
+                  width: "100%",
+                  height: "5px",
                   borderRadius: "9999px",
-                  boxShadow: "0 0 14px rgba(45, 212, 191, 0.6)",
-                  transition: "width 0.5s cubic-bezier(0.16, 1, 0.3, 1)",
+                  background: isLight ? "#e2e8f0" : "rgba(255, 255, 255, 0.12)",
                 }}
-              />
+              >
+                {/* Active Filled Progress Line */}
+                <div
+                  style={{
+                    position: "absolute",
+                    left: 0,
+                    top: 0,
+                    height: "100%",
+                    width: `${(activeMilestoneIndex / (PROGRESS_MILESTONES.length - 1)) * 100}%`,
+                    background: "linear-gradient(90deg, #00A88F 0%, #00BFA5 50%, #2DD4BF 100%)",
+                    borderRadius: "9999px",
+                    boxShadow: "0 0 14px rgba(45, 212, 191, 0.6)",
+                    transition: "width 0.5s cubic-bezier(0.16, 1, 0.3, 1)",
+                  }}
+                />
 
-              {/* Stepper Nodes */}
-              {PROGRESS_MILESTONES.map((milestone, idx) => {
-                const isCompleted = idx < activeMilestoneIndex;
-                const isActive = idx === activeMilestoneIndex;
-                const percentage = (idx / (PROGRESS_MILESTONES.length - 1)) * 100;
-                const IconNode = milestone.icon;
+                {/* Stepper Nodes */}
+                {PROGRESS_MILESTONES.map((milestone, idx) => {
+                  const isCompleted = idx < activeMilestoneIndex;
+                  const isActive = idx === activeMilestoneIndex;
+                  const percentage = (idx / (PROGRESS_MILESTONES.length - 1)) * 100;
+                  const IconNode = milestone.icon;
 
-                return (
-                  <div
-                    key={milestone.year}
-                    onClick={() => {
-                      setActiveMilestoneIndex(idx);
-                    }}
-                    style={{
-                      position: "absolute",
-                      left: `${percentage}%`,
-                      top: "50%",
-                      transform: "translateX(-50%)",
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      cursor: "pointer",
-                      zIndex: 5,
-                    }}
-                  >
-                    {/* Circle Node Container */}
+                  return (
                     <div
-                      style={{
-                        width: "48px",
-                        height: "48px",
-                        marginTop: "-24px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
+                      key={milestone.year}
+                      data-milestone-idx={idx}
+                      onClick={() => {
+                        setActiveMilestoneIndex(idx);
                       }}
-                    >
-                      <button
-                        type="button"
-                        style={{
-                          width: isActive ? "44px" : "32px",
-                          height: isActive ? "44px" : "32px",
-                          borderRadius: "50%",
-                          border: isActive
-                            ? `3px solid ${isLight ? "#ffffff" : "#0A1424"}`
-                            : isCompleted
-                              ? `2px solid ${isLight ? "#ffffff" : "#0A1424"}`
-                              : `2px solid ${isLight ? "#cbd5e1" : "rgba(255, 255, 255, 0.2)"}`,
-                          background: isActive
-                            ? "#00A88F"
-                            : isCompleted
-                              ? "#00A88F"
-                              : isLight
-                                ? "#ffffff"
-                                : "#152136",
-                          color: isActive || isCompleted ? "#ffffff" : isLight ? "#64748b" : "#94a3b8",
-                          boxShadow: isActive
-                            ? "0 0 24px rgba(45, 212, 191, 0.75), 0 4px 12px rgba(0,0,0,0.3)"
-                            : isCompleted
-                              ? "0 0 10px rgba(0, 168, 143, 0.35)"
-                              : "none",
-                          cursor: "pointer",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          transition: "all 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
-                        }}
-                        aria-label={`Jump to milestone ${milestone.year}`}
-                      >
-                        {isCompleted ? (
-                          <Check size={16} strokeWidth={2.8} />
-                        ) : isActive ? (
-                          <IconNode size={22} strokeWidth={2.2} />
-                        ) : (
-                          <IconNode size={14} strokeWidth={2} style={{ opacity: 0.65 }} />
-                        )}
-                      </button>
-                    </div>
-
-                    {/* Year & Badge Labels */}
-                    <div
                       style={{
-                        marginTop: "12px",
+                        position: "absolute",
+                        left: `${percentage}%`,
+                        top: "50%",
+                        transform: "translateX(-50%)",
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "center",
-                        whiteSpace: "nowrap",
-                        userSelect: "none",
+                        cursor: "pointer",
+                        zIndex: 5,
                       }}
                     >
-                      <span
+                      {/* Circle Node Container */}
+                      <div
                         style={{
-                          fontSize: isActive ? "1rem" : "0.86rem",
-                          fontWeight: isActive ? 800 : 600,
-                          color: isActive
-                            ? isLight ? "#008a75" : "#2dd4bf"
-                            : isCompleted
-                              ? isLight ? "#0f172a" : "#f1f5f9"
+                          width: "48px",
+                          height: "48px",
+                          marginTop: "-24px",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <button
+                          type="button"
+                          style={{
+                            width: isActive ? "44px" : "32px",
+                            height: isActive ? "44px" : "32px",
+                            borderRadius: "50%",
+                            border: isActive
+                              ? `3px solid ${isLight ? "#ffffff" : "#0A1424"}`
+                              : isCompleted
+                                ? `2px solid ${isLight ? "#ffffff" : "#0A1424"}`
+                                : `2px solid ${isLight ? "#cbd5e1" : "rgba(255, 255, 255, 0.2)"}`,
+                            background: isActive
+                              ? "#00A88F"
+                              : isCompleted
+                                ? "#00A88F"
+                                : isLight
+                                  ? "#ffffff"
+                                  : "#152136",
+                            color: isActive || isCompleted ? "#ffffff" : isLight ? "#64748b" : "#94a3b8",
+                            boxShadow: isActive
+                              ? "0 0 24px rgba(45, 212, 191, 0.75), 0 4px 12px rgba(0,0,0,0.3)"
+                              : isCompleted
+                                ? "0 0 10px rgba(0, 168, 143, 0.35)"
+                                : "none",
+                            cursor: "pointer",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            transition: "all 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
+                          }}
+                          aria-label={`Jump to milestone ${milestone.year}`}
+                        >
+                          {isCompleted ? (
+                            <Check size={16} strokeWidth={2.8} />
+                          ) : isActive ? (
+                            <IconNode size={22} strokeWidth={2.2} />
+                          ) : (
+                            <IconNode size={14} strokeWidth={2} style={{ opacity: 0.65 }} />
+                          )}
+                        </button>
+                      </div>
+
+                      {/* Year & Badge Labels */}
+                      <div
+                        style={{
+                          marginTop: "12px",
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          whiteSpace: "nowrap",
+                          userSelect: "none",
+                        }}
+                      >
+                        <span
+                          style={{
+                            fontSize: isActive ? "1rem" : "0.86rem",
+                            fontWeight: isActive ? 800 : 600,
+                            color: isActive
+                              ? isLight ? "#008a75" : "#2dd4bf"
+                              : isCompleted
+                                ? isLight ? "#0f172a" : "#f1f5f9"
+                                : isLight ? "#64748b" : "#94a3b8",
+                            transition: "all 0.25s ease",
+                            letterSpacing: "-0.01em",
+                          }}
+                        >
+                          {milestone.year}
+                        </span>
+                        <span
+                          style={{
+                            fontSize: "0.72rem",
+                            fontWeight: 700,
+                            padding: "3px 9px",
+                            borderRadius: "9999px",
+                            background: isActive
+                              ? isLight ? "rgba(0, 168, 143, 0.14)" : "rgba(45, 212, 191, 0.16)"
+                              : isLight ? "rgba(241, 245, 249, 0.9)" : "rgba(255, 255, 255, 0.05)",
+                            color: isActive
+                              ? isLight ? "#008a75" : "#2dd4bf"
                               : isLight ? "#64748b" : "#94a3b8",
-                          transition: "all 0.25s ease",
-                          letterSpacing: "-0.01em",
-                        }}
-                      >
-                        {milestone.year}
-                      </span>
-                      <span
-                        style={{
-                          fontSize: "0.72rem",
-                          fontWeight: 700,
-                          padding: "3px 9px",
-                          borderRadius: "9999px",
-                          background: isActive
-                            ? isLight ? "rgba(0, 168, 143, 0.14)" : "rgba(45, 212, 191, 0.16)"
-                            : isLight ? "rgba(241, 245, 249, 0.9)" : "rgba(255, 255, 255, 0.05)",
-                          color: isActive
-                            ? isLight ? "#008a75" : "#2dd4bf"
-                            : isLight ? "#64748b" : "#94a3b8",
-                          marginTop: "4px",
-                          border: isActive
-                            ? `1px solid ${isLight ? "rgba(0, 168, 143, 0.35)" : "rgba(45, 212, 191, 0.4)"}`
-                            : isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
-                          transition: "all 0.25s ease",
-                        }}
-                      >
-                        {milestone.badge}
-                      </span>
+                            marginTop: "4px",
+                            border: isActive
+                              ? `1px solid ${isLight ? "rgba(0, 168, 143, 0.35)" : "rgba(45, 212, 191, 0.4)"}`
+                              : isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.08)",
+                            transition: "all 0.25s ease",
+                          }}
+                        >
+                          {milestone.badge}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
           </div>
 
@@ -1161,6 +1244,50 @@ export default function CompanyPageClient() {
                     >
                       • Milestone {activeMilestoneIndex + 1} of {PROGRESS_MILESTONES.length}
                     </span>
+
+                    {/* Quick Stepper Chevrons */}
+                    <div style={{ display: "inline-flex", alignItems: "center", gap: "6px", marginLeft: "auto" }}>
+                      <button
+                        type="button"
+                        onClick={handlePrevMilestone}
+                        aria-label="Previous milestone"
+                        style={{
+                          width: "32px",
+                          height: "32px",
+                          borderRadius: "50%",
+                          border: isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.15)",
+                          background: isLight ? "#f8fafc" : "rgba(255, 255, 255, 0.06)",
+                          color: isLight ? "#0f172a" : "#f8fafc",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          cursor: "pointer",
+                          transition: "all 0.2s ease",
+                        }}
+                      >
+                        <ChevronLeft size={16} />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleNextMilestone}
+                        aria-label="Next milestone"
+                        style={{
+                          width: "32px",
+                          height: "32px",
+                          borderRadius: "50%",
+                          border: isLight ? "1px solid #cbd5e1" : "1px solid rgba(255, 255, 255, 0.15)",
+                          background: isLight ? "#f8fafc" : "rgba(255, 255, 255, 0.06)",
+                          color: isLight ? "#0f172a" : "#f8fafc",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          cursor: "pointer",
+                          transition: "all 0.2s ease",
+                        }}
+                      >
+                        <ChevronRight size={16} />
+                      </button>
+                    </div>
                   </div>
 
                   {/* Milestone Title */}
@@ -1374,7 +1501,7 @@ export default function CompanyPageClient() {
       <section
         id="why-choose-us"
         style={{
-          padding: "6.5rem 1.5rem",
+          padding: "clamp(2.5rem, 5vw, 4.25rem) clamp(1rem, 3vw, 1.5rem)",
           position: "relative",
           background: isLight ? "#f8fafc" : "#020712",
         }}
@@ -1458,7 +1585,7 @@ export default function CompanyPageClient() {
       <section
         id="leadership"
         style={{
-          padding: "6.5rem 1.5rem",
+          padding: "clamp(2.5rem, 5vw, 4.25rem) clamp(1rem, 3vw, 1.5rem)",
           position: "relative",
           background: isLight ? "#ffffff" : "rgba(8, 16, 28, 0.6)",
           borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
@@ -1884,7 +2011,7 @@ export default function CompanyPageClient() {
       <section
         id="services"
         style={{
-          padding: "6.5rem 1.5rem",
+          padding: "clamp(2.5rem, 5vw, 4.25rem) clamp(1rem, 3vw, 1.5rem)",
           position: "relative",
           background: isLight ? "#f8fafc" : "#020712",
         }}
@@ -1979,7 +2106,7 @@ export default function CompanyPageClient() {
         id="testimonials"
         className="section-alt"
         style={{
-          padding: "7.5rem 1.5rem 6.5rem 1.5rem",
+          padding: "clamp(2.5rem, 5vw, 4.25rem) clamp(1rem, 3vw, 1.5rem)",
           position: "relative",
           overflow: "hidden",
           scrollMarginTop: "100px",
@@ -2016,37 +2143,31 @@ export default function CompanyPageClient() {
       <section
         id="contact"
         style={{
-          padding: "6.5rem 1.5rem",
+          padding: "clamp(2.5rem, 5vw, 4.25rem) clamp(1rem, 3vw, 1.5rem)",
           position: "relative",
           background: isLight ? "#f8fafc" : "#020712",
         }}
       >
         <div className="container-custom" style={{ maxWidth: "1240px", margin: "0 auto" }}>
-          <div style={{ textAlign: "center", maxWidth: "980px", margin: "0 auto 4rem auto" }}>
+          <div style={{ textAlign: "center", maxWidth: "980px", margin: "0 auto 3rem auto" }}>
             <OuiWillHeadline
               as="h2"
               className="heading-section"
               style={{
                 fontFamily: "var(--font-acthirey), 'Acthirey', 'Playfair Display', serif",
-                fontSize: "clamp(2.1rem, 3.8vw, 44px)",
-                lineHeight: 1.22,
+                fontSize: "clamp(1.75rem, 3.2vw, 42px)",
+                lineHeight: 1.25,
                 color: isLight ? "#102033" : "#ffffff",
-                marginBottom: "1.25rem",
+                marginBottom: "1rem",
                 textAlign: "center",
+                padding: "0 0.5rem",
               }}
             >
-              <span style={{ display: "block" }}>
-                <OuiWillWord index={0}>Connect</OuiWillWord>{" "}
-                <OuiWillWord index={1}>with</OuiWillWord>{" "}
-                <OuiWillWord index={2}>Opash</OuiWillWord>{" "}
-                <OuiWillWord index={3}>Software’s</OuiWillWord>
-              </span>
-              <span
-                style={{
-                  display: "block",
-                  marginTop: "0.35rem",
-                }}
-              >
+              <OuiWillWord index={0}>Connect</OuiWillWord>{" "}
+              <OuiWillWord index={1}>with</OuiWillWord>{" "}
+              <OuiWillWord index={2}>Opash</OuiWillWord>{" "}
+              <OuiWillWord index={3}>Software’s</OuiWillWord>{" "}
+              <span style={{ display: "inline-block" }}>
                 <OuiWillWord index={4} isGradient>
                   Expert Development Team
                 </OuiWillWord>{" "}
@@ -2058,10 +2179,11 @@ export default function CompanyPageClient() {
             <p
               style={{
                 color: isLight ? "#64748b" : "#94a3b8",
-                fontSize: "clamp(1rem, 1.4vw, 1.12rem)",
-                lineHeight: 1.65,
+                fontSize: "clamp(0.95rem, 1.4vw, 1.12rem)",
+                lineHeight: 1.6,
                 maxWidth: "680px",
                 margin: "0 auto",
+                padding: "0 0.5rem",
               }}
             >
               From trends to transformations — we deliver what’s next in tech, directly to you.
@@ -2072,11 +2194,7 @@ export default function CompanyPageClient() {
             style={{
               maxWidth: "960px",
               margin: "0 auto",
-              background: isLight ? "#ffffff" : "rgba(10, 20, 36, 0.8)",
-              borderRadius: "28px",
-              padding: "3rem 2.5rem",
-              border: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.1)",
-              boxShadow: isLight ? "0 10px 40px rgba(0, 0, 0, 0.04)" : "0 20px 60px rgba(0, 0, 0, 0.45)",
+              width: "100%",
             }}
           >
             <ContactForm />

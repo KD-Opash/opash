@@ -18,6 +18,18 @@ import {
 } from "lucide-react";
 import { companyData } from "@/data/company";
 import { useTheme } from "./ThemeProvider";
+import CustomSelect, { SelectOption } from "./CustomSelect";
+
+const SERVICE_OPTIONS: SelectOption[] = [
+  { value: "Custom Software Development", label: "Custom Software Development" },
+  { value: "Web Development", label: "Web App Development (React / Next.js)" },
+  { value: "Mobile App Development", label: "Mobile App (iOS & Android)" },
+  { value: "AI & ML Solutions", label: "AI & ML Solutions / RAG" },
+  { value: "SaaS Development", label: "Multi-Tenant SaaS Engineering" },
+  { value: "API Integration", label: "API Integration & Microservices" },
+  { value: "QA & Testing", label: "QA & Automated Testing" },
+  { value: "Hire Dedicated Developers", label: "Hire Dedicated Developers" },
+];
 
 export default function ContactForm() {
   const { theme } = useTheme();
@@ -164,7 +176,7 @@ export default function ContactForm() {
         }}
       />
 
-      <div style={{ padding: "3rem 3rem" }}>
+      <div style={{ padding: "clamp(1.5rem, 4vw, 3rem) clamp(1rem, 3.5vw, 3rem)" }}>
         
         {/* Header & Direct Channels */}
         <div
@@ -173,19 +185,20 @@ export default function ContactForm() {
             alignItems: "flex-start",
             justifyContent: "space-between",
             flexWrap: "wrap",
-            gap: "1.5rem",
-            marginBottom: "2.5rem",
-            paddingBottom: "1.75rem",
+            gap: "1.25rem",
+            marginBottom: "2rem",
+            paddingBottom: "1.5rem",
             borderBottom: `1px solid ${isLight ? "#e2e8f0" : "rgba(255, 255, 255, 0.08)"}`,
           }}
         >
-          <div>
+          <div style={{ maxWidth: "580px" }}>
             <h3
               style={{
-                fontSize: "clamp(1.7rem, 2.5vw, 2.2rem)",
+                fontSize: "clamp(1.4rem, 2.5vw, 2.2rem)",
                 fontWeight: 850,
                 letterSpacing: "-0.02em",
                 margin: "0 0 0.5rem 0",
+                lineHeight: 1.25,
               }}
             >
               Get In Touch With Our{" "}
@@ -194,7 +207,7 @@ export default function ContactForm() {
               </span>
             </h3>
 
-            <p style={{ color: isLight ? "#64748b" : "#94a3b8", fontSize: "0.95rem", margin: 0 }}>
+            <p style={{ color: isLight ? "#64748b" : "#94a3b8", fontSize: "clamp(0.88rem, 1.2vw, 0.95rem)", lineHeight: 1.5, margin: 0 }}>
               Connect directly with our senior engineering team to scope feasibility, tech stack, and sprint cadence.
             </p>
           </div>
@@ -204,8 +217,9 @@ export default function ContactForm() {
             style={{
               display: "flex",
               alignItems: "center",
-              gap: "1.25rem",
-              padding: "0.75rem 1.25rem",
+              flexWrap: "wrap",
+              gap: "0.75rem 1.25rem",
+              padding: "0.65rem 1.15rem",
               borderRadius: "14px",
               background: isLight ? "#f8fafc" : "rgba(255, 255, 255, 0.04)",
               border: `1px solid ${isLight ? "#e2e8f0" : "rgba(255, 255, 255, 0.08)"}`,
@@ -228,9 +242,9 @@ export default function ContactForm() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "1.5rem",
-              marginBottom: "1.5rem",
+              gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+              gap: "1.25rem",
+              marginBottom: "1.25rem",
             }}
             className="form-two-col"
           >
@@ -322,9 +336,9 @@ export default function ContactForm() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "1.5rem",
-              marginBottom: "1.5rem",
+              gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+              gap: "1.25rem",
+              marginBottom: "1.25rem",
             }}
             className="form-two-col"
           >
@@ -380,40 +394,18 @@ export default function ContactForm() {
               >
                 Primary Service Needed
               </label>
-              <div
+              <CustomSelect
+                value={formData.service}
+                onChange={(val) => setFormData({ ...formData, service: val })}
+                options={SERVICE_OPTIONS}
+                icon={<Layers size={16} color={isLight ? "#94a3b8" : "#64748b"} />}
                 style={{
-                  display: "flex",
-                  alignItems: "center",
                   padding: "0.85rem 1.15rem",
                   borderRadius: "14px",
                   background: isLight ? "#ffffff" : "rgba(0, 0, 0, 0.35)",
                   border: `1px solid ${isLight ? "#cbd5e1" : "rgba(255, 255, 255, 0.1)"}`,
                 }}
-              >
-                <Layers size={16} color={isLight ? "#94a3b8" : "#64748b"} style={{ marginRight: "0.65rem", flexShrink: 0 }} />
-                <select
-                  value={formData.service}
-                  onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                  style={{
-                    width: "100%",
-                    background: "transparent",
-                    border: "none",
-                    outline: "none",
-                    fontSize: "0.92rem",
-                    color: isLight ? "#0f172a" : "#ffffff",
-                    cursor: "pointer",
-                  }}
-                >
-                  <option value="Custom Software Development" style={{ background: isLight ? "#fff" : "#0f172a", color: isLight ? "#000" : "#fff" }}>Custom Software Development</option>
-                  <option value="Web Development" style={{ background: isLight ? "#fff" : "#0f172a", color: isLight ? "#000" : "#fff" }}>Web App Development (React / Next.js)</option>
-                  <option value="Mobile App Development" style={{ background: isLight ? "#fff" : "#0f172a", color: isLight ? "#000" : "#fff" }}>Mobile App (iOS & Android)</option>
-                  <option value="AI & ML Solutions" style={{ background: isLight ? "#fff" : "#0f172a", color: isLight ? "#000" : "#fff" }}>AI & ML Solutions / RAG</option>
-                  <option value="SaaS Development" style={{ background: isLight ? "#fff" : "#0f172a", color: isLight ? "#000" : "#fff" }}>Multi-Tenant SaaS Engineering</option>
-                  <option value="API Integration" style={{ background: isLight ? "#fff" : "#0f172a", color: isLight ? "#000" : "#fff" }}>API Integration & Microservices</option>
-                  <option value="QA & Testing" style={{ background: isLight ? "#fff" : "#0f172a", color: isLight ? "#000" : "#fff" }}>QA & Automated Testing</option>
-                  <option value="Hire Dedicated Developers" style={{ background: isLight ? "#fff" : "#0f172a", color: isLight ? "#000" : "#fff" }}>Hire Dedicated Developers</option>
-                </select>
-              </div>
+              />
             </div>
           </div>
 
@@ -421,9 +413,9 @@ export default function ContactForm() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "1.5rem",
-              marginBottom: "1.75rem",
+              gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+              gap: "1.25rem",
+              marginBottom: "1.5rem",
             }}
             className="form-two-col"
           >

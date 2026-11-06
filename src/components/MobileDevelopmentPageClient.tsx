@@ -55,6 +55,8 @@ import OuiWillHeadline, { OuiWillWord, OuiWillDot } from "@/components/OuiWillHe
 import { TechStackShowcase } from "@/components/TechStackShowcase";
 import { AnimatedIndustriesCarousel } from "@/components/AnimatedIndustriesCarousel";
 import AnimatedRollingMetric from "@/components/AnimatedRollingMetric";
+import ServiceCardsCarousel from "@/components/ServiceCardsCarousel";
+import CustomSelect from "@/components/CustomSelect";
 
 interface MobileDevelopmentPageClientProps {
   service: ServiceDetail;
@@ -303,7 +305,7 @@ export default function MobileDevelopmentPageClient({
       <section
         style={{
           position: "relative",
-          padding: "7.5rem 1.5rem 3.5rem 1.5rem",
+          padding: "clamp(5rem, 8vw, 7.5rem) clamp(1rem, 3vw, 1.5rem) clamp(2.5rem, 5vw, 4.25rem) clamp(1rem, 3vw, 1.5rem)",
           overflow: "hidden",
           minHeight: "100vh",
           display: "flex",
@@ -453,19 +455,23 @@ export default function MobileDevelopmentPageClient({
                 <OuiWillHeadline
                   style={{
                     fontFamily: "var(--font-acthirey), 'Acthirey', 'Playfair Display', serif",
-                    fontSize: "clamp(1.9rem, 5vw, 68px)",
+                    fontSize: "clamp(2rem, 5vw, 60px)",
                     fontWeight: 400,
-                    lineHeight: 1.12,
+                    lineHeight: 1.18,
                     letterSpacing: "-0.015em",
                     margin: 0,
                     textAlign: "left",
                     display: "block",
                   }}
                 >
-                  <OuiWillWord index={1}>Mobile</OuiWillWord>
-                  <OuiWillWord index={2}>Apps</OuiWillWord>
-                  <OuiWillDot />
-                  <span style={{ display: "block", width: "100%", marginTop: "0.2rem" }}>
+                  <span style={{ display: "inline-flex", alignItems: "baseline", flexWrap: "wrap" }}>
+                    <OuiWillWord index={1}>Mobile</OuiWillWord>
+                    <span style={{ display: "inline-flex", alignItems: "baseline", whiteSpace: "nowrap" }}>
+                      <OuiWillWord index={2}>Apps</OuiWillWord>
+                      <OuiWillDot />
+                    </span>
+                  </span>
+                  <span style={{ display: "block", width: "100%", marginTop: "0.25rem" }}>
                     <OuiWillWord index={3} isGradient>
                       Development
                     </OuiWillWord>
@@ -982,7 +988,7 @@ export default function MobileDevelopmentPageClient({
       <section
         style={{
           position: "relative",
-          padding: "3.5rem 1.5rem 3.75rem 1.5rem",
+          padding: "clamp(2.5rem, 5vw, 4.25rem) clamp(1rem, 3vw, 1.5rem)",
           background: isLight ? "#ffffff" : "#020712",
           borderTop: isLight ? "1px solid #e2e8f0" : "1px solid rgba(255, 255, 255, 0.06)",
         }}
@@ -1165,7 +1171,7 @@ export default function MobileDevelopmentPageClient({
       <section
         id="benefits"
         style={{
-          padding: "5.5rem 1.5rem",
+          padding: "clamp(2.5rem, 5vw, 4.25rem) clamp(1rem, 3vw, 1.5rem)",
           position: "relative",
           background: isLight ? "#ffffff" : "rgba(4, 10, 22, 0.9)",
         }}
@@ -1310,14 +1316,8 @@ export default function MobileDevelopmentPageClient({
             }
           `}</style>
 
-          {/* 4 Benefit Feature Highlights */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-              gap: "1.5rem",
-            }}
-          >
+          {/* 4 Benefit Feature Highlights (Carousel Slider) */}
+          <ServiceCardsCarousel id="mobile-benefits" desktopCards={3} autoScrollInterval={3800}>
             {[
               {
                 icon: Smartphone,
@@ -1497,7 +1497,7 @@ export default function MobileDevelopmentPageClient({
                 </div>
               );
             })}
-          </div>
+          </ServiceCardsCarousel>
         </div>
       </section>
 
@@ -1507,7 +1507,7 @@ export default function MobileDevelopmentPageClient({
       <section
         id="what-includes"
         style={{
-          padding: "5.5rem 1.5rem",
+          padding: "clamp(2.5rem, 5vw, 4.25rem) clamp(1rem, 3vw, 1.5rem)",
           position: "relative",
           background: isLight ? "#f8fafc" : "#020712",
           borderTop: isLight
@@ -1659,14 +1659,8 @@ export default function MobileDevelopmentPageClient({
             </p>
           </div>
 
-          {/* 6 Capabilities Cards in Interactive Grid */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 340px), 1fr))",
-              gap: "1.75rem",
-            }}
-          >
+          {/* 6 Capabilities Cards in Interactive Carousel */}
+          <ServiceCardsCarousel id="mobile-includes" desktopCards={3} autoScrollInterval={4200}>
             {INCLUDES_DATA.map((item, idx) => {
               const IconComp = item.icon;
               return (
@@ -1771,7 +1765,7 @@ export default function MobileDevelopmentPageClient({
                 </div>
               );
             })}
-          </div>
+          </ServiceCardsCarousel>
         </div>
       </section>
 
@@ -1786,7 +1780,7 @@ export default function MobileDevelopmentPageClient({
       <section
         id="process"
         style={{
-          padding: "5.5rem 1.5rem",
+          padding: "clamp(2.5rem, 5vw, 4.25rem) clamp(1rem, 3vw, 1.5rem)",
           position: "relative",
           background: isLight ? "#f8fafc" : "#020712",
           borderTop: isLight
@@ -1980,15 +1974,8 @@ export default function MobileDevelopmentPageClient({
             ))}
           </div>
 
-          {/* 6 Process Cards in High-Performance GPU-Driven Grid */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 340px), 1fr))",
-              gap: "1.75rem",
-              marginBottom: "3rem",
-            }}
-          >
+          {/* 6 Process Cards in High-Performance Carousel Slider */}
+          <ServiceCardsCarousel id="mobile-process" desktopCards={3} autoScrollInterval={4500}>
             {PROCESS_STEPS_LIVE.map((step, idx) => {
               const StepIcon = step.icon;
               return (
@@ -2129,7 +2116,7 @@ export default function MobileDevelopmentPageClient({
                 </div>
               );
             })}
-          </div>
+          </ServiceCardsCarousel>
         </div>
       </section>
 
@@ -2138,7 +2125,7 @@ export default function MobileDevelopmentPageClient({
       {/* ===================================================================== */}
       <section
         style={{
-          padding: "5rem 1.5rem",
+          padding: "clamp(2.5rem, 5vw, 4.25rem) clamp(1rem, 3vw, 1.5rem)",
           position: "relative",
           background: isLight ? "#ffffff" : "#040b17",
           borderTop: isLight
@@ -2237,7 +2224,7 @@ export default function MobileDevelopmentPageClient({
       <section
         id="faqs"
         style={{
-          padding: "5.5rem 1.5rem",
+          padding: "clamp(2.5rem, 5vw, 4.25rem) clamp(1rem, 3vw, 1.5rem)",
           position: "relative",
           background: isLight ? "#ffffff" : "#020712",
           borderTop: isLight
@@ -2344,7 +2331,7 @@ export default function MobileDevelopmentPageClient({
       <section
         id="quote-section"
         style={{
-          padding: "6rem 1.5rem",
+          padding: "clamp(2.5rem, 5vw, 4.25rem) clamp(1rem, 3vw, 1.5rem)",
           position: "relative",
           background: isLight ? "#ffffff" : "#040b17",
           borderTop: isLight
@@ -2358,7 +2345,7 @@ export default function MobileDevelopmentPageClient({
         >
           <div
             style={{
-              padding: "4rem 2.5rem",
+              padding: "clamp(1.5rem, 3.5vw, 3rem) clamp(0.85rem, 2.5vw, 2.5rem)",
               borderRadius: "28px",
               background: isLight
                 ? "linear-gradient(145deg, #f8fafc 0%, #ffffff 100%)"
@@ -2568,14 +2555,16 @@ export default function MobileDevelopmentPageClient({
                     >
                       Country
                     </label>
-                    <select
+                    <CustomSelect
                       value={formData.country}
-                      onChange={(e) =>
-                        setFormData({ ...formData, country: e.target.value })
+                      onChange={(val) =>
+                        setFormData({ ...formData, country: val })
                       }
+                      options={COUNTRIES_LIST}
+                      placeholder="Select country"
+                      required
                       style={{
-                        width: "100%",
-                        padding: "0.9rem 1.1rem",
+                        padding: "0.85rem 1.1rem",
                         borderRadius: "10px",
                         background: isLight
                           ? "#ffffff"
@@ -2584,22 +2573,8 @@ export default function MobileDevelopmentPageClient({
                           ? "1px solid #cbd5e1"
                           : "1px solid rgba(255, 255, 255, 0.15)",
                         color: "inherit",
-                        fontSize: "0.95rem",
-                        outline: "none",
                       }}
-                    >
-                      {COUNTRIES_LIST.map((c) => (
-                        <option
-                          key={c}
-                          value={c}
-                          style={{
-                            background: isLight ? "#ffffff" : "#0a1424",
-                          }}
-                        >
-                          {c}
-                        </option>
-                      ))}
-                    </select>
+                    />
                   </div>
                 </div>
 

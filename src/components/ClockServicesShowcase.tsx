@@ -164,7 +164,7 @@ export function ClockServicesShowcase() {
       className="coverflow-services-section relative w-full"
       style={{
         position: "relative",
-        padding: "5rem 0 6.5rem 0",
+        padding: "clamp(2.5rem, 5vw, 4.25rem) 0",
         overflow: "hidden",
       }}
       aria-label="Opash Software Services and Capabilities"

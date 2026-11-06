@@ -28,6 +28,7 @@ import {
 import { companyData } from '@/data/company';
 import WhyChooseUsCards from '@/components/WhyChooseUsCards';
 import RecognisedBy from '@/components/RecognisedBy';
+import ServiceCardsCarousel from '@/components/ServiceCardsCarousel';
 
 interface ServiceCard {
   id: string;
@@ -187,7 +188,7 @@ export default function ServicesPageClient() {
       <section
         style={{
           position: 'relative',
-          padding: '7.5rem 1.5rem 4rem 1.5rem',
+          padding: 'clamp(5rem, 8vw, 7.5rem) clamp(1rem, 3vw, 1.5rem) clamp(2rem, 4vw, 3rem) clamp(1rem, 3vw, 1.5rem)',
           overflow: 'hidden',
         }}
       >
@@ -278,19 +279,23 @@ export default function ServicesPageClient() {
             <OuiWillHeadline
               style={{
                 fontFamily: "var(--font-acthirey), 'Acthirey', 'Playfair Display', serif",
-                fontSize: "clamp(2.1rem, 6.5vw, 80px)",
+                fontSize: "clamp(1.85rem, 3.6vw, 50px)",
                 fontWeight: 400,
-                lineHeight: 1.1,
+                lineHeight: 1.18,
                 letterSpacing: "-0.015em",
                 marginBottom: '1.5rem',
                 display: 'block',
               }}
             >
-              <OuiWillWord index={1}>Engineered</OuiWillWord>
-              <OuiWillWord index={2}>For</OuiWillWord>
-              <OuiWillWord index={3}>Unlimited</OuiWillWord>
-              <OuiWillWord index={4}>Scale,</OuiWillWord>
-              <OuiWillDot />
+              <span style={{ display: "inline-flex", alignItems: "baseline", flexWrap: "wrap", justifyContent: "center" }}>
+                <OuiWillWord index={1}>Engineered</OuiWillWord>
+                <OuiWillWord index={2}>For</OuiWillWord>
+                <OuiWillWord index={3}>Unlimited</OuiWillWord>
+                <span style={{ display: "inline-flex", alignItems: "baseline", whiteSpace: "nowrap" }}>
+                  <OuiWillWord index={4}>Scale,</OuiWillWord>
+                  <OuiWillDot />
+                </span>
+              </span>
               <span style={{ display: 'block', width: '100%', marginTop: '0.35rem' }}>
                 <OuiWillWord index={5} isGradient>
                   Tailored To Your Business DNA
@@ -340,46 +345,48 @@ export default function ServicesPageClient() {
             >
               <Link
                 href="/get-a-quote"
-                className="btn-shimmer"
+                className="hero-brand-primary-btn opash-roll-btn"
                 style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.6rem',
                   padding: '0.95rem 2rem',
                   borderRadius: '12px',
                   fontWeight: 700,
                   fontSize: '1rem',
-                  color: '#ffffff',
-                  background: `linear-gradient(135deg, ${mintColor} 0%, #0284c7 100%)`,
-                  boxShadow: isLight
-                    ? '0 10px 25px -5px rgba(0, 168, 143, 0.4)'
-                    : '0 10px 25px -5px rgba(94, 192, 152, 0.3)',
                   textDecoration: 'none',
                 }}
               >
-                <span>Get Free Consultation</span>
-                <ArrowRight size={18} />
+                <span className="opash-roll-track">
+                  <span className="opash-roll-item">
+                    <span>Get Free Consultation</span>
+                    <ArrowRight size={18} className="hero-btn-arrow" />
+                  </span>
+                  <span className="opash-roll-item" aria-hidden="true">
+                    <span>Get Free Consultation</span>
+                    <ArrowRight size={18} className="hero-btn-arrow" />
+                  </span>
+                </span>
               </Link>
 
               <a
                 href="#services-grid"
+                className="hero-brand-secondary-btn opash-roll-btn"
                 style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.6rem',
                   padding: '0.95rem 1.8rem',
                   borderRadius: '12px',
                   fontWeight: 600,
                   fontSize: '1rem',
-                  color: isLight ? '#0f172a' : '#ffffff',
-                  background: isLight ? 'rgba(255, 255, 255, 0.9)' : 'rgba(255, 255, 255, 0.05)',
-                  border: isLight ? '1px solid #cbd5e1' : '1px solid rgba(255, 255, 255, 0.12)',
-                  backdropFilter: 'blur(10px)',
                   textDecoration: 'none',
                 }}
               >
-                <span>Explore Technologies</span>
-                <Terminal size={17} />
+                <span className="opash-roll-track">
+                  <span className="opash-roll-item">
+                    <span>Explore Technologies</span>
+                    <Terminal size={17} className="hero-btn-arrow" />
+                  </span>
+                  <span className="opash-roll-item" aria-hidden="true">
+                    <span>Explore Technologies</span>
+                    <Terminal size={17} className="hero-btn-arrow" />
+                  </span>
+                </span>
               </a>
             </div>
           </div>
@@ -437,16 +444,10 @@ export default function ServicesPageClient() {
       {/* ===================================================================== */}
       {/* 2. SERVICES SHOWCASE GRID: 8 BESPOKE CAPABILITY CARDS                 */}
       {/* ===================================================================== */}
-      <section style={{ position: 'relative', padding: '1rem 1.5rem 6rem 1.5rem', zIndex: 10 }}>
+      <section style={{ position: 'relative', padding: '1rem clamp(1rem, 3vw, 1.5rem) clamp(2.5rem, 5vw, 4.25rem) clamp(1rem, 3vw, 1.5rem)', zIndex: 10 }}>
         <div className="container-custom" style={{ maxWidth: '1280px', margin: '0 auto' }}>
           
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 340px), 1fr))',
-              gap: '1.75rem',
-            }}
-          >
+          <ServiceCardsCarousel id="services-main-cards" desktopCards={3} autoScrollInterval={4000}>
             {displayedServices.map((service) => {
               const Icon = service.icon;
 
@@ -679,7 +680,7 @@ export default function ServicesPageClient() {
                 </div>
               );
             })}
-          </div>
+          </ServiceCardsCarousel>
 
         </div>
       </section>
@@ -696,7 +697,7 @@ export default function ServicesPageClient() {
       <section
         style={{
           position: 'relative',
-          padding: '5.5rem 1.5rem',
+          padding: 'clamp(2.5rem, 5vw, 4.25rem) clamp(1rem, 3vw, 1.5rem)',
           background: isLight ? '#f1f5f9' : 'rgba(4, 15, 36, 0.45)',
           borderTop: isLight ? '1px solid rgba(15, 23, 42, 0.08)' : '1px solid rgba(255, 255, 255, 0.06)',
           borderBottom: isLight ? '1px solid rgba(15, 23, 42, 0.08)' : '1px solid rgba(255, 255, 255, 0.06)',
@@ -713,13 +714,7 @@ export default function ServicesPageClient() {
             </p>
           </div>
 
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-              gap: '1.5rem',
-            }}
-          >
+          <ServiceCardsCarousel id="services-difference-pillars" desktopCards={3} autoScrollInterval={4500}>
             {[
               {
                 icon: Award,
@@ -785,7 +780,7 @@ export default function ServicesPageClient() {
                 </p>
               </div>
             ))}
-          </div>
+          </ServiceCardsCarousel>
         </div>
       </section>
 
@@ -795,7 +790,7 @@ export default function ServicesPageClient() {
       <section
         style={{
           position: 'relative',
-          padding: '6.5rem 1.5rem 7.5rem 1.5rem',
+          padding: 'clamp(2.5rem, 5vw, 4.25rem) clamp(1rem, 3vw, 1.5rem)',
           overflow: 'hidden',
         }}
       >
@@ -946,23 +941,25 @@ export default function ServicesPageClient() {
 
                   <Link
                     href="/contact"
+                    className="hero-brand-secondary-btn opash-roll-btn"
                     style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '0.6rem',
                       padding: '1rem 2.15rem',
                       borderRadius: '14px',
-                      background: isLight ? '#ffffff' : 'rgba(255, 255, 255, 0.05)',
-                      border: `1px solid ${isLight ? '#cbd5e1' : 'rgba(255, 255, 255, 0.14)'}`,
-                      color: isLight ? '#0f172a' : '#f1f5f9',
                       fontSize: '1rem',
                       fontWeight: 700,
                       textDecoration: 'none',
-                      transition: 'all 0.25s ease',
                     }}
                   >
-                    <Calendar size={18} />
-                    <span>Talk With Lead Architect</span>
+                    <span className="opash-roll-track">
+                      <span className="opash-roll-item">
+                        <Calendar size={18} className="hero-wa-icon" />
+                        <span>Talk With Lead Architect</span>
+                      </span>
+                      <span className="opash-roll-item" aria-hidden="true">
+                        <Calendar size={18} className="hero-wa-icon" />
+                        <span>Talk With Lead Architect</span>
+                      </span>
+                    </span>
                   </Link>
                 </div>
               </div>

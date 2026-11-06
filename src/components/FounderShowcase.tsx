@@ -35,7 +35,7 @@ export function FounderShowcase() {
       aria-label="Meet Our Founder & Chief Architect"
       style={{
         position: "relative",
-        padding: "5rem 0",
+        padding: "clamp(2.5rem, 5vw, 4.25rem) 0",
         overflow: "hidden",
         backgroundColor: isLight ? "#f8fafc" : "#030814",
         color: isLight ? "#0f172a" : "#f8fafc",

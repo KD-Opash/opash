@@ -2,7 +2,6 @@
 
 import React, { useRef, useEffect, useState, useCallback } from "react";
 import { useTheme } from "./ThemeProvider";
-import { TechimplyBadge } from "./TechimplyBadge";
 
 interface AuthorityItem {
   id: string;
@@ -134,222 +133,172 @@ export function RecognisedBy() {
     switch (id) {
       case "goodfirms":
         return (
-          <div style={{ display: "inline-flex", alignItems: "center", gap: "0.85rem", userSelect: "none" }}>
-            <div
+          <div style={{ display: "inline-flex", alignItems: "center", flexShrink: 0, userSelect: "none" }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/authorities/goodfirms.png"
+              alt="GoodFirms"
+              height={36}
+              draggable={false}
               style={{
-                width: 44,
-                height: 44,
-                borderRadius: "10px",
-                background: "#1E60E1",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexShrink: 0,
-                boxShadow: "0 2px 10px rgba(30, 96, 225, 0.4)",
+                height: "36px",
+                width: "auto",
+                objectFit: "contain",
+                display: "block",
+                pointerEvents: "none",
+                filter: isLight ? "none" : "brightness(1.15) contrast(1.05)",
               }}
-            >
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-                <path d="M4 4h16v4H9v3h10v4H9v5H4V4z" fill="#FFFFFF" />
-                <path d="M14 15h5v5h-5v-5z" fill="#FFFFFF" />
-              </svg>
-            </div>
-            <span
-              style={{
-                fontSize: "1.75rem",
-                fontWeight: 800,
-                color: isLight ? "#1E60E1" : "#3B82F6",
-                letterSpacing: "-0.02em",
-                whiteSpace: "nowrap",
-                fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-              }}
-            >
-              Good<span style={{ fontWeight: 500 }}>Firms</span>
-            </span>
+            />
           </div>
         );
 
       case "topdevelopers":
         return (
-          <div style={{ display: "inline-flex", alignItems: "center", gap: "0.85rem", userSelect: "none" }}>
-            <div
+          <div style={{ display: "inline-flex", alignItems: "center", flexShrink: 0, userSelect: "none" }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={isLight ? "/images/authorities/topdevelopers.png" : "/images/authorities/topdevelopers_dark.png"}
+              alt="TopDevelopers"
+              height={36}
+              draggable={false}
               style={{
-                width: 44,
-                height: 44,
-                borderRadius: "10px",
-                background: "#0D2E5C",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "#FFFFFF",
-                fontWeight: 900,
-                fontSize: "1.2rem",
-                flexShrink: 0,
-                fontFamily: "system-ui, -apple-system, sans-serif",
-                boxShadow: "0 2px 10px rgba(13, 46, 92, 0.4)",
+                height: "36px",
+                width: "auto",
+                objectFit: "contain",
+                display: "block",
+                pointerEvents: "none",
               }}
-            >
-              TD
-            </div>
-            <span
-              style={{
-                fontSize: "1.65rem",
-                fontWeight: 800,
-                color: isLight ? "#0D2E5C" : "#FFFFFF",
-                letterSpacing: "-0.015em",
-                whiteSpace: "nowrap",
-                fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-              }}
-            >
-              Top<span style={{ fontWeight: 500 }}>Developers</span>
-            </span>
+            />
           </div>
         );
 
       case "techreviewer":
         return (
-          <div style={{ display: "inline-flex", alignItems: "center", gap: "0.55rem", userSelect: "none" }}>
-            <span
+          <div style={{ display: "inline-flex", alignItems: "center", flexShrink: 0, userSelect: "none" }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={isLight ? "/images/authorities/techreviewer.png" : "/images/authorities/techreviewer_dark.png"}
+              alt="techreviewer"
+              height={30}
+              draggable={false}
               style={{
-                color: "#EF4444",
-                fontWeight: 900,
-                fontSize: "2.1rem",
-                lineHeight: 1,
-                fontFamily: "Georgia, serif",
+                height: "30px",
+                width: "auto",
+                objectFit: "contain",
+                display: "block",
+                pointerEvents: "none",
               }}
-            >
-              ’T
-            </span>
-            <span
-              style={{
-                fontSize: "1.65rem",
-                fontWeight: 700,
-                color: isLight ? "#111827" : "#FFFFFF",
-                letterSpacing: "-0.02em",
-                whiteSpace: "nowrap",
-                fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-              }}
-            >
-              techreviewer
-            </span>
+            />
           </div>
         );
 
       case "clutch":
         return (
-          <div style={{ display: "inline-flex", alignItems: "center", gap: "0.85rem", userSelect: "none" }}>
-            <div
+          <div style={{ display: "inline-flex", alignItems: "center", gap: "0.75rem", flexShrink: 0, userSelect: "none" }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/authorities/clutch.png"
+              alt="Clutch"
+              height={38}
+              draggable={false}
               style={{
-                width: 44,
-                height: 44,
-                borderRadius: "10px",
-                background: "#122A2F",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "#FFFFFF",
-                fontWeight: 900,
-                fontSize: "1.45rem",
-                flexShrink: 0,
-                fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-                boxShadow: "0 2px 10px rgba(18, 42, 47, 0.35)",
+                height: "38px",
+                width: "auto",
+                objectFit: "contain",
+                borderRadius: "9px",
+                display: "block",
+                pointerEvents: "none",
+                boxShadow: isLight ? "0 2px 6px rgba(0, 0, 0, 0.08)" : "0 2px 8px rgba(0, 0, 0, 0.4)",
               }}
-            >
-              C
-            </div>
+            />
             <span
               style={{
                 fontSize: "1.75rem",
                 fontWeight: 800,
-                color: isLight ? "#122A2F" : "#FFFFFF",
-                letterSpacing: "-0.02em",
+                color: isLight ? "#111827" : "#FFFFFF",
+                letterSpacing: "-0.025em",
                 whiteSpace: "nowrap",
                 fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
               }}
             >
-              Clutch<span style={{ color: "#EF4444" }}>.</span>
+              Clutch<span style={{ color: "#EF4444", fontWeight: 900 }}>.</span>
             </span>
           </div>
         );
 
       case "ambitionbox":
         return (
-          <div style={{ display: "inline-flex", alignItems: "center", gap: "0.85rem", userSelect: "none" }}>
-            <svg width="40" height="44" viewBox="0 0 38 42" fill="none" style={{ flexShrink: 0 }}>
-              <path d="M19 2L35 11.2L19 20.5L3 11.2L19 2Z" fill="#60A5FA" />
-              <path d="M3 11.2L19 20.5V39L3 29.8V11.2Z" fill="#2563EB" />
-              <path d="M35 11.2L19 20.5V39L35 29.8V11.2Z" fill="#1D4ED8" />
-            </svg>
-            <span
+          <div style={{ display: "inline-flex", alignItems: "center", flexShrink: 0, userSelect: "none" }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={isLight ? "/images/authorities/ambitionbox.png" : "/images/authorities/ambitionbox_dark.png"}
+              alt="AmbitionBox"
+              height={36}
+              draggable={false}
               style={{
-                fontSize: "1.7rem",
-                fontWeight: 800,
-                color: isLight ? "#0F172A" : "#FFFFFF",
-                letterSpacing: "-0.02em",
-                whiteSpace: "nowrap",
-                fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+                height: "36px",
+                width: "auto",
+                objectFit: "contain",
+                display: "block",
+                pointerEvents: "none",
               }}
-            >
-              AmbitionBox
-            </span>
+            />
           </div>
         );
 
       case "googlerating":
         return (
-          <div style={{ display: "inline-flex", alignItems: "center", gap: "0.85rem", userSelect: "none" }}>
-            <svg width="38" height="38" viewBox="0 0 48 48" style={{ flexShrink: 0 }}>
-              <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
-              <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z" />
-              <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z" />
-              <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
-            </svg>
-            <div style={{ display: "flex", flexDirection: "column", textAlign: "left" }}>
-              <span
-                style={{
-                  fontSize: "0.95rem",
-                  fontWeight: 600,
-                  color: isLight ? "#475569" : "#E2E8F0",
-                  lineHeight: 1.2,
-                  fontFamily: "system-ui, -apple-system, sans-serif",
-                }}
-              >
-                Google Rating
-              </span>
-              <div style={{ display: "flex", alignItems: "center", gap: "0.45rem", marginTop: "2px" }}>
-                <span
-                  style={{
-                    fontSize: "1.05rem",
-                    fontWeight: 800,
-                    color: isLight ? "#0F172A" : "#FFFFFF",
-                    fontFamily: "system-ui, -apple-system, sans-serif",
-                  }}
-                >
-                  4.6
-                </span>
-                <span style={{ color: "#F59E0B", fontSize: "1rem", letterSpacing: "1px" }}>★★★★★</span>
-              </div>
-            </div>
+          <div style={{ display: "inline-flex", alignItems: "center", flexShrink: 0, userSelect: "none" }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={isLight ? "/images/authorities/googlerating.png" : "/images/authorities/googlerating_dark.png"}
+              alt="Google Rating"
+              height={38}
+              draggable={false}
+              style={{
+                height: "38px",
+                width: "auto",
+                objectFit: "contain",
+                display: "block",
+                pointerEvents: "none",
+              }}
+            />
           </div>
         );
 
       case "techimply":
         return (
           <div style={{ display: "inline-flex", alignItems: "center", flexShrink: 0, userSelect: "none" }}>
-            <TechimplyBadge isLight={isLight} height={76} />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/authorities/techimply.png"
+              alt="TECHIMPLY"
+              height={64}
+              draggable={false}
+              style={{
+                height: "64px",
+                width: "auto",
+                maxWidth: "none",
+                objectFit: "contain",
+                display: "block",
+                pointerEvents: "none",
+              }}
+            />
           </div>
         );
 
       case "designrush":
         return (
           <div style={{ display: "inline-flex", alignItems: "center", flexShrink: 0, userSelect: "none" }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/images/authorities/designrush.png"
               alt="DesignRush"
-              height={74}
+              height={64}
               loading="eager"
               draggable={false}
               style={{
-                height: "74px",
+                height: "64px",
                 width: "auto",
                 maxWidth: "none",
                 objectFit: "contain",
@@ -363,23 +312,21 @@ export function RecognisedBy() {
 
       case "trustpilot":
         return (
-          <div style={{ display: "inline-flex", alignItems: "center", gap: "0.85rem", userSelect: "none" }}>
-            <svg width="40" height="40" viewBox="0 0 36 36" fill="none" style={{ flexShrink: 0 }}>
-              <path d="M18 2L22.9 12.1L34 13.7L26 21.5L27.9 32.5L18 27.3L8.1 32.5L10 21.5L2 13.7L13.1 12.1L18 2Z" fill="#00B67A" />
-              <path d="M18 27.3L27.9 32.5L26 21.5L18 27.3Z" fill="#005128" />
-            </svg>
-            <span
+          <div style={{ display: "inline-flex", alignItems: "center", flexShrink: 0, userSelect: "none" }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={isLight ? "/images/authorities/trustpilot.png" : "/images/authorities/trustpilot_dark.png"}
+              alt="Trustpilot"
+              height={36}
+              draggable={false}
               style={{
-                fontSize: "1.75rem",
-                fontWeight: 800,
-                color: isLight ? "#0F172A" : "#FFFFFF",
-                letterSpacing: "-0.02em",
-                whiteSpace: "nowrap",
-                fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+                height: "36px",
+                width: "auto",
+                objectFit: "contain",
+                display: "block",
+                pointerEvents: "none",
               }}
-            >
-              Trustpilot
-            </span>
+            />
           </div>
         );
 
@@ -427,7 +374,7 @@ export function RecognisedBy() {
       id="recognised-by"
       className="recognised-ticker-section"
       style={{
-        padding: "3.5rem 0 3.75rem 0",
+        padding: "clamp(2.5rem, 5vw, 3.5rem) 0",
         position: "relative",
         overflow: "hidden",
         background: isLight ? "#f8fafc" : "transparent",

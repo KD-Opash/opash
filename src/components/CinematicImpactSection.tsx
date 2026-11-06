@@ -295,7 +295,7 @@ export default function CinematicImpactSection() {
       id="achievements"
       style={{
         position: "relative",
-        padding: "5.5rem 0 2rem 0",
+        padding: "clamp(2.5rem, 5vw, 4.25rem) 0",
         overflow: "hidden",
       }}
       aria-label="Opash Software Engineering Impact Engine"

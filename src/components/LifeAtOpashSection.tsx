@@ -101,7 +101,7 @@ export default function LifeAtOpashSection() {
       aria-label="Life At Opash"
       style={{
         position: "relative",
-        padding: "6.5rem 0",
+        padding: "clamp(2.5rem, 5vw, 4.25rem) 0",
         background: isLight
           ? "linear-gradient(180deg, rgba(241, 245, 249, 0.6) 0%, rgba(255, 255, 255, 0.95) 25%, rgba(248, 250, 252, 0.95) 75%, rgba(241, 245, 249, 0.6) 100%)"
           : "linear-gradient(180deg, rgba(10, 18, 34, 0.6) 0%, rgba(6, 14, 30, 0.85) 25%, rgba(8, 17, 36, 0.85) 75%, rgba(10, 18, 34, 0.6) 100%)",
@@ -384,6 +384,7 @@ export default function LifeAtOpashSection() {
                   }}
                 >
                   <div
+                    className="culture-card"
                     onClick={() => setLightboxIndex(idx)}
                     role="button"
                     tabIndex={0}
@@ -434,32 +435,35 @@ export default function LifeAtOpashSection() {
                       }}
                     />
 
-                    {/* Gradient vignette for readability */}
+                    {/* Gradient vignette for high-contrast readability in both light & dark themes */}
                     <div
                       style={{
                         position: "absolute",
                         inset: 0,
                         background:
-                          "linear-gradient(to top, rgba(2, 7, 18, 0.88) 0%, rgba(2, 7, 18, 0.25) 45%, transparent 75%)",
+                          "linear-gradient(to top, rgba(2, 7, 18, 0.92) 0%, rgba(2, 7, 18, 0.45) 45%, transparent 75%)",
                         pointerEvents: "none",
+                        zIndex: 2,
                       }}
                     />
 
                     {/* Tag badge */}
                     <div
+                      className="culture-card-tag"
                       style={{
                         position: "absolute",
                         top: "14px",
                         left: "14px",
                         padding: "5px 12px",
                         borderRadius: "9999px",
-                        background: "rgba(2, 7, 18, 0.7)",
+                        background: "rgba(2, 7, 18, 0.75)",
                         backdropFilter: "blur(10px)",
-                        border: "1px solid rgba(255, 255, 255, 0.18)",
+                        border: "1px solid rgba(255, 255, 255, 0.2)",
                         color: "#5EC098",
                         fontSize: "0.74rem",
                         fontWeight: 700,
                         letterSpacing: "0.04em",
+                        zIndex: 3,
                       }}
                     >
                       {photo.tag}
@@ -467,6 +471,7 @@ export default function LifeAtOpashSection() {
 
                     {/* Expand icon */}
                     <div
+                      className="culture-expand-btn"
                       style={{
                         position: "absolute",
                         top: "14px",
@@ -474,34 +479,38 @@ export default function LifeAtOpashSection() {
                         width: "34px",
                         height: "34px",
                         borderRadius: "50%",
-                        background: "rgba(2, 7, 18, 0.7)",
+                        background: "rgba(2, 7, 18, 0.75)",
                         backdropFilter: "blur(10px)",
-                        border: "1px solid rgba(255, 255, 255, 0.18)",
+                        border: "1px solid rgba(255, 255, 255, 0.2)",
                         color: "#ffffff",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
+                        zIndex: 3,
                       }}
                     >
-                      <Maximize2 size={14} />
+                      <Maximize2 size={14} color="#ffffff" />
                     </div>
 
                     {/* Bottom Caption */}
                     <div
+                      className="culture-card-caption"
                       style={{
                         position: "absolute",
                         bottom: "16px",
                         left: "18px",
                         right: "18px",
-                        color: "#ffffff",
+                        zIndex: 3,
                       }}
                     >
                       <div
+                        className="culture-card-title"
                         style={{
                           fontSize: "1.05rem",
                           fontWeight: 750,
                           lineHeight: 1.3,
-                          textShadow: "0 2px 4px rgba(0, 0, 0, 0.8)",
+                          color: "#ffffff",
+                          textShadow: "0 2px 8px rgba(0, 0, 0, 0.95), 0 1px 3px rgba(0, 0, 0, 0.9)",
                         }}
                       >
                         {photo.title}
@@ -613,6 +622,7 @@ export default function LifeAtOpashSection() {
             />
 
             <div
+              className="culture-lightbox-caption"
               style={{
                 position: "absolute",
                 bottom: 0,
@@ -627,20 +637,53 @@ export default function LifeAtOpashSection() {
               }}
             >
               <div>
-                <div style={{ fontSize: "1.2rem", fontWeight: 700 }}>
+                <div style={{ fontSize: "1.2rem", fontWeight: 700, color: "#ffffff" }}>
                   {CULTURE_PHOTOS[lightboxIndex].title}
                 </div>
                 <div style={{ fontSize: "0.85rem", color: "#5EC098", marginTop: "2px" }}>
                   {CULTURE_PHOTOS[lightboxIndex].tag}
                 </div>
               </div>
-              <div style={{ fontSize: "0.88rem", opacity: 0.75 }}>
+              <div style={{ fontSize: "0.88rem", opacity: 0.75, color: "#ffffff" }}>
                 {lightboxIndex + 1} / {CULTURE_PHOTOS.length}
               </div>
             </div>
           </div>
         </div>
       )}
+
+      <style jsx global>{`
+        .culture-card-title,
+        [data-theme="light"] .culture-card-title,
+        html[data-theme="light"] .culture-card-title {
+          color: #ffffff !important;
+          text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95), 0 1px 3px rgba(0, 0, 0, 0.9) !important;
+        }
+        .culture-card-tag,
+        [data-theme="light"] .culture-card-tag,
+        html[data-theme="light"] .culture-card-tag {
+          color: #5EC098 !important;
+          background: rgba(2, 7, 18, 0.75) !important;
+        }
+        .culture-expand-btn,
+        [data-theme="light"] .culture-expand-btn,
+        html[data-theme="light"] .culture-expand-btn {
+          color: #ffffff !important;
+          background: rgba(2, 7, 18, 0.75) !important;
+        }
+        .culture-expand-btn svg,
+        [data-theme="light"] .culture-expand-btn svg,
+        html[data-theme="light"] .culture-expand-btn svg {
+          stroke: #ffffff !important;
+          color: #ffffff !important;
+        }
+        .culture-lightbox-caption,
+        [data-theme="light"] .culture-lightbox-caption,
+        html[data-theme="light"] .culture-lightbox-caption,
+        .culture-lightbox-caption div {
+          color: #ffffff !important;
+        }
+      `}</style>
     </section>
   );
 }

@@ -336,8 +336,7 @@ export default function ContactPageClient() {
       <section
         id="contact-details-form"
         style={{
-          paddingTop: 'clamp(4rem, 7vw, 6rem)',
-          paddingBottom: 'clamp(4rem, 7vw, 6rem)',
+          padding: 'clamp(2.5rem, 5vw, 4.25rem) 0',
           scrollMarginTop: '90px',
           position: 'relative',
           borderTop: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.06)',
@@ -502,7 +501,7 @@ export default function ContactPageClient() {
                 boxShadow: isLight
                   ? '0 20px 50px -15px rgba(0, 0, 0, 0.06)'
                   : '0 25px 60px -20px rgba(0, 0, 0, 0.8)',
-                padding: 'clamp(2rem, 4vw, 3rem)',
+                padding: 'clamp(1.5rem, 3.5vw, 3rem) clamp(0.85rem, 2.5vw, 2.5rem)',
                 position: 'relative',
               }}
             >
@@ -737,8 +736,7 @@ export default function ContactPageClient() {
       <section
         id="industries"
         style={{
-          paddingTop: 'clamp(4rem, 7vw, 6rem)',
-          paddingBottom: 'clamp(5rem, 8vw, 7rem)',
+          padding: 'clamp(2.5rem, 5vw, 4.25rem) 0',
           position: 'relative',
           borderTop: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.06)',
         }}

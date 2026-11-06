@@ -259,7 +259,7 @@ export default function BlogsPageClient() {
       <section
         id="insights-articles"
         style={{
-          padding: '5rem 0 7rem 0',
+          padding: 'clamp(2.5rem, 5vw, 4.25rem) 0',
           position: 'relative',
           width: '100%',
           overflow: 'visible',
@@ -1090,7 +1090,7 @@ export default function BlogsPageClient() {
       {/* ===================================================================== */}
       {/* 4. EXECUTIVE ARCHITECTURE TEARDOWN CTA (Laptop Frame)                */}
       {/* ===================================================================== */}
-      <section style={{ padding: '0 1.5rem 6rem 1.5rem' }}>
+      <section style={{ padding: '0 clamp(1rem, 3vw, 1.5rem) clamp(2.5rem, 5vw, 4.25rem) clamp(1rem, 3vw, 1.5rem)' }}>
         <div className="container-custom" style={{ maxWidth: '1080px', margin: '0 auto' }}>
           {/* REALISTIC LAPTOP CHASSIS FRAME */}
           <div style={{ position: 'relative' }}>

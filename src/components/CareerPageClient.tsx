@@ -9,6 +9,7 @@ import OurAchievementsSection from '@/components/OurAchievementsSection';
 import { useTheme } from '@/components/ThemeProvider';
 import OuiWillHeadline, { OuiWillWord, OuiWillDot } from '@/components/OuiWillHeadline';
 import Interactive3DIcon from '@/components/Interactive3DIcon';
+import CustomSelect from '@/components/CustomSelect';
 import {
   MapPin,
   Phone,
@@ -344,8 +345,7 @@ export default function CareerPageClient() {
       <section
         id="resume-form"
         style={{
-          paddingTop: 'clamp(4rem, 7vw, 6rem)',
-          paddingBottom: 'clamp(5rem, 8vw, 7rem)',
+          padding: 'clamp(2.5rem, 5vw, 4.25rem) 0',
           scrollMarginTop: '90px',
           position: 'relative',
           borderTop: isLight ? '1px solid #e2e8f0' : '1px solid rgba(255, 255, 255, 0.06)',
@@ -579,7 +579,7 @@ export default function CareerPageClient() {
                 boxShadow: isLight
                   ? '0 20px 50px -15px rgba(0, 0, 0, 0.06)'
                   : '0 25px 60px -20px rgba(0, 0, 0, 0.8)',
-                padding: 'clamp(2rem, 4vw, 3rem)',
+                padding: 'clamp(1.5rem, 3.5vw, 3rem) clamp(0.85rem, 2.5vw, 2.5rem)',
                 position: 'relative',
               }}
             >
@@ -727,31 +727,28 @@ export default function CareerPageClient() {
                         <label style={{ display: 'block', fontSize: '0.84rem', fontWeight: 700, marginBottom: '0.5rem' }}>
                           Position *
                         </label>
-                        <select
-                          required
+                        <CustomSelect
                           value={formData.position}
-                          onChange={(e) => setFormData({ ...formData, position: e.target.value })}
+                          onChange={(val) => setFormData({ ...formData, position: val })}
+                          options={[
+                            'Intern',
+                            'Fresher',
+                            'Software engineer',
+                            'QA engineer',
+                            'DevOps engineer',
+                            'Mobile App developer',
+                          ]}
+                          placeholder="Select position"
+                          required
                           style={{
-                            width: '100%',
                             padding: '0.85rem 1.15rem',
                             borderRadius: '12px',
                             background: isLight ? '#f8fafc' : 'rgba(0, 0, 0, 0.35)',
                             border: `1px solid ${isLight ? '#cbd5e1' : 'rgba(255, 255, 255, 0.1)'}`,
                             color: isLight ? '#0f172a' : '#ffffff',
                             fontSize: '0.94rem',
-                            outline: 'none',
-                            boxSizing: 'border-box',
-                            cursor: 'pointer',
                           }}
-                        >
-                          <option value="" style={{ background: isLight ? '#fff' : '#0f172a', color: isLight ? '#000' : '#fff' }}>Select position</option>
-                          <option value="Intern" style={{ background: isLight ? '#fff' : '#0f172a', color: isLight ? '#000' : '#fff' }}>Intern</option>
-                          <option value="Fresher" style={{ background: isLight ? '#fff' : '#0f172a', color: isLight ? '#000' : '#fff' }}>Fresher</option>
-                          <option value="Software engineer" style={{ background: isLight ? '#fff' : '#0f172a', color: isLight ? '#000' : '#fff' }}>Software engineer</option>
-                          <option value="QA engineer" style={{ background: isLight ? '#fff' : '#0f172a', color: isLight ? '#000' : '#fff' }}>QA engineer</option>
-                          <option value="DevOps engineer" style={{ background: isLight ? '#fff' : '#0f172a', color: isLight ? '#000' : '#fff' }}>DevOps engineer</option>
-                          <option value="Mobile App developer" style={{ background: isLight ? '#fff' : '#0f172a', color: isLight ? '#000' : '#fff' }}>Mobile App developer</option>
-                        </select>
+                        />
                       </div>
 
                       <div>
